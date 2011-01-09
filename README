@@ -1,0 +1,15 @@
+----------------------------------------------------------------------
+                        scripting plugin
+----------------------------------------------------------------------                        
+
+The scripting plugin executes scripts in JOSM.
+
+Scripts can be defined in any scripting language, for which a JSR-223
+compatible scripting engine is available.
+                                                  
+AUTHOR
+======
+Karl Guggisberg <karl.guggisberg@guggis.ch>
+
+ 
+                         

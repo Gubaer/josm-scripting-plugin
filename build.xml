@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+** This is the build file for the contour plugin
+**
+** Maintaining versions
+** ====================
+** see README.template
+**
+** Usage
+** =====
+** To build it run
+**
+**    > ant  dist
+**
+** To install the generated plugin locally (in your default plugin directory) run
+**
+**    > ant  install
+**
+** To build against the core in ../../core, create a correct manifest and deploy to
+** SVN, 
+**    set the properties commit.message and plugin.main.version
+** and run
+**    > ant  publish
+**
+**
+-->
+<project name="scripting" default="dist" basedir=".">
+
+	<property name="commit.message" value="Initial version" />
+	<property name="plugin.main.version" value="3751" />
+
+	<!--
+      ************************************************
+      ** should not be necessary to change the following properties
+     -->
+	<property name="josm" location="../../core/dist/josm-custom.jar" />
+	<property name="plugin.build.dir" value="build" />
+	<property name="plugin.src.dir" value="src" />
+	<!-- this is the directory where the plugin jar is copied to -->
+	<property name="plugin.dist.dir" value="../../dist" />
+	<property name="plugin.jar" value="${plugin.dist.dir}/${ant.project.name}.jar" />
+
+	<path id="compile.path">
+		<pathelement location="${josm}"/>
+		<pathelement location="lib/groovy-all-1.7.7-SNAPSHOT.jar"/>
+	</path>
+
+	<!--
+    **********************************************************
+    ** init - initializes the build
+    **********************************************************
+    -->
+	<target name="init">
+		<mkdir dir="${plugin.build.dir}" />
+	</target>
+
+	<!--
+    **********************************************************
+    ** compile - complies the source tree
+    **********************************************************
+    -->
+	<target name="compile" depends="init">
+		<echo message="compiling sources for  ${plugin.jar} ... " />
+		<javac srcdir="src" classpathref="compile.path" debug="true" destdir="${plugin.build.dir}">
+			<compilerarg value="-Xlint:deprecation" />
+			<compilerarg value="-Xlint:unchecked" />
+		</javac>
+	</target>
+
+	<!--
+    **********************************************************
+    ** dist - creates the plugin jar
+    **********************************************************
+    -->
+	<target name="dist" depends="compile,revision">
+		<echo message="creating ${plugin.jar} for version ${version.entry.commit.revision} ... " />
+		<copy todir="${plugin.build.dir}/images">
+			<fileset dir="images">
+				<include name="*.png" />
+			</fileset>
+		</copy>
+		<copy todir="${plugin.build.dir}/scripts">
+			<fileset dir="scripts">
+				<include name="*.groovy" />
+			</fileset>
+		</copy>
+
+		<copy todir="${plugin.build.dir}">
+			<fileset dir=".">
+				<include name="README" />
+				<include name="LICENSE" />
+			</fileset>
+		</copy>
+		<copy todir="${plugin.build.dir}">
+			<fileset dir="${plugin.src.dir}">
+				<include name="**/*.dtd" />
+			</fileset>
+		</copy>
+		<copy todir="${plugin.build.dir}/META-INF">
+			<fileset dir="resources">
+				<include name="mime.types" />
+			</fileset>
+		</copy>
+		<jar destfile="${plugin.jar}" basedir="${plugin.build.dir}">
+			<manifest>
+				<attribute name="Author" value="Karl Guggisberg" />
+				<attribute name="Plugin-Class" value="org.openstreetmap.josm.plugins.scripting.ScriptingPlugin" />
+				<attribute name="Plugin-Date" value="${version.entry.commit.date}" />
+				<attribute name="Plugin-Description" value="Allows to run scripts in JOSM." />
+				<!-- <attribute name="Plugin-Icon" value="" /> -->
+				<attribute name="Plugin-Link" value="http://wiki.openstreetmap.org/index.php/JOSM/Plugins/Scripting" />
+				<attribute name="Plugin-Mainversion" value="${plugin.main.version}" />
+				<attribute name="Plugin-Version" value="${version.entry.commit.revision}" />
+			</manifest>
+		</jar>
+	</target>
+
+	<!--
+    **********************************************************
+    ** revision - extracts the current revision number for the
+    **    file build.number and stores it in the XML property
+    **    version.*
+    **********************************************************
+    -->
+	<target name="revision">
+		<!-- extract the SVN revision information  -->
+		<exec append="false" output="REVISION" executable="svn" failifexecutionfails="false">
+			<env key="LANG" value="C" />
+			<arg value="info" />
+			<arg value="--xml" />
+			<arg value="." />
+		</exec>
+		<xmlproperty file="REVISION" prefix="version" keepRoot="false" collapseAttributes="true" />
+		<delete file="REVISION" />
+	</target>
+
+	<!--
+    **********************************************************
+    ** clean - clean up the build environment
+    **********************************************************
+    -->
+	<target name="clean">
+		<delete dir="${plugin.build.dir}" />
+		<delete file="${plugin.jar}" />
+	</target>
+
+	<!--
+    **********************************************************
+    ** install - install the plugin in your local JOSM installation
+    **********************************************************
+    -->
+	<target name="install" depends="dist">
+		<property environment="env" />
+		<condition property="josm.plugins.dir" value="${env.APPDATA}/JOSM/plugins" else="${user.home}/.josm/plugins">
+			<and>
+				<os family="windows" />
+			</and>
+		</condition>
+		<copy file="${plugin.jar}" todir="${josm.plugins.dir}" />
+	</target>
+
+	<!--
+	 ************************** Publishing the plugin *********************************** 
+	-->
+	<!--
+	** extracts the JOSM release for the JOSM version in ../core and saves it in the 
+	** property ${coreversion.info.entry.revision}
+	**
+	-->
+	<target name="core-info">
+		<exec append="false" output="core.info.xml" executable="svn" failifexecutionfails="false">
+			<env key="LANG" value="C" />
+			<arg value="info" />
+			<arg value="--xml" />
+			<arg value="../../core" />
+		</exec>
+		<xmlproperty file="core.info.xml" prefix="coreversion" keepRoot="true" collapseAttributes="true" />
+		<echo>Building against core revision ${coreversion.info.entry.revision}.</echo>
+		<echo>Plugin-Mainversion is set to ${plugin.main.version}.</echo>
+		<delete file="core.info.xml" />
+	</target>
+
+	<!--
+	** commits the source tree for this plugin
+	-->
+	<target name="commit-current">
+		<echo>Commiting the plugin source with message '${commit.message}' ...</echo>
+		<exec append="true" output="svn.log" executable="svn" failifexecutionfails="false">
+			<env key="LANG" value="C" />
+			<arg value="commit" />
+			<arg value="-m '${commit.message}'" />
+			<arg value="." />
+		</exec>
+	</target>
+
+	<!--
+	** updates (svn up) the source tree for this plugin
+	-->
+	<target name="update-current">
+		<echo>Updating plugin source ...</echo>
+		<exec append="true" output="svn.log" executable="svn" failifexecutionfails="false">
+			<env key="LANG" value="C" />
+			<arg value="up" />
+			<arg value="." />
+		</exec>
+		<echo>Updating ${plugin.jar} ...</echo>
+		<exec append="true" output="svn.log" executable="svn" failifexecutionfails="false">
+			<env key="LANG" value="C" />
+			<arg value="up" />
+			<arg value="../dist/${plugin.jar}" />
+		</exec>
+	</target>
+
+	<!--
+	** commits the plugin.jar 
+	-->
+	<target name="commit-dist">
+		<echo>
+***** Properties of published ${plugin.jar} *****
+Commit message    : '${commit.message}'					
+Plugin-Mainversion: ${plugin.main.version}
+JOSM build version: ${coreversion.info.entry.revision}
+Plugin-Version    : ${version.entry.commit.revision}
+***** / Properties of published ${plugin.jar} *****					
+					
+Now commiting ${plugin.jar} ...
+</echo>
+		<exec append="true" output="svn.log" executable="svn" failifexecutionfails="false">
+			<env key="LANG" value="C" />
+			<arg value="-m '${commit.message}'" />
+			<arg value="commit" />
+			<arg value="${plugin.jar}" />
+		</exec>
+	</target>
+
+	<!-- ** make sure svn is present as a command line tool ** -->
+	<target name="ensure-svn-present">
+		<exec append="true" output="svn.log" executable="svn" failifexecutionfails="false" failonerror="false" resultproperty="svn.exit.code">
+			<env key="LANG" value="C" />
+			<arg value="--version" />
+		</exec>
+		<fail message="Fatal: command 'svn --version' failed. Please make sure svn is installed on your system.">
+			<!-- return code not set at all? Most likely svn isn't installed -->
+			<condition>
+				<not>
+					<isset property="svn.exit.code" />
+				</not>
+			</condition>
+		</fail>
+		<fail message="Fatal: command 'svn --version' failed. Please make sure a working copy of svn is installed on your system.">
+			<!-- error code from SVN? Most likely svn is not what we are looking on this system -->
+			<condition>
+				<isfailure code="${svn.exit.code}" />
+			</condition>
+		</fail>
+	</target>
+
+	<target name="publish" depends="ensure-svn-present,core-info,commit-current,update-current,clean,dist,commit-dist">
+	</target>
+
+	<!-- ************************************************************************************ -->
+	<!-- * Targets for compiling and running tests                                            -->
+	<!-- ************************************************************************************ -->
+	<property name="eclipse.plugin.dir" value="C:\software\eclipse-3.6.1\plugins" />
+	<property name="test.build.dir" value="test/build" />
+
+	<path id="groovy.path">
+		<pathelement location="${eclipse.plugin.dir}/org.codehaus.groovy_1.7.5.xx-20100926-2000-e36-RC1\lib\groovy-all-1.7.5.jar" />
+	</path>
+
+	<path id="junit.path">
+		<pathelement location="${eclipse.plugin.dir}/org.junit_4.8.1.v4_8_1_v20100427-1100\junit.jar" />
+	</path>
+
+	<!-- groovy dependency: groovy fails unless hamcrest is on the path -->
+	<path id="hamcrest.path">
+		<pathelement location="test/lib/hamcrest-all-1.3.0RC2.jar" />
+	</path>
+
+	<path id="test.class.path">
+		<pathelement location="${josm}" />
+		<pathelement location="${plugin.build.dir}" />
+		<path refid="groovy.path" />
+		<path refid="junit.path" />
+	</path>
+
+	<path id="groovyc.path">
+		<path refid="junit.path" />
+		<path refid="groovy.path" />
+		<path refid="hamcrest.path" />
+		<pathelement location="${josm}" />
+		<pathelement location="${test.build.dir}" />
+		<pathelement location="${plugin.build.dir}" />
+		<!-- if we didn't explicitly put hamcrest on the class path, groovyc would
+			     abort and report it is missing a hamcrest class -->
+		<pathelement location="test/lib/hamcrest-all-1.2.jar" />
+	</path>
+
+	<target name="test-clean">
+		<delete dir="${test.build.dir}" />
+		<mkdir dir="${test.build.dir}" />
+	</target>
+
+	<target name="test-compile" depends="compile,test-clean" description="Compiles the test files">
+
+		<available classname="org.codehaus.groovy.ant.Groovy" classpathref="groovyc.path" property="groovy.present" />
+		<fail message="Groovy not found. Make sure groovy is on the classpath. Check 'groovy.path' in this build file." unless="groovy.present" />
+
+		<taskdef name="groovyc" classname="org.codehaus.groovy.ant.Groovyc" classpathref="groovy.path" />
+
+		<echo message="compiling test infrastructur for ${plugin.jar} ... " />
+		<javac srcdir="test/src" classpathref="test.class.path" debug="true" destdir="${test.build.dir}" includes="org/openstreetmap/josm/plugins/contourmerge/fixtures/**/*">
+			<compilerarg value="-Xlint:deprecation" />
+			<compilerarg value="-Xlint:unchecked" />
+		</javac>
+
+		<echo message="compiling groovy test cases for ${plugin.jar} ... " />
+		<groovyc srcdir="test/src" destdir="${test.build.dir}" classpathref="groovyc.path">
+		</groovyc>
+
+		<echo message="compiling java test cases for ${plugin.jar} ... " />
+		<javac srcdir="test/src" classpathref="test.class.path" debug="true" destdir="${test.build.dir}">
+			<compilerarg value="-Xlint:deprecation" />
+			<compilerarg value="-Xlint:unchecked" />
+		</javac>
+	</target>
+
+	<target name="test-run" depends="test-compile" description="Runs the junit tests">
+		<delete dir="test/output" />
+		<mkdir dir="test/output" />
+
+		<junit printsummary="true" failureproperty="junit.failure">
+			<classpath>
+				<path refid="groovyc.path" />
+				<pathelement location="test/config" />
+				<!-- required for test config file -->
+				<pathelement location="." />
+				<!-- required to load images from subdir 'images/' -->
+			</classpath>
+
+			<test todir="test/output" name='org.openstreetmap.josm.plugins.contourmerge.AllUnitTests'>
+				<formatter type="xml" />
+			</test>
+		</junit>
+	</target>
+
+	<target name="dev-install" depends="dist">
+		<copy file="${plugin.jar}" todir="C:/data/projekte/osm/josm-dev/plugins" />
+	</target>
+</project>
