@@ -42,7 +42,6 @@
 
 	<path id="compile.path">
 		<pathelement location="${josm}"/>
-		<pathelement location="lib/groovy-all-1.7.7-SNAPSHOT.jar"/>
 	</path>
 
 	<!--
@@ -76,9 +75,16 @@
 		<echo message="creating ${plugin.jar} for version ${version.entry.commit.revision} ... " />
 		<copy todir="${plugin.build.dir}/images">
 			<fileset dir="images">
-				<include name="*.png" />
+				<include name="**/*.png" />
 			</fileset>
 		</copy>
+
+		<copy todir="${plugin.build.dir}/resources">
+			<fileset dir="resources">
+				<include name="*" />
+			</fileset>
+		</copy>
+
 		<copy todir="${plugin.build.dir}/scripts">
 			<fileset dir="scripts">
 				<include name="*.groovy" />

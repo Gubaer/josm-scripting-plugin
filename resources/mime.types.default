@@ -1,0 +1,5 @@
+#
+# mime types for script files
+#
+application/x-groovy  groovy
+application/javascript js jscript

@@ -13,6 +13,9 @@ import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -174,8 +177,8 @@ public class RunScriptDialog extends JDialog {
 			 * in the preferences
 			 */
 			String currentFile = cbScriptFile.getText();
-			Main.pref.put(PREF_KEY_FILE_HISTORY, currentFile.trim());
-			Main.pref.putCollection(PREF_KEY_LAST_FILE, cbScriptFile.getHistory());			
+			Main.pref.put(PREF_KEY_LAST_FILE, currentFile.trim());
+			Main.pref.putCollection(PREF_KEY_FILE_HISTORY, cbScriptFile.getHistory());			
 		}
 		super.setVisible(visible);
 	}
@@ -271,26 +274,9 @@ public class RunScriptDialog extends JDialog {
 		}
 		
 		protected ScriptEngine getScriptEngine(File file) {
-			ScriptEngineManager mgr = new ScriptEngineManager(getClass().getClassLoader());
-			Matcher matcher = Pattern.compile("\\.([^\\.]+)$").matcher(file.toString());
+			ScriptEngine engine = ScriptEngineProvider.getInstance().getEngineForFile(file);
+			if (engine != null) return engine;
 			
-			// can we derive a suitable script engine from the file name?			
-			MimetypesFileTypeMap mimeTypesMap = new MimetypesFileTypeMap();
-			// FIXME: provide a resources file for script mime types; provide an editor
-			// for these mappings in the preferences
-			mimeTypesMap.addMimeTypes("application/x-groovy groovy");
-			String mt = mimeTypesMap.getContentType(file);
-			if (mt != null){
-				ScriptEngine engine = mgr.getEngineByMimeType(mt);
-				if (engine != null) return engine;	
-			}
-			
-			// no script engine at all? Abort.
-			List<ScriptEngineFactory> factories = mgr.getEngineFactories();
-			if (factories.isEmpty()) {
-				warnNoScriptingEnginesInstalled();
-				return null;
-			}
 			// let the user select a script engine
 			return ScriptEngineSelectionDialog.select(RunScriptDialog.this); 
 		}
