@@ -12,6 +12,7 @@ import org.openstreetmap.josm.gui.preferences.PreferenceTabbedPane;
 import org.openstreetmap.josm.tools.GBC;
 
 public class PreferenceEditor extends JPanel implements PreferenceSetting {
+	static public final String NAME = "scripting.preferences.editor";
 	
 	private JTabbedPane tpPreferenceTabs;
 	private ScriptEnginesConfigurationPanel pnlScriptEngineConfiguration;
@@ -33,7 +34,7 @@ public class PreferenceEditor extends JPanel implements PreferenceSetting {
         String description = tr("Configure script engines and scripts");
         JPanel tab = gui.createPreferenceTab("script-engine", tr("Scripting"), description);        
         tab.add(this, GBC.eol().fill(GBC.BOTH));
-        this.setName("scripting.preferences.editor");
+        this.setName(NAME);
 	}
 
 	@Override

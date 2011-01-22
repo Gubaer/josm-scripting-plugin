@@ -10,6 +10,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
@@ -23,16 +25,20 @@ import javax.script.CompiledScript;
 import javax.script.ScriptEngine;
 import javax.script.ScriptException;
 import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
 import org.openstreetmap.josm.Main;
+import org.openstreetmap.josm.gui.HelpAwareOptionPane;
 import org.openstreetmap.josm.gui.SideButton;
 import org.openstreetmap.josm.gui.help.ContextSensitiveHelpAction;
 import org.openstreetmap.josm.gui.help.HelpUtil;
@@ -40,6 +46,7 @@ import org.openstreetmap.josm.gui.widgets.HistoryComboBox;
 import org.openstreetmap.josm.gui.widgets.HtmlPanel;
 import org.openstreetmap.josm.gui.widgets.SelectAllOnFocusGainedDecorator;
 import org.openstreetmap.josm.plugins.scripting.preferences.PreferenceKeys;
+import org.openstreetmap.josm.plugins.scripting.util.IOUtil;
 import org.openstreetmap.josm.tools.ImageProvider;
 import org.openstreetmap.josm.tools.WindowGeometry;
 
@@ -52,6 +59,7 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys{
 
 	/** the input field for the script file name */
 	private HistoryComboBox cbScriptFile;
+	private Action actRun;
 	
 	/**
 	 * Constructor
@@ -59,8 +67,9 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys{
 	 * @param owner the dialog owner 
 	 */
 	public RunScriptDialog(Component parent) {
-		super(JOptionPane.getFrameForComponent(parent), true);
+		super(JOptionPane.getFrameForComponent(parent), ModalityType.DOCUMENT_MODAL);
 		build();
+		HelpUtil.setHelpContext(this.getRootPane(), HelpUtil.ht("/Plugin/Scripting"));
 	}
 	
 	protected JPanel buildInfoPanel() {
@@ -77,9 +86,13 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys{
 	
 	protected JPanel buildControlButtonPanel() {
 		JPanel pnl = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		pnl.add(new SideButton(new RunAction()));
+		JButton btn;
+		
+		pnl.add(btn = new SideButton(actRun = new RunAction()));
+		btn.setFocusable(true);
+		btn.registerKeyboardAction(actRun, KeyStroke.getKeyStroke("ENTER"), JComponent.WHEN_FOCUSED);
 		pnl.add(new SideButton(new CancelAction()));
-		pnl.add(new SideButton(new ContextSensitiveHelpAction(HelpUtil.ht("/Plugin/Macro#Run"))));
+		pnl.add(new SideButton(new ContextSensitiveHelpAction(HelpUtil.ht("/Plugin/Scripting#Run"))));
 		return pnl;
 	}
 	
@@ -107,7 +120,9 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys{
 		gc.weightx = 0.0;
 		gc.fill = GridBagConstraints.BOTH;
 		gc.insets = new Insets(3,0 /* no spacing to the left */,3,3);
-		pnl.add(new JButton(new SelectMacroFileAction()), gc);
+		JButton btn;
+		pnl.add(btn = new JButton(new SelectMacroFileAction()), gc);
+		btn.setFocusable(false);
 				
 		// just a filler 
 		JPanel filler = new JPanel();
@@ -134,8 +149,16 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys{
 		getContentPane().setLayout(new BorderLayout());
 		getContentPane().add(buildContentPanel(), BorderLayout.CENTER);
 		
+		getRootPane().registerKeyboardAction(actRun, KeyStroke.getKeyStroke("ctrl ENTER"), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 		setTitle(tr("Run a script"));
 		setSize(600, 150);
+		
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowActivated(WindowEvent e) {
+				cbScriptFile.requestFocusInWindow();
+			}			
+		});
 	}
 	
 	@Override
@@ -193,7 +216,7 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys{
 					tr("The script file ''{0}'' doesn''t exist.", f.toString()),
 					tr("File not found"),
 					JOptionPane.ERROR_MESSAGE,
-					null // no help topic
+					HelpUtil.ht("/Plugin/Scripting")
 			);			
 		}
 		
@@ -203,7 +226,7 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys{
 					tr("Please enter a file name first."),
 					tr("Empty file name"),
 					JOptionPane.ERROR_MESSAGE,
-					null // no help topic
+					HelpUtil.ht("/Plugin/Scripting")
 			);			
 		}
 		
@@ -213,7 +236,7 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys{
 					tr("The script file ''{0}'' isn''t readable.", f.toString()),
 					tr("File not readable"),
 					JOptionPane.ERROR_MESSAGE,
-					null // no help topic
+					HelpUtil.ht("/Plugin/Scripting")
 			);			
 		}
 		
@@ -223,7 +246,7 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys{
 					tr("Failed to read the script from the file ''{0}''.", f.toString()),
 					tr("IO error"),
 					JOptionPane.ERROR_MESSAGE,
-					null // no help topic
+					HelpUtil.ht("/Plugin/Scripting")
 			);			
 			System.out.println(tr("Failed to read a macro from the file ''{0}''.", f.toString()));
 			e.printStackTrace();			
@@ -235,7 +258,7 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys{
 					tr("Script execution has failed."),
 					tr("Script Error"),
 					JOptionPane.ERROR_MESSAGE,
-					null // no help topic
+					HelpUtil.ht("/Plugin/Scripting")
 			);			
 			System.out.println(tr("Macro execution has failed."));
 			e.printStackTrace();
@@ -251,9 +274,9 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys{
 					)					
 					+ "</html>"
 					,
-					tr("No scripting engine"),
+					tr("No script engine"),
 					JOptionPane.ERROR_MESSAGE,
-					null // no help topic
+					HelpUtil.ht("/Plugin/Scripting")
 			);
 		}
 		
@@ -291,7 +314,8 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys{
 			} 			
 			final ScriptEngine engine = getScriptEngine(f);
 			if (engine == null) return;
-		
+			setVisible(false);		
+
 			SwingUtilities.invokeLater(
 			    new Runnable() {
 			    	public void run() {			
@@ -299,7 +323,6 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys{
 						try {
 							if (engine instanceof Compilable) {
 								CompiledScript script = CompiledScriptCache.getInstance().compile((Compilable)engine,f);
-								logger.info("running compiled script for " + f);
 								script.eval();
 							} else {
 								reader = new FileReader(f);								
@@ -310,15 +333,11 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys{
 						} catch(IOException e){
 							warnFailedToOpenMacroFile(f, e);
 						} finally {
-							if (reader != null){
-								try {reader.close();} catch(IOException e) {}
-							}
+							IOUtil.close(reader);
 						}
 			    	}
 			    }
-		    );
-			
-			setVisible(false);		
+		    );		
 		}	
 	}
 	

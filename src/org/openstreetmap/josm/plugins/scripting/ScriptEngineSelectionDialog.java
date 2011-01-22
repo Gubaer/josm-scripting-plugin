@@ -81,8 +81,9 @@ public class ScriptEngineSelectionDialog extends JDialog {
 	 * determine the owner frame.
 	 */
 	public ScriptEngineSelectionDialog(Component parent) {
-		super(JOptionPane.getFrameForComponent(parent), true /* modal */);
+		super(JOptionPane.getFrameForComponent(parent), ModalityType.APPLICATION_MODAL);
 		build();
+		HelpUtil.setHelpContext(getRootPane(), HelpUtil.ht("/Plugin/Scripting"));
 	}
 	
 	protected JPanel buildInfoPanel() {
@@ -106,20 +107,20 @@ public class ScriptEngineSelectionDialog extends JDialog {
 		CancelAction actCancel;
 		pnl.add(btn = new SideButton(actCancel = new CancelAction()));
 		btn.setFocusable(true);
-		pnl.add(btn = new SideButton(new ContextSensitiveHelpAction(HelpUtil.ht("/Plugins/Scripting#SelectScriptingEngine"))));
+		pnl.add(btn = new SideButton(new ContextSensitiveHelpAction(HelpUtil.ht("/Plugin/Scripting"))));
 		btn.setFocusable(true);
 		
 		// Ctrl-Enter triggers OK
 		getRootPane().registerKeyboardAction(
 				actOK,  
-				KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, InputEvent.CTRL_DOWN_MASK), 
+				KeyStroke.getKeyStroke("ctrl ENTER"), 
 				JComponent.WHEN_IN_FOCUSED_WINDOW
 		);
 		
 		// ESC triggers Cancel 
 		getRootPane().registerKeyboardAction(
 				actCancel,  
-				KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), 
+				KeyStroke.getKeyStroke("ESC"), 
 				JComponent.WHEN_IN_FOCUSED_WINDOW
 		);
 		return pnl;

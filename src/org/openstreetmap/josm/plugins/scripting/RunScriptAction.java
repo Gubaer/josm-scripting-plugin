@@ -3,8 +3,11 @@ package org.openstreetmap.josm.plugins.scripting;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
+import javax.swing.KeyStroke;
+
 import org.openstreetmap.josm.Main;
 import org.openstreetmap.josm.actions.JosmAction;
+import org.openstreetmap.josm.gui.help.HelpUtil;
 import org.openstreetmap.josm.tools.ImageProvider;
 import org.openstreetmap.josm.tools.Shortcut;
 import static org.openstreetmap.josm.tools.I18n.tr;
@@ -19,6 +22,7 @@ public class RunScriptAction extends JosmAction{
 			false                // don't register
 		);		
 		putValue(MNEMONIC_KEY, KeyEvent.VK_R);
+		putValue("help", HelpUtil.ht("/Plugin/Scripting"));
 	}
 
 	@Override

@@ -1,18 +1,22 @@
-
 /*
- * This scripts sets a sequence of house numbers on the currently selected nodes.
- * 
- * The user can enter a start number and and an increment.
+ * This scripts sets a sequence of consecutive house numbers on the currently selected nodes.
+ *  
  */
+import java.awt.event.WindowAdapter;
+
 
 import java.awt.BorderLayout;
 import javax.swing.JComponent;
 
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowListener;
 
 import javax.swing.KeyStroke;
 
 import groovy.swing.SwingBuilder;
+import groovy.util.ProxyGenerator;
+
 import javax.swing.JOptionPane;
 import org.openstreetmap.josm.Main;
 import org.openstreetmap.josm.command.ChangeCommand;
@@ -34,6 +38,7 @@ import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
+import java.awt.event.FocusListener;
 
 import javax.swing.Action;
 import javax.swing.BorderFactory;
@@ -42,6 +47,8 @@ import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.Dimension;
+import java.awt.Dialog.ModalityType;
+import java.awt.event.WindowEvent;
 
 class AddHouseNumberDialog extends JDialog {
 	
@@ -55,9 +62,10 @@ class AddHouseNumberDialog extends JDialog {
 	
 	private JTextField tfStart;
 	private JTextField tfIncrement;
+	private def actApply;
 	
 	public AddHouseNumberDialog(){
-		super(Main.parent, true /* modal */)
+		super(Main.parent,true)
 		build();
 	}
 	
@@ -94,7 +102,7 @@ class AddHouseNumberDialog extends JDialog {
 	def buildControlButtonPanel() {
 		SwingBuilder swing = new SwingBuilder()
 		return swing.panel(layout: new FlowLayout(FlowLayout.CENTER)) {
-		    def actApply = action(name: "Apply", smallIcon: ImageProvider.get("ok"), closure: {apply(); setVisible(false)})
+		    actApply = action(name: "Apply", smallIcon: ImageProvider.get("ok"), closure: {apply(); setVisible(false)})
 			def btnApply = button(action: actApply)
 			btnApply.setFocusable(true)
 			btnApply.registerKeyboardAction(actApply, KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,0, false), JComponent.WHEN_FOCUSED)
@@ -113,13 +121,14 @@ class AddHouseNumberDialog extends JDialog {
 			e.printStackTrace()
 			return
 		}
-		def cmds = getCurrentlySelectedNodes().collect { Node n ->
+		def nodes = Main?.map?.mapView?.editLayer?.data?.getSelectedNodes()?.asList()
+		if (nodes == null || nodes.isEmpty()) return
+		def cmds = nodes.collect { Node n ->
 			Node nn = new Node(n)
 			nn.put("addr:housenumber", start.toString())
 			start += incr
 			return new ChangeCommand(n, nn)			
 		}
-		if (cmds.isEmpty()) return
 		Main.main.undoRedo.add(new SequenceCommand("Setting house numbers", cmds))
 	}
 	
@@ -130,20 +139,10 @@ class AddHouseNumberDialog extends JDialog {
 		cp.add(buildInfoPanel(), BorderLayout.NORTH)
 		cp.add(buildInputPanel(), BorderLayout.CENTER)
 		cp.add(buildControlButtonPanel(), BorderLayout.SOUTH)
-	}	
-	
-	def getCurrentDataSet() {
-		def layer = Main?.map?.mapView?.activeLayer
-		if (layer == null) return null
-		if (! (layer instanceof OsmDataLayer)) return null
-		return layer.data
-	}
-	
-	def getCurrentlySelectedNodes() {
-		def DataSet ds = getCurrentDataSet()
-		if (ds == null) return []
-		return ds.getSelectedNodes().asList()
-	}
+		
+		addWindowListener([windowActivated: {tfStart.requestFocusInWindow()}] as WindowAdapter) 
+		getRootPane().registerKeyboardAction(actApply, KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,KeyEvent.CTRL_MASK, false), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT)
+	}		
 	@Override
 	public void setVisible(boolean b) {
 		if (b){
