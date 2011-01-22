@@ -1,3 +1,4 @@
+
 /*
  * This scripts sets a sequence of house numbers on the currently selected nodes.
  * 
@@ -5,6 +6,11 @@
  */
 
 import java.awt.BorderLayout;
+import javax.swing.JComponent;
+
+import java.awt.event.KeyEvent;
+
+import javax.swing.KeyStroke;
 
 import groovy.swing.SwingBuilder;
 import javax.swing.JOptionPane;
@@ -29,6 +35,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
 
+import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.JTextField;
 import javax.swing.AbstractAction;
@@ -37,6 +44,14 @@ import java.awt.event.ActionListener;
 import java.awt.Dimension;
 
 class AddHouseNumberDialog extends JDialog {
+	
+	static private AddHouseNumberDialog instance;
+	static def  AddHouseNumberDialog getInstance() {
+		if (instance == null){
+			instance = new AddHouseNumberDialog()
+		}
+		return instance
+	}
 	
 	private JTextField tfStart;
 	private JTextField tfIncrement;
@@ -51,7 +66,7 @@ class AddHouseNumberDialog extends JDialog {
 		"""
 		<html>
 		Enter the <strong>first house number</strong> to be applied to the currently selected nodes
-		and the amount by which the house number is <strong>incremented</strong>.
+		and the <strong>increment</strong> between consecutive house numbers.
 		</html>
 		"""
 		)
@@ -60,58 +75,56 @@ class AddHouseNumberDialog extends JDialog {
 	def buildInputPanel() {
 		SwingBuilder swing = new SwingBuilder()
 		return swing.panel(){
+			emptyBorder([5,5,5,5],parent:true)
 			gridBagLayout()
 			label(text: "Start:", 
 				horizontalAlignment: JLabel.LEFT,
 				constraints: gbc(gridx:0,gridy:0,weightx:0.0, weighty:0.0, fill: GridBagConstraints.NONE, anchor: GridBagConstraints.WEST)
 			)
 			tfStart = textField(constraints: gbc(gridx:1,gridy:0,weightx:1.0, weighty:0.0, fill: GridBagConstraints.HORIZONTAL, insets:[2,2,2,2]))
+			SelectAllOnFocusGainedDecorator.decorate(tfStart)
 			label(text: "Increment:", horizontalAlignment: JLabel.LEFT, constraints: gbc(gridx:0,gridy:1,weightx:0.0, weighty:0.0, anchor: GridBagConstraints.WEST, insets:[2,2,2,2]))
 			tfIncrement = textField(constraints: gbc(gridx:1,gridy:1,weightx:1.0, weighty:0.0, fill: GridBagConstraints.HORIZONTAL, anchor: GridBagConstraints.WEST, insets:[2,2,2,2]))
+			SelectAllOnFocusGainedDecorator.decorate(tfIncrement)
 			panel(constraints: gbc(gridx:0,gridy:2,weightx:1.0, weighty:1.0, gridwidth:2, fill: GridBagConstraints.BOTH, insets:[2,2,2,2]))
+			tfIncrement.text = "2"
 		} 
 	}
 	
 	def buildControlButtonPanel() {
 		SwingBuilder swing = new SwingBuilder()
 		return swing.panel(layout: new FlowLayout(FlowLayout.CENTER)) {
+		    def actApply = action(name: "Apply", smallIcon: ImageProvider.get("ok"), closure: {apply(); setVisible(false)})
+			def btnApply = button(action: actApply)
+			btnApply.setFocusable(true)
+			btnApply.registerKeyboardAction(actApply, KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,0, false), JComponent.WHEN_FOCUSED)
+		    					
 			button(text: "Cancel", icon: ImageProvider.get("cancel"), actionPerformed: {setVisible(false)})
-			button(text: "Apply", icon: ImageProvider.get("ok"), actionPerformed: {
-				apply()
-				setVisible(false)
-			})
 		}
 	}
-	
+		
 	def apply() {
 		def start
+		def incr
 		try {
 			start = tfStart.text.trim().toInteger()
-		} catch(NumberFormatException e){
-			e.printStackTrace()
-			return
-		}
-		def incr
-		try  {
 			incr = tfIncrement.text.trim().toInteger()
 		} catch(NumberFormatException e){
 			e.printStackTrace()
 			return
-		} 
-		def nodes = getCurrentlySelectedNodes()
-		def cmds = []
-		nodes.each {Node n ->
+		}
+		def cmds = getCurrentlySelectedNodes().collect { Node n ->
 			Node nn = new Node(n)
 			nn.put("addr:housenumber", start.toString())
 			start += incr
-			cmds << new ChangeCommand(n, nn)			
+			return new ChangeCommand(n, nn)			
 		}
 		if (cmds.isEmpty()) return
 		Main.main.undoRedo.add(new SequenceCommand("Setting house numbers", cmds))
 	}
 	
 	def build() {
-		setTitle("Set house numbers")
+		title = "Set house numbers"
 		def cp = getContentPane()
 		cp.setLayout(new BorderLayout())
 		cp.add(buildInfoPanel(), BorderLayout.NORTH)
@@ -120,7 +133,7 @@ class AddHouseNumberDialog extends JDialog {
 	}	
 	
 	def getCurrentDataSet() {
-		def layer = Main?.map?.mapView?.getActiveLayer()
+		def layer = Main?.map?.mapView?.activeLayer
 		if (layer == null) return null
 		if (! (layer instanceof OsmDataLayer)) return null
 		return layer.data
@@ -140,5 +153,5 @@ class AddHouseNumberDialog extends JDialog {
 	}
 }
 
-def dialog = new AddHouseNumberDialog()
-dialog.setVisible(true)
+AddHouseNumberDialog.instance.setVisible(true)
+

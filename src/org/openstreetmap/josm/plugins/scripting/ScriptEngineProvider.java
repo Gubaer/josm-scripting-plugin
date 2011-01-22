@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -43,6 +44,7 @@ public class ScriptEngineProvider extends AbstractListModel implements Preferenc
 	private final List<ScriptEngineFactory> factories = new ArrayList<ScriptEngineFactory>();
 	private final List<File> scriptEngineJars = new ArrayList<File>();
 	private MimetypesFileTypeMap mimeTypesMap = new MimetypesFileTypeMap();
+	private ClassLoader scriptClassLoader = getClass().getClassLoader();
 		
 	protected void loadMimeTypesMap() {
 		File f = new File(ScriptingPlugin.getInstance().getPluginDir(), "mime.types");
@@ -80,6 +82,7 @@ public class ScriptEngineProvider extends AbstractListModel implements Preferenc
 			if (!info.getStatusMessage().equals(ScriptEngineJarInfo.OK_MESSAGE)) continue;
 			scriptEngineJars.add(new File(jar));
 		}		
+		scriptClassLoader = buildClassLoader();
 	}
 	
 	protected ClassLoader buildClassLoader() {
@@ -150,7 +153,7 @@ public class ScriptEngineProvider extends AbstractListModel implements Preferenc
 	 * @see ScriptEngineManager#getEngineByName(String)
 	 */
 	public ScriptEngine getEngineByName(String name) {
-		ScriptEngineManager mgr = new ScriptEngineManager(buildClassLoader());
+		ScriptEngineManager mgr = new ScriptEngineManager(scriptClassLoader);
 		return mgr.getEngineByName(name);
 	}
 	
@@ -200,6 +203,7 @@ public class ScriptEngineProvider extends AbstractListModel implements Preferenc
 				this.scriptEngineJars.add(jar);
 			}
 		}
+		buildClassLoader();
 		loadScriptEngineFactories();
 		fireContentsChanged(this, 0, scriptEngineJars.size());
 	}

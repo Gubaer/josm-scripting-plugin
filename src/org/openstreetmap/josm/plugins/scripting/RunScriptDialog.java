@@ -13,20 +13,14 @@ import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import javax.activation.MimetypesFileTypeMap;
+import javax.script.Compilable;
+import javax.script.CompiledScript;
 import javax.script.ScriptEngine;
-import javax.script.ScriptEngineFactory;
-import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
@@ -45,6 +39,7 @@ import org.openstreetmap.josm.gui.help.HelpUtil;
 import org.openstreetmap.josm.gui.widgets.HistoryComboBox;
 import org.openstreetmap.josm.gui.widgets.HtmlPanel;
 import org.openstreetmap.josm.gui.widgets.SelectAllOnFocusGainedDecorator;
+import org.openstreetmap.josm.plugins.scripting.preferences.PreferenceKeys;
 import org.openstreetmap.josm.tools.ImageProvider;
 import org.openstreetmap.josm.tools.WindowGeometry;
 
@@ -52,19 +47,8 @@ import org.openstreetmap.josm.tools.WindowGeometry;
  * <p><strong>RunScriptDialog</strong> provides a modal dialog for selecting and
  * running a script.</p> 
  */
-public class RunScriptDialog extends JDialog {
+public class RunScriptDialog extends JDialog implements PreferenceKeys{
 	static private final Logger logger = Logger.getLogger(RunScriptDialog.class.getName());
-	
-	/**
-	 * <p>The preferences key for the script file history.</p> 
-	 */
-	static private final String PREF_KEY_FILE_HISTORY = "scripting.RunScriptDialog.file-history";
-	
-	/**
-	 * <p>The preferences key for the last script file name entered in the script file
-	 * selection field.</p> 
-	 */	
-	static private final String PREF_KEY_LAST_FILE = "scripting.RunScriptDialog.last-file";
 
 	/** the input field for the script file name */
 	private HistoryComboBox cbScriptFile;
@@ -226,7 +210,7 @@ public class RunScriptDialog extends JDialog {
 		protected void warnMacroFileIsntReadable(File f){
 			HelpAwareOptionPane.showOptionDialog(
 					RunScriptDialog.this,
-					tr("The script file ''{0}'' isn't readable.", f.toString()),
+					tr("The script file ''{0}'' isn''t readable.", f.toString()),
 					tr("File not readable"),
 					JOptionPane.ERROR_MESSAGE,
 					null // no help topic
@@ -262,7 +246,7 @@ public class RunScriptDialog extends JDialog {
 					RunScriptDialog.this,
 					"<html>"
 					+ tr(
-						"<p>The script can''t be executed, becasue there are currently no scripting engines installed.</p>"
+						"<p>The script can''t be executed, because there are currently no scripting engines installed.</p>"
 						+ "<p>Refer to the online help for information about how to install a scripting engine with JOSM.</p>"						
 					)					
 					+ "</html>"
@@ -307,13 +291,20 @@ public class RunScriptDialog extends JDialog {
 			} 			
 			final ScriptEngine engine = getScriptEngine(f);
 			if (engine == null) return;
+		
 			SwingUtilities.invokeLater(
 			    new Runnable() {
 			    	public void run() {			
 			    		FileReader reader = null;
 						try {
-							reader = new FileReader(f);
-							engine.eval(reader);
+							if (engine instanceof Compilable) {
+								CompiledScript script = CompiledScriptCache.getInstance().compile((Compilable)engine,f);
+								logger.info("running compiled script for " + f);
+								script.eval();
+							} else {
+								reader = new FileReader(f);								
+								engine.eval(reader);
+							}
 						} catch(ScriptException e){
 							warnExecutingScriptFailed(e);
 						} catch(IOException e){
@@ -326,6 +317,7 @@ public class RunScriptDialog extends JDialog {
 			    	}
 			    }
 		    );
+			
 			setVisible(false);		
 		}	
 	}
