@@ -27,7 +27,7 @@
 <project name="scripting" default="dist" basedir=".">
 
 	<property name="commit.message" value="Now caches compiled scripts, if possible. Fixes OutOfMemory when running groovy scripts." />
-	<property name="plugin.main.version" value="3751" />
+	<property name="plugin.main.version" value="3835" />
 
 	<!--
       ************************************************
