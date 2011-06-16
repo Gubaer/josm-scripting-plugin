@@ -13,7 +13,6 @@ import org.openstreetmap.josm.Main;
 import org.openstreetmap.josm.actions.JosmAction;
 import org.openstreetmap.josm.gui.help.HelpUtil;
 import org.openstreetmap.josm.gui.preferences.PreferenceDialog;
-import org.openstreetmap.josm.plugins.scripting.RunScriptDialog;
 
 public class ConfigureAction extends JosmAction {
 	public ConfigureAction() {

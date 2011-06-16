@@ -18,7 +18,7 @@ public class ScriptEngineJarInfo implements Comparable<ScriptEngineJarInfo>{
 	 */
 	static public final String OK_MESSAGE = "OK";
 	
-	private String jarFileName;
+	private String jarFilePath;
 	private String statusMessage = null;
 	
 	/**
@@ -27,25 +27,24 @@ public class ScriptEngineJarInfo implements Comparable<ScriptEngineJarInfo>{
 	 */
 	public void analyse(){
 		File jar = null;
-		jar = new File(jarFileName);		
+		jar = new File(jarFilePath);		
 		if (!jar.exists()) {
 			statusMessage = tr("''{0}'' doesn''t exist.", jar);
 			return;
 		}
 		if (! jar.isFile()) {
-			System.out.println("jar="+jar);
 			statusMessage = tr("''{0}'' is a directory. Expecting a jar file instead.", jar);
 			return;
 		}
 		if (! jar.canRead()) {
-			statusMessage = tr("''{0}'' isn't readable. Can''t load a script engine from this file.", jar);
+			statusMessage = tr("''{0}'' isn''t readable. Can''t load a script engine from this file.", jar);
 			return;
 		}
 		JarFile jf = null;
 		try {
 			jf = new JarFile(jar);
 		} catch (IOException e) {
-			statusMessage = tr("Failed to open file ''{0}'' as jar file. Can''t load a script engine from this file", jar);
+			statusMessage = tr("Failed to open file ''{0}'' as jar file. Can''t load a script engine from this file.", jar);
 			return;
 		}
 		ZipEntry ze = jf.getEntry("META-INF/services/javax.script.ScriptEngineFactory");
@@ -63,7 +62,7 @@ public class ScriptEngineJarInfo implements Comparable<ScriptEngineJarInfo>{
 	 */
 	public ScriptEngineJarInfo(String fileName) {
 		if (fileName == null) fileName = "";
-		this.jarFileName = fileName.trim();
+		this.jarFilePath = fileName.trim();
 		analyse();
 	}
 		
@@ -84,7 +83,7 @@ public class ScriptEngineJarInfo implements Comparable<ScriptEngineJarInfo>{
 	 * @return the path
 	 */
 	public String getJarFilePath() {
-		return jarFileName;
+		return jarFilePath;
 	}
 	
 	/**
@@ -95,12 +94,12 @@ public class ScriptEngineJarInfo implements Comparable<ScriptEngineJarInfo>{
 	public void setJarFilePath(String path){
 		if (path == null) path = "";
 		path = path.trim();
-		this.jarFileName = path;
+		this.jarFilePath = path;
 		analyse();
 	}
 	
 	public String toString() {
-		return MessageFormat.format("<scriptJarInfo for=''{0}'' />", jarFileName);
+		return MessageFormat.format("<scriptJarInfo for=''{0}'' />", jarFilePath);
 	}
 
 	/* ----------------------------------------------------------------------------- */
@@ -109,7 +108,7 @@ public class ScriptEngineJarInfo implements Comparable<ScriptEngineJarInfo>{
 	@Override
 	public int compareTo(ScriptEngineJarInfo o) {
 		if (o == null) return -1;
-		return jarFileName.compareTo(o.jarFileName);
+		return jarFilePath.compareTo(o.jarFilePath);
 	}
 
 	/* ----------------------------------------------------------------------------- */
@@ -120,7 +119,7 @@ public class ScriptEngineJarInfo implements Comparable<ScriptEngineJarInfo>{
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
-				+ ((jarFileName == null) ? 0 : jarFileName.hashCode());
+				+ ((jarFilePath == null) ? 0 : jarFilePath.hashCode());
 		return result;
 	}
 
@@ -133,10 +132,10 @@ public class ScriptEngineJarInfo implements Comparable<ScriptEngineJarInfo>{
 		if (getClass() != obj.getClass())
 			return false;
 		ScriptEngineJarInfo other = (ScriptEngineJarInfo) obj;
-		if (jarFileName == null) {
-			if (other.jarFileName != null)
+		if (jarFilePath == null) {
+			if (other.jarFilePath != null)
 				return false;
-		} else if (!jarFileName.equals(other.jarFileName))
+		} else if (!jarFilePath.equals(other.jarFilePath))
 			return false;
 		return true;
 	}

@@ -19,4 +19,5 @@ public interface PreferenceKeys {
 	 * selection field.</p> 
 	 */	
 	String PREF_KEY_LAST_FILE = "scripting.RunScriptDialog.last-file";
+
 }

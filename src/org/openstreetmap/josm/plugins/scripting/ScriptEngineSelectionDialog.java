@@ -8,12 +8,12 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.script.ScriptEngine;
+import javax.script.ScriptEngineFactory;
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -52,22 +52,34 @@ public class ScriptEngineSelectionDialog extends JDialog {
 	 * @return the selected script engine, or null, if the user didn't select an engine
 	 */
 	static public ScriptEngine select(Component parent){
-		if (parent == null) parent = Main.parent;
-		ScriptEngineSelectionDialog dialog = new ScriptEngineSelectionDialog(parent);
-		dialog.setVisible(true);
-		return dialog.selectedEngine;
+		return select(parent, null);
 	}
 
 	/**
-	 * <p>Launches a modal dialog for selecting a script engine. The dialog is opend
+	 * <p>Launches a modal dialog for selecting a script engine. The dialog is opened
 	 * with {@code Main.parent} as owner.</p>
 	 *  
 	 * @return the selected script engine, or null, if the user didn't select an engine
 	 */
 	static public ScriptEngine select(){
-		return select(Main.parent);
+		return select(Main.parent, null);
 	}
 	
+	/**
+	 * <p>Launches a modal dialog for selecting a script engine. The dialog is opened
+	 * with {@code parent} as owner. If available, the factory {@code currentFactory}
+	 * is selected in the list.</p>
+	 *  
+	 * @return the selected script engine, or null, if the user didn't select an engine
+	 */	
+	static public ScriptEngine select(Component parent, ScriptEngineFactory currentFactory){
+		if (parent == null) parent = Main.parent;		
+		ScriptEngineSelectionDialog dialog = new ScriptEngineSelectionDialog(parent);
+		dialog.setSelectedScriptEngineFactory(currentFactory);
+		dialog.setVisible(true);
+		return dialog.selectedEngine;
+	}
+		
 	private JList lstEngines;
 	private JButton btnOK;
 	private ScriptEngine selectedEngine;
@@ -124,6 +136,14 @@ public class ScriptEngineSelectionDialog extends JDialog {
 				JComponent.WHEN_IN_FOCUSED_WINDOW
 		);
 		return pnl;
+	}
+	
+	public void setSelectedScriptEngineFactory(ScriptEngineFactory selected) {
+		if (selected == null){
+			lstEngines.setSelectedIndex(0);
+		} else {
+			lstEngines.setSelectedValue(selected, true);
+		}
 	}
 	
 	protected JPanel buildScriptEngineListPanel() {
@@ -208,7 +228,7 @@ public class ScriptEngineSelectionDialog extends JDialog {
 		if (visible) {
 			btnOK.requestFocusInWindow();
 			WindowGeometry
-				.centerInWindow(getParent(), new Dimension(250, 300))
+				.centerInWindow(getParent(), new Dimension(400, 200))
 				.applySafe(this);
 		}
 		super.setVisible(visible);

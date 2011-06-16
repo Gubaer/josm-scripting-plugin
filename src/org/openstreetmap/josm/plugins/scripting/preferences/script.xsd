@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="urn:org.openstreetmap.josm.plugins.scripting" 
+	xmlns="http://www.w3.org/2001/XMLSchema" 
+	xmlns:tns="urn:org.openstreetmap.josm.plugins.scripting" elementFormDefault="qualified">
+    <annotation>
+    	<documentation>XML Schema for the local list of scripts known to the JOSM scripting plugin.</documentation></annotation>
+    <complexType name="scriptType">
+    	<attribute name="id" type="string" use="required">
+    		<annotation>
+    			<documentation>A unique id for this script entry. The JOSM scripting assigns a GUID per default.  </documentation>
+    		</annotation></attribute>
+    	<attribute name="displayName" type="string" use="optional">
+    		<annotation>
+    			<documentation>The display name for the script as displayed in lists, menu entries and the like. Not localized. Should be in english.</documentation>
+    		</annotation></attribute>
+    	<attribute name="file" type="string" use="required">
+    		<annotation>
+    			<documentation>The script file to load. </documentation>
+    		</annotation></attribute>
+    	<attribute name="engine" type="string" use="optional">
+    		<annotation>
+    			<documentation>The name of a scripting engine. Must be a name known to the JSR 223 ScriptEngineManager.</documentation>
+    		</annotation></attribute>
+    	<attribute name="shortcut" type="string" use="optional">
+    		<annotation>
+    			<documentation>The keyboard shortcut which will trigger the script execution. Must be a string which can be parsed by javax.swing.KeyStroke::getKeyStroke(String).</documentation>
+    		</annotation></attribute>
+    	<attribute name="overrideShortcut" type="boolean" use="optional">
+    		<annotation>
+    			<documentation>If true, the shortcut overrides an already defined shortcut for the same keystroke. </documentation>
+    		</annotation></attribute>
+    </complexType>
+
+
+    <complexType name="scriptsType">
+    	<sequence>
+    		<element name="script" type="tns:scriptType" maxOccurs="unbounded" minOccurs="0"></element>
+    	</sequence>
+    </complexType>
+
+    <element name="scripts" type="tns:scriptsType">
+    	<annotation>
+    		<documentation>A list of script elements.</documentation>
+    	</annotation></element>
+</schema>

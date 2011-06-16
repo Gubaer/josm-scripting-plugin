@@ -5,6 +5,7 @@ import static org.openstreetmap.josm.tools.I18n.tr;
 
 import java.awt.event.KeyEvent;
 
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
 import javax.swing.JSeparator;
 
@@ -33,6 +34,7 @@ public class ScriptingPlugin extends Plugin {
 		JMenu mnuMacro;
 		mnuMacro = Main.main.menu.addMenu(tr("Scripting"), KeyEvent.VK_S, Main.main.menu.defaultMenuPos, ht("/Plugin/Scripting"));
 		mnuMacro.setMnemonic('S');
+		mnuMacro.add(new JCheckBoxMenuItem(new ToggleConsoleAction()));
 		mnuMacro.add(new RunScriptAction());
 		mnuMacro.add(new JSeparator());
 		mnuMacro.add(new ConfigureAction());

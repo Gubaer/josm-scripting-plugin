@@ -9,6 +9,7 @@ import java.util.logging.Logger;
 
 import javax.script.Compilable;
 import javax.script.CompiledScript;
+import javax.script.ScriptContext;
 import javax.script.ScriptException;
 
 import org.openstreetmap.josm.plugins.scripting.util.Assert;
@@ -83,6 +84,12 @@ public class CompiledScriptCache {
 			CompiledScript script = compiler.compile(reader = new FileReader(scriptFile));
 			entry = new CacheEntry(scriptFile, script);
 			cache.put(scriptFile, entry);
+			logger.info("*** Compilable ***");
+			logger.info("compiler.getClass(): " + compiler.getClass());
+			logger.info("compiler.getClass().getClassLoader(): " + compiler.getClass().getClassLoader());
+			logger.info("*** Compiled Script ***");
+			logger.info("script.getClass(): " + script.getClass());
+			logger.info("script.getClass().getClassLoader(): " + script.getClass().getClassLoader());
 			return script;
 		} finally {
 			IOUtil.close(reader);

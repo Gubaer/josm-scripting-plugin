@@ -19,4 +19,12 @@ public class Assert {
 			);
 		}
 	}
+	
+	public static void assertNotNull(Object o, String message, Object...objs) {
+		if (o == null){
+			throw new AssertionError(
+					MessageFormat.format(message,objs)
+		    );
+		}
+	}
 }

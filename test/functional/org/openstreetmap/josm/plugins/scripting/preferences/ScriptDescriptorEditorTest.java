@@ -1,4 +1,4 @@
-package org.openstreetmap.josm.plugins.scripting;
+package org.openstreetmap.josm.plugins.scripting.preferences;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -7,14 +7,13 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 
 import org.openstreetmap.josm.plugins.scripting.fixtures.JOSMFixture;
-import org.openstreetmap.josm.plugins.scripting.RunScriptDialog;
 
 
-public class RunScriptDialogTest extends JFrame {
+public class ScriptDescriptorEditorTest extends JFrame {
 	
 	private JOSMFixture fixture;
 	
-	public RunScriptDialogTest() {
+	public ScriptDescriptorEditorTest() {
 		getContentPane().setLayout(new FlowLayout());
 		setSize(100,100);
 		JButton btn = new JButton("Launch");
@@ -22,7 +21,7 @@ public class RunScriptDialogTest extends JFrame {
 		btn.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				RunScriptDialog dialog = new RunScriptDialog(RunScriptDialogTest.this);
+				ScriptDescriptorEditorDialog dialog = new ScriptDescriptorEditorDialog(ScriptDescriptorEditorTest.this);
 				dialog.setVisible(true);
 			}
 		});
@@ -32,7 +31,7 @@ public class RunScriptDialogTest extends JFrame {
 	}
 		
 	static public void main(String args[]) {
-		RunScriptDialogTest app = new RunScriptDialogTest();
+		ScriptDescriptorEditorTest app = new ScriptDescriptorEditorTest();
 		app.setVisible(true);
 	}
 }

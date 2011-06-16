@@ -6,8 +6,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
-import org.openstreetmap.josm.plugins.contourmerge.fixtures.JOSMFixture;
-import org.openstreetmap.josm.plugins.scripting.RunScriptDialog;
+import org.openstreetmap.josm.plugins.scripting.fixtures.JOSMFixture;
 
 
 public class ScriptEngineSelectionDialogTest extends JFrame {

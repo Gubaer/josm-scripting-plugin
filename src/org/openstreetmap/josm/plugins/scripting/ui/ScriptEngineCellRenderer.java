@@ -23,10 +23,12 @@ public class ScriptEngineCellRenderer implements ListCellRenderer {
 	private final JLabel lbl = new JLabel();
 	
 	protected String getDisplayName(ScriptEngineFactory factory){
+		if (factory == null) return tr("Select an engine"); // used in the context of a combo box
 		return tr("{1} (with engine {0})", factory.getEngineName(), factory.getLanguageName());
 	}
 	
 	protected String getTooltipText(ScriptEngineFactory factory){
+		if (factory == null) return "";
 		StringBuilder sb = new StringBuilder();
 		sb.append("<html>");
 		sb.append("<strong>").append(tr("Name:")).append("</strong> ").append(factory.getEngineName()).append("<br>");

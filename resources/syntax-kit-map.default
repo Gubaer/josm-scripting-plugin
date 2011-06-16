@@ -1,0 +1,9 @@
+#
+# Mapping from mime types to syntax kits used by jsyntaxpane
+#
+application/x-groovy     jsyntaxpane.syntaxkits.GroovySyntaxKit
+text/x-groovy            jsyntaxpane.syntaxkits.GroovySyntaxKit
+application/javascript   jsyntaxpane.syntaxkits.JavaScriptSyntaxKit 
+application/ecmascript   jsyntaxpane.syntaxkits.JavaScriptSyntaxKit
+text/javascript          jsyntaxpane.syntaxkits.JavaScriptSyntaxKit
+text/ecmascript          jsyntaxpane.syntaxkits.JavaScriptSyntaxKit

@@ -22,8 +22,7 @@ public class PreferenceEditor extends JPanel implements PreferenceSetting {
 	}
 	
 	protected void build() {
-		setLayout(new BorderLayout());
-		
+		setLayout(new BorderLayout());		
 		tpPreferenceTabs = new JTabbedPane();
 		tpPreferenceTabs.add(tr("Script engines"), pnlScriptEngineConfiguration = new ScriptEnginesConfigurationPanel());
 		add(tpPreferenceTabs, BorderLayout.CENTER);

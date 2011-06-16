@@ -6,7 +6,16 @@ The scripting plugin executes scripts in JOSM.
 
 Scripts can be defined in any scripting language, for which a JSR-223
 compatible scripting engine is available.
-                                                  
+
+CREDIT
+======
+This plugin uses:
+- jsyntaxpane by Ayman Al-Sairafi
+  Available under Apache License 2.0 from http://code.google.com/p/jsyntaxpane/ 
+  
+  This plugins relies on patched veresion of jsyntaxversion available from the
+  fork on https://github.com/Gubaer/jsyntaxpane.
+
 AUTHOR
 ======
 Karl Guggisberg <karl.guggisberg@guggis.ch>

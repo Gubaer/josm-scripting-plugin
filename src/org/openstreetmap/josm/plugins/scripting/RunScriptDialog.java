@@ -240,7 +240,7 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys{
 			);			
 		}
 		
-		protected void warnFailedToOpenMacroFile(File f, Exception e){
+		protected void warnOpenScriptFileFailed(File f, Exception e){
 			HelpAwareOptionPane.showOptionDialog(
 					RunScriptDialog.this,
 					tr("Failed to read the script from the file ''{0}''.", f.toString()),
@@ -309,7 +309,7 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys{
 			try {
 				new FileReader(f);
 			} catch(IOException e){
-				warnFailedToOpenMacroFile(f, e);
+				warnOpenScriptFileFailed(f, e);
 				return;
 			} 			
 			final ScriptEngine engine = getScriptEngine(f);
@@ -331,7 +331,7 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys{
 						} catch(ScriptException e){
 							warnExecutingScriptFailed(e);
 						} catch(IOException e){
-							warnFailedToOpenMacroFile(f, e);
+							warnOpenScriptFileFailed(f, e);
 						} finally {
 							IOUtil.close(reader);
 						}

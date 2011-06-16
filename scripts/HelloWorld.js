@@ -10,10 +10,8 @@ function getMapView() {
 	return Main.main.map.mapView
 }
 
-var numlayers = 0
+
 var mv = getMapView()
-if (mv != null){
-	numlayers = mv.getNumLayers()
-} 
+var numlayers = mv == null ? 0 : mv.getNumLayers() 
 JOptionPane.showMessageDialog(Main.parent, "[JavaScript] Hello World! You have " + numlayers + " layer(s).")
 

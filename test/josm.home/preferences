@@ -1,1 +1,4 @@
+josm.version=4104
+org.openstreetmap.josm.plugins.scripting.preferences.ScriptDescriptorEditor.geometry=x=503,y=275,width=607,height=351
+org.openstreetmap.josm.plugins.scripting.preferences.ScriptDescriptorEditorDialog.geometry=x=539,y=198,width=566,height=405
 osm-server.url=http://localhost:8080/api

@@ -6,7 +6,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -26,10 +25,12 @@ import javax.swing.AbstractListModel;
 import org.openstreetmap.josm.Main;
 import org.openstreetmap.josm.plugins.scripting.preferences.PreferenceKeys;
 import org.openstreetmap.josm.plugins.scripting.preferences.ScriptEngineJarInfo;
+import org.openstreetmap.josm.plugins.scripting.util.Assert;
+import org.openstreetmap.josm.plugins.scripting.util.IOUtil;
 /**
  * <p>Provides a list model for the list of available script engines.</p>
  */
-public class ScriptEngineProvider extends AbstractListModel implements PreferenceKeys{
+public class ScriptEngineProvider extends AbstractListModel implements PreferenceKeys {
 	static private final Logger logger = Logger.getLogger(ScriptEngineProvider.class.getName());
 	
 	static private ScriptEngineProvider instance;
@@ -40,21 +41,37 @@ public class ScriptEngineProvider extends AbstractListModel implements Preferenc
 		return instance;
 	}
 	
-	
 	private final List<ScriptEngineFactory> factories = new ArrayList<ScriptEngineFactory>();
 	private final List<File> scriptEngineJars = new ArrayList<File>();
 	private MimetypesFileTypeMap mimeTypesMap = new MimetypesFileTypeMap();
 	private ClassLoader scriptClassLoader = getClass().getClassLoader();
+	private ScriptEngineManager manager = null;
+	
+	protected ScriptEngineManager getScriptEngineManager() {
+		if (manager == null){
+			manager = new ScriptEngineManager(scriptClassLoader);
+		}
+		return manager;
+	}
 		
 	protected void loadMimeTypesMap() {
-		File f = new File(ScriptingPlugin.getInstance().getPluginDir(), "mime.types");
-		if (f.isFile() && f.canRead()){
-			try {
-				mimeTypesMap = new MimetypesFileTypeMap(new FileInputStream(f));
+		// skip loading mime types if we aren't running in the context of a plugin
+		// instance
+		if (ScriptingPlugin.getInstance() != null)  {
+			String dir = ScriptingPlugin.getInstance().getPluginDir();
+			if (dir == null){
+				System.err.println(tr("Warning: no plugin directory is configured."));
 				return;
-			} catch(IOException e) {
-				System.err.println(tr("Warning: failed to load mime types from file ''0''.", f));
-				e.printStackTrace();
+			}
+			File f = new File(ScriptingPlugin.getInstance().getPluginDir(), "mime.types");
+			if (f.isFile() && f.canRead()){
+				try {
+					mimeTypesMap = new MimetypesFileTypeMap(new FileInputStream(f));
+					return;
+				} catch(IOException e) {
+					System.err.println(tr("Warning: failed to load mime types from file ''0''.", f));
+					e.printStackTrace();
+				}
 			}
 		}
 		
@@ -67,7 +84,7 @@ public class ScriptEngineProvider extends AbstractListModel implements Preferenc
 			}
 			mimeTypesMap = new MimetypesFileTypeMap(is);
 		} finally {
-			if (is != null) {try {is.close();}catch(IOException e){}}
+			IOUtil.close(is);
 		}
 	}
 	
@@ -82,11 +99,10 @@ public class ScriptEngineProvider extends AbstractListModel implements Preferenc
 			if (!info.getStatusMessage().equals(ScriptEngineJarInfo.OK_MESSAGE)) continue;
 			scriptEngineJars.add(new File(jar));
 		}		
-		scriptClassLoader = buildClassLoader();
+		buildClassLoader();
 	}
 	
-	protected ClassLoader buildClassLoader() {
-		ClassLoader cl = null;
+	protected void buildClassLoader() {
 		URL [] urls = new URL[scriptEngineJars.size()];
 		for(int i=0; i < scriptEngineJars.size(); i++){
 			try {
@@ -99,20 +115,20 @@ public class ScriptEngineProvider extends AbstractListModel implements Preferenc
 			}
 		}
 		if (urls.length > 0){
-			return new URLClassLoader(
+			scriptClassLoader = new URLClassLoader(
 					urls,
 					getClass().getClassLoader()
 			);
 		} else {
-			return getClass().getClassLoader();
+			scriptClassLoader = getClass().getClassLoader();
 		}
 	}
 		
 	protected void loadScriptEngineFactories() {
+		Assert.assertNotNull(scriptClassLoader, "expected scriptClassLoader != null");
 		try {
-			ClassLoader cl = buildClassLoader();
 			factories.clear();
-			ScriptEngineManager manager = new ScriptEngineManager(cl);
+			ScriptEngineManager manager = new ScriptEngineManager(scriptClassLoader);
 			factories.addAll(manager.getEngineFactories());
 		} catch(Throwable t){
 			t.printStackTrace();
@@ -153,8 +169,7 @@ public class ScriptEngineProvider extends AbstractListModel implements Preferenc
 	 * @see ScriptEngineManager#getEngineByName(String)
 	 */
 	public ScriptEngine getEngineByName(String name) {
-		ScriptEngineManager mgr = new ScriptEngineManager(scriptClassLoader);
-		return mgr.getEngineByName(name);
+		return getScriptEngineManager().getEngineByName(name);
 	}
 	
 	/**
@@ -165,8 +180,7 @@ public class ScriptEngineProvider extends AbstractListModel implements Preferenc
 	 * @see ScriptEngineManager#getEngineByMimeType(String)
 	 */
 	public ScriptEngine getEngineByMimeType(String mimeType) {
-		ScriptEngineManager mgr = new ScriptEngineManager(buildClassLoader());
-		return mgr.getEngineByMimeType(mimeType);
+		return getScriptEngineManager().getEngineByMimeType(mimeType);
 	}
 	
 	/**
@@ -180,8 +194,7 @@ public class ScriptEngineProvider extends AbstractListModel implements Preferenc
 	 */
 	public ScriptEngine getEngineForFile(File scriptFile) {
 		if (scriptFile == null) return null;
-		ScriptEngineManager mgr = new ScriptEngineManager(buildClassLoader());
-		return mgr.getEngineByMimeType(mimeTypesMap.getContentType(scriptFile));
+		return getScriptEngineManager().getEngineByMimeType(mimeTypesMap.getContentType(scriptFile));
 	}
 	
 	/**
@@ -217,6 +230,30 @@ public class ScriptEngineProvider extends AbstractListModel implements Preferenc
 	public ScriptEngine getScriptEngine(int i){
 		ScriptEngine engine = factories.get(i).getScriptEngine();
 		return engine;
+	}
+	
+	/**
+	 * Replies the script engine factory with name {@code name}, or null,
+	 * if no such factory exists. Replies null, if {@code name} is null.
+	 * 
+	 * @param name the name
+	 * @return the script engine factory
+	 */
+	public ScriptEngineFactory getScriptFactoryByName(String name){
+		if (name == null) return null;		
+		for (ScriptEngineFactory factory: factories) {
+			if (factory.getEngineName().equals(name)) return factory;
+		}
+		return null;
+	}
+	
+	/**
+	 * <p>Replies a list of the available script engine factories.</p>
+	 * 
+	 * @return the factories
+	 */
+	public List<ScriptEngineFactory> getScriptEngineFactories() {
+		return new ArrayList<ScriptEngineFactory>(factories);
 	}
 
 	/* ------------------------------------------------------------------------------------ */
