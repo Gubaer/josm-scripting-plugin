@@ -13,7 +13,7 @@ This plugin uses:
 - jsyntaxpane by Ayman Al-Sairafi
   Available under Apache License 2.0 from http://code.google.com/p/jsyntaxpane/ 
   
-  This plugins relies on patched veresion of jsyntaxversion available from the
+  This plugins relies on a patched version of jsyntaxpane available from the
   fork on https://github.com/Gubaer/jsyntaxpane.
 
 AUTHOR
