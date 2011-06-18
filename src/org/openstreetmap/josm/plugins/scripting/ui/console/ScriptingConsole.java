@@ -6,11 +6,13 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.logging.Logger;
 
 import javax.swing.AbstractAction;
 import javax.swing.JCheckBox;
@@ -24,7 +26,10 @@ import org.openstreetmap.josm.data.preferences.BooleanProperty;
 import org.openstreetmap.josm.plugins.scripting.util.Assert;
 import org.openstreetmap.josm.tools.WindowGeometry;
 
+@SuppressWarnings("serial")
 public class ScriptingConsole extends JFrame {
+	@SuppressWarnings("unused")
+	static private final Logger logger = Logger.getLogger(ScriptingConsole.class.getName());
 	
 	static public final BooleanProperty PREF_ALWAYS_ON_TOP = new BooleanProperty(
 			ScriptingConsole.class.getName() + ".alwaysOnTop", 
@@ -38,6 +43,10 @@ public class ScriptingConsole extends JFrame {
 		return instance;
 	}
 	
+	/**
+	 * Displays the scripting console and puts it to front. Creates a console if
+	 * no console exists yet.
+	 */
 	public static void showScriptingConsole() {
 		synchronized (ScriptingConsole.class) {
 			if (instance == null){
@@ -52,46 +61,30 @@ public class ScriptingConsole extends JFrame {
 				});
 			}
 			instance.setVisible(true);
+			instance.toFront();
 		}
 	}
 	
-	
+	/**
+	 * Hides and destroys the current scripting console. 
+	 */
 	public static void hideScriptingConsole() {
 		synchronized(ScriptingConsole.class){
 			if (instance != null){
-				instance.setVisible(false);
-				// this will trigger a window closing event, handled above
+				WindowEvent wev = new WindowEvent(instance, WindowEvent.WINDOW_CLOSING);
+                Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(wev);
 			}
 		}
 	}
 	
+	/**
+	 * Toggles whether there is a scripting console or not 
+	 */
 	public static void toggleScriptingConsole() {
 		if (instance == null){
 			showScriptingConsole();
 		} else {
 			hideScriptingConsole();
-		}
-	}
-
-	public static interface ScriptingConsoleListener {
-		void scriptingConsoleChanged(ScriptingConsole oldValue, ScriptingConsole newValue);
-	}
-	
-	private static final CopyOnWriteArrayList<ScriptingConsoleListener> listeners = new CopyOnWriteArrayList<ScriptingConsole.ScriptingConsoleListener>();
-	
-	public static void addScriptingConsoleListener(ScriptingConsoleListener l){
-		if (l == null) return;
-		listeners.addIfAbsent(l);
-	}
-	
-	public static void removeScriptingConsoleListener(ScriptingConsoleListener l){
-		if (l == null)return;
-		listeners.remove(l);
-	}
-	
-	protected static void fireScriptingConsoleChanged(ScriptingConsole oldValue, ScriptingConsole newValue){
-		for (ScriptingConsoleListener l: listeners) {
-			l.scriptingConsoleChanged(oldValue, newValue);
 		}
 	}
 	
@@ -103,6 +96,8 @@ public class ScriptingConsole extends JFrame {
 	}
 	
 	protected JMenuBar buildMenuBar() {
+		// create the file menu
+		//
 		JMenu mnuFile = new JMenu(tr("File"));
 		mnuFile.add(new OpenAction());
 		SaveAction act = new SaveAction();
@@ -111,8 +106,15 @@ public class ScriptingConsole extends JFrame {
 		mnuFile.add(new SaveAsAction());
 		mnuFile.addSeparator();
 		mnuFile.add(new CloseAction());
+		
+		// create the edit menu
+		//
+		JMenu mnuEdit = new JMenu(tr("Edit"));
+		mnuEdit.add(pnlScriptingConsole.getScriptLog().getClearAction());
+		
 		JMenuBar bar = new JMenuBar();
 		bar.add(mnuFile);
+		bar.add(mnuEdit);
 		return bar;
 	}
 	
@@ -131,6 +133,7 @@ public class ScriptingConsole extends JFrame {
 		c.add(buildControlPanel(), BorderLayout.SOUTH);
 		
 		setJMenuBar(buildMenuBar());
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}	
 	
 	public void setVisible(boolean visible){
@@ -182,5 +185,35 @@ public class ScriptingConsole extends JFrame {
 		}
 	}
 	
+	/* ------------------------------------------------------------------------------- */
+	/* listening to scripting console events                                           */
+	/* ------------------------------------------------------------------------------- */
+	public static interface ScriptingConsoleListener {
+		/**
+		 * Notifies listeners when the scripting console instance changes. If {@code newValue}
+		 * is null, no scripting console is open.
+		 * 
+		 * @param oldValue
+		 * @param newValue
+		 */
+		void scriptingConsoleChanged(ScriptingConsole oldValue, ScriptingConsole newValue);
+	}
 	
+	private static final CopyOnWriteArrayList<ScriptingConsoleListener> listeners = new CopyOnWriteArrayList<ScriptingConsole.ScriptingConsoleListener>();
+	
+	public static void addScriptingConsoleListener(ScriptingConsoleListener l){
+		if (l == null) return;
+		listeners.addIfAbsent(l);
+	}
+	
+	public static void removeScriptingConsoleListener(ScriptingConsoleListener l){
+		if (l == null)return;
+		listeners.remove(l);
+	}
+	
+	protected static void fireScriptingConsoleChanged(ScriptingConsole oldValue, ScriptingConsole newValue){
+		for (ScriptingConsoleListener l: listeners) {
+			l.scriptingConsoleChanged(oldValue, newValue);
+		}
+	}
 }

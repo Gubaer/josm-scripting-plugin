@@ -3,14 +3,11 @@ package org.openstreetmap.josm.plugins.scripting.ui.console;
 import static org.openstreetmap.josm.tools.I18n.tr;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -22,13 +19,8 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
-import javax.swing.JTextPane;
 import javax.swing.SwingUtilities;
-import javax.swing.text.Document;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
 
 import jsyntaxpane.DefaultSyntaxKit;
 
@@ -41,7 +33,7 @@ public class ScriptingConsolePanel extends JPanel {
 	private static final Logger logger = Logger.getLogger(ScriptingConsolePanel.class.getName());
 	
 	private JSplitPane spConsole;
-	private JTextPane epOutput;
+	private ScriptLogPanel log;
 	private ScriptEditor editor;
 	
 	protected JPanel buildControlPanel() {
@@ -60,23 +52,11 @@ public class ScriptingConsolePanel extends JPanel {
 		return pnl;
 	}
 	
-	protected JPanel buildOutputPanel() {
-		JPanel pnl = new JPanel(new BorderLayout());
-		epOutput = new JTextPane();
-		epOutput.setEditable(false);
-		JScrollPane editorScrollPane = new JScrollPane(epOutput);
-		editorScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-		editorScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		pnl.add(editorScrollPane, BorderLayout.CENTER);
-		
-		return pnl;
-	}
-	
 	protected JSplitPane buildSplitPane() {
 		final JSplitPane sp = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 		sp.setDividerSize(5);
 		sp.setTopComponent(buildInputPanel());
-		sp.setBottomComponent(buildOutputPanel());
+		sp.setBottomComponent(log = new ScriptLogPanel());
 		SwingUtilities.invokeLater(new Runnable() {			
 			@Override
 			public void run() {
@@ -186,7 +166,16 @@ public class ScriptingConsolePanel extends JPanel {
     public ScriptEditorModel getScriptEditorModel() {
     	return editor.getModel();
     }
-
+    
+    /**
+     * <p>Replies the script log</p>
+     * 
+     * @return the script log
+     */
+    public IScriptLog getScriptLog() {
+    	return log;
+    }
+    
 	class RunScriptAction extends AbstractAction implements PropertyChangeListener {
 		private ScriptEditorModel model;
 		public RunScriptAction(ScriptEditorModel model) {
@@ -198,28 +187,14 @@ public class ScriptingConsolePanel extends JPanel {
 			updateEnabledState();
 		}
 		
-		protected void dumpException(Throwable t){
-			StringWriter w = new StringWriter();
-			t.printStackTrace(new PrintWriter(w));
-			Document doc = epOutput.getDocument();
-			try {
-				SimpleAttributeSet set = new SimpleAttributeSet();
-				StyleConstants.setForeground(set, Color.RED);
-				doc.insertString(doc.getLength(), w.getBuffer().toString(), set);
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
-		}
-		
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			String source = editor.getScript();
 			ScriptEngine engine = model.getScriptEngineFactory().getScriptEngine();
 			try {		
-				engine.eval(source, new JOSMScriptContext(epOutput.getDocument()));
+				engine.eval(source, new JOSMScriptContext(log.getLogWriter()));
 			} catch(ScriptException ex){
-				dumpException(ex);
-
+				log.dumpException(ex);
 			}
 		}
 

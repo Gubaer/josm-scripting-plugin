@@ -10,7 +10,9 @@ import javax.swing.AbstractAction;
 import org.openstreetmap.josm.plugins.scripting.ui.console.ScriptingConsole;
 import org.openstreetmap.josm.plugins.scripting.ui.console.ScriptingConsole.ScriptingConsoleListener;
 
+@SuppressWarnings("serial")
 public class ToggleConsoleAction extends AbstractAction implements ScriptingConsoleListener {
+	@SuppressWarnings("unused")
 	static private final Logger logger = Logger.getLogger(ToggleConsoleAction.class.getName());
 	
 	public ToggleConsoleAction(){
