@@ -10,11 +10,7 @@ compatible scripting engine is available.
 CREDIT
 ======
 This plugin uses:
-* jsyntaxpane by Ayman Al-Sairafi
-  Available under Apache License 2.0 from http://code.google.com/p/jsyntaxpane/ 
-  
-  It relies on a patched version of jsyntaxpane available from the
-  fork on https://github.com/Gubaer/jsyntaxpane.
+* jsyntaxpane by Ayman Al-Sairafi. See README.jsyntaxpane and LICENSE.jsyntaxpane
 
 AUTHOR
 ======
