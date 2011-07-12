@@ -53,11 +53,11 @@ steps:
     % git tag for-josm-1234  HEAD   # tag the latest commit 
     % git push origin for-josm-1234 # makes sure the latest build is tagged with 'for-josm-1234'
     
-This ensure, that the latest scripting plugin is available from 
+This ensures, that the latest scripting plugin is available from 
     <http://github.com/Gubaer/josm-scripting-plugin/raw/deploy/dist/scripting.jar>
     
 The scripting plugin requiring JOSM 1234 is available from
-    <http://github.com/Gubaer/josm-scripting-plugin/raw/for-josm-4223/dist/scripting.jar>
+    <http://github.com/Gubaer/josm-scripting-plugin/raw/for-josm-1234/dist/scripting.jar>
 
 AUTHOR
 ======
