@@ -12,6 +12,53 @@ CREDIT
 This plugin uses:
 * jsyntaxpane by Ayman Al-Sairafi. See README.jsyntaxpane and LICENSE.jsyntaxpane
 
+BUILD 
+=====
+- copy 'build.properties.distrib' to 'build.properties' and adjust the build configuration
+  settings
+
+- run ant in the root directory
+    % ant dist
+    
+DEPLOY
+======
+The latest build for the 'scripting' plugin should always be built on the branch 'deploy'
+and then pushed to GitHub. 
+
+The following steps mimic the deployment infrastructure JOSM uses for plugins maintained
+on the OSM SVN site, see <http://josm.openstreetmap.de/wiki/DevelopersGuide/DevelopingPlugins>
+for more info. JOSM reads meta-data about available plugins from <http://josm.openstreetmap.de/plugin>
+and the following steps ensure that the 'scripting' plugin is properly listed in this
+plugin directory. 
+
+There is a special branch 'deploy' for deploying.   
+  % git checkout deploy
+  % git merge master          # merge the development work from the branch 'master'
+  % ant dist                  # this creates dist/scripting.jar which is part
+                              # of the Git tree under this branch
+  % git push origin deploy    # Pushes the latest build to git hub  
+
+If the build requires a minimal JOSM version, i.e. JOSM 1234, then run the following
+steps:
+ 1. Make sure build.xml includes a line 
+     <attribute name="1234-Plugin-Url" value="9876;http://github.com/Gubaer/josm-scripting-plugin/raw/for-josm-1234/dist/scripting.jar" />
+     where
+       1234   is the required JOSM version
+       9876   is the plugin version. You should have assigned it in 'build.properties'
+  
+ 2. % ant dist                      # creates the scripting.jar, dependency specifications 
+                                    # become part of the Manifest in the plugin
+                             
+    % git push origin deploy        # push the jar to Git Hub
+    % git tag for-josm-1234  HEAD   # tag the latest commit 
+    % git push origin for-josm-1234 # makes sure the latest build is tagged with 'for-josm-1234'
+    
+This ensure, that the latest scripting plugin is available from 
+    <http://github.com/Gubaer/josm-scripting-plugin/raw/deploy/dist/scripting.jar>
+    
+The scripting plugin requiring JOSM 1234 is available from
+    <http://github.com/Gubaer/josm-scripting-plugin/raw/for-josm-4223/dist/scripting.jar>
+
 AUTHOR
 ======
 Karl Guggisberg <karl.guggisberg@guggis.ch>

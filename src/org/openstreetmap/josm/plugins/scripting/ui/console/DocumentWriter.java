@@ -3,6 +3,7 @@ package org.openstreetmap.josm.plugins.scripting.ui.console;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Arrays;
+import java.util.logging.Logger;
 
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;

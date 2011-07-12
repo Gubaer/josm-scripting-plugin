@@ -1,49 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <project name="scripting" default="dist" basedir=".">
 
-	<!--
-	* Set local build properties in the external property file 'build.properties'.
-	* If it doesn't exist yet, create a copy from the template file 'build.properties.template'
-	* 
-	-->
-	<property file="build.properties" />
 
-	<!--
-      * Shouldn't be necessary to change the following properties
-     -->
 	<property name="plugin.build.dir" value="build" />
 	<property name="plugin.src.dir" value="src" />
-	<!-- this is the directory where the plugin jar is copied to -->
 	<property name="plugin.dist.dir" value="dist" />
 	<property name="plugin.jar" value="${plugin.dist.dir}/scripting.jar" />
 
-	<path id="compile.path">
-		<pathelement location="${josm.jar}" />
-		<pathelement location="${jsyntaxpane.jar}" />
-	</path>
-
-	<!--
-    **********************************************************
-    ** init - initializes the build
-    **********************************************************
-    -->
+	
 	<target name="init">
 		<available file="build.properties" property="build.properties.present" />
-		<fail unless="build.properties.present">	    	
+		<fail unless="build.properties.present">**				
 ** Property file 'build.properties' doesn't exist.
 ** Create a copy from 'build.properties.template' and update the properties
 ** according to your local environment.
 </fail>
+		<property file="build.properties" />
+		
+		<path id="compile.path">
+				<pathelement location="${josm.jar}" />
+				<pathelement location="${jsyntaxpane.jar}" />
+		</path>
+		
 		<mkdir dir="${plugin.build.dir}" />
 		<mkdir dir="${plugin.dist.dir}" />
 	</target>
 
-	<!--
-    **********************************************************
-    ** compile - complies the source tree
-    **********************************************************
-    -->
 	<target name="compile" depends="init">
 		<echo message="compiling sources for  ${plugin.jar} ... " />
 		<javac srcdir="src" classpathref="compile.path" debug="true" destdir="${plugin.build.dir}">
@@ -52,12 +34,11 @@
 		</javac>
 	</target>
 
-	<!--
-    **********************************************************
-    ** dist - creates the plugin jar
-    **********************************************************
-    -->
 	<target name="dist" depends="compile">
+		<tstamp>
+		      <format property="plugin.build.date" pattern="yyyy-MM-dd hh:mm aa" />
+		</tstamp>
+
 		<copy todir="${plugin.build.dir}/images">
 			<fileset dir="images">
 				<include name="**/*.png" />
@@ -80,6 +61,8 @@
 			<fileset dir=".">
 				<include name="README" />
 				<include name="LICENSE" />
+				<include name="README.*" />
+				<include name="LICENSE.*" />
 			</fileset>
 		</copy>
 		<copy todir="${plugin.build.dir}">
@@ -99,20 +82,15 @@
 				<attribute name="Plugin-Class" value="org.openstreetmap.josm.plugins.scripting.ScriptingPlugin" />
 				<attribute name="Plugin-Date" value="${plugin.build.date}" />
 				<attribute name="Plugin-Description" value="Allows to run scripts in JOSM." />
-				<!-- <attribute name="Plugin-Icon" value="" /> -->
 				<attribute name="Plugin-Link" value="http://wiki.openstreetmap.org/index.php/JOSM/Plugins/Scripting" />
-				<attribute name="Plugin-Mainversion" value="${josm.version}" />
+				<attribute name="Plugin-Mainversion" value="${josm.required.version}" />
 				<attribute name="Plugin-Version" value="${plugin.version}" />
+				<attribute name="4223-Plugin-Url" value="26001;http://github.com/Gubaer/josm-scripting-plugin/raw/for-josm-1234/dist/scripting.jar" />
 			</manifest>
 		</jar>
 	</target>
 
-	<!--
-    **********************************************************
-    ** clean - clean up the build environment
-    **********************************************************
-    -->
-	<target name="clean">
+	<target name="clean" description="Clean the build environment">
 		<delete dir="${plugin.build.dir}" />
 		<delete dir="${plugin.dist.dir}" />
 	</target>
@@ -127,28 +105,33 @@
 		<pathelement location="${plugin.build.dir}" />
 		<pathelement location="${groovy.jar}" />
 		<pathelement location="${junit.jar}" />
-	</path>
-
-	<path id="groovyc.path">
-		<pathelement location="${groovy.jar}" />
-		<pathelement location="${junit.jar}" />
-		<pathelement location="${josm.jar}" />
 		<pathelement location="${test.build.dir}" />
-		<pathelement location="${plugin.build.dir}" />
 	</path>
 
-	<target name="test-clean">
+	<target name="test.clean">
 		<delete dir="${test.build.dir}" />
 		<mkdir dir="${test.build.dir}" />
+		<delete dir="test/output" />
+		<mkdir dir="test/output" />
+	</target>
+	
+	<target name="test.init" depends="init" description="Initializes the test environment">	
+			<path id="test.class.path">
+				<pathelement location="${josm.jar}" />
+				<pathelement location="${plugin.build.dir}" />
+				<pathelement location="${groovy.jar}" />
+				<pathelement location="${junit.jar}" />
+				<pathelement location="${test.build.dir}" />
+			</path>
+			<available classname="org.codehaus.groovy.ant.Groovy" classpath="${groovy.jar}" property="groovy.present" />
+			<fail unless="groovy.present">**
+** Groovy not found. Make sure groovy is on the classpath. 
+** Check 'groovy.all.jar' in the build.properties.
+		    </fail>
+			<taskdef name="groovyc" classname="org.codehaus.groovy.ant.Groovyc" classpath="${groovy.jar}"/>
 	</target>
 
-	<target name="test-compile" depends="compile,test-clean" description="Compiles the test files">
-
-		<available classname="org.codehaus.groovy.ant.Groovy" classpathref="groovyc.path" property="groovy.present" />
-		<fail message="Groovy not found. Make sure groovy is on the classpath. Check 'groovy.path' in this build file." unless="groovy.present" />
-
-		<taskdef name="groovyc" classname="org.codehaus.groovy.ant.Groovyc" classpath="${groovy.jar}" />
-
+	<target name="test.compile" depends="compile,test.clean,test.init" description="Compiles the test files">
 		<echo message="compiling test infrastructur for ${plugin.jar} ... " />
 		<javac srcdir="test/common" classpathref="test.class.path" debug="true" destdir="${test.build.dir}">
 			<compilerarg value="-Xlint:deprecation" />
@@ -156,7 +139,7 @@
 		</javac>
 
 		<echo message="compiling functional groovy test cases for ${plugin.jar} ... " />
-		<groovyc srcdir="test/functional" destdir="${test.build.dir}" classpathref="groovyc.path">
+		<groovyc srcdir="test/functional" destdir="${test.build.dir}" classpathref="test.class.path">
 		</groovyc>
 
 		<echo message="compiling functional java test cases for ${plugin.jar} ... " />
@@ -166,7 +149,7 @@
 		</javac>
 
 		<echo message="compiling unit groovy test cases for ${plugin.jar} ... " />
-		<groovyc srcdir="test/unit" destdir="${test.build.dir}" classpathref="groovyc.path">
+		<groovyc srcdir="test/unit" destdir="${test.build.dir}" classpathref="test.class.path">
 		</groovyc>
 
 		<echo message="compiling unit java test cases for ${plugin.jar} ... " />
@@ -176,13 +159,10 @@
 		</javac>
 	</target>
 
-	<target name="test-run" depends="test-compile" description="Runs the junit tests">
-		<delete dir="test/output" />
-		<mkdir dir="test/output" />
-
+	<target name="test.run" depends="test.compile" description="Runs the junit tests">
 		<junit printsummary="true" failureproperty="junit.failure">
 			<classpath>
-				<path refid="groovyc.path" />
+				<path refid="test.class.path" />
 				<pathelement location="test/config" />
 				<!-- required for test config file -->
 				<pathelement location="." />

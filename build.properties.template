@@ -6,10 +6,6 @@
 #
 # --------------------------------------------------------------------------
 
-# the build date for the plugin
-# 
-plugin.build.date=2011-04-25T16:00:00Z
-
 # the plugin version. Increment if you create a new build to be rolled out
 # via the OSM subversion repository
 #
@@ -17,7 +13,7 @@ plugin.version=3
 
 # the lowest JOSM version which this plugin is compatible with
 #
-josm.version=4062
+josm.required.version=4062
 
 # the full path to the JOSM jar against which this plugin is build
 #
