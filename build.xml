@@ -34,7 +34,7 @@
 		</javac>
 	</target>
 
-	<target name="dist" depends="compile">
+	<target name="dist" depends="clean,init,compile" description="Create the plugin jar">
 		<tstamp>
 		      <format property="plugin.build.date" pattern="yyyy-MM-dd hh:mm aa" />
 		</tstamp>
