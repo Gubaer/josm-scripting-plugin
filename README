@@ -41,7 +41,7 @@ There is a special branch 'deploy' for deploying.
 If the build requires a minimal JOSM version, i.e. JOSM 1234, then run the following
 steps:
  1. Make sure build.xml includes a line 
-     <attribute name="1234-Plugin-Url" value="9876;http://github.com/Gubaer/josm-scripting-plugin/raw/for-josm-1234/dist/scripting.jar" />
+     <attribute name="1234-Plugin-Url" value="9876;https://raw.github.com/Gubaer/josm-scripting-plugin/for-josm-1234/dist/scripting.jar" />
      where
        1234   is the required JOSM version
        9876   is the plugin version. You should have assigned it in 'build.properties'
@@ -53,11 +53,11 @@ steps:
     % git tag for-josm-1234  HEAD   # tag the latest commit 
     % git push origin for-josm-1234 # makes sure the latest build is tagged with 'for-josm-1234'
     
-This ensure, that the latest scripting plugin is available from 
-    <http://github.com/Gubaer/josm-scripting-plugin/raw/deploy/dist/scripting.jar>
+This ensures, that the latest scripting plugin is available from 
+    <https://raw.github.com/Gubaer/josm-scripting-plugin/deploy/dist/scripting.jar>
     
 The scripting plugin requiring JOSM 1234 is available from
-    <http://github.com/Gubaer/josm-scripting-plugin/raw/for-josm-4223/dist/scripting.jar>
+    <https://raw.github.com/Gubaer/josm-scripting-plugin/for-josm-1234/dist/scripting.jar>
 
 AUTHOR
 ======

@@ -85,7 +85,7 @@
 				<attribute name="Plugin-Link" value="http://wiki.openstreetmap.org/index.php/JOSM/Plugins/Scripting" />
 				<attribute name="Plugin-Mainversion" value="${josm.required.version}" />
 				<attribute name="Plugin-Version" value="${plugin.version}" />
-				<attribute name="4223-Plugin-Url" value="26001;http://github.com/Gubaer/josm-scripting-plugin/raw/for-josm-1234/dist/scripting.jar" />
+				<attribute name="4223-Plugin-Url" value="26002;https://raw.github.com/Gubaer/josm-scripting-plugin/for-josm-4223/dist/scripting.jar" />
 			</manifest>
 		</jar>
 	</target>
