@@ -7,3 +7,10 @@ application/javascript   jsyntaxpane.syntaxkits.JavaScriptSyntaxKit
 application/ecmascript   jsyntaxpane.syntaxkits.JavaScriptSyntaxKit
 text/javascript          jsyntaxpane.syntaxkits.JavaScriptSyntaxKit
 text/ecmascript          jsyntaxpane.syntaxkits.JavaScriptSyntaxKit
+
+# the four mime types supported by the jython script engine
+# 
+text/python  	         jsyntaxpane.syntaxkits.PythonSyntaxKit
+application/python  	 jsyntaxpane.syntaxkits.PythonSyntaxKit
+text/x-python  	         jsyntaxpane.syntaxkits.PythonSyntaxKit
+application/x-python  	 jsyntaxpane.syntaxkits.PythonSyntaxKit
