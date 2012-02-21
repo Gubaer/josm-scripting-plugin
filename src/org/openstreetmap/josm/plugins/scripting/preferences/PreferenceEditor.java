@@ -7,33 +7,33 @@ import java.awt.BorderLayout;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
-import org.openstreetmap.josm.gui.preferences.PreferenceSetting;
+import org.openstreetmap.josm.gui.preferences.DefaultTabPreferenceSetting;
 import org.openstreetmap.josm.gui.preferences.PreferenceTabbedPane;
-import org.openstreetmap.josm.tools.GBC;
 
-public class PreferenceEditor extends JPanel implements PreferenceSetting {
-	static public final String NAME = "scripting.preferences.editor";
+public class PreferenceEditor extends DefaultTabPreferenceSetting {
+	static public final String ICON_NAME = "script-engine";
 	
 	private JTabbedPane tpPreferenceTabs;
 	private ScriptEnginesConfigurationPanel pnlScriptEngineConfiguration;
 	
 	public PreferenceEditor(){
-		build();
-	}
-	
-	protected void build() {
-		setLayout(new BorderLayout());		
-		tpPreferenceTabs = new JTabbedPane();
-		tpPreferenceTabs.add(tr("Script engines"), pnlScriptEngineConfiguration = new ScriptEnginesConfigurationPanel());
-		add(tpPreferenceTabs, BorderLayout.CENTER);
+		super(
+				ICON_NAME, // icon name
+				tr("Scripting"), // title
+				tr("Configure script engines and scripts"), // description
+				false // expert mode only?
+		);
+		
 	}
 
 	@Override
 	public void addGui(PreferenceTabbedPane gui) {
-        String description = tr("Configure script engines and scripts");
-        JPanel tab = gui.createPreferenceTab("script-engine", tr("Scripting"), description);        
-        tab.add(this, GBC.eol().fill(GBC.BOTH));
-        this.setName(NAME);
+        JPanel tab = gui.createPreferenceTab(this);  
+        
+		tab.setLayout(new BorderLayout());		
+		tpPreferenceTabs = new JTabbedPane();
+		tpPreferenceTabs.add(tr("Script engines"), pnlScriptEngineConfiguration = new ScriptEnginesConfigurationPanel());
+		tab.add(tpPreferenceTabs, BorderLayout.CENTER);
 	}
 
 	@Override
