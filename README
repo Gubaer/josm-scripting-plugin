@@ -40,13 +40,19 @@ There is a special branch 'deploy' for deploying.
 
 If the build requires a minimal JOSM version, i.e. JOSM 1234, then run the following
 steps:
- 1. Make sure build.xml includes a line 
-     <attribute name="1234-Plugin-Url" value="9876;https://raw.github.com/Gubaer/josm-scripting-plugin/for-josm-1234/dist/scripting.jar" />
-     where
-       1234   is the required JOSM version
-       9876   is the plugin version. You should have assigned it in 'build.properties'
-  
- 2. % ant dist                      # creates the scripting.jar, dependency specifications 
+ 1. Increase the plugin version in build.properties by setting the property 'plugin.version', i.e.
+      plugin.version=1234
+          
+ 2. Set the lowest JOSM version the plugin is compatible. Use property 'josm.required.version' in
+    'build.properties', i.e.
+       josm.required.version=9876
+
+The plugin Manifest will then include an name/value-pair
+    1234-Plugin-Url: 9876;https://raw.github.com/Gubaer/josm-scripting-plugin/for-josm-1234/dist/scripting.jar
+JOSM is using this information to download and install a plugin version.            
+
+Finally,  
+    % ant dist                      # creates the scripting.jar, dependency specifications 
                                     # become part of the Manifest in the plugin
                              
     % git push origin deploy        # push the jar to Git Hub

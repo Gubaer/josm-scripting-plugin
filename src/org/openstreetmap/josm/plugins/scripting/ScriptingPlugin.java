@@ -41,7 +41,7 @@ public class ScriptingPlugin extends Plugin {
 	}
 
 	@Override
-	public PreferenceSetting getPreferenceSetting() {
+	public PreferenceSetting getPreferenceSetting() {		
 		return new PreferenceEditor();
 	}
 }

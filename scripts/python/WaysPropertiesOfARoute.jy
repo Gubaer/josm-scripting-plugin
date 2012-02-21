@@ -1,0 +1,96 @@
+'''
+WaysPropertiesOfARoute.jy
+# Return an overview of what type of ways a route consists of and their surfaces
+
+This code is released under the GNU General
+Public License v2 or later.
+
+The GPL v3 is accessible here:
+http://www.gnu.org/licenses/gpl.html
+
+The GPL v2 is accessible here:
+http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+
+It comes with no warranty whatsoever.
+
+This code illustrates how to use Jython (Python in the scripting plugin of JOSM) to:
+* loop over all members of a route relation
+* find out whether the member is a node, a way or a relation
+
+'''
+from javax.swing import JOptionPane
+from org.openstreetmap.josm import Main
+import org.openstreetmap.josm.command as Command
+import org.openstreetmap.josm.data.osm.Node as Node
+import org.openstreetmap.josm.data.osm.Way as Way
+import org.openstreetmap.josm.data.osm.Relation as Relation
+import org.openstreetmap.josm.actions.AutoScaleAction as AutoScaleAction
+
+def getMapView():
+    if Main.main and Main.main.map:
+        return Main.main.map.mapView
+    else:
+        return None
+
+def analyseRoute(route):
+    routeName = route.get('name')
+    if routeName: print routeName
+    lengthsPerHighwayType = {}
+    lengthsPerSurfaceType = {}
+    fixme = route.get('fixme')
+    if fixme:
+        print 'This route has a tag fixme=' + fixme
+        print 'the output may not be correct, as the route may not be complete'
+    for member in route.getMembers():
+        if member.isWay():
+            way = member.getWay()
+            name = way.get('name')
+            if not(name): name = ''
+            waylength = way.getLength()
+            highway = way.get('highway')
+            if not(highway): highway = ''
+
+            if highway in lengthsPerHighwayType:
+                lengthsPerHighwayType[highway] += waylength
+            else:
+                lengthsPerHighwayType[highway] = waylength
+
+            surface = way.get('surface')
+            if not(surface): surface = ''
+            if surface in lengthsPerSurfaceType:
+                lengthsPerSurfaceType[surface] += waylength
+            else:
+                lengthsPerSurfaceType[surface] = waylength
+            print str(round(waylength,1)) + 'm, ' + highway + ' ' + surface + ' ' + name
+    print
+    if routeName: print 'Overview for: ' + routeName
+
+    for highwayType in lengthsPerHighwayType:
+        if not(highwayType): highwayType = ''
+        print highwayType + ': ' + str(round(lengthsPerHighwayType[highwayType],0)) + 'm'
+
+    print
+    for surfaceType in lengthsPerSurfaceType:
+        if surfaceType:
+            surfaceTypeForPrint = surfaceType
+        if not(surfaceType):
+            surfaceTypeForPrint = 'No surface tag'
+        print surfaceTypeForPrint + ': ' + str(round(lengthsPerSurfaceType[surfaceType],0)) + 'm'
+
+
+dummy_way = Way()
+dummy_relation = Relation()
+
+mv = getMapView()
+if mv and mv.editLayer and mv.editLayer.data:
+    selectedRelations = mv.editLayer.data.getSelectedRelations()
+
+    if not(selectedRelations):
+        JOptionPane.showMessageDialog(Main.parent, "Please select a route relation")
+    else:
+        for relation in selectedRelations:
+            relationType = relation.get('type')
+            if relationType == 'route':
+                analyseRoute(relation)
+            else:
+                JOptionPane.showMessageDialog(Main.parent, "Please select a route relation")

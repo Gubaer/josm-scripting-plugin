@@ -1,0 +1,817 @@
+'''
+CheckRouteOrNetworkOrCollectionOfRoutes.jy
+- Validation of a rcn route relation
+
+This code is released under the GNU General
+Public License v2 or later.
+
+The GPL v3 is accessible here:
+http://www.gnu.org/licenses/gpl.html
+
+The GPL v2 is accessible here:
+http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+
+It comes with no warranty whatsoever.
+
+This code illustrates how to use Jython (Python in the scripting plugin of JOSM) to:
+* loop over all members of a route relation
+* find out whether the member is a node, a way or a relation
+* add/change properties of a relation
+* remove properties of a relation
+* add members to a relation
+* remove members from a relation
+* sort all members backwards
+
+* How to set an element selected
+
+'''
+from javax.swing import JOptionPane
+from org.openstreetmap.josm import Main
+import org.openstreetmap.josm.command as Command
+import org.openstreetmap.josm.data.osm.Node as Node
+import org.openstreetmap.josm.data.osm.Way as Way
+import org.openstreetmap.josm.data.osm.Relation as Relation
+import org.openstreetmap.josm.data.osm.TagCollection as TagCollection
+import org.openstreetmap.josm.data.osm.DataSet as DataSet
+import org.openstreetmap.josm.data.osm.RelationMember as RelationMember
+import org.openstreetmap.josm.gui.dialogs.relation.DownloadRelationMemberTask as DownloadRelationMemberTask
+import org.openstreetmap.josm.actions.DownloadReferrersAction as DownloadReferrersAction
+import org.openstreetmap.josm.actions.AutoScaleAction as AutoScaleAction
+import re, time
+
+# comment to disable side effect
+sideEffects = {
+    'addRouteToNetwork': None,
+    'removeNameRefKey_xx-yyAndcreated_by': None, 
+    'modifyNoteTo_xx-yy': None,
+    'flipOrderOfMembers': None, # such that ways go from lower rcn_ref to higher rcn_ref
+    'sortRouteRelations': None,
+    'selectObjects': None,
+    'zoomToSelection': None,
+    #'downloadReferrersForNodes': None, # This will download all ways and relations for nodes with an rcn_ref
+    #'downloadReferrersForWays': None, # This will download all relations for ways that have an endnode with an rcn_ref
+    #'downloadIncompleteMembers': None,
+    'createWikiReport': None,
+    #'createGarminGPX': None, # not implemented yet
+    #'checkOneWays = False, # not implemented yet
+    }
+
+logVerbosity = 10
+'''
+10: only report problems that require attention
+20: report on collection
+30: report on network nodes
+40: report on which routes are being checked
+50: report everything
+'''
+
+def getMapView():
+    if Main.main and Main.main.map:
+        return Main.main.map.mapView
+    else:
+        return None
+
+def sortRouteRelation(route, nodesDict, beginAndEndnodes):
+    # TODO This can still be improved a lot. Now it aborts at the first sign of probable failure.
+    # TODO It sorts the simple cases though (i.e. the ones with no forward/backward roles which actually are continuous)
+    nextNode = None
+    routeToReturn = Relation(route)
+    # Which node has the lower rcn_ref?
+    lowestNodeInt = 10000; lowPos = 0
+    for nodeTuple in beginAndEndnodes:
+        if nodeTuple[0] < lowestNodeInt:
+            lowestNodeInt, nextNode = nodeTuple
+    if not(nextNode):
+        return route
+
+    '''
+    node1: way1
+    node2: way1,way2
+    node3: way2,way3,way4
+    node4: way3,way5
+    node5: way5,way6
+    node6:
+    node8: way8, way9
+    node9: way7,way9,way10
+    node10: way10, way11
+    w1,w2,w3,w5,w6,w7,w4,w8,w9,w10'''
+    # At this point nextNode contains the unique ID of the node with the lower rcn_ref
+    members=nodesDict[nextNode]
+    processedMembers = {}; inBranch = False
+    #print len(nodesDict)
+    #print dir(route)
+    while lowPos<route.getMembersCount():
+        #print 'in loop', routeToReturn
+        if len(members) == 1:
+            member = members[0]
+        elif len(members) == 3:
+            # road is splitting or recombining
+            if inBranch:
+                inBranch = False
+            else:
+                inBranch = True
+                # road is splitting, which is the member we need next?
+                # probably the one not going against a oneway restriction
+                for member in members:
+                    if member in processedMembers: continue
+                    way = member.getWay()
+                    oneway = way.get('oneway')
+                    if oneway:
+                        oneway = oneway.lower()
+                    else:
+                        oneway = ''
+                    if oneway and not(oneway == 'no'):
+                        ob=way.get('oneway:bicycle')
+                        if ob:
+                            ob = ob.lower()
+                        else:
+                            ob = ''
+                        bo=way.get('bicycle:oneway')
+                        if bo:
+                            bo = bo.lower()
+                        else:
+                            bo = ''
+                        co=way.get('cycleway_opposite')
+                        if co:
+                            co = co.lower()
+                        else:
+                            co = ''
+                        onewayForBicycle = oneway in ['yes', '1', 'true', '-1'] and not(ob in ['yes', '1', 'true'] or 
+                                                                                        bo in ['yes', '1', 'true'] or 
+                                                                                        co in ['yes', '1', 'true'])
+                        if oneway == '-1': pass # TODO this needs to be taken in consideration
+                    if way.getNode(0).getUniqueId() == nextNode:
+                        break
+        else:
+            member = members[1]
+            if member in processedMembers: member = members[0]
+        processedMembers[member] = True
+        way = member.getWay()
+        routeToReturn.removeMembersFor(way)
+        print 'lowPos',lowPos
+        routeToReturn.addMember(lowPos,member)
+        #routeToReturn.setModified(True)
+        currentNode = nextNode
+        nextNode = way.getNode(way.nodesCount-1).getUniqueId()
+        if currentNode == nextNode:
+            nextNode = way.getNode(0).getUniqueId()
+        if nextNode in nodesDict:
+            members=nodesDict[nextNode]
+        else:
+            break
+        del nodesDict[nextNode]
+        #print len(nodesDict)
+        if len(nodesDict)<3: break
+        lowPos += 1
+    #print 'before return', routeToReturn
+    return routeToReturn
+
+def checkForContinuity(membersList):
+    listIsContinuous = True; prev_endnodes = []
+    for member in membersList:
+        if member.isWay():
+            way = member.getWay()
+            if logVerbosity > 49:
+                print way.getKeys()
+                print way.get('name')
+                print way.nodesCount-1, way
+            if way.get('junction') == 'roundabout':
+                endnodes = way.getNodes()
+            else:
+                if way.nodesCount:
+                    endnodes = [way.getNode(0), way.getNode(way.nodesCount-1)]
+                else:
+                    endnodes = []
+            foundTheNode = False
+            for endnode in endnodes:
+                if logVerbosity > 49: print endnode, prev_endnodes
+                if endnode in prev_endnodes:
+                    foundTheNode = True
+            if prev_endnodes and not(foundTheNode):
+                listIsContinuous = False
+                if logVerbosity > 49:
+                    print way
+                    print endnodes
+                    print prev_endnodes
+                break
+            prev_endnodes = endnodes
+    return listIsContinuous
+
+def checkRCNroute(route, aDownloadWasNeeded):
+    if aDownloadWasNeeded:
+        return None, False, ''
+    if 'removeNameRefKey_xx-yyAndcreated_by' in sideEffects:
+        commandsList = []
+        reNumberDashNumber = re.compile(r'\d+\s-\s\d+')
+        newRelation = Relation(route)
+        relationChanged = False
+        created_by = route.get('created_by')
+        if created_by:
+            print 'removing created_by'
+            newRelation.remove('created_by')
+            relationChanged = True
+        name = route.get('name')
+        if name:
+            if reNumberDashNumber.match(name):
+                print 'removing name when it is of the form ##-##'
+                newRelation.remove('name')
+                relationChanged = True
+        else:
+            name = ''
+        ref = route.get('ref')
+        if ref:
+            if reNumberDashNumber.match(ref):
+                print 'removing ref when it is of the form ##-##'
+                newRelation.remove('ref')
+                relationChanged = True
+        else:
+            ref = ''
+        if relationChanged:
+            commandsList.append(Command.ChangeCommand(route, newRelation))
+            
+            Main.main.undoRedo.add(Command.SequenceCommand("Removing name and/or ref and/or created_by" + name + '/' + ref, commandsList))
+            commandsList = []
+
+    fixme = route.get('fixme')
+    rcn_refs = []; route_relation_names = []; memberslist = []; roleInNetwork = ''
+    sameNodeNumberRepeated = False
+    allWaysgoingFromLowerToHigher = []; allWaysgoingFromHigherToLower = []; branch = None
+    allWaysgoingFromLowerToHigherBeyondEndOfRoute = []; allWaysgoingFromHigherToLowerBeyondEndOfRoute = []
+    nodesWithrcn_ref = {}; likelyCandidateNodesForActualStartOfRoute = {}
+    tentacle = 0; tentacles = {}; routeHasStarted = False; high_rcn_refEncountered = 0
+    rcn_refAsInt = None
+    # tentacles is a nested list of all the segments of ways wich are present before the actual start of the route
+    # sequence, UID of node with rcn_ref, list with ways, reference to next tentacle sequence
+    # 1st level: rcn_refs
+    # 2nd level: rcn_ref, tentacle sequence, ways, next tentacle
+    # {40: [[1, [5n], 2],
+    #       [2, [3n], 3],
+    #       [3, [3n, 5n, 7n, 8n], 0],
+    #       [4, [4n], 0]
+    #      ],
+    #  58: [[1, [2n], 0],
+    #       [2, [7n], 1]
+    #      ]
+    # }
+    newRelation = Relation(route); commandslist = []; i=0; roundabout = []
+
+    if 'sortRouteRelations' in sideEffects: nodesForSorting = {}; beginAndEndNodes = []
+    routeMembers = route.getMembers()
+    for member in routeMembers:
+        if member.isWay():
+            if high_rcn_refEncountered: high_rcn_refEncountered += 1
+            role = member.getRole()
+            # make a Python list out of the members, in case we want to simply flip all of them
+            # this would happen if we encounter the high rcn_ref before the low rcn_ref
+            memberslist.append(member)
+            way = member.getWay()
+            if logVerbosity > 49: print way.get('name')
+            wayNodes = way.getNodes()
+
+            notfoundyet = True
+            if logVerbosity > 49: print wayNodes
+            if role in ['forward']:
+                lastNode=wayNodes[-1]
+            else:
+                lastNode=wayNodes[0]
+            lastNodeUid = lastNode.getUniqueId()
+            if lastNodeUid in likelyCandidateNodesForActualStartOfRoute:
+                likelyCandidateNodesForActualStartOfRoute[lastNodeUid] += 1
+            else:
+                likelyCandidateNodesForActualStartOfRoute[lastNodeUid] = 1
+            
+            for endnode in wayNodes:
+                endnodeId = endnode.getUniqueId()
+                if 'sortRouteRelations' in sideEffects:
+                    if not(endnodeId in nodesForSorting):
+                        nodesForSorting[endnodeId] = []
+                    nodesForSorting[endnodeId].append(member)
+
+                rcn_ref = endnode.get('rcn_ref')
+                if rcn_ref:
+                    rcn_refAsInt = int(rcn_ref.replace("(","").replace(")",""))
+                    if 'sortRouteRelations' in sideEffects: beginAndEndNodes.append([rcn_refAsInt, endnodeId])
+                    # keep track of distinct rcn_ref numbers in a list
+                    if not(rcn_refAsInt in rcn_refs):
+                        if len(rcn_refs): high_rcn_refEncountered += 1; tentacle = 0
+                        rcn_refs.append(rcn_refAsInt)
+                    else:
+                        sameNodeNumberRepeated = True
+                    # keep track of node IDs with an rcn_ref on them
+                    if not(rcn_refAsInt in nodesWithrcn_ref):
+                        nodesWithrcn_ref[rcn_refAsInt] = []
+                    nodesWithrcn_ref[rcn_refAsInt].append(endnodeId)
+                    referrersForNode = endnode.getReferrers(); networkNotFoundForNode = True
+                    for referrer in referrersForNode:
+                        if referrer.getType() is dummy_relation.getType():
+                            # This node belongs to a relation
+                            if referrer.get('type') in ['network'] and referrer.get('network') in ['rcn']:
+                                # and we have a winner
+                                networkNotFoundForNode = False
+                                relname=referrer.get('name')
+                                if relname:
+                                    route_relation_names.append(relname)
+                                break
+                    if networkNotFoundForNode:
+                        route_relation_names.append('Node not assigned to network yet')
+                        if 'selectObjects' in sideEffects: Main.main.getCurrentDataSet().setSelected(endnode)
+                        if 'zoomToSelection' in sideEffects: AutoScaleAction.zoomToSelection()
+                        if 'downloadReferrersForNodes' in sideEffects:
+                            aDownloadWasNeeded = True
+                            print "Downloading referrers for ", endnode.get('rcn_ref'), ' ', wayNodes
+                            DownloadReferrersAction.downloadReferrers(mv.editLayer, wayNodes)
+                            return None, False, ''
+                        else:
+                            print "Would download referrers for ", endnode.get('rcn_ref'), ' ', wayNodes
+                            
+            # *** Now let's process the ways *** 
+            # build at least 2 structures to help check for continuity on ways
+            # possibly there are 'tentacles' before the start or after the end when there are split network nodes
+            if logVerbosity > 49:
+                print 'L2H', allWaysgoingFromLowerToHigher
+                print 'H2L', allWaysgoingFromHigherToLower
+                print 'L2H', allWaysgoingFromLowerToHigherBeyondEndOfRoute
+                print 'H2L', allWaysgoingFromHigherToLowerBeyondEndOfRoute
+            
+            if i==0:
+                lastNodesBeforeSplit = [wayNodes]
+            else:
+                if not(routeHasStarted):
+                    if role:
+                        if role in ['forward']:
+                            firstNode=wayNodes[0]
+                        else:
+                            firstNode=wayNodes[-1]
+                        firstNodeUid = firstNode.getUniqueId()
+                        print firstNodeUid, firstNodeUid in likelyCandidateNodesForActualStartOfRoute
+                        if firstNodeUid in likelyCandidateNodesForActualStartOfRoute: print likelyCandidateNodesForActualStartOfRoute[firstNodeUid]
+                        print likelyCandidateNodesForActualStartOfRoute
+                        if firstNodeUid in likelyCandidateNodesForActualStartOfRoute and likelyCandidateNodesForActualStartOfRoute[firstNodeUid]>1:
+                            routeHasStarted = True
+                        if firstNode.get('rcn_ref'):
+                            if logVerbosity > 49: print 'rcn_ref', firstNode.get('rcn_ref'), 'found in ', firstNode.getUniqueId()
+                            # This is not the first member anymore and the first node has an rcn_ref and the member has a role,
+                            # so we have to assign what we thought was the start of the route to one of our tentacles
+                            tentacle +=1; reference = 0; interestingNodeId = None; tentacledescription = []
+                            if allWaysgoingFromLowerToHigher:
+                                prevRole = allWaysgoingFromLowerToHigher[-1].getRole()
+                                if logVerbosity > 49: print 'prevRoleL2H', prevRole
+                                if prevRole in ['forward']:
+                                    interestingNodeId = allWaysgoingFromLowerToHigher[-1].getWay().getNodes()[-1].getUniqueId()
+                                elif prevRole in ['backward']:
+                                    interestingNodeId = allWaysgoingFromLowerToHigher[-1].getWay().getNodes()[0].getUniqueId()
+                            elif allWaysgoingFromHigherToLower:
+                                prevRole = allWaysgoingFromHigherToLower[-1].getRole()
+                                if logVerbosity > 49: print 'prevRoleH2L', prevRole
+                                if prevRole in ['forward']:
+                                    interestingNodeId = allWaysgoingFromHigherToLower[-1].getWay().getNodes()[0].getUniqueId()
+                                elif prevRole in ['backward']:
+                                    interestingNodeId = allWaysgoingFromHigherToLower[-1].getWay().getNodes()[-1].getUniqueId()
+                            if interestingNodeId and firstNode.getUniqueId() == interestingNodeId:
+                                reference = tentacle+1
+                            if allWaysgoingFromLowerToHigher:
+                                tentacledescription = [tentacle, allWaysgoingFromLowerToHigher, reference]
+                            elif allWaysgoingFromHigherToLower:
+                                tentacledescription = [tentacle, allWaysgoingFromHigherToLower, reference]
+                            allWaysgoingFromLowerToHigher = []; allWaysgoingFromHigherToLower = []; branch = None
+                            if tentacledescription:
+                                if rcn_refAsInt and not(rcn_refAsInt in tentacles):
+                                    tentacles[rcn_refAsInt] = []
+                                tentacles[rcn_refAsInt].append(tentacledescription)
+                    else:
+                        # no role on way means this is the actual start of our route
+                        # so, all that went into allWaysgoingFromLowerToHigher etc has to go to the last tentacle
+                        routeHasStarted = True
+                        if allWaysgoingFromLowerToHigher or allWaysgoingFromHigherToLower:
+                            tentacle +=1
+                            if allWaysgoingFromHigherToLower:
+                                allWaysgoingFromLowerToHigher # .append(allWaysgoingFromHigherToLower)
+                            tentacledescription = [tentacle, allWaysgoingFromLowerToHigher, 0]
+                            # allWaysgoingFromHigherToLower was assigned the start of the route in mistake in this case
+                            # it should have gone to both 'branches', so we create a shallow copy
+                            allWaysgoingFromLowerToHigher = allWaysgoingFromHigherToLower[:]; branch = None
+                            if not(rcn_refAsInt in tentacles):
+                                tentacles[rcn_refAsInt] = []
+                            tentacles[rcn_refAsInt].append(tentacledescription)
+                if high_rcn_refEncountered > 1:
+                    # We're past the first high rcn_ref
+                    if role:
+                        if role in ['forward']:
+                            lastNode=wayNodes[-1]
+                        else:
+                            lastNode=wayNodes[0]
+                        if lastNode.get('rcn_ref'):
+                            print 'rcn_ref', lastNode.get('rcn_ref'), 'found in ', lastNode.getUniqueId()
+                            tentacle +=1; reference = 0; interestingNodeId = None; tentacledescription = []
+                            if interestingNodeId and lastNode.getUniqueId() == interestingNodeId:
+                                reference = tentacle+1
+                            if allWaysgoingFromLowerToHigher:
+                                tentacledescription = [tentacle, allWaysgoingFromLowerToHigherBeyondEndOfRoute, reference]
+                            elif allWaysgoingFromHigherToLower:
+                                tentacledescription = [tentacle, allWaysgoingFromHigherToLowerBeyondEndOfRoute, reference]
+                            allWaysgoingFromLowerToHigherBeyondEndOfRoute = []; allWaysgoingFromHigherToLowerBeyondEndOfRoute = []; branch = None
+                            if tentacledescription:
+                                if rcn_refAsInt and not(rcn_refAsInt in tentacles):
+                                    tentacles[rcn_refAsInt] = []
+                                tentacles[rcn_refAsInt].append(tentacledescription)
+            if logVerbosity > 49: print tentacle, repr(tentacles)
+                            
+            if role and role in ['forward', 'backward']:
+                # if there is a role, it might be part of the route proper when it branches
+                # this is what we suppose, if we encounter another node with a low rcn_ref, we add what we already had
+                # to the tentacles structure and clear fromLowToHigh
+                if not(branch):                    
+                    if wayNodes:
+                        if role in ['forward']:
+                            lastNodesBeforeSplit = [wayNodes[0]]
+                        else:
+                            lastNodesBeforeSplit = [wayNodes[-1]]
+                    else:
+                        return '', True, '|align="right" | way has no nodes||align="right" | {{BrowseRoute|' + str(route.getId()) + '}}||align="right" needs to be downloaded first\n'
+                        if logVerbosity > 49: print waynodes
+                if logVerbosity > 29:
+                    print 'lastNodesBeforeSplit', lastNodesBeforeSplit
+                    print way.getNodesCount(), 'startnode', wayNodes[0], 'endnode', wayNodes[-1]
+                    print 'roundabout', roundabout
+                    print wayNodes[-1].get('rcn_ref'),not(member.getUniqueId() == routeMembers[-1].getUniqueId())
+                if role in ['forward'] and (wayNodes[-1] in lastNodesBeforeSplit or wayNodes[-1] in roundabout):
+                    branch = 'HigherToLower'
+                elif role in ['backward'] and wayNodes[0] in lastNodesBeforeSplit:
+                    branch = 'HigherToLower'
+                    
+                elif branch == 'LowerToHigher' and not(allWaysgoingFromHigherToLower) and wayNodes[-1].get('rcn_ref') and not(member.getUniqueId() == routeMembers[-1].getUniqueId()):
+                    # This is for when the route starts forked from a different rcn node (split node situation), we don't want it to kick in for the last member of the route
+                    branch = 'HigherToLower'
+                elif not(branch == 'HigherToLower'):
+                    branch = 'LowerToHigher'
+                print branch
+                if high_rcn_refEncountered < 2:
+                    if branch == 'LowerToHigher':
+                        allWaysgoingFromLowerToHigher.append(member)
+                    elif branch == 'HigherToLower':
+                        allWaysgoingFromHigherToLower.append(member)
+                else:
+                    if branch == 'LowerToHigher':
+                        allWaysgoingFromLowerToHigherBeyondEndOfRoute.append(member)
+                    elif branch == 'HigherToLower':
+                        allWaysgoingFromHigherToLowerBeyondEndOfRoute.append(member)
+            else:
+                branch = None; roundabout = []
+                routeHasStarted = True
+                if high_rcn_refEncountered < 2:
+                    allWaysgoingFromLowerToHigher.append(member)
+                    allWaysgoingFromHigherToLower.append(member)
+                else:
+                    allWaysgoingFromLowerToHigherBeyondEndOfRoute.append(member)
+                    allWaysgoingFromHigherToLowerBeyondEndOfRoute.append(member)
+            if way.get('junction') == 'roundabout':
+                roundabout = way.getNodes()
+        elif member.isNode():
+            node = member.getNode()
+            #commandsList.append(Command.ChangeCommand(route, sortedRelation))
+            #Main.main.undoRedo.add(Command.SequenceCommand("Sorted route relation", commandsList))            
+        i+=1
+    #if modified:
+        #commandsList.append(Command.ChangeCommand(route, newRelation))
+        #Main.main.undoRedo.add(Command.SequenceCommand("Removing way which has no nodes", commandsList))
+        #commandsList = []
+
+    continuous_forward = True; continuous_backward = True
+    if len(allWaysgoingFromLowerToHigher) > 1:
+        continuous_forward = checkForContinuity(allWaysgoingFromLowerToHigher)
+        if 'sortRouteRelations' in sideEffects and not(continuous_forward) and not(fixme):
+            sortedRelation = sortRouteRelation(route, nodesForSorting, beginAndEndNodes)
+
+            if logVerbosity>49:
+                print route
+                print sortedRelation
+            commandsList.append(Command.ChangeCommand(route, sortedRelation))
+            Main.main.undoRedo.add(Command.SequenceCommand("Sorted route relation", commandsList))            
+            allWaysgoingFromLowerToHigher = []; allWaysgoingFromHigherToLower = []
+
+            routeMembers = route.getMembers(); i=0
+            for member in routeMembers:
+                if member.isWay():
+                    role = member.getRole()
+                    if i==0:
+                        lastNodesBeforeSplit = [wayNodes]
+                    if role and role in ['forward', 'backward']:
+                        if not(branch):
+                            if role in ['forward']:
+                                lastNodesBeforeSplit = [wayNodes[0]]
+                            else:
+                                lastNodesBeforeSplit = [wayNodes[-1]]
+                        if logVerbosity > 29:
+                            print 'wayNodes', wayNodes
+                            print 'lastNodesBeforeSplit', lastNodesBeforeSplit
+                            print way.getNodesCount(), 'startnode', wayNodes[0], 'endnode', wayNodes[-1]
+                            print 'roundabout', roundabout
+
+                        if role in ['forward'] and (wayNodes[-1] in lastNodesBeforeSplit or wayNodes[-1] in roundabout):
+                            branch = 'HigherToLower'
+                        elif role in ['backward'] and wayNodes[0] in lastNodesBeforeSplit:
+                            branch = 'HigherToLower'
+                        elif wayNodes[-1].get('rcn_ref') and not(member.getUniqueId() == routeMembers[-1].getUniqueId()): # not(allWaysgoingFromHigherToLower) and ## this last part is probably not necessary anymore
+                            # This is for when the route starts forked from a different rcn node (split node situation), we don't want it to kick in for the last member of the route
+                            branch = 'HigherToLower'
+                        elif not(branch == 'HigherToLower'):
+                            branch = 'LowerToHigher'
+                        print branch
+                        if branch == 'LowerToHigher':
+                            allWaysgoingFromLowerToHigher.append(member)
+                        elif branch == 'HigherToLower':
+                            allWaysgoingFromHigherToLower.append(member)
+                    else:
+                        branch = None; roundabout = []
+                        allWaysgoingFromLowerToHigher.append(member)
+                        allWaysgoingFromHigherToLower.append(member)
+                    if way.get('junction') == 'roundabout':
+                        roundabout = way.getNodes()
+                i+=1
+            continuous_forward = checkForContinuity(allWaysgoingFromLowerToHigher)
+        #else:
+    else:
+        # a route relation with only one way member
+        continuous_forward = True
+    if len(allWaysgoingFromHigherToLower) > 1:
+        continuous_backward = checkForContinuity(reversed(allWaysgoingFromHigherToLower))
+    else:
+        # a route relation with only one way member
+        continuous_backward = True
+    print continuous_forward, continuous_backward
+
+    for rcn_nodeTentacles in tentacles:
+        for seq, tentacleMember, next in tentacles[rcn_nodeTentacles]:
+            print rcn_nodeTentacles, ' ', seq, ' ', next, ' ', checkForContinuity(tentacleMember)
+    # Drawing conclusions about rcn_refs
+    if logVerbosity > 39: print rcn_refs
+    if sameNodeNumberRepeated:
+        rcn_refs.append(rcn_refs[0])
+    newNote = note = repr(rcn_refs)
+    sortedRelation = route
+    if len(rcn_refs) > 1:
+        #newRelation = Relation(route)
+        relationChanged = False
+
+        if rcn_refs[0] > rcn_refs[1]:
+            rcn_refs.sort()
+            if len(memberslist)>1 and 'flipOrderOfMembers' in sideEffects:
+                for member in reversed(memberslist):
+                    sortedRelation.addMember( sortedRelation.getMembersCount(), member)
+                    sortedRelation.removeMember (0)
+                commandsList.append(Command.ChangeCommand(route, sortedRelation))
+                Main.main.undoRedo.add(Command.SequenceCommand("Flipping order of members", commandsList))
+                commandsList = []
+        note = route.get('note')
+        newNote = str(rcn_refs[0]).zfill(2) + '-' + str(rcn_refs[1]).zfill(2)
+        if logVerbosity > 49: print note, newNote
+        if 'modifyNoteTo_xx-yy' in sideEffects:
+            if not(note) or note != newNote:
+                if not(note): note = 'nothing'
+                newRelation.put('note', newNote)
+                relationChanged = True
+                commandsList.append(Command.ChangeCommand(route, newRelation))
+            
+                Main.main.undoRedo.add(Command.SequenceCommand("Changing note from " + note + ' to ' + newNote, commandsList))
+                if logVerbosity > 9: print 'Flipping members order for ', note
+                commandsList = []
+
+        if len(route_relation_names) > 1 and route_relation_names[0] != route_relation_names[1]:
+            # print 'This is probably a CONNECTION to another network'
+            if logVerbosity > 9: print newNote, route_relation_names
+            roleInNetwork = 'connection'
+        wikiEN = ''
+    else:
+        if logVerbosity > 9: print 'less than 2 end nodes with rcn_ref found for route', newNote
+        wikiEN = 'style="color:red" | ' + repr(rcn_refs) + ' - ?'
+    if fixme and not(continuous_forward or continuous_backward):
+        if logVerbosity > 9: print 'FIXME flag is INCOMPLETE for route', newNote
+    if continuous_forward:
+        wikiCF = 'align="right" | continuous'
+        if logVerbosity > 29: print 'route is continous in the forward direction'
+    else:
+        wikiCF = 'align="right" style="color:red" | NOT continuous'
+        if logVerbosity > 9: print 'route ',newNote,' is NOT CONTINUOUS in the forward direction'
+        if logVerbosity > 49: print 'L2H:', allWaysgoingFromLowerToHigher
+    if continuous_backward:
+        wikiCB = 'align="right" | continuous'
+        if logVerbosity > 29: print 'route is continous in the backward direction'
+    else:
+        wikiCB = 'align="right" style="color:red" | NOT continuous'
+        if logVerbosity > 9: print 'route ',newNote,' is NOT CONTINUOUS in the backward direction'
+        if logVerbosity > 49: print 'H2L: ', allWaysgoingFromHigherToLower
+    print
+    if fixme:
+        wikiFM = 'style="color:red" | ' + fixme
+    else:
+        wikiFM = ' | '
+    if fixme or not(continuous_forward) or not(continuous_backward) or (len(rcn_refs)<2 and not(route.get('rcn:external_connection'))):
+        problem = True
+    else:
+        problem = False
+
+    return roleInNetwork, problem, '|align="right" | ' + note + '||align="right" | {{BrowseRoute|' + str(route.getId()) + '}}||align="right" ' + wikiFM + ' ||' + wikiCF + ' ||' + wikiCB  + ' ||' + wikiEN + '\n'
+
+def checkNetwork(network, aDownloadWasNeeded):
+    name = network.get('name')
+    if logVerbosity>19:
+        print '********************************************'
+        print name
+        print '********************************************'
+    if 'createWikiReport' in sideEffects:
+        wikiReportOnNodes = ('{| class="wikitable" align="left" style="margin:0 0 2em 2em;"\n|-\n|+' + name +
+                             '\n|-\n!style="width:2.5em" | Node\n!Link\n! # Roads\n! # Relations\n|-\n')
+        wikiReportOnRelations = ('{| class="wikitable" align="left" style="margin:0 0 2em 2em;"\n|-\n|+' + name +
+                                 '\n|-\n!style="width:2.5em" | note\n!link\n!fixme\n! forward\n! backward\n! end nodes\n|-\n')
+    i=1
+    for networkMember in network.getMembers():
+        if networkMember.isRelation():
+            routeRelation = networkMember.getRelation()
+            if routeRelation.get('network') == 'rcn':
+                if routeRelation.hasIncompleteMembers():
+                    name = aRelation.get('name')
+                    if not(name): name = ''
+                    note = aRelation.get('note')
+                    if not(note): note = ''
+                    network = aRelation.get('network')
+                    if not(network): network = ''
+                    if 'downloadIncompleteMembers' in sideEffects:
+                        aDownloadWasNeeded = True
+                        print 'Downloading incomplete members for', note
+                        DownloadRelationMemberTask.run(DownloadRelationMemberTask(routeRelation, routeRelation.getIncompleteMembers(), mv.editLayer ))
+                        time.sleep(1)
+                        continue
+                    else:
+                        JOptionPane.showMessageDialog(Main.parent, 'Please download all incomplete members of the route relations first: ' + network + ' ' + note + ' ' + name)
+                        break
+                roleFromRouteCheck, problemReported, wikiReport = checkRCNroute(routeRelation, aDownloadWasNeeded)
+                if problemReported and 'createWikiReport' in sideEffects:
+                    wikiReportOnRelations += wikiReport + '\n|-\n'
+                role = networkMember.getRole()
+                if logVerbosity > 29 and role != roleFromRouteCheck:
+                    print
+                    print 'Role in network is ', role
+                    print 'Maybe this should be: ', roleFromRouteCheck
+        if networkMember.isNode():
+            node = networkMember.getNode()
+            rcn_ref = node.get('rcn_ref')
+            expected_rcn_route_relations = node.get('expected_rcn_route_relations')
+            if expected_rcn_route_relations:
+                expected_rcn_route_relations = int(expected_rcn_route_relations)
+            else:
+                expected_rcn_route_relations = 3
+            if rcn_ref:
+                if logVerbosity > 39: print rcn_ref
+                referrersForNode = node.getReferrers()
+                networkNotFoundForNode = True
+                for referrer in referrersForNode:
+                    if referrer.getType() is dummy_relation.getType():
+                        if referrer.get('type') in ['network'] and referrer.get('network') in ['rcn']:
+                            networkNotFoundForNode = False
+                            break
+                if networkNotFoundForNode and 'downloadReferrersNodes' in sideEffects:
+                    aDownloadWasNeeded = True
+                    if 'selectObjects' in sideEffects: Main.main.getCurrentDataSet().setSelected(node)
+                    if 'zoomToSelection' in sideEffects: AutoScaleAction.zoomToSelection()
+                    #selectedNode = mv.editLayer.data.getSelected()
+                    print 'Downloading referrers for ', node.get('rcn_ref')
+                    DownloadReferrersAction.downloadReferrers(mv.editLayer, node)
+
+                rcnNetworkCountForNode = roads = 0
+                for referrer in referrersForNode:
+                    if referrer.getType() is dummy_way.getType():
+                        if referrer.get('highway'): roads += 1
+                        referrersForWay = referrer.getReferrers()
+                        if len(referrersForWay) < 1 and 'downloadReferrersForWays' in sideEffects:
+                            aDownloadWasNeeded = True
+                            if 'selectObjects' in sideEffects: Main.main.getCurrentDataSet().setSelected(referrer)
+                            if 'zoomToSelection' in sideEffects: AutoScaleAction.zoomToSelection()
+                            print 'Downloading referrers for ', referrer.get('name') , ' ', rcn_ref
+                            DownloadReferrersAction.downloadReferrers(mv.editLayer, referrer)
+
+                        for wayReferrer in referrersForWay:
+                            if wayReferrer.getType() is dummy_relation.getType():
+                                aRelation = wayReferrer
+                                rcnRelationWeWantToProcess = False # We need this again further on, when deciding whether or not to add this relation to the network
+                                if aRelation.get('type') == 'route' and aRelation.get('network') == 'rcn' and not(aRelation.get('ref') in ['RUR','NRR','NRW','2LR','3LR','KAI','EHR','DFR','WBR','Nk']):
+                                    # The check on the ref is for Germany, where many rcn networks run crisscross through another.
+                                    # We wouldn't want to get entangled in that mess.
+                                    # The list is continuously getting longer, of course. But it's the best we can do here
+                                    rcnRelationWeWantToProcess = True
+                                    rcnNetworkCountForNode+=1
+                                    if aRelation.hasIncompleteMembers():
+                                        name = aRelation.get('name')
+                                        if not(name): name = ''
+                                        note = aRelation.get('note')
+                                        if not(note): note = ''
+                                        networkname = aRelation.get('network')
+                                        if not(networkname): networkname = ''
+                                        if 'downloadIncompleteMembers' in sideEffects:
+                                            aDownloadWasNeeded = True
+                                            print 'Downloading incomplete members for', note
+                                            DownloadRelationMemberTask.run(DownloadRelationMemberTask(aRelation, aRelation.getIncompleteMembers(), mv.editLayer ))
+                                            time.sleep(1)
+                                            continue
+                                        else:
+                                            JOptionPane.showMessageDialog(Main.parent, 'Please download all incomplete members of the route relations first: ' + networkname + ' ' + note + ' ' + name)
+                                            break
+                                networkMembersList = []
+                                for subMember in network.getMembers():
+                                    if subMember.isRelation():
+                                        routeRelation = subMember.getRelation()
+                                        networkMembersList.append(routeRelation.getUniqueId())
+                                routeId = aRelation.getUniqueId()
+                                if rcnRelationWeWantToProcess and not(routeId in networkMembersList):
+                                    roleFromRouteCheck, problemReported, wikiReport = checkRCNroute(aRelation, aDownloadWasNeeded)
+                                    if problemReported and 'createWikiReport' in sideEffects:
+                                        wikiReportOnRelations += wikiReport + '\n|-\n'
+                                    if 'addRouteToNetwork' in sideEffects and not(aDownloadWasNeeded):
+                                        newRelation = Relation(network)
+                                        newmember = RelationMember(roleFromRouteCheck, aRelation)
+                                        if logVerbosity > 9: print newRelation.getMembersCount(), ' ',i, ' ', newmember
+                                        newRelation.addMember( i, newmember)
+                                        commandsList = []
+                                        commandsList.append(Command.ChangeCommand(network, newRelation))
+                                        note = aRelation.get('note')
+                                        if not(note):
+                                            note = ''
+                                        Main.main.undoRedo.add(Command.SequenceCommand("Adding " + note + " to network", commandsList))
+                                        commandsList = []
+                                        if logVerbosity > 9: print 'Added newly found RCN route relation to network: ', note
+                                        i+=1
+                if rcnNetworkCountForNode < expected_rcn_route_relations:
+                    if logVerbosity > 9: print 'Node ', rcn_ref, ' only has ', rcnNetworkCountForNode, ' rcn routes connected to it'
+                    if 'createWikiReport' in sideEffects: wikiReportOnNodes += '|align="right" | ' + rcn_ref + '||align="right" | {{Node|' + str(node.getId()) + '}}||align="right" |' + str(roads) + ' ||align="right" style="color:red" | ' + str(rcnNetworkCountForNode) + '\n|-\n'
+
+        i+=1
+    if logVerbosity > 19: print
+    if 'createWikiReport' in sideEffects:
+        wikiReportOnNodes += ('|-\n|}\n')
+        wikiReportOnRelations += ('|-\n|}\n<br style="clear:left;" />\n')
+        fh = open('C:/wikiReport.txt', 'a')
+        fh.write(wikiReportOnNodes)
+        fh.write(wikiReportOnRelations)
+        fh.close()
+
+
+aDownloadWasNeeded = False
+'''
+Since Downloading referrers or missing members happens asynchronously in a separate worker thread
+the script can run in three modes
+
+1. No downloads allowed/offline run; output mentions that data was incomplete in its reports.
+2. Download run; When incomplete items are encountered, they are scheduled to be downloaded. From then on, no more quality checks are performed on the data.
+   All hierarchies are still checked, looking for more incomplete data for which more downloads need to be scheduled.
+3. Normal run; All data is available and proper reporting can be performed.
+'''
+
+dummy_way = Way()
+dummy_relation = Relation()
+
+mv = getMapView()
+if mv and mv.editLayer and mv.editLayer.data:
+    selectedRelations = mv.editLayer.data.getSelectedRelations()
+
+    if not(selectedRelations):
+        JOptionPane.showMessageDialog(Main.parent, "Please select a route, network or collection relation")
+    else:
+        if 'createWikiReport' in sideEffects:
+            fh = open('C:/wikiReport.txt', 'w')
+            fh.close()
+        for relation in selectedRelations:
+            if logVerbosity> 49: print relation
+            if relation.hasIncompleteMembers():
+                if 'downloadIncompleteMembers' in sideEffects:
+                    aDownloadWasNeeded = True
+                    print 'Downloading referrers for ', str(relation.get('name')), ' ', str(relation.get('note'))
+                    DownloadRelationMemberTask.run(DownloadRelationMemberTask(relation, relation.getIncompleteMembers(), mv.editLayer ))
+                    continue
+                else:
+                    JOptionPane.showMessageDialog(Main.parent, 'Please download all incomplete member of the relations first')
+                    exit()
+            if relation.get('network') == 'rcn':
+                relationType = relation.get('type')
+                if relationType == 'route':
+                    checkRCNroute(relation, aDownloadWasNeeded)
+                elif relationType == 'network':
+                    checkNetwork(relation, aDownloadWasNeeded)
+                elif relationType == 'collection':
+                    for collectionMember in relation.getMembers():
+                        if collectionMember.isRelation():
+                            networkRelation = collectionMember.getRelation()
+                            if networkRelation.hasIncompleteMembers():
+                                name = networkRelation.get('name')
+                                if not(name): name = ''
+                                networkname = networkRelation.get('network')
+                                if not(networkname): networkname = ''
+                                if 'downloadIncompleteMembers' in sideEffects:
+                                    aDownloadWasNeeded = True
+                                    print 'Downloading referrers for ', name
+                                    DownloadRelationMemberTask.run(DownloadRelationMemberTask(networkRelation, networkRelation.getIncompleteMembers(), mv.editLayer ))
+                                    continue
+                                else:
+                                    JOptionPane.showMessageDialog(Main.parent, 'Please download all incomplete members of the network relations first:' + networkname + ' ' + name)
+                                    break
+                            checkNetwork(networkRelation, aDownloadWasNeeded)
+        if aDownloadWasNeeded:
+            JOptionPane.showMessageDialog(Main.parent, 'There was incomplete data and downloading mode was initiated,\nNo further quality checks were performed.\nPlease run the script again when all downloads have completed')
