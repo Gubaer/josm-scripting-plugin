@@ -53,7 +53,10 @@
 
 		<copy todir="${plugin.build.dir}/scripts">
 			<fileset dir="scripts">
-				<include name="*.groovy" />
+				<include name="**/*.groovy" />
+				<include name="**/*.py" />
+				<include name="**/*.jy" />
+				<include name="**/*.js" />
 			</fileset>
 		</copy>
 
