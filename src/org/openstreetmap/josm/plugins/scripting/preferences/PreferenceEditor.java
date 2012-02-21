@@ -3,7 +3,6 @@ package org.openstreetmap.josm.plugins.scripting.preferences;
 import static org.openstreetmap.josm.tools.I18n.tr;
 
 import java.awt.BorderLayout;
-import java.util.logging.Logger;
 
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
@@ -13,7 +12,7 @@ import org.openstreetmap.josm.gui.preferences.PreferenceTabbedPane;
 
 public class PreferenceEditor extends DefaultTabPreferenceSetting {
 	static public final String ICON_NAME = "script-engine";
-	static private final Logger logger = Logger.getLogger(PreferenceEditor.class.getName());
+	//static private final Logger logger = Logger.getLogger(PreferenceEditor.class.getName());
 	
 	private JTabbedPane tpPreferenceTabs;
 	private ScriptEnginesConfigurationPanel pnlScriptEngineConfiguration;
