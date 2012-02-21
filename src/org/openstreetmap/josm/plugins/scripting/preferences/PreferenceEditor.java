@@ -3,6 +3,7 @@ package org.openstreetmap.josm.plugins.scripting.preferences;
 import static org.openstreetmap.josm.tools.I18n.tr;
 
 import java.awt.BorderLayout;
+import java.util.logging.Logger;
 
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
@@ -12,6 +13,7 @@ import org.openstreetmap.josm.gui.preferences.PreferenceTabbedPane;
 
 public class PreferenceEditor extends DefaultTabPreferenceSetting {
 	static public final String ICON_NAME = "script-engine";
+	static private final Logger logger = Logger.getLogger(PreferenceEditor.class.getName());
 	
 	private JTabbedPane tpPreferenceTabs;
 	private ScriptEnginesConfigurationPanel pnlScriptEngineConfiguration;
@@ -22,18 +24,16 @@ public class PreferenceEditor extends DefaultTabPreferenceSetting {
 				tr("Scripting"), // title
 				tr("Configure script engines and scripts"), // description
 				false // expert mode only?
-		);
-		
+		);		
 	}
 
 	@Override
 	public void addGui(PreferenceTabbedPane gui) {
-        JPanel tab = gui.createPreferenceTab(this);  
-        
-		tab.setLayout(new BorderLayout());		
+		JPanel pnl = new JPanel(new BorderLayout());
 		tpPreferenceTabs = new JTabbedPane();
 		tpPreferenceTabs.add(tr("Script engines"), pnlScriptEngineConfiguration = new ScriptEnginesConfigurationPanel());
-		tab.add(tpPreferenceTabs, BorderLayout.CENTER);
+		pnl.add(tpPreferenceTabs, BorderLayout.CENTER);
+		createPreferenceTabWithScrollPane(gui, pnl);
 	}
 
 	@Override

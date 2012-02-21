@@ -15,7 +15,7 @@ public class ConfigureAction extends JosmAction {
 	public ConfigureAction() {
 		super(
 			tr("Configure..."),        // title
-			"preference", 			    // icon name
+			"scripting-preference", 			    // icon name
 			tr("Configure scripting preferences"),  // tooltip 
 			null,                // no shortcut 
 			false                // don't register
