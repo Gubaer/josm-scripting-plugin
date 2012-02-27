@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="scripting" default="dist" basedir=".">
-
-
+	
 	<property name="plugin.build.dir" value="build" />
 	<property name="plugin.src.dir" value="src" />
 	<property name="plugin.dist.dir" value="dist" />
@@ -24,6 +23,12 @@
 		
 		<mkdir dir="${plugin.build.dir}" />
 		<mkdir dir="${plugin.dist.dir}" />
+		
+		<taskdef resource="net/sf/antcontrib/antlib.xml">
+			<classpath>
+			    <pathelement location="${ant.contrib.jar}"/>
+			 </classpath>
+		</taskdef>		
 	</target>
 
 	<target name="compile" depends="init">
@@ -34,7 +39,7 @@
 		</javac>
 	</target>
 
-	<target name="dist" depends="clean,init,compile" description="Create the plugin jar">
+	<target name="dist" depends="clean,init,compile,create-version-info-for-manifest" description="Create the plugin jar">
 		<tstamp>
 		      <format property="plugin.build.date" pattern="yyyy-MM-dd hh:mm aa" />
 		</tstamp>
@@ -78,7 +83,8 @@
 				<include name="mime.types" />
 			</fileset>
 		</copy>
-		<jar destfile="${plugin.jar}" basedir="${plugin.build.dir}">
+		<propertyselector property="plugin.versions" match="plugin\.([0-9]+)\.requires" select="\1"/>
+		<jar destfile="${plugin.jar}" basedir="${plugin.build.dir}" manifest="version-information.MF">
 			<zipfileset src="${jsyntaxpane.jar}" />
 			<manifest>
 				<attribute name="Author" value="Karl Guggisberg" />
@@ -87,10 +93,9 @@
 				<attribute name="Plugin-Description" value="Allows to run scripts in JOSM." />
 				<attribute name="Plugin-Link" value="http://wiki.openstreetmap.org/index.php/JOSM/Plugins/Scripting" />
 				<attribute name="Plugin-Mainversion" value="${josm.required.version}" />
-				<attribute name="Plugin-Version" value="${plugin.version}" />
-				<attribute name="${josm.required.version}-Plugin-Url" value="${plugin.version};https://raw.github.com/Gubaer/josm-scripting-plugin/for-josm-${josm.required.version}/dist/scripting.jar" />
+				<attribute name="Plugin-Version" value="${plugin.version}" />				
 			</manifest>
-		</jar>
+		</jar> 
 	</target>
 
 	<target name="clean" description="Clean the build environment">
@@ -184,4 +189,28 @@
 		<echo>Installing the plugin in ${local.install.path}</echo>
 		<copy file="${plugin.jar}" todir="${local.install.path}" />
 	</target>
+	
+	<!--
+	Creates a file 'version-information.MF' which is added to the jars Manifest file.
+	This fragment maps plugin versions to the lowest JOSM version they are compatible with.
+	-->
+	<target name="create-version-info-for-manifest" depends="init">	
+		<echo>Creating plugin version map in 'version-information.MF' ...</echo>
+		<property name="plugin.versions" value="" />
+		<propertyselector property="plugin.versions" match="plugin\.([0-9]+)\.requires" select="\1" override="yes"/>		
+		<delete file="version-information.MF"/>
+		<if>
+			<equals arg1="${plugin.versions}" arg2=""/>
+			<then></then>
+			<else>
+				<for list="${plugin.versions}" param="version">
+					<sequential>
+						<echo append="true" file="version-information.MF" message="@{version}-Plugin-Url: @{version};https://raw.github.com/Gubaer/josm-scripting-plugin/for-josm-${plugin.@{version}.requires}/dist/scripting.jar${line.separator}" />				
+					</sequential>
+				</for>
+			</else>
+		</if>
+		<echo append="true" file="version-information.MF" message="${plugin.version}-Plugin-Url: ${plugin.version};https://raw.github.com/Gubaer/josm-scripting-plugin/for-josm-${josm.required.version}/dist/scripting.jar${line.separator}" />
+	</target>
+	
 </project>

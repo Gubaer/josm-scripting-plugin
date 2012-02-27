@@ -6,18 +6,32 @@
 #
 # --------------------------------------------------------------------------
 
-# the plugin version. Increment if you create a new build to be rolled out
+# the current plugin version. Increment if you create a new build to be rolled out
 # via the OSM subversion repository
 #
 plugin.version=3
 
-# the lowest JOSM version which this plugin is compatible with
+# the lowest JOSM version the curent plugin version is compatible with
 #
 josm.required.version=4062
 
 # the full path to the JOSM jar against which this plugin is build
 #
 josm.jar=/full/path/to/josm.jar
+
+# a map of plugin versions to the lowest JOSM version they are compatible with.
+# This is included in the plugin MANIFEST.MF and used by JOSMs plugin update system
+# to select the suitable plugin version for an installed JOSM build. 
+#
+#plugin.1111.requires=7777
+#plugin.2222.requires=8888
+
+# The full path to the ant-contrib.jar. 
+# Download from http://sourceforge.net/projects/ant-contrib/files/ and install.
+# On Ubuntu use 
+#    % sudo apt-get install ant-contrib
+# 
+ant.contrib.jar=/usr/share/java/ant-contrib.jar
 
 # The full path to the jsyntaxpane jar. Please note that the scripting plugin
 # requires a patched version of jsyntaxpane available from
