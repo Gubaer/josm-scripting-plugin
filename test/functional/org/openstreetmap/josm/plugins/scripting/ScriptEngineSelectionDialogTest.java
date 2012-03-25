@@ -7,6 +7,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 
 import org.openstreetmap.josm.plugins.scripting.fixtures.JOSMFixture;
+import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
+import org.openstreetmap.josm.plugins.scripting.ui.ScriptEngineSelectionDialog;
 
 
 public class ScriptEngineSelectionDialogTest extends JFrame {
@@ -21,8 +23,8 @@ public class ScriptEngineSelectionDialogTest extends JFrame {
 		btn.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ScriptEngineSelectionDialog dialog = new ScriptEngineSelectionDialog(ScriptEngineSelectionDialogTest.this);
-				dialog.setVisible(true);
+				ScriptEngineDescriptor desc = ScriptEngineSelectionDialog.select(ScriptEngineSelectionDialogTest.this,null);
+				System.out.println(desc);
 			}
 		});
 		
