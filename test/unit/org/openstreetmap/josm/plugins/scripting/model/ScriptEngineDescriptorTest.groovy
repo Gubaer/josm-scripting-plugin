@@ -1,0 +1,93 @@
+package org.openstreetmap.josm.plugins.scripting.model;
+
+import static org.junit.Assert.*;
+import org.junit.*;
+import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor.ScriptEngineType;
+import org.openstreetmap.josm.data.Preferences
+
+class ScriptEngineDescriptorTest {
+	
+	
+	def shouldFail = new GroovyTestCase().&shouldFail;
+	
+	@Test	
+	public void createDescriptorForPluggedEngine() {
+		def sd = new ScriptEngineDescriptor("rhino")
+		assert sd.getEngineId() == "rhino"
+		assert sd.getEngineType() == ScriptEngineType.PLUGGED
+		
+		shouldFail(IllegalArgumentException) {
+			sd = new ScriptEngineDescriptor(null);
+		}
+		
+		sd = new ScriptEngineDescriptor(ScriptEngineType.PLUGGED, "rhino");
+		assert sd.getEngineId() == "rhino"
+		assert sd.getEngineType() == ScriptEngineType.PLUGGED
+		
+		shouldFail(IllegalArgumentException) {
+			sd = new ScriptEngineDescriptor(null, "rhino");
+		}
+	}
+	
+	@Test
+	public void createDescriptorForEmbeddedEngine() {
+		def sd = new ScriptEngineDescriptor(ScriptEngineType.EMBEDDED, "rhino")
+		assert sd.getEngineId() == "rhino"
+		assert sd.getEngineType() == ScriptEngineType.EMBEDDED		
+	}
+	
+	@Test
+	public void buildFromPreferencs_MissingPreference() {
+		def pref = new Preferences();
+		def sd = ScriptEngineDescriptor.buildFromPreferences(pref);
+		assert sd == ScriptEngineDescriptor.DEFAULT_SCRIPT_ENGINE
+	}
+	
+	@Test
+	public void buildFromPreferencs_EmbeddedScriptingEngine() {
+		def pref = new Preferences();
+		pref.put(PreferenceKeys.PREF_KEY_SCRIPTING_ENGING, "embedded/rhino");
+		def sd = ScriptEngineDescriptor.buildFromPreferences(pref);
+		assert sd != null
+		assert sd == ScriptEngineDescriptor.DEFAULT_SCRIPT_ENGINE 
+	}
+
+	@Test
+	public void buildFromPreferencs_UnknownEmbeddedScriptingEngine() {
+		def pref = new Preferences();
+		pref.put(PreferenceKeys.PREF_KEY_SCRIPTING_ENGING, "embedded/noSuchEmbeddedEngine");
+		def sd = ScriptEngineDescriptor.buildFromPreferences(pref);
+		assert sd != null
+		assert sd == ScriptEngineDescriptor.DEFAULT_SCRIPT_ENGINE
+	}
+
+	@Test
+	public void buildFromPreferencs_PluggedScriptingEngine() {
+		def pref = new Preferences();
+		pref.put(PreferenceKeys.PREF_KEY_SCRIPTING_ENGING, "plugged/javascript");
+		def sd = ScriptEngineDescriptor.buildFromPreferences(pref);
+		assert sd != null
+		assert sd != ScriptEngineDescriptor.DEFAULT_SCRIPT_ENGINE
+		assert sd.getEngineType() == ScriptEngineType.PLUGGED
+		assert sd.getEngineId() == "javascript"
+	}
+	
+	@Test
+	public void buildFromPreferencs_UnknownPluggedScriptingEngine() {
+		def pref = new Preferences();
+		pref.put(PreferenceKeys.PREF_KEY_SCRIPTING_ENGING, "plugged/noSuchPluggedEngine");
+		def sd = ScriptEngineDescriptor.buildFromPreferences(pref);
+		assert sd != null
+		assert sd == ScriptEngineDescriptor.DEFAULT_SCRIPT_ENGINE
+	}
+	
+	@Test
+	public void isDefault() {
+		def sd = ScriptEngineDescriptor.DEFAULT_SCRIPT_ENGINE;
+		assert sd.isDefault()
+		sd = new ScriptEngineDescriptor(ScriptEngineType.PLUGGED, "groovy")
+		assert ! sd.isDefault()	
+	}
+	
+
+}
