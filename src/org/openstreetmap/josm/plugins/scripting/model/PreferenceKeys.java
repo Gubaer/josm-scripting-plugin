@@ -36,5 +36,5 @@ public interface PreferenceKeys {
 	 * <p>If missing or invalid, the embedded default scripting engine is assumed.</p>
 	 * 
 	 */
-	String PREF_KEY_SCRIPTING_ENGING = "scripting.console.default.engine";
+	String PREF_KEY_SCRIPTING_ENGINE = "scripting.console.default.engine";
 }

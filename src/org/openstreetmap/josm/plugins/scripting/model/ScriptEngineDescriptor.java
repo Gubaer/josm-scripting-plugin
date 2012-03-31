@@ -99,7 +99,7 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
 	/**
 	 * <p>Replies a script engine descriptor derived from a preference value <code>engineType/engineId</code>.<p>
 	 * 
-	 * <p>It looks for  the preference value with key {@link PreferenceKeys#PREF_KEY_SCRIPTING_ENGING}. If this
+	 * <p>It looks for  the preference value with key {@link PreferenceKeys#PREF_KEY_SCRIPTING_ENGINE}. If this
 	 * key doesn't exist or if it doesn't refer to a supported combination of <code>engineType</code> and
 	 * <code>engineId</code>, the default scripting engine descriptor {@link #DEFAULT_SCRIPT_ENGINE} is
 	 * replied.</p>
@@ -109,39 +109,50 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
 	 */
 	static public ScriptEngineDescriptor buildFromPreferences(Preferences preferences) {
 		if (preferences == null) return DEFAULT_SCRIPT_ENGINE;
-		String prefKey = preferences.get(PREF_KEY_SCRIPTING_ENGING);
-		if (prefKey == null) return DEFAULT_SCRIPT_ENGINE;
-		ScriptEngineType type = ScriptEngineType.fromPreferencesValue(prefKey);
+		String prefValue = preferences.get(PREF_KEY_SCRIPTING_ENGINE);
+		return buildFromPreferences(prefValue);
+	}
+	
+	/**
+	 * <p>Replies a script engine descriptor derived from a preference value <code>engineType/engineId</code>.<p>
+	 * 	 
+	 * @param preferenceValue the preference value. If null, replies the {@link #DEFAULT_SCRIPT_ENGINE} 
+	 * @return the scripting engine descriptor 
+	 */
+	static public ScriptEngineDescriptor buildFromPreferences(String preferenceValue){
+		if (preferenceValue == null) return DEFAULT_SCRIPT_ENGINE;
+		ScriptEngineType type = ScriptEngineType.fromPreferencesValue(preferenceValue);
 		if (type == null) {
 			//NOTE: might be a legal preferences value for former plugin versions. No attempt to recover from these
 			// values, when this code goes productive, former preference values are automatically reset to the
 			// to the current default scripting engine.
-			System.out.println(tr("Warning: preference with key ''{0}'' consist of an unsupported value. Expected pattern ''type/id'', got ''{1}''. Assuming default scripting engine.", PREF_KEY_SCRIPTING_ENGING, prefKey));
+			System.out.println(tr("Warning: preference with key ''{0}'' consist of an unsupported value. Expected pattern ''type/id'', got ''{1}''. Assuming default scripting engine.", PREF_KEY_SCRIPTING_ENGINE, preferenceValue));
 			return DEFAULT_SCRIPT_ENGINE;
 		}
-		int i = prefKey.indexOf("/");
+		int i = preferenceValue.indexOf("/");
 		if (i < 0) return DEFAULT_SCRIPT_ENGINE;
-		String engineId = prefKey.substring(i+1);
+		String engineId = preferenceValue.substring(i+1);
 		switch(type){
 			case EMBEDDED:				
 				if (engineId == null) return DEFAULT_SCRIPT_ENGINE;
 				engineId = engineId.trim().toLowerCase();
 				ScriptEngineDescriptor desc = EMBEDDED_SCRIPT_ENGINES.get(engineId);
 				if (desc == null) {
-					System.out.println(tr("Warning: preference with key ''{0}'' refers to an unsupported embedded scripting engine with id ''{1}''. Assuming default scripting engine.", PREF_KEY_SCRIPTING_ENGING, engineId));
+					System.out.println(tr("Warning: preference with key ''{0}'' refers to an unsupported embedded scripting engine with id ''{1}''. Assuming default scripting engine.", PREF_KEY_SCRIPTING_ENGINE, engineId));
 					return DEFAULT_SCRIPT_ENGINE;
 				}
 				return desc;
 			case PLUGGED:
 				engineId = engineId.trim(); // don't lowercase. Lookup in ScriptEngineManager could be case sensitive
 				if (! JSR223ScriptEngineProvider.getInstance().hasEngineWithName(engineId)) {
-					System.out.println(tr("Warning: preference with key ''{0}'' refers to an unsupported JSR223 compatible scripting engine with id ''{1}''. Assuming default scripting engine.", PREF_KEY_SCRIPTING_ENGING, engineId));
+					System.out.println(tr("Warning: preference with key ''{0}'' refers to an unsupported JSR223 compatible scripting engine with id ''{1}''. Assuming default scripting engine.", PREF_KEY_SCRIPTING_ENGINE, engineId));
 					return DEFAULT_SCRIPT_ENGINE;
 				}
 				return new ScriptEngineDescriptor(ScriptEngineType.PLUGGED, engineId);
 		}		 
 		return DEFAULT_SCRIPT_ENGINE;
 	}
+
 		
 	/**
 	 * Creates a new descriptor for the type {@link ScriptEngineType#PLUGGED}.

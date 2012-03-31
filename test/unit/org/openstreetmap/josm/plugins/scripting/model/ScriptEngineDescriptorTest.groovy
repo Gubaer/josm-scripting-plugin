@@ -46,7 +46,7 @@ class ScriptEngineDescriptorTest {
 	@Test
 	public void buildFromPreferencs_EmbeddedScriptingEngine() {
 		def pref = new Preferences();
-		pref.put(PreferenceKeys.PREF_KEY_SCRIPTING_ENGING, "embedded/rhino");
+		pref.put(PreferenceKeys.PREF_KEY_SCRIPTING_ENGINE, "embedded/rhino");
 		def sd = ScriptEngineDescriptor.buildFromPreferences(pref);
 		assert sd != null
 		assert sd == ScriptEngineDescriptor.DEFAULT_SCRIPT_ENGINE 
@@ -55,7 +55,7 @@ class ScriptEngineDescriptorTest {
 	@Test
 	public void buildFromPreferencs_UnknownEmbeddedScriptingEngine() {
 		def pref = new Preferences();
-		pref.put(PreferenceKeys.PREF_KEY_SCRIPTING_ENGING, "embedded/noSuchEmbeddedEngine");
+		pref.put(PreferenceKeys.PREF_KEY_SCRIPTING_ENGINE, "embedded/noSuchEmbeddedEngine");
 		def sd = ScriptEngineDescriptor.buildFromPreferences(pref);
 		assert sd != null
 		assert sd == ScriptEngineDescriptor.DEFAULT_SCRIPT_ENGINE
@@ -64,7 +64,7 @@ class ScriptEngineDescriptorTest {
 	@Test
 	public void buildFromPreferencs_PluggedScriptingEngine() {
 		def pref = new Preferences();
-		pref.put(PreferenceKeys.PREF_KEY_SCRIPTING_ENGING, "plugged/javascript");
+		pref.put(PreferenceKeys.PREF_KEY_SCRIPTING_ENGINE, "plugged/javascript");
 		def sd = ScriptEngineDescriptor.buildFromPreferences(pref);
 		assert sd != null
 		assert sd != ScriptEngineDescriptor.DEFAULT_SCRIPT_ENGINE
@@ -75,7 +75,7 @@ class ScriptEngineDescriptorTest {
 	@Test
 	public void buildFromPreferencs_UnknownPluggedScriptingEngine() {
 		def pref = new Preferences();
-		pref.put(PreferenceKeys.PREF_KEY_SCRIPTING_ENGING, "plugged/noSuchPluggedEngine");
+		pref.put(PreferenceKeys.PREF_KEY_SCRIPTING_ENGINE, "plugged/noSuchPluggedEngine");
 		def sd = ScriptEngineDescriptor.buildFromPreferences(pref);
 		assert sd != null
 		assert sd == ScriptEngineDescriptor.DEFAULT_SCRIPT_ENGINE
