@@ -27,4 +27,12 @@ public class Assert {
 		    );
 		}
 	}
+	
+	public static void assertState(boolean condition, String message, Object... objs) {
+		if (!condition) {
+			throw new IllegalStateException(
+					MessageFormat.format(message, objs)
+			);
+		}
+	}
 }
