@@ -1,4 +1,4 @@
-package org.openstreetmap.josm.plugins.scripting;
+package org.openstreetmap.josm.plugins.scripting.model;
 
 import static org.openstreetmap.josm.tools.I18n.tr;
 
@@ -23,20 +23,34 @@ import javax.script.ScriptEngineManager;
 import javax.swing.AbstractListModel;
 
 import org.openstreetmap.josm.Main;
-import org.openstreetmap.josm.plugins.scripting.preferences.PreferenceKeys;
+import org.openstreetmap.josm.plugins.scripting.ScriptingPlugin;
+import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor.ScriptEngineType;
 import org.openstreetmap.josm.plugins.scripting.preferences.ScriptEngineJarInfo;
 import org.openstreetmap.josm.plugins.scripting.util.Assert;
 import org.openstreetmap.josm.plugins.scripting.util.IOUtil;
 /**
  * <p>Provides a list model for the list of available script engines.</p>
+ * 
  */
-public class ScriptEngineProvider extends AbstractListModel implements PreferenceKeys {
-	static private final Logger logger = Logger.getLogger(ScriptEngineProvider.class.getName());
+public class JSR223ScriptEngineProvider extends AbstractListModel implements PreferenceKeys {
 	
-	static private ScriptEngineProvider instance;
-	static public ScriptEngineProvider getInstance() {
+	/**
+	 * The list of default mime types, mapping file suffixes to content mime types, provided
+	 * as resource in the jar.
+	 */
+	static public final String DEFAULT_MIME_TYPES = "/resources/mime.types.default";
+	
+	static private final Logger logger = Logger.getLogger(JSR223ScriptEngineProvider.class.getName());
+	
+	static private JSR223ScriptEngineProvider instance;
+	
+	/**
+	 * Replies the unique instance
+	 * @return the unique instance
+	 */
+	static public JSR223ScriptEngineProvider getInstance() {
 		if (instance == null) {
-			instance = new ScriptEngineProvider();
+			instance = new JSR223ScriptEngineProvider();
 		}
 		return instance;
 	}
@@ -77,9 +91,9 @@ public class ScriptEngineProvider extends AbstractListModel implements Preferenc
 		
 		InputStream is = null;
 		try {
-			is = getClass().getResourceAsStream("/resources/mime.types.default");
+			is = getClass().getResourceAsStream(DEFAULT_MIME_TYPES);
 			if (is == null){
-				System.err.println(tr("Warning: failed to load default mime types from  resource ''0''.", "/resources/mime.types.default"));
+				System.err.println(tr("Warning: failed to load default mime types from  resource ''0''.", DEFAULT_MIME_TYPES));
 				return;
 			}
 			mimeTypesMap = new MimetypesFileTypeMap(is);
@@ -90,15 +104,17 @@ public class ScriptEngineProvider extends AbstractListModel implements Preferenc
 	
 	protected void restoreScriptEngineUrlsFromPreferences() {
 		scriptEngineJars.clear();
-		Collection<String> jars = Main.pref.getCollection(PREF_KEY_SCRIPTING_ENGINE_JARS,null);
-		if (jars == null) return;
-		for (String jar: jars){
-			jar = jar.trim();
-			if (jar.isEmpty()) continue;			
-			ScriptEngineJarInfo info = new ScriptEngineJarInfo(jar);
-			if (!info.getStatusMessage().equals(ScriptEngineJarInfo.OK_MESSAGE)) continue;
-			scriptEngineJars.add(new File(jar));
-		}		
+		if (Main.pref != null) {
+			Collection<String> jars = Main.pref.getCollection(PREF_KEY_SCRIPTING_ENGINE_JARS,null);
+			if (jars == null) return;
+			for (String jar: jars){
+				jar = jar.trim();
+				if (jar.isEmpty()) continue;			
+				ScriptEngineJarInfo info = new ScriptEngineJarInfo(jar);
+				if (!info.getStatusMessage().equals(ScriptEngineJarInfo.OK_MESSAGE)) continue;
+				scriptEngineJars.add(new File(jar));
+			}
+		}
 		buildClassLoader();
 	}
 	
@@ -126,14 +142,9 @@ public class ScriptEngineProvider extends AbstractListModel implements Preferenc
 		
 	protected void loadScriptEngineFactories() {
 		Assert.assertNotNull(scriptClassLoader, "expected scriptClassLoader != null");
-		try {
-			factories.clear();
-			ScriptEngineManager manager = new ScriptEngineManager(scriptClassLoader);
-			factories.addAll(manager.getEngineFactories());
-		} catch(Throwable t){
-			t.printStackTrace();
-			return;
-		} 
+		factories.clear();
+		ScriptEngineManager manager = new ScriptEngineManager(scriptClassLoader);
+		factories.addAll(manager.getEngineFactories());
 		
 		Collections.sort(factories,
 				new Comparator<ScriptEngineFactory>() {
@@ -145,7 +156,7 @@ public class ScriptEngineProvider extends AbstractListModel implements Preferenc
 		);	
 	}
 	
-	private ScriptEngineProvider(){
+	private JSR223ScriptEngineProvider(){
 		restoreScriptEngineUrlsFromPreferences();
 		loadScriptEngineFactories();
 		loadMimeTypesMap();
@@ -164,12 +175,26 @@ public class ScriptEngineProvider extends AbstractListModel implements Preferenc
 	/**
 	 * <p>Replies a script engine by name or null, if no such script engine exists.</p>
 	 * 
-	 * @param name the name 
+	 * @param name the name. Must not be null.
 	 * @return the script engine
 	 * @see ScriptEngineManager#getEngineByName(String)
 	 */
 	public ScriptEngine getEngineByName(String name) {
+		Assert.assertArgNotNull(name, "name");
 		return getScriptEngineManager().getEngineByName(name);
+	}
+	
+	/**
+	 * <p>Replies true, if a JSR223-compatible scripting engine with name <code>name</code> is
+	 * currently available.</p>
+	 * 
+	 * @param name the name. Must not be null.
+	 * @return true, if a JSR223-compatible scripting engine with name <code>name</code> is
+	 * currently available; false, otherwise 
+	 */
+	public boolean hasEngineWithName(String name){
+		Assert.assertArgNotNull(name, "name");
+		return getEngineByName(name) != null;		
 	}
 	
 	/**
@@ -184,17 +209,36 @@ public class ScriptEngineProvider extends AbstractListModel implements Preferenc
 	}
 	
 	/**
-	 * <p>Replies a suitable script engine for a script file, if no such script engine exists.</p>
-	 * 
-	 * <p>Derives a mime type from the file suffix and replies a script engine suitable for this
+	 * <p>Derives a mime type from the file suffix and replies a script engine descriptor suitable for this
 	 * mime type.</p>
 	 * 
 	 * @param scriptFile the script file
-	 * @return the script engine
+	 * @return the script engine descriptor. null, if no suitable script engine is available
 	 */
-	public ScriptEngine getEngineForFile(File scriptFile) {
+	public ScriptEngineDescriptor getEngineForFile(File scriptFile) {
 		if (scriptFile == null) return null;
-		return getScriptEngineManager().getEngineByMimeType(mimeTypesMap.getContentType(scriptFile));
+		
+		String mimeType = getContentTypeForFile(scriptFile);
+		
+		for (ScriptEngineFactory factory: getScriptEngineManager().getEngineFactories()) {
+			if (factory.getMimeTypes().contains(mimeType)) {
+				return new ScriptEngineDescriptor(factory);
+			}
+		}
+		return null;
+	}
+	
+	
+	/**
+	 * Replies the content type for file {@code scriptFile}.
+	 * 
+	 * @param scriptFile the file. Must not be null.
+	 * @return the content type 
+	 * @throws IllegalArgumentException thrown if <code>scriptFile</code> is null
+	 */
+	public String getContentTypeForFile(File scriptFile) throws IllegalArgumentException {
+		Assert.assertArgNotNull(scriptFile, "scriptFile");
+		return mimeTypesMap.getContentType(scriptFile);
 	}
 	
 	/**
@@ -233,8 +277,31 @@ public class ScriptEngineProvider extends AbstractListModel implements Preferenc
 	}
 	
 	/**
-	 * Replies the script engine factory with name {@code name}, or null,
-	 * if no such factory exists. Replies null, if {@code name} is null.
+	 * <p>Replies a script engine for the first first script engine factory whose name matches with
+	 * the name in the descriptor <code>desc</code>, or null, if no such scripting engine is found.
+	 * 
+	 * @param desc the descriptor. Must not be null. It's type must be {@link ScriptEngineType#PLUGGED}
+	 * @return the script engine or null
+	 */
+	public ScriptEngine getScriptEngine(ScriptEngineDescriptor desc) {
+		Assert.assertArgNotNull(desc, "desc");
+		Assert.assertArg(desc.getEngineType().equals(ScriptEngineType.PLUGGED), "Expected a descriptor for a plugged script engine, got ''{0}''", desc);
+		for (ScriptEngineFactory factory: factories) {
+			if (desc.getEngineId().equals(factory.getNames().get(0))) {
+				return factory.getScriptEngine();
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * <p>Replies the first script engine factory with name {@code name}, or null,
+	 * if no such factory exists. Replies null, if {@code name} is null.</p>
+	 * 
+	 * <p>A script engine factory is matching with <code>name</code> if its 
+	 * {@link ScriptEngineFactory#getEngineName() engine name} or one of its
+	 * {@link ScriptEngineFactory#getNames() short names} is equal to
+	 * <code>name</code>.</p>
 	 * 
 	 * @param name the name
 	 * @return the script engine factory
@@ -243,6 +310,9 @@ public class ScriptEngineProvider extends AbstractListModel implements Preferenc
 		if (name == null) return null;		
 		for (ScriptEngineFactory factory: factories) {
 			if (factory.getEngineName().equals(name)) return factory;
+			for (String n: factory.getNames()) {
+				if (n.equals(name)) return factory;
+			}
 		}
 		return null;
 	}
