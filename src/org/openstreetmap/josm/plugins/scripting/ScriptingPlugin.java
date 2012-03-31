@@ -15,6 +15,8 @@ import org.openstreetmap.josm.plugins.Plugin;
 import org.openstreetmap.josm.plugins.PluginInformation;
 import org.openstreetmap.josm.plugins.scripting.preferences.ConfigureAction;
 import org.openstreetmap.josm.plugins.scripting.preferences.PreferenceEditor;
+import org.openstreetmap.josm.plugins.scripting.ui.RunScriptAction;
+import org.openstreetmap.josm.plugins.scripting.ui.ToggleConsoleAction;
 
 public class ScriptingPlugin extends Plugin {
 	

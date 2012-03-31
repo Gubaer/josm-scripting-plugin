@@ -27,6 +27,7 @@ import jsyntaxpane.DefaultSyntaxKit;
 import org.openstreetmap.josm.gui.HelpAwareOptionPane;
 import org.openstreetmap.josm.gui.HelpAwareOptionPane.ButtonSpec;
 import org.openstreetmap.josm.gui.SideButton;
+import org.openstreetmap.josm.plugins.scripting.js.RhinoEngine;
 import org.openstreetmap.josm.tools.ImageProvider;
 
 public class ScriptingConsolePanel extends JPanel {
@@ -178,6 +179,7 @@ public class ScriptingConsolePanel extends JPanel {
     
 	class RunScriptAction extends AbstractAction implements PropertyChangeListener {
 		private ScriptEditorModel model;
+		private RhinoEngine engine;
 		public RunScriptAction(ScriptEditorModel model) {
 			this.model = model;
 			putValue(SMALL_ICON, ImageProvider.get("media-playback-start"));
@@ -185,17 +187,20 @@ public class ScriptingConsolePanel extends JPanel {
 			putValue(NAME, tr("Run"));
 			model.addPropertyChangeListener(this);
 			updateEnabledState();
+			engine = new RhinoEngine();
+			engine.enterSwingThreadContext();
 		}
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			String source = editor.getScript();
-			ScriptEngine engine = model.getScriptEngineFactory().getScriptEngine();
-			try {		
-				engine.eval(source, new JOSMScriptContext(log.getLogWriter()));
-			} catch(ScriptException ex){
-				log.dumpException(ex);
-			}
+			engine.evaluateOnSwingThread(source);
+//			ScriptEngine engine = model.getScriptEngineFactory().getScriptEngine();
+//			try {		
+//				engine.eval(source, new JOSMScriptContext(log.getLogWriter()));
+//			} catch(ScriptException ex){
+//				log.dumpException(ex);
+//			}
 		}
 
 		protected void updateEnabledState() {

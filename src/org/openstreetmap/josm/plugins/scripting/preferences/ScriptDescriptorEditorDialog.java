@@ -1,7 +1,7 @@
 package org.openstreetmap.josm.plugins.scripting.preferences;
 
 import static java.awt.GridBagConstraints.NORTHWEST;
-import static org.openstreetmap.josm.plugins.scripting.preferences.GridBagConstraintBuilder.gbc;
+import static org.openstreetmap.josm.plugins.scripting.ui.GridBagConstraintBuilder.gbc;
 import static org.openstreetmap.josm.tools.I18n.tr;
 
 import java.awt.BorderLayout;
@@ -42,7 +42,7 @@ import org.openstreetmap.josm.gui.help.ContextSensitiveHelpAction;
 import org.openstreetmap.josm.gui.help.HelpUtil;
 import org.openstreetmap.josm.gui.widgets.HtmlPanel;
 import org.openstreetmap.josm.gui.widgets.SelectAllOnFocusGainedDecorator;
-import org.openstreetmap.josm.plugins.scripting.ScriptEngineProvider;
+import org.openstreetmap.josm.plugins.scripting.model.JSR223ScriptEngineProvider;
 import org.openstreetmap.josm.plugins.scripting.ui.ScriptEngineCellRenderer;
 import org.openstreetmap.josm.plugins.scripting.util.Assert;
 import org.openstreetmap.josm.tools.ImageProvider;
@@ -89,7 +89,7 @@ public class ScriptDescriptorEditorDialog extends JDialog {
 	protected JPanel buildMainPropertiesPanel() {
 		JPanel pnl = new JPanel(new GridBagLayout());
 
-		GridBagConstraints gbc = gbc().cell(0,0).weight(0.0,0.0).borderright(5).constraints();
+		GridBagConstraints gbc = gbc().cell(0,0).weight(0.0,0.0).spacingright(5).constraints();
 		pnl.add(new JLabel(tr("ID:")), gbc);
 		
 		gbc = gbc().cell(1,0).weight(1.0,0.0).constraints();
@@ -103,7 +103,7 @@ public class ScriptDescriptorEditorDialog extends JDialog {
 		btn.setBorder(null);
 		btn.setFocusable(false);
 		
-		gbc = gbc().cell(0,1).weight(0.0,0.0).borderright(5).constraints();
+		gbc = gbc().cell(0,1).weight(0.0,0.0).spacingright(5).constraints();
 		pnl.add(new JLabel(tr("Display name:")), gbc);
 		
 		gbc = gbc().cell(1,1,2,1).weight(1.0,0.0).constraints();
@@ -111,7 +111,7 @@ public class ScriptDescriptorEditorDialog extends JDialog {
 		tfDisplayName.setToolTipText(tr("The display name of the script. Used in menu entries."));
 		SelectAllOnFocusGainedDecorator.decorate(tfDisplayName);
 		
-		gbc = gbc().cell(0,2).weight(0.0,0.0).borderright(5).constraints();
+		gbc = gbc().cell(0,2).weight(0.0,0.0).spacingright(5).constraints();
 		pnl.add(new JLabel(tr("Script file:")), gbc);
 		
 		gbc = gbc().cell(1,2, 2, 1).weight(1.0,0.0).constraints();
@@ -350,7 +350,7 @@ public class ScriptDescriptorEditorDialog extends JDialog {
 				} else {
 					rbManuallySelectScriptEngine.setSelected(true);					
 					cbScriptEngines.getModel().setSelectedItem(
-						ScriptEngineProvider.getInstance().getScriptFactoryByName(sd.getScriptEngineName())
+						JSR223ScriptEngineProvider.getInstance().getScriptFactoryByName(sd.getScriptEngineName())
 					);					
 				}
 			}
@@ -373,7 +373,7 @@ public class ScriptDescriptorEditorDialog extends JDialog {
 			if (rbDeriveFromFileName.isSelected()) {
 				String file = tfScriptFile.getText();
 				if (! file.trim().isEmpty()) { 			
-					ScriptEngine engine = ScriptEngineProvider.getInstance().getEngineForFile(new File(file));
+					ScriptEngine engine = JSR223ScriptEngineProvider.getInstance().getEngineForFile(new File(file));
 					if (engine == null) {
 						msg = msg + "<br>\n"
 						+ "<font color=\"red\">"
@@ -406,7 +406,7 @@ public class ScriptDescriptorEditorDialog extends JDialog {
 				pnlSelectScriptEngine= new JPanel(new GridBagLayout());
 				gbc = gbc().cell(0,0,2,1).weight(1.0, 0.0).anchor(NORTHWEST).constraints();
 				pnlSelectScriptEngine.add(new HtmlPanel(tr("Select one of the available script engines for executing this script.")), gbc);
-				gbc = gbc().cell(0, 1).weight(0.0, 0.0).anchor(NORTHWEST).borderright(5).constraints();
+				gbc = gbc().cell(0, 1).weight(0.0, 0.0).anchor(NORTHWEST).spacingright(5).constraints();
 				pnlSelectScriptEngine.add(new JLabel(tr("Script engines:")), gbc);
 				gbc = gbc().cell(1, 1).weight(0.0, 0.0).anchor(NORTHWEST).constraints();
 				pnlSelectScriptEngine.add(cbScriptEngines = new JComboBox(new ScriptEngineComboBoxModel()), gbc);

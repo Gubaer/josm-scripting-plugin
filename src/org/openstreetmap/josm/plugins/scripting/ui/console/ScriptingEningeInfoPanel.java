@@ -19,7 +19,7 @@ import javax.swing.event.HyperlinkListener;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.StyleSheet;
 
-import org.openstreetmap.josm.plugins.scripting.ScriptEngineSelectionDialog;
+import org.openstreetmap.josm.plugins.scripting.ui.ScriptEngineSelectionDialog;
 import org.openstreetmap.josm.tools.CheckParameterUtil;
 
 public class ScriptingEningeInfoPanel extends JPanel implements PropertyChangeListener, HyperlinkListener{

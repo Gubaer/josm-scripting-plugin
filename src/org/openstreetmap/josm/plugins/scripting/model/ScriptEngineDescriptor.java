@@ -7,6 +7,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.script.ScriptEngineFactory;
+
 import org.openstreetmap.josm.Main;
 import org.openstreetmap.josm.data.Preferences;
 import org.openstreetmap.josm.plugins.scripting.util.Assert;
@@ -163,6 +165,18 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
 		Assert.assertArgNotNull(engineId, "id");
 		this.engineId = engineId;
 		this.engineType= engineType; 
+	}
+	
+	/**
+	 * Creates a new descriptor given a factory for JSR223-compatible script
+	 * engines.
+	 * 
+	 * @param factory the factory. Must not be null. 
+	 */
+	public ScriptEngineDescriptor(ScriptEngineFactory factory) {
+		Assert.assertArgNotNull(factory, "factory");
+		this.engineType = ScriptEngineType.PLUGGED;
+		this.engineId = factory.getNames().get(0);
 	}
 	
 	/**

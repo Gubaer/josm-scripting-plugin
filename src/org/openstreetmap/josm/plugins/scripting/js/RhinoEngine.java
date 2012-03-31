@@ -4,14 +4,15 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.Reader;
 import java.lang.reflect.InvocationTargetException;
+import java.text.MessageFormat;
 import java.util.logging.Logger;
 
 import javax.swing.SwingUtilities;
 
 import org.mozilla.javascript.Context;
+import org.mozilla.javascript.EvaluatorException;
 import org.mozilla.javascript.Scriptable;
 import org.openstreetmap.josm.plugins.scripting.util.Assert;
 import org.openstreetmap.josm.plugins.scripting.util.ExceptionUtil;
@@ -22,11 +23,20 @@ import org.openstreetmap.josm.plugins.scripting.util.IOUtil;
  * <p>
  * Provides methods to prepare the a script context on the Swing EDT and to evaluate script
  * in this context.
+ * 
  */
 public class RhinoEngine {
 	static private final Logger logger = Logger.getLogger(RhinoEngine.class.getName());
 	
 	private Scriptable swingThreadScope;
+	
+	static private  RhinoEngine instance;
+	public static RhinoEngine getInstance() {
+		if (instance == null) instance = new RhinoEngine();
+		return instance; 
+	}
+	
+	private RhinoEngine(){}
 		
 	protected void runOnSwingEDT(Runnable r){
 		if (SwingUtilities.isEventDispatchThread()) {
@@ -36,9 +46,9 @@ public class RhinoEngine {
 				SwingUtilities.invokeAndWait(r);
 			} catch(InvocationTargetException e){
 				Throwable throwable = e.getCause(); 
-		        if (throwable instanceof Error) { 
+				if (throwable instanceof Error) { 
 		            throw (Error) throwable; 
-		        } else if(throwable instanceof RuntimeException) { 
+		        } else if(throwable instanceof RuntimeException) { 		        	
 		            throw (RuntimeException) throwable; 
 		        }
 		        // no other checked exceptions expected - log a warning 
@@ -62,15 +72,19 @@ public class RhinoEngine {
 				if (Context.getCurrentContext() != null) return;
 				Context ctx = Context.enter();				
 				swingThreadScope = ctx.initStandardObjects();
-				InputStreamReader reader = null;
-				try {
-					reader = new InputStreamReader(RhinoEngine.class.getResourceAsStream("/JOSM.js"));
-					ctx.evaluateReader(swingThreadScope, reader, "JOSM.js", 0, null);
-				} catch(IOException e){
-					System.out.println(e);
-				} finally {
-					IOUtil.close(reader);
-				}
+//FIXME: parse and import supplied javascript library
+				//				InputStreamReader reader = null;
+//				try {
+//					reader = new InputStreamReader(RhinoEngine.class.getResourceAsStream("/JOSM.js"));
+//					ctx.evaluateReader(swingThreadScope, reader, null /* unnamed script */, 0, null);
+//				} catch(IOException e){
+//					System.out.println(e);
+//				} catch(EvaluatorException e){
+//					System.out.println(MessageFormat.format("Syntax error on {0}/{1}", e.lineNumber(), e.columnNumber()));
+//					throw e;
+//				} finally {
+//					IOUtil.close(reader);
+//				}
 			}
 		};
 		runOnSwingEDT(r);
@@ -90,22 +104,34 @@ public class RhinoEngine {
 	}
 	
 	/**
-	 * Evaluate a script on the Swing EDT
+	 * Evaluate a script on the Swing EDT in a given scope.
 	 * 
 	 * @param script the script. Ignored if null.
+	 * @param scope the scope for script execution. If null, creates a new context with standard objects 
+	 * @throws EvaluatorException thrown if evaluating the script fails
 	 */
-	public void evaluateOnSwingThread(final String script) {
+	public void evaluateOnSwingThread(final String script, Scriptable scope)  throws EvaluatorException{
 		if (script == null) return;
+		final Scriptable s = scope == null ? Context.getCurrentContext().initStandardObjects() : scope;
 		Runnable r = new Runnable() {
 			public void run() {
 				Context ctx = Context.getCurrentContext();
 				if (ctx == null){
 					ctx = Context.enter();
 				}
-				ctx.evaluateString(swingThreadScope, script, "inlineScript", 0, null /* no security domain */);
+				ctx.evaluateString(s, script, "inlineScript", 0, null /* no security domain */);
 			}
 		};
-		runOnSwingEDT(r);		
+		runOnSwingEDT(r);
+	}
+	
+	/**
+	 * Evaluate a script on the Swing EDT in a standard scope for scripts run on the Swing EDT 
+	 * 
+	 * @param script the script 
+	 */
+	public void evaluateOnSwingThread(final String script) {
+		evaluateOnSwingThread(script, swingThreadScope);
 	}
 
 	/**
@@ -115,29 +141,27 @@ public class RhinoEngine {
 	 * @throws IllegalArgumentException thrown if file is a directory
 	 * @throws IllegalArgumentException thrown if file isn't readable
 	 * @throws FileNotFoundException thrown if file isn't found 
+	 * @throws EvaluatorException thrown if the evaluation of the script fails
 	 */
-	public void evaluateOnSwingThread(final File file) throws FileNotFoundException, IOException {
+	public void evaluateOnSwingThread(final File file, Scriptable scope) throws FileNotFoundException, IOException, EvaluatorException {		
 		if (file == null) return;
 		Assert.assertArg(!file.isDirectory(), "Can''t read script from a directory ''{0}''", file);
 		Assert.assertArg(file.canRead(), "Can''t read script from file, because file isn''t readable. Got file ''{0}''", file);
 		Reader reader = null;
 		try {
-			reader = new FileReader(file);
-			final Reader fr = reader;
+			final Reader fr = new FileReader(file);
+			enterSwingThreadContext();
+			final Scriptable s = scope == null? Context.getCurrentContext().initStandardObjects() : scope;
 			Runnable r = new Runnable() {
 				public void run() {
-					Context ctx = Context.getCurrentContext();
-					if (ctx == null){
-						ctx = Context.enter();
-					}
 					try {
-						ctx.evaluateReader(swingThreadScope, fr, file.toString(), 0, null /* no security domain */);
+						Context.getCurrentContext().evaluateReader(s, fr, file.toString(), 0, null /* no security domain */);
 					} catch(IOException e){
 						throw new RuntimeException(e);
 					}
 				}
 			};
-			try {
+			try {		
 				runOnSwingEDT(r);
 			} catch(RuntimeException e) {
 				// unwrapping IO exception thrown from the runnable

@@ -108,7 +108,7 @@ public class GridBagConstraintBuilder {
 	}
 
 	
-	public GridBagConstraintBuilder borderright(int space){
+	public GridBagConstraintBuilder spacingright(int space){
 		if (gbc.insets == null) {
 			gbc.insets = new Insets(0,0,0,0);
 		}
@@ -116,10 +116,21 @@ public class GridBagConstraintBuilder {
 		return this;
 	}
 	
-	public GridBagConstraints constraints() {
-		return gbc;
+	public GridBagConstraintBuilder spacingleft(int space){
+		if (gbc.insets == null) {
+			gbc.insets = new Insets(0,0,0,0);
+		}
+		gbc.insets.left= space;
+		return this;
+	}
+	
+	public GridBagConstraintBuilder insets(int top, int right, int bottom, int left) {
+		gbc.insets = new Insets(top, right, bottom, left);
+		return this;
 	}
 	
 	
-	
+	public GridBagConstraints constraints() {
+		return gbc;
+	}	
 }

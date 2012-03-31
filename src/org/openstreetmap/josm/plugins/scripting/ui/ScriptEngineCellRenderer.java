@@ -47,9 +47,9 @@ public class ScriptEngineCellRenderer implements ListCellRenderer {
 		return sb.toString();
 	}
 	
-	protected void renderColors(boolean selected){
-		if (!selected){
-			lbl.setForeground(UIManager.getColor("List.foreground"));
+	protected void renderColors(boolean selected, boolean enabled){
+		if (!selected || !enabled){
+			lbl.setForeground(UIManager.getColor(enabled ? "List.foreground" : "Label.disabledForeground"));
 			lbl.setBackground(UIManager.getColor("List.background"));
 		} else {
 			lbl.setForeground(UIManager.getColor("List.selectionForeground"));
@@ -66,7 +66,8 @@ public class ScriptEngineCellRenderer implements ListCellRenderer {
 	@Override
 	public Component getListCellRendererComponent(JList list, Object obj,int index, boolean isSelected, boolean cellHasFocus) {
 		ScriptEngineFactory factory = (ScriptEngineFactory)obj;
-		renderColors(isSelected);
+		boolean enabled = list.isEnabled();
+		renderColors(isSelected, enabled);
 		lbl.setText(getDisplayName(factory));
 		lbl.setToolTipText(getTooltipText(factory));
 		return lbl;

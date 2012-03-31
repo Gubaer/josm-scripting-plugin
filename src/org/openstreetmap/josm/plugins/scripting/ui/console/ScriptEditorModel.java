@@ -7,7 +7,7 @@ import java.io.File;
 import javax.script.ScriptEngineFactory;
 
 import org.openstreetmap.josm.data.preferences.StringProperty;
-import org.openstreetmap.josm.plugins.scripting.ScriptEngineProvider;
+import org.openstreetmap.josm.plugins.scripting.model.JSR223ScriptEngineProvider;
 
 /**
  * <p>Manages state of the scripting console</p>
@@ -39,7 +39,7 @@ public class ScriptEditorModel {
 		if (name == null){
 			factory = null;
 		} else {
-			factory = ScriptEngineProvider.getInstance().getScriptFactoryByName(name);			
+			factory = JSR223ScriptEngineProvider.getInstance().getScriptFactoryByName(name);			
 		}
 	}
 	
