@@ -372,18 +372,19 @@ public class ScriptDescriptorEditorDialog extends JDialog {
 			String msg = tr("Automatically derive a script engine from the file name.");
 			if (rbDeriveFromFileName.isSelected()) {
 				String file = tfScriptFile.getText();
-				if (! file.trim().isEmpty()) { 			
-					ScriptEngine engine = JSR223ScriptEngineProvider.getInstance().getEngineForFile(new File(file));
-					if (engine == null) {
-						msg = msg + "<br>\n"
-						+ "<font color=\"red\">"
-						+ tr("No scripting engine found for file ''{0}''.", file)
-						+ "</font>";							
-					} else {
-						msg = msg + "<br>\n"
-						+ tr("Using scripting engine <strong>{0}</strong>.", engine.getFactory().getEngineName());
-					}
-				} 
+// FIXME: 				
+//				if (! file.trim().isEmpty()) { 			
+//					ScriptEngine engine = JSR223ScriptEngineProvider.getInstance().getEngineForFile(new File(file));
+//					if (engine == null) {
+//						msg = msg + "<br>\n"
+//						+ "<font color=\"red\">"
+//						+ tr("No scripting engine found for file ''{0}''.", file)
+//						+ "</font>";							
+//					} else {
+//						msg = msg + "<br>\n"
+//						+ tr("Using scripting engine <strong>{0}</strong>.", engine.getFactory().getEngineName());
+//					}
+//				} 
 			} 
 			pnlAutomaticallyDeriveEngine.setText(
 					"<html>" + msg + "</html>"
