@@ -1,4 +1,4 @@
-package org.openstreetmap.josm.plugins.scripting.preferences;
+package org.openstreetmap.josm.plugins.scripting.ui;
 
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
@@ -8,11 +8,22 @@ public class GridBagConstraintBuilder {
 	private GridBagConstraints gbc = new GridBagConstraints();
 	
 	static public GridBagConstraintBuilder gbc() {
-		return new GridBagConstraintBuilder();
+		return gbc(null);
+	}
+	
+	static public GridBagConstraintBuilder gbc(GridBagConstraints gc) {
+		return new GridBagConstraintBuilder(gc);
 	}
 	
 	public GridBagConstraintBuilder() {
-		reset();
+		this(null);
+	}
+	
+	public GridBagConstraintBuilder(GridBagConstraints gbc) {
+		this.reset();
+		if (gbc != null){
+			this.gbc = (GridBagConstraints)gbc.clone();
+		}
 	}
 	
 	public GridBagConstraintBuilder reset() {
@@ -81,6 +92,22 @@ public class GridBagConstraintBuilder {
 		return this;
 	}
 	
+	public GridBagConstraintBuilder nofill() {
+		gbc.fill = GridBagConstraints.NONE;
+		return this;
+	}
+	
+	public GridBagConstraintBuilder fillboth() {
+		gbc.fill = GridBagConstraints.BOTH;
+		return this;
+	}
+	
+	public GridBagConstraintBuilder fill(int fill) {
+		gbc.fill = fill;
+		return this;
+	}
+
+	
 	public GridBagConstraintBuilder borderright(int space){
 		if (gbc.insets == null) {
 			gbc.insets = new Insets(0,0,0,0);
@@ -92,4 +119,7 @@ public class GridBagConstraintBuilder {
 	public GridBagConstraints constraints() {
 		return gbc;
 	}
+	
+	
+	
 }
