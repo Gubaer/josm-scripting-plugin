@@ -25,8 +25,8 @@ import org.openstreetmap.josm.plugins.scripting.util.Assert;
  * Displays summary information about the currently selected scripting engine.
  *
  */
-public class ScriptingEningeInfoPanel extends JPanel implements PropertyChangeListener, HyperlinkListener{
-	static private final Logger logger = Logger.getLogger(ScriptingEningeInfoPanel.class.getName());
+public class ScriptEngineInfoPanel extends JPanel implements PropertyChangeListener, HyperlinkListener{
+	static private final Logger logger = Logger.getLogger(ScriptEngineInfoPanel.class.getName());
 	
 	private JEditorPane jepInfo;
 	private ScriptEditorModel model;
@@ -36,7 +36,7 @@ public class ScriptingEningeInfoPanel extends JPanel implements PropertyChangeLi
 	 * 
 	 * @param model the model to listen too for updated script engines 
 	 */
-	public ScriptingEningeInfoPanel(ScriptEditorModel model){
+	public ScriptEngineInfoPanel(ScriptEditorModel model){
 		Assert.assertArgNotNull(model, "model");
 		model.addPropertyChangeListener(this);
 		this.model = model;
@@ -70,7 +70,7 @@ public class ScriptingEningeInfoPanel extends JPanel implements PropertyChangeLi
 		add(jepInfo, BorderLayout.CENTER);
 	}
 	
-	public ScriptingEningeInfoPanel() {
+	public ScriptEngineInfoPanel() {
 		build();
 	}
 	

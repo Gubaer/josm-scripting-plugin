@@ -9,7 +9,7 @@ import org.openstreetmap.josm.plugins.scripting.fixtures.JOSMFixture;
 
 public class ScriptingEngineInfoPanelTest extends JFrame {
 
-	private ScriptingEningeInfoPanel infoPanel;
+	private ScriptEngineInfoPanel infoPanel;
 	private ScriptEditorModel model;
 	private JOSMFixture fixture;
 	
@@ -25,7 +25,7 @@ public class ScriptingEngineInfoPanelTest extends JFrame {
 		Container c = getContentPane();
 		c.setLayout(new BorderLayout());
 		model = new ScriptEditorModel();
-		infoPanel = new ScriptingEningeInfoPanel(model);
+		infoPanel = new ScriptEngineInfoPanel(model);
 		c.add(infoPanel, BorderLayout.CENTER);		
 		setSize(600, 50);
 	}
