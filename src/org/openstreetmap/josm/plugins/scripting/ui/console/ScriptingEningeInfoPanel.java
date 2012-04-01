@@ -9,8 +9,6 @@ import java.beans.PropertyChangeListener;
 import java.text.MessageFormat;
 import java.util.logging.Logger;
 
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineFactory;
 import javax.swing.JEditorPane;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
@@ -19,21 +17,31 @@ import javax.swing.event.HyperlinkListener;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.StyleSheet;
 
+import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
 import org.openstreetmap.josm.plugins.scripting.ui.ScriptEngineSelectionDialog;
-import org.openstreetmap.josm.tools.CheckParameterUtil;
+import org.openstreetmap.josm.plugins.scripting.util.Assert;
 
+/**
+ * Displays summary information about the currently selected scripting engine.
+ *
+ */
 public class ScriptingEningeInfoPanel extends JPanel implements PropertyChangeListener, HyperlinkListener{
 	static private final Logger logger = Logger.getLogger(ScriptingEningeInfoPanel.class.getName());
 	
 	private JEditorPane jepInfo;
 	private ScriptEditorModel model;
 	
+	/**
+	 * Creates a new info panel
+	 * 
+	 * @param model the model to listen too for updated script engines 
+	 */
 	public ScriptingEningeInfoPanel(ScriptEditorModel model){
-		CheckParameterUtil.ensureParameterNotNull(model);
+		Assert.assertArgNotNull(model, "model");
 		model.addPropertyChangeListener(this);
 		this.model = model;
 		build();
-		refreshInfo(model.getScriptEngineFactory());
+		refreshInfo(model.getScriptEngineDescriptor());
 	}
 	
 	protected void build() {
@@ -66,19 +74,30 @@ public class ScriptingEningeInfoPanel extends JPanel implements PropertyChangeLi
 		build();
 	}
 	
-	protected void refreshInfo(ScriptEngineFactory factory){
+	protected void refreshInfo(ScriptEngineDescriptor desc){
 		StringBuffer sb = new StringBuffer();
-		if (factory == null){
+		if (desc == null){
 			sb.append("<html>");
 			sb.append(tr("No script engine selected.")).append(" ");
 			sb.append("<a href=\"urn:select-script-engine\">").append(tr("Select...")).append("</a>");
 			sb.append("<html>");
+		} else if (desc.isDefault()) {
+			sb.append("<html>");
+			sb.append(
+					tr("Executing scripts with the built-in scripting engine for <strong>{0}</strong> based on <strong>{1}</strong>.",
+					desc.getLanguageName(),
+					desc.getEngineName()
+					)
+			);
+			sb.append(" ");
+			sb.append("<a href=\"urn:change-script-engine\">").append(tr("Change...")).append("</a>");
+			sb.append("</html>");
 		} else {
 			sb.append("<html>");
 			sb.append(tr(
 					"Executing scripts in language <strong>{0}</strong> using engine <strong>{1}</strong>.",
-					factory.getLanguageName(),
-					factory.getEngineName()
+					desc.getLanguageName() == null ? tr("unknown") : desc.getLanguageName(),
+					desc.getEngineName() == null ? tr("unknown") : desc.getEngineName()
 				)
 		    );
 			sb.append(" ");
@@ -89,9 +108,9 @@ public class ScriptingEningeInfoPanel extends JPanel implements PropertyChangeLi
 	}
 	
 	protected void promptForScriptEngine() {
-		ScriptEngine se = ScriptEngineSelectionDialog.select(this, model.getScriptEngineFactory());
-		if (se != null){
-			model.setScriptEngineFactory(se.getFactory());
+		ScriptEngineDescriptor desc = ScriptEngineSelectionDialog.select(this, model.getScriptEngineDescriptor());
+		if (desc != null){
+			model.setScriptEngineDescriptor(desc);
 		}
 	}
 
@@ -100,8 +119,8 @@ public class ScriptingEningeInfoPanel extends JPanel implements PropertyChangeLi
 	/* ----------------------------------------------------------------------- */
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		if (!evt.getPropertyName().equals(ScriptEditorModel.PROP_SCRIPT_ENGINE_FACTORY)) return;
-		refreshInfo((ScriptEngineFactory)evt.getNewValue());
+		if (!evt.getPropertyName().equals(ScriptEditorModel.PROP_SCRIPT_ENGINE)) return;
+		refreshInfo((ScriptEngineDescriptor)evt.getNewValue());
 	}
 
 	/* ----------------------------------------------------------------------- */

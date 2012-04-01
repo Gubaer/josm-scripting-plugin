@@ -15,6 +15,8 @@ class ScriptEngineDescriptorTest {
 		def sd = new ScriptEngineDescriptor("rhino")
 		assert sd.getEngineId() == "rhino"
 		assert sd.getEngineType() == ScriptEngineType.PLUGGED
+		assert sd.getLanguageName() != null
+		assert sd.getEngineName() != null
 		
 		shouldFail(IllegalArgumentException) {
 			sd = new ScriptEngineDescriptor(null);
@@ -23,7 +25,9 @@ class ScriptEngineDescriptorTest {
 		sd = new ScriptEngineDescriptor(ScriptEngineType.PLUGGED, "rhino");
 		assert sd.getEngineId() == "rhino"
 		assert sd.getEngineType() == ScriptEngineType.PLUGGED
-		
+		assert sd.getLanguageName() != null
+		assert sd.getEngineName() != null
+
 		shouldFail(IllegalArgumentException) {
 			sd = new ScriptEngineDescriptor(null, "rhino");
 		}
@@ -33,7 +37,15 @@ class ScriptEngineDescriptorTest {
 	public void createDescriptorForEmbeddedEngine() {
 		def sd = new ScriptEngineDescriptor(ScriptEngineType.EMBEDDED, "rhino")
 		assert sd.getEngineId() == "rhino"
-		assert sd.getEngineType() == ScriptEngineType.EMBEDDED		
+		assert sd.getEngineType() == ScriptEngineType.EMBEDDED	
+		assert sd.getLanguageName() == null
+		assert sd.getEngineName() == null
+		
+		sd = new ScriptEngineDescriptor(ScriptEngineType.EMBEDDED, "rhino", "JavaScript", "Mozilla Rhino")
+		assert sd.getEngineId() == "rhino"
+		assert sd.getEngineType() == ScriptEngineType.EMBEDDED
+		assert sd.getLanguageName() == "JavaScript"
+		assert sd.getEngineName() == "Mozilla Rhino"
 	}
 	
 	@Test

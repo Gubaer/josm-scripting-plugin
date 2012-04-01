@@ -63,6 +63,8 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
 	
 	private ScriptEngineType engineType;
 	private String engineId;
+	private String languageName = null;
+	private String engineName = null;
 	
 	/**
 	 * The default script engine descriptor. Refers to the embedded script engine based
@@ -70,7 +72,9 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
 	 */
 	static public final ScriptEngineDescriptor DEFAULT_SCRIPT_ENGINE = new ScriptEngineDescriptor(
 			ScriptEngineType.EMBEDDED,
-			"rhino"
+			"rhino",
+			"JavaScript",
+			"Mozilla Rhino"
 	);
 	
 	/**
@@ -153,6 +157,16 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
 		return DEFAULT_SCRIPT_ENGINE;
 	}
 
+	protected void initParametersForJSR223Engine(String engineId) {
+		ScriptEngineFactory factory = JSR223ScriptEngineProvider.getInstance().getScriptFactoryByName(engineId);
+		if (factory == null){
+			this.languageName = null;
+			this.engineName = null;
+		} else {
+			this.languageName = factory.getLanguageName();
+			this.engineName = factory.getEngineName();
+		}		
+	}
 		
 	/**
 	 * Creates a new descriptor for the type {@link ScriptEngineType#PLUGGED}.
@@ -162,7 +176,8 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
 	public ScriptEngineDescriptor(String engineId){
 		Assert.assertArgNotNull(engineId, "id");
 		this.engineType = ScriptEngineType.PLUGGED;
-		this.engineId = engineId;
+		this.engineId = engineId.trim();
+		initParametersForJSR223Engine(this.engineId);
 	}
 
 	/**
@@ -176,6 +191,26 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
 		Assert.assertArgNotNull(engineId, "id");
 		this.engineId = engineId;
 		this.engineType= engineType; 
+		if (this.engineType.equals(ScriptEngineType.PLUGGED)) {
+			initParametersForJSR223Engine(this.engineId);
+		}
+	}
+	
+	/**
+	 * Creates a new descriptor.
+	 * 
+	 * @param engineType the engine type. Must not be null.
+	 * @param engineId the engine id. Must not be null. 
+	 * @param languageName the name of the scripting language. May be null.
+	 * @param engineName the name of the scripting engine. May be null.
+	 */
+	public ScriptEngineDescriptor(ScriptEngineType engineType, String engineId, String languageName, String engineName) {
+		Assert.assertArgNotNull(engineType, "type");
+		Assert.assertArgNotNull(engineId, "id");
+		this.engineId = engineId;
+		this.engineType= engineType;
+		this.languageName = languageName == null ? null : languageName.trim();
+		this.engineName = engineName == null ? null : engineName.trim();
 	}
 	
 	/**
@@ -225,6 +260,27 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
 	public String getPreferencesValue() {
 		return MessageFormat.format("{0}/{1}", engineType.preferencesValue, engineId); 
 	}
+	
+	/**
+	 * Replies the name of the scripting language supported by this scripting engine, or null,
+	 * if the name isn't known.
+	 * 
+	 * @return the name of the scripting language supported by this scripting engine.
+	 */
+	public String getLanguageName() {
+		return languageName;
+	}
+	
+	/**
+	 * Replies the name of the scripting engine , or null,
+	 * if the name isn't known.
+	 * 
+	 * @return the name of the scripting engine
+	 */	
+	public String getEngineName() {
+		return engineName;
+	}
+	
 	
 	public String toString() {
 		return getPreferencesValue();
