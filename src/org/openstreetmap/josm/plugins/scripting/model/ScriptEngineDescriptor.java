@@ -3,8 +3,10 @@ package org.openstreetmap.josm.plugins.scripting.model;
 import static org.openstreetmap.josm.tools.I18n.tr;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.script.ScriptEngineFactory;
@@ -65,6 +67,8 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
 	private String engineId;
 	private String languageName = null;
 	private String engineName = null;
+	private final List<String> contentMimeTypes = new ArrayList<String>();
+
 	
 	/**
 	 * The default script engine descriptor. Refers to the embedded script engine based
@@ -74,7 +78,8 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
 			ScriptEngineType.EMBEDDED,
 			"rhino",
 			"JavaScript",
-			"Mozilla Rhino"
+			"Mozilla Rhino",
+			"text/javascript"
 	);
 	
 	/**
@@ -162,10 +167,17 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
 		if (factory == null){
 			this.languageName = null;
 			this.engineName = null;
-		} else {
-			this.languageName = factory.getLanguageName();
-			this.engineName = factory.getEngineName();
-		}		
+			this.contentMimeTypes.clear();
+			return;
+		} 
+		initParametersForJSR223Engine(factory);
+	}
+	
+	protected void initParametersForJSR223Engine(ScriptEngineFactory factory) {
+		this.languageName = factory.getLanguageName();
+		this.engineName = factory.getEngineName();
+		this.contentMimeTypes.clear();
+		this.contentMimeTypes.addAll(factory.getMimeTypes());
 	}
 		
 	/**
@@ -203,14 +215,18 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
 	 * @param engineId the engine id. Must not be null. 
 	 * @param languageName the name of the scripting language. May be null.
 	 * @param engineName the name of the scripting engine. May be null.
+	 * @param contentType the content type of the script sources. Ignored if null.
 	 */
-	public ScriptEngineDescriptor(ScriptEngineType engineType, String engineId, String languageName, String engineName) {
+	public ScriptEngineDescriptor(ScriptEngineType engineType, String engineId, String languageName, String engineName, String contentType) {
 		Assert.assertArgNotNull(engineType, "type");
 		Assert.assertArgNotNull(engineId, "id");
 		this.engineId = engineId;
 		this.engineType= engineType;
 		this.languageName = languageName == null ? null : languageName.trim();
 		this.engineName = engineName == null ? null : engineName.trim();
+		if (contentType != null) {
+			this.contentMimeTypes.add(contentType.trim());
+		}
 	}
 	
 	/**
@@ -222,7 +238,7 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
 	public ScriptEngineDescriptor(ScriptEngineFactory factory) {
 		Assert.assertArgNotNull(factory, "factory");
 		this.engineType = ScriptEngineType.PLUGGED;
-		this.engineId = factory.getNames().get(0);
+		initParametersForJSR223Engine(factory);
 	}
 	
 	/**
@@ -281,6 +297,14 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
 		return engineName;
 	}
 	
+	/**
+	 * Replies the content types of the script source 
+	 * 
+	 * @return the content types. An unmodifiable list. An empty list, if no content types are known. 
+	 */
+	public List<String> getContentMimeTypes() {
+		return Collections.unmodifiableList(contentMimeTypes);
+	}
 	
 	public String toString() {
 		return getPreferencesValue();
