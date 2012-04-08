@@ -1,12 +1,15 @@
 package org.openstreetmap.josm.plugins.scripting.js;
 
+import static org.openstreetmap.josm.tools.I18n.tr;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.Reader;
 import java.lang.reflect.InvocationTargetException;
-import java.text.MessageFormat;
 import java.util.logging.Logger;
 
 import javax.swing.SwingUtilities;
@@ -18,6 +21,7 @@ import org.openstreetmap.josm.plugins.scripting.util.Assert;
 import org.openstreetmap.josm.plugins.scripting.util.ExceptionUtil;
 import org.openstreetmap.josm.plugins.scripting.util.IOUtil;
 
+import sun.org.mozilla.javascript.RhinoException;
 /**
  * A facade to the embedded rhino scripting engine.
  * <p>
@@ -34,6 +38,34 @@ public class RhinoEngine {
 	public static RhinoEngine getInstance() {
 		if (instance == null) instance = new RhinoEngine();
 		return instance; 
+	}
+	
+	/**
+	 * The default resource name for the JavaScript file with complete, compiled JavaScript
+	 * source for the JOSM JavaScript API.
+	 */
+	static final public String DEFAULT_JOSM_JAVASCRIPT_API_RESOURCE = "/js/josm-api.js";
+	
+	/**
+	 * The name of the system property which can be used to override the resource name for the
+	 * JOSM JavaScript API resource file. 
+	 * 
+	 * <strong>Example</strong><br/>
+	 * <pre>
+	 *     java -Dscripting.javascript-api-resource=/build/js/josm-api.js org.openstreetmap.josm..... 
+	 * </pre>
+	 */
+	static final public String JOSM_JAVASCRIPT_API_RESOURCE_SYSTEM_PROPERTY = "scripting.javascript-api-resource";
+
+	/**
+	 * Replies the name of the resource where the JOSM JavaScript API should be loaded from.
+	 * 
+	 * @return
+	 */
+	static public String getJOSMJavaScriptAPIResource() {
+		String name = System.getProperty(JOSM_JAVASCRIPT_API_RESOURCE_SYSTEM_PROPERTY);
+		if (name != null) return name;
+		return DEFAULT_JOSM_JAVASCRIPT_API_RESOURCE;
 	}
 	
 	private RhinoEngine(){}
@@ -72,19 +104,30 @@ public class RhinoEngine {
 				if (Context.getCurrentContext() != null) return;
 				Context ctx = Context.enter();				
 				swingThreadScope = ctx.initStandardObjects();
-//FIXME: parse and import supplied javascript library
-				//				InputStreamReader reader = null;
-//				try {
-//					reader = new InputStreamReader(RhinoEngine.class.getResourceAsStream("/JOSM.js"));
-//					ctx.evaluateReader(swingThreadScope, reader, null /* unnamed script */, 0, null);
-//				} catch(IOException e){
-//					System.out.println(e);
-//				} catch(EvaluatorException e){
-//					System.out.println(MessageFormat.format("Syntax error on {0}/{1}", e.lineNumber(), e.columnNumber()));
-//					throw e;
-//				} finally {
-//					IOUtil.close(reader);
-//				}
+				InputStreamReader reader = null;
+				String res = getJOSMJavaScriptAPIResource();
+				try {
+					InputStream in = RhinoEngine.class.getResourceAsStream(res);
+					if (in == null){
+						System.out.println(tr("Didn''t find the javascript API source in resource ''{0}''. Skipping API initialization.", res));
+						return;
+					}
+					System.out.println(tr("Loading the JOSM JavaScript API from the resource file ''{0}''", res));
+					reader = new InputStreamReader(in);
+					ctx.evaluateReader(swingThreadScope, reader, res, 0, null);
+				} catch(IOException e){
+					System.out.println(tr("Failed to load javascript API file from resource ''{0}''.", res));
+					System.out.println(tr("Exception ''{0}'' occured.", e.toString()));
+					System.out.println(tr("JOSM JavaScript API won't be available."));
+					e.printStackTrace();
+				} catch(RhinoException e){
+					System.out.println(tr("Failed to load javascript API file from resource ''{0}''.", res));
+					System.out.println(tr("Exception ''{0}'' occured at position {1}/{2}.", e.toString(), e.lineNumber(), e.columnNumber()));
+					System.out.println(tr("JOSM JavaScript API won't be available."));
+					e.printStackTrace();					
+				} finally {
+					IOUtil.close(reader);
+				}
 			}
 		};
 		runOnSwingEDT(r);
