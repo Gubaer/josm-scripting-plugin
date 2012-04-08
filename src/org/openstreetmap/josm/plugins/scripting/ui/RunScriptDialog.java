@@ -20,10 +20,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import javax.script.Compilable;
-import javax.script.CompiledScript;
-import javax.script.ScriptEngine;
-import javax.script.ScriptException;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JButton;
@@ -35,9 +31,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
-import javax.swing.SwingUtilities;
 
-import org.mozilla.javascript.RhinoException;
 import org.openstreetmap.josm.Main;
 import org.openstreetmap.josm.gui.HelpAwareOptionPane;
 import org.openstreetmap.josm.gui.SideButton;
@@ -46,19 +40,18 @@ import org.openstreetmap.josm.gui.help.HelpUtil;
 import org.openstreetmap.josm.gui.widgets.HistoryComboBox;
 import org.openstreetmap.josm.gui.widgets.HtmlPanel;
 import org.openstreetmap.josm.gui.widgets.SelectAllOnFocusGainedDecorator;
-import org.openstreetmap.josm.plugins.scripting.js.RhinoEngine;
-import org.openstreetmap.josm.plugins.scripting.model.JSR223CompiledScriptCache;
 import org.openstreetmap.josm.plugins.scripting.model.JSR223ScriptEngineProvider;
 import org.openstreetmap.josm.plugins.scripting.model.PreferenceKeys;
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
-import org.openstreetmap.josm.plugins.scripting.util.IOUtil;
 import org.openstreetmap.josm.tools.ImageProvider;
 import org.openstreetmap.josm.tools.WindowGeometry;
 
 /**
  * <p>Provides a modal dialog for selecting and running a script.</p> 
  */
+@SuppressWarnings("serial")
 public class RunScriptDialog extends JDialog implements PreferenceKeys{
+	@SuppressWarnings("unused")
 	static private final Logger logger = Logger.getLogger(RunScriptDialog.class.getName());
 
 	/** the input field for the script file name */
@@ -238,90 +231,7 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys{
 			System.out.println(tr("Failed to read the script from the file ''{0}''.", f.toString()));
 			e.printStackTrace();			
 		}
-		
-		protected void warnExecutingScriptFailed(ScriptException e){
-			HelpAwareOptionPane.showOptionDialog(
-					RunScriptDialog.this,
-					tr("Script execution has failed."),
-					tr("Script Error"),
-					JOptionPane.ERROR_MESSAGE,
-					HelpUtil.ht("/Plugin/Scripting")
-			);			
-			System.out.println(tr("Script execution has failed."));
-			e.printStackTrace();
-		}
-		
-		protected void warnNoScriptingEnginesInstalled() {
-			HelpAwareOptionPane.showOptionDialog(
-					RunScriptDialog.this,
-					"<html>"
-					+ tr(
-						"<p>The script can''t be executed, because there are currently no scripting engines installed.</p>"
-						+ "<p>Refer to the online help for information about how to install/configure a scripting engine for JOSM.</p>"						
-					)					
-					+ "</html>"
-					,
-					tr("No script engine"),
-					JOptionPane.ERROR_MESSAGE,
-					HelpUtil.ht("/Plugin/Scripting")
-			);
-		}
-		
-		protected void warnScriptingEngineNotFound(ScriptEngineDescriptor desc) {
-			HelpAwareOptionPane.showOptionDialog(
-					RunScriptDialog.this,
-					"<html>"
-					+ tr(
-						"<p>The script can''t be executed, because a scripting engine with name ''{0}'' isn''t configured.</p>"
-						+ "<p>Refer to the online help for information about how to install/configure a scripting engine for JOSM.</p>"						
-					)					
-					+ "</html>"
-					,
-					tr("Script engine not found"),
-					JOptionPane.ERROR_MESSAGE,
-					HelpUtil.ht("/Plugin/Scripting")
-			);
-		}
-		
-		protected void notifyRhinoException(File scriptFile, RhinoException e) {
-			HelpAwareOptionPane.showOptionDialog(
-					RunScriptDialog.this,
-					"<html>"
-					+ tr(
-						"<p>Failed to execute the script file ''{0}''.</p><p/>"
-						+ "<p><strong>Error message:</strong>{1}</p>"						
-						+ "<p><strong>At:</strong>line {2}, column {3}</p>",
-						scriptFile.toString(),
-						e.getMessage(),
-						e.lineNumber(),
-						e.columnNumber()
-					)					
-					+ "</html>"
-					,
-					tr("Script execution failed"),
-					JOptionPane.ERROR_MESSAGE,
-					HelpUtil.ht("/Plugin/Scripting")
-			);
-		}
-		
-		protected void notifyIOExeption(File scriptFile, IOException e) {
-			HelpAwareOptionPane.showOptionDialog(
-					RunScriptDialog.this,
-					"<html>"
-					+ tr(
-						"<p>Failed to execute the script file ''{0}''.</p><p/>"
-						+ "<p><strong>Error message:</strong>{1}</p>",						
-						scriptFile.toString(),
-						e.getMessage()
-					)					
-					+ "</html>"
-					,
-					tr("Script execution failed"),
-					JOptionPane.ERROR_MESSAGE,
-					HelpUtil.ht("/Plugin/Scripting")
-			);
-		}
-		
+								
 		protected ScriptEngineDescriptor deriveOrAskScriptEngineDescriptor(File file) { 
 			JSR223ScriptEngineProvider provider = JSR223ScriptEngineProvider.getInstance();
 			String mimeType = provider.getContentTypeForFile(file);
@@ -334,34 +244,6 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys{
 		}
 		
 		
-		protected void runScriptWithPluggedEngine(final ScriptEngineDescriptor desc, final File scriptFile) {
-			final ScriptEngine engine = JSR223ScriptEngineProvider.getInstance().getScriptEngine(desc);
-			if (engine == null) {
-				warnScriptingEngineNotFound(desc);
-				return;
-			}
-			Runnable task = new Runnable() {
-		    	public void run() {			
-		    		FileReader reader = null;
-					try {
-						if (engine instanceof Compilable) {
-							CompiledScript script = JSR223CompiledScriptCache.getInstance().compile((Compilable)engine,scriptFile);
-							script.eval();
-						} else {
-							reader = new FileReader(scriptFile);								
-							engine.eval(reader);
-						}
-					} catch(ScriptException e){
-						warnExecutingScriptFailed(e);
-					} catch(IOException e){
-						warnOpenScriptFileFailed(scriptFile, e);
-					} finally {
-						IOUtil.close(reader);
-					}
-		    	}
-		    };
-		    SwingUtilities.invokeLater(task);
-		}
 		
 		@Override
 		public void actionPerformed(ActionEvent evt) {
@@ -393,20 +275,10 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys{
 			
 			switch(desc.getEngineType()){
 			case EMBEDDED:
-				try {					
-					RhinoEngine.getInstance().evaluateOnSwingThread(f, null /* create a new context */);
-				} catch(RhinoException e){
-					System.err.println(e);
-					e.printStackTrace();
-					notifyRhinoException(f, e);
-				} catch(IOException e){
-					notifyIOExeption(f, e);
-					System.err.print(e);
-					e.printStackTrace();
-				}
+				new ScriptExecutor(RunScriptDialog.this).runScriptWithEmbeddedEngine(f);
 				break;
 			case PLUGGED:
-				runScriptWithPluggedEngine(desc, f);
+				new ScriptExecutor(RunScriptDialog.this).runScriptWithPluggedEngine(desc, f);
 				break;
 			}
 		}	
