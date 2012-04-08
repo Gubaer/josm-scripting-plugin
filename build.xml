@@ -24,12 +24,10 @@
 
 		<mkdir dir="${plugin.build.dir}" />
 		<mkdir dir="${plugin.dist.dir}" />
-
-		<taskdef resource="net/sf/antcontrib/antlib.xml">
-			<classpath>
-				<pathelement location="${ant.contrib.jar}"/>
-			</classpath>
-		</taskdef>
+		
+		<taskdef name="groovy"
+		         classname="org.codehaus.groovy.ant.Groovy"
+		         classpath="${groovy.jar}" />
 	</target>
 
 	<target name="compile" depends="init">
@@ -40,7 +38,7 @@
 		</javac>
 	</target>
 
-	<target name="dist" depends="clean,init,compile,create-version-info-for-manifest" description="Create the plugin jar">
+	<target name="dist" depends="clean,init,compile,create-version-info-for-manifest,js-compile" description="Create the plugin jar">
 		<tstamp>
 			<format property="plugin.build.date" pattern="yyyy-MM-dd hh:mm aa" />
 		</tstamp>
@@ -91,7 +89,6 @@
 				<include name="mime.types" />
 			</fileset>
 		</copy>
-		<propertyselector property="plugin.versions" match="plugin\.([0-9]+)\.requires" select="\1"/>
 		<jar destfile="${plugin.jar}" basedir="${plugin.build.dir}" manifest="version-information.MF">
 			<!--
 			We have to "unfold" 3d-party jars in the plugin jar. Otherwise, the JOSM plugin class loader
@@ -203,28 +200,83 @@
 		<copy file="${plugin.jar}" todir="${local.install.path}" />
 	</target>
 
-	<!--
-	Creates a file 'version-information.MF' which is added to the jars Manifest file.
-	This fragment maps plugin versions to the lowest JOSM version they are compatible with.
-	-->
-	<target name="create-version-info-for-manifest" depends="init">
-		<echo>Creating plugin version map in 'version-information.MF' ...</echo>
-		<property name="plugin.versions" value="" />
-		<propertyselector property="plugin.versions" match="plugin\.([0-9]+)\.requires" select="\1" override="yes"/>
-		<delete file="version-information.MF"/>
-		<if>
-			<equals arg1="${plugin.versions}" arg2=""/>
-			<then>
-			</then>
-			<else>
-				<for list="${plugin.versions}" param="version">
-					<sequential>
-						<echo append="true" file="version-information.MF" message="@{version}-Plugin-Url: @{version};https://raw.github.com/Gubaer/josm-scripting-plugin/for-josm-${plugin.@{version}.requires}/dist/scripting.jar${line.separator}" />
-					</sequential>
-				</for>
-			</else>
-		</if>
-		<echo append="true" file="version-information.MF" message="${plugin.version}-Plugin-Url: ${plugin.version};https://raw.github.com/Gubaer/josm-scripting-plugin/for-josm-${josm.required.version}/dist/scripting.jar${line.separator}" />
+	<target name="create-version-info-for-manifest" depends="init" description="Creates the Manifest.MF fragment with the version infor">
+		<groovy><![CDATA[		
+		   def prop = new java.util.Properties()
+		   prop.load (new FileInputStream("build.properties"))
+		   def mf = new File("version-information.MF")
+		   prop.each {k, v -> 
+			  def m = k =~ /^plugin\.(\d+)\.requires$/
+			  if (m.matches()) {
+			    def vplugin = m[0][1]
+			    def vjosm = v			   			    
+			    mf << "${vplugin}-Plugin-Url: ${vplugin};https://raw.github.com/Gubaer/josm-scripting-plugin/for-josm-${vjosm}/dist/scripting.jar"
+			  }
+		  }		  		   
+		]]></groovy>
 	</target>
 
+	<!-- ************************************************************************************ -->
+	<!-- * Targets for javascript API                                                         -->
+	<!-- ************************************************************************************ -->
+
+	<target name="js-init" depends="init" description="Init build properties for compiling JavaScript files">
+		<available file="${closure.jar}" property="google.closure.present" />
+		<fail unless="google.closure.present">**				
+** Google closure compiler '${closure.jar}' not found.
+** Make sure the full path to the jar is configured in 'build.properties' in
+** the property 'closure.jar'.
+**
+</fail>
+		<taskdef name="closure"
+		  classname="com.google.javascript.jscomp.ant.CompileTask"
+		  classpath="${closure.jar}"/>
+		
+		<mkdir dir="build"/>
+		<delete dir="build/js" />
+		<mkdir dir="build/js"/>
+		
+		<delete dir="doc/js"/>
+		<mkdir dir="doc/js" />
+	</target>
+
+	<target name="js-compile" depends="js-init" description="Compile the JOSM Javascript API">
+		<groovy>
+			def arg = new File("javascript/api-files").text.split()
+			   .findAll {!it.trim().isEmpty()}
+			   .collect {"--js javascript/${it}"}
+			   .join(" ")
+			
+			properties["closure.input.files"] = arg
+		</groovy>
+		<echo>Compiling with source files: ${closure.input.files}</echo>
+		<exec executable="java">			
+			<arg line="-jar ${closure.jar}" />
+			<arg line="--js_output_file build/js/josm-api.js" />
+			<arg line="--formatting PRETTY_PRINT" />
+			<arg line="--closure_entry_point josm"/>
+			<arg line="--manage_closure_dependencies"/>
+			<!-- <arg line=" dash dash compilation_level WHITESPACE_ONLY" /> -->
+			<arg line="${closure.input.files}" />
+		</exec>
+	</target>
+	
+	<target name="js-doc" depends="js-init" description="Create the documentation for the JOSM javascript API">
+		<groovy>			
+			def arg = new File("javascript/api-files").text.split()
+			   .findAll {!it.trim().isEmpty()}
+			   .collect {"javascript/${it}"}
+			   .join(" ")
+			
+			properties["jsdoc.input.files"] = arg
+		</groovy>
+		<echo>Generating documentation for: ${jsdoc.input.files}</echo>
+		<exec executable="java">
+			<arg line="-jar ${jsdoc.dir}/jsrun.jar ${jsdoc.dir}/app/run.js" />
+			<arg line="-d=doc/js" />
+			<arg line="-t=${jsdoc.dir}/templates/jsdoc" />
+			<arg line="${jsdoc.input.files}" />
+		</exec>
+	</target>
+	
 </project>
