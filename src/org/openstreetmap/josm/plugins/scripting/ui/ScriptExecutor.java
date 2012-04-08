@@ -273,7 +273,7 @@ public class ScriptExecutor {
 		try {					
 			RhinoEngine engine = RhinoEngine.getInstance();
 			engine.enterSwingThreadContext();
-			engine.evaluateOnSwingThread(script, null /* create a new context */);
+			engine.evaluateOnSwingThread(script);
 		} catch(RhinoException e){
 			System.err.println(e);
 			e.printStackTrace();
