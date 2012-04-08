@@ -1,13 +1,6 @@
 jsyntaxpane by Ayman Al-Sairafi et. al. is available under Apache
 Licese 2.0 from <http://code.google.com/p/jsyntaxpane/>. See included
-LICESNSE.jsyntaxpane for applicable license information.
+LICENSE.jsyntaxpane for applicable license information.
   
-This plugin uses a patched version of jsyntaxpane available from the
-fork on 
-  <https://github.com/Gubaer/jsyntaxpane> 
-  
-A patch for the standard repository on google code, fixing a class loading issue, has been filed here:
-  <http://code.google.com/p/jsyntaxpane/issues/detail?id=177&colspec=ID%20Type%20Status%20Priority%20Owner%20Summary>
-
 
                          

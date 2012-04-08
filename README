@@ -1,5 +1,5 @@
 ----------------------------------------------------------------------
-                        scripting plugin
+                        JOSM scripting plugin
 ----------------------------------------------------------------------                        
 
 The scripting plugin executes scripts in JOSM.
@@ -15,6 +15,7 @@ CREDIT
 ======
 This plugin uses:
 * jsyntaxpane by Ayman Al-Sairafi. See README.jsyntaxpane and LICENSE.jsyntaxpane
+* Rhino scripting engine by Mozilla Foundation. See README.rhino and LICENSE.rhino
 
 BUILD 
 =====

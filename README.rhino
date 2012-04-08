@@ -1,0 +1,11 @@
+Rhino by is JavaScript script engine provided by The Mozilla Foundation
+under MPL 1.1/GPL 2.0. <See https://developer.mozilla.org/en/Rhino_License>
+or included LICESNSE.rhino.
+  
+This plugin doesn't include the original Rhino jar provided by the Mozilla
+foundation. It includes the "unfolded" content of the Rhino jar in the jar
+it distributes as plugin jar.
+
+ 
+
+                         
