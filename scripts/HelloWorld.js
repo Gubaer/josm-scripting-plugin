@@ -4,7 +4,7 @@
 var Swing = new JavaImporter(
 	Packages.javax.swing.JOptionPane
 );
-sdf
+
 var josm = new JavaImporter(
 	Packages.org.openstreetmap.josm.Main
 );
