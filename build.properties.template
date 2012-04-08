@@ -6,16 +6,16 @@
 #
 # --------------------------------------------------------------------------
 
-# the current plugin version. Increment if you create a new build to be rolled out
+# The current plugin version. Increment if you create a new build to be rolled out
 # via the OSM subversion repository
 #
 plugin.version=3
 
-# the lowest JOSM version the curent plugin version is compatible with
+# The lowest JOSM version the curent plugin version is compatible with
 #
 josm.required.version=4062
 
-# the full path to the JOSM jar against which this plugin is build
+# the full path to the JOSM jar against which this plugin is built
 #
 josm.jar=/full/path/to/josm.jar
 
@@ -33,21 +33,17 @@ josm.jar=/full/path/to/josm.jar
 # 
 ant.contrib.jar=/usr/share/java/ant-contrib.jar
 
-# The full path to the jsyntaxpane jar. Please note that the scripting plugin
-# requires a patched version of jsyntaxpane available from
-#    https://github.com/Gubaer/jsyntaxpane 
-# A patch for the standard repository on google code, fixing a class loading
-# issue, has been filed here:
-#   http://code.google.com/p/jsyntaxpane/issues/detail?id=177&colspec=ID%20Type%20Status%20Priority%20Owner%20Summary
+# The full path to the jsyntaxpane jar. Download from
+#    http://code.google.com/p/jsyntaxpane
 #
 jsyntaxpane.jar=/full/path/to/jsyntaxpane.jar
 
-# the full local path where the plugin shall be installed inorder to test it
-# withing a JOSM instance
+# The full local path where the plugin shall be installed in order to test it
+# within a JOSM instance
 #
 local.install.path=/full/path/to/local/installation
 
-# the full path to the groovy-all-{x.y.y}.jar
+# The full path to the groovy-all-{x.y.y}.jar
 # Required for test cases written in groovy.
 #
 # If working with Eclipse, can be found somewhere in the
@@ -56,7 +52,15 @@ local.install.path=/full/path/to/local/installation
 #
 groovy.jar=/full/path/to/jar
 
-# the full path to the junit jar. If working with Eclipse, can be found somewhere in the
+# The full path to the junit jar. If working with Eclipse, can be found somewhere in the
 # eclipse/plugin directory. Search for "junit.jar".
 #
 junit.jar=/full/path/to/jar
+
+# The full path to the Rhino jar.
+# The Rhino scripting engine is shipped with the plugin as embedded scripting engine. 
+# Download from 
+#     http://www.mozilla.org/rhino/download.html
+#
+rhino.jar=/full/path/to/jar
+
