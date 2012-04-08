@@ -7,11 +7,11 @@ import javax.script.ScriptEngineFactory;
 import javax.swing.AbstractListModel;
 import javax.swing.ComboBoxModel;
 
-import org.openstreetmap.josm.plugins.scripting.ScriptEngineProvider;
+import org.openstreetmap.josm.plugins.scripting.model.JSR223ScriptEngineProvider;
 
 /**
- * <strong>ScriptEngineComboBoxModel</strong> is an adapter for {@link ScriptEngineProvider}.
- * It provides a combo box model for the script engines provided by {@link ScriptEngineProvider}.
+ * <strong>ScriptEngineComboBoxModel</strong> is an adapter for {@link JSR223ScriptEngineProvider}.
+ * It provides a combo box model for the script engines provided by {@link JSR223ScriptEngineProvider}.
  */
 public class ScriptEngineComboBoxModel extends AbstractListModel implements ComboBoxModel{
 
@@ -19,7 +19,7 @@ public class ScriptEngineComboBoxModel extends AbstractListModel implements Comb
 	private final List<ScriptEngineFactory> factories = new ArrayList<ScriptEngineFactory>();
 	
 	public ScriptEngineComboBoxModel() {
-		factories.addAll(ScriptEngineProvider.getInstance().getScriptEngineFactories());
+		factories.addAll(JSR223ScriptEngineProvider.getInstance().getScriptEngineFactories());
 	}
 	
 	/* ---------------------------------------------------------------------------- */

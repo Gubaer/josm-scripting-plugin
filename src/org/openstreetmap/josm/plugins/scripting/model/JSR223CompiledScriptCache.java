@@ -1,4 +1,4 @@
-package org.openstreetmap.josm.plugins.scripting;
+package org.openstreetmap.josm.plugins.scripting.model;
 
 import java.io.File;
 import java.io.FileReader;
@@ -9,7 +9,6 @@ import java.util.logging.Logger;
 
 import javax.script.Compilable;
 import javax.script.CompiledScript;
-import javax.script.ScriptContext;
 import javax.script.ScriptException;
 
 import org.openstreetmap.josm.plugins.scripting.util.Assert;
@@ -20,16 +19,16 @@ import org.openstreetmap.josm.plugins.scripting.util.IOUtil;
  * which are compiled before executed.</p>  
  *
  */
-public class CompiledScriptCache {
-	static private final Logger logger = Logger.getLogger(CompiledScriptCache.class.getName());
+public class JSR223CompiledScriptCache {
+	static private final Logger logger = Logger.getLogger(JSR223CompiledScriptCache.class.getName());
 	
-	private static final CompiledScriptCache instance = new CompiledScriptCache();
+	private static final JSR223CompiledScriptCache instance = new JSR223CompiledScriptCache();
 	
 	/**
 	 * <p>Replies the global cache instance</p>
 	 * @return the cache
 	 */
-	public static CompiledScriptCache getInstance() {
+	public static JSR223CompiledScriptCache getInstance() {
 		return instance;
 	}
 
@@ -59,7 +58,7 @@ public class CompiledScriptCache {
 	
 	private final Map<File, CacheEntry> cache = new HashMap<File, CacheEntry>(); 
 	
-	public CompiledScriptCache() {}
+	public JSR223CompiledScriptCache() {}
 	
 	/**
 	 * <p>Compiles a script using {@code compiler} and replies the compiled script. Looks
@@ -84,12 +83,6 @@ public class CompiledScriptCache {
 			CompiledScript script = compiler.compile(reader = new FileReader(scriptFile));
 			entry = new CacheEntry(scriptFile, script);
 			cache.put(scriptFile, entry);
-			logger.info("*** Compilable ***");
-			logger.info("compiler.getClass(): " + compiler.getClass());
-			logger.info("compiler.getClass().getClassLoader(): " + compiler.getClass().getClassLoader());
-			logger.info("*** Compiled Script ***");
-			logger.info("script.getClass(): " + script.getClass());
-			logger.info("script.getClass().getClassLoader(): " + script.getClass().getClassLoader());
 			return script;
 		} finally {
 			IOUtil.close(reader);

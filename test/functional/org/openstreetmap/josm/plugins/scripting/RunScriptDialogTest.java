@@ -7,7 +7,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 
 import org.openstreetmap.josm.plugins.scripting.fixtures.JOSMFixture;
-import org.openstreetmap.josm.plugins.scripting.RunScriptDialog;
+import org.openstreetmap.josm.plugins.scripting.ui.RunScriptDialog;
 
 
 public class RunScriptDialogTest extends JFrame {

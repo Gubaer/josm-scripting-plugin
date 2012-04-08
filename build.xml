@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="scripting" default="dist" basedir=".">
 
-
 	<property name="plugin.build.dir" value="build" />
 	<property name="plugin.src.dir" value="src" />
 	<property name="plugin.dist.dir" value="dist" />
 	<property name="plugin.jar" value="${plugin.dist.dir}/scripting.jar" />
 
-	
+
 	<target name="init">
 		<available file="build.properties" property="build.properties.present" />
 		<fail unless="build.properties.present">**				
@@ -16,14 +15,21 @@
 ** according to your local environment.
 </fail>
 		<property file="build.properties" />
-		
+
 		<path id="compile.path">
-				<pathelement location="${josm.jar}" />
-				<pathelement location="${jsyntaxpane.jar}" />
+			<pathelement location="${josm.jar}" />
+			<pathelement location="${jsyntaxpane.jar}" />
+			<pathelement location="${rhino.jar}" />
 		</path>
-		
+
 		<mkdir dir="${plugin.build.dir}" />
 		<mkdir dir="${plugin.dist.dir}" />
+
+		<taskdef resource="net/sf/antcontrib/antlib.xml">
+			<classpath>
+				<pathelement location="${ant.contrib.jar}"/>
+			</classpath>
+		</taskdef>
 	</target>
 
 	<target name="compile" depends="init">
@@ -34,9 +40,9 @@
 		</javac>
 	</target>
 
-	<target name="dist" depends="clean,init,compile" description="Create the plugin jar">
+	<target name="dist" depends="clean,init,compile,create-version-info-for-manifest" description="Create the plugin jar">
 		<tstamp>
-		      <format property="plugin.build.date" pattern="yyyy-MM-dd hh:mm aa" />
+			<format property="plugin.build.date" pattern="yyyy-MM-dd hh:mm aa" />
 		</tstamp>
 
 		<copy todir="${plugin.build.dir}/images">
@@ -73,13 +79,26 @@
 				<include name="**/*.dtd" />
 			</fileset>
 		</copy>
+
+		<copy todir="${plugin.build.dir}">
+			<fileset dir="javascript">
+				<include name="**/*.js" />
+			</fileset>
+		</copy>
+
 		<copy todir="${plugin.build.dir}/META-INF">
 			<fileset dir="resources">
 				<include name="mime.types" />
 			</fileset>
 		</copy>
-		<jar destfile="${plugin.jar}" basedir="${plugin.build.dir}">
+		<propertyselector property="plugin.versions" match="plugin\.([0-9]+)\.requires" select="\1"/>
+		<jar destfile="${plugin.jar}" basedir="${plugin.build.dir}" manifest="version-information.MF">
+			<!--
+			We have to "unfold" 3d-party jars in the plugin jar. Otherwise, the JOSM plugin class loader
+			will not find them. 
+			-->
 			<zipfileset src="${jsyntaxpane.jar}" />
+			<zipfileset src="${rhino.jar}" />
 			<manifest>
 				<attribute name="Author" value="Karl Guggisberg" />
 				<attribute name="Plugin-Class" value="org.openstreetmap.josm.plugins.scripting.ScriptingPlugin" />
@@ -88,7 +107,6 @@
 				<attribute name="Plugin-Link" value="http://wiki.openstreetmap.org/index.php/JOSM/Plugins/Scripting" />
 				<attribute name="Plugin-Mainversion" value="${josm.required.version}" />
 				<attribute name="Plugin-Version" value="${plugin.version}" />
-				<attribute name="${josm.required.version}-Plugin-Url" value="${plugin.version};https://raw.github.com/Gubaer/josm-scripting-plugin/for-josm-${josm.required.version}/dist/scripting.jar" />
 			</manifest>
 		</jar>
 	</target>
@@ -117,21 +135,21 @@
 		<delete dir="test/output" />
 		<mkdir dir="test/output" />
 	</target>
-	
-	<target name="test.init" depends="init" description="Initializes the test environment">	
-			<path id="test.class.path">
-				<pathelement location="${josm.jar}" />
-				<pathelement location="${plugin.build.dir}" />
-				<pathelement location="${groovy.jar}" />
-				<pathelement location="${junit.jar}" />
-				<pathelement location="${test.build.dir}" />
-			</path>
-			<available classname="org.codehaus.groovy.ant.Groovy" classpath="${groovy.jar}" property="groovy.present" />
-			<fail unless="groovy.present">**
+
+	<target name="test.init" depends="init" description="Initializes the test environment">
+		<path id="test.class.path">
+			<pathelement location="${josm.jar}" />
+			<pathelement location="${plugin.build.dir}" />
+			<pathelement location="${groovy.jar}" />
+			<pathelement location="${junit.jar}" />
+			<pathelement location="${test.build.dir}" />
+		</path>
+		<available classname="org.codehaus.groovy.ant.Groovy" classpath="${groovy.jar}" property="groovy.present" />
+		<fail unless="groovy.present">**
 ** Groovy not found. Make sure groovy is on the classpath. 
 ** Check 'groovy.all.jar' in the build.properties.
 		    </fail>
-			<taskdef name="groovyc" classname="org.codehaus.groovy.ant.Groovyc" classpath="${groovy.jar}"/>
+		<taskdef name="groovyc" classname="org.codehaus.groovy.ant.Groovyc" classpath="${groovy.jar}"/>
 	</target>
 
 	<target name="test.compile" depends="compile,test.clean,test.init" description="Compiles the test files">
@@ -184,4 +202,29 @@
 		<echo>Installing the plugin in ${local.install.path}</echo>
 		<copy file="${plugin.jar}" todir="${local.install.path}" />
 	</target>
+
+	<!--
+	Creates a file 'version-information.MF' which is added to the jars Manifest file.
+	This fragment maps plugin versions to the lowest JOSM version they are compatible with.
+	-->
+	<target name="create-version-info-for-manifest" depends="init">
+		<echo>Creating plugin version map in 'version-information.MF' ...</echo>
+		<property name="plugin.versions" value="" />
+		<propertyselector property="plugin.versions" match="plugin\.([0-9]+)\.requires" select="\1" override="yes"/>
+		<delete file="version-information.MF"/>
+		<if>
+			<equals arg1="${plugin.versions}" arg2=""/>
+			<then>
+			</then>
+			<else>
+				<for list="${plugin.versions}" param="version">
+					<sequential>
+						<echo append="true" file="version-information.MF" message="@{version}-Plugin-Url: @{version};https://raw.github.com/Gubaer/josm-scripting-plugin/for-josm-${plugin.@{version}.requires}/dist/scripting.jar${line.separator}" />
+					</sequential>
+				</for>
+			</else>
+		</if>
+		<echo append="true" file="version-information.MF" message="${plugin.version}-Plugin-Url: ${plugin.version};https://raw.github.com/Gubaer/josm-scripting-plugin/for-josm-${josm.required.version}/dist/scripting.jar${line.separator}" />
+	</target>
+
 </project>

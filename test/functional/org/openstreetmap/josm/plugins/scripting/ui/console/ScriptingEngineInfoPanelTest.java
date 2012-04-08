@@ -5,16 +5,19 @@ import java.awt.Container;
 
 import javax.swing.JFrame;
 
-import org.openstreetmap.josm.Main;
-import org.openstreetmap.josm.data.Preferences;
-import org.openstreetmap.josm.data.projection.Mercator;
+import org.openstreetmap.josm.plugins.scripting.fixtures.JOSMFixture;
 
 public class ScriptingEngineInfoPanelTest extends JFrame {
 
-	private ScriptingEningeInfoPanel infoPanel;
+	private ScriptEngineInfoPanel infoPanel;
 	private ScriptEditorModel model;
+	private JOSMFixture fixture;
 	
 	public ScriptingEngineInfoPanelTest() {
+
+		fixture = JOSMFixture.createUnitTestFixture();
+		fixture.init();	
+		
 		build(); 
 	}
 	
@@ -22,14 +25,12 @@ public class ScriptingEngineInfoPanelTest extends JFrame {
 		Container c = getContentPane();
 		c.setLayout(new BorderLayout());
 		model = new ScriptEditorModel();
-		infoPanel = new ScriptingEningeInfoPanel(model);
+		infoPanel = new ScriptEngineInfoPanel(model);
 		c.add(infoPanel, BorderLayout.CENTER);		
 		setSize(600, 50);
 	}
 	
 	static public void main(String args[]) {
-		Main.pref = new Preferences();
-		Main.setProjection(new Mercator());
 		ScriptingEngineInfoPanelTest app = new ScriptingEngineInfoPanelTest();
 		app.setVisible(true);
 	}

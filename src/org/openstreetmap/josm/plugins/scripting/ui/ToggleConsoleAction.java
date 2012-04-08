@@ -1,4 +1,4 @@
-package org.openstreetmap.josm.plugins.scripting;
+package org.openstreetmap.josm.plugins.scripting.ui;
 
 import static org.openstreetmap.josm.tools.I18n.tr;
 

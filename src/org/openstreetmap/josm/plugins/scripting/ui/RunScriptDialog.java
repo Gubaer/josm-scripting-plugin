@@ -1,5 +1,6 @@
-package org.openstreetmap.josm.plugins.scripting;
+package org.openstreetmap.josm.plugins.scripting.ui;
 
+import static org.openstreetmap.josm.plugins.scripting.ui.GridBagConstraintBuilder.gbc;
 import static org.openstreetmap.josm.tools.I18n.tr;
 
 import java.awt.BorderLayout;
@@ -8,7 +9,6 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -20,10 +20,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import javax.script.Compilable;
-import javax.script.CompiledScript;
-import javax.script.ScriptEngine;
-import javax.script.ScriptException;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JButton;
@@ -35,7 +31,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
-import javax.swing.SwingUtilities;
 
 import org.openstreetmap.josm.Main;
 import org.openstreetmap.josm.gui.HelpAwareOptionPane;
@@ -45,16 +40,18 @@ import org.openstreetmap.josm.gui.help.HelpUtil;
 import org.openstreetmap.josm.gui.widgets.HistoryComboBox;
 import org.openstreetmap.josm.gui.widgets.HtmlPanel;
 import org.openstreetmap.josm.gui.widgets.SelectAllOnFocusGainedDecorator;
-import org.openstreetmap.josm.plugins.scripting.preferences.PreferenceKeys;
-import org.openstreetmap.josm.plugins.scripting.util.IOUtil;
+import org.openstreetmap.josm.plugins.scripting.model.JSR223ScriptEngineProvider;
+import org.openstreetmap.josm.plugins.scripting.model.PreferenceKeys;
+import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
 import org.openstreetmap.josm.tools.ImageProvider;
 import org.openstreetmap.josm.tools.WindowGeometry;
 
 /**
- * <p><strong>RunScriptDialog</strong> provides a modal dialog for selecting and
- * running a script.</p> 
+ * <p>Provides a modal dialog for selecting and running a script.</p> 
  */
+@SuppressWarnings("serial")
 public class RunScriptDialog extends JDialog implements PreferenceKeys{
+	@SuppressWarnings("unused")
 	static private final Logger logger = Logger.getLogger(RunScriptDialog.class.getName());
 
 	/** the input field for the script file name */
@@ -98,40 +95,23 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys{
 	
 	protected JPanel buildMacroFileInputPanel() {
 		JPanel pnl = new JPanel(new GridBagLayout());
-		GridBagConstraints gc = new GridBagConstraints();
-		gc.gridx = 0; 
-		gc.weightx = 0.0;
-		gc.weighty = 0.0;
-		gc.insets = new Insets(3,3,3,3);
-		gc.fill = GridBagConstraints.BOTH;
-		
+		GridBagConstraints gc  = gbc().cell(0,0).weight(0, 0).fillboth().insets(3,3,3,3).constraints();
 		pnl.add(new JLabel(tr("File:")), gc);
 		
 		cbScriptFile = new HistoryComboBox();		
 		SelectAllOnFocusGainedDecorator.decorate((JTextField)cbScriptFile.getEditor().getEditorComponent());
 		cbScriptFile.setToolTipText(tr("Enter the name of a script file"));
-		gc.gridx = 1; 
-		gc.weightx = 1.0;
-		gc.insets = new Insets(3,3,3,0 /* no spacing to the right */); 
-		gc.fill = GridBagConstraints.BOTH;
+		gc = gbc(gc).cell(1,0).weightx(1.0).spacingright(0).constraints();
 		pnl.add(cbScriptFile, gc);
 		
-		gc.gridx = 2; 
-		gc.weightx = 0.0;
-		gc.fill = GridBagConstraints.BOTH;
-		gc.insets = new Insets(3,0 /* no spacing to the left */,3,3);
+		gc = gbc(gc).cell(2,0).weightx(0.0).spacingleft(0).constraints();
 		JButton btn;
-		pnl.add(btn = new JButton(new SelectMacroFileAction()), gc);
+		pnl.add(btn = new JButton(new SelectScriptFileAction()), gc);
 		btn.setFocusable(false);
 				
 		// just a filler 
 		JPanel filler = new JPanel();
-		gc.gridx = 0;
-		gc.gridy = 1;
-		gc.gridwidth =3;
-		gc.weightx = 1.0;
-		gc.weighty = 1.0;
-		gc.fill = GridBagConstraints.BOTH;
+		gc = gbc(gc).cell(0,1,3,1).weight(1.0,1.0).fillboth().constraints();
 		pnl.add(filler, gc);
 		
 		return pnl;
@@ -248,45 +228,22 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys{
 					JOptionPane.ERROR_MESSAGE,
 					HelpUtil.ht("/Plugin/Scripting")
 			);			
-			System.out.println(tr("Failed to read a macro from the file ''{0}''.", f.toString()));
+			System.out.println(tr("Failed to read the script from the file ''{0}''.", f.toString()));
 			e.printStackTrace();			
 		}
-		
-		protected void warnExecutingScriptFailed(ScriptException e){
-			HelpAwareOptionPane.showOptionDialog(
-					RunScriptDialog.this,
-					tr("Script execution has failed."),
-					tr("Script Error"),
-					JOptionPane.ERROR_MESSAGE,
-					HelpUtil.ht("/Plugin/Scripting")
-			);			
-			System.out.println(tr("Macro execution has failed."));
-			e.printStackTrace();
+								
+		protected ScriptEngineDescriptor deriveOrAskScriptEngineDescriptor(File file) { 
+			JSR223ScriptEngineProvider provider = JSR223ScriptEngineProvider.getInstance();
+			String mimeType = provider.getContentTypeForFile(file);
+			if (mimeType.equals("application/javascript")) {
+				return ScriptEngineDescriptor.DEFAULT_SCRIPT_ENGINE;
+			}
+			ScriptEngineDescriptor desc = JSR223ScriptEngineProvider.getInstance().getEngineForFile(file);
+			if (desc != null) return desc;
+			return ScriptEngineSelectionDialog.select(RunScriptDialog.this);
 		}
 		
-		protected void warnNoScriptingEnginesInstalled() {
-			HelpAwareOptionPane.showOptionDialog(
-					RunScriptDialog.this,
-					"<html>"
-					+ tr(
-						"<p>The script can''t be executed, because there are currently no scripting engines installed.</p>"
-						+ "<p>Refer to the online help for information about how to install a scripting engine with JOSM.</p>"						
-					)					
-					+ "</html>"
-					,
-					tr("No script engine"),
-					JOptionPane.ERROR_MESSAGE,
-					HelpUtil.ht("/Plugin/Scripting")
-			);
-		}
 		
-		protected ScriptEngine getScriptEngine(File file) {
-			ScriptEngine engine = ScriptEngineProvider.getInstance().getEngineForFile(file);
-			if (engine != null) return engine;
-			
-			// let the user select a script engine
-			return ScriptEngineSelectionDialog.select(RunScriptDialog.this); 
-		}
 		
 		@Override
 		public void actionPerformed(ActionEvent evt) {
@@ -312,37 +269,23 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys{
 				warnOpenScriptFileFailed(f, e);
 				return;
 			} 			
-			final ScriptEngine engine = getScriptEngine(f);
-			if (engine == null) return;
+			ScriptEngineDescriptor desc = deriveOrAskScriptEngineDescriptor(f);
+			if (desc == null) return;
 			setVisible(false);		
-
-			SwingUtilities.invokeLater(
-			    new Runnable() {
-			    	public void run() {			
-			    		FileReader reader = null;
-						try {
-							if (engine instanceof Compilable) {
-								CompiledScript script = CompiledScriptCache.getInstance().compile((Compilable)engine,f);
-								script.eval();
-							} else {
-								reader = new FileReader(f);								
-								engine.eval(reader);
-							}
-						} catch(ScriptException e){
-							warnExecutingScriptFailed(e);
-						} catch(IOException e){
-							warnOpenScriptFileFailed(f, e);
-						} finally {
-							IOUtil.close(reader);
-						}
-			    	}
-			    }
-		    );		
+			
+			switch(desc.getEngineType()){
+			case EMBEDDED:
+				new ScriptExecutor(RunScriptDialog.this).runScriptWithEmbeddedEngine(f);
+				break;
+			case PLUGGED:
+				new ScriptExecutor(RunScriptDialog.this).runScriptWithPluggedEngine(desc, f);
+				break;
+			}
 		}	
 	}
 	
-	private class SelectMacroFileAction extends AbstractAction {
-		public SelectMacroFileAction() {
+	private class SelectScriptFileAction extends AbstractAction {
+		public SelectScriptFileAction() {
 			putValue(NAME, tr("..."));
 			putValue(SHORT_DESCRIPTION, tr("Launch file selection dialog"));
 		}
@@ -355,7 +298,7 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys{
 				currentFile = new File(fileName);
 			}
 			JFileChooser chooser = new JFileChooser();
-			chooser.setDialogTitle(tr("Select a script"));
+			chooser.setDialogTitle(tr("Select a script file"));
 			chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 			chooser.setMultiSelectionEnabled(false);
 			if (currentFile != null){

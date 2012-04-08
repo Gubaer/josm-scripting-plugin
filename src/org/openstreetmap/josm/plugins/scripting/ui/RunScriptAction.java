@@ -1,4 +1,4 @@
-package org.openstreetmap.josm.plugins.scripting;
+package org.openstreetmap.josm.plugins.scripting.ui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;

@@ -1,6 +1,6 @@
 package org.openstreetmap.josm.plugins.scripting.ui.console;
 
-import static org.openstreetmap.josm.plugins.scripting.preferences.GridBagConstraintBuilder.gbc;
+import static org.openstreetmap.josm.plugins.scripting.ui.GridBagConstraintBuilder.gbc;
 import static org.openstreetmap.josm.tools.I18n.tr;
 
 import java.awt.BorderLayout;
@@ -35,14 +35,14 @@ import org.openstreetmap.josm.plugins.scripting.util.IOUtil;
 public class ScriptEditor extends JPanel implements PropertyChangeListener {
 	
 	private JEditorPane editor;
-	private ScriptingEningeInfoPanel infoPanel;
+	private ScriptEngineInfoPanel infoPanel;
 	private ScriptEditorModel model;
 	private JLabel lblScriptFile;
 	private JPanel pnlScriptFile;
 	
 	protected JPanel buildNorthPanel() {
 		JPanel pnl = new JPanel(new GridBagLayout());
-		ScriptingEningeInfoPanel p  = new ScriptingEningeInfoPanel(model);
+		ScriptEngineInfoPanel p  = new ScriptEngineInfoPanel(model);
 		pnl.add(p, gbc().cell(0,0).weight(1.0,0.0).constraints());
 		
 		// the label where we display the current file name 

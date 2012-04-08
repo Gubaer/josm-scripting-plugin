@@ -11,9 +11,6 @@ import java.io.File;
 import java.util.List;
 import java.util.logging.Logger;
 
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineFactory;
-import javax.script.ScriptException;
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -27,9 +24,17 @@ import jsyntaxpane.DefaultSyntaxKit;
 import org.openstreetmap.josm.gui.HelpAwareOptionPane;
 import org.openstreetmap.josm.gui.HelpAwareOptionPane.ButtonSpec;
 import org.openstreetmap.josm.gui.SideButton;
+import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
+import org.openstreetmap.josm.plugins.scripting.ui.ScriptExecutor;
 import org.openstreetmap.josm.tools.ImageProvider;
 
+/**
+ * The panel displaying the script editor and the console log in a split pane.
+ *
+ */
+@SuppressWarnings("serial")
 public class ScriptingConsolePanel extends JPanel {
+	@SuppressWarnings("unused")
 	private static final Logger logger = Logger.getLogger(ScriptingConsolePanel.class.getName());
 	
 	private JSplitPane spConsole;
@@ -76,30 +81,30 @@ public class ScriptingConsolePanel extends JPanel {
 				new PropertyChangeListener() {
 					@Override
 					public void propertyChange(PropertyChangeEvent evt) {
-						if (! evt.getPropertyName().equals(ScriptEditorModel.PROP_SCRIPT_ENGINE_FACTORY)) return;
-						ScriptEngineFactory sef = (ScriptEngineFactory)evt.getNewValue();
-						updateScriptContentType(sef);
+						if (! evt.getPropertyName().equals(ScriptEditorModel.PROP_SCRIPT_ENGINE)) return;
+						ScriptEngineDescriptor desc = (ScriptEngineDescriptor)evt.getNewValue();
+						updateScriptContentType(desc);
 					}
 				}
 		);
-		updateScriptContentType(editor.getModel().getScriptEngineFactory());
+		updateScriptContentType(editor.getModel().getScriptEngineDescriptor());
 	}
 
 
-	protected void warnMissingSyntaxKit(ScriptEngineFactory factory) {
+	protected void warnMissingSyntaxKit(ScriptEngineDescriptor desc) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("<html>");
-		sb.append(tr("Didn''t find a suitable syntax kit for the script engine <strong>{0}</strong>.", factory.getEngineName()));
+		sb.append(tr("Didn''t find a suitable syntax kit for the script engine <strong>{0}</strong>.", desc.getEngineName()));
 		sb.append("<p>");
 		sb.append(tr("No syntax kit is configured for either of the following content types:"));
 		sb.append("<ul>");
-		for(String mt: factory.getMimeTypes()) {
+		for(String mt: desc.getContentMimeTypes()) {
 			sb.append("<li><tt>").append(mt).append("</tt></li>");
 		}
 		sb.append("</ul>");
 		sb.append(tr("Syntax highlighting is going to be disabled."));
 		sb.append("<p>");
-		sb.append(tr("Refer to the online help for information on how to configure syntax kits for specific content types."));
+		sb.append(tr("Refer to the online help how to configure syntax kits for specific content types."));
 		sb.append("</html>");
 		
 		ButtonSpec[] btns = new ButtonSpec[] {
@@ -123,20 +128,21 @@ public class ScriptingConsolePanel extends JPanel {
 		);	
 	}
 	
-	protected void updateScriptContentType(ScriptEngineFactory factory) {
-		if (factory == null){
+	protected void updateScriptContentType(ScriptEngineDescriptor desc) {
+		if (desc == null){
 			editor.changeContentType("text/plain");
-		} else {
-			List<String> mimeTypes = factory.getMimeTypes();	
-			for (String mt: mimeTypes) {
-				if (MimeTypeToSyntaxKitMap.getInstance().isSupported(mt)) {
-					editor.changeContentType(mt);
-					return;
-				}
-			}			
-			editor.changeContentType("text/plain");
-			warnMissingSyntaxKit(factory);
-		}
+			return;
+		} 
+		List<String> mimeTypes = desc.getContentMimeTypes();
+		for (String mt: mimeTypes) {
+			if (MimeTypeToSyntaxKitMap.getInstance().isSupported(mt)) {
+				editor.changeContentType(mt);
+				return;
+			}
+		}			
+		editor.changeContentType("text/plain");
+		warnMissingSyntaxKit(desc);
+		
 	}
 	
 	public ScriptingConsolePanel() {
@@ -187,24 +193,31 @@ public class ScriptingConsolePanel extends JPanel {
 			updateEnabledState();
 		}
 		
+		
+		
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			String source = editor.getScript();
-			ScriptEngine engine = model.getScriptEngineFactory().getScriptEngine();
-			try {		
-				engine.eval(source, new JOSMScriptContext(log.getLogWriter()));
-			} catch(ScriptException ex){
-				log.dumpException(ex);
-			}
+			switch(model.getScriptEngineDescriptor().getEngineType()) {
+			case EMBEDDED:
+				new ScriptExecutor(ScriptingConsolePanel.this).runScriptWithEmbeddedEngine(source);
+				break;
+			case PLUGGED:
+				new ScriptExecutor(ScriptingConsolePanel.this).runScriptWithPluggedEngine(
+						model.getScriptEngineDescriptor(),
+						source
+						);
+				break;
+			}			
 		}
 
 		protected void updateEnabledState() {
-			setEnabled(model.getScriptEngineFactory() != null);
+			setEnabled(model.getScriptEngineDescriptor() != null);
 		}
 		
 		@Override
 		public void propertyChange(PropertyChangeEvent evt) {
-			if (!evt.getPropertyName().equals(ScriptEditorModel.PROP_SCRIPT_ENGINE_FACTORY)) return;
+			if (!evt.getPropertyName().equals(ScriptEditorModel.PROP_SCRIPT_ENGINE)) return;
 			updateEnabledState();
 		}
 	}

@@ -11,7 +11,8 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.AbstractTableModel;
 
 import org.openstreetmap.josm.Main;
-import org.openstreetmap.josm.plugins.scripting.ScriptEngineProvider;
+import org.openstreetmap.josm.plugins.scripting.model.JSR223ScriptEngineProvider;
+import org.openstreetmap.josm.plugins.scripting.model.PreferenceKeys;
 
 /**
  * <p><strong>ScriptEngineJarTableModel</strong> is a table model for the table of script
@@ -146,6 +147,6 @@ public class ScriptEngineJarTableModel extends AbstractTableModel implements Pre
 			if (! info.getStatusMessage().equals(ScriptEngineJarInfo.OK_MESSAGE)) continue;
 			jarfiles.add(new File(path));
 		}
-		ScriptEngineProvider.getInstance().setScriptEngineJars(jarfiles);
+		JSR223ScriptEngineProvider.getInstance().setScriptEngineJars(jarfiles);
 	}
 }
