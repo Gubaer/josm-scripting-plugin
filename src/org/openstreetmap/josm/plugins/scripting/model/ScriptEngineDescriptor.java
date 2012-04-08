@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import javax.script.ScriptEngineFactory;
 
@@ -20,6 +21,7 @@ import org.openstreetmap.josm.plugins.scripting.util.Assert;
  *
  */
 public class ScriptEngineDescriptor implements PreferenceKeys {
+	static private final Logger logger = Logger.getLogger(ScriptEngineDescriptor.class.getName());
 	
 	static public enum ScriptEngineType {
 		/**
@@ -238,6 +240,15 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
 	public ScriptEngineDescriptor(ScriptEngineFactory factory) {
 		Assert.assertArgNotNull(factory, "factory");
 		this.engineType = ScriptEngineType.PLUGGED;
+		List<String> engineNames = factory.getNames();
+		if (engineNames == null || engineNames.isEmpty()) {
+			logger.warning(MessageFormat.format("script engine factory ''{0}'' doesn''t provide an engine id. Using engine name ''{1}'' instead.", factory.getEngineName()));		
+			this.engineId = factory.getEngineName();
+		} else {
+			// use the first of the provided names as ID
+			this.engineId = engineNames.get(0);
+		}
+		this.engineId = factory.getNames().get(0);
 		initParametersForJSR223Engine(factory);
 	}
 	
