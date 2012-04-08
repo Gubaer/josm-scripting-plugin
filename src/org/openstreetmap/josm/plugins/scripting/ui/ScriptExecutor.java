@@ -2,6 +2,7 @@ package org.openstreetmap.josm.plugins.scripting.ui;
 
 import static org.openstreetmap.josm.tools.I18n.tr;
 
+import java.awt.Component;
 import java.awt.Window;
 import java.io.File;
 import java.io.FileReader;
@@ -35,15 +36,19 @@ import org.openstreetmap.josm.plugins.scripting.util.IOUtil;
 public class ScriptExecutor {
 	static private final  Logger logger = Logger.getLogger(ScriptExecutor.class.getName());
 	
-	private Window parent = null;
+	private Component parent = null;
 	
 	public ScriptExecutor() {		
 	}
 	
-	public ScriptExecutor(Window parent) {
+	/**
+	 * Creates a new script executor
+	 * 
+	 * @param parent the parent AWT component. Used to lookup the parent window for error messages. 
+	 */
+	public ScriptExecutor(Component parent) {
 		this.parent = parent; 
 	}
-	
 	
 	protected void warnScriptingEngineNotFound(ScriptEngineDescriptor desc) {
 		HelpAwareOptionPane.showOptionDialog(
@@ -266,7 +271,9 @@ public class ScriptExecutor {
 	public void runScriptWithEmbeddedEngine(final String script) {
 		if (script  == null) return;
 		try {					
-			RhinoEngine.getInstance().evaluateOnSwingThread(script, null /* create a new context */);
+			RhinoEngine engine = RhinoEngine.getInstance();
+			engine.enterSwingThreadContext();
+			engine.evaluateOnSwingThread(script, null /* create a new context */);
 		} catch(RhinoException e){
 			System.err.println(e);
 			e.printStackTrace();

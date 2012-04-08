@@ -11,11 +11,19 @@ import javax.swing.JFrame;
 import org.openstreetmap.josm.Main;
 import org.openstreetmap.josm.data.Preferences;
 import org.openstreetmap.josm.data.projection.Mercator;
+import org.openstreetmap.josm.plugins.scripting.fixtures.JOSMFixture;
 
 
 public class ScriptingConsoleTest extends JFrame {
 	
+	private JOSMFixture fixture;
+	
 	public ScriptingConsoleTest() {
+
+		fixture = JOSMFixture.createUnitTestFixture();
+		fixture.init();	
+		
+	
 		Container c = getContentPane();
 		c.setLayout(new FlowLayout());
 		JButton btn = new JButton();
@@ -31,10 +39,7 @@ public class ScriptingConsoleTest extends JFrame {
 		setSize(200,200);
 	}
 
-	static public void main(String args[]) {
-		Main.pref = new Preferences();
-		Main.setProjection(new Mercator());
-		
+	static public void main(String args[]) {		
 		ScriptingConsoleTest app = new ScriptingConsoleTest();
 		app.setVisible(true);
 	}
