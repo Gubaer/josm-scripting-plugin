@@ -241,20 +241,33 @@
 	</target>
 
 	<target name="js-compile" depends="js-init" description="Compile the JOSM Javascript API">
-		<groovy>
-			def arg = new File("javascript/api-files").text.split()
-			   .findAll {!it.trim().isEmpty()}
-			   .collect {"--js javascript/${it}"}
+		<groovy><![CDATA[
+			// read the list of source files from 'api-files'
+			//
+			def closureInputFiles = new File("javascript/api-files").text.readLines()
+			   .findAll {!it.matches(/^\s*#.*$/) &&  !it.trim().isEmpty()}
+			   .collect {"--js javascript/${it.trim()}"}
 			   .join(" ")
 			
-			properties["closure.input.files"] = arg
-		</groovy>
+			properties["closure.input.files"] = closureInputFiles
+			
+			// read the list of closure entry points from 'closure-entry-points'
+			//
+			def closureEntryPoints = new File("javascript/closure-entry-points").text.readLines()
+						   .findAll {!it.matches(/^\s*#.*$/) &&  !it.trim().isEmpty()}
+						   .collect {"--closure_entry_point ${it.trim()}"}
+						   .join(" ")
+						
+			properties["closure.entry.points"] = closureEntryPoints
+			
+		]]></groovy>
 		<echo>Compiling with source files: ${closure.input.files}</echo>
-		<exec executable="java">			
+		<echo>Using the following entry points: ${closure.entry.points}</echo>
+		<exec executable="java" failifexecutionfails="true" failonerror="true" >			
 			<arg line="-jar ${closure.jar}" />
 			<arg line="--js_output_file build/js/josm-api.js" />
 			<arg line="--formatting PRETTY_PRINT" />
-			<arg line="--closure_entry_point josm"/>
+			<arg line="${closure.entry.points}"/>
 			<arg line="--manage_closure_dependencies"/>
 			<!-- <arg line=" dash dash compilation_level WHITESPACE_ONLY" /> -->
 			<arg line="${closure.input.files}" />
@@ -262,14 +275,14 @@
 	</target>
 	
 	<target name="js-doc" depends="js-init" description="Create the documentation for the JOSM javascript API">
-		<groovy>			
-			def arg = new File("javascript/api-files").text.split()
-			   .findAll {!it.trim().isEmpty()}
-			   .collect {"javascript/${it}"}
+		<groovy><![CDATA[			
+			def arg = new File("javascript/api-files").text.readLines()
+			.findAll {!it.matches(/^\s*#.*$/) &&  !it.trim().isEmpty()}
+			   .collect {"javascript/${it.trim()}"}
 			   .join(" ")
 			
 			properties["jsdoc.input.files"] = arg
-		</groovy>
+			]]></groovy>
 		<echo>Generating documentation for: ${jsdoc.input.files}</echo>
 		<exec executable="java">
 			<arg line="-jar ${jsdoc.dir}/jsrun.jar ${jsdoc.dir}/app/run.js" />
