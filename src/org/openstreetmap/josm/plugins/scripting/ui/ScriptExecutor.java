@@ -3,7 +3,6 @@ package org.openstreetmap.josm.plugins.scripting.ui;
 import static org.openstreetmap.josm.tools.I18n.tr;
 
 import java.awt.Component;
-import java.awt.Window;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
@@ -17,7 +16,10 @@ import javax.script.ScriptException;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
+import org.mozilla.javascript.JavaScriptException;
 import org.mozilla.javascript.RhinoException;
+import org.mozilla.javascript.ScriptRuntime;
+import org.mozilla.javascript.Scriptable;
 import org.openstreetmap.josm.gui.HelpAwareOptionPane;
 import org.openstreetmap.josm.gui.help.HelpUtil;
 import org.openstreetmap.josm.plugins.scripting.js.RhinoEngine;
@@ -70,6 +72,32 @@ public class ScriptExecutor {
 		HelpAwareOptionPane.showOptionDialog(
 				this.parent,
 				tr("Script execution has failed."),
+				tr("Script Error"),
+				JOptionPane.ERROR_MESSAGE,
+				HelpUtil.ht("/Plugin/Scripting")
+		);			
+		System.out.println(tr("Script execution has failed."));
+		e.printStackTrace();
+	}
+	
+	protected void warnJavaScriptExceptionCaught(JavaScriptException e){
+		// extract detail information from the property 'description' of the original
+		// JavaScript error object
+		//
+		String details = "";
+		Object value = e.getValue();
+		if (value instanceof Scriptable) {
+			Scriptable s = (Scriptable)value;
+			Object desc = s.get("description", s);
+			if (! Scriptable.NOT_FOUND.equals(desc)) {
+				details = ScriptRuntime.toString(desc);
+			}
+		}
+		
+		HelpAwareOptionPane.showOptionDialog(
+				this.parent,
+				tr("An error occured in the script.") 
+				+ (details.isEmpty() ? "" : ("<br><br><strong>Details:</strong> " + details)), 
 				tr("Script Error"),
 				JOptionPane.ERROR_MESSAGE,
 				HelpUtil.ht("/Plugin/Scripting")
@@ -199,7 +227,7 @@ public class ScriptExecutor {
 					} else {
 						reader = new FileReader(scriptFile);								
 						engine.eval(reader);
-					}
+					}		
 				} catch(ScriptException e){
 					warnExecutingScriptFailed(e);
 				} catch(IOException e){
@@ -252,6 +280,8 @@ public class ScriptExecutor {
 		Assert.assertArgNotNull(scriptFile, "scriptFile");
 		try {					
 			RhinoEngine.getInstance().evaluateOnSwingThread(scriptFile, null /* create a new context */);
+		} catch(JavaScriptException e){
+				warnJavaScriptExceptionCaught(e);
 		} catch(RhinoException e){
 			System.err.println(e);
 			e.printStackTrace();
@@ -274,6 +304,10 @@ public class ScriptExecutor {
 			RhinoEngine engine = RhinoEngine.getInstance();
 			engine.enterSwingThreadContext();
 			engine.evaluateOnSwingThread(script);
+		} catch(JavaScriptException e){
+			System.err.println(e);
+			e.printStackTrace();
+			warnJavaScriptExceptionCaught(e);
 		} catch(RhinoException e){
 			System.err.println(e);
 			e.printStackTrace();
