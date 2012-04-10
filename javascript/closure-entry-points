@@ -1,0 +1,7 @@
+#
+# This is the list of entry points supplied to the Google closure compiler with the
+# command line option --closure_entry_point
+# 
+josm
+josm.util
+josm.layers
