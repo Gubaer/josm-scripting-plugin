@@ -7,7 +7,7 @@ goog.provide("josm");
  */
 var josm = function(my) {
 	var Version = org.openstreetmap.josm.data.Version;
-
+	
 	/**
 	 * @name version
 	 * @description Replies the current JOSM version string.
@@ -19,7 +19,6 @@ var josm = function(my) {
 			return Version.getInstance().getVersionString();
 		}
 	});
-		
-	
+			
 	return my;	
 }(josm || {});
