@@ -174,6 +174,9 @@ public class RhinoEngine {
 	 * @param script the script 
 	 */
 	public void evaluateOnSwingThread(final String script) {
+		if (swingThreadScope == null) {
+			enterSwingThreadContext();
+		}
 		evaluateOnSwingThread(script, swingThreadScope);
 	}
 
