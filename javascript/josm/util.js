@@ -22,7 +22,12 @@ josm.util = function(my) {
 	 * @return false, if <code>value</code> is null or undefined; true, otherwise  
 	 */
 	my.isNothing = function(value) {
-		return value == null || value == undefined;
+		return value === null || value === void 0;
+	};
+	
+	
+	my.isSomething = function(val) {
+		return ! my.isNothing(val);
 	};
 	
 	/**
@@ -105,6 +110,141 @@ josm.util = function(my) {
 		    throw error;
 		}
 	};
+	
+	/**
+	 * Asserts that <code>val</code> is defined and non-null.
+	 * 
+	 * @example
+	 * josm.util.assertSomething(null);    // -> throws an exception
+	 * josm.util.assertSomething(void 0);  // -> throws an exception
+	 * 
+	 * josm.util.assertSomting("test");    // -> OK 
+	 * josm.util.assertSomething(5);       // -> OK 
+	 * 
+	 * @function
+	 * @name assertSomething
+	 * @param {Anything} val the value to check
+	 * @param {String} msg  (optional) message if the assertion fails
+	 * @param {Object...} values (optional) additional values used in <code>msg</code> placeholders 
+	 * @memberOf josm.util 
+	 */
+	my.assertSomething = function(val) {
+		var args;
+		if (arguments.length <= 1) {
+			args = [my.isSomething(val), "Expected a defined non-null value, got {0}", val];
+		} else {
+			args = [my.isSomething(val)].concat(Array.prototype.slice.call(arguments,1));
+		}
+		my.assert.apply(args);
+	};
+	
+	/**
+	 * Asserts that <code>val</code> is a number.
+	 * 
+	 * @function
+	 * @name assertNumber
+	 * @param {Anything} val the value to check
+	 * @param {String} msg  (optional) message if the assertion fails
+	 * @param {Object...} values (optional) additional values used in <code>msg</code> placeholders 
+	 * @memberOf josm.util
+	 */
+	my.assertNumber = function(val) {
+		var args;
+		if (arguments.length <= 1) {
+		   args = [my.isSomething(val), "Expected a number, got {0}", val];
+		} else {
+		   args = [my.isSomething(val)].concat(Array.prototype.slice.call(arguments,1));
+		}
+		my.assert.apply(args);
+	};
+	
+	/**
+	 * Returns true if  <code>val</code> is defined.
+	 * 
+	 * @function
+	 * @name isDef
+	 * @param {Anything} val the value to check
+	 * @memberOf josm.util
+	 */
+	my.isDef = function(val) {
+		return val !== void 0;  
+	};
+	
+	/**
+	 * Returns true if  <code>val</code> is a number.
+	 * 
+	 * @function
+	 * @name isNumber
+	 * @param {Anything} val the value to check
+	 * @memberOf josm.util
+	 */	
+	my.isNumber = function(val) {
+		return typeof val === "number";
+	};
+	
+	/**
+	 * Returns true if  <code>val</code> is a string.
+	 * 
+	 * @function
+	 * @name isString
+	 * @param {Anything} val the value to check
+	 * @memberOf josm.util
+	 */		
+	my.isString = function(val) {
+		return my.isDef(val) && (typeof val === "string" || val instanceof String);
+	};
+	
+	/**
+	 * Replies the number of properties owned by <code>o</code>.
+	 * 
+	 * @example
+	 * 
+	 * var o = {p1: "v1", p2: "v2"};
+	 * var c = util.countProperties(o);   // ->  2
+	 * 
+	 * o = {};
+	 * c = util.countProperties(o);       // ->  0
+	 * 
+	 * o = undefined;
+	 * c = util.countProperties(o);       // ->  undefined 
+	 * 
+	 * @memberOf josm.util
+	 * @function
+	 * @name countProperties
+	 */
+	my.countProperties  = function(o) {
+		if (my.isNothing(o)) return void 0;
+		if (! (typeof o === "object")) return void 0;
+		var count = 0;
+		for (var p in o) {
+			if (o.hasOwnProperty(p)) count++;
+		}
+		return count;
+	};
+	
+	/**
+	 * Replies true, if <code>o</code> owns at least one property.
+	 * 
+	 * @example
+	 * 
+	 * var o = {p1: "v1", p2: "v2"};
+	 * var c = util.hasProperties(o);   // ->  true
+	 * 
+	 * o = {};
+	 * c = util.hasProperties(o);       // ->  false
+	 * 
+	 * o = undefined;
+	 * c = util.hasProperties(o);       // ->  false 
+	 * 
+	 * @memberOf josm.util
+	 * @function
+	 * @name hasProperties 
+	 */
+	my.hasProperties = function(o) {
+		var count = my.countProperties(o);
+		if (count === void 0) return false;
+		return count > 0;
+	};	
 	
 	return my;
 }(josm.util || {});
