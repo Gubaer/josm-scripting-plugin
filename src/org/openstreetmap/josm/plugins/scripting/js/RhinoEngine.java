@@ -10,6 +10,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.lang.reflect.InvocationTargetException;
+import java.net.MalformedURLException;
+import java.text.MessageFormat;
 import java.util.logging.Logger;
 
 import javax.swing.SwingUtilities;
@@ -17,6 +19,9 @@ import javax.swing.SwingUtilities;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.EvaluatorException;
 import org.mozilla.javascript.Scriptable;
+import org.openstreetmap.josm.plugins.PluginException;
+import org.openstreetmap.josm.plugins.PluginInformation;
+import org.openstreetmap.josm.plugins.scripting.ScriptingPlugin;
 import org.openstreetmap.josm.plugins.scripting.util.Assert;
 import org.openstreetmap.josm.plugins.scripting.util.ExceptionUtil;
 import org.openstreetmap.josm.plugins.scripting.util.IOUtil;
@@ -40,33 +45,6 @@ public class RhinoEngine {
 		return instance; 
 	}
 	
-	/**
-	 * The default resource name for the JavaScript file with complete, compiled JavaScript
-	 * source for the JOSM JavaScript API.
-	 */
-	static final public String DEFAULT_JOSM_JAVASCRIPT_API_RESOURCE = "/js/josm-api.js";
-	
-	/**
-	 * The name of the system property which can be used to override the resource name for the
-	 * JOSM JavaScript API resource file. 
-	 * 
-	 * <strong>Example</strong><br/>
-	 * <pre>
-	 *     java -Dscripting.javascript-api-resource=/build/js/josm-api.js org.openstreetmap.josm..... 
-	 * </pre>
-	 */
-	static final public String JOSM_JAVASCRIPT_API_RESOURCE_SYSTEM_PROPERTY = "scripting.javascript-api-resource";
-
-	/**
-	 * Replies the name of the resource where the JOSM JavaScript API should be loaded from.
-	 * 
-	 * @return
-	 */
-	static public String getJOSMJavaScriptAPIResource() {
-		String name = System.getProperty(JOSM_JAVASCRIPT_API_RESOURCE_SYSTEM_PROPERTY);
-		if (name != null) return name;
-		return DEFAULT_JOSM_JAVASCRIPT_API_RESOURCE;
-	}
 	
 	private RhinoEngine(){}
 		
@@ -92,6 +70,30 @@ public class RhinoEngine {
 		}
 	}
 	
+	protected boolean loadResource(Context ctx, String resource) {
+		InputStream in = getClass().getResourceAsStream(resource);
+		if (in == null) {
+			System.out.println(tr("Failed to load javascript file from ressource ''{0}''. Ressource not found.", resource));
+		}
+		Reader reader = new InputStreamReader(in);
+		try {
+			ctx.evaluateReader(swingThreadScope, reader, resource, 0, null);
+			return true;
+		} catch(IOException e){
+			System.out.println(tr("Failed to load javascript file from resource ''{0}''.", resource));
+			System.out.println(tr("Exception ''{0}'' occured.", e.toString()));
+			e.printStackTrace();
+			return false;
+		} catch(RhinoException e){
+			System.out.println(tr("Failed to load javascript  file from resource ''{0}''.", resource));
+			System.out.println(tr("Exception ''{0}'' occured at position {1}/{2}.", e.toString(), e.lineNumber(), e.columnNumber()));
+			e.printStackTrace();
+			return false;
+		} finally {
+			IOUtil.close(reader);
+		}		
+	}
+	
 	/**
 	 * Enter a scripting context on the Swing EDT. This method has to be invoked only once. 
 	 * The context is maintained by Rhino as thread local variable.
@@ -104,29 +106,20 @@ public class RhinoEngine {
 				if (Context.getCurrentContext() != null) return;
 				Context ctx = Context.enter();				
 				swingThreadScope = ctx.initStandardObjects();
-				InputStreamReader reader = null;
-				String res = getJOSMJavaScriptAPIResource();
+				if (!loadResource(ctx, "/js/require.js")) return;				
+				// make sure the CommonJS module loader looks for modules in the
+				// the scripting plugin jar 
 				try {
-					InputStream in = RhinoEngine.class.getResourceAsStream(res);
-					if (in == null){
-						System.out.println(tr("Didn''t find the javascript API source in resource ''{0}''. Skipping API initialization.", res));
-						return;
-					}
-					System.out.println(tr("Loading the JOSM JavaScript API from the resource file ''{0}''", res));
-					reader = new InputStreamReader(in);
-					ctx.evaluateReader(swingThreadScope, reader, res, 0, null);
-				} catch(IOException e){
-					System.out.println(tr("Failed to load javascript API file from resource ''{0}''.", res));
-					System.out.println(tr("Exception ''{0}'' occured.", e.toString()));
-					System.out.println(tr("JOSM JavaScript API won't be available."));
+					PluginInformation info = PluginInformation.findPlugin("scripting");
+					String url = "jar:" + info.file.toURI().toURL().toString() + "!" + "/js";
+					String script = MessageFormat.format("require.addRepository(''{0}'');", url);
+					ctx.evaluateString(swingThreadScope, script, "inline", 0, null);	
+					System.out.println(tr("INFO: Sucessfully loaded CommonJS module loader from resource ''{0}''", "/js/require.js"));
+					System.out.println(tr("INFO: Added the plugin jar as module respository. jar URL is: {0}", url.toString()));
+				} catch (PluginException e) {
 					e.printStackTrace();
-				} catch(RhinoException e){
-					System.out.println(tr("Failed to load javascript API file from resource ''{0}''.", res));
-					System.out.println(tr("Exception ''{0}'' occured at position {1}/{2}.", e.toString(), e.lineNumber(), e.columnNumber()));
-					System.out.println(tr("JOSM JavaScript API won't be available."));
-					e.printStackTrace();					
-				} finally {
-					IOUtil.close(reader);
+				} catch(MalformedURLException e) {
+					e.printStackTrace();
 				}
 			}
 		};
