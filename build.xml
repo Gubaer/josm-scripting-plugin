@@ -38,7 +38,7 @@
 		</javac>
 	</target>
 
-	<target name="dist" depends="clean,init,compile,create-version-info-for-manifest,js-compile" description="Create the plugin jar">
+	<target name="dist" depends="clean,init,compile,create-version-info-for-manifest" description="Create the plugin jar">
 		<tstamp>
 			<format property="plugin.build.date" pattern="yyyy-MM-dd hh:mm aa" />
 		</tstamp>
@@ -78,7 +78,7 @@
 			</fileset>
 		</copy>
 
-		<copy todir="${plugin.build.dir}">
+		<copy todir="${plugin.build.dir}/js">
 			<fileset dir="javascript">
 				<include name="**/*.js" />
 			</fileset>
