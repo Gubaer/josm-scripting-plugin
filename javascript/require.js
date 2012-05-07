@@ -46,11 +46,11 @@
     	return s.indexOf(suffix, s.length - suffix.length) !== -1;
     };
     
-    var debuglevel = 0;
+    var debuglevel = 10;
     var debug = function(msg, level) {
     	if (level === void(0)) level = 10;
     	if (debuglevel != 0 && level <= debuglevel) {
-    		print("DEBUG: require: " + msg);
+    		java.lang.System.out.println("DEBUG: require: " + msg);
     	};
     };
     
@@ -61,7 +61,7 @@
     	default: return MessageFormat.format(arguments[0] + "", Array.prototype.slice.call(arguments,1));
     	}
     };
-    
+        
 	/**
 	 * Represents a repository of CommonJS modules whose location is given by
 	 * an URL. Only file and jar-URLs are supported.
@@ -130,22 +130,33 @@
 				s = s.substring(0,i);
 			}
 			
-			var moduleurl = new URL(s + "!" + jarpath + "/" + id);
+			var entry = jarpath + "/" + id;
+			var moduleurl = new URL(s + "!" + entry);
 			var con = moduleurl.openConnection();
 			var module;
 			try {
-				var jar = con.getJarFile();
-				debug(msg("module ''{0}'' found in jar ''{1}''. Module url is ''{2}''.", id, jar.getName(), moduleurl.toString()));
-				return moduleurl;
+				var jar = con.getJarFile();				
+				var entry = jar.getJarEntry(entry);
+				if (entry != null) {
+					debug(msg("module ''{0}'' found in jar ''{1}''. Module url is ''{2}''.", id, jar.getName(), moduleurl.toString()));
+					return moduleurl;
+				} 
+				debug(msg("module ''{0}'' not found in jar ''{1}''. Module url is ''{2}''.", id, jar.getName(), moduleurl.toString()));					
 			} catch(e) {
 				debug(msg("module ''{0}'': jar file for module repository ''{1}'' not found.", id, moduleurl.toString()));
 			}
 			if (! endsWith(id, ".js")) {	
-	    		moduleurl = new URL(s + "!" + jarpath + "/" + id + ".js");
+				entry = jarpath + "/" + id + ".js";
+	    		moduleurl = new URL(s + "!" + entry);
 	    		con = moduleurl.openConnection();
 	    		try {
 	    			var jar = con.getJarFile();
-	    			debug(msg("module ''{0}'' found in jar ''{1}''. Module url is ''{2}''.", id, jar.getName(), moduleurl.toString()));
+	    			var entry = jar.getJarEntry(entry);
+	    			if (entry != null) {
+						debug(msg("module ''{0}'' found in jar ''{1}''. Module url is ''{2}''.", id, jar.getName(), moduleurl.toString()));
+						return moduleurl;
+					} 
+	    			debug(msg("module ''{0}'' not found in jar ''{1}''. Module url is ''{2}''.", id, jar.getName(), moduleurl.toString()));
 	    			return moduleurl;
 	    		} catch(e) {
 	    			debug(msg("module ''{0}'': jar file for module repository ''{1}'' not found.", id, moduleurl.toString()));
@@ -185,7 +196,7 @@
 			}
 			return sb.toString();
 		} finally {
-			br && br.close();
+			if (br != null) br.close();
 		}
 	};
 
@@ -217,6 +228,7 @@
         try {
         	moduleContent = readFromUrl(moduleUrl);
         } catch(e) {
+        	debug("got e: " + e.toSource());
         	var m = msg("Failed to read module content for module ''{0}'' from url ''{1}''", id, moduleUrl.toString());
         	if (e.hasOwnProperty("message") && typeof e.message !== "undefined") {
         		m += "\n" + e.message;
