@@ -18,5 +18,10 @@ var Version = org.openstreetmap.josm.data.Version;
  * @type {string}
  * @readOnly
  */ 
-exports.version = Version.getInstance().getVersionString();
+Object.defineProperty(exports, "version", {
+	get: function() {
+		return Version.getInstance().getVersionString();
+	}
+});
+ 
 
