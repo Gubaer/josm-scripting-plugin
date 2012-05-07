@@ -57,14 +57,6 @@ junit.jar=/full/path/to/jar
 #
 rhino.jar=/full/path/to/jar
 
-# The full path to Googles closure compiler.
-# The closure compiler is used to compile the JavaScript source for the JOSM JavaScript API.
-#
-# Download from 
-#    https://developers.google.com/closure/compiler/
-#
-closure.jar=/full/path/to/jar
-
 # The full path to the local installation of the JSDoc toolkit.
 # The JSDoc toolkit is used the generate the documentation for
 # the JOSM JavaScript API.
