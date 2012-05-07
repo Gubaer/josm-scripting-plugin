@@ -217,7 +217,15 @@
     	if (! isString(id)) {
         	throwRequireError(msg("Expected a module id of type string, got {0}", id));
         }
-        
+    	
+    	var normid = normalizeModuleId(id);
+    	if (isUndefined(normid)) {
+    		throwRequireError(msg("Expected a valid module id, got ''{0}''. Normalized module id is ''{1}''", id, normid));
+    	}
+    	id = normid;
+    	if (moduleCache.hasOwnProperty(id)) {
+    		return moduleCache[id];
+    	}
         var moduleContent = '';
         var moduleUrl;
         
@@ -237,9 +245,8 @@
         }
 
         try {
-        	var normid = normalizeModuleId(id);
-            var exports = moduleCache[normid] || {};
-            var module = { id: normid, uri: moduleUrl, exports: exports};
+            var exports = {};
+            var module = { id: id, uri: moduleUrl, exports: exports};
             var f = new Function("require", "exports", "module", moduleContent);
             f.call({}, require, exports, module);
             exports = module.exports || exports;
@@ -248,10 +255,10 @@
         } catch(e) {
         	var m;
         	if (e.name == "SyntaxError") {
-        		m = msg("Failed to load module ''{0}''. Syntax error on line {1} in file ''{2}''", normid, e.lineNumber, moduleUrl.toString());
+        		m = msg("Failed to load module ''{0}''. Syntax error on line {1} in file ''{2}''", id, e.lineNumber, moduleUrl.toString());
         		m += msg("\nError message: {0}", e.message);        		
          	} else {
-         		m = msg("Failed to load module ''{0}'' from URL ''{1}''. Details: ''{2}''", normid, moduleUrl.toString(), e.toSource());
+         		m = msg("Failed to load module ''{0}'' from URL ''{1}''. Details: ''{2}''", id, moduleUrl.toString(), e.toSource());
          	}
         	throwRequireError(m, e);
         }
@@ -277,7 +284,7 @@
     	if (id == "") return void(0);    	
     	for(var i=0; i < repositories.length; i++) {
     		var url = repositories[i].lookup(id);
-    		debug(msg("==> Loooking up module ''{0}'' in repository ''{1}''", id, repositories[i].url.toString()));
+    		debug(msg("Looking up module ''{0}'' in repository ''{1}''", id, repositories[i].url.toString()));
     		if (url) return url;
     	}
     	return void(0);
@@ -365,7 +372,8 @@
     /**
      * Normalizes a module id. Removes leading and trailing white space, replaces \ by /, collapses
      * sequences of / and removes leading /, if present.
-     * If id is null, replies null. if id is undefined, replies undefined. 
+     * 
+     * Replies undefined, if id is null, undefined, the empty string or consisting of '/' only.
      * 
      * @param {String} id  the id. If null or undefined, replies undefined. Anything else than a string
      * is converted internally to a string.
@@ -374,7 +382,8 @@
     var normalizeModuleId = function(id) {
     	if (! isSomething(id)) return void(0);
     	if (! isString(id)) id += ""; // convert to a string
-    	return trim(id).replace(/\\/g, "/").replace(/\\/g, "/").replace(/\/+/g, "/").replace(/^\//, "");
+    	id = trim(id).replace(/\\/g, "/").replace(/\\/g, "/").replace(/\/+/g, "/").replace(/^\//, "");
+    	return id == "" ? void(0) : id;
     };
        
 }(this));
