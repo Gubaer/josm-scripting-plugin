@@ -18,15 +18,15 @@ import javax.swing.SwingUtilities;
 
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.EvaluatorException;
+import org.mozilla.javascript.RhinoException;
 import org.mozilla.javascript.Scriptable;
 import org.openstreetmap.josm.plugins.PluginException;
 import org.openstreetmap.josm.plugins.PluginInformation;
-import org.openstreetmap.josm.plugins.scripting.ScriptingPlugin;
 import org.openstreetmap.josm.plugins.scripting.util.Assert;
 import org.openstreetmap.josm.plugins.scripting.util.ExceptionUtil;
 import org.openstreetmap.josm.plugins.scripting.util.IOUtil;
 
-import sun.org.mozilla.javascript.RhinoException;
+
 /**
  * A facade to the embedded rhino scripting engine.
  * <p>
@@ -108,11 +108,11 @@ public class RhinoEngine {
 				swingThreadScope = ctx.initStandardObjects();
 				if (!loadResource(ctx, "/js/require.js")) return;				
 				// make sure the CommonJS module loader looks for modules in the
-				// the scripting plugin jar 
+				// scripting plugin jar 
 				try {
 					PluginInformation info = PluginInformation.findPlugin("scripting");
 					String url = "jar:" + info.file.toURI().toURL().toString() + "!" + "/js";
-					String script = MessageFormat.format("require.addRepository(''{0}'');", url);
+					String script = MessageFormat.format("require.addRepository(new java.net.URL(''{0}''));", url);
 					ctx.evaluateString(swingThreadScope, script, "inline", 0, null);	
 					System.out.println(tr("INFO: Sucessfully loaded CommonJS module loader from resource ''{0}''", "/js/require.js"));
 					System.out.println(tr("INFO: Added the plugin jar as module respository. jar URL is: {0}", url.toString()));
