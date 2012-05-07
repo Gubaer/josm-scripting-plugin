@@ -9,8 +9,8 @@ var MessageFormat = java.text.MessageFormat;
 /**
  * Checks whether a value is null or undefined.
  * 
- * @param {Object} value  the value to check
- * @type {Boolean}
+ * @param {object} value  the value to check
+ * @type {boolean}
  * @return false, if <code>value</code> is null or undefined; true, otherwise  
  */
 exports.isNothing = function(value) {
@@ -20,8 +20,8 @@ exports.isNothing = function(value) {
 /**
  * Checks whether a value is neither null nor undefined.
  * 
- * @param {Object} value  the value to check
- * @type {Boolean}
+ * @param {object} value  the value to check
+ * @type {boolean}
  * @return false, if <code>value</code> is null or undefined; true, otherwise  
  */
 exports.isSomething = function(val) {
@@ -35,8 +35,8 @@ exports.isSomething = function(val) {
  * or undefined. Any other value is converted to a string, then leading and trailing white
  * space is removed.</p>
  * 
- * @param {String} s  the string to be trimmed
- * @type {String} 
+ * @param {string} s  the string to be trimmed
+ * @type {string} 
  */
 exports.trim = function(s){
 	if (s == null || s == undefined) return s;
@@ -65,14 +65,15 @@ exports.trim = function(s){
  * </dl>
  * 
  * @example
+ * var util = require("josm/util");
  * // throws an Error
- * assert(false);                  
+ * util.assert(false);                  
  * 
  * // throws an Error e, with e.description == "My message"
- * assert(false, "My message");    
+ * util.assert(false, "My message");    
  * 
  * // throws an Error e, with e.description == "My message: test"
- * assert(false, "My message: {0}", "test");    
+ * util.assert(false, "My message: {0}", "test");    
  * 
  */
 exports.assert = function() {
@@ -107,15 +108,16 @@ exports.assert = function() {
  * Asserts that <code>val</code> is defined and non-null.
  * 
  * @example
- * josm.util.assertSomething(null);    // -> throws an exception
- * josm.util.assertSomething(void 0);  // -> throws an exception
+ * var util = require("josm/util");
+ * util.assertSomething(null);    // -> throws an exception
+ * util.assertSomething(void 0);  // -> throws an exception
  * 
- * josm.util.assertSomting("test");    // -> OK 
- * josm.util.assertSomething(5);       // -> OK 
+ * util.assertSomting("test");    // -> OK 
+ * util.assertSomething(5);       // -> OK 
  * 
  * @param {Anything} val the value to check
- * @param {String} msg  (optional) message if the assertion fails
- * @param {Object...} values (optional) additional values used in <code>msg</code> placeholders 
+ * @param {string} msg  (optional) message if the assertion fails
+ * @param {object...} values (optional) additional values used in <code>msg</code> placeholders 
  */
 exports.assertSomething = function(val) {
 	var args;
@@ -176,7 +178,7 @@ exports.isString = function(val) {
  * Replies the number of properties owned by <code>o</code>.
  * 
  * @example
- * 
+ * var util = require("josm/util");
  * var o = {p1: "v1", p2: "v2"};
  * var c = util.countProperties(o);   // ->  2
  * 
@@ -201,7 +203,7 @@ exports.countProperties  = function(o) {
  * Replies true, if <code>o</code> owns at least one property.
  * 
  * @example
- * 
+ * var util = require("josm/util");
  * var o = {p1: "v1", p2: "v2"};
  * var c = util.hasProperties(o);   // ->  true
  * 
@@ -217,5 +219,3 @@ exports.hasProperties = function(o) {
 	if (count === void 0) return false;
 	return count > 0;
 };	
-
-
