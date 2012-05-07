@@ -1,6 +1,0 @@
-#
-# This is the list of JavaScript source files to be assembled by the google compiler.
-# 
-josm.js
-josm/util.js
-josm/layers.js
