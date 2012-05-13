@@ -22,6 +22,7 @@ import org.mozilla.javascript.RhinoException;
 import org.mozilla.javascript.Scriptable;
 import org.openstreetmap.josm.plugins.PluginException;
 import org.openstreetmap.josm.plugins.PluginInformation;
+import org.openstreetmap.josm.plugins.scripting.js.wrapper.JOSMWrapFactory;
 import org.openstreetmap.josm.plugins.scripting.util.Assert;
 import org.openstreetmap.josm.plugins.scripting.util.ExceptionUtil;
 import org.openstreetmap.josm.plugins.scripting.util.IOUtil;
@@ -73,20 +74,20 @@ public class RhinoEngine {
 	protected boolean loadResource(Context ctx, String resource) {
 		InputStream in = getClass().getResourceAsStream(resource);
 		if (in == null) {
-			System.out.println(tr("Failed to load javascript file from ressource ''{0}''. Ressource not found.", resource));
+			System.out.println(tr("FATAL: Failed to load javascript file from ressource ''{0}''. Ressource not found.", resource));
 		}
 		Reader reader = new InputStreamReader(in);
 		try {
 			ctx.evaluateReader(swingThreadScope, reader, resource, 0, null);
 			return true;
 		} catch(IOException e){
-			System.out.println(tr("Failed to load javascript file from resource ''{0}''.", resource));
-			System.out.println(tr("Exception ''{0}'' occured.", e.toString()));
+			System.out.println(tr("FATAL: Failed to load javascript file from resource ''{0}''.", resource));
+			System.out.println(tr("FATAL: Exception ''{0}'' occured.", e.toString()));
 			e.printStackTrace();
 			return false;
 		} catch(RhinoException e){
-			System.out.println(tr("Failed to load javascript  file from resource ''{0}''.", resource));
-			System.out.println(tr("Exception ''{0}'' occured at position {1}/{2}.", e.toString(), e.lineNumber(), e.columnNumber()));
+			System.out.println(tr("FATAL: Failed to load javascript  file from resource ''{0}''.", resource));
+			System.out.println(tr("FATAL: Exception ''{0}'' occured at position {1}/{2}.", e.toString(), e.lineNumber(), e.columnNumber()));
 			e.printStackTrace();
 			return false;
 		} finally {
@@ -104,7 +105,8 @@ public class RhinoEngine {
 		Runnable r = new Runnable() {
 			public void run() {
 				if (Context.getCurrentContext() != null) return;
-				Context ctx = Context.enter();				
+				Context ctx = Context.enter();		
+				ctx.setWrapFactory(new JOSMWrapFactory());
 				swingThreadScope = ctx.initStandardObjects();
 				if (!loadResource(ctx, "/js/require.js")) return;				
 				// make sure the CommonJS module loader looks for modules in the
