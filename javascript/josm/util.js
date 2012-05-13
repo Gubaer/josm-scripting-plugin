@@ -174,6 +174,17 @@ exports.isString = function(val) {
 	return exports.isDef(val) && (typeof val === "string" || val instanceof String);
 };
 
+
+/**
+ * Replies true if <code>val</code> is an array.
+ * 
+ * @param {anything} val the value to check
+ * @return true, if val is an array
+ */
+exports.isArray = function(val) {
+	return Object.prototype.toString.call( val ) === '[object Array]';
+};
+
 /**
  * Replies the number of properties owned by <code>o</code>.
  * 
@@ -219,3 +230,8 @@ exports.hasProperties = function(o) {
 	if (count === void 0) return false;
 	return count > 0;
 };	
+
+
+exports.isFunction = function(f) {
+	return typeof f === "function"; 
+};
