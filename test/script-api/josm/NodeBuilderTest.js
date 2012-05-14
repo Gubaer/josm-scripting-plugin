@@ -88,6 +88,24 @@ var suite = tu.suite(
 		util.assert(node.id == 2);
 		util.assert(node.version == 3);		
 	}),
+		
+	test("global node - withId(id)", function() {
+		var node = nb.withId(2).global();
+		util.assert(node.id == 2);
+		util.assert(node.version == 1);			
+	}),
+	
+	test("global node - withId(id,version) ", function() {
+		var node = nb.withId(2,3).global();
+		util.assert(node.id == 2);
+		util.assert(node.version == 3);			
+	}),
+
+	test("global node - withId(id,version) - overriding ", function() {
+		var node = nb.withId(2,3).global(5,6);
+		util.assert(node.id == 5);
+		util.assert(node.version == 6);			
+	}),
 
 	test("global node - illegal id - 0", function() {
 		expectAssertionError(function() {
@@ -122,6 +140,28 @@ var suite = tu.suite(
 	test("global node - illegal version - not a number - null", function() {
 		expectAssertionError(function() {
 			var node = nb.global(1,null);	
+		});
+	}),
+	
+	/* ----------------------------------------------------------------------------- */
+	/* tests for proxy nodes */
+	/* ----------------------------------------------------------------------------- */
+	test("proxy node - simple case", function() {
+		var node = nb.proxy(5);
+		util.assert(node.id == 5, "Expected id {0}, got {1}", 5, node.id);
+		util.assert(node.version == undefined, "Expected undefined version, got {0}", node.version);
+		util.assert(node.isIncomplete(), "Expected node is incomplete, got {0}", node.isIncomplete());
+	}),
+	
+	test("proxy node - no id", function() {
+		expectAssertionError(function() {
+			var node = nb.proxy();
+		});
+	}),
+	
+	test("proxy node - negative id", function() {
+		expectAssertionError(function() {
+			var node = nb.proxy(-1);
 		});
 	})
 );

@@ -23,14 +23,14 @@ public class OsmPrimitiveWrapper extends NativeJavaObject  {
 	public OsmPrimitiveWrapper(Scriptable scope, Object javaObject, Class<?> staticType) {
 		super(scope, javaObject, staticType, false);
 	}
-	
-	
+		
 	@Override
 	public boolean has(String name, Scriptable start) {
 		if ("tags".equals(name)) return true;
 		if ("user".equals(name)) return true;
 		if ("ds".equals(name)) return true;
 		if ("dataSet".equals(name)) return true;
+		if ("version".equals(name)) return true;
 		return super.has(name, start);
 	}
 
@@ -39,6 +39,7 @@ public class OsmPrimitiveWrapper extends NativeJavaObject  {
 		if ("user".equals(name)) return getUser();
 		if ("ds".equals(name)) return getDataSet();
 		if ("dataSet".equals(name)) return getDataSet();
+		if ("version".equals(name)) return getVersion();
 		return super.get(name, start);
 	}
 
@@ -66,6 +67,11 @@ public class OsmPrimitiveWrapper extends NativeJavaObject  {
 	private Object getDataSet() {
 		if (obj().getDataSet() == null) return Undefined.instance;
 		return obj().getDataSet();
+	}
+	
+	private Object getVersion() {
+		int version = obj().getVersion();
+		return version == 0 ? Undefined.instance : version;
 	}
 
 	private TagAccessor tagAccessor = new TagAccessor();

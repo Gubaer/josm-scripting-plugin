@@ -73,7 +73,7 @@ function assignTags(primitive, tags) {
  *  // create a new global node at a specific position with tags 
  *  var n2 = nbuilder.withPosition(1,1).withTags({name: 'test'}).global(123456);
  *  
- *  // create a new proxy for a global node (an "incomplete" node in JOSM parlance)
+ *  // create a new proxy for a global node (an "incomplete" node in JOSM terminology)
  *  var n3 = nbuilder.proxy(123456);
  */
 exports.NodeBuilder = function(ds) {
