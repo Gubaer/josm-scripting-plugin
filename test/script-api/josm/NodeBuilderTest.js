@@ -3,6 +3,7 @@ var util = require("josm/util");
 var test = tu.test;
 
 var nb = require("josm/builder").NodeBuilder;
+var DataSet = org.openstreetmap.josm.data.osm.DataSet;
 
 var expectError = function(f) {
 	try {
@@ -68,6 +69,13 @@ var suite = tu.suite(
 		expectError(function() {
 			var node = nb.withTags("string value not allowed").local();
 		});
+	}),
+	test("local node - with a dataset", function() {
+		var ds = new DataSet();
+		var NodeBuilder = require("josm/builder").NodeBuilder;
+		var nb = new NodeBuilder(ds);
+		var node = nb.local();
+		util.assert(ds.getNodes().size() == 1);		
 	}),
 	
 	/* ----------------------------------------------------------------------------- */
@@ -142,6 +150,13 @@ var suite = tu.suite(
 			var node = nb.global(1,null);	
 		});
 	}),
+	test("global node - with a dataset", function() {
+		var ds = new DataSet();
+		var NodeBuilder = require("josm/builder").NodeBuilder;
+		var nb = new NodeBuilder(ds);
+		var node = nb.global(2,4);
+		util.assert(ds.getNodes().size() == 1);		
+	}),
 	
 	/* ----------------------------------------------------------------------------- */
 	/* tests for proxy nodes */
@@ -163,6 +178,13 @@ var suite = tu.suite(
 		expectAssertionError(function() {
 			var node = nb.proxy(-1);
 		});
+	}),
+	test("proxy node - with a dataset", function() {
+		var ds = new DataSet();
+		var NodeBuilder = require("josm/builder").NodeBuilder;
+		var nb = new NodeBuilder(ds);
+		var node = nb.proxy(2);
+		util.assert(ds.getNodes().size() == 1);		
 	})
 );
 
