@@ -177,6 +177,23 @@ public class ScriptExecutor {
 		);
 	}
 	
+	protected void notifyRuntimeException(RuntimeException e) {
+		HelpAwareOptionPane.showOptionDialog(
+				this.parent,
+				"<html>"
+				+ tr(
+					"<p>Failed to execute a script.</p><p/>"
+					+ "<p><strong>Error message:</strong>{0}</p>",						
+					e.getMessage()
+				)					
+				+ "</html>"
+				,
+				tr("Script execution failed"),
+				JOptionPane.ERROR_MESSAGE,
+				HelpUtil.ht("/Plugin/Scripting")
+		);
+	}
+	
 	protected void runOnSwingEDT(Runnable r){
 		if (SwingUtilities.isEventDispatchThread()) {
 			r.run();
@@ -290,6 +307,11 @@ public class ScriptExecutor {
 			notifyIOExeption(scriptFile, e);
 			System.err.println(e);
 			e.printStackTrace();
+		} catch(RuntimeException e){
+			System.err.println(e);
+			e.printStackTrace();
+			//TODO: notify with file name
+			notifyRuntimeException(e); 
 		}
 	}
 	
@@ -312,6 +334,10 @@ public class ScriptExecutor {
 			System.err.println(e);
 			e.printStackTrace();
 			notifyRhinoException(e);
+		} catch(RuntimeException e){
+			System.err.println(e);
+			e.printStackTrace();
+			notifyRuntimeException(e);
 		}
 	}
 }
