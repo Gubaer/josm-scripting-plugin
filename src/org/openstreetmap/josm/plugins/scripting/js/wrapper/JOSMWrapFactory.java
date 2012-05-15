@@ -10,6 +10,7 @@ import org.mozilla.javascript.NativeJavaArray;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.Undefined;
 import org.mozilla.javascript.WrapFactory;
+import org.openstreetmap.josm.data.osm.DataSet;
 import org.openstreetmap.josm.data.osm.Node;
 import org.openstreetmap.josm.data.osm.Way;
 
@@ -29,6 +30,7 @@ public class JOSMWrapFactory extends WrapFactory{
 	static {
 		WRAPPERS.put(Node.class, NodeWrapper.class);
 		WRAPPERS.put(Way.class, WayWrapper.class);
+		WRAPPERS.put(DataSet.class, DataSetWrapper.class);
 	}
 	
 	@Override
