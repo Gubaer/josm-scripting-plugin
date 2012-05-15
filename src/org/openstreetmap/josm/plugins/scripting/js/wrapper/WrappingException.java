@@ -2,7 +2,7 @@ package org.openstreetmap.josm.plugins.scripting.js.wrapper;
 
 import java.text.MessageFormat;
 
-public class WrappingException extends RuntimeException{
+public class WrappingException extends Exception {
 	
 	static public WrappingException we(String msg, Object...args) {
 		String m = MessageFormat.format(msg, args);
