@@ -12,12 +12,14 @@ import java.io.Reader;
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.text.MessageFormat;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.SwingUtilities;
 
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.EvaluatorException;
+import org.mozilla.javascript.NativeObject;
 import org.mozilla.javascript.RhinoException;
 import org.mozilla.javascript.Scriptable;
 import org.openstreetmap.josm.plugins.PluginException;
@@ -38,15 +40,70 @@ import org.openstreetmap.josm.plugins.scripting.util.IOUtil;
 public class RhinoEngine {
 	static private final Logger logger = Logger.getLogger(RhinoEngine.class.getName());
 	
-	private Scriptable swingThreadScope;
+	/**
+	 * A thread local storage for root scopes. In particular, holds the
+	 * root scope for scripts run on the Swing EDT.
+	 */
+	private ThreadLocal<Scriptable> scope = new ThreadLocal<Scriptable>(); 
 	
 	static private  RhinoEngine instance;
 	public static RhinoEngine getInstance() {
 		if (instance == null) instance = new RhinoEngine();
 		return instance; 
 	}
+		
+	/**
+	 * <p>Initializes a standard scope for scripts running in the context of a JOSM instance.</p>
+	 * 
+	 * <p>Initialized the context with the standard Rhino context, loads 
+	 * <code>require.js</code> from the scripting jar and initializes the
+	 * CommonJS module loader.</p>
+	 * 
+	 * @param ctx the context 
+	 * @return the initialized scope 
+	 */
+	static public Scriptable initStandardScope(Context ctx) {
+		Scriptable scope  = ctx.initStandardObjects();
+		if (!loadResource(ctx, scope, "/js/require.js")) return scope;				
+		// make sure the CommonJS module loader looks for modules in the
+		// scripting plugin jar 
+		try {
+			PluginInformation info = PluginInformation.findPlugin("scripting");
+			String url = "jar:" + info.file.toURI().toURL().toString() + "!" + "/js";
+			String script = MessageFormat.format("require.addRepository(new java.net.URL(''{0}''));", url);
+			ctx.evaluateString(scope, script, "inline", 0, null);	
+			logger.info(tr("Sucessfully loaded CommonJS module loader from resource ''{0}''", "/js/require.js"));
+			logger.info(tr("Added the plugin jar as module respository. jar URL is: {0}", url.toString()));
+		} catch (PluginException e) {
+			e.printStackTrace();
+		} catch(MalformedURLException e) {
+			e.printStackTrace();
+		}
+		return scope;
+	}
 	
-	
+	static protected boolean loadResource(Context ctx, Scriptable scope, String resource) {
+		InputStream in = RhinoEngine.class.getResourceAsStream(resource);
+		if (in == null) {
+			logger.log(Level.SEVERE,tr("Failed to load javascript file from ressource ''{0}''. Ressource not found.", resource));
+		}
+		Reader reader = new InputStreamReader(in);
+		try {
+			ctx.evaluateReader(scope, reader, resource, 0, null);
+			return true;
+		} catch(IOException e){
+			logger.log(Level.SEVERE, tr("Failed to load javascript file from resource ''{0}''.", resource));
+			logger.log(Level.SEVERE, tr("Exception ''{0}'' occured.", e.toString()), e);
+			return false;
+		} catch(RhinoException e){
+			logger.log(Level.SEVERE, tr("Failed to load javascript  file from resource ''{0}''.", resource));
+			logger.log(Level.SEVERE,tr("Exception ''{0}'' occured at position {1}/{2}.", e.toString(), e.lineNumber(), e.columnNumber()), e);
+			return false;
+		} finally {
+			IOUtil.close(reader);
+		}		
+	}
+		
 	private RhinoEngine(){}
 		
 	protected void runOnSwingEDT(Runnable r){
@@ -71,30 +128,6 @@ public class RhinoEngine {
 		}
 	}
 	
-	protected boolean loadResource(Context ctx, String resource) {
-		InputStream in = getClass().getResourceAsStream(resource);
-		if (in == null) {
-			System.out.println(tr("FATAL: Failed to load javascript file from ressource ''{0}''. Ressource not found.", resource));
-		}
-		Reader reader = new InputStreamReader(in);
-		try {
-			ctx.evaluateReader(swingThreadScope, reader, resource, 0, null);
-			return true;
-		} catch(IOException e){
-			System.out.println(tr("FATAL: Failed to load javascript file from resource ''{0}''.", resource));
-			System.out.println(tr("FATAL: Exception ''{0}'' occured.", e.toString()));
-			e.printStackTrace();
-			return false;
-		} catch(RhinoException e){
-			System.out.println(tr("FATAL: Failed to load javascript  file from resource ''{0}''.", resource));
-			System.out.println(tr("FATAL: Exception ''{0}'' occured at position {1}/{2}.", e.toString(), e.lineNumber(), e.columnNumber()));
-			e.printStackTrace();
-			return false;
-		} finally {
-			IOUtil.close(reader);
-		}		
-	}
-	
 	/**
 	 * Enter a scripting context on the Swing EDT. This method has to be invoked only once. 
 	 * The context is maintained by Rhino as thread local variable.
@@ -107,22 +140,7 @@ public class RhinoEngine {
 				if (Context.getCurrentContext() != null) return;
 				Context ctx = Context.enter();		
 				ctx.setWrapFactory(new JOSMWrapFactory());
-				swingThreadScope = ctx.initStandardObjects();
-				if (!loadResource(ctx, "/js/require.js")) return;				
-				// make sure the CommonJS module loader looks for modules in the
-				// scripting plugin jar 
-				try {
-					PluginInformation info = PluginInformation.findPlugin("scripting");
-					String url = "jar:" + info.file.toURI().toURL().toString() + "!" + "/js";
-					String script = MessageFormat.format("require.addRepository(new java.net.URL(''{0}''));", url);
-					ctx.evaluateString(swingThreadScope, script, "inline", 0, null);	
-					System.out.println(tr("INFO: Sucessfully loaded CommonJS module loader from resource ''{0}''", "/js/require.js"));
-					System.out.println(tr("INFO: Added the plugin jar as module respository. jar URL is: {0}", url.toString()));
-				} catch (PluginException e) {
-					e.printStackTrace();
-				} catch(MalformedURLException e) {
-					e.printStackTrace();
-				}
+				scope.set(initStandardScope(ctx));
 			}
 		};
 		runOnSwingEDT(r);
@@ -136,28 +154,7 @@ public class RhinoEngine {
 			public void run() {
 				if (Context.getCurrentContext() == null) return;
 				Context.exit();
-			}
-		};
-		runOnSwingEDT(r);
-	}
-	
-	/**
-	 * Evaluate a script on the Swing EDT in a given scope.
-	 * 
-	 * @param script the script. Ignored if null.
-	 * @param scope the scope for script execution. If null, creates a new context with standard objects 
-	 * @throws EvaluatorException thrown if evaluating the script fails
-	 */
-	public void evaluateOnSwingThread(final String script, Scriptable scope)  throws EvaluatorException{
-		if (script == null) return;
-		final Scriptable s = scope == null ? Context.getCurrentContext().initStandardObjects() : scope;
-		Runnable r = new Runnable() {
-			public void run() {
-				Context ctx = Context.getCurrentContext();
-				if (ctx == null){
-					ctx = Context.enter();
-				}
-				ctx.evaluateString(s, script, "inlineScript", 0, null /* no security domain */);
+				scope.remove();
 			}
 		};
 		runOnSwingEDT(r);
@@ -169,22 +166,29 @@ public class RhinoEngine {
 	 * @param script the script 
 	 */
 	public void evaluateOnSwingThread(final String script) {
-		if (swingThreadScope == null) {
-			enterSwingThreadContext();
-		}
-		evaluateOnSwingThread(script, swingThreadScope);
+		if (script == null) return;
+		Runnable r = new Runnable() {
+			public void run() {
+				enterSwingThreadContext();
+				Context ctx = Context.getCurrentContext();
+				ctx.evaluateString(RhinoEngine.this.scope.get(), script, "inlineScript", 0, null /* no security domain */);
+			}
+		};
+		runOnSwingEDT(r);
 	}
 
 	/**
 	 * Reads and evaluates the script in the file <code>file</code> on the current Swing thread.
 	 * 
 	 * @param file the script file. Ignored if null. Must be a readable file
+	 * @param scope the scope. If null, creates a new scope. In any case, sets the standard scope for the Swing thread as
+	 * parent scope.
 	 * @throws IllegalArgumentException thrown if file is a directory
 	 * @throws IllegalArgumentException thrown if file isn't readable
 	 * @throws FileNotFoundException thrown if file isn't found 
 	 * @throws EvaluatorException thrown if the evaluation of the script fails
 	 */
-	public void evaluateOnSwingThread(final File file, Scriptable scope) throws FileNotFoundException, IOException, EvaluatorException {		
+	public void evaluateOnSwingThread(final File file, final Scriptable scope) throws FileNotFoundException, IOException, EvaluatorException {		
 		if (file == null) return;
 		Assert.assertArg(!file.isDirectory(), "Can''t read script from a directory ''{0}''", file);
 		Assert.assertArg(file.canRead(), "Can''t read script from file, because file isn''t readable. Got file ''{0}''", file);
@@ -192,10 +196,11 @@ public class RhinoEngine {
 		try {
 			final Reader fr = new FileReader(file);
 			enterSwingThreadContext();
-			final Scriptable s = scope == null? Context.getCurrentContext().initStandardObjects() : scope;
 			Runnable r = new Runnable() {
 				public void run() {
 					try {
+						Scriptable s = (scope == null) ? new NativeObject() : scope; 
+						s.setParentScope(RhinoEngine.this.scope.get());
 						Context.getCurrentContext().evaluateReader(s, fr, file.toString(), 0, null /* no security domain */);
 					} catch(IOException e){
 						throw new RuntimeException(e);
@@ -212,7 +217,7 @@ public class RhinoEngine {
 				throw e;
 			}
 		} finally {
-			if (reader != null) IOUtil.close(reader);
+			IOUtil.close(reader);
 		}
 	}
 }
