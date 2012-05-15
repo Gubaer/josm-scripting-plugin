@@ -50,9 +50,9 @@ public class OsmPrimitiveWrapper extends NativeJavaObject  {
 				obj().removeAll();
 			} else if (value instanceof Map) {
 				obj().removeAll();
-				obj().setKeys((Map)value);
+				obj().setKeys((Map<String,String>)value);
 			} else {
-				throw we("Can''t assign tags from object {0}", value);
+				WrappingUtil.assertApi(false, "Can''t assign tags from object {0}", value);
 			}
 			return;
 		}
