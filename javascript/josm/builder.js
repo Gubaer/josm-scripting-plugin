@@ -88,6 +88,25 @@ exports.NodeBuilder = function(ds) {
 };
 
 /**
+ * <p>Creates a new NodeBuilder which will add created nodes to the dataset <code>ds</code<.</p>
+ * 
+ * @example
+ * 
+ * var ds = new org.openstreetmap.josm.data.osm.DataSet();
+ * var nb = require("josm/builder").NodeBuilder.forDataSet(ds);
+ * 
+ * @memberOf NodeBuilder
+ * @method
+ * @return the node builder
+ * @type exports.NodeBuilder 
+ */
+exports.NodeBuilder.forDataSet = function(ds) {
+	util.assert(util.isSomething(ds), "Expected a non-null defined object, got {0}", ds);
+	util.assert(ds instanceof DataSet, "Expected a JOSM dataset, got {0}", ds);
+	return new exports.NodeBuilder(ds);
+};
+
+/**
  * <p>Creates a new <em>proxy</em> node. A proxy node is a node, for which we only know
  * its global id. In order to know more details (position, tags, etc.), we would have to
  * download it from the OSM server.</p>
