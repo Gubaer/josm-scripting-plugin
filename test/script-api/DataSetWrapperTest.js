@@ -189,6 +189,21 @@ var suite = tu.suite(
 		var nb = ds.nodeBuilder;
 		nb.local();
 		util.assert(ds.getNodes().size() == 1, "Expected 1 node in dataset, got {0}", ds.getNodes().size());		
+	}),
+	
+	/* ------------------------------------------------------------------------------------ */
+	/* each  */
+	/* ------------------------------------------------------------------------------------ */
+	test("each - counting primitives", function() {
+		var n1 = newNode();
+		var n2 = newNode();
+		var ds = new DataSet();
+		ds.add(n1,n2);
+		var count = 0;
+		ds.each(function(p) {
+			if (p instanceof Node) count++;
+		});
+		util.assert(count == 2);		
 	})
 );
 
