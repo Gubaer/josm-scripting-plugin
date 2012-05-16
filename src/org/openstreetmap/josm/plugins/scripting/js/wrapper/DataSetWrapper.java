@@ -67,6 +67,13 @@ public class DataSetWrapper extends NativeJavaObject {
 		Context ctx = Context.getCurrentContext();
 		return ctx.evaluateString(scope,script, "fragment: create NodeBuilder for dataset", 0, null);
 	}
+	
+	static private Object unwrap(Object o) {
+		if (o instanceof Wrapper) {
+			o = ((Wrapper)o).unwrap();
+		}
+		return o;
+	}
 		
 	static private Function fGet = new BaseFunction() {		
 		private static final long serialVersionUID = -1049214446967093815L;
@@ -87,14 +94,7 @@ public class DataSetWrapper extends NativeJavaObject {
 			assertApi(t != null, "Unsupported primitive type ''{0}''", type);
 			OsmPrimitive primitive = ds.getPrimitiveById(id, t);
 			return primitive == null ? Undefined.instance : primitive;
-		}
-		
-		private Object unwrap(Object o) {
-			if (o instanceof Wrapper) {
-				o = ((Wrapper)o).unwrap();
-			}
-			return o;
-		}
+		}		
 				
 		@Override
 		public Object call(Context cx, Scriptable scope, Scriptable thisObj, Object[] args) {			
@@ -106,9 +106,7 @@ public class DataSetWrapper extends NativeJavaObject {
 			case 0: return Undefined.instance;
 			case 1: 
 				Object o = args[0];
-				if (o instanceof Wrapper) {
-					o = ((Wrapper)o).unwrap();
-				}
+				o = unwrap(o);
 				assertApi(o != null && args[0] != Undefined.instance, "Argument 0 must not be null or undefined");
 				assertApi(o instanceof PrimitiveId, "Argument 0: Expected a PrimitiveId, got {0}", o);
 				ret = get(ds, (PrimitiveId)o);
@@ -139,9 +137,7 @@ public class DataSetWrapper extends NativeJavaObject {
 
 		protected void remember(Object o, List<PrimitiveId> toRemove) {
 			if (o == null || o == Undefined.instance) return;
-			if (o instanceof Wrapper) {
-				o = ((Wrapper) o).unwrap();
-			}
+			o = unwrap(o);
 			if (o instanceof PrimitiveId) {
 				toRemove.add((PrimitiveId)o);
 			} else if (o instanceof OsmPrimitive) {
@@ -182,9 +178,7 @@ public class DataSetWrapper extends NativeJavaObject {
 		protected void remember(Object o, List<OsmPrimitive> toAdd) {
 			if (o == null || o == Undefined.instance)
 				return;
-			if (o instanceof Wrapper) {
-				o = ((Wrapper) o).unwrap();
-			}
+			o = unwrap(o);
 			if (o instanceof OsmPrimitive) {
 				toAdd.add((OsmPrimitive) o);
 			} else if (o instanceof List<?>) {
@@ -194,9 +188,7 @@ public class DataSetWrapper extends NativeJavaObject {
 			} else if (o instanceof OsmPrimitive) {
 				toAdd.add((OsmPrimitive) o);
 			} else {
-				assertApi(false,
-						"Can''t add an object of type ''{0}'' to the dataset.",
-						o.getClass());
+				assertApi(false, "Can''t add an object of type ''{0}'' to the dataset.", o.getClass());
 			}
 		}
 		
@@ -226,14 +218,14 @@ public class DataSetWrapper extends NativeJavaObject {
 		protected DataSet ds = null;
 		protected Function delegate = null;
 		
-		protected Object invoke(Context ctx, Scriptable scope,OsmPrimitive target) {
+		protected Object invoke(Context ctx, Scriptable scope,Object primitive) {
 			Context cx = Context.getCurrentContext();
-			return delegate.call(cx, scope, null, new Object[]{target});
+			return delegate.call(cx, scope, null, new Object[]{primitive});
 		}
 		
 		public Object call(Context cx, Scriptable scope, Scriptable thisObj, Object[] args) {
 			assertApi(thisObj instanceof DataSetWrapper, "DataSetWrapper as this expected, got {0}", thisObj);
-			ds = (DataSet)thisObj;
+			ds = (DataSet)((Wrapper)thisObj).unwrap();
 			assertApi(args.length == 1, "Expected a Function as argument, got {0} arguments", args.length);
 			assertApi(args[0] != null && args[0] != Undefined.instance, "Argument 0: Expected a Function, got {0}", args[0]);
 			assertApi(args[0] instanceof Function, "Argument 0: Expected a Function, got {0}", args[0]);
@@ -250,7 +242,7 @@ public class DataSetWrapper extends NativeJavaObject {
 			try {
 				ds.getReadLock().lock();
 				for (OsmPrimitive primitive : ds.allPrimitives()) {
-					invoke(cx,scope, primitive);
+					invoke(cx,scope, Context.javaToJS(primitive, scope));
 				}
 			} finally {
 				ds.getReadLock().unlock();
@@ -314,9 +306,7 @@ public class DataSetWrapper extends NativeJavaObject {
 	static private  void remember(Object o, List<PrimitiveId> toAdd) {
 		if (o == null || o == Undefined.instance)
 			return;
-		if (o instanceof Wrapper) {
-			o = ((Wrapper) o).unwrap();
-		}
+		o = unwrap(o);
 		if (o instanceof PrimitiveId) {
 			toAdd.add((PrimitiveId) o);
 		} else if (o instanceof List<?>) {
@@ -430,9 +420,7 @@ public class DataSetWrapper extends NativeJavaObject {
 			assertApi(args.length == 1, "Expected exactly one OSM primitive, got {0} arguments", args.length);
 			Object o = args[0];
 			if (o == null || o == Undefined.instance) return false;
-			if (o instanceof Wrapper) {
-				o = ((Wrapper)o).unwrap();
-			}
+			o = unwrap(o);
 			assertApi(o instanceof OsmPrimitive, "Expected an OsmPrimitive, got {0}", o);
 			DataSet ds = (DataSet)((Wrapper)thisObj).unwrap();
 			return ds.isSelected((OsmPrimitive)o);
