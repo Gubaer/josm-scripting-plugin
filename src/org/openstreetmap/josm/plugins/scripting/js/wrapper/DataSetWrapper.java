@@ -3,6 +3,8 @@ package org.openstreetmap.josm.plugins.scripting.js.wrapper;
 import static org.openstreetmap.josm.plugins.scripting.js.wrapper.WrappingUtil.assertApi;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 import org.mozilla.javascript.BaseFunction;
@@ -250,6 +252,16 @@ public class DataSetWrapper extends NativeJavaObject {
 			return Undefined.instance;
 		}
 	};
+	
+	static private NativeArray toNativeArray(Collection<?> objects, Scriptable scope) {
+		Object[] wrapped = new Object[objects.size()];
+		int i;
+		Iterator<?> it;
+		for (it = objects.iterator(), i=0; it.hasNext();) {
+			wrapped[i++] = Context.javaToJS(it.next(), scope);
+		}
+		return new NativeArray(wrapped);
+	}
 
 	class SelectionAccessor extends ScriptableObject {		
 		
@@ -282,19 +294,23 @@ public class DataSetWrapper extends NativeJavaObject {
 		}
 		
 		private Object getNodes() {
-			return new NativeArray(ds().getSelectedNodes().toArray());
+			return toNativeArray(ds().getSelectedNodes(), DataSetWrapper.this.parent);
 		}
 		
 		private Object getWays() {
-			return new NativeArray(ds().getSelectedWays().toArray());
+			return toNativeArray(ds().getSelectedWays(), DataSetWrapper.this.parent);
 		}
 
 		private Object getRelations() {
-			return new NativeArray(ds().getSelectedRelations().toArray());
+			return toNativeArray(ds().getSelectedRelations(), DataSetWrapper.this.parent);
 		}
 		
 		private Object getIsEmpty() {
 			return ds().selectionEmpty();
+		}
+		
+		public DataSet getDataSet() {
+			return ds();
 		}
 
 		@Override
@@ -324,12 +340,13 @@ public class DataSetWrapper extends NativeJavaObject {
 		@Override
 		public Object call(Context cx, Scriptable scope, Scriptable thisObj, Object[] args) {
 			List<PrimitiveId> toAdd = new ArrayList<PrimitiveId>();
-			assertApi(thisObj instanceof DataSetWrapper, "DataSetWrapper as this expected, got {0}", thisObj);
+			assertApi(thisObj instanceof SelectionAccessor, "SelectionAccessor as this expected, got {0}", thisObj);
+			SelectionAccessor selection = (SelectionAccessor)thisObj;
+			DataSet ds = selection.getDataSet();
 			if (args.length == 0) return Undefined.instance;
 			for (int i=0; i< args.length; i++){		
 				remember(args[i], toAdd);
 			}
-			DataSet ds = (DataSet)((Wrapper)thisObj).unwrap();
 			ds.addSelected(toAdd);
 			return Undefined.instance;
 		}
@@ -340,12 +357,13 @@ public class DataSetWrapper extends NativeJavaObject {
 		@Override
 		public Object call(Context cx, Scriptable scope, Scriptable thisObj, Object[] args) {
 			List<PrimitiveId> toRemove = new ArrayList<PrimitiveId>();
-			assertApi(thisObj instanceof DataSetWrapper, "DataSetWrapper as this expected, got {0}", thisObj);
+			assertApi(thisObj instanceof SelectionAccessor, "SelectionAccessor as this expected, got {0}", thisObj);
+			SelectionAccessor selection = (SelectionAccessor)thisObj;
+			DataSet ds = selection.getDataSet();
 			if (args.length == 0) return Undefined.instance;
 			for (int i=0; i< args.length; i++){		
 				remember(args[i], toRemove);
 			}
-			DataSet ds = (DataSet)((Wrapper)thisObj).unwrap();
 			ds.clearSelection(toRemove);
 			return Undefined.instance;
 		}
@@ -357,12 +375,13 @@ public class DataSetWrapper extends NativeJavaObject {
 		@Override
 		public Object call(Context cx, Scriptable scope, Scriptable thisObj, Object[] args) {
 			List<PrimitiveId> toSet = new ArrayList<PrimitiveId>();
-			assertApi(thisObj instanceof DataSetWrapper, "DataSetWrapper as this expected, got {0}", thisObj);
+			assertApi(thisObj instanceof SelectionAccessor, "SelectionAccessor as this expected, got {0}", thisObj);
+			SelectionAccessor selection = (SelectionAccessor)thisObj;
+			DataSet ds = selection.getDataSet();
 			if (args.length == 0) return Undefined.instance;
 			for (int i=0; i< args.length; i++){		
 				remember(args[i], toSet);
 			}
-			DataSet ds = (DataSet)((Wrapper)thisObj).unwrap();
 			ds.setSelected(toSet);
 			return Undefined.instance;
 		}
@@ -373,9 +392,10 @@ public class DataSetWrapper extends NativeJavaObject {
 
 		@Override
 		public Object call(Context cx, Scriptable scope, Scriptable thisObj, Object[] args) {
-			assertApi(thisObj instanceof DataSetWrapper, "DataSetWrapper as this expected, got {0}", thisObj);
+			assertApi(thisObj instanceof SelectionAccessor, "SelectionAccessor as this expected, got {0}", thisObj);
+			SelectionAccessor selection = (SelectionAccessor)thisObj;
+			DataSet ds = selection.getDataSet();
 			assertApi(args.length == 0, "Expected 0 arguments, got {0}", args.length);
-			DataSet ds = (DataSet)((Wrapper)thisObj).unwrap();
 			ds.clearSelection();
 			return Undefined.instance;
 		}
@@ -386,13 +406,13 @@ public class DataSetWrapper extends NativeJavaObject {
 
 		@Override
 		public Object call(Context cx, Scriptable scope, Scriptable thisObj, Object[] args) {
-			assertApi(thisObj instanceof DataSetWrapper, "DataSetWrapper as this expected, got {0}", thisObj);
+			assertApi(thisObj instanceof SelectionAccessor, "SelectionAccessor as this expected, got {0}", thisObj);
+			SelectionAccessor selection = (SelectionAccessor)thisObj;
+			DataSet ds = selection.getDataSet();
 			assertApi(args.length == 0, "Expected 0 arguments, got {0}", args.length);
-			DataSet ds = (DataSet)((Wrapper)thisObj).unwrap();
-			return new NativeArray(ds.getSelected().toArray());
+			return toNativeArray(ds.getSelected(), scope);
 		}
 	};
-	
 	
 	static private Function fToggleSelection = new BaseFunction() {		
 		private static final long serialVersionUID = 1L;
@@ -400,12 +420,13 @@ public class DataSetWrapper extends NativeJavaObject {
 		@Override
 		public Object call(Context cx, Scriptable scope, Scriptable thisObj, Object[] args) {
 			List<PrimitiveId> toToggle = new ArrayList<PrimitiveId>();
-			assertApi(thisObj instanceof DataSetWrapper, "DataSetWrapper as this expected, got {0}", thisObj);
+			assertApi(thisObj instanceof SelectionAccessor, "SelectionAccessor as this expected, got {0}", thisObj);
+			SelectionAccessor selection = (SelectionAccessor)thisObj;
+			DataSet ds = selection.getDataSet();
 			if (args.length == 0) return Undefined.instance;
 			for (int i=0; i< args.length; i++){		
 				remember(args[i], toToggle);
 			}
-			DataSet ds = (DataSet)((Wrapper)thisObj).unwrap();
 			ds.toggleSelected(toToggle);
 			return Undefined.instance;
 		}
@@ -416,13 +437,14 @@ public class DataSetWrapper extends NativeJavaObject {
 
 		@Override
 		public Object call(Context cx, Scriptable scope, Scriptable thisObj, Object[] args) {
-			assertApi(thisObj instanceof DataSetWrapper, "DataSetWrapper as this expected, got {0}", thisObj);
+			assertApi(thisObj instanceof SelectionAccessor, "SelectionAccessor as this expected, got {0}", thisObj);
+			SelectionAccessor selection = (SelectionAccessor)thisObj;
+			DataSet ds = selection.getDataSet();
 			assertApi(args.length == 1, "Expected exactly one OSM primitive, got {0} arguments", args.length);
 			Object o = args[0];
 			if (o == null || o == Undefined.instance) return false;
 			o = unwrap(o);
 			assertApi(o instanceof OsmPrimitive, "Expected an OsmPrimitive, got {0}", o);
-			DataSet ds = (DataSet)((Wrapper)thisObj).unwrap();
 			return ds.isSelected((OsmPrimitive)o);
 		}
 	};

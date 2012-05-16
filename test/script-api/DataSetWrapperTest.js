@@ -204,6 +204,40 @@ var suite = tu.suite(
 			if (p instanceof Node) count++;
 		});
 		util.assert(count == 2);		
+	}),
+	
+	/* ------------------------------------------------------------------------------------ */
+	/* selection  */
+	/* ------------------------------------------------------------------------------------ */
+	test("selection - get the selection accessor", function() {
+		var ds = new DataSet();
+		util.assert(util.isSomething(ds.selection), "selection object not found");		
+	}),
+	test("selection - sequence of add, remove, set, toggle, and clear", function() {
+		var ds = new DataSet();
+		var n1 = newNode();
+		ds.add(n1);
+		ds.selection.add(n1);
+		util.assert(ds.selection.isSelected(n1), "node should be selected");
+		ds.selection.remove(n1);
+		util.assert(!ds.selection.isSelected(n1), "node should not be selected");
+		ds.selection.set(n1);
+		util.assert(ds.selection.isSelected(n1), "node should be selected");
+		ds.selection.toggle(n1);
+		util.assert(!ds.selection.isSelected(n1), "node should not be selected");
+		ds.selection.toggle(n1);
+		util.assert(ds.selection.isSelected(n1), "node should be selected");
+		ds.selection.clear();
+		util.assert(!ds.selection.isSelected(n1), "node should not be selected");
+	}),
+	test("selection - access the list of selected nodes", function() {
+		var ds = new DataSet();
+		var n1 = newNode();
+		ds.add(n1);	
+		util.assert(ds.selection.nodes.length == 0, "expecting no selected node");
+		ds.selection.set(n1);
+		util.assert(ds.selection.nodes.length == 1, "expecting one selected node");
+		util.assert(ds.selection.nodes[0] == n1, "expected n1, got {0}", n1);
 	})
 );
 
