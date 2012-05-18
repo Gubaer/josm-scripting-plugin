@@ -24,4 +24,8 @@ Object.defineProperty(exports, "version", {
 	}
 });
  
-
+Object.defineProperty(exports, "layers", {
+	get: function() {
+		return require("josm/layers");
+	}
+});
