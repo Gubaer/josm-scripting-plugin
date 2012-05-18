@@ -1,16 +1,14 @@
 package org.openstreetmap.josm.plugins.scripting.js.wrapper;
 
 import static org.openstreetmap.josm.plugins.scripting.js.wrapper.WrappingUtil.assertApi;
+import static org.openstreetmap.josm.plugins.scripting.js.wrapper.WrappingUtil.toNativeArray;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 import org.mozilla.javascript.BaseFunction;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Function;
-import org.mozilla.javascript.NativeArray;
 import org.mozilla.javascript.NativeJavaObject;
 import org.mozilla.javascript.NativeObject;
 import org.mozilla.javascript.Scriptable;
@@ -70,13 +68,7 @@ public class DataSetWrapper extends NativeJavaObject {
 		return ctx.evaluateString(scope,script, "fragment: create NodeBuilder for dataset", 0, null);
 	}
 	
-	static private Object unwrap(Object o) {
-		if (o instanceof Wrapper) {
-			o = ((Wrapper)o).unwrap();
-		}
-		return o;
-	}
-		
+	
 	static private Function fGet = new BaseFunction() {		
 		private static final long serialVersionUID = -1049214446967093815L;
 
@@ -108,14 +100,14 @@ public class DataSetWrapper extends NativeJavaObject {
 			case 0: return Undefined.instance;
 			case 1: 
 				Object o = args[0];
-				o = unwrap(o);
+				o = WrappingUtil.unwrap(o);
 				assertApi(o != null && args[0] != Undefined.instance, "Argument 0 must not be null or undefined");
 				assertApi(o instanceof PrimitiveId, "Argument 0: Expected a PrimitiveId, got {0}", o);
 				ret = get(ds, (PrimitiveId)o);
 				break;
 			case 2:
-				Object a0 = unwrap(args[0]);
-				Object a1 = unwrap(args[1]);
+				Object a0 = WrappingUtil.unwrap(args[0]);
+				Object a1 = WrappingUtil.unwrap(args[1]);
 				assertApi(a0 instanceof OsmPrimitiveType || a0 instanceof String, "Argument 0: Expected a string ''node'', ''way'' or ''relation'', or a OsmPrimitiveType, got {0}", a0);
 				assertApi(a1 instanceof Number, "Argument 1: Expected a number, got {0}", a1);
 				long id = ((Number)a1).longValue();
@@ -139,7 +131,7 @@ public class DataSetWrapper extends NativeJavaObject {
 
 		protected void remember(Object o, List<PrimitiveId> toRemove) {
 			if (o == null || o == Undefined.instance) return;
-			o = unwrap(o);
+			o = WrappingUtil.unwrap(o);
 			if (o instanceof PrimitiveId) {
 				toRemove.add((PrimitiveId)o);
 			} else if (o instanceof OsmPrimitive) {
@@ -180,7 +172,7 @@ public class DataSetWrapper extends NativeJavaObject {
 		protected void remember(Object o, List<OsmPrimitive> toAdd) {
 			if (o == null || o == Undefined.instance)
 				return;
-			o = unwrap(o);
+			o = WrappingUtil.unwrap(o);
 			if (o instanceof OsmPrimitive) {
 				toAdd.add((OsmPrimitive) o);
 			} else if (o instanceof List<?>) {
@@ -252,16 +244,6 @@ public class DataSetWrapper extends NativeJavaObject {
 			return Undefined.instance;
 		}
 	};
-	
-	static private NativeArray toNativeArray(Collection<?> objects, Scriptable scope) {
-		Object[] wrapped = new Object[objects.size()];
-		int i;
-		Iterator<?> it;
-		for (it = objects.iterator(), i=0; it.hasNext();) {
-			wrapped[i++] = Context.javaToJS(it.next(), scope);
-		}
-		return new NativeArray(wrapped);
-	}
 
 	class SelectionAccessor extends ScriptableObject {		
 		
@@ -322,7 +304,7 @@ public class DataSetWrapper extends NativeJavaObject {
 	static private  void remember(Object o, List<PrimitiveId> toAdd) {
 		if (o == null || o == Undefined.instance)
 			return;
-		o = unwrap(o);
+		o = WrappingUtil.unwrap(o);
 		if (o instanceof PrimitiveId) {
 			toAdd.add((PrimitiveId) o);
 		} else if (o instanceof List<?>) {
@@ -443,7 +425,7 @@ public class DataSetWrapper extends NativeJavaObject {
 			assertApi(args.length == 1, "Expected exactly one OSM primitive, got {0} arguments", args.length);
 			Object o = args[0];
 			if (o == null || o == Undefined.instance) return false;
-			o = unwrap(o);
+			o = WrappingUtil.unwrap(o);
 			assertApi(o instanceof OsmPrimitive, "Expected an OsmPrimitive, got {0}", o);
 			return ds.isSelected((OsmPrimitive)o);
 		}
