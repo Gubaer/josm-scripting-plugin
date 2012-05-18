@@ -1,7 +1,5 @@
 package org.openstreetmap.josm.plugins.scripting.js.wrapper;
 
-import static org.openstreetmap.josm.plugins.scripting.js.wrapper.WrappingException.we;
-
 import java.util.Map;
 
 import org.mozilla.javascript.NativeJavaObject;
@@ -15,7 +13,7 @@ import org.openstreetmap.josm.data.osm.OsmPrimitive;
  * 
  */
 public class OsmPrimitiveWrapper extends NativeJavaObject  {
-	
+	private static final long serialVersionUID = 1L;
 	private OsmPrimitive obj() {
 		return (OsmPrimitive)javaObject;
 	}
@@ -31,6 +29,7 @@ public class OsmPrimitiveWrapper extends NativeJavaObject  {
 		if ("ds".equals(name)) return true;
 		if ("dataSet".equals(name)) return true;
 		if ("version".equals(name)) return true;
+		if ("id".equals(name)) return true;
 		return super.has(name, start);
 	}
 
@@ -40,9 +39,11 @@ public class OsmPrimitiveWrapper extends NativeJavaObject  {
 		if ("ds".equals(name)) return getDataSet();
 		if ("dataSet".equals(name)) return getDataSet();
 		if ("version".equals(name)) return getVersion();
+		if ("id".equals(name)) return getId();
 		return super.get(name, start);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void put(String name, Scriptable start, Object value) {
 		if ("tags".equals(name)) {
@@ -73,9 +74,15 @@ public class OsmPrimitiveWrapper extends NativeJavaObject  {
 		int version = obj().getVersion();
 		return version == 0 ? Undefined.instance : version;
 	}
+	
+	private Object getId() {
+		return obj().getUniqueId();
+	}
 
 	private TagAccessor tagAccessor = new TagAccessor();
 	private class TagAccessor extends ScriptableObject {		
+		private static final long serialVersionUID = 1L;
+
 		public Object get(String name, Scriptable start) {
 			if (!obj().hasKey(name))
 				return Undefined.instance;

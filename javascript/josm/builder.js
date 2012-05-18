@@ -56,7 +56,7 @@ function assignTags(primitive, tags) {
 // -------------------------------------------------------------------------------
 // NodeBuilder
 //--------------------------------------------------------------------------------
-(function() {
+(function() {	
 	
 /**
  * <p>NodeBuilder helps to create OSM nodes.</p>
@@ -81,10 +81,6 @@ exports.NodeBuilder = function(ds) {
 		util.assert(ds instanceof DataSet, "Expected a JOSM dataset, got {0}", ds);
 		this.ds = ds;
 	} 
-	this.version = 1;
-	this.lat = 0;
-	this.lon = 0;
-	this.tags = {};
 };
 
 /**
@@ -106,6 +102,142 @@ exports.NodeBuilder.forDataSet = function(ds) {
 	return new exports.NodeBuilder(ds);
 };
 
+function receiver(that) {
+	return typeof that === "object" ? that : new exports.NodeBuilder();
+}
+
+function checkLat(value) {
+	if (! util.isSomething(value)) throw "lat must not be null or undefined";
+	if (! util.isNumber(value)) throw "lat must be a number";
+	if (! LatLon.isValidLat(value)) throw "lat must be a valid latitude";
+	return value;
+}
+function checkLon(value) {
+	if (! util.isSomething(value)) throw "lon must not be null or undefined";
+	if (! util.isNumber(value)) throw "lon must be a number";
+	if (! LatLon.isValidLon(value)) throw "lon must be a valid longitude";
+	return value;
+}
+
+function initFromObject(builder, args) {
+	if (args.hasOwnProperty("id")) {
+		var o = args["id"];
+		util.assert(util.isSomething(o), "''{0}'': must not be null or undefined", "id");
+		util.assert(util.isNumber(o), "''{0}'': expected a number, got {1}", "id", o);
+		util.assert(o > 0, "''{0}'': expected a number > 0, got {1}", "id", o);
+		builder.id = o;
+	}
+	if (args.hasOwnProperty("version")) {
+		var o = args["version"];
+		util.assert(util.isSomething(o), "''{0}'': must not be null or undefined", "version");
+		util.assert(util.isNumber(o), "''{0}'': expected a number, got {1}", "version", o);
+		util.assert(o > 0, "''{0}'': expected a number > 0, got {1}", "version", o);
+		builder.version = o;
+	}
+		
+	if (args.hasOwnProperty("pos")) {
+		util.assert(! (args.hasOwnProperty("lat") || args.hasOwnProperty("lon")), "Can''t process both properties ''pos'' and ''lat''/''lon''");
+		var o = args["pos"];		
+		util.assert(util.isSomething(o), "''{0}'': must not be null or undefined", "pos");
+		if (pos instanceof LatLon) {
+			builder.lat = pos.lat();
+			builder.lon = pos.lon();
+		} else if (util.isArray(pos)) {
+			util.assert(pos.length == 2, "''{0}'': expected exactly two numbers in array", "pos");
+			try {
+				builder.lat = checkLat(pos[0]);
+			} catch(e) {
+				util.assert(false, "''{0}'': {1}", "lat", e);
+			}
+			try {
+				builder.lon = checkLon(pos[1]);
+			} catch(e) {
+				util.assert(false, "''{0}'': {1}", "lon", e);
+			}
+		} else if (util.isObject(pos)) {
+			util.assert(pos.hasOwnProperty("lat"), "''{0}'': missing mandatory property ''lat''", "pos");
+			util.assert(pos.hasOwnProperty("lon"), "''{0}'': missing mandatory property ''lon''", "pos");
+			try {
+				builder.lat = checkLat(pos["lat"]);
+			} catch(e) {
+				util.assert(false, "''{0}'': {1}", "pos", e);
+			}
+			try {
+				builder.lon = checkLon(pos["lon"]);
+			} catch(e) {
+				util.assert(false, "''{0}'': {1}", "pos", e);
+			}
+		}
+	}
+	if (args.hasOwnProperty("lat")) {
+		var o = args["lat"];
+		util.assert(util.isSomething(o), "''{0}'': must not be null or undefined", "lat");
+		util.assert(util.isNumber(o), "''{0}'': expected a number, got {1}", "lat", o);
+		util.assert(LatLon.isValidLat(), "''{0}'': expected a valid latitude, got {1}", "lat", o);
+		builder.lat = lat;
+	}
+	if (args.hasOwnProperty("lon")) {
+		var o = args["lon"];
+		util.assert(util.isSomething(o), "''{0}'': must not be null or undefined", "lon");
+		util.assert(util.isNumber(o), "''{0}'': expected a number, got {1}", "lon", o);
+		util.assert(LatLon.isValidLon(), "''{0}'': expected a valid longitude, got {1}", "lon", o);
+		builder.lon = lon;
+	}
+	if (args.hasOwnProperty("tags")) {
+		var o = args["tags"];
+		util.assert(util.isSomething(o), "''{0}'': most not be null or undefined", "tags");
+		rememberTags(builder, o);
+	}
+}
+
+function create() {
+	var builder = receiver(this);
+	switch(arguments.length){
+	case 1:
+		var o = arguments[0];
+		util.assert(util.isSomething(o), "Argument 0: must not be null or undefined");
+		if (util.isNumber(o)) {
+			util.assert(o > 0, "Argument 0: expected an id > 0, got {0}", o);
+			builder.id = o;
+		} else if (typeof o == "object") {
+			initFromObject(builder, o);
+		} else {
+			util.assert(false, "Argument 0: unexpected type, got ''{0}''", o.getClass());
+		}
+		break;
+		
+	case 2: 
+		var o = arguments[0];
+		util.assert(util.isSomething(o), "Argument 0: must not be null or undefined");
+		util.assert(util.isNumber(o), "Argument 0: expected a number, got {0}", o);
+		util.assert(o > 0, "Argument 0: expected a number > 0, got {0}", o);
+	    builder.id = o;
+		var o = arguments[1];
+		util.assert(util.isSomething(o), "Argument 1: must not be null or undefined");
+		util.assert(util.isNumber(o), "Argument 1: expected a number, got {0}", o);
+		util.assert(o > 0, "Argument 1: expected a number > 0, got {0}", o);
+	    builder.version = o;
+	}
+	
+	var node;
+	if (util.isNumber(builder.id)) {
+		if (util.isNumber(builder.version)){
+			node = new Node(builder.id, builder.version);
+		} else {
+			node = new Node(builder.id, 1);		
+		}
+		var coor = new LatLon(builder.lat || 0, builder.lon || 0);
+		node.setCoor(coor);
+	} else {
+		node = new Node(new LatLon(builder.lat || 0, builder.lon || 0));
+	}
+	assignTags(node, builder.tags || {});
+	if (builder.ds) builder.ds.addPrimitive(node);
+	return node;	
+}
+exports.NodeBuilder.create = create;
+exports.NodeBuilder.prototype.create = create;
+
 /**
  * <p>Creates a new <em>proxy</em> node. A proxy node is a node, for which we only know
  * its global id. In order to know more details (position, tags, etc.), we would have to
@@ -121,117 +253,22 @@ exports.NodeBuilder.forDataSet = function(ds) {
  * 
  * @memberOf NodeBuilder
  * @method
+ * @param {number} id  (mandatory) the node id (not null, number > 0 expected)
  * @return the new proxy node 
  * @type org.openstreetmap.josm.data.osm.Node
  */
-function proxy(id) {
-	var builder = typeof this === "object" ? this : new exports.NodeBuilder();
-	if (util.isDef(id)) {
-		util.assert(util.isNumber(id) && id > 0, "Expected a number > 0, got {0}", id);
-		builder.id = id;
-	}
-	util.assert(util.isNumber(builder.id), "Node id is not a number. Use .proxy(id) or .withId(id).proxy()");
-	util.assert(builder.id > 0, "Expected node id > 0, got {0}", builder.id);
-	var node = new Node(builder.id);
-	if (builder.ds) {
-		builder.ds.addPrimitive(node);
-	}
+function createProxy(id) {
+	var builder = receiver(this);
+	util.assert(util.isSomething(id), "Argument 0: must not be null or undefined");
+	util.assert(util.isNumber(id), "Argument 0: expected a number, got {0}", id);
+	util.assert(id > 0, "Argument 0: id > 0 expected, got {0}", id);
+	
+	var node = new Node(id);
+	if (builder.ds)  builder.ds.addPrimitive(node);
 	return node;
 };
+exports.NodeBuilder.prototype.createProxy = exports.NodeBuilder.createProxy = createProxy;
 
-exports.NodeBuilder.proxy = proxy;
-exports.NodeBuilder.prototype.proxy = proxy;
-
-/**
- * <p>Creates a new local node.</p>
- * 
- * <p>The method can be used in a static and in an instance context.</p>
- * 
- * @example
- * var nbuilder = require("josm/builder").NodeBuilder;
- * 
- * // a new local node with a unique local id
- * var n1 = nbuilder.local();  
- * 
- * // a new local node at position (45,23)
- * var n2 = nbuilder.withPosition(45,23).local(); 
- * 
- * @memberOf NodeBuilder
- * @return the new node
- * @type org.openstreetmap.josm.data.osm.Node
- */
-function local() {
-	var builder = typeof this === "object" ? this : new exports.NodeBuilder();
-	util.assert(arguments.length == 0, "No arguments expected, got {0} arguments", arguments.length);
-	var coor;
-	if (builder.lat != 0 || builder.lon != 0) {
-		coor = new LatLon(builder.lat,builder.lon);
-	} else {
-		coor = new LatLon(0,0);
-	}
-	var node = new Node(coor);
-	if (util.hasProperties(builder.tags)) {
-		assignTags(node, builder.tags);
-	}
-	if (builder.ds) builder.ds.addPrimitive(node);
-	return node; 
-};
-exports.NodeBuilder.prototype.local = local;
-exports.NodeBuilder.local = local;
-
-
-/**
- * <p>Creates a new global node.</p>
- * 
- * <p>The method can be used in a static and in an instance context.</p>
- * 
- * @example
- * var nbuilder = require("josm/builder").NodeBuilder;
- * 
- * // a new global  node with the global id 12345 at position (0,0) withouth tags
- * var n1 = nbuilder.global(12345);  
- * 
- * // a new global node at position (45,23) with id 12345 
- * var n2 = nbuilder.withPosition(45,23).withId(12345).global(); 
- * 
- * // a new global node with id 3456 and version 7 (position is (0,0), the tag <code>name=test</code> is set)
- * var n3 = nbuilder.withId(3456,7).withTags({"name":"test"}).global();
- * 
- * @memberOf NodeBuilder
- * @param {Number} id  (optional) the node id. If supplied, must be a number > 0. If missing, the 
- *   the id must have been declared using <code>.withId(id,version)</code>
- * @param {Number} version (optional) the global node version. If supplied, must be a number >0. If missing,
- *    1 is assumed, unless the version has been set using <code>.withId(id,version)</code>
- * @return the new node
- * @type org.openstreetmap.josm.data.osm.Node
- */
-function global(id, version) {
-	var builder = typeof this === "object" ? this : new exports.NodeBuilder();
-	if (util.isDef(id)) {
-		util.assert(util.isNumber(id) && id > 0, "Expected an id > 0, got {0}", id);
-		builder.id = id;
-	}
-	if (util.isDef(version)) {
-		util.assert(util.isNumber(version) && version > 0, "Expected a version > 0, got {0}", version);
-		builder.version = version;
-	}
-	util.assert(util.isDef(builder.id) && builder.id > 0, "Node id not initialized properly. Use .withId(id,version) or .global(id,version). id is {0}", builder.id);
-	util.assert(util.isDef(builder.version) && builder.version > 0, "Node version not initialized properly. Use .withId(id,version) or .global(id,version). version is {0}", builder.version);
-	var node = new Node(builder.id, builder.version);
-	if (builder.lat != 0 || builder.lon != 0) {
-		coor = new LatLon(builder.lat,builder.lon);
-	} else {
-		coor = new LatLon(0,0);
-	}
-	node.setCoor(coor);
-	if (util.hasProperties(builder.tags)) {
-		assignTags(node, builder.tags);
-	}
-	if (builder.ds) builder.ds.addPrimitive(node);
-	return node;
-};
-exports.NodeBuilder.prototype.global = global;
-exports.NodeBuilder.global = global;
 
 /**
  * <p>Declares the node position.</p>
@@ -254,7 +291,7 @@ exports.NodeBuilder.global = global;
  * @type NodeBuilder
  */
 function withPosition(lat, lon){
-	var builder = typeof this === "object" ? this : new exports.NodeBuilder();
+	var builder = receiver(this);
 	util.assert(util.isNumber(lat), "Expected a number for lat, got {0}", lat);
 	util.assert(util.isNumber(lon), "Expected a number for lon, got {0}", lon);
 	util.assert(LatLon.isValidLat(lat), "Invalid lat, got {0}", lat);
