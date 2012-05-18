@@ -46,7 +46,7 @@
     	return s.indexOf(suffix, s.length - suffix.length) !== -1;
     };
     
-    var debuglevel = 10;
+    var debuglevel = 0;
     var debug = function(msg, level) {
     	if (level === void(0)) level = 10;
     	if (debuglevel != 0 && level <= debuglevel) {
