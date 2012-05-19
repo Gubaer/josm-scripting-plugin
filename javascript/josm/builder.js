@@ -12,6 +12,7 @@ var DataSet           = org.openstreetmap.josm.data.osm.DataSet;
 var OsmPrimitiveType  = org.openstreetmap.josm.data.osm.OsmPrimitiveType;
 var SimplePrimitiveId = org.openstreetmap.josm.data.osm.SimplePrimitiveId;
 var LatLon            = org.openstreetmap.josm.data.coor.LatLon;
+var List              = java.util.List;
 
 var util = require("josm/util");
 
@@ -53,88 +54,25 @@ function assignTags(primitive, tags) {
 	}
 };
 
-// -------------------------------------------------------------------------------
-// NodeBuilder
-//--------------------------------------------------------------------------------
-(function() {	
-	
-/**
- * <p>NodeBuilder helps to create OSM nodes.</p>
- * 
- * @class 
- * @name NodeBuilder
- * 
- * @example
- *  var nbuilder = require("josm/builder").NodeBuilder;
- *  
- *  // create a new local node at position (0,0) without tags
- *  var n1 = nbuilder.local();
- *  
- *  // create a new global node at a specific position with tags 
- *  var n2 = nbuilder.withPosition(1,1).withTags({name: 'test'}).global(123456);
- *  
- *  // create a new proxy for a global node (an "incomplete" node in JOSM terminology)
- *  var n3 = nbuilder.proxy(123456);
- */
-exports.NodeBuilder = function(ds) {
-	if (util.isSomething(ds)) {
-		util.assert(ds instanceof DataSet, "Expected a JOSM dataset, got {0}", ds);
-		this.ds = ds;
-	} 
-};
-
-/**
- * <p>Creates a new NodeBuilder which will add created nodes to the dataset <code>ds</code<.</p>
- * 
- * @example
- * 
- * var ds = new org.openstreetmap.josm.data.osm.DataSet();
- * var nb = require("josm/builder").NodeBuilder.forDataSet(ds);
- * 
- * @memberOf NodeBuilder
- * @method
- * @return the node builder
- * @type exports.NodeBuilder 
- */
-exports.NodeBuilder.forDataSet = function(ds) {
-	util.assert(util.isSomething(ds), "Expected a non-null defined object, got {0}", ds);
-	util.assert(ds instanceof DataSet, "Expected a JOSM dataset, got {0}", ds);
-	return new exports.NodeBuilder(ds);
-};
-
-function receiver(that) {
-	return typeof that === "object" ? that : new exports.NodeBuilder();
+function rememberIdFromObject(builder, args) {
+	if (! args.hasOwnProperty("id")) return;
+	var o = args["id"];
+	util.assert(util.isSomething(o), "''{0}'': must not be null or undefined", "id");
+	util.assert(util.isNumber(o), "''{0}'': expected a number, got {1}", "id", o);
+	util.assert(o > 0, "''{0}'': expected a number > 0, got {1}", "id", o);
+	builder.id = o;	
 }
 
-function checkLat(value) {
-	if (! util.isSomething(value)) throw "lat must not be null or undefined";
-	if (! util.isNumber(value)) throw "lat must be a number";
-	if (! LatLon.isValidLat(value)) throw "lat must be a valid latitude";
-	return value;
-}
-function checkLon(value) {
-	if (! util.isSomething(value)) throw "lon must not be null or undefined";
-	if (! util.isNumber(value)) throw "lon must be a number";
-	if (! LatLon.isValidLon(value)) throw "lon must be a valid longitude";
-	return value;
+function rememberVersionFromObject(builder, args) {
+	if (!args.hasOwnProperty("version")) return;
+	var o = args["version"];
+	util.assert(util.isSomething(o), "''{0}'': must not be null or undefined", "version");
+	util.assert(util.isNumber(o), "''{0}'': expected a number, got {1}", "version", o);
+	util.assert(o > 0, "''{0}'': expected a number > 0, got {1}", "version", o);
+	builder.version = o;
 }
 
-function initFromObject(builder, args) {
-	if (args.hasOwnProperty("id")) {
-		var o = args["id"];
-		util.assert(util.isSomething(o), "''{0}'': must not be null or undefined", "id");
-		util.assert(util.isNumber(o), "''{0}'': expected a number, got {1}", "id", o);
-		util.assert(o > 0, "''{0}'': expected a number > 0, got {1}", "id", o);
-		builder.id = o;
-	}
-	if (args.hasOwnProperty("version")) {
-		var o = args["version"];
-		util.assert(util.isSomething(o), "''{0}'': must not be null or undefined", "version");
-		util.assert(util.isNumber(o), "''{0}'': expected a number, got {1}", "version", o);
-		util.assert(o > 0, "''{0}'': expected a number > 0, got {1}", "version", o);
-		builder.version = o;
-	}
-		
+function rememberPosFromObject(builder, args) {	
 	if (args.hasOwnProperty("pos")) {
 		util.assert(! (args.hasOwnProperty("lat") || args.hasOwnProperty("lon")), "Can''t process both properties ''pos'' and ''lat''/''lon''");
 		var o = args["pos"];		
@@ -175,7 +113,7 @@ function initFromObject(builder, args) {
 		util.assert(util.isNumber(o), "''{0}'': expected a number, got {1}", "lat", o);
 		util.assert(LatLon.isValidLat(), "''{0}'': expected a valid latitude, got {1}", "lat", o);
 		builder.lat = lat;
-	}
+	}	
 	if (args.hasOwnProperty("lon")) {
 		var o = args["lon"];
 		util.assert(util.isSomething(o), "''{0}'': must not be null or undefined", "lon");
@@ -183,16 +121,131 @@ function initFromObject(builder, args) {
 		util.assert(LatLon.isValidLon(), "''{0}'': expected a valid longitude, got {1}", "lon", o);
 		builder.lon = lon;
 	}
-	if (args.hasOwnProperty("tags")) {
-		var o = args["tags"];
-		util.assert(util.isSomething(o), "''{0}'': most not be null or undefined", "tags");
-		rememberTags(builder, o);
-	}
 }
 
+function rememberTagsFromObject(builder, args) {
+	if (! args.hasOwnProperty("tags")) return;
+	var o = args["tags"];
+	util.assert(util.isSomething(o), "''{0}'': most not be null or undefined", "tags");
+	rememberTags(builder, o);	
+}
+
+// -------------------------------------------------------------------------------
+// NodeBuilder
+//--------------------------------------------------------------------------------
+(function() {	
+	
+/**
+ * <p>NodeBuilder helps to create OSM nodes.</p>
+ * 
+ * @class 
+ * @name NodeBuilder
+ * 
+ * @example
+ *  var nbuilder = require("josm/builder").NodeBuilder;
+ *  
+ *  // create a new local node at position (0,0) without tags
+ *  var n1 = nbuilder.create();
+ *  
+ *  // create a new global node at a specific position with tags 
+ *  var n2 = nbuilder.withPosition(1,1).withTags({name: 'test'}).create(123456);
+ *  
+ *  // create a new proxy for a global node (an "incomplete" node in JOSM terminology)
+ *  var n3 = nbuilder.createProxy(123456);
+ */
+exports.NodeBuilder = function(ds) {
+	if (util.isSomething(ds)) {
+		util.assert(ds instanceof DataSet, "Expected a JOSM dataset, got {0}", ds);
+		this.ds = ds;
+	} 
+};
+
+/**
+ * <p>Creates a new NodeBuilder which will add created nodes to the dataset <code>ds</code>.</p>
+ * 
+ * @example
+ * 
+ * var ds = new org.openstreetmap.josm.data.osm.DataSet();
+ * var nb = require("josm/builder").NodeBuilder.forDataSet(ds);
+ * 
+ * @memberOf NodeBuilder
+ * @method
+ * @name forDataSet
+ * @return the node builder
+ * @type exports.NodeBuilder 
+ */
+exports.NodeBuilder.forDataSet = function(ds) {
+	util.assert(util.isSomething(ds), "Expected a non-null defined object, got {0}", ds);
+	util.assert(ds instanceof DataSet, "Expected a JOSM dataset, got {0}", ds);
+	return new exports.NodeBuilder(ds);
+};
+
+function receiver(that) {
+	return typeof that === "object" ? that : new exports.NodeBuilder();
+}
+
+function checkLat(value) {
+	if (! util.isSomething(value)) throw "lat must not be null or undefined";
+	if (! util.isNumber(value)) throw "lat must be a number";
+	if (! LatLon.isValidLat(value)) throw "lat must be a valid latitude";
+	return value;
+}
+function checkLon(value) {
+	if (! util.isSomething(value)) throw "lon must not be null or undefined";
+	if (! util.isNumber(value)) throw "lon must be a number";
+	if (! LatLon.isValidLon(value)) throw "lon must be a valid longitude";
+	return value;
+}
+
+
+function initFromObject(builder, args) {
+	rememberIdFromObject(builder, args);
+	rememberVersionFromObject(builder,args);
+	rememberPosFromObject(builder, args);
+	rememberTagsFromObject(builder, args);
+}
+
+/**
+ * <p>Creates a new node.</p>
+ * 
+ * <p>Can be used in an instance or in a static context.</p>.
+ * 
+ * <strong>Optional named arguments in the parameters <code>args</code> </strong>
+ * <ul>
+ *   <li><code>version</code> - the version of a global node (number > 0)</li>
+ *   <li><code>lat</code> - a valide latitude (number in the range [-90,90])</li>
+ *   <li><code>lon</code> - a valide longitude (number in the range [-180,180])</li>
+ *   <li><code>pos</code> - either an array <code>[lat,lon]</code>, an object <code>{lat: ..., lon: ...}</code>,
+ *   or an instance of <code>org.openstreetmap.josm.data.coor.LatLon</code></li>
+ *   <li><code>tags</code> - an object with tags. Null values and undefined values are ignored. Any other value
+ *   is converted to a string. Leading and trailing white space in keys is removed.</li>
+ * </ul>
+ * 
+ * 
+ * @example
+ * var nb = require("josm/builder").NodeBuilder
+ * // create a new local node at position [0,0]
+ * var n1 = nb.create();
+ * 
+ * // create a new global node at position [0,0]
+ * var n2 = nb.create(12345);
+ * 
+ * // create a new global way with version 3 at a specific position and with some tags
+ * var n3 = nb.create(12345, {version: 3, lat: 23.45, lon: 87.23, tags: {amenity: "restaurant"}});
+ * 
+ * @memberOf NodeBuilder
+ * @method
+ * @param {number}  id (optional) a global node id. Optional. If missing and not set before using
+ *    <code>withId(..)</code>, creates a new local id.
+ * @param {object} args (optional) additional parameters for creating the node 
+ * @type org.openstreetmap.josm.data.osm.Node 
+ * 
+ */
 function create() {
 	var builder = receiver(this);
 	switch(arguments.length){
+	case 0:
+		break; 
 	case 1:
 		var o = arguments[0];
 		util.assert(util.isSomething(o), "Argument 0: must not be null or undefined");
@@ -202,21 +255,25 @@ function create() {
 		} else if (typeof o == "object") {
 			initFromObject(builder, o);
 		} else {
-			util.assert(false, "Argument 0: unexpected type, got ''{0}''", o.getClass());
+			util.assert(false, "Argument 0: unexpected type, got ''{0}''", o);
 		}
 		break;
 		
 	case 2: 
 		var o = arguments[0];
 		util.assert(util.isSomething(o), "Argument 0: must not be null or undefined");
-		util.assert(util.isNumber(o), "Argument 0: expected a number, got {0}", o);
-		util.assert(o > 0, "Argument 0: expected a number > 0, got {0}", o);
-	    builder.id = o;
-		var o = arguments[1];
-		util.assert(util.isSomething(o), "Argument 1: must not be null or undefined");
-		util.assert(util.isNumber(o), "Argument 1: expected a number, got {0}", o);
-		util.assert(o > 0, "Argument 1: expected a number > 0, got {0}", o);
-	    builder.version = o;
+		util.assert(util.isNumber(o), "Argument 0: must be a number");
+		util.assert(o > 0, "Expected an id > 0, got {0}", o);
+		builder.id = o;
+		
+		o = arguments[1];
+		if (util.isSomething(o)) {
+			util.assert(util.isObject(o), "Argument 1: must be an object");
+			initFromObject(builder, o);
+		}
+		break;
+	default:
+		util.assert(false, "Unexpected number of arguments, got {0}", arguments.length);
 	}
 	
 	var node;
@@ -249,7 +306,7 @@ exports.NodeBuilder.prototype.create = create;
  * var nbuilder = require("josm/builder").NodeBuilder;
  * 
  * // a new proxy node for the global node with id 12345
- * var n1 = nbuilder.proxy(12345);  
+ * var n1 = nbuilder.createProxy(12345);  
  * 
  * @memberOf NodeBuilder
  * @method
@@ -279,10 +336,10 @@ exports.NodeBuilder.prototype.createProxy = exports.NodeBuilder.createProxy = cr
  * var nbuilder = require("josm/builder").NodeBuilder;
  * 
  * // a new global  node with the global id 12345 at position (34,45) 
- * var n1 = nbuilder.withPosition(34,45).global(12345);  
+ * var n1 = nbuilder.withPosition(34,45).create(12345);  
  * 
  * // a new local node at position (23.2, 87.33)
- * var n2 = nbuilder.withPosition(23.3,87.33).local();
+ * var n2 = nbuilder.withPosition(23.3,87.33).create();
  * 
  * @memberOf NodeBuilder
  * @param {Number} lat  (mandatory) the latitude. A number in the range [-90..90].
@@ -366,19 +423,76 @@ exports.NodeBuilder.withId = withId;
 var receiver = function(that) {
 	return typeof that === "object" ? that : new exports.WayBuilder();
 }
-	
+
+/**
+ * <p>Creates a new builder for OSM ways</p>
+ * 
+ * @class 
+ * @name WayBuilder
+ * @param {org.openstreetmap.josm.data.osm.DataSet} ds (optional) a JOSM dataset which created ways are
+ *    added to. If missing, the created ways aren't added to a dataset. 
+ * 
+ * @example
+ *  var wbuilder = require("josm/builder").WayBuilder;
+ *  
+ *  // create a new local way 
+ *  var w1 = wbuilder.create();
+ *  
+ *  // create a new global way 
+ *  var w2 = wbuilder.withTags({highway: 'residential'}).create(123456);
+ *  
+ *  // create a new proxy for a global way (an "incomplete" node in JOSM terminology)
+ *  var w3 = wbuilder.createProxy(123456);
+ */
 exports.WayBuilder = function(ds) {
-	this.id = void 0;
-	this.version = 0;
-	this.tags = undef;
-	this.nodes = [];
-	this.ds = void(0);
 	if (util.isSomething(ds)) {
 		util.assert(ds instanceof DataSet, "Expected a DataSet, got {0}", ds);
 		this.ds = ds; 
 	}
+	this.nodes = [];
 };
 
+
+/**
+ * <p>Creates a new NodeBuilder which will add created nodes to the dataset <code>ds</code>.</p>
+ * 
+ * @example
+ * 
+ * var ds = new org.openstreetmap.josm.data.osm.DataSet();
+ * var wbuilder = require("josm/builder").WayBuilder.forDataSet(ds);
+ * 
+ * // creates a new local way and assigns it to the dataset 'ds'
+ * var w = wbuilder.create();
+ * 
+ * @memberOf WayBuilder
+ * @method
+ * @name forDataSet
+ * @return the way builder
+ * @type exports.WayBuilder
+ */
+exports.WayBuilder.forDataSet = function(ds) {
+	util.assert(util.isSomething(ds), "Expected a non-null defined object, got {0}", ds);
+	util.assert(ds instanceof DataSet, "Expected a JOSM dataset, got {0}", ds);
+	return new exports.WayBuilder(ds);
+};
+
+/**
+ * <p>Declares the global way id and the global way version.</p>
+ * 
+ * <p>The method can be used in a static and in an instance context.</p>
+ * 
+ * @example
+ *  var wbuilder = require("josm/builder").WayBuilder;
+ *  // creates a global way with id 12345 an version 12   
+ *  var w = wbuilder.withId(12345, 12).create();
+ * 
+ * @memberof WayBuilder
+ * @param {number} id  (mandatory) the global way id. A number > 0.
+ * @param {number} version  (optional) the global way version. If present, a number > 0. If missing,
+ *   the version 1 is assumed.  
+ * @return a way builder (for method chaining)
+ * @type WayBuilder
+ */
 function withId(id, version) {
 	var builder = receiver(this);
 	rememberId(builder, id, version);
@@ -387,6 +501,29 @@ function withId(id, version) {
 exports.WayBuilder.prototype.withId = withId;
 exports.WayBuilder.withId = withId;
 
+
+/**
+ * <p>Declares the tags to be assigned to the new way.</p>
+ * 
+ * <p>The method can be used in a static and in an instance context.</p>
+ * 
+ * @example
+ * var wbuilder = require("josm/builder").WayBuilder;
+ * // a new global  wy with the global id 12345 and tags name="Laubeggstrasse" and highway=residential
+ * var n1 = wbuilder.withTags({name:"Laubeggstrasse", highway:"residential"}).create(12345);  
+ * 
+ * // a new local node tags name=test and highway=road
+ * var tags = {
+ *      name    : "Laubeggstrasse", 
+ *      highway : "residential"
+ * };     
+ * var n2 = wbuilder.withTags(tags).create();
+ * 
+ * @memberOf WayBuilder
+ * @param {object} tags  (optional) the tags 
+ * @return a way builder (for method chaining)
+ * @type WayBuilder
+ */
 function withTags(tags) {
 	var builder = receiver(this);
 	rememberTags(builder, tags);
@@ -411,39 +548,56 @@ exports.WayBuilder.withTags = withTags;
  * var nbuilder = require("josm/builder").NodeBuilder;
  * // creates a new local way with two local nodes
  * var way = builder.withNodes(
- *    nbuilder.local(), nbuilder.local()
- * ).local();
+ *    nbuilder.create(), nbuilder.create()
+ * ).create();
  * 
  * @memberOf WayBuilder
- * @param {object...} nodes the list of nodes. See description and examples. 
- * @return a node builder (for method chaining)
+ * @param {object...} nodes  the list of nodes. See description and examples. 
+ * @return a way builder (for method chaining)
+ * @type WayBuilder
  */
 function withNodes() {
 	var builder = receiver(this);
 	var nodes;
-	if (arguments.length == 1 && util.isArray(arguments[0])) {
+	switch(arguments.length) {
+	case 0: return builder;
+	case 1: 
 		nodes = arguments[0];
-	} else if (arguments.length > 1) {
+		if (util.isNothing(nodes)) return builder;
+		if (nodes instanceof Node) {
+			nodes = [nodes];
+		} else if (util.isArray(nodes)) {
+			// OK
+		} else if (nodes instanceof List) {
+			var temp = [];
+			for(var it = nodes.iterator(); it.hasNext();) temp.push(it.next());
+			nodes = temp;
+		} else {
+			util.assert(false, "Argument 0: expected a Node or a list of nodes, got {0}", nodes);
+		}
+		break;
+	default:
 		nodes = Array.prototype.slice.call(arguments,0);
+		break;
 	}
-	var newnodes;
+	var newnodes = [];
 	var last;
 	for (var i=0; i < nodes.length; i++) {		
 		var n = nodes[i];
 		if (util.isNothing(n)) continue;
-		util.assert(n instanceof Node, "Expected instances of Node only, got {0}", n);
-		if (last && last.getId() == n.getId()) continue; // skip sequence of identical nodes  
+		util.assert(n instanceof Node, "Expected instances of Node only, got {0} at index {1}", n, i);
+		if (last && last.id == n.id) continue; // skip sequence of identical nodes  
 		newnodes.push(n);
 		last = n;
 	}
 	builder.nodes = newnodes;
+	return builder;
 };
 exports.WayBuilder.withNodes = exports.WayBuilder.prototype.withNodes = withNodes;
 
 
-
 /**
- * <p>Creates a new <em>proxy</em> wawy. A proxy way is a way, for which we only know
+ * <p>Creates a new <em>proxy</em> way. A proxy way is a way, for which we only know
  * its global id. In order to know more details (nodes, tags, etc.), we would have to
  * download it from the OSM server.</p>
  * 
@@ -453,55 +607,28 @@ exports.WayBuilder.withNodes = exports.WayBuilder.prototype.withNodes = withNode
  * var wbuilder = require("josm/builder").WayBuilder;
  * 
  * // a new proxy way for the global way with id 12345
- * var w1 = wbuilder.proxy(12345);  
+ * var w1 = wbuilder.createProxy(12345);  
  * 
  * @memberOf WayBuilder
- * @method
+ * @method 
  * @return the new proxy way 
  * @type org.openstreetmap.josm.data.osm.Way
  */
-function proxy(id) {
+function createProxy(id) {
 	var builder = receiver(this);
 	if (util.isDef(id)) {
 		util.assert(util.isNumber(id) && id > 0, "Expected a number > 0, got {0}", id);
 		builder.id = id;
 	}
-	util.assert(util.isNumber(builder.id), "Node id is not a number. Use .proxy(id) or .withId(id).proxy()");
+	util.assert(util.isNumber(builder.id), "way id is not a number. Use .createProxy(id) or .withId(id).createProxy()");
 	util.assert(builder.id > 0, "Expected way id > 0, got {0}", builder.id);
 	var way = new Way(builder.id);
 	if (builder.ds) builder.ds.addPrimitive(way);
 	return way;
 };
-exports.WayBuilder.proxy = exports.WayBuilder.prototype.proxy = proxy;
+exports.WayBuilder.createProxy = exports.WayBuilder.prototype.createProxy = createProxy;
 
-/**
- * <p>Creates a new local way.</p>
- * 
- * <p>The method can be used in a static and in an instance context.</p>
- * 
- * @example
- * var wbuilder = require("josm/builder").WayBuilder;
- * var nbuilder = require("josm/builder").NodeBuilder;
- * // creates a new local way with two local nodes
- * var way = builder.withNodes(
- *    nbuilder.local(), nbuilder.local()
- * ).local();
- * 
- * @memberOf WayBuilder
- * @return the new way
- * @type org.openstreetmap.josm.data.osm.Way
- */
-function local() {
-	var builder = receiver(this);
-	util.assert(arguments.length == 0, "No arguments expected, got {0} arguments", arguments.length);
-	var way = new Way();
-	assignWayAttributes(builder, way);
-	if (builder.ds) builder.ds.addPrimitive(way);
-	return way; 
-};
-exports.WayBuilder.local = exports.WayBuilder.prototype.local = local;
  
-
 function assignWayAttributes(builder, way) {
 	if (util.hasProperties(builder.tags)) {
 		assignTags(way, builder.tags);
@@ -511,44 +638,113 @@ function assignWayAttributes(builder, way) {
 	}	
 };
 
+function rememberNodesFromObject(builder, args) {
+	if (!args.hasOwnProperty("nodes")) return;
+	var o = args["nodes"];
+	if (! util.isSomething(o)) return;
+	util.assert(util.isArray(o) || o instanceof List, "Expected an array or an instance of java.util.List, got {0}", o);
+	builder.withNodes(o);
+}
+
+function initFromObject(builder, args) {
+	rememberIdFromObject(builder, args);
+	rememberVersionFromObject(builder,args);
+	rememberTagsFromObject(builder, args);
+	rememberNodesFromObject(builder, args);
+}
+
+
 /**
- * <p>Creates a new global way.</p>
+ * <p>Creates a new way.</p>
  * 
- * <p>The method can be used in a static and in an instance context.</p>
+ * <p>Can be used in an instance or in a static context.</p>.
+ * 
+ * <strong>Optional named arguments in the parameters <code>args</code> </strong>
+ * <ul>
+ *   <li><code>id</code> - the id of a global way (number > 0)</li>
+ *   <li><code>version</code> - the version of a global way (number > 0)</li>
+ *   <li><code>nodes</code> - an array or a list of nodes</li>
+ *   <li><code>tags</code> - an object with tags. Null values and undefined values are ignored. Any other value
+ *   is converted to a string. Leading and trailing white space in keys is removed.</li>
+ * </ul>
+ * 
  * 
  * @example
- * var wbuilder = require("josm/builder").WayBuilder;
- * var nbuilder = require("josm/builder").NodeBuilder;
- * // creates a new local way with two local nodes
- * var way = builder.withNodes(
- *    nbuilder.local(), nbuilder.local()
- * ).global(12345);
+ * var wb = require("josm/builder").WayBuilder
+ * // create a new local way 
+ * var w1 = wb.create();
+ * 
+ * // create a new global way 
+ * var w2 = wb.create(12345);
+ * 
+ * // create a new global way with version 3 at a specific position and with some tags
+ * var w3 = wb.create(12345, {
+ *    version: 3, 
+ *    tags: {amenity: "restaurant"}, 
+ *    nodes: [n1,n2,n3]
+ *  });
  * 
  * @memberOf WayBuilder
- * @param {number} id  (optional) the node id. If supplied, must be a number > 0. If missing, the 
- *   the id must have been declared using <code>.withId(id,version)</code>
- * @param {number} version (optional) the global node version. If supplied, must be a number >0. If missing,
- *    1 is assumed, unless the version has been set using <code>.withId(id,version)</code>
- * @return the new way
- * @type org.openstreetmap.josm.data.osm.Way
+ * @method
+ * @param {number}  id (optional) a global way id. If missing and not set before using
+ *    <code>withId(..)</code>, creates a new local id.
+ * @param {object} args (optional) additional parameters for creating the way 
+ * @type org.openstreetmap.josm.data.osm.Way 
+ * 
  */
-function global(id, version) {
+function create() {
 	var builder = receiver(this);
-	if (util.isDef(id)) {
-		util.assert(util.isNumber(id) && id > 0, "Expected an id > 0, got {0}", id);
-		builder.id = id;
+	switch(arguments.length){
+	case 0:
+		break;
+	case 1:
+		var o = arguments[0];
+		util.assert(util.isSomething(o), "Argument 0: must not be null or undefined");
+		if (util.isNumber(o)) {
+			util.assert(o > 0, "Argument 0: expected an id > 0, got {0}", o);
+			builder.id = o;
+		} else if (typeof o == "object") {
+			initFromObject(builder, o);
+		} else {
+			util.assert(false, "Argument 0: unexpected type, got ''{0}''", o);
+		}
+		break;
+		
+	case 2: 
+		var o = arguments[0];
+		util.assert(util.isSomething(o), "Argument 0: must not be null or undefined");
+		util.assert(util.isNumber(o), "Argument 0: must be a number");
+		util.assert(o > 0, "Expected an id > 0, got {0}", o);
+		builder.id = o;
+		
+		o = arguments[1];
+		if (util.isSomething(o)) {
+			util.assert(typeof o === "object", "Argument 1: must be an object");
+			initFromObject(builder, o);
+		}
+		break;
+	default:
+		util.assert(false, "Unexpected number of arguments, got {0}", arguments.length);
 	}
-	if (util.isDef(version)) {
-		util.assert(util.isNumber(version) && version > 0, "Expected a version > 0, got {0}", version);
-		builder.version = version;
+	
+	var way;
+	if (util.isNumber(builder.id)) {
+		if (util.isNumber(builder.version)){
+			way = new Way(builder.id, builder.version);
+		} else {
+			way = new Way(builder.id, 1);		
+		}
+	} else {
+		way = new Way(0); // creates a new local way
 	}
-	util.assert(util.isDef(builder.id) && builder.id > 0, "Way id not initialized properly. Use .withId(id,version) or .global(id,version). id is {0}", builder.id);
-	util.assert(util.isDef(builder.version) && builder.version > 0, "Way version not initialized properly. Use .withId(id,version) or .global(id,version). version is {0}", builder.version);
-	var way = new Way(builder.id, builder.version);
-	assignWayAttributes(builder, way);
+	assignTags(way, builder.tags || {});
+	if (builder.nodes && builder.nodes.length > 0) {
+		way.setNodes(builder.nodes);
+	}
 	if (builder.ds) builder.ds.addPrimitive(way);
-	return way;
-};
-exports.WayBuilder.global = exports.WayBuilder.prototype.global = global;
+	return way;	
+}
+exports.WayBuilder.create = create;
+exports.WayBuilder.prototype.create = create;
 
 }());
