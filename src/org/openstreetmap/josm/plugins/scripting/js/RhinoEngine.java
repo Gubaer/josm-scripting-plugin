@@ -71,9 +71,11 @@ public class RhinoEngine {
 			PluginInformation info = PluginInformation.findPlugin("scripting");
 			String url = "jar:" + info.file.toURI().toURL().toString() + "!" + "/js";
 			String script = MessageFormat.format("require.addRepository(new java.net.URL(''{0}''));", url);
-			ctx.evaluateString(scope, script, "inline", 0, null);	
+			ctx.evaluateString(scope, script, "fragment: adding default repository", 0, null);	
 			logger.info(tr("Sucessfully loaded CommonJS module loader from resource ''{0}''", "/js/require.js"));
 			logger.info(tr("Added the plugin jar as module respository. jar URL is: {0}", url.toString()));
+			script = "var josm=require('josm');";
+			ctx.evaluateString(scope, script, "fragment: loading module 'josm'", 0, null);
 		} catch (PluginException e) {
 			e.printStackTrace();
 		} catch(MalformedURLException e) {
