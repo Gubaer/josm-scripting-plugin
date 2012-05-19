@@ -220,18 +220,7 @@
 	<!-- * Targets for javascript API                                                         -->
 	<!-- ************************************************************************************ -->
 
-	<target name="js-init" depends="init" description="Init build properties for compiling JavaScript files">
-		<available file="${closure.jar}" property="google.closure.present" />
-		<fail unless="google.closure.present">**				
-** Google closure compiler '${closure.jar}' not found.
-** Make sure the full path to the jar is configured in 'build.properties' in
-** the property 'closure.jar'.
-**
-</fail>
-		<taskdef name="closure"
-		  classname="com.google.javascript.jscomp.ant.CompileTask"
-		  classpath="${closure.jar}"/>
-		
+	<target name="js-init" depends="init" description="Init build properties for compiling JavaScript files">		
 		<mkdir dir="build"/>
 		<delete dir="build/js" />
 		<mkdir dir="build/js"/>
@@ -242,21 +231,7 @@
 
 
 	<target name="js-doc" depends="js-init" description="Create the documentation for the JOSM javascript API">
-		<groovy><![CDATA[			
-			def arg = new File("javascript/api-files").text.readLines()
-			.findAll {!it.matches(/^\s*#.*$/) &&  !it.trim().isEmpty()}
-			   .collect {"javascript/${it.trim()}"}
-			   .join(" ")
-			
-			properties["jsdoc.input.files"] = arg
-			]]></groovy>
-		<echo>Generating documentation for: ${jsdoc.input.files}</echo>
-		<exec executable="java">
-			<arg line="-jar ${jsdoc.dir}/jsrun.jar ${jsdoc.dir}/app/run.js" />
-			<arg line="-d=doc/js" />
-			<arg line="-t=${jsdoc.dir}/templates/jsdoc" />
-			<arg line="${jsdoc.input.files}" />
-		</exec>
+	
 	</target>
 	
 </project>
