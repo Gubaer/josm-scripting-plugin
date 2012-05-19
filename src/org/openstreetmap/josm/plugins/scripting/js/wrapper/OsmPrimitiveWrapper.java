@@ -83,12 +83,14 @@ public class OsmPrimitiveWrapper extends NativeJavaObject  {
 	private class TagAccessor extends ScriptableObject {		
 		private static final long serialVersionUID = 1L;
 
+		@Override
 		public Object get(String name, Scriptable start) {
 			if (!obj().hasKey(name))
 				return Undefined.instance;
 			return obj().get(name);
 		}
-
+		
+		@Override
 		public void put(String name, Scriptable start, Object value) {
 			if (name == null || name == Undefined.instance) return;
 			name = name.trim();
