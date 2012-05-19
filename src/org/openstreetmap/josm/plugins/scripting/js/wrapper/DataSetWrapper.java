@@ -42,6 +42,7 @@ public class DataSetWrapper extends NativeJavaObject {
 			 || "remove".equals(name)
 			 || "each".equals(name)
 			 || "nodeBuilder".equals(name)
+			 || "wayBuilder".equals(name)
 			 || "selection".equals(name)
 		) return true;
 		return super.has(name, start);
@@ -53,6 +54,7 @@ public class DataSetWrapper extends NativeJavaObject {
 		if ("remove".equals(name)) return fRemove;
 		if ("each".equals(name)) return fEach;
 		if ("nodeBuilder".equals(name)) return getNodeBuilder();
+		if ("wayBuilder".equals(name)) return getWayBuilder();
 		if ("selection".equals(name)) return new SelectionAccessor();
 		return super.get(name, start);
 	}
@@ -68,7 +70,17 @@ public class DataSetWrapper extends NativeJavaObject {
 		return ctx.evaluateString(scope,script, "fragment: create NodeBuilder for dataset", 0, null);
 	}
 	
-	
+	private Object getWayBuilder() {
+		Scriptable scope = new NativeObject();
+		scope.setParentScope(parent);
+		scope.put("ds", scope, Context.javaToJS(ds(), parent));
+		String script = 
+			"var WayBuilder = require('josm/builder').WayBuilder;"
+		  + "new WayBuilder(ds);";
+		Context ctx = Context.getCurrentContext();
+		return ctx.evaluateString(scope,script, "fragment: create WayBuilder for dataset", 0, null);
+	}
+		
 	static private Function fGet = new BaseFunction() {		
 		private static final long serialVersionUID = -1049214446967093815L;
 
