@@ -9,6 +9,7 @@ var ProgressMonitor = org.openstreetmap.josm.gui.progress.ProgressMonitor;
 var NullProgressMonitor = org.openstreetmap.josm.gui.progress.NullProgressMonitor;
 var OsmServerChangesetReader = org.openstreetmap.josm.io.OsmServerChangesetReader;
 var OsmServerObjectReader = org.openstreetmap.josm.io.OsmServerObjectReader;
+var OsmServerBackreferenceReader = org.openstreetmap.josm.io.OsmServerBackreferenceReader;
 
 var util = require("josm/util");
 
@@ -17,11 +18,17 @@ var util = require("josm/util");
 /**
  * <p>Provides methods to open,close, get, update, etc. changesets on the OSM API server.</p>
  * 
- * @class
+ * @example
+ * // load the changeset api
+ * var api = require("josm/api").ChangesetApi;
+ *
+ * // create a new changeset on the server 
+ * var cs = api.open();
+ * 
+ * @namespace
  * @name ChangesetApi
  */
-exports.ChangesetApi = function() {
-}
+exports.ChangesetApi = {};
 	
 /**
  * <p>Creates and opens a changeset</p>
@@ -239,11 +246,18 @@ var undefined;
  * <p>Collection of static methods to download objects from and upload objects to the 
  * OSM server.</p>
  * 
+ * @example
+ * // load the changeset api
+ * var api = require("josm/api").Api;
+ *
+ * // download node 12345 
+ * var ds = api.downloadObject(12345, "node");
+ *
+ * 
  * @namespace
  * @name Api
  */	
-exports.Api = function() {
-};
+exports.Api = {};
 
 function normalizeType(type) {
 	util.assert(util.isSomething(type), "type must not be null or undefined");
@@ -389,6 +403,8 @@ function downloadObject_3() {
  * 
  * @example
  * var api = require("josm/api").Api;
+ * var SimlePrimitiveId = org.openstreetmap.josm.data.osm.SimplePrimitiveId;
+ * var OsmPrimitiveType = org.openstreetmap.josm.data.osm.OsmPrimitiveType;
  * 
  * // download the node with id 12345
  * var ds1 = api.downloadObject(12345, "node");
@@ -396,12 +412,12 @@ function downloadObject_3() {
  * // download the node with id 12345
  * var ds2 = api.downloadObject({id: 12345, type: "node"});
  * 
- * // download the node with id 12345
- * var id = new SimplePrimitiveId(12345, OsmPrimitiveType.NODE);
- * var ds3 = api.downloadObject(id);
+ * // download the full relation (including its members) with id 12345
+ * var id = new SimplePrimitiveId(12345, OsmPrimitiveType.RELATION);
+ * var ds3 = api.downloadObject(id, {full: true});
  *
  * // download version 5 of the full way 12345 (including its nodes) 
- * var ds3 = api.downloadObject({id: 12345: type: "way"}, {full: true, version: 5});
+ * var ds4 = api.downloadObject(12345, OsmPrimitiveType.WAY, {full: true, version: 5});
  * 
  * @method
  * @static
@@ -430,5 +446,154 @@ exports.Api.downloadObject = function() {
 	}
 };
 
+function downloadReferrer_1()  {
+	var id;
+	var type;
+	var o = arguments[0];
+	util.assert(util.isSomething(o), "Argument 0: must not be null or undefined");
+	if (o instanceof PrimitiveId) {
+		id = o;
+	} else if (typeof o === "object") {
+		id = primitiveIdFromObject(o);
+	} else {
+		util.assert(false, "Argument 0: unexpected type, got {0}", o);
+	}
+	var reader = new OsmServerBackreferenceReader(id.getUniqueId(), id.getType());
+	var ds = reader.parseOsm(NullProgressMonitor.INSTANCE);
+	return ds;
+};
+
+function downloadReferrer_2() {
+	var id;
+	var options = {full: undefined};
+	if (util.isNumber(arguments[0])) {
+		var id = normalizeId(arguments[0]);
+		var type = normalizeType(arguments[1]);
+		id = new SimplePrimitiveId(id, type);
+	} else if (arguments[0] instanceof PrimitiveId) {
+		id = arguments[0];
+		var o = arguments[1];
+		if (util.isSomething(o)) {
+			util.assert(typeof o === "object", "Expected an object with named parameters, got {0}", o);
+			options.full = optionFull(o);
+		}
+	} else if (typeof arguments[0] === "object") {
+		id = primitiveIdFromObject(arguments[0]);
+		var o = arguments[1];
+		if (util.isSomething(o)) {
+			util.assert(typeof o === "object", "Expected an object with named parameters, got {0}", o);
+			options.full = optionFull(o);
+		}
+	} else {
+		util.assert(false, "Unsupported types of arguments");
+	}
+	var reader = new OsmServerBackreferenceReader(id.getUniqueId(), id.getType());
+	if (options.full){
+		reader.setFull(true);
+	}
+	var ds = reader.parseOsm(NullProgressMonitor.INSTANCE);
+	return ds;
+};
+
+function downloadReferrer_3() {
+	var id;
+	var options = {full: undefined};
+	var n = normalizeId(arguments[0]);
+	var type = normalizeType(arguments[1]);
+	id = new SimplePrimitiveId(n, type);
+	
+	util.assert(typeof arguments[2] === "object", "Expected an object with named parameters, got {0}", arguments[2]);
+	options.full = optionFull(arguments[2]);
+	var reader;
+	var reader = new OsmServerBackreferenceReader(id.getUniqueId(), id.getType());
+	if (options.full){
+		reader.setFull(true);
+	}
+	var ds = reader.parseOsm(NullProgressMonitor.INSTANCE);
+	return ds;
+};
+
+/**
+ * <p>Downloads the objects <em>referring</em> to another object from the server.</p>
+ * 
+ * <p>Downloads primitives from the OSM server which
+ * refer to a specific primitive. Given a node, the referring ways and relations are downloaded.
+ * Given a way or a relation, only referring relations are downloaded.</p>
+ *
+ * <p>The default behaviour is to reply proxy objects only.</p>
+ *
+ * <p>If you set the option <code>{full: true}</code>, every referring object is downloaded in full.</p>
+ * 
+ * <p>There are multiple options to specify what referrers to download. In addition, the function
+ * accepts a set of optional named parameters as last argument.</p>
+ * 
+ * <dl>
+ *   <dt><strong>downloadReferrer(id, type, ?options)</strong></dt>
+ *   <dd><var>id</var> is the global numeric id. 
+ *   <var>type</var> is either one of the strings "node", "way", or "relation", or one of the 
+ *   enumeration OsmPrimitiveType.NODE, OsmPrimitiveType.WAY, or OsmPrimitiveType.RELATION
+ *   </dd>
+ *   
+ *   <dt><strong>downloadReferrer(id, ?options)</strong></dt>
+ *   <dd><var>id</var> is a <var>PrimitiveId</var> or an object 
+ *   with the (mandatory) properties <var>id</var> and <var>type</var>, i.e. an object <code>{id: ..., type: ...}</code>.
+ *   <var>id</var> is again a number, <var>type</var> is again either one of the strings "node", "way", or "relation", or one of the 
+ *   enumeration OsmPrimitiveType.NODE, OsmPrimitiveType.WAY, or OsmPrimitiveType.RELATION.
+ *   </dd> 
+ * </dl>
+ * In both cases, <var>?options</var> is an (optional) object with the following  (optional) property:
+ * <dl>
+ *   <dt><strong>full</strong>  - a boolean value (default: false) </dt>
+ *   <dd>If <var>true</var>, the the <strong>full</strong> objects are retrieved using multi-gets. If missing or <var>false</var>,
+ *   only proxy objects are downloaded.</dd>
+ *   
+ * </dl>
+ * 
+ * @example
+ * var api = require("josm/api").Api;
+ * var nbuilder = require("josm/builder").NodeBuilder;
+ * var SimlePrimitiveId = org.openstreetmap.josm.data.osm.SimplePrimitiveId;
+ * var OsmPrimitiveType = org.openstreetmap.josm.data.osm.OsmPrimitiveType;
+ * 
+ * // download the objects referring to the node with id 12345
+ * var ds1 = api.downloadReferrer(12345, "node");
+ * 
+ * // download the objects referring to the node with id 12345
+ * var ds2 = api.downloadReferrer({id: 12345, type: "node"});
+ * 
+ * // download the relations referring to the  relation with id 12345. 
+ * // Referring relations are downloaded in full.  
+ * var id = new SimplePrimitiveId(12345, OsmPrimitiveType.RELATION);
+ * var ds3 = api.downloadReferrer(id, {full: true});
+ * 
+ *  // create the global node 12345 ...
+ *  var node = nbuilder.create(12345);
+ *  // ... and downloads its referrers in full 
+ *  var ds = api.downloadReferrer(node, {full: true});
+ * 
+ * @method
+ * @static
+ * @name downloadReferrer
+ * @memberOf Api
+ * @return org.openstreetmap.josm.data.osm.DataSet
+ */
+exports.Api.downloadReferrer = function() {
+	var id;
+	switch(arguments.length) {
+	case 0:
+		util.assert(false, "Unexpected number of arguments, got {0}", arguments.length);
+	case 1:
+		return downloadReferrer_1.apply(this, arguments);
+		break;
+	case 2:
+		return downloadReferrer_2.apply(this, arguments);
+		break;
+	case 3: 
+		return downloadReferrer_3.apply(this, arguments);
+		break;
+	default:
+		util.assert(false, "Unexpected number of arguments, got {0}", arguments.length);
+	}
+};
 	
 }()) 
