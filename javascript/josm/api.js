@@ -489,7 +489,7 @@ function downloadReferrer_2() {
 	}
 	var reader = new OsmServerBackreferenceReader(id.getUniqueId(), id.getType());
 	if (options.full){
-		reader.setFull(true);
+		reader.setReadFull(true);
 	}
 	var ds = reader.parseOsm(NullProgressMonitor.INSTANCE);
 	return ds;
@@ -507,7 +507,7 @@ function downloadReferrer_3() {
 	var reader;
 	var reader = new OsmServerBackreferenceReader(id.getUniqueId(), id.getType());
 	if (options.full){
-		reader.setFull(true);
+		reader.setReadFull(true);
 	}
 	var ds = reader.parseOsm(NullProgressMonitor.INSTANCE);
 	return ds;
