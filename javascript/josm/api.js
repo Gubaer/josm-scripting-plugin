@@ -8,6 +8,7 @@ var SimplePrimitiveId = org.openstreetmap.josm.data.osm.SimplePrimitiveId;
 var ProgressMonitor = org.openstreetmap.josm.gui.progress.ProgressMonitor;
 var NullProgressMonitor = org.openstreetmap.josm.gui.progress.NullProgressMonitor;
 var OsmServerChangesetReader = org.openstreetmap.josm.io.OsmServerChangesetReader;
+var OsmServerObjectReader = org.openstreetmap.josm.io.OsmServerObjectReader;
 
 var util = require("josm/util");
 
@@ -232,6 +233,8 @@ exports.ChangesetApi.get = function() {
 
 (function () {
 	
+var undefined; 
+	
 /**
  * <p>Collection of static methods to download objects from and upload objects to the 
  * OSM server.</p>
@@ -408,23 +411,24 @@ function downloadObject_3() {
  */
 exports.Api.downloadObject = function() {
 	var id;
-	var options = {full: undefined ,version: undefined};
+	var options = {full: undefined,version: undefined};
 	
 	switch(arguments.length) {
 	case 0:
 		util.assert(false, "Unexpected number of arguments, got {0}", arguments.length);
 	case 1:
-		return downloadObject_1(arguments);
+		return downloadObject_1.apply(this, arguments);
 		break;
 	case 2:
-		return downloadObject_2(arguments);
+		return downloadObject_2.apply(this, arguments);
 		break;
 	case 3: 
-		return downloadObject_3(arguments);
+		return downloadObject_3.apply(this, arguments);
 		break;
 	default:
 		util.assert(false, "Unexpected number of arguments, got {0}", arguments.length);
 	}
 };
+
 	
 }()) 
