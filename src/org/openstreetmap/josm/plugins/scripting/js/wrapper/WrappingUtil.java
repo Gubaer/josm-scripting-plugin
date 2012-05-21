@@ -9,6 +9,8 @@ import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.WrappedException;
 import org.mozilla.javascript.Wrapper;
 
+import sun.org.mozilla.javascript.Undefined;
+
 public class WrappingUtil {
 	static public void assertApi(boolean cond, String message, Object...args) {
 		if (! cond) throw new WrappedException( 
@@ -32,4 +34,16 @@ public class WrappingUtil {
 		}
 		return new NativeArray(wrapped);
 	} 
+	
+	static public boolean isSomething(Object obj) {
+		return obj != null && obj != Undefined.instance;
+	}
+	
+	static public boolean isNothing(Object obj) {
+		return obj == null || obj == Undefined.instance;
+	}
+	
+	static public void assertSomething(Object obj, String message, Object ...args) {
+		assertApi(isSomething(obj), message, args);
+	}
 }
