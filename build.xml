@@ -231,7 +231,14 @@
 
 
 	<target name="js-doc" depends="js-init" description="Create the documentation for the JOSM javascript API">
-	
+		<exec executable="${jsdoc3.cmd}" failonerror="yes" failifexecutionfails="yes">
+			<arg value="-d doc/js"/>
+			<arg value="javascript/josm.js"/>
+			<arg value="javascript/josm/util.js"/>
+			<arg value="javascript/josm/builder.js"/>
+			<arg value="javascript/josm/layers.js"/>
+			<arg value="javascript/josm/api.js"/>
+		</exec>
 	</target>
 	
 </project>

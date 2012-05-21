@@ -66,3 +66,11 @@ rhino.jar=/full/path/to/jar
 #
 jsdoc.dir=/full/path/to/the/local/installation
 
+
+# the full path to the jsdoc3 command
+#
+# Download from 
+#    https://github.com/jsdoc3/jsdoc 
+#
+jsdoc3.cmd=/full/path/jsdoc3 command 
+
