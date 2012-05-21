@@ -19,7 +19,6 @@ var mv = function() {
  * Replies the number of currently open layers. 
  * 
  * @name length
- * @description 
  * @memberOf export.layers
  * @type {Number}
  */ 
