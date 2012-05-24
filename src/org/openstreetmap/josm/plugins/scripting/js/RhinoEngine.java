@@ -19,12 +19,15 @@ import javax.swing.SwingUtilities;
 
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.EvaluatorException;
+import org.mozilla.javascript.NativeArray;
 import org.mozilla.javascript.NativeObject;
 import org.mozilla.javascript.RhinoException;
 import org.mozilla.javascript.Scriptable;
 import org.openstreetmap.josm.plugins.PluginException;
 import org.openstreetmap.josm.plugins.PluginInformation;
-import org.openstreetmap.josm.plugins.scripting.js.wrapper.JOSMWrapFactory;
+import org.openstreetmap.josm.plugins.scripting.js.wrapper.MixinWrapFactory;
+import org.openstreetmap.josm.plugins.scripting.js.wrapper.NativeJavaObjectWithJSMixin;
+import org.openstreetmap.josm.plugins.scripting.js.wrapper.WrappingException;
 import org.openstreetmap.josm.plugins.scripting.util.Assert;
 import org.openstreetmap.josm.plugins.scripting.util.ExceptionUtil;
 import org.openstreetmap.josm.plugins.scripting.util.IOUtil;
@@ -51,6 +54,25 @@ public class RhinoEngine {
 		if (instance == null) instance = new RhinoEngine();
 		return instance; 
 	}
+	
+	static public void loadJSMixins(Context ctx, Scriptable scope) {
+		String script = "require('josm/mixin/Mixins').mixins;";
+		Object o = ctx.evaluateString(scope, script, "fragment: loading list of mixins", 0, null);
+		if (o instanceof NativeArray) {
+			Object[] modules = ((NativeArray)o).toArray();
+			for (int i = 0; i< modules.length; i++){
+				Object m = modules[i];
+				if (! (m instanceof String)) continue;
+				try {
+					NativeJavaObjectWithJSMixin.loadJSPrototype(scope, (String)m);
+				} catch(WrappingException e){
+					logger.log(Level.SEVERE, MessageFormat.format("Failed to load mixin module ''{0}''.", m), e);
+					continue;
+				}
+				logger.info(MessageFormat.format("Successfully loaded mixin module ''{0}''", m));				
+			}
+		}
+	}
 		
 	/**
 	 * <p>Initializes a standard scope for scripts running in the context of a JOSM instance.</p>
@@ -62,26 +84,35 @@ public class RhinoEngine {
 	 * @param ctx the context 
 	 * @return the initialized scope 
 	 */
-	static public Scriptable initStandardScope(Context ctx) {
+	static public Scriptable initStandardScope(Context ctx, String resRequire) {
 		Scriptable scope  = ctx.initStandardObjects();
-		if (!loadResource(ctx, scope, "/js/require.js")) return scope;				
+		if (!loadResource(ctx, scope, resRequire)) return scope;				
 		// make sure the CommonJS module loader looks for modules in the
 		// scripting plugin jar 
 		try {
 			PluginInformation info = PluginInformation.findPlugin("scripting");
-			String url = "jar:" + info.file.toURI().toURL().toString() + "!" + "/js";
-			String script = MessageFormat.format("require.addRepository(new java.net.URL(''{0}''));", url);
-			ctx.evaluateString(scope, script, "fragment: adding default repository", 0, null);	
-			logger.info(tr("Sucessfully loaded CommonJS module loader from resource ''{0}''", "/js/require.js"));
-			logger.info(tr("Added the plugin jar as module respository. jar URL is: {0}", url.toString()));
-			script = "var josm=require('josm');";
-			ctx.evaluateString(scope, script, "fragment: loading module 'josm'", 0, null);
+			if (info != null) {
+				String url = "jar:" + info.file.toURI().toURL().toString() + "!" + "/js";
+				String script = MessageFormat.format("require.addRepository(new java.net.URL(''{0}''));", url);
+				ctx.evaluateString(scope, script, "fragment: adding default repository", 0, null);	
+				logger.info(tr("Sucessfully loaded CommonJS module loader from resource ''{0}''", "/js/require.js"));
+				logger.info(tr("Added the plugin jar as module respository. jar URL is: {0}", url.toString()));
+				loadJSMixins(ctx, scope);
+				script = "var josm=require('josm');";
+				ctx.evaluateString(scope, script, "fragment: loading module 'josm'", 0, null);
+			} else {
+				logger.warning("Plugin information for plugin 'scripting' not found. Failed to initialize CommonJS module loader with path.");
+			}
 		} catch (PluginException e) {
 			e.printStackTrace();
 		} catch(MalformedURLException e) {
 			e.printStackTrace();
 		}
 		return scope;
+	}
+	
+	static public Scriptable initStandardScope(Context ctx) {
+		return initStandardScope(ctx, "/js/require.js");
 	}
 	
 	static protected boolean loadResource(Context ctx, Scriptable scope, String resource) {
@@ -141,7 +172,7 @@ public class RhinoEngine {
 			public void run() {
 				if (Context.getCurrentContext() != null) return;
 				Context ctx = Context.enter();		
-				ctx.setWrapFactory(new JOSMWrapFactory());
+				ctx.setWrapFactory(new MixinWrapFactory());
 				scope.set(initStandardScope(ctx));
 			}
 		};
