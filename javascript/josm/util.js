@@ -235,3 +235,29 @@ exports.hasProperties = function(o) {
 exports.isFunction = function(f) {
 	return typeof f === "function"; 
 };
+
+/**
+ * Mixes the properties of a list of objects into one object.
+ * 
+ * @param {object...} a variable number of objects
+ * @return a new object which includes the combined properties of the argument objects 
+ * @type object
+ */
+exports.mix = function(){
+	var mixin = {};
+	
+	function copyProperties(other){
+		for (var p in other){
+			if (!other.hasOwnProperty(p)) continue;
+			mixin[p] = other[p];
+		}
+	}
+	
+	for (var i=0; i< arguments.length; i++){
+		var template = arguments[i];
+		if (exports.isNothing(template)) continue;
+		if (! (typeof template === "object")) continue;
+		copyProperties(template);
+	}
+	return mixin;
+}
