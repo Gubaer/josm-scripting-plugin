@@ -60,3 +60,23 @@ exports.Suite.prototype.run = function() {
 	}
 };
 
+
+exports.expectError = function(f) {
+	try {
+		f();
+		util.assert(false, "Expected an error, didn't get one.");
+	} catch(e) {
+		// OK 
+	}
+};
+
+exports.expectAssertionError = function(f) {
+	try {
+		f();
+		util.assert(false, "Expected an error, didn't get one.");
+	} catch(e) {
+		if (e.name != "AssertionError") {
+			util.assert(false, "Expected AssertionError, got {0}", e.toSource());
+		} 
+	}
+};
