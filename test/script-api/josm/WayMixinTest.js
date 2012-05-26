@@ -65,8 +65,7 @@ var suite = tu.suite(
 		tu.expectAssertionError(function(){
 			w[2];
 		});
-	})
-	
+	})	
 );
 
 suite.run();
