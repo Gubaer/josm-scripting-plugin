@@ -8,8 +8,10 @@
 var Node              = org.openstreetmap.josm.data.osm.Node;
 var Way               = org.openstreetmap.josm.data.osm.Way;
 var Relation          = org.openstreetmap.josm.data.osm.Relation;
+var RelationMember    = org.openstreetmap.josm.data.osm.RelationMember;
 var DataSet           = org.openstreetmap.josm.data.osm.DataSet;
 var OsmPrimitiveType  = org.openstreetmap.josm.data.osm.OsmPrimitiveType;
+var OsmPrimitive      = org.openstreetmap.josm.data.osm.OsmPrimitive;
 var SimplePrimitiveId = org.openstreetmap.josm.data.osm.SimplePrimitiveId;
 var LatLon            = org.openstreetmap.josm.data.coor.LatLon;
 var List              = java.util.List;
@@ -37,19 +39,20 @@ function rememberTags(builder, tags) {
 	builder.tags = builder.tags || {};
 	for (var name in tags) {
 		if (! tags.hasOwnProperty(name)) break;
-		name = util.trim(name);
 		var value = tags[name];
+		name = util.trim(name);
 		if (util.isNothing(value)) break;
-		value = util.trim(value + "");	
+		value = value + ""; // convert to string	
 		builder.tags[name] = value; 
 	}
 }
 
 function assignTags(primitive, tags) {
 	for (var name in tags) {
+		if (!tags.hasOwnProperty(name)) continue;
 		var value = tags[name];
 		if (util.isNothing(value)) continue;
-		value = util.trim(value + "");
+		value = value + "";
 		primitive.put(name, value);
 	}
 };
@@ -126,7 +129,7 @@ function rememberPosFromObject(builder, args) {
 function rememberTagsFromObject(builder, args) {
 	if (! args.hasOwnProperty("tags")) return;
 	var o = args["tags"];
-	util.assert(util.isSomething(o), "''{0}'': most not be null or undefined", "tags");
+	if (util.isNothing(o)) return;
 	rememberTags(builder, o);	
 }
 
@@ -196,7 +199,6 @@ function checkLon(value) {
 	if (! LatLon.isValidLon(value)) throw "lon must be a valid longitude";
 	return value;
 }
-
 
 function initFromObject(builder, args) {
 	rememberIdFromObject(builder, args);
@@ -746,5 +748,358 @@ function create() {
 }
 exports.WayBuilder.create = create;
 exports.WayBuilder.prototype.create = create;
+
+}());
+
+
+//-------------------------------------------------------------------------------
+// RelationBuilder
+//--------------------------------------------------------------------------------
+
+(function() {
+	
+var receiver = function(that) {
+	return typeof that === "object" ? that : new exports.RelationBuilder();
+}
+
+/**
+ * <p>Creates a new builder for OSM relations</p>
+ * 
+ * @class 
+ * @name RelationBuilder
+ * @param {org.openstreetmap.josm.data.osm.DataSet} ds (optional) a JOSM dataset which created ways are
+ *    added to. If missing, the created ways aren't added to a dataset. 
+ * 
+ * @example
+ *  var rbuilder = require("josm/builder").RelationBuilder;
+ *  
+ *  // create a new local relation 
+ *  var r1 = rbuilder.create();
+ *  
+ *  // create a new global way 
+ *  var r2 = rbuilder.withTags({route: 'bicycle'}).create(123456);
+ *  
+ *  // create a new proxy for a global relation (an "incomplete" node in JOSM terminology)
+ *  var r3 = rbuilder.createProxy(123456);
+ */
+exports.RelationBuilder = function(ds) {
+	if (util.isSomething(ds)) {
+		util.assert(ds instanceof DataSet, "Expected a DataSet, got {0}", ds);
+		this.ds = ds; 
+	}
+	this.members = [];
+};
+
+/**
+ * <p>Create a RelationMember</p>
+ *
+ * <dl>
+ *   <dt>member(role, obj)</dt>
+ *   <dd>Create a relation member with role <var>role</var> and member object <var>obj</var>. 
+ *   <var>role</var> can be null or undefined, obj must neither be null nor undefinde. <var>role</var>
+ *   is a string, <var>obj</var> is an OSM node, a way, or a relation.</dd>
+ *   <dt>member(obj)</dt>
+ *  <dd>Create a relation member for the member object <var>obj</var>. 
+ *   <var>obj</var> must neither be null nor undefinde. <var>obj</var> is an OSM node, a way, or a relation.
+ *   The created relation member has no role.   
+ *   </dd>
+ * </dl>
+ * 
+ * @example
+ * var member = require("josm/builder").RelationBuilder.member;
+ * var nb = require("josm/builder").NodeBuilder;
+ * 
+ * // create a new RelationMember with role 'house' for a new node 
+ * var m1 = member("house", nb.create());
+ * // create a new RelationMember with an empty role for a new node
+ * var m2 = member(nb.create());
+ *
+ * @static
+ * @name member
+ * @memberOf RelationMember
+ * @method
+ * @type org.openstreetmap.josm.data.osm.RelationMember 
+ */
+function member() {	
+	function normalizeObj(obj) {
+		util.assert(util.isSomething(obj), "obj: must not be null or undefined");
+		util.assert(obj instanceof OsmPrimitive, "obj: expected an OsmPrimitive, got {0}", obj);
+		return obj;
+	}
+	function normalizeRole(role) {
+		if (util.isNothing(role)) return null;
+		util.assert(util.isString(role), "role: expected a string, got {0}", role);
+		return role;
+	}	
+	switch(arguments.length) {
+	case 0: util.assert(false, "Expected arguments (object) or (role, object), got 0 arguments");
+	case 1:
+		var obj = normalizeObj(arguments[0]);
+		return new RelationMember(null /* no role */, obj);		
+	case 2: 
+		var role = normalizeRole(arguments[0]);
+		var obj = normalizeObj(arguments[1]);
+		return new RelationMember(role, obj);
+	default:
+		util.assert(false, "Expected arguments (object) or (role, object), got {0} arguments", arguments.length);
+	}
+};
+exports.RelationBuilder.member = member;
+
+
+/**
+ * <p>Declares the global relation id and the global relation version.</p>
+ * 
+ * <p>The method can be used in a static and in an instance context.</p>
+ * 
+ * @example
+ *  var rbuilder = require("josm/builder").RelationBuilder;
+ *  // creates a global relation with id 12345 an version 12   
+ *  var r = rbuilder.withId(12345, 12).create();
+ * 
+ * @memberof RelationBuilder
+ * @param {number} id  (mandatory) the global relation id. A number > 0.
+ * @param {number} version  (optional) the global relation version. If present, a number > 0. If missing,
+ *   the version 1 is assumed.  
+ * @return the relation builder (for method chaining)
+ * @type RelationBuilder
+ */
+function withId(id, version) {
+	var builder = receiver(this);
+	rememberId(builder, id, version);
+	return builder;
+};
+exports.RelationBuilder.prototype.withId = withId;
+exports.RelationBuilder.withId = withId;
+
+
+/**
+ * <p>Declares the tags to be assigned to the new relation.</p>
+ * 
+ * <p>The method can be used in a static and in an instance context.</p>
+ * 
+ * @example
+ * var rbuilder = require("josm/builder").RelationBuilder;
+ * // a new global relation with the global id 12345 and tags route="bicycle" and name="n8"
+ * var r1 = rbuilder.withTags({name:"n8", route:"bicycle"}).create(12345);  
+ * 
+ * // a new local node tags name=test and highway=road
+ * var tags = {
+ *      name    : "n8", 
+ *      route : "bicycle"
+ * };     
+ * var r2 = rbuilder.withTags(tags).create();
+ * 
+ * @memberOf RelationBuilder
+ * @param {object} tags  (optional) the tags 
+ * @return a relation builder (for method chaining)
+ * @type RelationBuilder
+ */
+function withTags(tags) {
+	var builder = receiver(this);
+	rememberTags(builder, tags);
+	return builder; 
+};
+exports.RelationBuilder.prototype.withTags = withTags;
+exports.RelationBuilder.withTags = withTags; 
+
+
+/**
+ * <p>Creates a new <em>proxy</em> relation. A proxy relation is a relation, for which we only know
+ * its global id. In order to know more details (members, tags, etc.), we would have to
+ * download it from the OSM server.</p>
+ * 
+ * <p>The method can be used in a static and in an instance context.</p>
+ * 
+ * @example
+ * var rbuilder = require("josm/builder").RelationBuilder;
+ * 
+ * // a new proxy relation for the global way with id 12345
+ * var r1 = rbuilder.createProxy(12345);  
+ * 
+ * @memberOf RelationBuilder
+ * @method 
+ * @return the new proxy relation 
+ * @type org.openstreetmap.josm.data.osm.Relation
+ */
+function createProxy(id) {
+	var builder = receiver(this);
+	if (util.isDef(id)) {
+		util.assert(util.isNumber(id) && id > 0, "Expected a number > 0, got {0}", id);
+		builder.id = id;
+	}
+	util.assert(util.isNumber(builder.id), "way id is not a number. Use .createProxy(id) or .withId(id).createProxy()");
+	util.assert(builder.id > 0, "Expected id > 0, got {0}", builder.id);
+	var relation = new Relation(builder.id);
+	if (builder.ds) builder.ds.addPrimitive(relation);
+	return relation;
+};
+exports.RelationBuilder.createProxy = createProxy;
+exports.RelationBuilder.prototype.createProxy = createProxy;
+
+
+/**
+ * <p>Declares the members of a relation.</p>
+ * 
+ * <p>Accepts either a vararg list of relation members, nodes, ways or relations, an array of relation members, nodes
+ * ways or relations, or a Java list of members, nodes, ways or relation.
+ * </p>
+ * 
+ * <p>The method can be used in a static and in an instance context.</p>
+ * 
+ * @example
+ * var rbuilder = require("josm/builder").RelationBuilder;
+ * var nbuilder = require("josm/builder").NodeBuilder;
+ * var wbuilder = require("josm/builder").WayBuilder;
+ * var member = require("josm/builder").RelationBuilder.member;
+ * 
+ * var r1 = rbuilder.withMembers(
+ *   member("house", nbuilder.create()),
+ *   member("house", nbuilder.create()),
+ *   member("street", wbuilder.create())
+ * ).create();
+ *   
+ * 
+ * @memberOf RelationBuilder
+ * @param {object...} nodes  the list of members. See description and examples. 
+ * @return the relation builder (for method chaining)
+ * @type RelationBuilder
+ */
+function withMembers() {
+	var builder = receiver(this);
+	var members = [];
+	function remember(obj) {
+		if (util.isNothing(obj)) return;
+		if (obj instanceof OsmPrimitive) {
+			members.push(new RelationMember(null, obj));
+		} else if (obj instanceof RelationMember)  {
+			members.push(obj)
+		} else if (util.isArray(obj)) { 
+			for(var i=0; i < obj.length; i++) remember(obj[i]);
+ 		} else if (obj instanceof List) {
+			for(var it = obj.iterator(); it.hasNext();) remember(it.next());
+		} else {
+			util.assert(false, "Can''t add object ''{0}'' as relation member", obj);
+		}
+	}
+	for (var i=0; i < arguments.length; i++){
+		remember(arguments[i]);
+	}
+	builder.members = members;
+	return builder;
+};
+exports.RelationBuilder.withMembers = withMembers;
+exports.RelationBuilder.prototype.withMembers = withMembers;
+
+
+function rememberMembersFromObject(builder, args) {
+	if (!args.hasOwnProperty("members")) return;
+	var o = args["members"];
+	if (! util.isSomething(o)) return;
+	util.assert(util.isArray(o) || o instanceof List, "members: Expected an array or an instance of java.util.List, got {0}", o);
+	builder.withMembers(o);
+};
+
+function initFromObject(builder, args) {
+	rememberIdFromObject(builder, args);
+	rememberVersionFromObject(builder,args);
+	rememberTagsFromObject(builder, args);
+	rememberMembersFromObject(builder, args);
+};
+
+/**
+ * <p>Creates a new relation.</p>
+ * 
+ * <p>Can be used in an instance or in a static context.</p>
+ * 
+ * <strong>Optional named arguments in the parameters <code>args</code> </strong>
+ * <ul>
+ *   <li><var>id</var> - the id of a global relation (number > 0)</li>
+ *   <li><var>version</var> - the version of a global relation (number > 0)</li>
+ *   <li><var>members</var> - an array or a list of relation members, nodes, ways, or relation</li>
+ *   <li><var>tags</var> - an object with tags. Null values and undefined values are ignored. Any other value
+ *   is converted to a string. Leading and trailing white space in keys is removed.</li>
+ * </ul>
+ * 
+ * 
+ * @example
+ * var rb = require("josm/builder").RelationBuilder
+ * var nb = require("josm/builder").NodeBuilder
+ * var member = rb.member;
+ * // create a new local relation 
+ * var r1 = rb.create();
+ * 
+ * // create a new global relation 
+ * var r2 = rb.create(12345);
+ * 
+ * // create a new global relation with version 3 with some tags and two members 
+ * var r3 = rb.create(12345, {
+ *    version: 3, 
+ *    tags: {type: "route"}, 
+ *    members: [member('house', nb.create()), member(nb.create())]
+ *  });
+ * 
+ * @memberOf RelationBuilder
+ * @method
+ * @param {number}  id (optional) a global way id. If missing and not set before using
+ *    <code>withId(..)</code>, creates a new local id.
+ * @param {object} args (optional) additional parameters for creating the way 
+ * @type org.openstreetmap.josm.data.osm.Relation
+ * 
+ */
+function create() {
+	var builder = receiver(this);
+	switch(arguments.length){
+	case 0:
+		break;
+	case 1:
+		var o = arguments[0];
+		util.assert(util.isSomething(o), "Argument 0: must not be null or undefined");
+		if (util.isNumber(o)) {
+			util.assert(o > 0, "Argument 0: expected an id > 0, got {0}", o);
+			builder.id = o;
+		} else if (typeof o == "object") {
+			initFromObject(builder, o);
+		} else {
+			util.assert(false, "Argument 0: unexpected type, got ''{0}''", o);
+		}
+		break;
+		
+	case 2: 
+		var o = arguments[0];
+		util.assert(util.isSomething(o), "Argument 0: must not be null or undefined");
+		util.assert(util.isNumber(o), "Argument 0: must be a number");
+		util.assert(o > 0, "Expected an id > 0, got {0}", o);
+		builder.id = o;
+		
+		o = arguments[1];
+		if (util.isSomething(o)) {
+			util.assert(typeof o === "object", "Argument 1: must be an object");
+			initFromObject(builder, o);
+		}
+		break;
+	default:
+		util.assert(false, "Unexpected number of arguments, got {0}", arguments.length);
+	}
+	
+	var relation;
+	if (util.isNumber(builder.id)) {
+		if (util.isNumber(builder.version)){
+			relation = new Relation(builder.id, builder.version);
+		} else {
+			relation = new Relation(builder.id, 1);		
+		}
+	} else {
+		relation = new Relation(0); // creates a new local reöatopm
+	}
+	assignTags(relation, builder.tags || {});
+	if (builder.members && builder.members.length > 0) {
+		relation.setMembers(builder.members);
+	}
+	if (builder.ds) builder.ds.addPrimitive(relation);
+	return relation;	
+}
+exports.RelationBuilder.create = create;
+exports.RelationBuilder.prototype.create = create;
 
 }());
