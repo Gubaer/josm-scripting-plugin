@@ -162,5 +162,23 @@ public class NativeJavaObjectWithJSMixin extends NativeJavaObject {
 			return ((Function) f).call(Context.getCurrentContext(), parent, this, new Object[]{index});
 		}
 		return super.get(index, start);
-	}	
+	}
+
+	@Override
+	public void put(int index, Scriptable start, Object value) {
+		Scriptable mixin = MIXINS.get(javaObject.getClass());
+		if (mixin == null) {
+			super.put(index, start, value);
+			return;
+		}	
+		Object f = mixin.get("__putByIndex", mixin);
+		if (f instanceof Function) {
+			((Function) f).call(Context.getCurrentContext(), parent, this, new Object[]{index, value});
+		} else {
+			super.put(index, start, value);
+		}
+	}
+
+	
+
 }
