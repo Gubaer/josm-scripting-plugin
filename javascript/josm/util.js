@@ -31,16 +31,15 @@ exports.isSomething = function(val) {
 /**
  * <p>Trims leading and trailing whitespace from <code>s</code>.</p> 
  * 
- * <p>Replies s, if s is null
- * or undefined. Any other value is converted to a string, then leading and trailing white
+ * <p>Replies s, if s is null or undefined. Any other value is converted to a string, then leading and trailing white
  * space is removed.</p>
  * 
  * @param {string} s  the string to be trimmed
  * @type {string} 
  */
 exports.trim = function(s){
-	if (s == null || s == undefined) return s;
-	return String(s).replace(/^\s+|\s+$/, '');
+	if (exports.isNothing(s)) return s;
+	return (s + '').replace(/^\s+/, '').replace(/\s+$/, '');
 };
 
 /**
