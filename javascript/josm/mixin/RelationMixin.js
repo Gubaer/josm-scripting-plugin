@@ -119,6 +119,19 @@ mixin.__getByIndex = function(idx) {
 	return this.getMember(idx);
 };
 
+mixin.__putByIndex = function(idx, val) {
+	util.assert(idx >= 0 && idx <= this.getMembersCount(), "Index out of range, got {0}", idx);
+	util.assert(util.isSomething(val), "value: must not be null or undefined");
+	util.assert(val instanceof RelationMember || val instanceof OsmPrimitive, "Unexpected type of value, got {0}", val);
+	if (idx == this.length) {
+		this.add(val);
+	} else {
+		this.setAt(idx, val);
+	}
+	return this.getMember(idx);
+};
+
+
 /**
  * <p>Adds additional members at the end of the relation members list.</p>
  * 
@@ -247,7 +260,7 @@ mixin.setAt = function(idx, obj) {
 	
 	util.assert(util.isSomething(obj), "obj: must not be null or undefined");
 	if (obj instanceof RelationMember) {
-		this.setmember(idx, obj);
+		this.setMember(idx, obj);
 	} else if (obj instanceof OsmPrimitive) {
 		this.setMember(idx, new RelationMember(null /* no role */, obj));
 	} else {
