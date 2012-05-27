@@ -81,9 +81,7 @@ exports.Suite.prototype.run = function() {
 		if (ret) numok++; else numfail++;
 	}
 	out.println("----------------------------------------------------------------------");
-	out.println(" # tests: " + numtests);
-	out.println(" # PASS : " + numok);
-	out.println(" # FAIL : " + numfail);
+	out.println(" # tests: " + numtests + " # PASS : " + numok + "  # FAIL : " + numfail);
 	out.println("----------------------------------------------------------------------");
 };
 
