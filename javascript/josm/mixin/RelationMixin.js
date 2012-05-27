@@ -18,7 +18,9 @@ var mixin = {};
  * available for scripting, unless they are shadowed by names of properties defined in this 
  * mixin.</p>
  * 
- * <p>You can access the relation members using <code>relation[i]</code>, see example below.
+ * <p>RelationMixin inherits the properties and methods of [OsmPrimitiveMixin]{@link OsmPrimitiveMixin}.</p>
+ * 
+ * <p>You can access relation members using <code>relation[i]</code>, see example below.
  * 
  *  @example 
  *  var Relation = org.openstreetmap.josm.data.osm.Relation;
@@ -37,6 +39,7 @@ var mixin = {};
  *  }
  *  
  * @mixin RelationMixin 
+ *
  */
 
 /**

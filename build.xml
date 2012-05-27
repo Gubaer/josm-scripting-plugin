@@ -239,6 +239,7 @@
 			<arg value="javascript/josm/layers.js"/>
 			<arg value="javascript/josm/api.js"/>
 			<arg value="javascript/josm/mixin/RelationMixin.js"/>
+			<arg value="javascript/josm/mixin/OsmPrimitiveMixin.js"/>
 		</exec>
 	</target>
 	
