@@ -7,8 +7,6 @@
 var util = require("josm/util");
 var LatLon = org.openstreetmap.josm.data.coor.LatLon;
 
-
-
 /**
  * <p>NodeMixin provides additional properties and methods which you can invoke on an instance of
  * {@link http://josm.openstreetmap.de/browser/josm/trunk/src/org/openstreetmap/josm/data/osm/Node.java|Node}. 
@@ -88,15 +86,15 @@ mixin.lat =  {
 mixin.lon = {
 	get: function() {
 		if (this.isIncomplete() || this.getCoor() == null) return undefined;
-		return n.getCoor().lon;
+		return this.getCoor().lon();
 	},
 	set: function(lon) {
 		util.assert(! this.isIncomplete(), "Can''t set lon on an incomplete node");
-		util.assert(util.isNumber(lon), "Expected a number, got {0}", lat);
+		util.assert(util.isNumber(lon), "Expected a number, got {0}", lon);
 		util.assert(LatLon.isValidLon(lon), "Expected a valid lon in the range [-180,180], got {0}", lon);
 		var coor = this.getCoor();
 		if (coor == null) coor = new LatLon(0,0);
-		coor = new LatLon(coor.lat, lon);
+		coor = new LatLon(coor.lon(), lon);
 		this.setCoor(coor);
 	}
 };
