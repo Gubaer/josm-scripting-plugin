@@ -114,15 +114,15 @@ function rememberPosFromObject(builder, args) {
 		var o = args["lat"];
 		util.assert(util.isSomething(o), "''{0}'': must not be null or undefined", "lat");
 		util.assert(util.isNumber(o), "''{0}'': expected a number, got {1}", "lat", o);
-		util.assert(LatLon.isValidLat(), "''{0}'': expected a valid latitude, got {1}", "lat", o);
-		builder.lat = lat;
+		util.assert(LatLon.isValidLat(o), "''{0}'': expected a valid latitude, got {1}", "lat", o);
+		builder.lat = o;
 	}	
 	if (args.hasOwnProperty("lon")) {
 		var o = args["lon"];
 		util.assert(util.isSomething(o), "''{0}'': must not be null or undefined", "lon");
 		util.assert(util.isNumber(o), "''{0}'': expected a number, got {1}", "lon", o);
-		util.assert(LatLon.isValidLon(), "''{0}'': expected a valid longitude, got {1}", "lon", o);
-		builder.lon = lon;
+		util.assert(LatLon.isValidLon(o), "''{0}'': expected a valid longitude, got {1}", "lon", o);
+		builder.lon = o;
 	}
 }
 
