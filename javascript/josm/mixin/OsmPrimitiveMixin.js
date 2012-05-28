@@ -42,6 +42,40 @@ mixin.id = {
 };
 
 /**
+ * <p>The version of the object.</p>
+ * 
+ * <p>Only global objects have a version. The version for local and proxy objects is <var>undefined</var>.</p>
+ * 
+ * @example
+ * var nb = require("josm/builder").NodeBuilder;
+ * 
+ * // local object - get version is undefined  
+ * var node = nb.create();
+ * node.version;  // -&gt; undefined
+ * 
+ * // global object - get version is defined  
+ * var node = nb.create(12345, {version: 9});
+ * node.version;  // -&gt; 9
+ * 
+ * // proxy object - get version is undefined  
+ * var node = nb.createProxy(12345);
+ * node.version;  // -&gt; undefined 
+ * 
+ * @memberOf OsmPrimitiveMixin
+ * @name version
+ * @field
+ * @instance
+ * @readOnly
+ * @type {number}
+ */
+mixin.version = {
+	get: function() {
+		var version = this.getVersion();
+		return version == 0 ? undefined : version;
+	}
+};
+
+/**
  * <p>Replies true, if this is a local primitive</p>
  * 
  * @example
@@ -240,7 +274,6 @@ mixin.timestamp = {
 		return this.getTimestamp();
 	}
 };
-
 
 /**
  * <p>Synonym for isLocal.</p>
