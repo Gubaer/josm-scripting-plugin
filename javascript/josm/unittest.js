@@ -85,14 +85,25 @@ exports.Suite.prototype.run = function() {
 	out.println("----------------------------------------------------------------------");
 };
 
-
 exports.expectError = function(f) {
-	try {
-		f();
-		util.assert(false, "Expected an error, didn't get one.");
-	} catch(e) {
-		// OK 
+	var name = "no name";
+	var f;
+	switch(arguments.length) {
+	case 0: return;
+	case 1: f = arguments[0]; break;
+	case 2:
+		name = arguments[0]; 
+		f = arguments[1];
+		break;
+	default:
+		util.assert(false, "Unexpected number of arguments");
 	}
+	try {
+		f();		
+		util.assert(false, "''{0}'': should have failed. Didn''t catch an error.", name);
+	} catch(e) {
+		// OK
+	}	
 };
 
 exports.expectAssertionError = function(f) {
@@ -110,7 +121,7 @@ exports.expectAssertionError = function(f) {
 	}
 	try {
 		f();		
-		util.assert(false, "''{0}'': should have failed. Didn't catch an error.", name);
+		util.assert(false, "''{0}'': should have failed. Didn''t catch an error.", name);
 	} catch(e) {
 		if (e.name != "AssertionError") {
 			util.assert(false, "''{0}'': expected an AssertionError, caught {1}.", name, e.toSource());
