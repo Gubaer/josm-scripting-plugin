@@ -119,7 +119,7 @@ mixin.lon = {
 mixin.east= {
 	get: function() {
 		if (this.isIncomplete() || this.getEastNorth() == null) return undefined;
-		return n.getEastNorth().east;
+		return this.getEastNorth().east();
 	}
 };
 
@@ -143,7 +143,7 @@ mixin.east= {
 mixin.north = {
 	get: function() {
 		if (this.isIncomplete() || this.getEastNorth() == null) return undefined;
-		return n.getEastNorth().north;
+		return this.getEastNorth().north();
 	}
 };
 
