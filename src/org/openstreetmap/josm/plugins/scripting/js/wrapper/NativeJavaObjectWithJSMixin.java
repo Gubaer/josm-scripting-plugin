@@ -121,6 +121,9 @@ public class NativeJavaObjectWithJSMixin extends NativeJavaObject {
 
 	@Override
 	public Object get(String name, Scriptable start) {
+		if (name.startsWith("$")) {			
+			return super.get(name.substring(1), start);
+		}
 		Scriptable mixin = MIXINS.get(javaObject.getClass());
 		if (mixin == null) {
 			return super.get(name, start);
@@ -144,6 +147,10 @@ public class NativeJavaObjectWithJSMixin extends NativeJavaObject {
 
 	@Override
 	public void put(String name, Scriptable start, Object value) {
+		if (name.startsWith("$")) {			
+			super.put(name, start,value);
+			return;
+		}
 		Scriptable mixin = MIXINS.get(javaObject.getClass());
 		if (mixin == null) {
 			super.put(name, start,value);
