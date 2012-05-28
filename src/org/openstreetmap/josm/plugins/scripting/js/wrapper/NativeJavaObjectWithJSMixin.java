@@ -27,11 +27,22 @@ import org.mozilla.javascript.Wrapper;
  * <pre>
  * exports.forClass = org.openstreetmap.josm.data.osm.Node;
 
- * // a mixin defining a new property (read-only) and an additional method
+ * // a mixin defining two new properties and an additional method
+ * //
  * exports.mixin = {
  *     id: {
  *       get: function() {return this.getUniqueId();}
  *     },
+ *     lat: {
+ *       get: function() {
+ *          return this.getCoor().lat();
+ *       },
+ *       set: function(lat) {
+ *         var coor = this.getCoor(); 
+ *         coor=new LatLon(lat, coor.lon()); 
+ *         this.setCoor(coor);
+ *       } 
+ *     }
  *     
  *     echo: function() {
  *         java.lang.System.out.println("node: " + this.toString());
@@ -39,8 +50,6 @@ import org.mozilla.javascript.Wrapper;
  * };
  * </pre>
  * 
- * 
- * @author karl
  *
  */
 public class NativeJavaObjectWithJSMixin extends NativeJavaObject {
@@ -178,7 +187,4 @@ public class NativeJavaObjectWithJSMixin extends NativeJavaObject {
 			super.put(index, start, value);
 		}
 	}
-
-	
-
 }
