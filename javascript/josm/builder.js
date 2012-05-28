@@ -270,7 +270,7 @@ function create() {
 		
 		o = arguments[1];
 		if (util.isSomething(o)) {
-			util.assert(util.isObject(o), "Argument 1: must be an object");
+			util.assert(typeof o === "object", "Argument 1: must be an object");
 			initFromObject(builder, o);
 		}
 		break;
