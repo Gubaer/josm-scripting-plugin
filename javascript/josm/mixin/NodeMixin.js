@@ -47,7 +47,7 @@ var mixin = {};
 mixin.lat =  {
 	get: function() {
 		if (this.isIncomplete() || this.getCoor() == null) return undefined;
-		return this.getCoor().lat();
+		return this.getCoor().$lat();
 	},
 	set: function(lat) {
 		util.assert(! this.isIncomplete(), "Can''t set lat on an incomplete node");
@@ -55,7 +55,7 @@ mixin.lat =  {
 		util.assert(LatLon.isValidLat(lat), "Expected a valid lat in the range [-90,90], got {0}", lat);
 		var coor = this.getCoor();
 		if (coor == null) coor = new LatLon(0,0);
-		coor = new LatLon(lat, coor.lon());
+		coor = new LatLon(lat, coor.$lon());
 		this.setCoor(coor);
 	}	
 };
@@ -86,7 +86,7 @@ mixin.lat =  {
 mixin.lon = {
 	get: function() {
 		if (this.isIncomplete() || this.getCoor() == null) return undefined;
-		return this.getCoor().lon();
+		return this.getCoor().$lon();
 	},
 	set: function(lon) {
 		util.assert(! this.isIncomplete(), "Can''t set lon on an incomplete node");
@@ -94,7 +94,7 @@ mixin.lon = {
 		util.assert(LatLon.isValidLon(lon), "Expected a valid lon in the range [-180,180], got {0}", lon);
 		var coor = this.getCoor();
 		if (coor == null) coor = new LatLon(0,0);
-		coor = new LatLon(coor.lon(), lon);
+		coor = new LatLon(coor.$lon(), lon);
 		this.setCoor(coor);
 	}
 };
@@ -199,7 +199,6 @@ mixin.pos =  {
 		}
 	}
 };
-
 
 exports.forClass = org.openstreetmap.josm.data.osm.Node;
 exports.mixin = util.mix(require("josm/mixin/OsmPrimitiveMixin").mixin, mixin);
