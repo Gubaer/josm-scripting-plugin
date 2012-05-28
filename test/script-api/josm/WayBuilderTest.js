@@ -7,28 +7,7 @@ var nb = require("josm/builder").NodeBuilder;
 var DataSet = org.openstreetmap.josm.data.osm.DataSet;
 var ArrayList = java.util.ArrayList;
 
-var expectError = function(f) {
-	try {
-		f();
-		util.assert(false, "Expected an error, didn't get one.");
-	} catch(e) {
-		// OK 
-	}
-};
-
-var expectAssertionError = function(f) {
-	try {
-		f();
-		util.assert(false, "Expected an error, didn't get one.");
-	} catch(e) {
-		if (e.name != "AssertionError") {
-			util.assert(false, "Expected AssertionError, got {0}", e.toSource());
-		} 
-	}
-};
-
-var suite = tu.suite(
-
+tu.suite(
 	// -- with nodes 
 	test("local way - most simple way", function() {
 		var way = wb.create();
@@ -73,12 +52,12 @@ var suite = tu.suite(
 		util.assert(way.length == 2, "2 nodes expected");
 	}),
 	test("local way - with nodes - illegal type of arguments", function() {
-		expectAssertionError(function() {
+		tu.expectAssertionError(function() {
 			var way = wb.withNodes("can pass in a string").create();
 		});
 	}),
 	test("local way - with nodes - illegal types of nodes", function() {
-		expectAssertionError(function() {
+		tu.expectAssertionError(function() {
 			var way = wb.withNodes([nb.create(), "string not allowed"]).create();
 		});
 	}),
@@ -116,27 +95,27 @@ var suite = tu.suite(
 		util.assert(way.tags.highway == "residential", "highway=residential expected");
 	}),
 	test("create - id 0 - not allowed", function() {
-		expectAssertionError(function() {
+		tu.expectAssertionError(function() {
 			var way = wb.create(0);
 		})
 	}),
 	test("create - id -1 - negative id not allowed", function() {
-		expectAssertionError(function() {
+		tu.expectAssertionError(function() {
 			var way = wb.create(-1);
 		})
 	}),
 	test("create - id - illegal type", function() {
-		expectAssertionError(function() {
+		tu.expectAssertionError(function() {
 			var way = wb.create("1234"); // string not allowed 
 		})
 	}),
 	test("create - id - null not allowed", function() {
-		expectAssertionError(function() {
+		tu.expectAssertionError(function() {
 			var way = wb.create(null);  
 		})
 	}),
 	test("create - id - undefined not allowed", function() {
-		expectAssertionError(function() {
+		tu.expectAssertionError(function() {
 			var way = wb.create(undefined);  
 		})
 	}),
@@ -147,22 +126,22 @@ var suite = tu.suite(
 		var way = wb.create(1, undefined);  
 	}),
 	test("create - id - named args must be an object", function() {
-		expectAssertionError(function() {
+		tu.expectAssertionError(function() {
 			var way = wb.create(1, "can use a string here");  
 		})
 	}),
 	test("create - version - must not be 0", function() {
-		expectAssertionError(function() {
+		tu.expectAssertionError(function() {
 			var way = wb.create(1, {version: 0});  
 		})
 	}),
 	test("create - version - must not be negative", function() {
-		expectAssertionError(function() {
+		tu.expectAssertionError(function() {
 			var way = wb.create(1, {version: -1});  
 		})
 	}),
 	test("create - version - must be a number", function() {
-		expectAssertionError(function() {
+		tu.expectAssertionError(function() {
 			var way = wb.create(1, {version: "1234"});  
 		})
 	}),
@@ -173,15 +152,13 @@ var suite = tu.suite(
 		var way = wb.create(1, {nodes: undefined});  
 	}),
 	test("create - nodes - can't be a single node", function() {
-		expectAssertionError(function() {
+		tu.expectAssertionError(function() {
 			var way = wb.create(1, {nodes: nb.create()});  
 		})		  
 	}),
 	test("create - nodes - can't be a string", function() {
-		expectAssertionError(function() {
+		tu.expectAssertionError(function() {
 			var way = wb.create(1, {nodes: "node 1"});  
 		})		  
 	})
-);
-
-suite.run();
+).run();

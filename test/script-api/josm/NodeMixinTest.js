@@ -15,7 +15,7 @@ tu.suite("properties access",
 		util.assert(n.id === 1234, "unexpected id");
 	}),
 	test("id - set - should fail", function() {
-		tu.expectAssertionError("id - set - should fail", function() {
+		tu.expectError("id - set - should fail", function() {
 			var n = nb.create(1234);
 			n.id = 1234;
 		});
@@ -97,15 +97,15 @@ tu.suite("properties access",
 		n = nb.create(1234);
 		n.pos = new LatLon(1,2);
 		var pos = n.pos;
-		util.assert(pos.lat() == 1, "1 - unexpected lat");
-		util.assert(pos.lon() == 2, "1 - unexpected lon");
+		util.assert(pos.$lat() == 1, "1 - unexpected lat");
+		util.assert(pos.$lon() == 2, "1 - unexpected lon");
 		
 		// a local node
 		n = nb.create();
 		n.pos = new LatLon(1,2);
 		var pos = n.pos;
-		util.assert(pos.lat() == 1, "2 - unexpected lat");
-		util.assert(pos.lon() == 2, "2 - unexpected lon");
+		util.assert(pos.$lat() == 1, "2 - unexpected lat");
+		util.assert(pos.$lon() == 2, "2 - unexpected lon");
 		
 		// a loc
 		n = nb.create();

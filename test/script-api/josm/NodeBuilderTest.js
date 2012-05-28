@@ -5,27 +5,7 @@ var test = tu.test;
 var nb = require("josm/builder").NodeBuilder;
 var DataSet = org.openstreetmap.josm.data.osm.DataSet;
 
-var expectError = function(f) {
-	try {
-		f();
-		util.assert(false, "Expected an error, didn't get one.");
-	} catch(e) {
-		// OK 
-	}
-};
-
-var expectAssertionError = function(f) {
-	try {
-		f();
-		util.assert(false, "Expected an error, didn't get one.");
-	} catch(e) {
-		if (e.name != "AssertionError") {
-			util.assert(false, "Expected AssertionError, got {0}", e.toSource());
-		} 
-	}
-};
-
-var suite = tu.suite(
+tu.suite("NodeBuilder test cases",
 	test("local node - most simple node", function() {
 		var node = nb.create();
 		util.assert(util.isSomething(node));		
@@ -33,23 +13,23 @@ var suite = tu.suite(
 	test("local node - with position", function() {
 		var node = nb.withPosition(1,2).create();
 		util.assert(util.isSomething(node), "expected node to be something");
-		util.assert(node.getCoor().lat() == 1, "lat should be 1");
-		util.assert(node.getCoor().lon() == 2, "lon should be 2");
+		util.assert(node.getCoor().$lat() == 1, "lat should be 1");
+		util.assert(node.getCoor().$lon() == 2, "lon should be 2");
 		util.assert(node.lat == 1, "lat with property sould be 1");
 		util.assert(node.lon == 2, "lon with property should be 2");
 	}),
 	test("local node - with missing position", function() {
-		expectError(function() {
+		tu.expectError("missing position", function() {
 			var node = nb.withPosition().create();
 		});
 	}),
 	test("local node - with illegal lat", function() {
-		expectError(function() {
+		tu.expectError("illegal lat", function() {
 			var node = nb.withPosition(-91,2).create();
 		});
 	}),
 	test("local node - with illegal lon", function() {
-		expectError(function() {
+		tu.expectError("with illegal lon", function() {
 			var node = nb.withPosition(1,181).create();
 		});
 	}),
@@ -66,7 +46,7 @@ var suite = tu.suite(
 		var node = nb.withTags(void(0)).create();
 	}),
 	test("local node - with tags - unsupported value", function() {
-		expectError(function() {
+		tu.expectError("with tags - unsupported value", function() {
 			var node = nb.withTags("string value not allowed").create();
 		});
 	}),
@@ -90,7 +70,7 @@ var suite = tu.suite(
 	}),
 	
 	test("global node - with id and version", function() {
-		var node = nb.create(2,3);
+		var node = nb.create(2,{version: 3});
 		util.assert(node.getUniqueId() == 2, "unique id should be 2");
 		util.assert(node.getVersion() == 3, "version should be 3");
 		util.assert(node.id == 2);
@@ -110,43 +90,43 @@ var suite = tu.suite(
 	}),
 
 	test("global node - withId(id,version) - overriding ", function() {
-		var node = nb.withId(2,3).create(5,6);
+		var node = nb.withId(2,3).create(5,{version: 6});
 		util.assert(node.id == 5);
 		util.assert(node.version == 6);			
 	}),
 
 	test("global node - illegal id - 0", function() {
-		expectAssertionError(function() {
+		tu.expectAssertionError("illegal id- 0", function() {
 			var node = nb.create(0);	
 		});
 	}),
 
 	test("global node - illegal id - negative", function() {
-		expectAssertionError(function() {
+		tu.expectAssertionError("illegal id- negative", function() {
 			var node = nb.create(-1);	
 		});
 	}),
 	
 	test("global node - illegal version - 0", function() {
-		expectAssertionError(function() {
+		tu.expectAssertionError("illegal version - 0", function() {
 			var node = nb.create(1,0);	
 		});
 	}),
 	
 	test("global node - illegal version - negative", function() {
-		expectAssertionError(function() {
+		tu.expectAssertionError("illegal version - negative", function() {
 			var node = nb.create(1,-1);	
 		});
 	}),
 	
 	test("global node - illegal version - not a number", function() {
-		expectAssertionError(function() {
+		tu.expectAssertionError("illegal version - not a number", function() {
 			var node = nb.create(1,"5");	
 		});
 	}),
 	
 	test("global node - illegal version - not a number - null", function() {
-		expectAssertionError(function() {
+		tu.expectAssertionError("illegal vesion not a number - null", function() {
 			var node = nb.create(1,null);	
 		});
 	}),
@@ -154,7 +134,7 @@ var suite = tu.suite(
 		var ds = new DataSet();
 		var NodeBuilder = require("josm/builder").NodeBuilder;
 		var nb = new NodeBuilder(ds);
-		var node = nb.create(2,4);
+		var node = nb.create(2);
 		util.assert(ds.getNodes().size() == 1);		
 	}),
 	
@@ -169,13 +149,13 @@ var suite = tu.suite(
 	}),
 	
 	test("proxy node - no id", function() {
-		expectAssertionError(function() {
+		tu.expectAssertionError("proxy node - no id",function() {
 			var node = nb.createProxy();
 		});
 	}),
 	
 	test("proxy node - negative id", function() {
-		expectAssertionError(function() {
+		tu.expectAssertionError("proxy node - negative id", function() {
 			var node = nb.createProxy(-1);
 		});
 	}),
@@ -195,27 +175,27 @@ var suite = tu.suite(
 		util.assert(n.id === 1, "unexpected id, got {0}", n.id);		
 	}),
 	test("create - id - 0", function() {
-		expectAssertionError(function() {
+		tu.expectAssertionError("create - id - 0", function() {
 			var n = nb.create({id: 0});
 		});			
 	}),
 	test("create - id - -1", function() {
-		expectAssertionError(function() {
+		tu.expectAssertionError("create - id - -1", function() {
 			var n = nb.create({id: -1});
 		});			
 	}),
 	test("create - id - null", function() {
-		expectAssertionError(function() {
+		tu.expectAssertionError("create - id - null", function() {
 			var n = nb.create({id: null});
 		});			
 	}),
 	test("create - id - undefined", function() {
-		expectAssertionError(function() {
+		tu.expectAssertionError("create - id - undefined", function() {
 			var n = nb.create({id: undefined});
 		});			
 	}),
 	test("create - id - not a number", function() {
-		expectAssertionError(function() {
+		tu.expectAssertionError("create - id - not a number", function() {
 			var n = nb.create({id: "not a number"});
 		});			
 	}),
@@ -226,30 +206,28 @@ var suite = tu.suite(
 		util.assert(n.version == 2, "unexpected version, got {0}", n.version);		
 	}),
 	test("create - version - 0", function() {
-		expectAssertionError(function() {
+		tu.expectAssertionError("create - version - 0", function() {
 			var n = nb.create({id: 1, version: 0});
 		});			
 	}),
 	test("create - version - -1", function() {
-		expectAssertionError(function() {
+		tu.expectAssertionError("create - version - -1", function() {
 			var n = nb.create({id: 1, version: -1});
 		});			
 	}),
 	test("create - version - null", function() {
-		expectAssertionError(function() {
+		tu.expectAssertionError("create - version - null", function() {
 			var n = nb.create({id: 1, version: null});
 		});			
 	}),
 	test("create - version - undefined", function() {
-		expectAssertionError(function() {
+		tu.expectAssertionError("create - version - undefined", function() {
 			var n = nb.create({id: 1, version: undefined});
 		});			
 	}),
 	test("create - version - not a number", function() {
-		expectAssertionError(function() {
+		tu.expectAssertionError("create - version - not a number", function() {
 			var n = nb.create({id: 1, version: "not a number"});
 		});			
 	})
-);
-
-suite.run();
+).run();
