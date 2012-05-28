@@ -4,6 +4,7 @@
  * @module josm/mixin/OsmPrimitiveMixin
  *     
  */
+var util = require("josm/util");
 var User = org.openstreetmap.josm.data.osm.User;
 
 /**
@@ -37,6 +38,9 @@ var mixin = {};
 mixin.id = {
 	get: function() {
 		return this.getUniqueId();
+	},
+	set: function(val) {
+		util.assert(false, "Property 'id' is read-only");
 	}
 };
 
