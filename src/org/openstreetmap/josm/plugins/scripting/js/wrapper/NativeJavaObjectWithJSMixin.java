@@ -152,10 +152,14 @@ public class NativeJavaObjectWithJSMixin extends NativeJavaObject {
 		Object o = mixin.get(name, mixin);
 		if (o instanceof Scriptable) {
 			Object setter = ((Scriptable)o).get("set",(Scriptable)o);
-			if (setter instanceof Function) {
+			if (setter == NOT_FOUND) {
+				WrappingUtil.assertApi(false, "Can''t set property ''{0}''. Javascript wrapper for class ''{1}'' doesn''t include a setter function.", name, javaObject.getClass());				
+			} else if (setter instanceof Function) {
 				((Function) setter).call(Context.getCurrentContext(), parent, this, new Object[]{value});
 				return;
-			}			
+			} else {
+				WrappingUtil.assertApi(false, "Can''t set property ''{0}''. Expected a setter function as value of property ''set'', got {1}",name, setter);
+			}
 		} 
 		super.put(name, start, value);
 	}
