@@ -171,7 +171,7 @@ public class RhinoEngine {
 		Runnable r = new Runnable() {
 			public void run() {
 				if (Context.getCurrentContext() != null) return;
-				Context ctx = Context.enter();		
+				Context ctx = Context.enter();
 				ctx.setWrapFactory(new MixinWrapFactory());
 				scope.set(initStandardScope(ctx));
 			}
