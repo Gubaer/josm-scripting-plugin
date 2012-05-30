@@ -47,7 +47,11 @@ public class RhinoEngine {
 	 * A thread local storage for root scopes. In particular, holds the
 	 * root scope for scripts run on the Swing EDT.
 	 */
-	private ThreadLocal<Scriptable> scope = new ThreadLocal<Scriptable>(); 
+	private static ThreadLocal<Scriptable> scope = new ThreadLocal<Scriptable>(); 
+	
+	static public Scriptable getRootScope() {
+		return scope.get();
+	}
 	
 	static private  RhinoEngine instance;
 	public static RhinoEngine getInstance() {
