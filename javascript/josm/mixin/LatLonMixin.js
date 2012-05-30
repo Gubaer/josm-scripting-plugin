@@ -2,8 +2,6 @@
  * <p>Additional properties and functions for JOSMs internal class
  *  {@link http://josm.openstreetmap.de/browser/josm/trunk/src/org/openstreetmap/josm/data/coor/LatLon.java|LatLon}.</p> 
  * 
- * @module josm/mixin/NodeMixin
- *     
  */
 
 /**

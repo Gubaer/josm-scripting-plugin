@@ -1,8 +1,6 @@
 /**
  * <p>Additional properties and functions for JOSMs internal class Relation.</p> 
  * 
- * @module josm/mixin/RelationMixin
- *     
  */
 
 var util = require("josm/util");

@@ -1,8 +1,6 @@
 /**
  * <p>Additional properties and functions for JOSMs internal class Node.</p> 
  * 
- * @module josm/mixin/NodeMixin
- *     
  */
 var util = require("josm/util");
 var LatLon = org.openstreetmap.josm.data.coor.LatLon;
@@ -10,14 +8,11 @@ var LatLon = org.openstreetmap.josm.data.coor.LatLon;
 /**
  * <p>NodeMixin provides additional properties and methods which you can invoke on an instance of
  * {@link http://josm.openstreetmap.de/browser/josm/trunk/src/org/openstreetmap/josm/data/osm/Node.java|Node}. 
- * The native methods of JOSM Node are still 
- * available for scripting, unless they are shadowed by names of properties defined in this 
- * mixin.</p>
+ * </p>
  * 
  * <p>NodeMixin inherits the properties and methods of [OsmPrimitiveMixin]{@link OsmPrimitiveMixin}.</p>
  *   
- * @mixin NodeMixin 
- *
+ * @mixin NodeMixin
  */
 var mixin = {};
 
