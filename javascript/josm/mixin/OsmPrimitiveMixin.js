@@ -1,11 +1,11 @@
 /**
  * <p>Additional properties and functions for JOSMs internal class OsmPrimitive.</p> 
  * 
- * @module josm/mixin/OsmPrimitiveMixin
- *     
  */
 var util = require("josm/util");
 var User = org.openstreetmap.josm.data.osm.User;
+var Tags = org.openstreetmap.josm.plugins.scripting.js.wrapper.Tags;
+var Map  = java.util.Map;
 
 /**
 * <p>OsmPrimitiveMixin provides additional properties and methods which you can invoke on an instance of
@@ -70,7 +70,7 @@ mixin.id = {
  */
 mixin.version = {
 	get: function() {
-		var version = this.getVersion();
+		var version = this.$getVersion();
 		return version == 0 ? undefined : version;
 	}
 };
@@ -99,7 +99,7 @@ mixin.version = {
  */
 mixin.isLocal =  {
 	get: function() {
-		return this.isNew();
+		return this.$isNew();
 	}
 };
 
@@ -127,7 +127,7 @@ mixin.isLocal =  {
  */
 mixin.isGlobal = {
 	get: function() {
-		return ! this.isNews();
+		return ! this.$isNew();
 	}
 };
 
@@ -156,7 +156,7 @@ mixin.isGlobal = {
  */
 mixin.dataSet = {
 	get: function() {
-		var ds = this.getDataSet();
+		var ds = this.$getDataSet();
 		return ds == null? undefined: ds;
 	}
 };
@@ -167,7 +167,7 @@ mixin.dataSet = {
  * <p><strong>get:</strong> - replies a User object or undefined, if not user is set.</p>
  * 
  * <p><strong>set:</strong> - assign a user, either as instance of User, supplying a user name or the unique
- * global user id as number.</p>
+ * global user id as number. Assign null or undefined to assign no user.</p>
  * 
  * @example
  * var User = org.openstreetmap.josm.data.osm.User; 
@@ -192,21 +192,23 @@ mixin.dataSet = {
  */
 mixin.user = {
 	get: function() {
-		var user = this.getUser();
+		var user = this.$getUser();
 		return user == null ? undefined : user;
 	},
 	set: function(val) {
-		util.assert(util.isSomething(user), "null or undefined not allowed");
-		if (val instanceof User){
-			this.setUser(val);
+		if (util.isNothing(val)) {
+			this.$setUser(null);
+		} else if (val instanceof User){
+			this.$setUser(val);
 		} else if (util.isString(val)) {
 			var user = User.getByName(val);
 			util.assert(user != null, "Can''t set user with name ''{0}''. User doesn''t exist (yet) in the local user cache.", val);
-			this.setUser(user);
+			util.assert(user.size() == 1, "Can''t set user with name ''{0}''. Found {0} matching users.", val, user.size());			
+			this.$setUser(user.get(0));
 		} else if (util.isNumber(val)) {
 			var user = User.getById(val);
 			util.assert(user != null, "Can''t set user with id {0}'. User doesn''t exist (yet) in the local user cache.", val);
-			this.setUser(user);
+			this.$setUser(user);
 		} else {
 			util.assert(false, "Unexpected type of value, got {0}", val);
 		}
@@ -237,7 +239,7 @@ mixin.user = {
  */
 mixin.changesetId = {
 	get: function() {
-		var cid = this.getChangesetId();
+		var cid = this.$getChangesetId();
 		return cid == 0 ? undefined: cid;
 	},
 	
@@ -245,7 +247,7 @@ mixin.changesetId = {
 		util.assert(util.isSomething(val), "null or undefined not allowed");
 		util.assert(util.isNumber(val), "Expected a number, got {0}", val);
 		util.assert(val > 0, "Expected a number > 0, got {0}", val);
-		this.setChangesetId(id);
+		this.$setChangesetId(val);
 	}		
 };
 
@@ -270,8 +272,8 @@ mixin.changesetId = {
  */
 mixin.timestamp = {
 	get: function() {
-		if (this.isTimestampEmpty()) return undefined;
-		return this.getTimestamp();
+		if (this.$isTimestampEmpty()) return undefined;
+		return this.$getTimestamp();
 	}
 };
 
@@ -287,6 +289,268 @@ mixin.timestamp = {
  * 
  */
 mixin.isNew = mixin.isLocal;
+
+/**
+ * <p>Replies true if this a proxy object, in JOSM terminology called an incomplete object.</p>
+ * 
+ * @memberOf OsmPrimitiveMixin
+ * @name isIncomplete
+ * @field
+ * @instance
+ * @readOnly
+ * @type {boolean}
+ * 
+ */
+mixin.isIncomplete = {
+	get: function() {
+		return this.$isIncomplete();
+	}	
+};
+
+/**
+ * <p>Replies true if this a proxy object (synonym for <code>isIncomplete</code>).</p>
+ * 
+ * @memberOf OsmPrimitiveMixin
+ * @name isProxy
+ * @field
+ * @instance
+ * @readOnly
+ * @type {boolean}
+ * 
+ */
+mixin.isProxy = mixin.isIncomplete;
+
+
+function applyTagMap(obj, tags) {
+	if (util.isNothing(tags)) return;
+	for(var it=tags.keySet().iterator(); it.hasNext();){
+		var key = it.next();
+		var value = tags.get(key);
+		if (util.isNothing(key)) continue;
+		if (util.isNothing(value)) continue;
+		key = util.trim(key + "");		
+		value = value + "";
+		obj.$put(key, value);
+	}
+};
+
+function applyTagObject(obj,tags) {
+	if (util.isNothing(tags)) return;
+	for(var p in tags) {			
+		if (!tags.hasOwnProperty(p)) continue;
+		var value = tags[p];
+		var key = util.trim(p);
+		if (util.isNothing(value)) continue;
+		var value = value + "";
+		obj.$put(key,value);
+	}
+};
+
+/**
+ * <p>Get or set the tags of the object.</p>
+ * 
+ * <p><strong>get:</strong> - replies the tags as javascript object.</p>
+ * 
+ *  <p><strong>set:</strong>
+ *    <ul>
+ *      <li>assign null or undefined to remove all tags</li>
+ *      <li>assign an object to set its properties as tags.</li>
+ *      <li>assign an java.util.Map to set its elements as tags</li>
+ *    </ul>
+ *  </p>
+ *  
+ *  <p>null values and undefined tag values aren't assigned. tag keys are normalized, i.e. leading and
+ *  trailing white space is removed. Both, tag keys and tag values, are converted to strings.</p>
+ *  
+ * @example
+ * var node = .... // create a node
+ * 
+ * // set the tags using a javascript object
+ * node.tags = {amenity:"restaurant", name:"Obstberg"}; 
+ * node.tags.amenity;  // -> restaurant
+ * node.tags.name;     // -> Obstberg
+ * 
+ * // remove all tags 
+ * node.tags = null;
+ * 
+ * // set tags using a java map 
+ * var tags = new java.util.HashMap();
+ * tags.put("amenity", "restaurant");
+ * tags.put("name", "Obstberg");
+ * node.tags = tags; 
+ * 
+ * @memberOf OsmPrimitiveMixin
+ * @name tags
+ * @field
+ * @instance
+ * @type {object}
+ * 
+ */
+mixin.tags = {
+	get: function() {
+		return new Tags(this);
+	},
+	set: function(tags) {
+		this.removeAll();
+		if (util.isNothing(tags)) {
+			// skip
+		} else if (tags instanceof Map) {
+			applyTagMap(this, tags);
+		} else if (typeof tags === "object") {
+			applyTagObject(this, tags);
+		} else {
+			util.assert(false, "Can''t assign tags from object {0}", tags);
+		}
+	}
+};
+
+/**
+ * <p>Replies the value of a tag, or undefined, if the tag isn't set.</p>
+ * 
+ * @example
+ * var node = .... // create a node
+ * 
+ * // set the tags using a javascript object
+ * node.tags = {amenity:"restaurant", name:"Obstberg"}; 
+ * node.get("amenity");  // -> restaurant
+ * node.get("name");     // -> Obstberg
+ * 
+ * @memberOf OsmPrimitiveMixin
+ * @param {string} name the tag name. Must not be null or undefined. Non-string values are converted to
+ *   a string. Leading and trailing whitespace is removed.
+ * @name get
+ * @method
+ * @instance
+ * @type {string}
+ */
+mixin.get = function(name) {
+	if (util.isNothing(name)) return undefined;
+	name = util.trim(name + "");
+	var value = this.$get(name);
+	return value == null ? undefined : value;
+};
+
+/**
+ * <p>Set a tag or a collection of tags.</p>
+ * 
+ * <p><strong>Signatures</strong></p>
+ * <dl>
+ *   <dt><strong>set(name,value)</strong></dt>
+ *   <dd>sets a tag given a name and a value.<br/>
+ *   <var>name</var> must not be null or undefined. Non-string values are converted to
+ *   a string. Leading and trailing whitespace is removed.<br/>
+ *   <var>value</var>: if null or undefined, the tag is removed. Any other value is converted to a string
+ *   </dd>
+ *   
+ *   <dt><strong>set(tags)</strong></dt>
+ *   <dd><var>tags</var> is either a java object whose properties are set as tags, or a java.util.Map.</dd>
+ * </dl>
+ * 
+ * 
+ * @example
+ * var node = .... // create a node
+ * 
+ * // set the tags using a javascript object
+ * node.set("amenity", "restaurant");
+ * node.set("name", "obstberg"); 
+ * node.get("amenity");  // -> restaurant
+ * node.get("name");     // -> Obstberg
+ * 
+ * // set the tags using an object
+ * node.set({amenity:"restaurant", name: "Obstberg"});
+ * node.get("amenity");  // -> restaurant
+ * node.get("name");     // -> Obstberg
+ * 
+ * @memberOf OsmPrimitiveMixin
+ * @name set
+ * @method
+ * @instance
+ * @type {string}
+ */
+mixin.set = function() {
+	function setWithNameAndValue(name,value){
+		util.assert(util.isSomething(name), "name: must not be null or undefined");
+		name = util.trim(name + "");
+		if (util.isNothing(value)) {
+			this.$remove(name);			
+		} else {
+			value = value + "";
+			this.$put(name,value);
+		}		
+	}
+	
+	function setFromObject(tags) {
+		if (util.isNothing(tags)) return;
+		if (tags instanceof Map) {
+			applyTagMap(this,tags);
+		} else if (typeof tags === "object") {
+			applyTagObject(this, tags);
+		} else {
+			util.assert(false, "Can''t assign tags from object {0}", tags);
+		}
+	}
+	
+	switch(arguments.length){
+	case 0: 
+		return;
+	case 1: 
+		setFromObject.call(this,arguments[0]);
+		break;
+	case 2: 
+		setWithNameAndValue.call(this, arguments[0], arguments[1]);
+		break;
+	}
+};
+
+/**
+ * <p>Replies true, if the object has a tag with key <var>key</var>.</p>
+ * 
+ * @example
+ * var node = .... // create a node
+ * 
+ * // set the tags using a javascript object
+ * node.tags = {amenity:"restaurant", name:"Obstberg"}; 
+ * node.has("amenity");     // -> true
+ * node.has("no-such-tag"); // -> false 
+ * 
+ * @memberOf OsmPrimitiveMixin
+ * @param {string} name the tag name. Must not be null or undefined. Non-string values are converted to
+ *   a string. Leading and trailing whitespace is removed.
+ * @name has
+ * @method
+ * @instance
+ * @type {boolean}
+ */
+mixin.has = function(key) {
+	if (util.isNothing(key)) return false;
+	key = util.trim(key + "");
+	return this.$hasKey(key);
+};
+
+/**
+ * <p>Removes a tag.</p>
+ * 
+ * @example
+ * var node = .... // create a node
+ * 
+ * // set the tags using a javascript object
+ * node.tags = {amenity:"restaurant", name:"Obstberg"}; 
+ * node.remove("amenity");
+ * node.has("amenity"); // -> false 
+ * 
+ * @memberOf OsmPrimitiveMixin
+ * @param {string} name the tag name. Must not be null or undefined. Non-string values are converted to
+ *   a string. Leading and trailing whitespace is removed.
+ * @name remove
+ * @method
+ * @instance
+ * @type {boolean}
+ */
+mixin.remove = function(key){
+	if (util.isNothing(key)) return;
+	key = util.trim(key + "");
+	this.$remove(key);
+};
 
 exports.forClass = org.openstreetmap.josm.data.osm.OsmPrimitive;
 exports.mixin = mixin;
