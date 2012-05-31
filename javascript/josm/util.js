@@ -185,6 +185,16 @@ exports.isArray = function(val) {
 };
 
 /**
+ * Replies true if <code>val</code> is a list of arguments.
+ * 
+ * @param {anything} val the value to check
+ * @return true, if val is a list of arguments
+ */
+exports.isArguments = function(val) {
+	return Object.prototype.toString.call(val) === '[object Arguments]';
+};
+
+/**
  * Replies the number of properties owned by <code>o</code>.
  * 
  * @example
