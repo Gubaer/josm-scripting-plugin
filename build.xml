@@ -242,6 +242,7 @@
 			<arg value="javascript/josm/mixin/OsmPrimitiveMixin.js"/>
 			<arg value="javascript/josm/mixin/NodeMixin.js"/>
 			<arg value="javascript/josm/mixin/LatLonMixin.js"/>
+			<arg value="javascript/josm/mixin/DataSetMixin.js"/>
 		</exec>
 	</target>
 	
