@@ -791,6 +791,25 @@ exports.RelationBuilder = function(ds) {
 };
 
 /**
+ * <p>Creates a new RelationBuilder which will add created nodes to the dataset <code>ds</code>.</p>
+ * 
+ * @example
+ * var ds = new org.openstreetmap.josm.data.osm.DataSet();
+ * var rb = require("josm/builder").RelationBuilder.forDataSet(ds);
+ * 
+ * @memberOf RelationBuilder
+ * @method
+ * @name forDataSet
+ * @return the relation builder
+ * @type RelationBuilder 
+ */
+exports.RelationBuilder.forDataSet = function(ds) {
+	util.assert(util.isSomething(ds), "Expected a non-null defined object, got {0}", ds);
+	util.assert(ds instanceof DataSet, "Expected a JOSM dataset, got {0}", ds);
+	return new exports.RelationBuilder(ds);
+};
+
+/**
  * <p>Create a RelationMember</p>
  *
  * <dl>
