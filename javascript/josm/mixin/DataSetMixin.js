@@ -275,6 +275,26 @@ mixin.batch = function(delegate) {
 	}
 };
 
+function normalizeIds(ids) {
+	function walk(set, ids) {
+		if (util.isNothing(ids)) return;
+		if (ids instanceof PrimitiveId) {
+			set.add(ids);			
+		} else if (isCollection(ids)) {
+			each(ids, function(that) {
+				walk(set, that);
+			});
+		} else if (typeof ids === "object") {
+			set.add(primitiveIdFromObject(ids));
+		} else {
+			util.assert(false, "Can''t select an object described with the id {0}", ids);
+		}
+	}
+	var set = new HashSet();
+	walk(set, ids);
+	return set;
+};
+
 /**
  * <p>Removes objects from the dataset.</p>
  * 
@@ -331,23 +351,20 @@ mixin.batch = function(delegate) {
  * @name remove
  */
 mixin.remove = function() {
-	var ids = [];
-	function remember(id) {
-		if (util.isNothing(id)) return;
-		if (id instanceof PrimitiveId) {
-			ids.push(id);
-		} else if (typeof obj === "object") {
-			ids.push(primitiveIdFromObject(id));
-		} else if (isCollection(id)) {
-			each(id, function(that) {remember(that);});
-		} else {
-			util.assert(false, "Can''t delete an object described with the id {0}", id);
-		}
+	var ids;
+	if (arguments.length == 2 && util.isNumber(arguments[0])){
+		// handling remove(id, type)
+		var id = normalizeId(arguments[0]);
+		var type = normalizeType(arguments[1]);
+		ids = [new SimplePrimitiveId(id, type)];
+	} else {
+		// handling remove(id, id, id, ...) and remove(array|collection)
+		ids = normalizeIds(arguments);
 	}
-	remember(arguments);
+	var ds = this;
 	this.batch(function() {
 		each(ids, function(id) {
-			this.removePrimitive(id);
+			ds.removePrimitive(id);
 		});
 	});
 };
@@ -494,24 +511,6 @@ function DataSetSelectionFacade(ds) {
 	this._ds = ds;	
 };
 
-function normalizeIds(ids) {
-	function walk(set, ids) {
-		if (util.isNothing(ids)) return;
-		if (ids instanceof PrimitiveId) {
-			set.add(ids);			
-		} else if (typeof ids === "object") {
-			set.add(primitiveIdFromObject(ids));
-		} else if (isCollection(ids)) {
-			each(ids, function(that) {walk(set, that);});
-		} else {
-			util.assert(false, "Can''t select an object described with the id {0}", ids);
-		}
-	}
-	var set = new HashSet();
-	walk(set, ids);
-	return set;
-}
-
 /**
  * <p>Set the selected objects.</p>
  * 
@@ -530,8 +529,7 @@ function normalizeIds(ids) {
  * @name set
  */
 DataSetSelectionFacade.prototype.set = function() {
-	var ids = normalizeIds(arguments);
-	this._ds.setSelected(ids);	
+	this._ds.setSelected(normalizeIds(arguments));	
 };
 
 /**
@@ -552,8 +550,7 @@ DataSetSelectionFacade.prototype.set = function() {
  * @name add
  */
 DataSetSelectionFacade.prototype.add = function() {
-	var ids = normalizeIds(arguments);
-	this._ds.addSelected(ids);
+	this._ds.addSelected(normalizeIds(arguments));
 };
 
 /**
@@ -574,8 +571,7 @@ DataSetSelectionFacade.prototype.add = function() {
  * @name clear
  */
 DataSetSelectionFacade.prototype.clear = function() {
-	var ids = normalizeIds(arguments);
-	this._ds.clearSelected(ids);	
+	this._ds.clearSelected(normalizeIds(arguments));	
 };
 
 /**
@@ -596,8 +592,7 @@ DataSetSelectionFacade.prototype.clear = function() {
  * @name toggle
  */
 DataSetSelectionFacade.prototype.toggle = function() {
-	var ids = normalizeIds(arguments);
-	this._ds.toggleSelected(ids);	
+	this._ds.toggleSelected(normalizeIds(arguments));	
 };
 
 /**
@@ -631,9 +626,8 @@ DataSetSelectionFacade.prototype.isSelected = function() {
 			return obj == null ? false : ds.isSelected(obj);
 		} else if (id instanceof OsmPrimitive) {
 			return ds.isSelected(obj);
-		} else if (typeof obj === "object") {
-			id = primitiveIdFromObject(id);
-			var obj = ds.getPrimitiveById(id);
+		} else if (typeof id === "object") {
+			var obj = ds.getPrimitiveById(primitiveIdFromObject(id));
 			return obj == null ? false : ds.isSelected(obj);
 		} else {
 			util.assert(false, "id: unexpected value, got {0}", id);
@@ -641,10 +635,12 @@ DataSetSelectionFacade.prototype.isSelected = function() {
 	};
 	
 	function isSelected_2(ds) {
-		var id = normalizeId(args[0]);
-		var type = normalizeType(args[1]);
-		var osmId = new SimplePrimitiveId(id, type);
-		var obj = ds.getPrimitiveById(osmId);
+		var obj = ds.getPrimitiveById(
+			new SimplePrimitiveId(
+				normalizeId(args[0]), 
+				normalizeType(args[1])
+			)
+		);
 		return obj == null ? false : ds.isSelected(obj);
 	};
 	

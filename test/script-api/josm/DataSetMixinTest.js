@@ -283,3 +283,64 @@ tu.suite("getting objects",
 		});
 	})
 ).run();
+
+
+tu.suite("removing objects",	
+	// --- nodes
+	test("remove a node - id, 'node'", function() {
+		var ds = new DataSet();
+		ds.nodeBuilder.create(1234);
+		ds.remove(1234,"node");
+		util.assert(!ds.has(1234,"node"), "1 - should not have object");
+	}),
+	test("remove a node - {id:..., type: ...}", function() {
+		var ds = new DataSet();
+		ds.nodeBuilder.create(1234);
+		ds.remove({id: 1234, type: "node"});
+		util.assert(!ds.has(1234,"node"), "1 - should not have object");
+	}),
+	test("remove a node - PrimitiveId", function() {
+		var ds = new DataSet();
+		ds.nodeBuilder.create(1234);
+		ds.remove(new SimplePrimitiveId(1234, OsmPrimitiveType.NODE));
+		util.assert(!ds.has(1234,"node"), "1 - should not have object");
+	}),
+	test("remove a node - multiple ids", function() {
+		var ds = new DataSet();
+		var n1 = ds.nodeBuilder.create(1);
+		var n2 = ds.nodeBuilder.create(2);
+		ds.remove(n1,n2);
+		util.assert(!ds.has(n1), "1 - should not have object");
+		util.assert(!ds.has(n2), "2 - should not have object");
+	}),
+	test("remove a node - arrays of ids", function() {
+		var ds = new DataSet();
+		var n1 = ds.nodeBuilder.create(1);
+		var n2 = ds.nodeBuilder.create(2);
+		ds.remove([n1,n2]);
+		util.assert(!ds.has(n1), "1 - should not have object");
+		util.assert(!ds.has(n2), "2 - should not have object");
+	}),
+	test("remove a node - list of ids", function() {
+		var ds = new DataSet();
+		var n1 = ds.nodeBuilder.create(1);
+		var n2 = ds.nodeBuilder.create(2);
+		var list = new ArrayList();
+		list.add(n1); list.add(n2);
+		ds.remove(list);
+		util.assert(!ds.has(n1), "1 - should not have object");
+		util.assert(!ds.has(n2), "2 - should not have object");
+	}),
+	test("remove  null - should be skipped", function() {
+		var ds = new DataSet();
+		ds.remove(null);
+	}),
+	test("remove  undefined - should be skipped", function() {
+		var ds = new DataSet();
+		ds.remove(undefined);
+	}),
+	test("remove  list with null or undefined - should be skipped", function() {
+		var ds = new DataSet();
+		ds.remove([null, undefined]);
+	})
+).run();
