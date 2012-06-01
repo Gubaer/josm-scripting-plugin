@@ -37,7 +37,7 @@ public class OpenAction extends AbstractAction {
 		if (dir != null) {
 			chooser.setCurrentDirectory(dir);
 		}
-		int ret = chooser.showOpenDialog(ScriptingConsole.getScriptingConsole());			
+		int ret = chooser.showOpenDialog(ScriptingConsole.getInstance());			
 		if (ret != JFileChooser.APPROVE_OPTION) return null;		
 		dir = chooser.getCurrentDirectory();
 		if (dir != null){
@@ -56,6 +56,6 @@ public class OpenAction extends AbstractAction {
 	public void actionPerformed(ActionEvent e) {
 		File f = askFile();
 		if (f == null) return;
-		ScriptingConsole.getScriptingConsole().open(f);
+		ScriptingConsole.getInstance().open(f);
 	}
 }

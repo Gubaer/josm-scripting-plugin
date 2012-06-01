@@ -18,7 +18,7 @@ public class ToggleConsoleAction extends AbstractAction implements ScriptingCons
 	public ToggleConsoleAction(){
 		putValue(NAME, tr("Show scripting console"));
 		putValue(SHORT_DESCRIPTION, tr("Select to display the scripting console"));
-		putValue(SELECTED_KEY, ScriptingConsole.getScriptingConsole() != null);
+		putValue(SELECTED_KEY, ScriptingConsole.getInstance() != null);
 		
 		ScriptingConsole.addScriptingConsoleListener(this);
 	}	

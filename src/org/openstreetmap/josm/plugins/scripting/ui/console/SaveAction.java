@@ -23,11 +23,11 @@ public class SaveAction extends AbstractAction implements PropertyChangeListener
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		ScriptingConsole.getScriptingConsole().save();
+		ScriptingConsole.getInstance().save();
 	}
 	
 	protected void updateEnabledState() {
-		ScriptingConsole console = ScriptingConsole.getScriptingConsole();
+		ScriptingConsole console = ScriptingConsole.getInstance();
 		if (console == null){
 			setEnabled(false);
 			return;
