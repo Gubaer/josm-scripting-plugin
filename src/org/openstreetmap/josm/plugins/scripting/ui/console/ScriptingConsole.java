@@ -39,7 +39,7 @@ public class ScriptingConsole extends JFrame {
 	private JCheckBox cbAlwaysOnTop;
 	
 	private static ScriptingConsole instance = null;
-	public static ScriptingConsole getScriptingConsole() {
+	public static ScriptingConsole getInstance() {
 		return instance;
 	}
 	
@@ -171,6 +171,15 @@ public class ScriptingConsole extends JFrame {
 	
 	public ScriptEditorModel getScriptEditorModel() {
 		return pnlScriptingConsole.getScriptEditorModel();
+	}
+	
+	/**
+	 * Replies the script log.
+	 * 
+	 * @return the script log
+	 */
+	public IScriptLog getScriptLog() {
+		return pnlScriptingConsole.getScriptLog();
 	}
 	
 	private class ToggleAlwaysOnTopAction extends AbstractAction {

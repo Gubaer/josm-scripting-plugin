@@ -79,8 +79,8 @@ public class ScriptLogPanel extends JPanel implements IScriptLog{
 	 * 
 	 * @return the writer 
 	 */
-	public Writer getLogWriter() {
-		return new DocumentWriter(epOutput.getDocument());
+	public PrintWriter getLogWriter() {
+		return new PrintWriter(new DocumentWriter(epOutput.getDocument()));
 	}
 	
 	public Action getClearAction() {
