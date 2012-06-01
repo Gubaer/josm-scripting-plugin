@@ -269,4 +269,37 @@ exports.mix = function(){
 		copyProperties(template);
 	}
 	return mixin;
-}
+};
+
+
+/**
+ * <p>Prints a message to stdout (including newline).</p>
+ * 
+ * <p>Supports string templates à la java.text.MessageFormat.</p>
+ * 
+ * @example
+ * 
+ * util.println("Hello world! My name is {0}", myname);
+ */
+exports.println = function() {
+	var args = Array.prototype.slice.call(arguments);
+	if (args.length == 0) return "";
+	args[0] = args[0] + ""; // make sure first argument is a string 
+	java.lang.System.out.println(MessageFormat.format(args));
+};
+
+/**
+ * <p>Prints a message to stdout (without newline).</p>
+ * 
+ * <p>Supports string templates à la java.text.MessageFormat.</p>
+ * 
+ * @example
+ * 
+ * util.print("Hello world! My name is {0}", myname); 
+ */
+exports.print = function() {
+	var args = Array.prototype.slice.call(arguments);
+	if (args.length == 0) return "";
+	args[0] = args[0] + ""; // make sure first argument is a string 
+	java.lang.System.out.print(MessageFormat.format(args));
+};
