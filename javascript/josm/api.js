@@ -391,7 +391,7 @@ function downloadObject_3() {
  *   enumeration OsmPrimitiveType.NODE, OsmPrimitiveType.WAY, or OsmPrimitiveType.RELATION.
  *   </dd> 
  * </dl>
- * In both cases, <var>?otpions</var> is an (optional) object with the following two (optional) properties:
+ * In both cases, <var>?options</var> is an (optional) object with the following two (optional) properties:
  * <dl>
  *   <dt><strong>full</strong>  - a boolean value</dt>
  *   <dd>If <var>true</var>, the object and its immediate children are downloaded, i.e. the nodes of a way and 
