@@ -344,3 +344,248 @@ tu.suite("removing objects",
 		ds.remove([null, undefined]);
 	})
 ).run();
+
+
+tu.suite("selection",	
+	test("get selection object", function() {
+		var ds = new DataSet();
+		var sel = ds.selection;
+		util.assert(!!sel, "should be defined");			
+	}),
+	
+	test("add - id, 'node'", function() {
+		var ds = new DataSet();
+		var n1 = ds.nodeBuilder.create(1);
+		ds.selection.add(n1.id, "node");			
+		util.assert(ds.selection.has(n1.id,"node"), "should be selected");			
+	}),
+	
+	test("add - id, OsmPrimitiveType.NODE", function() {
+		var ds = new DataSet();
+		var n1 = ds.nodeBuilder.create(1);
+		ds.selection.add(n1.id, OsmPrimitiveType.NODE);			
+		util.assert(ds.selection.has(n1.id, OsmPrimitiveType.NODE), "should be selected");			
+	}),
+	
+	test("add - getPrimitiveId()", function() {
+		var ds = new DataSet();
+		var n1 = ds.nodeBuilder.create(1);
+		ds.selection.add(n1.getPrimitiveId());			
+		util.assert(ds.selection.has(n1.getPrimitiveId()), "should be selected");			
+	}),
+	
+	test("add - just a node", function() {
+		var ds = new DataSet();
+		var n1 = ds.nodeBuilder.create(1);
+		ds.selection.add(n1);			
+		util.assert(ds.selection.has(n1), "should be selected");			
+	}),
+	test("add - null", function() {
+		var ds = new DataSet();
+		var n1 = ds.nodeBuilder.create(1);
+		ds.selection.add(null);			
+	}),
+	test("add - undefined", function() {
+		var ds = new DataSet();
+		var n1 = ds.nodeBuilder.create(1);
+		ds.selection.add(undefined);			
+	}),
+	test("add - multiple objects", function() {
+		var ds = new DataSet();
+		var n1 = ds.nodeBuilder.create(1);
+		var n2 = ds.nodeBuilder.create(2);
+		var w1 = ds.wayBuilder.withNodes(n1,n2).create(1);
+		ds.selection.add(n1,n2,w1);	
+		util.assert(ds.selection.has(n1), "1 - should be selected");			
+		util.assert(ds.selection.has(n2), "2 - should  be selected");
+		util.assert(ds.selection.has(w1), "3 - should  be selected");
+	}),
+	test("add - multiple objects - as array", function() {
+		var ds = new DataSet();
+		var n1 = ds.nodeBuilder.create(1);
+		var n2 = ds.nodeBuilder.create(2);
+		var w1 = ds.wayBuilder.withNodes(n1,n2).create(1);
+		ds.selection.add([n1,n2,w1]);	
+		util.assert(ds.selection.has(n1), "1 - should be selected");			
+		util.assert(ds.selection.has(n2), "2 - should  be selected");
+		util.assert(ds.selection.has(w1), "3 - should  be selected");
+	}),
+	test("add - multiple objects - as collection", function() {
+		var ds = new DataSet();
+		var n1 = ds.nodeBuilder.create(1);
+		var n2 = ds.nodeBuilder.create(2);
+		var w1 = ds.wayBuilder.withNodes(n1,n2).create(1);
+		var set = new HashSet();
+		set.add(n1); set.add(n2); set.add(w1);
+		ds.selection.add(set);	
+		util.assert(ds.selection.has(n1), "1 - should be selected");			
+		util.assert(ds.selection.has(n2), "2 - should  be selected");
+		util.assert(ds.selection.has(w1), "3 - should  be selected");
+	}),
+
+	
+	// -- set 
+	test("set - just a single node", function() {
+		var ds = new DataSet();
+		var n1 = ds.nodeBuilder.create(1);
+		var n2 = ds.nodeBuilder.create(2);
+		var w1 = ds.wayBuilder.withNodes(n1,n2).create(1);
+		ds.selection.add(n1);	
+		ds.selection.set(2, "node")
+		util.assert(ds.selection.has(n2), "should be selected");			
+		util.assert(!ds.selection.has(n1), "should not be selected");
+	}),
+	test("set - a node , id, 'type'", function() {
+		var ds = new DataSet();
+		var n1 = ds.nodeBuilder.create(1);
+		var n2 = ds.nodeBuilder.create(2);
+		var w1 = ds.wayBuilder.withNodes(n1,n2).create(1);
+		ds.selection.add(n1);	
+		ds.selection.set(2, OsmPrimitiveType.NODE)
+		util.assert(ds.selection.has(n2), "should be selected");			
+		util.assert(!ds.selection.has(n1), "should not be selected");
+	}),
+	test("set - a node , getPrimitiveId()", function() {
+		var ds = new DataSet();
+		var n1 = ds.nodeBuilder.create(1);
+		var n2 = ds.nodeBuilder.create(2);
+		var w1 = ds.wayBuilder.withNodes(n1,n2).create(1);
+		ds.selection.add(n1);	
+		ds.selection.set(n2.getPrimitiveId())
+		util.assert(ds.selection.has(n2), "should be selected");			
+		util.assert(!ds.selection.has(n1), "should not be selected");
+	}),
+	test("set - a node, the node", function() {
+		var ds = new DataSet();
+		var n1 = ds.nodeBuilder.create(1);
+		var n2 = ds.nodeBuilder.create(2);
+		var w1 = ds.wayBuilder.withNodes(n1,n2).create(1);
+		ds.selection.add(n1);	
+		ds.selection.set(n2)
+		util.assert(ds.selection.has(n2), "should be selected");			
+		util.assert(!ds.selection.has(n1), "should not be selected");
+	}),
+	test("set - null", function() {
+		var ds = new DataSet();
+		var n1 = ds.nodeBuilder.create(1);
+		var n2 = ds.nodeBuilder.create(2);
+		var w1 = ds.wayBuilder.withNodes(n1,n2).create(1);
+		ds.selection.add(n1);	
+		ds.selection.set(null)
+		util.assert(!ds.selection.has(n1), "should  be selected");
+	}),
+	test("set - undefined", function() {
+		var ds = new DataSet();
+		var n1 = ds.nodeBuilder.create(1);
+		var n2 = ds.nodeBuilder.create(2);
+		var w1 = ds.wayBuilder.withNodes(n1,n2).create(1);
+		ds.selection.add(n1);	
+		ds.selection.set(undefined)
+		util.assert(!ds.selection.has(n1), "should  be selected");
+	}),
+	
+	
+	// -- clear
+	test("clear - just a single node", function() {
+		var ds = new DataSet();
+		var n1 = ds.nodeBuilder.create(1);
+		var n2 = ds.nodeBuilder.create(2);
+		var w1 = ds.wayBuilder.withNodes(n1,n2).create(1);
+		ds.selection.add(n1,n2);	
+		util.assert(ds.selection.has(n2), "1 - should be selected");
+		ds.selection.clear(1, "node")
+		util.assert(ds.selection.has(n2), "2 - should be selected");			
+		util.assert(!ds.selection.has(n1), "3 - should not be selected");
+	}),
+	test("clear - a node , id, 'type'", function() {
+		var ds = new DataSet();
+		var n1 = ds.nodeBuilder.create(1);
+		var n2 = ds.nodeBuilder.create(2);
+		var w1 = ds.wayBuilder.withNodes(n1,n2).create(1);
+		ds.selection.add(n1,n2);	
+		ds.selection.clear(1, OsmPrimitiveType.NODE)
+		util.assert(ds.selection.has(n2), "1- should be selected");			
+		util.assert(!ds.selection.has(n1), "2 - should not be selected");
+	}),
+	test("clear - a node , getPrimitiveId()", function() {
+		var ds = new DataSet();
+		var n1 = ds.nodeBuilder.create(1);
+		var n2 = ds.nodeBuilder.create(2);
+		var w1 = ds.wayBuilder.withNodes(n1,n2).create(1);
+		ds.selection.add(n1,n2);	
+		ds.selection.clear(n1.getPrimitiveId())
+		util.assert(ds.selection.has(n2), "1 - should be selected");			
+		util.assert(!ds.selection.has(n1), "2 - should not be selected");
+	}),
+	test("clear - a node, the node", function() {
+		var ds = new DataSet();
+		var n1 = ds.nodeBuilder.create(1);
+		var n2 = ds.nodeBuilder.create(2);
+		var w1 = ds.wayBuilder.withNodes(n1,n2).create(1);
+		ds.selection.add(n1,n2);	
+		ds.selection.clear(n1)
+		util.assert(ds.selection.has(n2), "1 - should be selected");			
+		util.assert(!ds.selection.has(n1), "2 - should not be selected");
+	}),
+	test("clear - null", function() {
+		var ds = new DataSet();
+		var n1 = ds.nodeBuilder.create(1);
+		var n2 = ds.nodeBuilder.create(2);
+		var w1 = ds.wayBuilder.withNodes(n1,n2).create(1);
+		ds.selection.add(n1,n2);	
+		ds.selection.clear(null)
+		util.assert(ds.selection.has(n1), "1 - should  be selected");
+		util.assert(ds.selection.has(n2), "2 - should  be selected");
+	}),
+	test("clear - undefined", function() {
+		var ds = new DataSet();
+		var n1 = ds.nodeBuilder.create(1);
+		var n2 = ds.nodeBuilder.create(2);
+		var w1 = ds.wayBuilder.withNodes(n1,n2).create(1);
+		ds.selection.add(n1,n2);	
+		ds.selection.clear(undefined)
+		util.assert(ds.selection.has(n1), "1 - should  be selected");
+		util.assert(ds.selection.has(n2), "2 - should  be selected");
+	}),
+	
+	test("clear - multiple objects", function() {
+		var ds = new DataSet();
+		var n1 = ds.nodeBuilder.create(1);
+		var n2 = ds.nodeBuilder.create(2);
+		var w1 = ds.wayBuilder.withNodes(n1,n2).create(1);
+		ds.selection.add(n1,n2,w1);	
+		ds.selection.clear(n1,w1)
+		util.assert(!ds.selection.has(n1), "1 - should not be selected");			
+		util.assert(ds.selection.has(n2), "2 - should  be selected");
+		util.assert(!ds.selection.has(w1), "3 - should  not be selected");
+	}),
+	test("clear - multiple objects - as array", function() {
+		var ds = new DataSet();
+		var n1 = ds.nodeBuilder.create(1);
+		var n2 = ds.nodeBuilder.create(2);
+		var w1 = ds.wayBuilder.withNodes(n1,n2).create(1);
+		ds.selection.add([n1,n2,w1]);	
+		ds.selection.clear([n1,w1]);
+		util.assert(!ds.selection.has(n1), "1 - should not be selected");			
+		util.assert(ds.selection.has(n2), "2 - should  be selected");
+		util.assert(!ds.selection.has(w1), "3 - should  not be selected");
+	}),
+	test("clear - multiple objects - as collection", function() {
+		var ds = new DataSet();
+		var n1 = ds.nodeBuilder.create(1);
+		var n2 = ds.nodeBuilder.create(2);
+		var w1 = ds.wayBuilder.withNodes(n1,n2).create(1);
+		var set = new HashSet();
+		set.add(n1); set.add(n2); set.add(w1);
+		ds.selection.add(set);	
+		var set = new HashSet();
+		set.add(n1);  set.add(w1);
+		ds.selection.clear(set);
+		util.assert(!ds.selection.has(n1), "1 - should not be selected");			
+		util.assert(ds.selection.has(n2), "2 - should  be selected");
+		util.assert(!ds.selection.has(w1), "3 - should  not be selected");
+	})
+
+).run();
+
+

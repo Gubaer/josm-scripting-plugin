@@ -27,6 +27,7 @@ var OsmPrimitiveType     = org.openstreetmap.josm.data.osm.OsmPrimitiveType;
 var DataSet      = org.openstreetmap.josm.data.osm.DataSet;
 var Collection   = java.util.Collection;
 var HashMap   = java.util.HashMap;
+var Collections   = java.util.Collections;
 
 /**
  * <p>DataSetMixin provides additional properties and methods which you can invoke on an instance of
@@ -295,6 +296,12 @@ function normalizeIds(ids) {
 	return set;
 };
 
+function normalizeObjId(id, type){
+	id = normalizeId(id);
+	type = normalizeType(type);
+	return new SimplePrimitiveId(id, type);
+};
+
 /**
  * <p>Removes objects from the dataset.</p>
  * 
@@ -512,7 +519,7 @@ function DataSetSelectionFacade(ds) {
 };
 
 /**
- * <p>Set the selected objects.</p>
+ * <p>Set the selected objects as selected.</p>
  * 
 * <strong>Signatures</strong>
  * <dl> 
@@ -529,7 +536,16 @@ function DataSetSelectionFacade(ds) {
  * @name set
  */
 DataSetSelectionFacade.prototype.set = function() {
-	this._ds.setSelected(normalizeIds(arguments));	
+	if (arguments.length == 2 && util.isNumber(arguments[0])) {
+		this._ds.setSelected(Collections.singleton(normalizeObjId.apply(null, arguments)));
+	} else {
+		var ids = normalizeIds(arguments);
+		if (ids.length == 0){
+			this._ds.clearSelection();
+		} else {
+			this._ds.setSelected(ids);
+		}
+	}
 };
 
 /**
@@ -550,7 +566,11 @@ DataSetSelectionFacade.prototype.set = function() {
  * @name add
  */
 DataSetSelectionFacade.prototype.add = function() {
-	this._ds.addSelected(normalizeIds(arguments));
+	if (arguments.length == 2 && util.isNumber(arguments[0])) {
+		this._ds.addSelected(Collections.singleton(normalizeObjId.apply(null, arguments)));
+	} else {
+		this._ds.addSelected(normalizeIds(arguments));	
+	}
 };
 
 /**
@@ -571,7 +591,25 @@ DataSetSelectionFacade.prototype.add = function() {
  * @name clear
  */
 DataSetSelectionFacade.prototype.clear = function() {
-	this._ds.clearSelected(normalizeIds(arguments));	
+	if (arguments.length == 2 && util.isNumber(arguments[0])) {
+		this._ds.clearSelection(Collections.singleton(normalizeObjId.apply(null, arguments)));
+	} else {
+		var ids = normalizeIds(arguments);
+		if (ids.length == 0) return;
+		this._ds.clearSelection(ids);	
+	}
+};
+
+/**
+ * <p>Clear the selection.</p>
+ * 
+ * @memberOf DataSetSelectionFacade
+ * @method
+ * @instance
+ * @name clearAll
+ */
+DataSetSelectionFacade.prototype.clearAll = function() {
+	this._ds.clearSelection();
 };
 
 /**
@@ -592,7 +630,11 @@ DataSetSelectionFacade.prototype.clear = function() {
  * @name toggle
  */
 DataSetSelectionFacade.prototype.toggle = function() {
-	this._ds.toggleSelected(normalizeIds(arguments));	
+	if (arguments.length == 2 && util.isNumber(arguments[0])) {
+		this._ds.toggleSelected(Collections.singleton(normalizeObjId.apply(null, arguments)));
+	} else {
+		this._ds.toggleSelected(normalizeIds(arguments));	
+	}
 };
 
 /**
@@ -651,6 +693,7 @@ DataSetSelectionFacade.prototype.isSelected = function() {
 	default: util.assert(false, "Expected 1 or 2 arguments, got {0}", args.length);
 	}	
 };
+DataSetSelectionFacade.prototype.has = DataSetSelectionFacade.prototype.isSelected;
 
 /**
  * Replies an array with the selected nodes.
