@@ -38,7 +38,7 @@
 		</javac>
 	</target>
 
-	<target name="dist" depends="clean,init,compile,create-version-info-for-manifest" description="Create the plugin jar">
+	<target name="make-dist" description="Create the plugin jar">
 		<tstamp>
 			<format property="plugin.build.date" pattern="yyyy-MM-dd hh:mm aa" />
 		</tstamp>
@@ -106,6 +106,9 @@
 				<attribute name="Plugin-Version" value="${plugin.version}" />
 			</manifest>
 		</jar>
+	</target>
+	
+	<target name="dist" depends="clean,init,compile,create-version-info-for-manifest,make-dist" description="Create the plugin jar">
 	</target>
 
 	<target name="clean" description="Clean the build environment">
@@ -198,6 +201,11 @@
 	<target name="dev-install" depends="dist">
 		<echo>Installing the plugin in ${local.install.path}</echo>
 		<copy file="${plugin.jar}" todir="${local.install.path}" />
+	</target>
+	
+	<target name="dev-install-js" depends="init,make-dist">
+			<echo>refreshing jar and installing the plugin in ${local.install.path}</echo>
+			<copy file="${plugin.jar}" todir="${local.install.path}" />
 	</target>
 
 	<target name="create-version-info-for-manifest" depends="init" description="Creates the Manifest.MF fragment with the version infor">
