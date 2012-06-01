@@ -21,9 +21,8 @@
       <div id="header">
         <nav>
           <li class="fork"><a href="https://github.com/Gubaer/josm-scripting-plugin">View On GitHub</a></li>
-          <li class="downloads"><a href="https://github.com/Gubaer/josm-scripting-plugin/zipball/master">ZIP</a></li>
-          <li class="downloads"><a href="https://github.com/Gubaer/josm-scripting-plugin/tarball/master">TAR</a></li>
-          <li class="title">DOWNLOADS</li>
+           <li class="downloads"><a href="#install">Install</a></li>
+           <li class="title">INSTALL</li>
         </nav>
       </div><!-- end header -->
 
@@ -33,99 +32,38 @@
         <div id="title">
           <h1>JOSM Scripting Plugin</h1>
           <p>Run scripts in the Open Street Map editor JOSM.</p>
-          <hr>
-          <span class="credits left">Project maintained by <a href="https://github.com/Gubaer">Gubaer</a></span>
-          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></span>
         </div>
 
-        <hr><pre><code>                    JOSM scripting plugin
-</code></pre>
+       
 
-<hr><p>The scripting plugin executes scripts in JOSM.</p>
+<p>The scripting plugin is a plugin for the <a href="http://www.openstreetmap.org">Open Street Map</a> editor 
+<a href="http://josm.openstreetmap.de">JOSM</a></p>
 
-<p>Scripts can be defined in any scripting language, for which a JSR-223
-compatible scripting engine is available.</p>
+<p>The plugin supports several scripting languages, including Groovy, Python, or Ruby. Any
+scripting language, for which a JSR-223 compatible script engine is available, can be used as as
+scripting language.</p>
 
-<h1>LICENSE</h1>
+<p>The plugin includes a built-in "native" scripting engine for JavaScript based on Mozilla Rhino. In contrast
+to the other scripting languages, the plugin provides a JavaScript API to manipulate JOSMs internal 
+application objects.</p>
 
-<p>Published under GPL Version 3 and higher. See included LICENSE file.</p>
+<p align="center">
+<img src="images/scripting-console-sample.png" width="60%"/>
+</p>
 
-<h1>CREDIT</h1>
-
-<p>This plugin uses:</p>
-
-<ul>
-<li>jsyntaxpane by Ayman Al-Sairafi. See README.jsyntaxpane and LICENSE.jsyntaxpane</li>
-<li>Rhino scripting engine by Mozilla Foundation. See README.rhino and LICENSE.rhino</li>
-</ul><h1>BUILD </h1>
-
-<ul>
-<li><p>copy 'build.properties.distrib' to 'build.properties' and adjust the build configuration
-settings</p></li>
-<li><p>run ant in the root directory
-% ant dist</p></li>
-</ul><h1>DEPLOY</h1>
-
-<p>The latest build for the 'scripting' plugin should always be built on the branch 'deploy'
-and then pushed to GitHub. </p>
-
-<p>The following steps mimic the deployment infrastructure JOSM uses for plugins maintained
-on the OSM SVN site, see <a href="http://josm.openstreetmap.de/wiki/DevelopersGuide/DevelopingPlugins">http://josm.openstreetmap.de/wiki/DevelopersGuide/DevelopingPlugins</a>
-for more info. JOSM reads meta-data about available plugins from <a href="http://josm.openstreetmap.de/plugin">http://josm.openstreetmap.de/plugin</a>
-and the following steps ensure that the 'scripting' plugin is properly listed in this
-plugin directory. </p>
-
-<p>There is a special branch 'deploy' for deploying.<br>
-  % git checkout deploy
-  % git merge master          # merge the development work from the branch 'master'
-  % ant dist                  # this creates dist/scripting.jar which is part
-                              # of the Git tree under this branch
-  % git push origin deploy    # Pushes the latest build to git hub  </p>
-
-<p>If the build requires a minimal JOSM version, i.e. JOSM 1234, then run the following
-steps:</p>
-
+<a name="install"/><h1>Install</h1>
 <ol>
-<li><p>Remember the current plugin version and the JOSM version it is compatible with by adding
-a configuration entry to build.properties, i.e.
-  plugin.1111.requires=8888</p></li>
-<li><p>Increase the plugin version in build.properties by setting the property 'plugin.version', i.e.
-  plugin.version=2222</p></li>
-<li><p>Set the lowest JOSM version the plugin is compatible. Use property 'josm.required.version' in
-'build.properties', i.e.
-   josm.required.version=9999</p></li>
-</ol><p>The plugin Manifest will then include version information used by JOSMs plugin update system, for instance:</p>
+  <li>Download and install <a href="http://josm.openstreetmap.org>">JOSM</a></li>
+  <li>Open the Preferences dialog and select the plugins tab.</li>
+  <li>Update the list of available plugins and search for <strong>scripting</strong>.
+    <p align="center">
+<img src="images/josm-preferences.png" width="60%"/>
+</p>  
+  </li>
+  <li>Activate the plugin and restart JOSM.</li>  
+</ol>
 
-<pre><code>1111-Plugin-Url: 1111;https://raw.github.com/Gubaer/josm-scripting-plugin/for-josm-8888/dist/scripting.jar
-</code></pre>
 
-<p>Finally, switch to branch deploy, merge and upload 
-    % git checkout -f deploy
-    % git merge master
-    % git push origin</p>
-
-<p>Build the jar and push it too<br>
-    % ant dist                      # creates the scripting.jar, dependency specifications 
-                                    # become part of the Manifest in the plugin<br>
-    % git push origin deploy        # push the jar to Git Hub</p>
-
-<p>Tag the latest build and push the new tag<br>
-    % git tag for-josm-9999  HEAD   # tag the latest commit 
-    % git push origin for-josm-999  # makes sure the latest build is tagged with 'for-josm-1234'</p>
-
-<p>This ensures, that the latest scripting plugin is available from 
-    <a href="https://raw.github.com/Gubaer/josm-scripting-plugin/deploy/dist/scripting.jar">https://raw.github.com/Gubaer/josm-scripting-plugin/deploy/dist/scripting.jar</a></p>
-
-<p>The scripting plugin requiring JOSM 8888 is available from
-    <a href="https://raw.github.com/Gubaer/josm-scripting-plugin/for-josm-8888/dist/scripting.jar">https://raw.github.com/Gubaer/josm-scripting-plugin/for-josm-8888/dist/scripting.jar</a></p>
-
-<h1>AUTHOR</h1>
-
-<p>Karl Guggisberg <a href="mailto:karl.guggisberg@guggis.ch">karl.guggisberg@guggis.ch</a></p>
-      </section>
-
-    </div>
-    <!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
-    
+    <!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->    
   </body>
 </html>
