@@ -1,0 +1,1349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Mixin: OsmPrimitiveMixin</title>
+    
+    <script src="http://shjs.sourceforge.net/sh_main.min.js"> </script>
+    <script src="http://shjs.sourceforge.net/lang/sh_javascript.min.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/node-dark.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+    
+    <h1 class="page-title">Mixin: OsmPrimitiveMixin</h1>
+    
+    
+
+<section>
+    
+<header>
+    <h2>
+    OsmPrimitiveMixin
+    </h2>
+    
+</header>  
+
+<article>
+    <div class="container-overview">
+    
+    
+    
+        
+            <div class="description"><p>OsmPrimitiveMixin provides additional properties and methods which you can invoke on an instance of
+<a href="http://josm.openstreetmap.de/browser/josm/trunk/src/org/openstreetmap/josm/data/osm/OsmPrimitive.java">OsmPrimitive</a>. 
+The native methods of OsmPrimitives are still available for scripting, 
+unless they are shadowed by names of properties defined in this mixin.</p></div>
+        
+        
+        
+<dl class="details">
+    
+        
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source"><ul class="dummy"><li>OsmPrimitiveMixin.js, line 10</li></ul></dd>
+	
+    
+    
+	
+	
+	
+	
+</dl>
+
+        
+        
+    
+    </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+        <h3 class="subsection-title">Members</h3>
+        
+        <dl>
+            
+<dt>
+    <h4 class="name" id="changesetId"><span class="type-signature"></span>changesetId<span class="type-signature"> :number</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>Set or get the changeset id this primitive was last modified in.</p>
+
+<p><strong>get:</strong> - replies the changeset id or undefined, if no changeset id is known (i.e. 
+for local primitives or proxy primitives).</p>
+
+<p><strong>set:</strong> - assign a changset id, a number &gt, 0.</p>
+    </div>
+    
+    
+    
+<dl class="details">
+    
+        
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source"><ul class="dummy"><li>OsmPrimitiveMixin.js, line 218</li></ul></dd>
+	
+    
+    
+	
+	
+	
+	
+</dl>
+
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="sh_javascript"><code>var nb = require("josm/builder").NodeBuilder.forDataSet(ds);
+
+var n1 = nb.create(12345);
+// assign the changeset id  
+n1.changesetId = 6;</code></pre>
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="dataSet"><span class="type-signature">&lt;readonly> </span>dataSet<span class="type-signature"> :org.openstreetmap.josm.data.osm.DataSet</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>Replies the parent dataset or undefiend, if this primitive is not attached to a dataset.</p>
+    </div>
+    
+    
+    
+<dl class="details">
+    
+        
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source"><ul class="dummy"><li>OsmPrimitiveMixin.js, line 134</li></ul></dd>
+	
+    
+    
+	
+	
+	
+	
+</dl>
+
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="sh_javascript"><code>var ds = new DataSet();
+var nb = require("josm/builder").NodeBuilder.forDataSet(ds);
+
+// get members 
+var n1 = nb.create();
+n1.dataSet;  // -> ds
+
+var nb = require("josm/builder").NodeBuilder;
+var n2 = nb.create();
+n2.dataSet;   // -> undefined  </code></pre>
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="dataSet"><span class="type-signature"></span>dataSet<span class="type-signature"> :org.openstreetmap.josm.data.osm.DataSet</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>Set or get the user.</p>
+
+<p><strong>get:</strong> - replies a User object or undefined, if not user is set.</p>
+
+<p><strong>set:</strong> - assign a user, either as instance of User, supplying a user name or the unique
+global user id as number. Assign null or undefined to assign no user.</p>
+    </div>
+    
+    
+    
+<dl class="details">
+    
+        
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source"><ul class="dummy"><li>OsmPrimitiveMixin.js, line 164</li></ul></dd>
+	
+    
+    
+	
+	
+	
+	
+</dl>
+
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="sh_javascript"><code>var User = org.openstreetmap.josm.data.osm.User; 
+var nb = require("josm/builder").NodeBuilder.forDataSet(ds);
+
+ 
+var n1 = nb.create();
+// assign a user object 
+n1.user = new User("foobar");
+// assign the unique global user with name 'foobar'
+n1.user = "foobar"; 
+// assign the unique global user with id 12345
+n1.user = 12345;</code></pre>
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="id"><span class="type-signature">&lt;readonly> </span>id<span class="type-signature"> :number</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>The unique numeric id, positive for global primitives, negative for local primitives.</p>
+    </div>
+    
+    
+    
+<dl class="details">
+    
+        
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source"><ul class="dummy"><li>OsmPrimitiveMixin.js, line 20</li></ul></dd>
+	
+    
+    
+	
+	
+	
+	
+</dl>
+
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="sh_javascript"><code>var nb = require("josm/builder").NodeBuilder;
+
+// get members 
+var node = nb.create();
+var id = node.id;   // -> a negative value  </code></pre>
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="isGlobal"><span class="type-signature">&lt;readonly> </span>isGlobal<span class="type-signature"> :boolean</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>Replies true, if this is a global primitive</p>
+    </div>
+    
+    
+    
+<dl class="details">
+    
+        
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source"><ul class="dummy"><li>OsmPrimitiveMixin.js, line 106</li></ul></dd>
+	
+    
+    
+	
+	
+	
+	
+</dl>
+
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="sh_javascript"><code>var nb = require("josm/builder").NodeBuilder;
+
+// get members 
+var node = nb.create();
+node.isGlobal;   // -> false
+
+node = nb.create(1234);
+node.isGlobal;   // -> true  </code></pre>
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="isIncomplete"><span class="type-signature">&lt;readonly> </span>isIncomplete<span class="type-signature"> :boolean</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>Replies true if this a proxy object, in JOSM terminology called an incomplete object.</p>
+    </div>
+    
+    
+    
+<dl class="details">
+    
+        
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source"><ul class="dummy"><li>OsmPrimitiveMixin.js, line 293</li></ul></dd>
+	
+    
+    
+	
+	
+	
+	
+</dl>
+
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="isLocal"><span class="type-signature">&lt;readonly> </span>isLocal<span class="type-signature"> :boolean</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>Replies true, if this is a local primitive</p>
+    </div>
+    
+    
+    
+<dl class="details">
+    
+        
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source"><ul class="dummy"><li>OsmPrimitiveMixin.js, line 78</li></ul></dd>
+	
+    
+    
+	
+	
+	
+	
+</dl>
+
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="sh_javascript"><code>var nb = require("josm/builder").NodeBuilder;
+
+// get members 
+var node = nb.create();
+node.isLocal;   // -> true
+
+node = nb.create(1234);
+node.isLocal;   // -> false  </code></pre>
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="isNew"><span class="type-signature">&lt;readonly> </span>isNew<span class="type-signature"> :boolean</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>Synonym for isLocal.</p>
+    </div>
+    
+    
+    
+<dl class="details">
+    
+        
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source"><ul class="dummy"><li>OsmPrimitiveMixin.js, line 280</li></ul></dd>
+	
+    
+    
+	
+	
+	
+	
+</dl>
+
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="isProxy"><span class="type-signature">&lt;readonly> </span>isProxy<span class="type-signature"> :boolean</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>Replies true if this a proxy object (synonym for <code>isIncomplete</code>).</p>
+    </div>
+    
+    
+    
+<dl class="details">
+    
+        
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source"><ul class="dummy"><li>OsmPrimitiveMixin.js, line 310</li></ul></dd>
+	
+    
+    
+	
+	
+	
+	
+</dl>
+
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="tags"><span class="type-signature"></span>tags<span class="type-signature"> :object</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>Get or set the tags of the object.</p>
+
+<p><strong>get:</strong> - replies the tags as javascript object.</p>
+
+ <p><strong>set:</strong>
+   <ul>
+     <li>assign null or undefined to remove all tags</li>
+     <li>assign an object to set its properties as tags.</li>
+     <li>assign an java.util.Map to set its elements as tags</li>
+   </ul>
+ </p>
+ 
+ <p>null values and undefined tag values aren't assigned. tag keys are normalized, i.e. leading and
+ trailing white space is removed. Both, tag keys and tag values, are converted to strings.</p>
+    </div>
+    
+    
+    
+<dl class="details">
+    
+        
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source"><ul class="dummy"><li>OsmPrimitiveMixin.js, line 349</li></ul></dd>
+	
+    
+    
+	
+	
+	
+	
+</dl>
+
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="sh_javascript"><code>var node = .... // create a node
+
+// set the tags using a javascript object
+node.tags = {amenity:"restaurant", name:"Obstberg"}; 
+node.tags.amenity;  // -> restaurant
+node.tags.name;     // -> Obstberg
+
+// remove all tags 
+node.tags = null;
+
+// set tags using a java map 
+var tags = new java.util.HashMap();
+tags.put("amenity", "restaurant");
+tags.put("name", "Obstberg");
+node.tags = tags; </code></pre>
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="timestamp"><span class="type-signature">&lt;readonly> </span>timestamp<span class="type-signature"> :java.util.Date</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>Get the timestamp this primitive was last modified on the server. Undefined, if this timestamp
+isn't known, i.e. for local primitives or for proxy primitives.</p>
+    </div>
+    
+    
+    
+<dl class="details">
+    
+        
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source"><ul class="dummy"><li>OsmPrimitiveMixin.js, line 254</li></ul></dd>
+	
+    
+    
+	
+	
+	
+	
+</dl>
+
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="sh_javascript"><code>var nb = require("josm/builder").NodeBuilder.forDataSet(ds);
+
+var n1 = ... // assume n1 was downloaded from the server 
+n1.timestamp;  // the timestamp of last modification</code></pre>
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="version"><span class="type-signature">&lt;readonly> </span>version<span class="type-signature"> :number</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>The version of the object.</p>
+
+<p>Only global objects have a version. The version for local and proxy objects is <var>undefined</var>.</p>
+    </div>
+    
+    
+    
+<dl class="details">
+    
+        
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source"><ul class="dummy"><li>OsmPrimitiveMixin.js, line 44</li></ul></dd>
+	
+    
+    
+	
+	
+	
+	
+</dl>
+
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="sh_javascript"><code>var nb = require("josm/builder").NodeBuilder;
+
+// local object - get version is undefined  
+var node = nb.create();
+node.version;  // -&gt; undefined
+
+// global object - get version is defined  
+var node = nb.create(12345, {version: 9});
+node.version;  // -&gt; 9
+
+// proxy object - get version is undefined  
+var node = nb.createProxy(12345);
+node.version;  // -&gt; undefined </code></pre>
+
+    
+</dd>
+
+        </dl>
+    
+    
+    
+        <h3 class="subsection-title">Methods</h3>
+        
+        <dl>
+            
+<dt>
+    <h4 class="name" id="get"><span class="type-signature"></span>get</h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Replies the value of a tag, or undefined, if the tag isn't set.</p>
+    </div>
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>name</code></td>
+            
+            
+            <td class="type">
+            
+                        string
+                        
+                    
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">the tag name. Must not be null or undefined. Non-string values are converted to
+  a string. Leading and trailing whitespace is removed.</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source"><ul class="dummy"><li>OsmPrimitiveMixin.js, line 407</li></ul></dd>
+	
+    
+    
+	
+	
+	
+	
+</dl>
+
+    
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+		<span class="param-type">string</span> 
+		
+	</dd>
+</dl>
+
+        
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="sh_javascript"><code>var node = .... // create a node
+
+// set the tags using a javascript object
+node.tags = {amenity:"restaurant", name:"Obstberg"}; 
+node.get("amenity");  // -> restaurant
+node.get("name");     // -> Obstberg</code></pre>
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="has"><span class="type-signature"></span>has</h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Replies true, if the object has a tag with key <var>key</var>.</p>
+    </div>
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>name</code></td>
+            
+            
+            <td class="type">
+            
+                        string
+                        
+                    
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">the tag name. Must not be null or undefined. Non-string values are converted to
+  a string. Leading and trailing whitespace is removed.</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source"><ul class="dummy"><li>OsmPrimitiveMixin.js, line 505</li></ul></dd>
+	
+    
+    
+	
+	
+	
+	
+</dl>
+
+    
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+		<span class="param-type">boolean</span> 
+		
+	</dd>
+</dl>
+
+        
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="sh_javascript"><code>var node = .... // create a node
+
+// set the tags using a javascript object
+node.tags = {amenity:"restaurant", name:"Obstberg"}; 
+node.has("amenity");     // -> true
+node.has("no-such-tag"); // -> false </code></pre>
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="remove"><span class="type-signature"></span>remove</h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Removes a tag.</p>
+    </div>
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>name</code></td>
+            
+            
+            <td class="type">
+            
+                        string
+                        
+                    
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">the tag name. Must not be null or undefined. Non-string values are converted to
+  a string. Leading and trailing whitespace is removed.</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source"><ul class="dummy"><li>OsmPrimitiveMixin.js, line 530</li></ul></dd>
+	
+    
+    
+	
+	
+	
+	
+</dl>
+
+    
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+		<span class="param-type">boolean</span> 
+		
+	</dd>
+</dl>
+
+        
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="sh_javascript"><code>var node = .... // create a node
+
+// set the tags using a javascript object
+node.tags = {amenity:"restaurant", name:"Obstberg"}; 
+node.remove("amenity");
+node.has("amenity"); // -> false </code></pre>
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="set"><span class="type-signature"></span>set</h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Set a tag or a collection of tags.</p>
+
+<p><strong>Signatures</strong></p>
+<dl>
+  <dt><strong>set(name,value)</strong></dt>
+  <dd>sets a tag given a name and a value.<br/>
+  <var>name</var> must not be null or undefined. Non-string values are converted to
+  a string. Leading and trailing whitespace is removed.<br/>
+  <var>value</var>: if null or undefined, the tag is removed. Any other value is converted to a string
+  </dd>
+  
+  <dt><strong>set(tags)</strong></dt>
+  <dd><var>tags</var> is either a java object whose properties are set as tags, or a java.util.Map.</dd>
+</dl>
+    </div>
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+    
+        
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source"><ul class="dummy"><li>OsmPrimitiveMixin.js, line 433</li></ul></dd>
+	
+    
+    
+	
+	
+	
+	
+</dl>
+
+    
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+		<span class="param-type">string</span> 
+		
+	</dd>
+</dl>
+
+        
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="sh_javascript"><code>var node = .... // create a node
+
+// set the tags using a javascript object
+node.set("amenity", "restaurant");
+node.set("name", "obstberg"); 
+node.get("amenity");  // -> restaurant
+node.get("name");     // -> Obstberg
+
+// set the tags using an object
+node.set({amenity:"restaurant", name: "Obstberg"});
+node.get("amenity");  // -> restaurant
+node.get("name");     // -> Obstberg</code></pre>
+
+    
+</dd>
+
+        </dl>
+    
+    
+    
+    
+    
+</article>
+
+</section>  
+
+
+</div>
+
+<nav>
+    <h3>Modules</h3><ul><li><a href="module-josm.html">josm</a></li><li><a href="84db4f9d7a.html">josm/builder</a></li><li><a href="e5dbc63023.html">josm/layers</a></li><li><a href="a24a94b3ce.html">josm/mixin/DataSetMixin</a></li><li><a href="95de4b5bd9.html">josm/util</a></li></ul><h3>Classes</h3><ul><li><a href="DataSetSelectionFacade.html">DataSetSelectionFacade</a></li><li><a href="NodeBuilder.html">NodeBuilder</a></li><li><a href="RelationBuilder.html">RelationBuilder</a></li><li><a href="WayBuilder.html">WayBuilder</a></li></ul><h3>Namespaces</h3><ul><li><a href="Api.html">Api</a></li><li><a href="ChangesetApi.html">ChangesetApi</a></li><li><a href="josm.html">josm</a></li></ul><h3>Mixins</h3><ul><li><a href="DataSetMixin.html">DataSetMixin</a></li><li><a href="LatLonMixin.html">LatLonMixin</a></li><li><a href="NodeMixin.html">NodeMixin</a></li><li><a href="OsmPrimitiveMixin.html">OsmPrimitiveMixin</a></li><li><a href="RelationMixin.html">RelationMixin</a></li></ul><h3>Global</h3><ul><li><a href="global.html#util">util</a></li></ul>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/micmath/jsdoc">JSDoc 3</a> on Fri Jun 01 2012 16:37:05 GMT+0200 (CEST)
+</footer>
+
+<script> sh_highlightDocument(); </script>
+</body>
+</html>
