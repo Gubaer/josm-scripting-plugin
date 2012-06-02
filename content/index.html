@@ -1,0 +1,69 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>JOSM Scripting Plugin by Gubaer</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/Gubaer/josm-scripting-plugin">View On GitHub</a></li>
+           <li class="downloads"><a href="#install">Install</a></li>
+           <li class="title">INSTALL</li>
+        </nav>
+      </div><!-- end header -->
+
+    <div class="wrapper">
+
+      <section>
+        <div id="title">
+          <h1>JOSM Scripting Plugin</h1>
+          <p>Run scripts in the Open Street Map editor JOSM.</p>
+        </div>
+
+       
+
+<p>The scripting plugin is a plugin for the <a href="http://www.openstreetmap.org">Open Street Map</a> editor 
+<a href="http://josm.openstreetmap.de">JOSM</a></p>
+
+<p>The plugin supports several scripting languages, including Groovy, Python, or Ruby. Any
+scripting language, for which a JSR-223 compatible script engine is available, can be used as as
+scripting language.</p>
+
+<p>The plugin includes a built-in "native" scripting engine for JavaScript based on Mozilla Rhino. In contrast
+to the other scripting languages, the plugin provides a JavaScript API to manipulate JOSMs internal 
+application objects.</p>
+
+<p align="center">
+<img src="images/scripting-console-sample.png" width="60%"/>
+</p>
+
+<a name="install"/><h1>Install</h1>
+<ol>
+  <li>Download and install <a href="http://josm.openstreetmap.org>">JOSM</a></li>
+  <li>Open the Preferences dialog and select the plugins tab.</li>
+  <li>Update the list of available plugins and search for <strong>scripting</strong>.
+    <p align="center">
+<img src="images/josm-preferences.png" width="60%"/>
+</p>  
+  </li>
+  <li>Activate the plugin and restart JOSM.</li>  
+</ol>
+
+
+    <!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->    
+  </body>
+</html>
