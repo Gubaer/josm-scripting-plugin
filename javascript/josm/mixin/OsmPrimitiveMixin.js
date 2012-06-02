@@ -510,8 +510,14 @@ mixin.set = function() {
  * 
  * // set the tags using a javascript object
  * node.tags = {amenity:"restaurant", name:"Obstberg"}; 
+ * 
+ * // test wheter the tags are set 
  * node.has("amenity");     // -> true
- * node.has("no-such-tag"); // -> false 
+ * node.has("no-such-tag"); // -> false
+ * 
+ *  // use a regexp
+ * node.has(/^a/);               // -> true
+ * node.has(/^name(:.*)?$/i);   // -> false 
  * 
  * @memberOf OsmPrimitiveMixin
  * @param {string} name the tag name. Must not be null or undefined. Non-string values are converted to
@@ -523,8 +529,15 @@ mixin.set = function() {
  */
 mixin.has = function(key) {
 	if (util.isNothing(key)) return false;
-	key = util.trim(key + "");
-	return this.$hasKey(key);
+	if (key instanceof RegExp) {
+		for(var it=this.keySet().iterator(); it.hasNext();) {
+			if (key.test(it.next())) return true;
+		}
+		return false; 
+	} else {
+		key = util.trim(key + "");
+		return this.$hasKey(key);		
+	}
 };
 
 /**

@@ -311,5 +311,18 @@ tu.suite("setting and getting tags",
 		
 		util.assert(n1.tags.t3 == "v3", "t3 tag should be v3");
 		util.assert(n1.tags.t4 == "v4", "t4 tag should be v4");		
+	}),
+	
+	tu.test("has - regexp test", function() {
+		var n = nb.create(1234);		
+		
+		n.tags = {"name:de": "german name", "leVeL.1": "on" };
+		util.assert(n.has(/^name/), "1 - should match");
+		util.assert(!n.has(/^name$/), "2 - should not match");
+		util.assert(n.has(/^name(:.*)?$/), "3 - should match");
+		
+		util.assert(!n.has(/^level/), "4 - should not match");
+		util.assert(n.has(/^level/i), "5 - should  match");
+		util.assert(n.has(/^level\.\d+$/i), "6 - should  match");
 	})
 ).run();
