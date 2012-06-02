@@ -28,6 +28,7 @@ var DataSet      = org.openstreetmap.josm.data.osm.DataSet;
 var Collection   = java.util.Collection;
 var HashMap   = java.util.HashMap;
 var Collections   = java.util.Collections;
+var SearchCompiler = org.openstreetmap.josm.actions.search.SearchCompiler;
 
 /**
  * <p>DataSetMixin provides additional properties and methods which you can invoke on an instance of
@@ -506,6 +507,120 @@ mixin.selection = {
    }
 };
 
+mixin.predicates = {};
+mixin.predicates.isNode = function(){
+	return function(obj) {
+		return obj.getType() == OsmPrimitiveType.NODE;
+	};
+};
+
+mixin.predicates.isWay = function(){
+	return function(obj) {
+		return obj.getType() == OsmPrimitiveType.WAY;
+	};
+};
+
+mixin.predicates.isRelation = function(){
+	return function(obj) {
+		return obj.getType() == OsmPrimitiveType.RELATION;
+	};
+};
+
+mixin.predicates.and = function(){
+	var predicates = [];
+	var normalize(arg) {
+		if (util.isNothing(arg)) return;
+		if (util.isFunction(arg)) {
+			predicates.push(arg);
+		} else if (isCollection(arg)) {
+			each(arg, normalize);
+		} else if ()
+			util.assert(false, "Unexpected predicate, got {0}");
+		}
+	}
+	each(arguments, normalize);
+	return function(obj) {
+		for (var i=0; i < predicates.length; i++){
+			if (!predicates[i](obj)) return false;
+		}
+		return true;
+	};
+};
+
+mixin.predicates.or = function(){
+	var predicates = [];
+	var normalize(arg) {
+		if (util.isNothing(arg)) return;
+		if (util.isFunction(arg)) {
+			predicates.push(arg);
+		} else if (isCollection(arg)) {
+			each(arg, normalize);
+		} else if ()
+			util.assert(false, "Unexpected predicate, got {0}");
+		}
+	}
+	each(arguments, normalize);
+	return function(obj) {
+		for (var i=0; i < predicates.length; i++){
+			if (predicates[i](obj)) return true;
+		}
+		return false;
+	};
+};
+
+
+mixin.predicates.and = function(predicates){
+	return function(obj) {
+		return obj.getType() == OsmPrimitiveType.RELATION;
+	};
+}
+
+mixin.query = function() {
+	var ds = this;
+	
+	function queryWithJOSMSearchExpression(expression, options){
+		 options |= {};
+         var matcher = SearchCompiler.compile(expression, Boolean(options.caseSensitive), Boolean(options.regexpSearch));
+         var ret = [];
+         for (var it = ds.llNonDeletedCompletePrimitives().iterator(); it.hasNext();) {
+        	 var obj = it.next();
+        	 if (matcher.match(obj)) ret.push(obj);
+         }
+         return ret;
+	}
+	
+	function queryWithPredicate(predicate) {
+         var ret = [];
+         for (var it = ds.llNonDeletedCompletePrimitives().iterator(); it.hasNext();) {
+        	 var obj = it.next();
+        	 if (predicate(obj)) ret.push(obj);
+         }
+         return ret;
+	}
+	
+	switch(arguments.length){
+	case 0: return [];
+	case 1:
+		if (util.isString(arguments[0])) {
+			return queryWithJOSMSearchExpression(arguments[0]);
+		} else if (util.isFunction(arguments[0])) {
+			return queryWithPredicate(arguments[0]);
+		} else {
+			util.assert(false, "Arguments 0: Unexpected type of argument, got {0}", arguments[0]);
+		}
+		break;
+	case 2:
+		var expression = arguments[0];
+		var options = arguments[1] | {};
+		util.assert(util.isString(expression), "expression: expected a string, got {0}", expression);
+		util.assert(typeof options === "object", "options: expected an object, got {0}", options);
+		return queryWithPredicate(expression, options);
+	default:
+		util.assert(false, "Expected a predicate, got {0} arguments", arguments.length);
+	}
+};
+
+
 /**
  * Facade to access and manipulate the selected objects in a dataset.
  * 
@@ -758,6 +873,7 @@ Object.defineProperty(DataSetSelectionFacade.prototype, "objects", {
 		return colToArray(this.getSelected());
 	}
 });
+
 
 exports.forClass = org.openstreetmap.josm.data.osm.DataSet;
 exports.mixin    = mixin;
