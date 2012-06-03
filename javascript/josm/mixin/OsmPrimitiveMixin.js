@@ -5,6 +5,7 @@
 var util = require("josm/util");
 var User = org.openstreetmap.josm.data.osm.User;
 var Tags = org.openstreetmap.josm.plugins.scripting.js.wrapper.Tags;
+var OsmPrimitiveType = org.openstreetmap.josm.data.osm.OsmPrimitiveType;
 var Map  = java.util.Map;
 
 /**
@@ -405,6 +406,29 @@ mixin.tags = {
 };
 
 /**
+ * <p>Replies an array with the tag keys.</p>
+ *   
+ * @example
+ * var node = .... // create a node
+ * 
+ * // get the tag keys
+ * var keys = node.keys; 
+
+ * @memberOf OsmPrimitiveMixin
+ * @name keys
+ * @field
+ * @instance
+ * @type {array}
+ */
+mixin.keys = {
+	get: function() {
+		var ret = [];
+		for (var it = this.keySet().iterator(); it.hasNext();) ret.push(it.next());
+		return ret; 
+	}	
+};
+
+/**
  * <p>Replies the value of a tag, or undefined, if the tag isn't set.</p>
  * 
  * @example
@@ -505,6 +529,18 @@ mixin.set = function() {
 /**
  * <p>Replies true, if the object has a tag with key <var>key</var>.</p>
  * 
+ * <strong>Signatures</strong>
+ * <dl>
+ *   <dt><strong>has(key)</strong></dt>
+ *   <dd> <var>key</var> is a string. Replies true, if the 
+ *   object has a tag with this key. Before matching, leading and trailing white space
+ *   is removed from <var>key</var>.</dd>
+ *   
+ *   <dt><strong>has(regexp)</strong></dt>
+ *   <dd><var>regexp</var> is a regular expression. Replies true, if the object has at least
+ *   one tag whose key matches with <var>regexp</var>.</dd>
+ * </dl>
+ * 
  * @example
  * var node = .... // create a node
  * 
@@ -517,10 +553,10 @@ mixin.set = function() {
  * 
  *  // use a regexp
  * node.has(/^a/);               // -> true
- * node.has(/^name(:.*)?$/i);   // -> false 
+ * node.has(/^name(:.*)?$/i);    // -> false 
  * 
  * @memberOf OsmPrimitiveMixin
- * @param {string} name the tag name. Must not be null or undefined. Non-string values are converted to
+ * @param {string} key the tag key. Must not be null or undefined. Non-string values are converted to
  *   a string. Leading and trailing whitespace is removed.
  * @name has
  * @method
@@ -564,6 +600,56 @@ mixin.remove = function(key){
 	key = util.trim(key + "");
 	this.$remove(key);
 };
+
+/**
+* <p>Replies true if this object is a node</p>
+* 
+* @memberOf OsmPrimitiveMixin
+* @name isNode
+* @field
+* @instance
+* @readOnly
+* @type {boolean}
+*/
+mixin.isNode = {
+	get: function() {
+		return this.getType() == OsmPrimitiveType.NODE;
+	}
+};
+
+/**
+* <p>Replies true if this object is a way</p>
+* 
+* @memberOf OsmPrimitiveMixin
+* @name isWay
+* @field
+* @instance
+* @readOnly
+* @type {boolean}
+*/
+mixin.isWay = {
+	get: function() {
+		return this.getType() == OsmPrimitiveType.WAY;
+	}
+};
+
+
+/**
+* <p>Replies true if this object is a relation</p>
+* 
+* @memberOf OsmPrimitiveMixin
+* @name isRelation
+* @field
+* @instance
+* @readOnly
+* @type {boolean}
+*/
+mixin.isRelation = {
+	get: function() {
+		return this.getType() == OsmPrimitiveType.RELATION;
+	}
+};
+
 
 exports.forClass = org.openstreetmap.josm.data.osm.OsmPrimitive;
 exports.mixin = mixin;
