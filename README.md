@@ -31,9 +31,8 @@ submit your pull requests.
 ## Credits
 The JOSM scripting plugin uses: 
 
-* jsyntaxpane by Ayman Al-Sairafi. See [README.jsyntaxpane](README.jsyntaxpane) and [LICENSE.jsyntaxpane](LICENSE.jsyntaxpane)
-* [Rhino](http://www.mozilla.org/rhino/) scripting engine by Mozilla Foundation. See [README.rhino](README.rhino) and [LICENSE.rhino](LICENSE.rhino)
-
+* jsyntaxpane by Ayman Al-Sairafi. See [README.jsyntaxpane](master/README.jsyntaxpane) and [LICENSE.jsyntaxpane](master/LICENSE.jsyntaxpane)
+* [Rhino](http://www.mozilla.org/rhino/) scripting engine by Mozilla Foundation. See [README.rhino](master/README.rhino) and [LICENSE.rhino](master/LICENSE.rhino)
 
 
 
