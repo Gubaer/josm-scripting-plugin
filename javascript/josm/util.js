@@ -282,10 +282,10 @@ exports.mix = function(){
  * util.println("Hello world! My name is {0}", myname);
  */
 exports.println = function() {
-	var args = Array.prototype.slice.call(arguments);
+	var args = Array.prototype.slice.call(arguments,0);
 	if (args.length == 0) return "";
 	args[0] = args[0] + ""; // make sure first argument is a string 
-	java.lang.System.out.println(MessageFormat.format(args));
+	java.lang.System.out.println(MessageFormat.format(args[0],args.slice(1)));
 };
 
 /**
@@ -298,8 +298,8 @@ exports.println = function() {
  * util.print("Hello world! My name is {0}", myname); 
  */
 exports.print = function() {
-	var args = Array.prototype.slice.call(arguments);
+	var args = Array.prototype.slice.call(arguments,0);
 	if (args.length == 0) return "";
 	args[0] = args[0] + ""; // make sure first argument is a string 
-	java.lang.System.out.print(MessageFormat.format(args));
+	java.lang.System.out.print(MessageFormat.format(args[0],args.slice(1)));
 };
