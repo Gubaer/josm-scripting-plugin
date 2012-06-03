@@ -303,3 +303,4 @@ exports.print = function() {
 	args[0] = args[0] + ""; // make sure first argument is a string 
 	java.lang.System.out.print(MessageFormat.format(args[0],args.slice(1)));
 };
+

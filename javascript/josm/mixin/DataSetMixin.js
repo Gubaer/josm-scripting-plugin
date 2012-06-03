@@ -233,6 +233,9 @@ mixin.get = function() {
 			return obj == null ? undefined : obj;
 		} else if (typeof id === "object") {
 			return primitiveIdFromObject(id);
+		} else if (util.isNumber(id)) {
+			// common mistake when using get() -> explain in error message.
+			util.assert(false, "Only got a numeric id {0}. Use get(id, type) or one of the methods node(id), way(id), or relation(id).", id);
 		} else {
 			util.assert(false, "id: unexpected value, got {0}", id);
 		}		
@@ -620,6 +623,43 @@ mixin.query = function(expression, options) {
 	}
 };
 
+/**
+ * <p>Iterates over the objects in the dataset.</p>
+ * 
+* <strong>Signatures</strong>
+ * <dl> 
+ *   <dt><strong>each(delegate,?options)</strong></dt>
+ *   <dd>Iterates over the objects in the dataset and invokes <var>delegate</var> for each object.
+ *   If null or undefined, the iteration is skipped. Expects a function with the following signature:
+ *   <pre>
+ *   function(obj) {}  // when invoked, obj is a node, a way, or a relation
+ *   </pre>
+ *   <var>options</var> is an (optional) object with named parameters, see below.
+ *   </dd>   
+ * </dl>
+ * 
+ * The parameter <var>options</var> consists of the following (optional) named parameters:
+ * <dl> 
+ *   <dt><strong>all</strong> : boolean</dt>
+ *   <dd>If true, searches <em>all</em> objects in the dataset. If false, ignores incomplete or deleted
+ *   objects. Default: false.</dd>   
+ * </dl>
+ * 
+ * @param {function}  delegate  the function invoked on every element 
+ * @param {object} options (optional) additional named parameters 
+ * @memberOf DataSetMixin
+ * @method
+ * @instance
+ * @name each
+ */
+mixin.each = function(delegate, options){
+	if (util.isNothing(delegate)) return;
+	util.assert(util.isFunction(delegate), "delegate: expected a function, got {0}", delegate);
+	options = options || {};
+	util.assert(typeof options === "object", "options: expected an object, got {0}", options);
+	var collection = options.all ? this.allPrimitives() : this.allNonDeletedCompletePrimitives();
+	each(collection, delegate);
+};
 
 /**
  * Facade to access and manipulate the selected objects in a dataset.
