@@ -59,7 +59,6 @@ var SearchCompiler = org.openstreetmap.josm.actions.search.SearchCompiler;
  */
 var mixin = {};
 
-
 function each(collection, delegate) {
 	if (util.isArray(collection) || util.isArguments(collection)) {
 		for(var i=0; i<collection.length;i++) delegate(collection[i]);
@@ -69,6 +68,14 @@ function each(collection, delegate) {
 		util.assert(false, "Expected list or collection, got {0}", collection);
 	}
 }
+
+function collect(collection, predicate) {
+	var ret = [];
+	each(collection, function(obj) {
+		if (predicate(obj)) ret.push(obj);
+	});
+	return ret;
+};
 
 function isCollection(collection){
 	return util.isArray(collection) || util.isArguments(collection) || collection instanceof Collection;
@@ -245,6 +252,45 @@ mixin.get = function() {
 	case 2:  return get_2(this);
 	default: util.assert(false, "Expected 1 or 2 arguments, got {0}", args.length);
 	}	
+};
+
+/**
+* <p>Replies the node with id <var>id</var>.</p>
+* 
+* @param {number} id  the unique numeric id. Must not be 0.
+* @memberOf DataSetMixin
+* @method
+* @instance
+* @name node
+*/
+mixin.node = function(id) {
+	return this.get(normalizeId(id), "node");
+};
+
+/**
+* <p>Replies the way with id <var>id</var>.</p>
+* 
+* @param {number} id  the unique numeric id. Must not be 0.
+* @memberOf DataSetMixin
+* @method
+* @instance
+* @name way
+*/
+mixin.way = function(id) {
+	return this.get(normalizeId(id), "way");
+};
+
+/**
+* <p>Replies the relation with id <var>id</var>.</p>
+* 
+* @param {number} id  the unique numeric id. Must not be 0.
+* @memberOf DataSetMixin
+* @method
+* @instance
+* @name relation
+*/
+mixin.relation = function(id) {
+	return this.get(normalizeId(id), "relation");
 };
 
 /**
@@ -507,114 +553,68 @@ mixin.selection = {
    }
 };
 
-mixin.predicates = {};
-mixin.predicates.isNode = function(){
-	return function(obj) {
-		return obj.getType() == OsmPrimitiveType.NODE;
-	};
-};
-
-mixin.predicates.isWay = function(){
-	return function(obj) {
-		return obj.getType() == OsmPrimitiveType.WAY;
-	};
-};
-
-mixin.predicates.isRelation = function(){
-	return function(obj) {
-		return obj.getType() == OsmPrimitiveType.RELATION;
-	};
-};
-
-mixin.predicates.and = function(){
-	var predicates = [];
-	var normalize(arg) {
-		if (util.isNothing(arg)) return;
-		if (util.isFunction(arg)) {
-			predicates.push(arg);
-		} else if (isCollection(arg)) {
-			each(arg, normalize);
-		} else if ()
-			util.assert(false, "Unexpected predicate, got {0}");
-		}
-	}
-	each(arguments, normalize);
-	return function(obj) {
-		for (var i=0; i < predicates.length; i++){
-			if (!predicates[i](obj)) return false;
-		}
-		return true;
-	};
-};
-
-mixin.predicates.or = function(){
-	var predicates = [];
-	var normalize(arg) {
-		if (util.isNothing(arg)) return;
-		if (util.isFunction(arg)) {
-			predicates.push(arg);
-		} else if (isCollection(arg)) {
-			each(arg, normalize);
-		} else if ()
-			util.assert(false, "Unexpected predicate, got {0}");
-		}
-	}
-	each(arguments, normalize);
-	return function(obj) {
-		for (var i=0; i < predicates.length; i++){
-			if (predicates[i](obj)) return true;
-		}
-		return false;
-	};
-};
-
-
-mixin.predicates.and = function(predicates){
-	return function(obj) {
-		return obj.getType() == OsmPrimitiveType.RELATION;
-	};
-}
-
-mixin.query = function() {
-	var ds = this;
-	
-	function queryWithJOSMSearchExpression(expression, options){
-		 options |= {};
-         var matcher = SearchCompiler.compile(expression, Boolean(options.caseSensitive), Boolean(options.regexpSearch));
-         var ret = [];
-         for (var it = ds.llNonDeletedCompletePrimitives().iterator(); it.hasNext();) {
-        	 var obj = it.next();
-        	 if (matcher.match(obj)) ret.push(obj);
-         }
-         return ret;
-	}
-	
-	function queryWithPredicate(predicate) {
-         var ret = [];
-         for (var it = ds.llNonDeletedCompletePrimitives().iterator(); it.hasNext();) {
-        	 var obj = it.next();
-        	 if (predicate(obj)) ret.push(obj);
-         }
-         return ret;
-	}
-	
+/**
+ * <p>Queries the dataset</p>
+ * 
+* <strong>Signatures</strong>
+ * <dl> 
+ *   <dt><strong>query(josmSearchExpression,?options)</strong></dt>
+ *   <dd>Queries the dataset using the JOSM search exprssion <var>josmSearchExpression</var>. 
+ *   <var>josmSearchExpression</var> is a string as you would enter it in the JOSM search
+ *   dialog. <var>options</var> is an (optional) object with named parameters, see below.</dd>
+ *   
+ *   <dt><strong>query(predicate,?options)</strong></dt>
+ *   <dd>Queries the dataset using a javascript predicate function <var>predicate</var>. 
+ *   <var>predicate</var> is a javascript function which accepts a object as parameter and replies
+ *   true, when it matches for the object ans false otherwise. 
+ *    <var>options</var> is an (optional) object with named parameters, see below.</dd>
+ * </dl>
+ * 
+ * The parameter <var>options</var> consist of the following (optional) named parameters:
+ * <dl> 
+ *   <dt><strong>all</strong> : boolean</dt>
+ *   <dd>If true, searches <em>all</em> objects in the dataset. If false, ignores incomplete or deleted
+ *   objects. Default: false.</dd>
+ *   
+ *   <dt><strong>caseSensitive</strong> : boolean</dt>
+ *   <dd><strong>Only applies for searches with a JOSM search expression</strong>. If true, 
+ *   searches case sensitive. If false, searches case insensitive. Default: false.</dd>
+ * 
+ *   <dt><strong>withRegexp</strong> : boolean</dt>
+ *   <dd><strong>Only applies for searches with a JOSM search expression</strong>. If true, 
+ *   the search expression contains regular expressions. If false, it includes only plain strings
+ *   for searching. Default: false.</dd>
+ * </dl>
+ * 
+ * @param {string|function} expression  the match expression
+ * @param {object} options (optional) additional named parameters 
+ * @memberOf DataSetMixin
+ * @method
+ * @instance
+ * @name query
+ */
+mixin.query = function(expression, options) {
+	var collection;
 	switch(arguments.length){
 	case 0: return [];
 	case 1:
-		if (util.isString(arguments[0])) {
-			return queryWithJOSMSearchExpression(arguments[0]);
-		} else if (util.isFunction(arguments[0])) {
-			return queryWithPredicate(arguments[0]);
+	case 2:
+		options = options || {};
+		collection = options.all ? this.allPrimitives() : this.allNonDeletedCompletePrimitives();
+		if (util.isString(expression)) {	
+			var matcher = SearchCompiler.compile(expression, Boolean(options.caseSensitive), Boolean(options.withRegexp));
+			var predicate= function josmSearchExpressionPredicate(matcher) {
+				return function(obj) {
+					return matcher.match(obj);
+				};
+			};
+	        return collect(collection, predicate(matcher));
+		} else if (util.isFunction(expression)) {
+			return collect(collection, expression);
 		} else {
-			util.assert(false, "Arguments 0: Unexpected type of argument, got {0}", arguments[0]);
+			util.assert(false, "expression: Unexpected type of argument, got {0}", arguments[0]);
 		}
 		break;
-	case 2:
-		var expression = arguments[0];
-		var options = arguments[1] | {};
-		util.assert(util.isString(expression), "expression: expected a string, got {0}", expression);
-		util.assert(typeof options === "object", "options: expected an object, got {0}", options);
-		return queryWithPredicate(expression, options);
 	default:
 		util.assert(false, "Expected a predicate, got {0} arguments", arguments.length);
 	}

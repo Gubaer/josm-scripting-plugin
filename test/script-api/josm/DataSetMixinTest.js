@@ -589,3 +589,165 @@ tu.suite("selection",
 ).run();
 
 
+tu.suite("node, way, relation - object accessors",	
+	test("node", function() {
+		var ds = new DataSet();
+		ds.nodeBuilder.create(1);
+		var local = ds.nodeBuilder.create();
+		var n = ds.node(1);
+		util.assert(n, "node should be found");
+		n = ds.node(2);
+		util.assert(! n, "node should not be found");
+		n = ds.node(local.id);
+		util.assert(n, "node should be found");
+		
+		tu.expectAssertionError("illegal id 0", function() {
+			ds.node(0);
+		});
+		
+		tu.expectAssertionError("unsupported type", function() {
+			ds.node("1");
+		});
+		
+		tu.expectAssertionError("primitive id not supported", function() {
+			ds.node(new SimplePrimitiveId(1, OsmPrimitiveType.NODE));
+		});
+	}),
+	test("way", function() {
+		var ds = new DataSet();
+		ds.wayBuilder.create(1);
+		var local = ds.wayBuilder.create();
+		
+		var w = ds.way(1);
+		util.assert(w, "way should be found");
+		w = ds.way(2);
+		util.assert(! w, "way should not be found");
+		w = ds.way(local.id);
+		util.assert(w, "way should be found");
+
+		tu.expectAssertionError("illegal id 0", function() {
+			ds.way(0);
+		});
+		
+		tu.expectAssertionError("unsupported type", function() {
+			ds.way("1");
+		});
+		
+		tu.expectAssertionError("primitive id not supported", function() {
+			ds.way(new SimplePrimitiveId(1, OsmPrimitiveType.WAY));
+		});
+	}),
+	test("relation", function() {
+		var ds = new DataSet();
+		ds.relationBuilder.create(1);
+		var local = ds.relationBuilder.create();
+		
+		var r = ds.relation(1);
+		util.assert(r, "relation should be found");
+		r = ds.relation(2);
+		util.assert(! r, "relation should not be found");
+		r = ds.relation(local.id);
+		util.assert(r, "relation should be found");
+
+		tu.expectAssertionError("illegal id 0", function() {
+			ds.relation(0);
+		});
+		
+		tu.expectAssertionError("unsupported type", function() {
+			ds.relation("1");
+		});
+		
+		tu.expectAssertionError("primitive id not supported", function() {
+			ds.relation(new SimplePrimitiveId(1, OsmPrimitiveType.RELATION));
+		});
+	})
+).run();
+
+
+tu.suite("query",	
+	test("query - josm expression - simple", function() {
+			var ds = new DataSet();
+			var nb = ds.nodeBuilder;
+			var wb = ds.wayBuilder;
+			ds.nodeBuilder.withTags({name: 'test'}).create(1);
+			ds.nodeBuilder.withTags({amenity: 'restaurant'}).create(2);
+			var w = ds.wayBuilder.withTags({highway: 'residential'}).withNodes(ds.node(1), ds.node(2)).create();
+			var objs = ds.query("name=test");
+			util.assert(objs.length == 1, "should have found one node, found {0}", objs.length);
+			util.assert(objs[0].id == 1, "should have found node 1");
+	}),
+	test("query - josm expression - type", function() {
+		var ds = new DataSet();
+		var nb = ds.nodeBuilder;
+		var wb = ds.wayBuilder;
+		ds.nodeBuilder.withTags({name: 'test'}).create(1);
+		ds.nodeBuilder.withTags({amenity: 'restaurant'}).create(2);
+		var w = ds.wayBuilder.withTags({highway: 'residential'}).withNodes(ds.node(1), ds.node(2)).create();
+		var objs = ds.query("type:node");
+		util.assert(objs.length == 2, "should have found two node, found {0}", objs.length);
+		util.assert(objs[0].isNode, "1 - should be a node");
+		util.assert(objs[1].isNode, "2 - should be a node");
+	}),
+	test("query - josm expression - combined, with regexp", function() {
+		var ds = new DataSet();
+		var nb = ds.nodeBuilder;
+		var wb = ds.wayBuilder;
+		ds.nodeBuilder.withTags({name: 'test'}).create(1);
+		ds.nodeBuilder.withTags({amenity: 'tttttt'}).create(2);
+		var w = ds.wayBuilder.withTags({highway: 'tasdf'}).withNodes(ds.node(1), ds.node(2)).create();
+		var objs = ds.query("type:node && *=^tt.*", {withRegexp: true});
+		util.assert(objs.length == 1, "should have found two node, found {0}", objs.length);
+		util.assert(objs[0].isNode, "1 - should be a node");
+	}),
+	
+	
+	test("query - predicate - simple", function() {
+		var ds = new DataSet();
+		var nb = ds.nodeBuilder;
+		var wb = ds.wayBuilder;
+		ds.nodeBuilder.withTags({name: 'test'}).create(1);
+		ds.nodeBuilder.withTags({amenity: 'restaurant'}).create(2);
+		var w = ds.wayBuilder.withTags({highway: 'residential'}).withNodes(ds.node(1), ds.node(2)).create();
+		var objs = ds.query(function(obj) {
+			return obj.get("name") == "test";
+		});
+		util.assert(objs.length == 1, "should have found one node, found {0}", objs.length);
+		util.assert(objs[0].id == 1, "should have found node 1");
+	}),
+	test("query - josm expression - type", function() {
+		var ds = new DataSet();
+		var nb = ds.nodeBuilder;
+		var wb = ds.wayBuilder;
+		ds.nodeBuilder.withTags({name: 'test'}).create(1);
+		ds.nodeBuilder.withTags({amenity: 'restaurant'}).create(2);
+		var w = ds.wayBuilder.withTags({highway: 'residential'}).withNodes(ds.node(1), ds.node(2)).create();		
+		var objs = ds.query(function(obj) {
+			return obj.isNode;
+		});
+		util.assert(objs.length == 2, "should have found two node, found {0}", objs.length);
+		util.assert(objs[0].isNode, "1 - should be a node");
+		util.assert(objs[1].isNode, "2 - should be a node");
+	}),
+	test("query - josm expression - combined, with regexp", function() {
+		var ds = new DataSet();
+		var nb = ds.nodeBuilder;
+		var wb = ds.wayBuilder;
+		ds.nodeBuilder.withTags({name: 'test'}).create(1);
+		ds.nodeBuilder.withTags({amenity: 'tttttt'}).create(2);
+		var w = ds.wayBuilder.withTags({highway: 'tasdf'}).withNodes(ds.node(1), ds.node(2)).create();
+		var objs = ds.query("type:node && *=^tt.*", {withRegexp: true});
+		
+		var objs = ds.query(function(){
+			var regexp = /^tt.*/;
+			return function(obj) {
+				if (!obj.isNode) return false;
+				var keys = obj.keys;
+				for (var i=0; i< keys.length; i++) {
+					if (regexp.test(obj.get(keys[i]))) return true;
+				}
+			};
+		}());				
+		util.assert(objs.length == 1, "should have found two node, found {0}", objs.length);
+		util.assert(objs[0].isNode, "1 - should be a node");
+	})
+).run();
