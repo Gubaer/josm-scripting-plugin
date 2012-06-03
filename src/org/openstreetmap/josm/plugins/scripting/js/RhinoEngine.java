@@ -25,6 +25,7 @@ import org.mozilla.javascript.RhinoException;
 import org.mozilla.javascript.Scriptable;
 import org.openstreetmap.josm.plugins.PluginException;
 import org.openstreetmap.josm.plugins.PluginInformation;
+import org.openstreetmap.josm.plugins.scripting.js.wrapper.JSMixinRegistry;
 import org.openstreetmap.josm.plugins.scripting.js.wrapper.MixinWrapFactory;
 import org.openstreetmap.josm.plugins.scripting.js.wrapper.NativeJavaObjectWithJSMixin;
 import org.openstreetmap.josm.plugins.scripting.js.wrapper.WrappingException;
@@ -68,7 +69,7 @@ public class RhinoEngine {
 				Object m = modules[i];
 				if (! (m instanceof String)) continue;
 				try {
-					NativeJavaObjectWithJSMixin.loadJSPrototype(scope, (String)m);
+					JSMixinRegistry.loadJSPrototype(scope, (String)m);
 				} catch(WrappingException e){
 					logger.log(Level.SEVERE, MessageFormat.format("Failed to load mixin module ''{0}''.", m), e);
 					continue;
