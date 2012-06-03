@@ -258,7 +258,7 @@
         		m = msg("Failed to load module ''{0}''. Syntax error on line {1} in file ''{2}''", id, e.lineNumber, moduleUrl.toString());
         		m += msg("\nError message: {0}", e.message);        		
          	} else {
-         		m = msg("Failed to load module ''{0}'' from URL ''{1}''. Details: ''{2}''", id, moduleUrl.toString(), e.toSource());
+         		m = msg("Failed to load module ''{0}'' from URL ''{1}''. Details: ''{2}''", id, moduleUrl.toString(), e);
          	}
         	throwRequireError(m, e);
         }
