@@ -678,7 +678,10 @@ mixin.each = function(delegate, options){
  * 
  * @example
  * // loads OSM data from a data file 
- * var ds = DataSet.load("/tmp/my-data.osm");
+ * var ds1 = DataSet.load("/tmp/my-data.osm");
+ * 
+ * // loads OSM data from a data file, the format is compressed OSM xml 
+ * var ds2 = DataSet.load("/tmp/my-data.ogz", {format: "osm.gz"});
  * 
  * @param {string|java.io.File}  source  the data source. Either a file name as string or a java.io.File
  * @param {object}  options  (optional) optional named parameters 
