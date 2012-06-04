@@ -661,6 +661,95 @@ mixin.each = function(delegate, options){
 	each(collection, delegate);
 };
 
+
+/**
+ * <p>Loads a dataset from a file.</p>
+ * 
+ * <p>Derives the format of the file from the file suffix, unless the named option <code>options.format</code>
+ * is set.</p>
+ * 
+ * <p><code>options</code> can contain the following named options:</p>
+ * <dl>
+ *   <dt><strong>format</strong></dt>
+ *   <dd>one of the strings "osm" (Open Street Map XML data), "osc" (Open Street Map change format), "osm.bz2" (Open
+ *   Street Map XML data, compressed with bzip2), or "osm.gz" (Open Street Map XML data, compressed with gzip). 
+ *   Value is normalized by removing leading and trailing whitespace and conversion to lower case.</dd>
+ * </dl>
+ * 
+ * @example
+ * // loads OSM data from a data file 
+ * var ds = DataSet.load("/tmp/my-data.osm");
+ * 
+ * @param {string|java.io.File}  source  the data source. Either a file name as string or a java.io.File
+ * @param {object}  options  (optional) optional named parameters 
+ * @memberOf DataSetMixin
+ * @method
+ * @static
+ * @name load
+ */
+mixin.load = function(source, options){
+	var io = java.io;
+	var jio = org.openstreetmap.josm.io;
+	var jtools = org.openstreetmap.josm.tools;
+	var GZIPInputStream = java.util.zip.GZIPInputStream;
+
+	function normalizeFile(source) {
+		if (source instanceof io.File) {
+			return source; 
+		} else if (util.isString(source)) {
+			return new io.File(source);
+		} else {
+			util.assert(false, "source: illegal value, expected string or File, got {0}", source);
+		}
+	};
+	
+	function normalizeFormat(source, options){
+		var FORMATS = {
+		    "osm"     :true,
+		    "osc"     :true,
+		    "osm.bz2 ":true,
+		    "osm.gz"  :true
+		};
+		if (util.isSomething(options.format)) {
+			var format = util.trim(options.format + "").toLowerCase(); // convert to string
+			if (FORMATS[format] === true) return format; 
+			util.assert(false, "options.format: unknown format ''{0}''", format);			
+		} else {
+			if (new jio.OsmImporter().acceptFile(source)) return "osm";			
+			if (new jio.OsmChangeImporter().acceptFile(source)) return "osc";
+			if (new jio.OsmBzip2Importer().acceptFile(source)) return "osm.bz2";
+			if (new jio.OsmGzipImporter().acceptFile(source)) return "osm.gz";
+			util.assert(false, "Failed to derive format from file name. file is ''{0}''", source);
+		}
+	};	
+
+	util.assert(util.isSomething(source), "source: must not be null or undefined");
+	options = options || {};	
+	source = normalizeFile(source);
+	var format = normalizeFormat(source, options);
+	var is = null;
+	try {		
+		if (format == "osm") {
+			is = new io.FileInputStream(source);
+			return jio.OsmReader.parseDataSet(is, null /* null progress monitor */);
+		} else if (format == "osc") {
+			is = new io.FileInputStream(source);
+			return jio.OsmChangeReader.parseDataSet(is, null /* null progress monitor */);
+		} else if (format == "osm.gz") {
+			is = new GZIPInputStream(new io.FileInputStream(source));
+			return jio.OsmReader.parseDataSet(is, null /* null progress monitor */);
+		} else if (format == "osm.bz2") {
+			is = new jio.OsmBzip2Importer.createBZip2InputStream(source);
+			return jio.OsmReader.parseDataSet(is, null /* null progress monitor */);
+		}
+		util.assert(false, "should not happen");
+	} finally {
+		is && jtools.Utils.close(is);
+	}
+};
+mixin.load.static = true;
+
+
 /**
  * Facade to access and manipulate the selected objects in a dataset.
  * 
