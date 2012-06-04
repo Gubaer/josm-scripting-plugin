@@ -114,21 +114,34 @@ exports.has = function(layer) {
 /**
  * <p>Adds a layer.</p>
  * 
+ * <p>Either pass in a layer object or a data set. In the later case, an OsmDataLayer is
+ * automatically created.</p>
+ * 
  * @example
  * var layers = require("josm/layers");
  * var OsmDataLayer = org.openstreetmap.josm.gui.layer.OsmDataLayer;	
  * var DataSet = org.openstreetmap.josm.data.osm.DataSet;
  *
  * var dataLayer = new OsmDataLayer(new DataSet(), null, null);
- * // add a layer 
+ * // add a layer ...
  * layers.add(dataLayer);
  * 
- * @param layer {org.openstreetmap.josm.gui.layer.Layer}  a layer to add. Ignored if null or undefined.
+ * // or add a dataset, which will create a data layer
+ * var ds = new DataSet();
+ * layer.add(ds); 
+ * 
+ * @param {org.openstreetmap.josm.gui.layer.Layer|org.openstreetmap.josm.data.osm.DataSet} obj  a layer to add, or a dataset. 
+ *  Ignored if null or undefined.  
  */
-exports.add = function(layer) {
-	if (util.isNothing(layer)) return;
-	util.assert(layer instanceof Layer, "Expected an instance of Layer, got {0}", layer);
-	Main.main.addLayer(layer);
+exports.add = function(obj) {
+	if (util.isNothing(obj)) return;
+	if (obj instanceof Layer) {
+		Main.main.addLayer(obj);
+	} else if (obj instanceof DataSet){
+		Main.main.addLayer(new OsmDataLayer(obj, null, null));
+	} else {
+		util.assert(obj instanceof Layer, "Expected an instance of Layer or DataSet, got {0}", obj);
+	}	
 };
 
 var removeLayerByIndex = function(idx) {
@@ -180,6 +193,18 @@ exports.remove = function(key) {
 /**
  * <p>Creates and adds a new data layer. The new layer becomes the new edit layer.</p>
  *
+ * <string>Signatures</string>
+ * <dl>
+ *   <dt><strong>addDataLayer()</strong></dt>
+ *   <dd>create data layer with a new dataset and default name</dd>
+ *   <dt><strong>addDataLayer(ds)</strong></dt>
+ *   <dd>create data layer with dataset ds and default name</dd>
+ *   <dt><strong>addDataLayer(name)</strong></dt>
+ *   <dd>create data layer with a new  dataset and name <code>name</code></dd>
+ *   <dt><strong>addDataLayer({name: ..., ds: ...})</strong></dt>
+ *   <dd>create data layer with a new  dataset and name <code>name</code></dd>
+
+ * </dl>
  * @example
  * // creates a new data layer 
  * var layer = josm.layers.addDataLayer();
@@ -187,29 +212,37 @@ exports.remove = function(key) {
  * // creates a new data layer with name 'test'
  * layer = josm.layers.addDataLayer("test");
  * 
- * @param {string} name (optional) the name of the layer. If missing, null or undefined, automatically
- * creates a name. 
+ * // creates a new data layer for the dataset ds
+ * var ds = new DataSet();
+ * layer = josm.layers.addDataLayer(ds);
+ *
  * @return {org.openstreetmap.josm.gui.layer.OsmDataLayer}  the new data layer 
  */
 exports.addDataLayer = function() {
-	var name;
+	var name, ds;
 	switch(arguments.length){
-	case 0: 
-		name = OsmDataLayer.createNewName();
-		break;
+	case 0: break;		
 	case 1: 
-		name = arguments[0];
-		if (util.isNothing(name)) {
-			name = OsmDataLayer.createNewName();
+		if (util.isString(arguments[0])) {
+			name = util.trim(arguments[0]);
+		} else if (arguments[0] instanceof DataSet) {
+			ds = arguments[0];
+		} else if (typeof arguments[0] === "object") {
+		    if (util.isString(arguments[0].name)) {
+		    	name = util.trim(arguments[0].name);
+		    } else if (arguments[0].ds instanceof DataSet) {
+		    	ds = arguments[0].ds;		    	
+		    }
 		} else {
-			name = util.trim(name + "");
+			util.assert(false, "unsupported type of argument, got {0}", arguments[0]);
 		}
 		break;
-		
-	 default:
-		 util.assert(false, "Too many arguments. Expected 0 or 1, got {0}", arguments.length);
-	}		
-	var layer = new OsmDataLayer(new DataSet(), name, null /* no file */); 
+	default:
+		util.assert(false, "Unsupported number of arguments, got {0}", arguments.length);
+	}
+	ds = ds || new DataSet();
+	name = name ||  OsmDataLayer.createNewName();
+	var layer = new OsmDataLayer(ds, name, null /* no file */); 
 	exports.add(layer);
 	return layer;
 };
