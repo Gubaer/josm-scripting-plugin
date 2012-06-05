@@ -595,5 +595,46 @@ exports.Api.downloadReferrer = function() {
 		util.assert(false, "Unexpected number of arguments, got {0}", arguments.length);
 	}
 };
+
+
+/**
+ * <p>Downloads the objects within a bounding box.</p>
+ *
+ * @example
+ * var api = require("josm/api").Api;
+ * var ds1 = api.downloadArea(new Bounds(
+ *     new LatLon(46.9479186,7.4619484),   // min
+ *     new LatLon(46.9497642, 7.4660683)   // max
+ * ));
+ * 
+ * var ds1 = api.downloadArea({
+ *     min: {lat: 46.9479186, lon: 7.4619484}, 
+ *     max: {lat: 46.9497642, lon: 7.4660683}  
+ * }); 
+ * 
+ * @method
+ * @static
+ * @name downloadReferrer
+ * @memberOf Api
+ * @return org.openstreetmap.josm.data.osm.DataSet
+ */
+exports.Api.downloadArea = function() {
+	var BoundingBoxDownloader = org.openstreetmap.josm.io.BoundingBoxDownloader;
+	var NullProgressMonitor = org.openstreetmap.josm.gui.progress.NullProgressMonitor;
+	var Bounds = org.openstreetmap.josm.data.Bounds;
+	
+	util.assert(arguments.length == 1, "Expected 1 argument, got {0}", arguments.length);
+	var bounds = arguments[0];
+	util.assert(util.isSomething(bounds), "bounds: must not be null or undefined");
+	if (bounds instanceof Bounds) {
+		// do nothing
+	} else if (typeof bounds === "object") {
+		bounds = Bounds.make(bounds); // convert to bounds
+	} else {
+		util.assert(false, "expected an instance of Bounds or an object, got {0}", bounds);
+	}
+	var downloader = new BoundingBoxDownloader(bounds);
+	return downloader.parseOsm(NullProgressMonitor.INSTANCE);
+};
 	
 }()) 
