@@ -17,7 +17,7 @@ fi
 
 MODULE=$1
 
-java -cp $RHINO_JAR -Djosm-scripting-plugin.home="$JOSM_SCRIPTING_PLUGIN_HOME" org.mozilla.javascript.tools.shell.Main  -f - <<EOS
+java -cp $RHINO_CP -Djosm-scripting-plugin.home="$JOSM_SCRIPTING_PLUGIN_HOME" org.mozilla.javascript.tools.shell.Main  -f - <<EOS
 load("javascript/require.js");
 require.addRepository("$JOSM_SCRIPTING_PLUGIN_HOME/javascript");
 var module = require("$MODULE");
