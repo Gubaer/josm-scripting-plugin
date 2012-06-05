@@ -36,8 +36,8 @@ var run = function(testcase) {
 	try {
 		testcase.call();
 		print("PASS - " + testcase.testname);
-	} catch(e) {
-		print("FAIL - " + testcase.testname + "' - " + e.toSource());
+	} catch(e) {		
+		print("FAIL - " + testcase.testname + "' - " + e);
 	}
 };
 
