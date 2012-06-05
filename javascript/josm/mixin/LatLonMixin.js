@@ -3,6 +3,8 @@
  *  {@link http://josm.openstreetmap.de/browser/josm/trunk/src/org/openstreetmap/josm/data/coor/LatLon.java|LatLon}.</p> 
  * 
  */
+var util = require("josm/util");
+var LatLon = org.openstreetmap.josm.data.coor.LatLon;
 
 /**
  * <p>LatLonMixin provides additional properties and methods which you can invoke on an instance of
@@ -69,6 +71,30 @@ mixin.lon = {
 		return this.$lon();
 	}	
 };
+
+
+/**
+ * <p>Creates a LatLon from a javascript object.</p>
+ * 
+ * @example
+ * var pos = LatLon.make({lat: 1, lon: 2});
+ * 
+ * @param {object} obj  a javascript object with two number properties <code>lat:</code> and 
+ *   <code>lon:</code> 
+ * * @memberOf LatLonMixin
+ * @name make
+ * @static
+ * @method
+ * @type org.openstreetmap.josm.data.coor.LatLon 
+ */
+mixin.make = function(obj) {
+	util.assert(util.isSomething(obj), "obj: must not be null or undefined");
+	util.assert(typeof obj === "object", "obj: expected an object, got {0}", obj);
+	util.assert(util.isNumber(obj.lat), "obj.lat: expected a number, got {0}", obj.lat);
+	util.assert(util.isNumber(obj.lon), "obj.lon: expected a number, got {0}", obj.lon);	
+	return new LatLon(obj.lat, obj.lon);
+};
+mixin.make.static=true;
 
 exports.forClass = org.openstreetmap.josm.data.coor.LatLon;
 exports.mixin    = mixin;

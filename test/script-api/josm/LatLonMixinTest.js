@@ -26,4 +26,57 @@ tu.suite("properties acess",
 			});
 		});
 	})
-).run();	
+).run();
+
+tu.suite("make",
+	test("make - valid object", function() {
+		var pos = LatLon.make({lat: 1, lon: 2});
+		util.assert(pos.lat == 1, "1- unexpected lat");		
+		util.assert(pos.lon == 2, "2 - unexpected lon");	
+	}),
+	test("make - incomplete object", function() {
+		tu.expectError("missing lat", function() {
+			var pos = LatLon.make({lon: 2});
+		});
+		
+		tu.expectError("missing lon", function() {
+			var pos = LatLon.make({lat: 2});
+		});
+	}),
+	test("make - illegal lats", function() {
+		tu.expectError("null", function() {
+			var pos = LatLon.make({lat: null, lon: 2});
+		});
+		
+		tu.expectError("undefined", function() {
+			var pos = LatLon.make({lat: undefined, lon: 2});
+		});
+		
+		tu.expectError("string", function() {
+			var pos = LatLon.make({lat: "1", lon: 2});
+		});
+		
+		tu.expectError("illegal lat", function() {
+			var pos = LatLon.make({lat: 200, lon: 2});
+		});
+	}),
+	test("make - illegal lons", function() {
+		tu.expectError("null", function() {
+			var pos = LatLon.make({lat: 1, lon: null});
+		});
+		
+		tu.expectError("undefined", function() {
+			var pos = LatLon.make({lat: 1, lon: undefined});
+		});
+		
+		tu.expectError("string", function() {
+			var pos = LatLon.make({lat: 1, lon: "2"});
+		});
+		
+		tu.expectError("illegal lat", function() {
+			var pos = LatLon.make({lat: 1, lon: 200});
+		});
+	})
+).run();
+	
+		
