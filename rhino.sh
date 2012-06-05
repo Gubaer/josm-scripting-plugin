@@ -9,4 +9,4 @@ if [ ! -e $BASEDIR/env.sh ];  then
   exit 1
 fi
 . $BASEDIR/env.sh
-java -cp $RHINO_JAR -Djosm-scripting-plugin.home="$JOSM_SCRIPTING_PLUGIN_HOME" org.mozilla.javascript.tools.shell.Main $*
+java -cp "$RHINO_CP" -Djosm-scripting-plugin.home="$JOSM_SCRIPTING_PLUGIN_HOME" org.mozilla.javascript.tools.shell.Main $*
