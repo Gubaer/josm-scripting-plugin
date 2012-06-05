@@ -27,7 +27,6 @@ import org.openstreetmap.josm.plugins.PluginException;
 import org.openstreetmap.josm.plugins.PluginInformation;
 import org.openstreetmap.josm.plugins.scripting.js.wrapper.JSMixinRegistry;
 import org.openstreetmap.josm.plugins.scripting.js.wrapper.MixinWrapFactory;
-import org.openstreetmap.josm.plugins.scripting.js.wrapper.NativeJavaObjectWithJSMixin;
 import org.openstreetmap.josm.plugins.scripting.js.wrapper.WrappingException;
 import org.openstreetmap.josm.plugins.scripting.util.Assert;
 import org.openstreetmap.josm.plugins.scripting.util.ExceptionUtil;
@@ -76,6 +75,11 @@ public class RhinoEngine {
 				}
 				logger.info(MessageFormat.format("Successfully loaded mixin module ''{0}''", m));				
 			}
+		} else {
+			logger.warning(MessageFormat.format(
+			  "Property ''{0}''' exported by module ''{1}'' should be a NativeArray, got {2} instead",
+			  "mixin", "josm/mixin/Mixins", o
+			));
 		}
 	}
 		
@@ -104,7 +108,7 @@ public class RhinoEngine {
 				logger.info(tr("Added the plugin jar as module respository. jar URL is: {0}", url.toString()));
 				loadJSMixins(ctx, scope);
 				script = "var josm=require('josm');";
-				ctx.evaluateString(scope, script, "fragment: loading module 'josm'", 0, null);
+				ctx.evaluateString(scope, script, "fragment: loading module 'josm'", 1, null);
 			} else {
 				logger.warning("Plugin information for plugin 'scripting' not found. Failed to initialize CommonJS module loader with path.");
 			}
@@ -127,7 +131,7 @@ public class RhinoEngine {
 		}
 		Reader reader = new InputStreamReader(in);
 		try {
-			ctx.evaluateReader(scope, reader, resource, 0, null);
+			ctx.evaluateReader(scope, reader, resource, 1, null);
 			return true;
 		} catch(IOException e){
 			logger.log(Level.SEVERE, tr("Failed to load javascript file from resource ''{0}''.", resource));
@@ -209,7 +213,7 @@ public class RhinoEngine {
 			public void run() {
 				enterSwingThreadContext();
 				Context ctx = Context.getCurrentContext();
-				ctx.evaluateString(RhinoEngine.this.scope.get(), script, "inlineScript", 0, null /* no security domain */);
+				ctx.evaluateString(RhinoEngine.scope.get(), script, "inlineScript", 1, null /* no security domain */);
 			}
 		};
 		runOnSwingEDT(r);
@@ -238,8 +242,8 @@ public class RhinoEngine {
 				public void run() {
 					try {
 						Scriptable s = (scope == null) ? new NativeObject() : scope; 
-						s.setParentScope(RhinoEngine.this.scope.get());
-						Context.getCurrentContext().evaluateReader(s, fr, file.toString(), 0, null /* no security domain */);
+						s.setParentScope(RhinoEngine.scope.get());
+						Context.getCurrentContext().evaluateReader(s, fr, file.toString(), 1, null /* no security domain */);
 					} catch(IOException e){
 						throw new RuntimeException(e);
 					}
@@ -257,5 +261,31 @@ public class RhinoEngine {
 		} finally {
 			IOUtil.close(reader);
 		}
+	}
+
+	/**
+	 * <p>Loads a CommonJS module and populates the variables <code>exports</code> and <code>module</code>.</p>
+	 * 
+	 * <p>This method is used in require.js to load CommonJS module. This way, Rhino keeps a reference from
+	 * the compiled script to the module file name given by <code>moduleLocation</code>. 
+	 * 
+	 * @param moduleLocation the module location, i.e. a file name 
+	 * @param moduleContent the module content, i.e. the javascript source for the module 
+	 * @param require a reference to the require function 
+	 * @param exports the "exports" variable populated by a CommonJS module
+	 * @param module the "module" variable populated by a CommonJS module 
+	 */
+	static public void compileModule(String moduleLocation, String moduleContent, Scriptable require, Scriptable exports, Scriptable module) {
+		Context ctx = Context.getCurrentContext();		
+		Scriptable scope = new NativeObject();		
+		Scriptable parentScope = RhinoEngine.scope.get();
+		if (parentScope == null) {
+			parentScope = ctx.initStandardObjects();
+		}		
+		scope.setParentScope(parentScope);
+		scope.put("require", scope, require);
+		scope.put("exports", scope, exports);
+		scope.put("module", scope, module);
+		ctx.evaluateString(scope, moduleContent, moduleLocation, 1, null /* no security domain */);
 	}
 }

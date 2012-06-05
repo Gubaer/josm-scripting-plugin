@@ -15,6 +15,7 @@
     var StringBuilder = java.lang.StringBuilder;
     var InputStreamReader = java.io.InputStreamReader;
     var BufferedReader = java.io.BufferedReader;
+    var RhinoEngine = org.openstreetmap.josm.plugins.scripting.js.RhinoEngine;
 	 
     var throwRequireError = function(message, cause) {
     	var error = new Error();
@@ -246,9 +247,8 @@
 
         try {
             var exports = {};
-            var module = { id: id, uri: moduleUrl, exports: exports};
-            var f = new Function("require", "exports", "module", moduleContent);
-            f.call({}, require, exports, module);
+            var module = { id: id, uri: moduleUrl, exports: exports};            
+            RhinoEngine.compileModule(moduleUrl.toString(), moduleContent, require, exports, module);
             exports = module.exports || exports;
             moduleCache[id] = exports;
             return exports;
