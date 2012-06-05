@@ -150,3 +150,36 @@ exports.alert = function() {
 		HelpAwareOptionPane.showOptionDialog(Main.parent, arguments[0],title, messageType,null);
 	}	
 };
+
+/**
+ * <p>Opens one or more files in JOSM.</p>
+ *  
+ * <p>Accepts a variable number of files. Each argument is either a string (a file name) or 
+ * a java.io.File.</p>
+ * 
+ * <p>Creates and opens layers in JOSM, depending on the kind of file opened:</p>
+ * <ul>
+ *   <li>creates a data layer for data files</li>
+ *   <li>creates a gpx layer for gpx files</li>
+ *   <li>creates an image layer for a directory with images</li>
+ *   <li>etc.</li>
+ * </ul>
+ */
+exports.open = function() {
+	var OpenFileAction = org.openstreetmap.josm.actions.OpenFileAction;
+	var io = java.io;
+	
+	var files = [];
+	for (var i=0; i<arguments.length; i++) {
+		var file = arguments[i];
+		if (util.isNothing(file)) continue;
+		if (util.isString(file)) {
+			files.push(new io.File(file));
+		} else if (file instanceof io.File) {
+			files.push(file);
+		} else {
+			util.assert(false, "unexpected value, got {0}", file);
+		}
+	}
+	OpenFileAction.openFiles(files);
+};
