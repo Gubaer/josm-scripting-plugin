@@ -6,5 +6,6 @@ exports.mixins = [
 	"josm/mixin/WayMixin",
 	"josm/mixin/RelationMixin",
 	"josm/mixin/LatLonMixin",
-	"josm/mixin/DataSetMixin"
+	"josm/mixin/DataSetMixin",
+	"josm/mixin/BoundsMixin"
 ];
