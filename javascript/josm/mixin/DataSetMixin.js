@@ -691,10 +691,11 @@ mixin.each = function(delegate, options){
  * @name load
  */
 mixin.load = function(source, options){
-	var io = java.io;
-	var jio = org.openstreetmap.josm.io;
-	var jtools = org.openstreetmap.josm.tools;
-	var GZIPInputStream = java.util.zip.GZIPInputStream;
+	var io                 = java.io;
+	var jio                = org.openstreetmap.josm.io;
+	var jtools             = org.openstreetmap.josm.tools;
+	var GZIPInputStream    = java.util.zip.GZIPInputStream;
+	var oCBZip2InputStream = org.apache.tools.bzip2.CBZip2InputStream;
 
 	function normalizeFile(source) {
 		if (source instanceof io.File) {
@@ -742,7 +743,9 @@ mixin.load = function(source, options){
 			is = new GZIPInputStream(new io.FileInputStream(source));
 			return jio.OsmReader.parseDataSet(is, null /* null progress monitor */);
 		} else if (format == "osm.bz2") {
-			is = new jio.OsmBzip2Importer.createBZip2InputStream(source);
+			var bis = new io.BufferedInputStream(new io.FileInputStream(source));
+			bis.read(); bis.read();  // skip the first two ints, the magic 'Bz' sequence 
+			is = new CBZip2InputStream(bis);
 			return jio.OsmReader.parseDataSet(is, null /* null progress monitor */);
 		}
 		util.assert(false, "should not happen");
@@ -751,6 +754,78 @@ mixin.load = function(source, options){
 	}
 };
 mixin.load.static = true;
+
+
+/**
+ * <p>Saves the dataset to a file (in OSM XML format).</p>
+ * 
+ * <p><code>options</code> can contain the following named options:</p>
+ * <dl>
+ *   <dt><strong>version</strong>: string</dt>
+ *   <dd>the value of the attribute <code>version</code> in the OSM file header. Default: "0.6"</dd>
+ *    
+ *   <dt><strong>changset</strong>: Changeset</dt>
+ *   <dd>the changeset whose id is included in the attribute  <code>changeset</code> on every
+ *   OSM object. If undefined, includes the individual <code>changeset</code> attribute of the OSM object. Default: undefined</dd>
+ * </dl>
+ *
+ * @example
+ * var ds = ....; // create and populate a dataset
+ * // save the data 
+ * ds.save("/tmp/data.osm");  
+ *  
+ * @param {string|java.io.File}  target  the target file. Either a file name as string or a java.io.File
+ * @param {object}  options  (optional) optional named parameters 
+ * @memberOf DataSetMixin
+ * @method
+ * @instance
+ * @name save
+ */
+mixin.save = function(target, options) {
+	var io  = java.io;
+	var Utils = org.openstreetmap.josm.tools.Utils;
+	var OsmWriter = org.openstreetmap.josm.io.OsmWriter;
+	var OsmWriterFactory = org.openstreetmap.josm.io.OsmWriterFactory;
+	var Changeset = org.openstreetmap.josm.data.osm.Changeset;
+	
+	function normalizeTarget(target) {
+		util.assert(util.isSomething(target), "target: must not be null or undefined");
+		if (util.isString(target)) {
+			return new io.File(target);
+		} else if (target instanceof io.File) {
+			return target;
+		} else {
+			util.assert(false, "target: unexpected type of value, got {0}", target);
+		}
+	};
+	
+	function normalizeOptions(options){
+		options = options || {};
+		util.assert(!util.isDef(options.version) || util.isString(options.version), "options.version: expected a string, got {0}", options.version);
+		options.version = options.version ? util.trim(options.version) : null /* default version */;	
+		var changeset = options.changeset;
+		util.assert(!util.isDef(changeset) || changeset instanceof Changeset, "options.changeset: expected a changeset, got {0}", changeset);
+		return options; 
+	};
+	
+	target = normalizeTarget(target);
+	options = normalizeOptions(options);
+	var pw = null;
+	try {
+		pw = new io.PrintWriter(new io.FileWriter(target));
+		var writer = new OsmWriterFactory.createOsmWriter(pw, false, options.version);
+		options.changeset && writer.setChangeset(options.changeset);
+		try {
+			this.getReadLock().lock();
+			writer.header();
+			writer.writeContent(this);
+		} finally {
+			this.getReadLock().unlock();
+		}
+	} finally {
+		pw && pw.close();
+	}
+};
 
 
 /**
