@@ -11,7 +11,7 @@ var LatLon = org.openstreetmap.josm.data.coor.LatLon;
  * {@link http://josm.openstreetmap.de/browser/josm/trunk/src/org/openstreetmap/josm/data/coor/LatLon.java|LatLon}. 
  * The native methods of JOSM Node are still 
  * available for scripting. If they are masked by methods and properties defined in this wrapper, you can
- * access them by adding the prefix charater $.</p>
+ * access them by adding the prefix character $.</p>
  * 
  * @mixin LatLonMixin 
  *
