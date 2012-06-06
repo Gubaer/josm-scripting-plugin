@@ -5,4 +5,6 @@ code.signature {
 
 p.member-header {
    background: url(../images/nav-bg.gif) #353535;
+   padding: 5px 5px 5px 10px;
+   font-face: bold;
 }
