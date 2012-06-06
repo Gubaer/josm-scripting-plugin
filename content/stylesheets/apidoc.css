@@ -2,3 +2,7 @@ code.signature {
    font-face: bold;
    background-color: #1b2426;
 }
+
+p.member-header {
+   background: url(../images/nav-bg.gif) #353535;
+}
