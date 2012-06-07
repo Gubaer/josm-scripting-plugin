@@ -1,6 +1,8 @@
 /**
- * <p>Additional properties and functions for JOSMs internal class Relation.</p> 
+ * <p>This module is auto-loaded by the scripting plugin and mixed into the 
+ * native java class {@josmclass org/openstreetmap/josm/data/osm/Relation}.</p>
  * 
+ * @module josm/mixin/RelationMixin
  */
 
 var util = require("josm/util");
@@ -11,33 +13,38 @@ var List = java.util.List;
 var mixin = {};
 
 /**
- * <p>RelationMixin provides additional properties and methods which you can invoke on an instance of
- * {@link http://josm.openstreetmap.de/browser/josm/trunk/src/org/openstreetmap/josm/data/osm/Relation.java|Relation}. The native methods of JOSM Relation are still 
- * available for scripting, unless they are shadowed by names of properties defined in this 
- * mixin.</p>
+ * <p>This mixin is auto-loaded by the scripting plugin and mixed into the 
+ * native java class {@josmclass org/openstreetmap/josm/data/osm/Relation}. It
+ * provides additional properties and methods which you can invoke on an instance of
+ * {@josmclass org/openstreetmap/josm/data/osm/Relation}.</p>
+ *  
+ * <p>The native methods of {@josmclass org/openstreetmap/josm/data/osm/Relation} are still 
+ * available for scripting. Just prefix their name with <code>$</code> if they are hidden
+ * by properties or functions defined in this mixin.</p>
  * 
  * <p>RelationMixin inherits the properties and methods of [OsmPrimitiveMixin]{@link OsmPrimitiveMixin}.</p>
  * 
  * <p>You can access relation members using <code>relation[i]</code>, see example below.
  * 
- *  @example 
- *  var Relation = org.openstreetmap.josm.data.osm.Relation;
- *  var out = java.lang.System.out;
- *  var relation = new Relation(12345);
+ * @example 
+ * var Relation = org.openstreetmap.josm.data.osm.Relation;
+ * var out = java.lang.System.out;
+ * var relation = new Relation(12345);
  *  
- *  // use the mixin property 'id' to access the relation id ... 
- *  var id = relation.id;
+ * // use the mixin property 'id' to access the relation id ... 
+ * var id = relation.id;
  *  
- *  // ... or the native method getUniqueId()
- *  id = relation.getUniqueId();
+ * // ... or the native method getUniqueId()
+ * id = relation.getUniqueId();
  *  
- *  // loop over relation members and print out the roles 
- *  for (var i=0; i < relation.length; i++) {
- *     out.println(relation[i].role);
- *  }
- *  
- * @mixin RelationMixin 
- *
+ * // loop over relation members and print out the roles 
+ * for (var i=0; i < relation.length; i++) {
+ *    out.println(relation[i].role);
+ * }
+ * @mixin RelationMixin
+ * @extends OsmPrimitiveMixin
+ * @forClass org.openstreetmap.josm.data.osm.Relation
+ * @memberof josm/mixin/RelationMixin
  */
 
 /**
@@ -49,6 +56,7 @@ var mixin = {};
  * @type {number}
  * @instance
  * @readOnly
+ * @summary Replies the number of relation members.
  */
 mixin.length = {
 	get: function() {
@@ -59,13 +67,21 @@ mixin.length = {
 /**
  * <p>The relation members</p>
  * 
- * <p><strong>get:</strong>  - replies the current list of relation members as javascript array.<p>
- * 
- * <p><strong>set:</strong>  - assign the list of relation members. Assign null or undefined to remove all members.
- * You can assign an array or a java.util.List of members. Members can be instances of RelationMember, Node, Way, or Relation. 
- * null or undefined are ignored.<br/>
- * <strong>Note:</strong> you can't assign members to a proxy relation.<p>
- * 
+ * <dl>
+ *   <dt>get</dt>
+ *   <dd>replies the current list of relation members as javascript array.</dd>
+ *   
+ *   <dt>set</dt>
+ *   <dd>Assign the list of relation members. Assign null or undefined to remove all members.
+ *    Assign an array or a java.util.List of members. Members can be instances of 
+ *    {@josmclass org/openstreetmap/josm/data/osm/RelationMember},
+ *    {@josmclass org/openstreetmap/josm/data/osm/Node},
+ *    {@josmclass org/openstreetmap/josm/data/osm/Way}, or
+ *    {@josmclass org/openstreetmap/josm/data/osm/Relation}. 
+ *    null or undefined are ignored.<br/>
+ *    <strong>Note:</strong> you can't assign members to a proxy relation.
+ *   </dd>
+ * </dl>
  * @example
  * var rb = require("josm/builder").RelationBuilder;
  * var nb = require("josm/builder").NodeBuilder;
@@ -82,7 +98,7 @@ mixin.length = {
  * @field
  * @instance
  * @type {array}
- * 
+ * @summary Set or get the relation members
  */
 mixin.members = {
 	get: function() {
@@ -138,15 +154,19 @@ mixin.__putByIndex = function(idx, val) {
  * 
  * <strong>Signatures</strong>
  * <dl> 
- *   <dt><code>add(m1, m2, ...)</code></dt>
+ *   <dt><code class="signature">add(m1, m2, ...)</code></dt>
  *   <dd>Adds a variable number of members. null or undefined are ignored. A member is either an
- *   instance of <code>RelationMember</code> or a node, a way, or a relation. If a naked JOSM primitive
- *   is passed in as member, it is added with an empty role to the members list.</dd>
- *   <dt><code>add(array|list)</code></dt>
+ *   instance of <code>{@josmclass org.openstreetmap.josm.data.osm.RelationMember}</code> or a 
+ *   {@josmclass org.openstreetmap.josm.data.osm.Node}, {@josmclass org.openstreetmap.josm.data.osm.Way},
+ *   or {@josmclass org.openstreetmap.josm.data.osm.Relation}. If an OSM primitive
+ *   is passed in, a relation member with an empty role is created.</dd>
+ *   <dt><code class="signature">add(array|list)</code></dt>
  *   <dd>Adds an array or list of members. null or undefined are ignored. A list is either a javascript
  *   array or an instance of a java List (<code>java.util.List</code>). A list element is either an
- *   instance of <code>RelationMember</code> or a node, a way, or a relation. If a naked JOSM primitive
- *   is passed in as member, it is added with an empty role to the member list. null and undefined are
+ *   instance of <code>{@josmclass org.openstreetmap.josm.data.osm.RelationMember}</code>,
+ *   or  or a  {@josmclass org.openstreetmap.josm.data.osm.Node}, {@josmclass org.openstreetmap.josm.data.osm.Way},
+ *   or {@josmclass org.openstreetmap.josm.data.osm.Relation}. If an OSM primitive
+ *   is passed in, a relation member with an empty role is created. null and undefined are
  *   ignored.</dd>
  * </dl>
  * 
@@ -169,6 +189,7 @@ mixin.__putByIndex = function(idx, val) {
  * @method
  * @instance
  * @name add
+ * @signature Adds one or more member to the relation.
  */
 mixin.add = function(){
 	var toAdd = [];
@@ -191,14 +212,14 @@ mixin.add = function(){
 };
 
 /**
- * <p>Inserts a member at position <em>idx</em>.</p>
+ * <p>Inserts a member at position <code>idx</code>.</p>
  * 
  * @example
  * var rb = require("josm/builder").RelationBuilder;
  * var nb = require("josm/builder").NodeBuilder;
  * var wb = require("josm/builder").WayBuilder;
  * 
- * // relation has two members 
+ * // create a relation with two members 
  * var relation = rb.withMembers(nb.create(), nb.create()).create();
  * 
  * // insert another member for a another node at position 0
@@ -213,6 +234,7 @@ mixin.add = function(){
  * @name insertAt
  * @param {number} idx  the index. a number &gt;= 0 and &lt;= the current number of members 
  * @param {object} the object  either a RelationMember, or a Node, a Way, or a Relation. Must not be null or undefined.  
+ * @summary Inserts one or more members at a position.
  */
 mixin.insertAt = function(idx, obj) {
 	util.assert(util.isSomething(idx), "idx: must not be null or undefined");
@@ -231,7 +253,7 @@ mixin.insertAt = function(idx, obj) {
 };
 
 /**
- * <p>Sets a member at position <em>idx</em>.</p>
+ * <p>Sets a member at position <code>idx</code>.</p>
  * 
  * @example
  * var rb = require("josm/builder").RelationBuilder;
@@ -252,7 +274,8 @@ mixin.insertAt = function(idx, obj) {
  * @instance
  * @name setAt
  * @param {number} idx  the index. a number &gt;= 0 and &lt; the current number of members 
- * @param {object} the object  either a RelationMember, or a Node, a Way, or a Relation. Must not be null or undefined.  
+ * @param {object} the object  either a RelationMember, or a Node, a Way, or a Relation. Must not be null or undefined. 
+ * @summary Sets one or more members at a position. 
  */
 mixin.setAt = function(idx, obj) {
 	util.assert(util.isSomething(idx), "idx: must not be null or undefined");
@@ -288,6 +311,7 @@ mixin.setAt = function(idx, obj) {
  * @param {number} idx  the index. a number &gt;= 0 and &lt; the current number of members
  * @return the unique object id for the member object at position <var>idx</var>
  * @type {number} 
+ * @summary Replies the object id of a member.
  */
 mixin.getIdAt = function(idx) {
 	util.assert(util.isSomething(idx), "idx: must not be null or undefined");
@@ -298,7 +322,7 @@ mixin.getIdAt = function(idx) {
 };
 
 /**
- * <p>Replies the member role for the member at position <var>idx</var>.</p>
+ * <p>Replies the member role for the member at position <code>idx</code>.</p>
  * 
  * @example
  * var rb = require("josm/builder").RelationBuilder;
@@ -316,6 +340,7 @@ mixin.getIdAt = function(idx) {
  * @param {number} idx  the index. a number &gt;= 0 and &lt; the current number of members
  * @return the member role for the member at position <var>idx</var>
  * @type {string} 
+ * @summary Replies the role of a member.
  */
 mixin.getRoleAt = function(idx) {
 	util.assert(util.isSomething(idx), "idx: must not be null or undefined");
@@ -326,7 +351,7 @@ mixin.getRoleAt = function(idx) {
 };
 
 /**
- * <p>Replies the object represented by the member at position <var>idx</var>.</p>
+ * <p>Replies the object represented by the member at position <code>idx</code>.</p>
  * 
  * @example
  * var rb = require("josm/builder").RelationBuilder;
@@ -343,8 +368,9 @@ mixin.getRoleAt = function(idx) {
  * @instance
  * @name getObjectAt
  * @param {number} idx  the index. a number &gt;= 0 and &lt; the current number of members
- * @return  the object represented by the member at position <var>idx</var>
+ * @return  the object represented by the member at position <code>idx</code>
  * @type {object} 
+ * @summary Replies the object of a member.
  */
 mixin.getObjectAt = function(idx) {
 	util.assert(util.isSomething(idx), "idx: must not be null or undefined");

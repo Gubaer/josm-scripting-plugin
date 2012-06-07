@@ -1,20 +1,29 @@
 /**
- * <p>Additional properties and functions for JOSMs internal class
- *  {@link http://josm.openstreetmap.de/browser/josm/trunk/src/org/openstreetmap/josm/data/Bounds.java|Bounds}.</p> 
+ * <p>Additional properties and functions for JOSMs internal class 
+ *  {@josmclass org/openstreetmap/josm/data/Bounds}.</p> 
  * 
+ * This module is auto-loaded. 
+ * 
+ * @module josm/mixin/BoundsMixin
  */
+
 var util = require("josm/util");
 var LatLon = org.openstreetmap.josm.data.coor.LatLon;
 var Bounds = org.openstreetmap.josm.data.Bounds;
 
 /**
- * <p>BoundsMixin provides additional properties and methods which you can invoke on an instance of
- * {@link http://josm.openstreetmap.de/browser/josm/trunk/src/org/openstreetmap/josm/data/Bounds.java|Bounds}. 
- * The native methods of JOSM Node are still 
- * available for scripting. If they are masked by methods and properties defined in this wrapper, you can
- * access them by adding the prefix character $.</p>
+ * <p>This mixin is auto-loaded by the scripting plugin and mixed into the 
+ * native java class {@josmclass org/openstreetmap/josm/data/Bounds}. It
+ * provides additional properties and methods which you can invoke on an instance of
+ * {@josmclass org/openstreetmap/josm/data/Bounds}.</p>
+ *  
+ * <p>The native methods of {@josmclass org/openstreetmap/josm/data/Bounds} are still 
+ * available for scripting. Just prefix their name with <code>$</code> if they are hidden
+ * by properties or functions defined in this mixin.</p>
  * 
  * @mixin BoundsMixin 
+ * @forClass org.openstreetmap.josm.data.Bounds
+ * @memberof josm/mixin/BoundsMixin
  *
  */
 var mixin = {};

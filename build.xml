@@ -241,6 +241,7 @@
 	<target name="js-doc" depends="js-init" description="Create the documentation for the JOSM javascript API">
 		<exec executable="${jsdoc3.cmd}" failonerror="yes" failifexecutionfails="yes">
 			<arg value="-d doc/js"/>
+			<arg value="-t templates/josm-scripting-plugin" />			
 			<arg value="javascript/josm.js"/>
 			<arg value="javascript/josm/util.js"/>
 			<arg value="javascript/josm/builder.js"/>
@@ -249,8 +250,10 @@
 			<arg value="javascript/josm/mixin/RelationMixin.js"/>
 			<arg value="javascript/josm/mixin/OsmPrimitiveMixin.js"/>
 			<arg value="javascript/josm/mixin/NodeMixin.js"/>
+			<arg value="javascript/josm/mixin/WayMixin.js"/>
 			<arg value="javascript/josm/mixin/LatLonMixin.js"/>
 			<arg value="javascript/josm/mixin/DataSetMixin.js"/>
+			<arg value="javascript/josm/mixin/BoundsMixin.js"/>
 		</exec>
 	</target>
 	

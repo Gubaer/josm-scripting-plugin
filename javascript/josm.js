@@ -17,7 +17,6 @@ var util = require("josm/util");
 /**
  * <p>This is the global JOSM API object. It represents a running JOSM instance.</p>
  * 
- * 
  * @namespace josm
  */
 
@@ -33,6 +32,7 @@ var util = require("josm/util");
  * @readOnly
  * @instance
  * @type {string} 
+ * @summary JOSM version string
  */
 Object.defineProperty(exports, "version", {
 	get: function() {
@@ -55,6 +55,7 @@ Object.defineProperty(exports, "version", {
  * @readOnly
  * @instance
  * @type {object} 
+ * @summary accessor for JOSM layers
  */
 Object.defineProperty(exports, "layers", {
 	get: function() {
@@ -67,15 +68,18 @@ Object.defineProperty(exports, "layers", {
  * 
  * <strong>Signatures</strong>
  * <dl>
- *   <dt><strong>alert(message)</strong><dt>
+ *   <dt><code class="signature">alert(message)</code><dt>
  *   <dd>Displays an information message with an OK button.</dd>
  *   
- *   <dt><strong>alert(message, ?options)</strong><dt>
+ *   <dt><code class="signature">alert(message, ?options)</code><dt>
  *   <dd>Displays a message. The look and feel of the alert window depends on the <var>options</var>. The
  *   following options are supported:
- *   <ul>
- *     <li><strong>title</strong> - (optional) the window title. A string is expected. Empty string if missing.</li>
- *      <li><strong>messageType</strong> - (optional) the message type. Use one of the following values: 
+ *   <dl>
+ *      <dt><code>title</code>:string</dt>
+ *      <dd>(optional) the window title. A string is expected. Empty string if missing.</dt>
+ *      
+ *      <dd><code>messageType</code></dt>
+ *      <dd>(optional) the message type. Use one of the following values: 
  *         <ul>
  *            <li>JOptionPane.INFORMATION_MESSAGE, "info","information"</li>
  *            <li>JOptionPane.ERROR_MESSAGE, "error"</li>
@@ -85,13 +89,12 @@ Object.defineProperty(exports, "layers", {
  *         </ul>
  *         Default value is OptionPane.INFORMATION_MESSAGE. String values are not case sensitive and leading and
  *         trailing white space is removed.
- *      </li>
- *   </ul>
+ *      </dd>
+ *   </dl>
  *   </dd>
  * </dl>
  * 
  * @example
- * 
  * // display an information alert
  * josm.alert("Hello World!");
  * 
@@ -103,7 +106,9 @@ Object.defineProperty(exports, "layers", {
  * 
  * @memberOf josm
  * @instance
+ * @method
  * @name alert
+ * @summary display a message 
  */
 exports.alert = function() {	
 	var map = {
@@ -164,6 +169,16 @@ exports.alert = function() {
  *   <li>creates an image layer for a directory with images</li>
  *   <li>etc.</li>
  * </ul>
+ * 
+ * * @example
+ * // open a data file in a new data layer 
+ * josm.open("/my/data/file.osm");
+ * 
+ * @memberOf josm
+ * @instance
+ * @method
+ * @name open
+ * @summary Opens one or more files in JOSM
  */
 exports.open = function() {
 	var OpenFileAction = org.openstreetmap.josm.actions.OpenFileAction;

@@ -1,8 +1,8 @@
+(function() {
 /**
  * <p>Provides access to the JOSM layers.</p>
  * 
  * @module josm/layers
- * 
  */
 
 //-- imports 
@@ -21,8 +21,11 @@ var mv = function() {
  * Replies the number of currently open layers. 
  * 
  * @name length
- * @memberOf export.layers
- * @type {Number}
+ * @memberof josm/layers
+ * @type {number}
+ * @readonly
+ * @filed
+ * @summary Replies the number of currently open layers. 
  */ 
 Object.defineProperty(exports, "length", {
 	get: function() {
@@ -51,11 +54,11 @@ function getLayerByIndex(idx) {
 /**
  * <p>Replies one of the layers given a key.</p>
  * <ul>
- *   <li>If <code>key</code> is a <em>Number</em>, replies the layer with index key, or
+ *   <li>If <code>key</code> is a number, replies the layer with index key, or
  *   undefined, if no layer for this index exists.</li>
- *    <li>If <code>key</code> is a <em>String</em>, replies the first layer whose name is identical to key (
+ *    <li>If <code>key</code> is a string, replies the first layer whose name is identical to key (
  *    case insensitive, without leading/trailing whitespace), or undefined, if no layer with such a name exists.</li>
- * <ul>
+ * </ul>
  * 
  * @example
  * var layers = require("josm/layers");
@@ -66,8 +69,11 @@ function getLayerByIndex(idx) {
  * // get the first layer with name "data layer"
  * var layer2 = layers.get("data layer"); 
  * 
- * 
- * @param key {number|string}  the key to retrieve the layer 
+ * @param {number|string} key the key to retrieve the layer 
+ * @memberof josm/layers
+ * @name get
+ * @method
+ * @summary Replies one of the layers given a key.
  */
 exports.get = function(key) {
 	var undefined;
@@ -78,7 +84,7 @@ exports.get = function(key) {
 };
 
 /**
- * <p>Checks whether <var>layer</var> is a currently registered layer.</p>
+ * <p>Checks whether <code>layer</code> is a currently registered layer.</p>
  * 
  * @example
  * var layers = require("josm/layers");
@@ -96,7 +102,10 @@ exports.get = function(key) {
  * @param {org.openstreetmap.josm.gui.layer.Layer|string|number} layer  a layer, a layer name, or a layer index 
  * @return true, if the layer or at least one layer with the given name exists. False, otherwise. 
  * @type boolean 
- * 
+ * @memberof josm/layers
+ * @method
+ * @name has
+ * @summary Checks whether <code>layer</code> is currently registered layer. 
  */
 exports.has = function(layer) {
 	if (util.isNothing(layer)) return false;
@@ -114,7 +123,8 @@ exports.has = function(layer) {
 /**
  * <p>Adds a layer.</p>
  * 
- * <p>Either pass in a layer object or a data set. In the later case, an OsmDataLayer is
+ * <p>Either pass in a layer object or a data set. In the later case, an 
+ * {@josmclass org.openstreetmap.josm.gui.layer.OsmDataLayer} is
  * automatically created.</p>
  * 
  * @example
@@ -132,6 +142,11 @@ exports.has = function(layer) {
  * 
  * @param {org.openstreetmap.josm.gui.layer.Layer|org.openstreetmap.josm.data.osm.DataSet} obj  a layer to add, or a dataset. 
  *  Ignored if null or undefined.  
+ * @summary Adds a layer.
+ * @memberof josm/layers
+ * @method
+ * @type org.openstreetmap.josm.gui.layer.Layer
+ * @name add
  */
 exports.add = function(obj) {
 	if (util.isNothing(obj)) return;
@@ -159,13 +174,11 @@ var removeLayerByName = function(name) {
 /**
  * <p>Removes a layer with the given key.</p>
  * <ul>
- *   <li>If <var>key</var> is a <var>Number</var>, removes the layer with the index key. If the index doesn't
+ *   <li>If <code>key</code> is a <code>Number</code>, removes the layer with the index key. If the index doesn't
  *   isn't a valid layer index, nothing is removed.</li>
- *   <li>If <var>key</var> is a <var>string</var>, removes the layer with the name <var>key</var>. Leading 
+ *   <li>If <code>key</code> is a <code>string</code>, removes the layer with the name <code>key</code>. Leading 
  *   and trailing white space is removed, matching is a case-insensitive sub-string match.</li>
-   
- * <ul>
- * 
+ * </ul>
  * @example
  * var layers = require("josm/layers");
  * 
@@ -175,7 +188,11 @@ var removeLayerByName = function(name) {
  * // remove the first layer matching with the supplied name
  * layers.remove("myLayerName");   
  * 
- * @param key {number|string} indicates the layer to remove 
+ * @param {number|string} key  indicates the layer to remove 
+ * @memberof josm/layers
+ * @name remove
+ * @method
+ * @summary Removes a layer.
  */
 exports.remove = function(key) {
 	if (util.isNothing(key)) return;
@@ -195,15 +212,14 @@ exports.remove = function(key) {
  *
  * <string>Signatures</string>
  * <dl>
- *   <dt><strong>addDataLayer()</strong></dt>
+ *   <dt><code class="signature">addDataLayer()</code></dt>
  *   <dd>create data layer with a new dataset and default name</dd>
- *   <dt><strong>addDataLayer(ds)</strong></dt>
+ *   <dt><code class="signature">addDataLayer(ds)</code></dt>
  *   <dd>create data layer with dataset ds and default name</dd>
- *   <dt><strong>addDataLayer(name)</strong></dt>
+ *   <dt><code class="signature">addDataLayer(name)</code></dt>
  *   <dd>create data layer with a new  dataset and name <code>name</code></dd>
- *   <dt><strong>addDataLayer({name: ..., ds: ...})</strong></dt>
+ *   <dt><code class="signature">addDataLayer({name: ..., ds: ...})</code></dt>
  *   <dd>create data layer with a new  dataset and name <code>name</code></dd>
-
  * </dl>
  * @example
  * // creates a new data layer 
@@ -216,7 +232,11 @@ exports.remove = function(key) {
  * var ds = new DataSet();
  * layer = josm.layers.addDataLayer(ds);
  *
- * @return {org.openstreetmap.josm.gui.layer.OsmDataLayer}  the new data layer 
+ * @name addDataLayer
+ * @memberof josm/layers
+ * @type org.openstreetmap.josm.gui.layer.OsmDataLayer
+ * @method
+ * @summary Adds a data layer
  */
 exports.addDataLayer = function() {
 	var name, ds;
@@ -246,3 +266,5 @@ exports.addDataLayer = function() {
 	exports.add(layer);
 	return layer;
 };
+
+}());

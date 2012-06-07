@@ -1,19 +1,25 @@
 /**
- * <p>Additional properties and functions for JOSMs internal class
- *  {@link http://josm.openstreetmap.de/browser/josm/trunk/src/org/openstreetmap/josm/data/coor/LatLon.java|LatLon}.</p> 
+ * <p>This module is auto-loaded by the scripting plugin and mixed into the 
+ * native java class {@josmclass org.openstreetmap.josm.data.coor.LatLon}.</p>
  * 
+ * @module josm/mixin/LatLonMixin
  */
 var util = require("josm/util");
 var LatLon = org.openstreetmap.josm.data.coor.LatLon;
 
 /**
- * <p>LatLonMixin provides additional properties and methods which you can invoke on an instance of
- * {@link http://josm.openstreetmap.de/browser/josm/trunk/src/org/openstreetmap/josm/data/coor/LatLon.java|LatLon}. 
- * The native methods of JOSM Node are still 
- * available for scripting. If they are masked by methods and properties defined in this wrapper, you can
- * access them by adding the prefix character $.</p>
+ * <p>This mixin is auto-loaded by the scripting plugin and mixed into the 
+ * native java class {@josmclass org.openstreetmap.josm.data.coor.LatLon}. It
+ * provides additional properties and methods which you can invoke on an instance of
+ * {@josmclass org.openstreetmap.josm.data.coor.LatLon}.</p>
+ *  
+ * <p>The native methods of {@josmclass org.openstreetmap.josm.data.coor.LatLon} are still 
+ * available for scripting. Just prefix their name with <code>$</code> if they are hidden
+ * by properties or functions defined in this mixin.</p>
  * 
  * @mixin LatLonMixin 
+ * @forClass org.openstreetmap.josm.data.coor.LatLon
+ * @memberof josm/mixin/LatLonMixin
  *
  */
 var mixin = {};
@@ -38,6 +44,7 @@ var mixin = {};
  * @readOnly
  * @instance
  * @type {number} 
+ * @summary Get the latitude.
  */
 mixin.lat = {
 	get: function() {
@@ -65,6 +72,7 @@ mixin.lat = {
  * @readOnly
  * @instance
  * @type {number} 
+ * @summary Get the longitude.
  */
 mixin.lon = {
 	get: function() {
@@ -74,18 +82,19 @@ mixin.lon = {
 
 
 /**
- * <p>Creates a LatLon from a javascript object.</p>
+ * <p>Creates a {@josmclass org.openstreetmap.josm.data.coor.LatLon} from a javascript object.</p>
  * 
  * @example
  * var pos = LatLon.make({lat: 1, lon: 2});
  * 
  * @param {object} obj  a javascript object with two number properties <code>lat:</code> and 
  *   <code>lon:</code> 
- * * @memberOf LatLonMixin
+ * @memberOf LatLonMixin
  * @name make
  * @static
  * @method
  * @type org.openstreetmap.josm.data.coor.LatLon 
+ * @summary Create a {@josmclass org.openstreetmap.josm.data.coor.LatLon} from a javascript object.
  */
 mixin.make = function(obj) {
 	util.assert(util.isSomething(obj), "obj: must not be null or undefined");

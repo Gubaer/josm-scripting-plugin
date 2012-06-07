@@ -12,6 +12,10 @@ var MessageFormat = java.text.MessageFormat;
  * @param {object} value  the value to check
  * @type {boolean}
  * @return false, if <code>value</code> is null or undefined; true, otherwise  
+ * @memberof josm/util
+ * @method
+ * @summary  Checks whether a value is null or undefined.
+ * @name isNothing
  */
 exports.isNothing = function(value) {
 	return value === null || value === void 0;
@@ -23,6 +27,10 @@ exports.isNothing = function(value) {
  * @param {object} value  the value to check
  * @type {boolean}
  * @return false, if <code>value</code> is null or undefined; true, otherwise  
+ * @memberof josm/util
+ * @method
+ * @summary  Checks whether a value is neither null nor undefined.
+ * @name isSomething
  */
 exports.isSomething = function(val) {
 	return ! exports.isNothing(val);
@@ -36,6 +44,10 @@ exports.isSomething = function(val) {
  * 
  * @param {string} s  the string to be trimmed
  * @type {string} 
+ * @memberof josm/util
+ * @method
+ * @summary  Trims leading and trailing whitespace from <code>s</code>.
+ * @name trim
  */
 exports.trim = function(s){
 	if (exports.isNothing(s)) return s;
@@ -74,6 +86,10 @@ exports.trim = function(s){
  * // throws an Error e, with e.description == "My message: test"
  * util.assert(false, "My message: {0}", "test");    
  * 
+ * @memberof josm/util
+ * @method
+ * @summary  Assert a condition and throw an Error if the condition isn't met.
+ * @name assert
  */
 exports.assert = function() {
 	switch(arguments.length) {
@@ -114,9 +130,13 @@ exports.assert = function() {
  * util.assertSomting("test");    // -> OK 
  * util.assertSomething(5);       // -> OK 
  * 
- * @param {Anything} val the value to check
+ * @param {any} val the value to check
  * @param {string} msg  (optional) message if the assertion fails
  * @param {object...} values (optional) additional values used in <code>msg</code> placeholders 
+ * @memberof josm/util
+ * @method
+ * @summary  Asserts that <code>val</code> is defined and non-null.
+ * @name assertSomething
  */
 exports.assertSomething = function(val) {
 	var args;
@@ -134,6 +154,10 @@ exports.assertSomething = function(val) {
  * @param {Anything} val the value to check
  * @param {String} msg  (optional) message if the assertion fails
  * @param {Object...} values (optional) additional values used in <code>msg</code> placeholders 
+ * @memberof josm/util
+ * @method
+ * @summary  Asserts that <code>val</code> is a number.
+ * @name assertNumber
  */
 exports.assertNumber = function(val) {
 	var args;
@@ -148,7 +172,12 @@ exports.assertNumber = function(val) {
 /**
  * Returns true if  <code>val</code> is defined.
  * 
- * @param {Anything} val the value to check
+ * @param {any} val the value to check
+ * @memberof josm/util
+ * @method
+ * @summary  Returns true if  <code>val</code> is defined.
+ * @name isDef 
+ * @type boolean
  */
 exports.isDef = function(val) {
 	return val !== void 0;  
@@ -157,7 +186,12 @@ exports.isDef = function(val) {
 /**
  * Returns true if  <code>val</code> is a number.
  * 
- * @param {Anything} val the value to check
+ * @param {any} val the value to check
+ * @memberof josm/util
+ * @method
+ * @summary  Returns true if  <code>val</code> is a number.
+ * @name isNumber 
+ * @type boolean 
  */	
 exports.isNumber = function(val) {
 	return typeof val === "number";
@@ -166,19 +200,28 @@ exports.isNumber = function(val) {
 /**
  * Returns true if  <code>val</code> is a string.
  * 
- * @param {Anything} val the value to check
+ * @param {any} val the value to check
  * @return true, if val is a string or a String object 
+ * @memberof josm/util
+ * @method
+ * @summary Returns true if  <code>val</code> is a string.
+ * @name isString 
+ * @type boolean 
  */		
 exports.isString = function(val) {
 	return exports.isDef(val) && (typeof val === "string" || val instanceof String);
 };
-
 
 /**
  * Replies true if <code>val</code> is an array.
  * 
  * @param {anything} val the value to check
  * @return true, if val is an array
+ * @memberof josm/util
+ * @method
+ * @summary Replies true if <code>val</code> is an array.
+ * @name isArray 
+ * @type boolean  
  */
 exports.isArray = function(val) {
 	return Object.prototype.toString.call( val ) === '[object Array]';
@@ -189,6 +232,11 @@ exports.isArray = function(val) {
  * 
  * @param {anything} val the value to check
  * @return true, if val is a list of arguments
+ * @memberof josm/util
+ * @method
+ * @summary Replies true if <code>val</code> is a list of arguments.
+ * @name isArguments 
+ * @type boolean   
  */
 exports.isArguments = function(val) {
 	return Object.prototype.toString.call(val) === '[object Arguments]';
@@ -208,6 +256,12 @@ exports.isArguments = function(val) {
  * o = undefined;
  * c = util.countProperties(o);       // ->  undefined 
  * 
+ * @param {any} o the object
+ * @memberof josm/util
+ * @method
+ * @summary Replies the number of properties owned by <code>o</code>.
+ * @name countProperties 
+ * @type number  
  */
 exports.countProperties  = function(o) {
 	if (exports.isNothing(o)) return void 0;
@@ -233,6 +287,12 @@ exports.countProperties  = function(o) {
  * o = undefined;
  * c = util.hasProperties(o);       // ->  false 
  * 
+ * @param {any} o the object
+ * @memberof josm/util
+ * @method
+ * @summary Replies true, if <code>o</code> owns at least one property.
+ * @name hasProperties 
+ * @type boolean
  */
 exports.hasProperties = function(o) {
 	var count = exports.countProperties(o);
@@ -240,7 +300,16 @@ exports.hasProperties = function(o) {
 	return count > 0;
 };	
 
-
+/**
+ * Replies true, if f is a function.
+ * 
+ * @param {any} f the object
+ * @memberof josm/util
+ * @method
+ * @summary Replies true, if f is a function.
+ * @name isFunction 
+ * @type boolean
+ */
 exports.isFunction = function(f) {
 	return typeof f === "function"; 
 };
@@ -251,6 +320,10 @@ exports.isFunction = function(f) {
  * @param {object...} a variable number of objects
  * @return a new object which includes the combined properties of the argument objects 
  * @type object
+ * @memberof josm/util
+ * @method
+ * @summary Mixes the properties of a list of objects into one object.
+ * @name mix 
  */
 exports.mix = function(){
 	var mixin = {};
@@ -280,6 +353,11 @@ exports.mix = function(){
  * @example
  * 
  * util.println("Hello world! My name is {0}", myname);
+ * 
+ * @memberof josm/util
+ * @method
+ * @summary Prints a message to stdout (including newline).
+ * @name println 
  */
 exports.println = function() {
 	var args = Array.prototype.slice.call(arguments,0);
@@ -295,7 +373,12 @@ exports.println = function() {
  * 
  * @example
  * 
- * util.print("Hello world! My name is {0}", myname); 
+ * util.print("Hello world! My name is {0}", myname);
+ *  
+ * @memberof josm/util
+ * @method
+ * @summary Prints a message to stdout (without newline).
+ * @name print 
  */
 exports.print = function() {
 	var args = Array.prototype.slice.call(arguments,0);

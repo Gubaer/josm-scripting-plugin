@@ -1,4 +1,9 @@
-
+/**
+ * <p>This module provides functions to retrieve data from and upload data
+ * to an OSM server.</p> 
+ * 
+ * @module josm/api
+ */
 var URL = java.net.URL;
 var OsmApi = org.openstreetmap.josm.io.OsmApi;
 var Changeset = org.openstreetmap.josm.data.osm.Changeset;
@@ -16,7 +21,10 @@ var util = require("josm/util");
 (function() { 
 
 /**
- * <p>Provides methods to open,close, get, update, etc. changesets on the OSM API server.</p>
+ * <p>Provides methods to open, close, get, update, etc. changesets on the OSM API server.</p>
+ * 
+ * <p><strong>Note:</strong> this class doesn't provide a constructor. Methods and properties
+ * are "static".</p>
  * 
  * @example
  * // load the changeset api
@@ -25,8 +33,9 @@ var util = require("josm/util");
  * // create a new changeset on the server 
  * var cs = api.open();
  * 
- * @namespace
+ * @class
  * @name ChangesetApi
+ * @memberof josm/api
  */
 exports.ChangesetApi = {};
 	
@@ -58,7 +67,8 @@ exports.ChangesetApi = {};
  * @memberOf ChangesetApi
  * @method
  * @static
- * @return org.openstreetmap.josm.data.osm.Changeset  
+ * @type org.openstreetmap.josm.data.osm.Changeset  
+ * @summary Creates and opens a changeset
  */	
 exports.ChangesetApi.open = function() {
 	var cs;
@@ -95,10 +105,13 @@ exports.ChangesetApi.open = function() {
 /**
  * <p>Closes a changeset</p>
  * 
- * <ul>
- *   <li><code>close(id)</code>  - closes the changeset with the given id</li>
- *   <li><code>close(aChangeset)</code>  - closes the changeset given by <code>aChangeset</code></li>
- * </ul>
+ * <dl>
+ *   <dt><code class="signature">close(id)</code></dt>
+ *   <dd>closes the changeset with the given id</dd>
+ *   
+ *   <dt><code class="signature">close(aChangeset)</code><dt>
+ *   <dd>Xloses the changeset given by <code>aChangeset</code></dd>
+ * </dl>
  * 
  * @example
  * var api = require("josm/api").ChangesetApi;
@@ -115,9 +128,11 @@ exports.ChangesetApi.open = function() {
  * 
  * @name close
  * @memberOf ChangesetApi
+ * @param {number|org.openstreetmap.josm.data.osm.Changeset} changeset  the changeset to close 
  * @method
  * @static
- * @return org.openstreetmap.josm.data.osm.Changeset  
+ * @type org.openstreetmap.josm.data.osm.Changeset  
+ * @summary Closes a changeset
  */	
 exports.ChangesetApi.close = function() {
 	var cs;
@@ -146,9 +161,10 @@ exports.ChangesetApi.close = function() {
 /**
  * <p>Updates a changeset</p>
  * 
- * <ul>
- *   <li><code>update(aChangeset)</code>  - updates the changeset <code>aChangeset</code></li>
- * </ul>
+ * <dl>
+ *   <dt><code class="signature">update(aChangeset)</code></dt>
+ *   <dd>Updates the changeset <code>aChangeset</code></dd>
+ * </dl>
  * 
  * @example
  * var api = require("josm/api").ChangesetApi;
@@ -160,10 +176,12 @@ exports.ChangesetApi.close = function() {
  * cs2 = api.update(cs2); 
  * 
  * @name update
+ * @param {org.openstreetmap.josm.data.osm.Changeset} changeset  the changeset to update
  * @memberOf ChangesetApi
  * @method
  * @static
- * @return org.openstreetmap.josm.data.osm.Changeset  
+ * @type org.openstreetmap.josm.data.osm.Changeset  
+ * @summary Updates a changeset
  */	
 exports.ChangesetApi.update = function () {
 	var cs;
@@ -187,13 +205,16 @@ exports.ChangesetApi.update = function () {
 };
 
 /**
- * <p>Get a changeset</p>
+ * <p>Get a changeset from the server</p>
  * 
- * <ul>
- *   <li><code>get(aChangeset)</code>  - gets the changeset specified by <code>aChangeset</code>. aChangset must be 
- *     an instance of <code>Changeset</code>. aChangeset.id &gt; 0 expected.</li>
- *   <li><code>get(id)</code>  - gets the changeset for the id. id must be a number &gt; 0.</li> 
- * </ul>
+ * <dl>
+ *   <dt><code class="signature>get(aChangeset)</code></dt>
+ *   <dd>Gets the changeset specified by <code>aChangeset</code>. aChangset must be 
+ *     an instance of <code>Changeset</code>. aChangeset.id &gt; 0 expected.</dd>
+ *     
+ *   <dt><code class="signature">get(id)</code></dt>
+ *   <dd>gets the changeset for the id. id must be a number &gt; 0.</dd> 
+ * </dl>
  * 
  * @example
  * var api = require("josm/api").ChangesetApi;
@@ -208,9 +229,11 @@ exports.ChangesetApi.update = function () {
  * 
  * @name get
  * @memberOf ChangesetApi
+ * @param {number|org.openstreetmap.josm.data.osm.Changeset} changeset  the changeset to close
  * @method
  * @static
- * @return org.openstreetmap.josm.data.osm.Changeset  
+ * @type org.openstreetmap.josm.data.osm.Changeset 
+ * @summary Get a changeset from the server  
  */	
 exports.ChangesetApi.get = function() {
 	var cs;
@@ -238,6 +261,7 @@ exports.ChangesetApi.get = function() {
 
 }());
 
+
 (function () {
 	
 var undefined; 
@@ -246,6 +270,9 @@ var undefined;
  * <p>Collection of static methods to download objects from and upload objects to the 
  * OSM server.</p>
  * 
+ * <p><strong>Note:</strong> this class doesn't provide a constructor. Methods and properties
+ * are "static".</p>
+ *
  * @example
  * // load the changeset api
  * var api = require("josm/api").Api;
@@ -253,9 +280,9 @@ var undefined;
  * // download node 12345 
  * var ds = api.downloadObject(12345, "node");
  *
- * 
- * @namespace
+ * @class
  * @name Api
+ * @memberof josm/api
  */	
 exports.Api = {};
 
@@ -378,26 +405,26 @@ function downloadObject_3() {
  * accepts a set of optional named parameters as last argument.</p>
  * 
  * <dl>
- *   <dt><strong>downloadObject(id, type, ?options)</strong></dt>
- *   <dd><var>id</var> is the global numeric id. 
- *   <var>type</var> is either one of the strings "node", "way", or "relation", or one of the 
+ *   <dt><code class="signature">downloadObject(id, type, ?options)</code></dt>
+ *   <dd><code>id</code> is the global numeric id. 
+ *   <code>type</code> is either one of the strings "node", "way", or "relation", or one of the 
  *   enumeration OsmPrimitiveType.NODE, OsmPrimitiveType.WAY, or OsmPrimitiveType.RELATION
  *   </dd>
  *   
- *   <dt><strong>downloadObject(id, ?options)</strong></dt>
- *   <dd><var>id</var> is a <var>PrimitiveId</var> or an object 
- *   with the (mandatory) properties <var>id</var> and <var>type</var>, i.e. an object <code>{id: ..., type: ...}</code>.
- *   <var>id</var> is again a number, <var>type</var> is again either one of the strings "node", "way", or "relation", or one of the 
+ *   <dt><codee class="signaure">downloadObject(id, ?options)</code></dt>
+ *   <dd><code>id</code> is a <code>PrimitiveId</code> or an object 
+ *   with the (mandatory) properties <code>id</code> and <code>type</code>, i.e. an object <code>{id: ..., type: ...}</code>.
+ *   <code>id</code> is again a number, <code>type</code> is again either one of the strings "node", "way", or "relation", or one of the 
  *   enumeration OsmPrimitiveType.NODE, OsmPrimitiveType.WAY, or OsmPrimitiveType.RELATION.
  *   </dd> 
  * </dl>
- * In both cases, <var>?options</var> is an (optional) object with the following two (optional) properties:
+ * In both cases, <code>?options</code> is an (optional) object with the following two (optional) properties:
  * <dl>
- *   <dt><strong>full</strong>  - a boolean value</dt>
- *   <dd>If <var>true</var>, the object and its immediate children are downloaded, i.e. the nodes of a way and 
- *   the relation members of a relation. Default if missing is <var>false</var>.</dd>
+ *   <dt><code class="signature">full</code>: boolean</dt>
+ *   <dd>If <code>true</code>, the object and its immediate children are downloaded, i.e. the nodes of a way and 
+ *   the relation members of a relation. Default if missing is <code>false</code>.</dd>
  *   
- *   <dt><strong>version</strong>  - a positive number</dt>
+ *   <dt><code class="signature">version</code>: number</dt>
  *   <dd>If present, the specified version of the object is downloaded. If missing, the current version is downloaded.</dd>
  * </dl>
  * 
@@ -423,7 +450,8 @@ function downloadObject_3() {
  * @static
  * @name downloadObject
  * @memberOf Api
- * @return org.openstreetmap.josm.data.osm.DataSet
+ * @type org.openstreetmap.josm.data.osm.DataSet
+ * @summary Downloads an object from the server. 
  */
 exports.Api.downloadObject = function() {
 	var id;
@@ -528,25 +556,26 @@ function downloadReferrer_3() {
  * accepts a set of optional named parameters as last argument.</p>
  * 
  * <dl>
- *   <dt><strong>downloadReferrer(id, type, ?options)</strong></dt>
- *   <dd><var>id</var> is the global numeric id. 
- *   <var>type</var> is either one of the strings "node", "way", or "relation", or one of the 
- *   enumeration OsmPrimitiveType.NODE, OsmPrimitiveType.WAY, or OsmPrimitiveType.RELATION
+ *   <dt><code class="signature">downloadReferrer(id, type, ?options)</code></dt>
+ *   <dd><code>id</code> is the global numeric id. 
+ *   <code>type</code> is either one of the strings "node", "way", or "relation", or one of the 
+ *   enumeration {@josmclass org.openstreetmap.josm.data.osm.OsmPrimitiveType}.NODE, 
+ *   {@josmclass org.openstreetmap.josm.data.osm.OsmPrimitiveType}.WAY, 
+ *   or {@josmclass org.openstreetmap.josm.data.osm.OsmPrimitiveType}.RELATION.
  *   </dd>
  *   
- *   <dt><strong>downloadReferrer(id, ?options)</strong></dt>
- *   <dd><var>id</var> is a <var>PrimitiveId</var> or an object 
- *   with the (mandatory) properties <var>id</var> and <var>type</var>, i.e. an object <code>{id: ..., type: ...}</code>.
- *   <var>id</var> is again a number, <var>type</var> is again either one of the strings "node", "way", or "relation", or one of the 
- *   enumeration OsmPrimitiveType.NODE, OsmPrimitiveType.WAY, or OsmPrimitiveType.RELATION.
+ *   <dt><code class="signature">downloadReferrer(id, ?options)</code></dt>
+ *   <dd><code>id</code> is a <code>PrimitiveId</code> or an object 
+ *   with the (mandatory) properties <code>id</code> and <code>type</code>, i.e. an object <code>{id: ..., type: ...}</code>.
+ *   <code>id</code> is again a number, <code>type</code> is again either one of the strings "node", "way", or "relation", or one of the 
+ *   enumeration {@josmclass org.openstreetmap.josm.data.osm.OsmPrimitiveType}.NODE, {@josmclass org.openstreetmap.josm.data.osm.OsmPrimitiveType}.WAY, or {@josmclass org.openstreetmap.josm.data.osm.OsmPrimitiveType}.RELATION.
  *   </dd> 
  * </dl>
- * In both cases, <var>?options</var> is an (optional) object with the following  (optional) property:
+ * In both cases, <code>?options</code> is an (optional) object with the following  (optional) property:
  * <dl>
- *   <dt><strong>full</strong>  - a boolean value (default: false) </dt>
- *   <dd>If <var>true</var>, the the <strong>full</strong> objects are retrieved using multi-gets. If missing or <var>false</var>,
- *   only proxy objects are downloaded.</dd>
- *   
+ *   <dt><code class="signature">full</code>:boolean</dt>
+ *   <dd>If <code>true</code>, the the <strong>full</strong> objects are retrieved using multi-gets. If missing or <code>false</code>,
+ *   only proxy objects are downloaded. Default: false</dd>
  * </dl>
  * 
  * @example
@@ -575,7 +604,8 @@ function downloadReferrer_3() {
  * @static
  * @name downloadReferrer
  * @memberOf Api
- * @return org.openstreetmap.josm.data.osm.DataSet
+ * @type org.openstreetmap.josm.data.osm.DataSet
+ * @summary Downloads the objects <em>referring</em> to another object from the server.
  */
 exports.Api.downloadReferrer = function() {
 	var id;
@@ -596,7 +626,6 @@ exports.Api.downloadReferrer = function() {
 	}
 };
 
-
 /**
  * <p>Downloads the objects within a bounding box.</p>
  *
@@ -614,9 +643,10 @@ exports.Api.downloadReferrer = function() {
  * 
  * @method
  * @static
- * @name downloadReferrer
+ * @name downloadArea
  * @memberOf Api
- * @return org.openstreetmap.josm.data.osm.DataSet
+ * @type org.openstreetmap.josm.data.osm.DataSet
+ * @summary Downloads the objects within a bounding box
  */
 exports.Api.downloadArea = function() {
 	var BoundingBoxDownloader = org.openstreetmap.josm.io.BoundingBoxDownloader;

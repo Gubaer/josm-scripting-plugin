@@ -1,28 +1,42 @@
 /**
- * <p>Additional properties and functions for JOSMs internal class Node.</p> 
+ * <p>This module is auto-loaded by the scripting plugin and mixed into the 
+ * native java class {@josmclass org/openstreetmap/josm/data/osm/Node}.</p>
  * 
+ * @module josm/mixin/NodeMixin 
  */
 var util = require("josm/util");
 var LatLon = org.openstreetmap.josm.data.coor.LatLon;
 
 /**
- * <p>NodeMixin provides additional properties and methods which you can invoke on an instance of
- * {@link http://josm.openstreetmap.de/browser/josm/trunk/src/org/openstreetmap/josm/data/osm/Node.java|Node}. 
- * </p>
+ * <p>This mixin is auto-loaded by the scripting plugin and mixed into the 
+ * native java class {@josmclass org.openstreetmap.josm.data.osm.Node}. It
+ * provides additional properties and methods which you can invoke on an instance of
+ * {@josmclass org.openstreetmap.josm.data.osm.Node}.</p>
+ *  
+ * <p>The native methods of {@josmclass org.openstreetmap.josm.data.osm.Node} are still 
+ * available for scripting. Just prefix their name with <code>$</code> if they are hidden
+ * by properties or functions defined in this mixin.</p>
  * 
  * <p>NodeMixin inherits the properties and methods of [OsmPrimitiveMixin]{@link OsmPrimitiveMixin}.</p>
  *   
  * @mixin NodeMixin
+ * @extends OsmPrimitiveMixin
+ * @forClass org.openstreetmap.josm.data.osm.Node
+ * @memberof josm/mixin/NodeMixin 
  */
 var mixin = {};
 
 /**
  * <p>Get or set the node latitude.</p>
  * 
- * <p><strong>get:</strong>  - replies the current latitude, or undefined, if the latitude isn't known.<p>
- * 
- * <p><strong>set:</strong>  - assign the latitude. Expects a number in the range [-90,90]. Raises an error,
- * if the node is a proxy node.</p>
+ * <dl>
+ *   <dt>get</dt>
+ *   <dd>Replies the current latitude, or undefined, if the latitude isn't known.</dd>
+ *   
+ *   <dt>set</dt>
+ *   <dd>Assign the latitude. Expects a number in the range [-90,90]. Raises an error,
+ *    if the node is a proxy node.</dd>
+ * </dl>
  * 
  * @example
  * var nb = require("josm/builder").NodeBuilder;
@@ -32,12 +46,12 @@ var mixin = {};
  * n.lat = 23.245;
  * n.lat;  // -> 23.245
  * 
- * 
  * @memberOf NodeMixin
  * @name lat
  * @field
  * @instance
  * @type {number} 
+ * @summary Get or set the node latitude.
  */
 mixin.lat =  {
 	get: function() {
@@ -58,10 +72,14 @@ mixin.lat =  {
 /**
  * <p>Get or set the node longitude.</p>
  * 
- * <p><strong>get:</strong>  - replies the current longitude, or undefined, if the longitude isn't known.<p>
+ * <dl>
+ *   <dt>get</dt>
+ *   <dd>Replies the current longitude, or undefined, if the longitude isn't known.</dd>
  * 
- * <p><strong>set:</strong>  - assign the longitude. Expects a number in the range [-180,180]. Raises an error,
- * if the node is a proxy node.</p>
+ *   <dt>set</dt>
+ *   <dd>Assign the longitude. Expects a number in the range [-180,180]. Raises an error,
+ *    if the node is a proxy node.</dd>
+ * </dl>
  * 
  * @example
  * var nb = require("josm/builder").NodeBuilder;
@@ -77,6 +95,7 @@ mixin.lat =  {
  * @field
  * @instance
  * @type {number} 
+ * @summary Get or set the node longitude.
  */
 mixin.lon = {
 	get: function() {
@@ -110,6 +129,7 @@ mixin.lon = {
  * @field
  * @instance
  * @type {number} 
+ * @summary Get the projected east coordinate.
  */
 mixin.east= {
 	get: function() {
@@ -134,6 +154,7 @@ mixin.east= {
  * @field
  * @instance
  * @type {number} 
+ * @summary Get the projected north coordinate.
  */
 mixin.north = {
 	get: function() {
@@ -145,13 +166,16 @@ mixin.north = {
 /**
  * <p>Get or set the node position.</p>
  * 
- * <p><strong>get:</strong>  - replies an instance of 
- *   {@link http://josm.openstreetmap.de/browser/josm/trunk/src/org/openstreetmap/josm/data/coor/LatLon.java|LatLon} or
- *   undefined, if the position isn't known.
- * 
- * <p><strong>set:</strong>  - assign the position. Either an instance of {@link http://josm.openstreetmap.de/browser/josm/trunk/src/org/openstreetmap/josm/data/coor/LatLon.java|LatLon},
- * or an object with the properties <code>{lat: ..., lon: ...}</code></p>
-
+ * <dl>
+ *  <dt>get</dt>
+ *  <dd>replies an instance of 
+ *   {@josmclass org.openstreetmap.josm.data.coor.LatLon} or
+ *   undefined, if the position isn't known.</dd>
+ *   
+ *  <dt>set</dt>
+ *  <dd>Assign the position. Either an instance of  {@josmclass org.openstreetmap.josm.data.coor.LatLon}
+ *   or an object with the properties <code>{lat: ..., lon: ...}</code></dd>
+ * </dl>
  * 
  * @example
  * var LatLon = org.openstreetmap.josm.data.coor.LatLon;
@@ -171,6 +195,7 @@ mixin.north = {
  * @field
  * @instance
  * @type org.openstreetmap.josm.data.coor.LatLon
+ * @summary Get or set the node position.
  */
 mixin.pos =  {
 	get: function() {
