@@ -1,0 +1,290 @@
+
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="chrome=1">
+	<title>JOSM Scripting Plugin - JS API documentation</title>
+	<link rel="stylesheet" href="http://gubaer.github.com/josm-scripting-plugin/content/stylesheets/styles.css">
+	<link rel="stylesheet" href="http://gubaer.github.com/josm-scripting-plugin/content/stylesheets/pygment_trac.css">
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script src="http://gubaer.github.com/josm-scripting-plugin/content/stylesheets/respond.js"></script>
+    <link href="http://alexgorbatchev.com/pub/sh/current/styles/shThemeRDark.css" rel="stylesheet" type="text/css" />
+	<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shCore.js" type="text/javascript"></script>
+	<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shBrushJScript.js" type="text/javascript"></script>
+	<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shAutoloader.js" type="text/javascript"></script>
+	<link rel="stylesheet" href="http://gubaer.github.com/josm-scripting-plugin/content/stylesheets/apidoc.css">
+	<!--[if lt IE 9]>
+	      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	    <![endif]-->
+	<!--[if lt IE 8]>
+	    <link rel="stylesheet" href="http://gubaer.github.com/josm-scripting-plugin/content/stylesheets/ie.css">
+	    <![endif]-->
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1, user-scalable=no">
+	
+	</head>
+<body>
+	
+	<div class="wrapper">
+		<h1>Class DataSetSelectionFacade</h1>
+		
+		
+
+<p>Facade to access and manipulate the selected objects in a dataset.</p>
+
+ 
+ 
+ 
+ <table>
+ <tr>
+ 	<th>Name</th>
+ 	<th>Description</th>
+ </tr>
+ 
+ <tr>
+   <td colspan="2">Properties</td>
+ </tr>
+ 
+    <tr>
+    	<td><a href="#nodes">nodes</a></td>
+    	<td></td>
+    </tr>
+ 
+    <tr>
+    	<td><a href="#relations">relations</a></td>
+    	<td></td>
+    </tr>
+ 
+    <tr>
+    	<td><a href="#relations">relations</a></td>
+    	<td></td>
+    </tr>
+ 
+    <tr>
+    	<td><a href="#ways">ways</a></td>
+    	<td></td>
+    </tr>
+ 
+ 
+ 
+ 
+ <tr>
+   <td colspan="2">Functions</td>
+ </tr>
+  
+    <tr>
+    	<td><a href="#add">add()</a></td>
+    	<td></td>
+    </tr>
+ 
+    <tr>
+    	<td><a href="#clear">clear()</a></td>
+    	<td></td>
+    </tr>
+ 
+    <tr>
+    	<td><a href="#clearAll">clearAll()</a></td>
+    	<td></td>
+    </tr>
+ 
+    <tr>
+    	<td><a href="#isSelected">isSelected()</a></td>
+    	<td></td>
+    </tr>
+ 
+    <tr>
+    	<td><a href="#set">set()</a></td>
+    	<td></td>
+    </tr>
+ 
+    <tr>
+    	<td><a href="#toggle">toggle()</a></td>
+    	<td></td>
+    </tr>
+ 
+ 
+ </table>
+ 
+
+
+
+
+<h2>Constructor</h2>
+   
+   <p id="DataSetSelectionFacade" class="member-header">new DataSetSelectionFacade()</p>
+   <p>Creates a facade</p>
+       
+	
+	
+<h3>Parameters</h3>
+<table>
+<tr>
+   <th>Name</th>
+   <th>Type</th>
+   <th>Description</th>
+</tr>
+
+
+<tr>
+     <td>ds</td>    
+     <td><a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/DataSet.html' alt='org.openstreetmap.josm.data.osm.DataSet'>DataSet</a></td>
+     <td>the dataset. Must not be null or undefined.</td>
+</tr>
+
+</table>
+
+	 
+
+
+
+
+
+<h2>Properties</h2>
+      
+   <p id="nodes" class="member-header">nodes:array</p>
+   <p>Replies an array with the selected nodes.</p>
+        
+     
+   <p id="relations" class="member-header">relations:array</p>
+   <p>Replies an array with the selected relations.</p>
+        
+     
+   <p id="relations" class="member-header">relations:array</p>
+   <p>Replies an array with the selected objects.</p>
+        
+     
+   <p id="ways" class="member-header">ways:array</p>
+   <p>Replies an array with the selected ways.</p>
+        
+  
+ 
+
+
+
+
+<h2>Functions</h2>
+   
+   <p  id="add" class="member-header">
+      add   
+   </p>
+   <p><p>Adds selected objects.</p>
+
+<strong>Signatures</strong>
+<dl> 
+  <dt><code class="signature">add(id,id, ...)</code></dt>
+  <dd>Selects a variable number of objects given by their ids.</dd>
+  
+  <dt><code class="signature">add(array|collection)</code></dt>
+  <dd>Select a variable number of objects given by an array or a java collection of ids.</dd>
+</dl></p>	
+
+
+
+
+  
+   <p  id="clear" class="member-header">
+      clear   
+   </p>
+   <p><p>Unselects a collection of objects.</p>
+
+<strong>Signatures</strong>
+<dl> 
+  <dt><code class="signature">clear(id,id, ...)</code></dt>
+  <dd>Unselect a variable number of objects given by their ids.</dd>
+  
+  <dt><code class="signature">clear(array|collection)</code></dt>
+  <dd>Unselect a variable number of objects given by an array or a java collection of ids.</dd>
+</dl></p>	
+
+
+
+
+  
+   <p  id="clearAll" class="member-header">
+      clearAll   
+   </p>
+   <p><p>Clear the selection.</p></p>	
+
+
+
+
+  
+   <p  id="isSelected" class="member-header">
+      isSelected   
+   </p>
+   <p><p>Replies true, if an object is currently selected.</p>
+
+<strong>Signatures</strong>
+<dl> 
+  <dt><code class="signature">isSelected(id, type)</code></dt>
+  <dd>Replies true, if the object with numeric id <code>id</code> and type <code>type</code> is selected.</dd>
+
+  <dt><code class="signature">isSelected(id)</code></dt>
+  <dd>Replies true, if the object with id <code>id</code> is selected. <code>id</code> is either an instance of 
+  <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/PrimitiveId.html' alt='org.openstreetmap.josm.data.osm.PrimitiveId'>PrimitiveId</a> or an object with 
+  the properties <code>id</code> and <code>type</code>, i.e. <code>{id: 1234, type: "node"}</code></dd>
+
+  <dt><code class="signature">isSelected(obj)</code></dt>
+  <dd>Replies true, if the object <code>obj</code> is selected. obj is either a 
+  <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html' alt='org.openstreetmap.josm.data.osm.Node'>Node</a>, 
+  a <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Way.html' alt='org.openstreetmap.josm.data.osm.Way'>Way</a>, or a 
+  <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Relation.html' alt='org.openstreetmap.josm.data.osm.Relation'>Relation</a>.</dd>
+</dl></p>	
+
+
+
+
+  
+   <p  id="set" class="member-header">
+      set   
+   </p>
+   <p><p>Set the selected objects as selected.</p>
+
+<strong>Signatures</strong>
+<dl> 
+  <dt><code class="signature">set(id,id, ...)</code></dt>
+  <dd>Selects a variable number of objects given by their ids.</dd>
+  
+  <dt><code class="signature">set(array|collection)</code></dt>
+  <dd>Select a variable number of objects given by an array or a java collection of ids.</dd>
+</dl></p>	
+
+
+
+
+  
+   <p  id="toggle" class="member-header">
+      toggle   
+   </p>
+   <p><p>Toggle the selecction state of a collection of objects.</p>
+
+<strong>Signatures</strong>
+<dl> 
+  <dt><code class="signature">toggle(id,id, ...)</code></dt>
+  <dd>Toggle the selection state of a variable number of objects given by their ids.</dd>
+  
+  <dt><code class="signature">toggle(array|collection)</code></dt>
+  <dd>Toggle the selection state of  variable number of objects given by an array or a java collection of ids.</dd>
+</dl></p>	
+
+
+
+
+  
+ 
+
+
+
+
+
+
+		
+	</div><!-- end wrapper -->
+	<script type="text/javascript">
+    SyntaxHighlighter.all();
+	</script>
+	<!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
+</body>
+</html>

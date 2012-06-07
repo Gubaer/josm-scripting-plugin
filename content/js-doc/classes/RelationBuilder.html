@@ -1,0 +1,390 @@
+
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="chrome=1">
+	<title>JOSM Scripting Plugin - JS API documentation</title>
+	<link rel="stylesheet" href="http://gubaer.github.com/josm-scripting-plugin/content/stylesheets/styles.css">
+	<link rel="stylesheet" href="http://gubaer.github.com/josm-scripting-plugin/content/stylesheets/pygment_trac.css">
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script src="http://gubaer.github.com/josm-scripting-plugin/content/stylesheets/respond.js"></script>
+    <link href="http://alexgorbatchev.com/pub/sh/current/styles/shThemeRDark.css" rel="stylesheet" type="text/css" />
+	<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shCore.js" type="text/javascript"></script>
+	<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shBrushJScript.js" type="text/javascript"></script>
+	<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shAutoloader.js" type="text/javascript"></script>
+	<link rel="stylesheet" href="http://gubaer.github.com/josm-scripting-plugin/content/stylesheets/apidoc.css">
+	<!--[if lt IE 9]>
+	      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	    <![endif]-->
+	<!--[if lt IE 8]>
+	    <link rel="stylesheet" href="http://gubaer.github.com/josm-scripting-plugin/content/stylesheets/ie.css">
+	    <![endif]-->
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1, user-scalable=no">
+	
+	</head>
+<body>
+	
+	<div class="wrapper">
+		<h1>Class RelationBuilder</h1>
+		
+		
+
+<p><p>RelationBuilder helps to create OSM <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Relation.html' alt='org.openstreetmap.josm.data.osm.Relation'>Relation</a>s.</p>
+
+<p>Methods of RelationBuilder can be used in a static and in an instance context.
+It isn't necessary to create an instance of RelationBuilder, unless it is 
+configured with a <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/DataSet.html' alt='org.openstreetmap.josm.data.osm.DataSet'>DataSet</a>,
+which created ways are added to.</p></p>
+
+<script type="syntaxhighlighter" class="brush:js"><![CDATA[
+var rbuilder = require("josm/builder").RelationBuilder;
+ 
+// create a new local relation 
+var r1 = rbuilder.create();
+ 
+// create a new global way 
+var r2 = rbuilder.withTags({route: 'bicycle'}).create(123456);
+ 
+// create a new proxy for a global relation (an "incomplete" node in JOSM terminology)
+var r3 = rbuilder.createProxy(123456);
+]]></script>
+
+ 
+ 
+ 
+ <table>
+ <tr>
+ 	<th>Name</th>
+ 	<th>Description</th>
+ </tr>
+ 
+ 
+ 
+ <tr>
+   <td colspan="2">Functions</td>
+ </tr>
+  
+    <tr>
+    	<td><a href="#create">create()</a></td>
+    	<td>Creates a new relation.</td>
+    </tr>
+ 
+    <tr>
+    	<td><a href="#createProxy">createProxy()</a></td>
+    	<td>Creates a new <em>proxy</em> relation.</td>
+    </tr>
+ 
+    <tr>
+    	<td><a href="#forDataSet">forDataSet()</a></td>
+    	<td>Creates a new RelationBuilder which adds created relations to a dataset</td>
+    </tr>
+ 
+    <tr>
+    	<td><a href="#withId">withId()</a></td>
+    	<td>Declares the relation id and version.</td>
+    </tr>
+ 
+    <tr>
+    	<td><a href="#withMembers">withMembers()</a></td>
+    	<td>Declares the members of a relation.</td>
+    </tr>
+ 
+    <tr>
+    	<td><a href="#withTags">withTags()</a></td>
+    	<td>Declares the tags to be assigned to the new relation.</td>
+    </tr>
+ 
+ 
+ </table>
+ 
+
+
+
+
+<h2>Constructor</h2>
+   
+   <p id="RelationBuilder" class="member-header">new RelationBuilder()</p>
+   <p><p>Creates a new builder for OSM relations</p></p>
+       
+	
+	
+<h3>Parameters</h3>
+<table>
+<tr>
+   <th>Name</th>
+   <th>Type</th>
+   <th>Description</th>
+</tr>
+
+
+<tr>
+     <td>ds</td>    
+     <td><a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/DataSet.html' alt='org.openstreetmap.josm.data.osm.DataSet'>DataSet</a></td>
+     <td>(optional) a JOSM dataset which created ways are
+   added to. If missing, the created ways aren't added to a dataset.</td>
+</tr>
+
+</table>
+
+	 
+
+
+
+
+ 
+
+
+
+
+<h2>Functions</h2>
+   
+   <p  id="create" class="member-header">
+      create:<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Relation.html' alt='org.openstreetmap.josm.data.osm.Relation'>Relation</a>   
+   </p>
+   <p><p>Creates a new relation.</p>
+
+<p>Can be used in an instance or in a static context.</p>
+
+<strong>Optional named arguments in the parameters <code>args</code> </strong>
+<ul>
+  <li><var>id</var> - the id of a global relation (number > 0)</li>
+  <li><var>version</var> - the version of a global relation (number > 0)</li>
+  <li><var>members</var> - an array or a list of relation members, nodes, ways, or relation</li>
+  <li><var>tags</var> - an object with tags. Null values and undefined values are ignored. Any other value
+  is converted to a string. Leading and trailing white space in keys is removed.</li>
+</ul></p>	
+
+<h3>Parameters</h3>
+<table>
+<tr>
+   <th>Name</th>
+   <th>Type</th>
+   <th>Description</th>
+</tr>
+
+
+<tr>
+     <td>id</td>    
+     <td>number</td>
+     <td>(optional) a global way id. If missing and not set before using
+   <code>withId(..)</code>, creates a new local id.</td>
+</tr>
+
+
+<tr>
+     <td>args</td>    
+     <td>object</td>
+     <td>(optional) additional parameters for creating the way</td>
+</tr>
+
+</table>
+
+
+
+   <h3>Examples</h3>
+   <script type="syntaxhighlighter" class="brush:js"><![CDATA[
+ var rb = require("josm/builder").RelationBuilder
+var nb = require("josm/builder").NodeBuilder
+var member = rb.member;
+// create a new local relation 
+var r1 = rb.create();
+
+// create a new global relation 
+var r2 = rb.create(12345);
+
+// create a new global relation with version 3 with some tags and two members 
+var r3 = rb.create(12345, {
+   version: 3, 
+   tags: {type: "route"}, 
+   members: [member('house', nb.create()), member(nb.create())]
+ });
+   ]]></script>
+
+
+  
+   <p  id="createProxy" class="member-header">
+      createProxy:<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Relation.html' alt='org.openstreetmap.josm.data.osm.Relation'>Relation</a>   
+   </p>
+   <p><p>Creates a new <em>proxy</em> relation. A proxy relation is a relation, for which we only know
+its global id. In order to know more details (members, tags, etc.), we would have to
+download it from the OSM server.</p>
+
+<p>The method can be used in a static and in an instance context.</p></p>	
+
+
+
+   <h3>Examples</h3>
+   <script type="syntaxhighlighter" class="brush:js"><![CDATA[
+ var rbuilder = require("josm/builder").RelationBuilder;
+
+// a new proxy relation for the global way with id 12345
+var r1 = rbuilder.createProxy(12345);  
+   ]]></script>
+
+
+  
+   <p  id="forDataSet" class="member-header">
+      forDataSet:RelationBuilder   
+   </p>
+   <p><p>Creates a new RelationBuilder which will add created relations to the dataset <code>ds</code>.</p></p>	
+
+
+
+   <h3>Examples</h3>
+   <script type="syntaxhighlighter" class="brush:js"><![CDATA[
+ var ds = new org.openstreetmap.josm.data.osm.DataSet();
+var rb = require("josm/builder").RelationBuilder.forDataSet(ds);
+   ]]></script>
+
+
+  
+   <p  id="withId" class="member-header">
+      withId:RelationBuilder   
+   </p>
+   <p><p>Declares the global relation id and the global relation version.</p>
+
+<p>The method can be used in a static and in an instance context.</p></p>	
+
+<h3>Parameters</h3>
+<table>
+<tr>
+   <th>Name</th>
+   <th>Type</th>
+   <th>Description</th>
+</tr>
+
+
+<tr>
+     <td>id</td>    
+     <td>number</td>
+     <td>(mandatory) the global relation id. A number > 0.</td>
+</tr>
+
+
+<tr>
+     <td>version</td>    
+     <td>number</td>
+     <td>(optional) the global relation version. If present, a number > 0. If missing,
+  the version 1 is assumed.</td>
+</tr>
+
+</table>
+
+
+
+   <h3>Examples</h3>
+   <script type="syntaxhighlighter" class="brush:js"><![CDATA[
+  var rbuilder = require("josm/builder").RelationBuilder;
+ // creates a global relation with id 12345 an version 12   
+ var r = rbuilder.withId(12345, 12).create();
+   ]]></script>
+
+
+  
+   <p  id="withMembers" class="member-header">
+      withMembers:RelationBuilder   
+   </p>
+   <p><p>Declares the members of a relation.</p>
+
+<p>Accepts either a vararg list of relation members, nodes, ways or relations, an array of relation members, nodes
+ways or relations, or a Java list of members, nodes, ways or relation.
+</p>
+
+<p>The method can be used in a static and in an instance context.</p></p>	
+
+<h3>Parameters</h3>
+<table>
+<tr>
+   <th>Name</th>
+   <th>Type</th>
+   <th>Description</th>
+</tr>
+
+
+<tr>
+     <td>nodes</td>    
+     <td>object...</td>
+     <td>the list of members. See description and examples.</td>
+</tr>
+
+</table>
+
+
+
+   <h3>Examples</h3>
+   <script type="syntaxhighlighter" class="brush:js"><![CDATA[
+ var rbuilder = require("josm/builder").RelationBuilder;
+var nbuilder = require("josm/builder").NodeBuilder;
+var wbuilder = require("josm/builder").WayBuilder;
+var member = require("josm/builder").RelationBuilder.member;
+
+var r1 = rbuilder.withMembers(
+  member("house", nbuilder.create()),
+  member("house", nbuilder.create()),
+  member("street", wbuilder.create())
+).create();
+  
+   ]]></script>
+
+
+  
+   <p  id="withTags" class="member-header">
+      withTags:RelationBuilder   
+   </p>
+   <p><p>Declares the tags to be assigned to the new relation.</p>
+
+<p>The method can be used in a static and in an instance context.</p></p>	
+
+<h3>Parameters</h3>
+<table>
+<tr>
+   <th>Name</th>
+   <th>Type</th>
+   <th>Description</th>
+</tr>
+
+
+<tr>
+     <td>tags</td>    
+     <td>object</td>
+     <td>(optional) the tags</td>
+</tr>
+
+</table>
+
+
+
+   <h3>Examples</h3>
+   <script type="syntaxhighlighter" class="brush:js"><![CDATA[
+ var rbuilder = require("josm/builder").RelationBuilder;
+// a new global relation with the global id 12345 and tags route="bicycle" and name="n8"
+var r1 = rbuilder.withTags({name:"n8", route:"bicycle"}).create(12345);  
+
+// a new local node tags name=test and highway=road
+var tags = {
+     name    : "n8", 
+     route : "bicycle"
+};     
+var r2 = rbuilder.withTags(tags).create();
+   ]]></script>
+
+
+  
+ 
+
+
+
+
+
+
+		
+	</div><!-- end wrapper -->
+	<script type="text/javascript">
+    SyntaxHighlighter.all();
+	</script>
+	<!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
+</body>
+</html>

@@ -1,0 +1,205 @@
+
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="chrome=1">
+	<title>JOSM Scripting Plugin - JS API documentation</title>
+	<link rel="stylesheet" href="http://gubaer.github.com/josm-scripting-plugin/content/stylesheets/styles.css">
+	<link rel="stylesheet" href="http://gubaer.github.com/josm-scripting-plugin/content/stylesheets/pygment_trac.css">
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script src="http://gubaer.github.com/josm-scripting-plugin/content/stylesheets/respond.js"></script>
+    <link href="http://alexgorbatchev.com/pub/sh/current/styles/shThemeRDark.css" rel="stylesheet" type="text/css" />
+	<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shCore.js" type="text/javascript"></script>
+	<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shBrushJScript.js" type="text/javascript"></script>
+	<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shAutoloader.js" type="text/javascript"></script>
+	<link rel="stylesheet" href="http://gubaer.github.com/josm-scripting-plugin/content/stylesheets/apidoc.css">
+	<!--[if lt IE 9]>
+	      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	    <![endif]-->
+	<!--[if lt IE 8]>
+	    <link rel="stylesheet" href="http://gubaer.github.com/josm-scripting-plugin/content/stylesheets/ie.css">
+	    <![endif]-->
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1, user-scalable=no">
+	
+	</head>
+<body>
+	
+	<div class="wrapper">
+		<h1>Namespace  josm</h1>
+		
+		
+
+<p><p>This is the global JOSM API object. It represents a running JOSM instance.</p></p>
+
+ 
+ 
+ 
+ <table>
+ <tr>
+ 	<th>Name</th>
+ 	<th>Description</th>
+ </tr>
+ 
+ <tr>
+   <td colspan="2">Properties</td>
+ </tr>
+ 
+    <tr>
+    	<td><a href="#layers">layers</a></td>
+    	<td>accessor for JOSM layers</td>
+    </tr>
+ 
+    <tr>
+    	<td><a href="#version">version</a></td>
+    	<td>JOSM version string</td>
+    </tr>
+ 
+ 
+ 
+ 
+ <tr>
+   <td colspan="2">Functions</td>
+ </tr>
+  
+    <tr>
+    	<td><a href="#alert">alert()</a></td>
+    	<td>display a message</td>
+    </tr>
+ 
+    <tr>
+    	<td><a href="#open">open()</a></td>
+    	<td>Opens one or more files in JOSM</td>
+    </tr>
+ 
+ 
+ </table>
+ 
+
+
+
+
+
+
+
+
+<h2>Properties</h2>
+      
+   <p id="layers" class="member-header">layers:object</p>
+   <p><p>Replies the layers object.</p></p>
+   
+		<script type="syntaxhighlighter" class="brush:js"><![CDATA[
+josm.alert("num layers: " + josm.layers.length);
+
+// name of first layer 
+josm.alert("num layers: " + josm.layers.get(0).name);
+		]]></script>
+	     
+     
+   <p id="version" class="member-header">version:string</p>
+   <p><p>Replies the current JOSM version string.</p></p>
+   
+		<script type="syntaxhighlighter" class="brush:js"><![CDATA[
+josm.alert(josm.version);
+		]]></script>
+	     
+  
+ 
+
+
+
+
+<h2>Functions</h2>
+   
+   <p  id="alert" class="member-header">
+      alert   
+   </p>
+   <p><p>Displays an alert window with a message</p>
+
+<strong>Signatures</strong>
+<dl>
+  <dt><code class="signature">alert(message)</code><dt>
+  <dd>Displays an information message with an OK button.</dd>
+  
+  <dt><code class="signature">alert(message, ?options)</code><dt>
+  <dd>Displays a message. The look and feel of the alert window depends on the <var>options</var>. The
+  following options are supported:
+  <dl>
+     <dt><code>title</code>:string</dt>
+     <dd>(optional) the window title. A string is expected. Empty string if missing.</dt>
+     
+     <dd><code>messageType</code></dt>
+     <dd>(optional) the message type. Use one of the following values: 
+        <ul>
+           <li>JOptionPane.INFORMATION_MESSAGE, "info","information"</li>
+           <li>JOptionPane.ERROR_MESSAGE, "error"</li>
+           <li>JOptionPane.WARNING_MESSAGE, "warning", "warn"</li>
+           <li>JOptionPane.QUESTION_MESSAGE, "question"</li>
+           <li>JOptionPane.PLAIN_MESSAGE, "plain"</li>
+        </ul>
+        Default value is OptionPane.INFORMATION_MESSAGE. String values are not case sensitive and leading and
+        trailing white space is removed.
+     </dd>
+  </dl>
+  </dd>
+</dl></p>	
+
+
+
+   <h3>Examples</h3>
+   <script type="syntaxhighlighter" class="brush:js"><![CDATA[
+ // display an information alert
+josm.alert("Hello World!");
+
+// display an error alert 
+josm.alert("Got an error", {
+   title: "Error Alert",
+   messageType: "error"    
+});
+   ]]></script>
+
+
+  
+   <p  id="open" class="member-header">
+      open   
+   </p>
+   <p><p>Opens one or more files in JOSM.</p>
+ 
+<p>Accepts a variable number of files. Each argument is either a string (a file name) or 
+a java.io.File.</p>
+
+<p>Creates and opens layers in JOSM, depending on the kind of file opened:</p>
+<ul>
+  <li>creates a data layer for data files</li>
+  <li>creates a gpx layer for gpx files</li>
+  <li>creates an image layer for a directory with images</li>
+  <li>etc.</li>
+</ul></p>	
+
+
+
+   <h3>Examples</h3>
+   <script type="syntaxhighlighter" class="brush:js"><![CDATA[
+ // open a data file in a new data layer 
+josm.open("/my/data/file.osm");
+   ]]></script>
+
+
+  
+ 
+
+
+
+
+
+
+		
+	</div><!-- end wrapper -->
+	<script type="text/javascript">
+    SyntaxHighlighter.all();
+	</script>
+	<!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
+</body>
+</html>

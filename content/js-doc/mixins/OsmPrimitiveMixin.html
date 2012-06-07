@@ -1,0 +1,564 @@
+
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="chrome=1">
+	<title>JOSM Scripting Plugin - JS API documentation</title>
+	<link rel="stylesheet" href="http://gubaer.github.com/josm-scripting-plugin/content/stylesheets/styles.css">
+	<link rel="stylesheet" href="http://gubaer.github.com/josm-scripting-plugin/content/stylesheets/pygment_trac.css">
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script src="http://gubaer.github.com/josm-scripting-plugin/content/stylesheets/respond.js"></script>
+    <link href="http://alexgorbatchev.com/pub/sh/current/styles/shThemeRDark.css" rel="stylesheet" type="text/css" />
+	<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shCore.js" type="text/javascript"></script>
+	<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shBrushJScript.js" type="text/javascript"></script>
+	<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shAutoloader.js" type="text/javascript"></script>
+	<link rel="stylesheet" href="http://gubaer.github.com/josm-scripting-plugin/content/stylesheets/apidoc.css">
+	<!--[if lt IE 9]>
+	      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	    <![endif]-->
+	<!--[if lt IE 8]>
+	    <link rel="stylesheet" href="http://gubaer.github.com/josm-scripting-plugin/content/stylesheets/ie.css">
+	    <![endif]-->
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1, user-scalable=no">
+	
+	</head>
+<body>
+	
+	<div class="wrapper">
+		<h1>Mixin OsmPrimitiveMixin</h1>
+		
+		
+
+<p><p>OsmPrimitiveMixin provides additional properties and methods which you can invoke on an instance of
+<a href="http://josm.openstreetmap.de/browser/josm/trunk/src/org/openstreetmap/josm/data/osm/OsmPrimitive.java">OsmPrimitive</a>. 
+The native methods of OsmPrimitives are still available for scripting, 
+unless they are shadowed by names of properties defined in this mixin.</p></p>
+
+ 
+ 
+ 
+ <table>
+ <tr>
+ 	<th>Name</th>
+ 	<th>Description</th>
+ </tr>
+ 
+ <tr>
+   <td colspan="2">Properties</td>
+ </tr>
+ 
+    <tr>
+    	<td><a href="#changesetId">changesetId</a></td>
+    	<td></td>
+    </tr>
+ 
+    <tr>
+    	<td><a href="#dataSet">dataSet</a></td>
+    	<td></td>
+    </tr>
+ 
+    <tr>
+    	<td><a href="#dataSet">dataSet</a></td>
+    	<td></td>
+    </tr>
+ 
+    <tr>
+    	<td><a href="#id">id</a></td>
+    	<td></td>
+    </tr>
+ 
+    <tr>
+    	<td><a href="#isGlobal">isGlobal</a></td>
+    	<td></td>
+    </tr>
+ 
+    <tr>
+    	<td><a href="#isIncomplete">isIncomplete</a></td>
+    	<td></td>
+    </tr>
+ 
+    <tr>
+    	<td><a href="#isLocal">isLocal</a></td>
+    	<td></td>
+    </tr>
+ 
+    <tr>
+    	<td><a href="#isNew">isNew</a></td>
+    	<td></td>
+    </tr>
+ 
+    <tr>
+    	<td><a href="#isNode">isNode</a></td>
+    	<td></td>
+    </tr>
+ 
+    <tr>
+    	<td><a href="#isProxy">isProxy</a></td>
+    	<td></td>
+    </tr>
+ 
+    <tr>
+    	<td><a href="#isRelation">isRelation</a></td>
+    	<td></td>
+    </tr>
+ 
+    <tr>
+    	<td><a href="#isWay">isWay</a></td>
+    	<td></td>
+    </tr>
+ 
+    <tr>
+    	<td><a href="#keys">keys</a></td>
+    	<td></td>
+    </tr>
+ 
+    <tr>
+    	<td><a href="#tags">tags</a></td>
+    	<td></td>
+    </tr>
+ 
+    <tr>
+    	<td><a href="#timestamp">timestamp</a></td>
+    	<td></td>
+    </tr>
+ 
+    <tr>
+    	<td><a href="#version">version</a></td>
+    	<td></td>
+    </tr>
+ 
+ 
+ 
+ 
+ <tr>
+   <td colspan="2">Functions</td>
+ </tr>
+  
+    <tr>
+    	<td><a href="#get">get()</a></td>
+    	<td></td>
+    </tr>
+ 
+    <tr>
+    	<td><a href="#has">has()</a></td>
+    	<td></td>
+    </tr>
+ 
+    <tr>
+    	<td><a href="#remove">remove()</a></td>
+    	<td></td>
+    </tr>
+ 
+    <tr>
+    	<td><a href="#set">set()</a></td>
+    	<td></td>
+    </tr>
+ 
+ 
+ </table>
+ 
+
+
+
+
+
+
+
+
+<h2>Properties</h2>
+      
+   <p id="changesetId" class="member-header">changesetId:number</p>
+   <p><p>Set or get the changeset id this primitive was last modified in.</p>
+
+<p><strong>get:</strong> - replies the changeset id or undefined, if no changeset id is known (i.e. 
+for local primitives or proxy primitives).</p>
+
+<p><strong>set:</strong> - assign a changset id, a number &gt, 0.</p></p>
+   
+		<script type="syntaxhighlighter" class="brush:js"><![CDATA[
+var nb = require("josm/builder").NodeBuilder.forDataSet(ds);
+
+var n1 = nb.create(12345);
+// assign the changeset id  
+n1.changesetId = 6;
+		]]></script>
+	     
+     
+   <p id="dataSet" class="member-header">dataSet:org.openstreetmap.josm.data.osm.DataSet</p>
+   <p><p>Replies the parent dataset or undefiend, if this primitive is not attached to a dataset.</p></p>
+   
+		<script type="syntaxhighlighter" class="brush:js"><![CDATA[
+var ds = new DataSet();
+var nb = require("josm/builder").NodeBuilder.forDataSet(ds);
+
+// get members 
+var n1 = nb.create();
+n1.dataSet;  // -> ds
+
+var nb = require("josm/builder").NodeBuilder;
+var n2 = nb.create();
+n2.dataSet;   // -> undefined  
+		]]></script>
+	     
+     
+   <p id="dataSet" class="member-header">dataSet:org.openstreetmap.josm.data.osm.DataSet</p>
+   <p><p>Set or get the user.</p>
+
+<p><strong>get:</strong> - replies a User object or undefined, if not user is set.</p>
+
+<p><strong>set:</strong> - assign a user, either as instance of User, supplying a user name or the unique
+global user id as number. Assign null or undefined to assign no user.</p></p>
+   
+		<script type="syntaxhighlighter" class="brush:js"><![CDATA[
+var User = org.openstreetmap.josm.data.osm.User; 
+var nb = require("josm/builder").NodeBuilder.forDataSet(ds);
+
+ 
+var n1 = nb.create();
+// assign a user object 
+n1.user = new User("foobar");
+// assign the unique global user with name 'foobar'
+n1.user = "foobar"; 
+// assign the unique global user with id 12345
+n1.user = 12345;
+		]]></script>
+	     
+     
+   <p id="id" class="member-header">id:number</p>
+   <p><p>The unique numeric id, positive for global primitives, negative for local primitives.</p></p>
+   
+		<script type="syntaxhighlighter" class="brush:js"><![CDATA[
+var nb = require("josm/builder").NodeBuilder;
+
+// get members 
+var node = nb.create();
+var id = node.id;   // -> a negative value  
+		]]></script>
+	     
+     
+   <p id="isGlobal" class="member-header">isGlobal:boolean</p>
+   <p><p>Replies true, if this is a global primitive</p></p>
+   
+		<script type="syntaxhighlighter" class="brush:js"><![CDATA[
+var nb = require("josm/builder").NodeBuilder;
+
+// get members 
+var node = nb.create();
+node.isGlobal;   // -> false
+
+node = nb.create(1234);
+node.isGlobal;   // -> true  
+		]]></script>
+	     
+     
+   <p id="isIncomplete" class="member-header">isIncomplete:boolean</p>
+   <p><p>Replies true if this a proxy object, in JOSM terminology called an incomplete object.</p></p>
+        
+     
+   <p id="isLocal" class="member-header">isLocal:boolean</p>
+   <p><p>Replies true, if this is a local primitive</p></p>
+   
+		<script type="syntaxhighlighter" class="brush:js"><![CDATA[
+var nb = require("josm/builder").NodeBuilder;
+
+// get members 
+var node = nb.create();
+node.isLocal;   // -> true
+
+node = nb.create(1234);
+node.isLocal;   // -> false  
+		]]></script>
+	     
+     
+   <p id="isNew" class="member-header">isNew:boolean</p>
+   <p><p>Synonym for isLocal.</p></p>
+        
+     
+   <p id="isNode" class="member-header">isNode:boolean</p>
+   <p><p>Replies true if this object is a node</p></p>
+        
+     
+   <p id="isProxy" class="member-header">isProxy:boolean</p>
+   <p><p>Replies true if this a proxy object (synonym for <code>isIncomplete</code>).</p></p>
+        
+     
+   <p id="isRelation" class="member-header">isRelation:boolean</p>
+   <p><p>Replies true if this object is a relation</p></p>
+        
+     
+   <p id="isWay" class="member-header">isWay:boolean</p>
+   <p><p>Replies true if this object is a way</p></p>
+        
+     
+   <p id="keys" class="member-header">keys:array</p>
+   <p><p>Replies an array with the tag keys.</p></p>
+   
+		<script type="syntaxhighlighter" class="brush:js"><![CDATA[
+var node = .... // create a node
+
+// get the tag keys
+var keys = node.keys; 
+		]]></script>
+	     
+     
+   <p id="tags" class="member-header">tags:object</p>
+   <p><p>Get or set the tags of the object.</p>
+
+<p><strong>get:</strong> - replies the tags as javascript object.</p>
+
+ <p><strong>set:</strong>
+   <ul>
+     <li>assign null or undefined to remove all tags</li>
+     <li>assign an object to set its properties as tags.</li>
+     <li>assign an java.util.Map to set its elements as tags</li>
+   </ul>
+ </p>
+ 
+ <p>null values and undefined tag values aren't assigned. tag keys are normalized, i.e. leading and
+ trailing white space is removed. Both, tag keys and tag values, are converted to strings.</p></p>
+   
+		<script type="syntaxhighlighter" class="brush:js"><![CDATA[
+var node = .... // create a node
+
+// set the tags using a javascript object
+node.tags = {amenity:"restaurant", name:"Obstberg"}; 
+node.tags.amenity;  // -> restaurant
+node.tags.name;     // -> Obstberg
+
+// remove all tags 
+node.tags = null;
+
+// set tags using a java map 
+var tags = new java.util.HashMap();
+tags.put("amenity", "restaurant");
+tags.put("name", "Obstberg");
+node.tags = tags; 
+		]]></script>
+	     
+     
+   <p id="timestamp" class="member-header">timestamp:java.util.Date</p>
+   <p><p>Get the timestamp this primitive was last modified on the server. Undefined, if this timestamp
+isn't known, i.e. for local primitives or for proxy primitives.</p></p>
+   
+		<script type="syntaxhighlighter" class="brush:js"><![CDATA[
+var nb = require("josm/builder").NodeBuilder.forDataSet(ds);
+
+var n1 = ... // assume n1 was downloaded from the server 
+n1.timestamp;  // the timestamp of last modification
+		]]></script>
+	     
+     
+   <p id="version" class="member-header">version:number</p>
+   <p><p>The version of the object.</p>
+
+<p>Only global objects have a version. The version for local and proxy objects is <var>undefined</var>.</p></p>
+   
+		<script type="syntaxhighlighter" class="brush:js"><![CDATA[
+var nb = require("josm/builder").NodeBuilder;
+
+// local object - get version is undefined  
+var node = nb.create();
+node.version;  // -&gt; undefined
+
+// global object - get version is defined  
+var node = nb.create(12345, {version: 9});
+node.version;  // -&gt; 9
+
+// proxy object - get version is undefined  
+var node = nb.createProxy(12345);
+node.version;  // -&gt; undefined 
+		]]></script>
+	     
+  
+ 
+
+
+
+
+<h2>Functions</h2>
+   
+   <p  id="get" class="member-header">
+      get:string   
+   </p>
+   <p><p>Replies the value of a tag, or undefined, if the tag isn't set.</p></p>	
+
+<h3>Parameters</h3>
+<table>
+<tr>
+   <th>Name</th>
+   <th>Type</th>
+   <th>Description</th>
+</tr>
+
+
+<tr>
+     <td>name</td>    
+     <td>string</td>
+     <td>the tag name. Must not be null or undefined. Non-string values are converted to
+  a string. Leading and trailing whitespace is removed.</td>
+</tr>
+
+</table>
+
+
+
+   <h3>Examples</h3>
+   <script type="syntaxhighlighter" class="brush:js"><![CDATA[
+ var node = .... // create a node
+
+// set the tags using a javascript object
+node.tags = {amenity:"restaurant", name:"Obstberg"}; 
+node.get("amenity");  // -> restaurant
+node.get("name");     // -> Obstberg
+   ]]></script>
+
+
+  
+   <p  id="has" class="member-header">
+      has:boolean   
+   </p>
+   <p><p>Replies true, if the object has a tag with key <var>key</var>.</p>
+
+<strong>Signatures</strong>
+<dl>
+  <dt><strong>has(key)</strong></dt>
+  <dd> <var>key</var> is a string. Replies true, if the 
+  object has a tag with this key. Before matching, leading and trailing white space
+  is removed from <var>key</var>.</dd>
+  
+  <dt><strong>has(regexp)</strong></dt>
+  <dd><var>regexp</var> is a regular expression. Replies true, if the object has at least
+  one tag whose key matches with <var>regexp</var>.</dd>
+</dl></p>	
+
+<h3>Parameters</h3>
+<table>
+<tr>
+   <th>Name</th>
+   <th>Type</th>
+   <th>Description</th>
+</tr>
+
+
+<tr>
+     <td>key</td>    
+     <td>string</td>
+     <td>the tag key. Must not be null or undefined. Non-string values are converted to
+  a string. Leading and trailing whitespace is removed.</td>
+</tr>
+
+</table>
+
+
+
+   <h3>Examples</h3>
+   <script type="syntaxhighlighter" class="brush:js"><![CDATA[
+ var node = .... // create a node
+
+// set the tags using a javascript object
+node.tags = {amenity:"restaurant", name:"Obstberg"}; 
+
+// test wheter the tags are set 
+node.has("amenity");     // -> true
+node.has("no-such-tag"); // -> false
+
+ // use a regexp
+node.has(/^a/);               // -> true
+node.has(/^name(:.*)?$/i);    // -> false 
+   ]]></script>
+
+
+  
+   <p  id="remove" class="member-header">
+      remove:boolean   
+   </p>
+   <p><p>Removes a tag.</p></p>	
+
+<h3>Parameters</h3>
+<table>
+<tr>
+   <th>Name</th>
+   <th>Type</th>
+   <th>Description</th>
+</tr>
+
+
+<tr>
+     <td>name</td>    
+     <td>string</td>
+     <td>the tag name. Must not be null or undefined. Non-string values are converted to
+  a string. Leading and trailing whitespace is removed.</td>
+</tr>
+
+</table>
+
+
+
+   <h3>Examples</h3>
+   <script type="syntaxhighlighter" class="brush:js"><![CDATA[
+ var node = .... // create a node
+
+// set the tags using a javascript object
+node.tags = {amenity:"restaurant", name:"Obstberg"}; 
+node.remove("amenity");
+node.has("amenity"); // -> false 
+   ]]></script>
+
+
+  
+   <p  id="set" class="member-header">
+      set:string   
+   </p>
+   <p><p>Set a tag or a collection of tags.</p>
+
+<p><strong>Signatures</strong></p>
+<dl>
+  <dt><strong>set(name,value)</strong></dt>
+  <dd>sets a tag given a name and a value.<br/>
+  <var>name</var> must not be null or undefined. Non-string values are converted to
+  a string. Leading and trailing whitespace is removed.<br/>
+  <var>value</var>: if null or undefined, the tag is removed. Any other value is converted to a string
+  </dd>
+  
+  <dt><strong>set(tags)</strong></dt>
+  <dd><var>tags</var> is either a java object whose properties are set as tags, or a java.util.Map.</dd>
+</dl></p>	
+
+
+
+   <h3>Examples</h3>
+   <script type="syntaxhighlighter" class="brush:js"><![CDATA[
+ var node = .... // create a node
+
+// set the tags using a javascript object
+node.set("amenity", "restaurant");
+node.set("name", "obstberg"); 
+node.get("amenity");  // -> restaurant
+node.get("name");     // -> Obstberg
+
+// set the tags using an object
+node.set({amenity:"restaurant", name: "Obstberg"});
+node.get("amenity");  // -> restaurant
+node.get("name");     // -> Obstberg
+   ]]></script>
+
+
+  
+ 
+
+
+
+
+
+
+		
+	</div><!-- end wrapper -->
+	<script type="text/javascript">
+    SyntaxHighlighter.all();
+	</script>
+	<!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
+</body>
+</html>
