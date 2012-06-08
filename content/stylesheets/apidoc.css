@@ -34,13 +34,17 @@ iframe#api-doc {
 }
 
 .wrapper {
+/* 
   max-width: 1024px;
   width: 100%; 
   margin: auto;
-  min-height: 100%; 
   height:auto !important; 
   height:100%; 
   overflow: hidden !important;
+*/
+  margin: auto;
+  height: 100%;
+  max-width: 1024px;
 }
 
 a:hover {
