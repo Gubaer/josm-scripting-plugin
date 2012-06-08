@@ -59,7 +59,7 @@ function resolveJosmClassReferences(str) {
 		  var classname = fqclassname.replace(/.*\.([^\.]+)$/, "$1"); 
 		  var url = "http://josm.openstreetmap.de/doc/" + fqclassname.replace(/\./g, "/") + ".html";
 		  content = content || classname;
-		  return MessageFormat.format("<a href=''{0}'' alt=''{1}''>{2}</a>", url, fqclassname, content)
+		  return MessageFormat.format("<a href=''{0}'' alt=''{1}''target=''javadoc''>{2}</a>", url, fqclassname, content)
        }
     );
     return str;
@@ -95,7 +95,7 @@ function resolveJosmClassReferences(str) {
 		 if (prefix) {
 			 var classname = type.replace(/.*\.([^\.]+)$/, "$1"); 
 			 var url = prefix + type.replace(/\./g, "/") + ".html";
-			 type = MessageFormat.format("<a href=''{0}'' alt=''{1}''>{2}</a>", url, type, classname)
+			 type = MessageFormat.format("<a href=''{0}'' alt=''{1}'' target=''javadoc''>{2}</a>", url, type, classname)
 		 }
 		 resolved.push(type);		 
 	 }
@@ -126,12 +126,34 @@ function publishDoclet(doclet, config) {
 	var html = view.render('page.tmpl', {
 		title: config.title + " " + doclet.name,
 		paths: {
-			stylesheets: "http://gubaer.github.com/josm-scripting-plugin/content/stylesheets/",
-			javascripts: "http://gubaer.github.com/josm-scripting-plugin/content/javascript/"
+			stylesheets: "../../stylesheets/",
+			javascripts: "../../javascript/"
 		},
 		body: fragment
 	});
 	out.println(config.title + " <" + doclet.name + ">: writing to <" + filepath + ">");
+	fs.writeFileSync(filepath, html);
+};
+
+
+function publishOverview() {
+	var filepath = path(opts.destination, "index.html");
+	mkdirs(filepath, true /* for parent */);
+	var fragment = view.render("overview.tmpl", {
+	    data: data,
+	    resolveJosmClassReferences: resolveJosmClassReferences,
+	    resolveType: resolveType,
+	    resolveLinks: resolveLinks
+	});
+	var html = view.render('page.tmpl', {
+		title: "JOSM Scripting Plugin - JS API documentation",
+		paths: {
+			stylesheets: "../stylesheets/",
+			javascripts: "../avascript/"
+		},
+		body: fragment
+	});
+	out.println("Overview: writing to <" + filepath + ">");
 	fs.writeFileSync(filepath, html);
 };
 
@@ -143,6 +165,8 @@ function dump(obj) {
 		out.println(p + "-->" + obj[p]);
 	}
 }
+
+
 
 var mixins = data.get({kind: "mixin"});	
 each(mixins, function(mixin) {
@@ -180,6 +204,7 @@ each(classes, function(module) {
 	});;
 });	   
 
+publishOverview();
 
 }; // publish
 }());

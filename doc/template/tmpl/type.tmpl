@@ -98,7 +98,7 @@ if (properties.length > 0) { ?>
    <?js for (var i=0; i< properties.length; i++) {
      var property = properties[i];
    ?>   
-   <p id="<?js= property.name ?>" class="member-header"><?js= property.name ?><?js= property.type && property.type.names ? ":" + property.type.names : "" ?></p>
+   <p id="<?js= property.name ?>" class="member-header"><?js= property.name ?><?js= property.type && property.type.names ? ":" + resolveType(property.type.names) : "" ?></p>
    <p><?js=  resolveLinks(property.description) ?></p>
    <?js if (property.examples) { ?>
 		<script type="syntaxhighlighter" class="brush:js"><![CDATA[
