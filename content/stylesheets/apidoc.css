@@ -43,3 +43,7 @@ iframe#api-doc {
 .wrapper {
   max-width: 1024px;
 }
+
+a:hover {
+	cursor: pointer;
+}
