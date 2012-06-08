@@ -22,7 +22,7 @@ exports.forClass = org.openstreetmap.josm.data.osm.Way;
  * available for scripting. Just prefix their name with <code>$</code> if they are hidden
  * by properties or functions defined in this mixin.</p>
  * 
- * <p>RelationMixin inherits the properties and methods of [OsmPrimitiveMixin]{@link OsmPrimitiveMixin}.</p>
+ * <p>WayMixin inherits the properties and methods of [OsmPrimitiveMixin]{@link OsmPrimitiveMixin}.</p>
  * 
  * <p>You can access nodes using indexed properties, i.e. <code>way[i]</code>, see example below.
  * 
@@ -33,6 +33,29 @@ exports.forClass = org.openstreetmap.josm.data.osm.Way;
  */
 var mixin = {};
 
+/**
+ * <p>Set or get the nodes of a way.</p>
+ * 
+ * <dl>
+ *   <dt>get</dt>
+ *   <dd>Replies the nodes as array.</dd>
+ *   <dt>set</dt>
+ *   <dd>Set the an array or {@class java.util.List} of {@josmclass org.openstreetmap.josm.data.osm.Node}s.</dd>
+ * </dl>
+ * 
+ * @example
+ * var way = ...       // create the way;
+ * var n1,n2,n3 = ...; // create the nodes 
+ * way.nodes = [n1,n2,n3];
+ * way.nodes;  // -> [n1,n2,n3]
+ * 
+ * @field
+ * @instance
+ * @name nodes
+ * @type array
+ * @memberof WayMixin
+ * @summary  Set or get the nodes of a way.
+ */
 mixin.nodes = {
 	get: function() {
 		if (this.isIncomplete()) return undefined;
@@ -47,7 +70,18 @@ mixin.nodes = {
 		}
 	}
 };
-	
+
+/**
+ * <p>Replies the number of nodes.</p>
+ * 
+ * @field
+ * @instance
+ * @name length
+ * @type number
+ * @memberof WayMixin
+ * @readOnly
+ * @summary Replies the number of nodes.
+ */
 mixin.length =  {
 	get: function() {
 		return this.getNodesCount();
@@ -59,32 +93,87 @@ mixin.__getByIndex =  function(idx) {
 	return this.getNode(idx);
 };
 	
+/**
+ * <p>Checks if a node is part of a way.</p>
+ * 
+ * @param {org.openstreetmap.josm.data.osm.Node} node  the node to check
+ * @method
+ * @instance
+ * @name contains
+ * @type boolean
+ * @memberof WayMixin
+ * @summary Checks if a node is part of a way.
+ */
 mixin.contains =  function(node) {
 	if (util.isNothing(node)) return false;
 	util.assert(node instanceof Node, "Expected a Node, got {0}", node);
 	return this.containsNode(node);
 };
-	
+
+/**
+ * <p>The first node or undefined, if this way doesn't have nodes 
+ * (i.e. because it is a proxy way).</p>
+ * 
+ * @type org.openstreetmap.josm.data.osm.Node
+ * @field
+ * @instance
+ * @name first
+ * @memberof WayMixin
+ * @summary The first node
+ */
 mixin.first = {
 	get: function() {
 		if (this.length == 0) return undefined;
 		return this.getNode(0);
 	}
 };
-	
+
+/**
+ * <p>The last node or undefined, if this way doesn't have nodes 
+ * (i.e. because it is a proxy way).</p>
+ * 
+ * @type org.openstreetmap.josm.data.osm.Node
+ * @field
+ * @instance
+ * @name last
+ * @memberof WayMixin
+ * @summary The last node
+ */	
 mixin.last = {
 	get: function() {
 		if (this.length == 0) return undefined;
 		return this.getNode(this.length-1);
 	}
 };
-	
+
+/**
+ * <p>Removes one or more nodes from the way.</p>
+ * 
+ * <strong>Signatures</strong>
+ * <dl>
+ *   <dt>remove(n1,n2, ...)</dt>
+ *   <dd>Removes the nodes. <code>n</code><em>i</em> are instances of {@josmclass org.openstreetmap.josm.data.osm.Node}.</dd>
+ *
+ *    <dt>remove(array|collection)</dt>
+ *   <dd>Removes the nodes. <code>array</code> is a javascript array of {@josmclass org.openstreetmap.josm.data.osm.Node}s,
+ *   <code>collection</code> is a java collection of {@josmclass org.openstreetmap.josm.data.osm.Node}s.</dd>
+ * </dl>
+ * 
+ * @type org.openstreetmap.josm.data.osm.Node
+ * @method
+ * @instance
+ * @name remove
+ * @memberof WayMixin
+ * @summary TRemoves one or more nodes from the way.
+ */	
 mixin.remove = function(){
 	var candidates = new HashSet();
 	function remember(o){
 		if (util.isNothing(o)) return;
 		if (o instanceof Node) {
 			candidates.add(o);
+		} else if (util.isArray(o)) {
+			for(var i=0; i< o.length; i++) remember(o[i]);
 		} else if (arg instanceof Collection){
 			for(var it= arg.iterator(); it.hasNext();) remember(it.next());
 		} else {
