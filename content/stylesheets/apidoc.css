@@ -27,15 +27,6 @@ div#content {
 	height: 100%;
 }
 
-div#api-doc-wrapper {
-	width: 100%; 
-	margin: auto;
-	min-height: 100%; 
-	height:auto !important; 
-	height:100%; 
-	overflow: hidden !important;
-}
-
 iframe#api-doc {
 	width: 100%;
 	height: 100%;
@@ -44,6 +35,12 @@ iframe#api-doc {
 
 .wrapper {
   max-width: 1024px;
+  width: 100%; 
+  margin: auto;
+  min-height: 100%; 
+  height:auto !important; 
+  height:100%; 
+  overflow: hidden !important;
 }
 
 a:hover {
