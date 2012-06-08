@@ -74,3 +74,6 @@ jsdoc.dir=/full/path/to/the/local/installation
 #
 jsdoc3.cmd=/full/path/jsdoc3 command 
 
+# the directory where API docs are generated to 
+#
+api-doc.staging.dir=doc/js

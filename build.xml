@@ -233,14 +233,15 @@
 		<delete dir="build/js" />
 		<mkdir dir="build/js"/>
 		
-		<delete dir="doc/js"/>
-		<mkdir dir="doc/js" />
+		<delete dir="${api-doc.staging.dir}"/>
+		<mkdir dir="${api-doc.staging.dir}" />
 	</target>
 
 
 	<target name="js-doc" depends="js-init" description="Create the documentation for the JOSM javascript API">
+		<echo>Writing API doc to '${api-doc.staging.dir}</echo>
 		<exec executable="${jsdoc3.cmd}" failonerror="yes" failifexecutionfails="yes">
-			<arg value="-d doc/js"/>
+			<arg value="-d ${api-doc.staging.dir}"/>
 			<arg value="-t templates/josm-scripting-plugin" />			
 			<arg value="javascript/josm.js"/>
 			<arg value="javascript/josm/util.js"/>
@@ -255,6 +256,5 @@
 			<arg value="javascript/josm/mixin/DataSetMixin.js"/>
 			<arg value="javascript/josm/mixin/BoundsMixin.js"/>
 		</exec>
-	</target>
-	
+	</target>	
 </project>
