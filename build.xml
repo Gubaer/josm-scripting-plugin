@@ -247,7 +247,7 @@
 			<arg value="javascript/josm/util.js"/>
 			<arg value="javascript/josm/builder.js"/>
 			<arg value="javascript/josm/layers.js"/>
-			<arg value="javascript/josm/api.js"/>
+			<!-- <arg value="javascript/josm/api.js"/> -->
 			<arg value="javascript/josm/mixin/RelationMixin.js"/>
 			<arg value="javascript/josm/mixin/OsmPrimitiveMixin.js"/>
 			<arg value="javascript/josm/mixin/NodeMixin.js"/>
@@ -255,6 +255,7 @@
 			<arg value="javascript/josm/mixin/LatLonMixin.js"/>
 			<arg value="javascript/josm/mixin/DataSetMixin.js"/>
 			<arg value="javascript/josm/mixin/BoundsMixin.js"/>
+			<arg value="javascript/josm/mixin/UploadStrategyMixin.js"/>
 		</exec>
 	</target>	
 </project>
