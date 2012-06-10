@@ -666,5 +666,224 @@ exports.Api.downloadArea = function() {
 	var downloader = new BoundingBoxDownloader(bounds);
 	return downloader.parseOsm(NullProgressMonitor.INSTANCE);
 };
+
+
+exports.Api.upload = function(data, options) {
+	var UploadStrategy = org.openstreetmap.josm.gui.io.UploadStrategy;
+	var Changeset = org.openstreetmap.josm.data.osm.Changeset;
+	var APIDataSet = org.openstreetmap.josm.data.osm.APIDataSet;
+	var UploadStrategySpecification = org.openstreetmap.josm.gui.io.UploadStrategySpecification;
 	
-}()) 
+	util.assertSomething(data, "data: must not be null or undefined");
+	options = options || {};
+	util.assert(typeof options === "object", "options: expected an object with named arguments, got {0}", options);
+	
+	function normalizeChunkSize(size) {
+		util.assert(util.isNumber(size), "chunksize: expected a number, got {0}", size);
+		util.assert(size >= -1, "chunksize: expected -1 or a number > 0, got {0]", size);
+		return size;
+	};
+	
+	function normalizeChangeset(changeset) {
+		if (util.isNothing(changeset)) {
+			return new Changeset();
+		} else if (util.isNumber(changeset)) {
+			util.assert(changeset > 0, "changeset: expected a changeset id > 0, got {0}", changeset);
+			return new Changeset(changeset);
+		} else if (changeset instanceof Changeset) {
+			return changeset;
+		} else {
+			util.assert(false, "changeset: unexpected value, got {0}", changeset);
+		}
+	};
+	
+	function uploadSpecFromOptions(options) {
+		var strategy = options.strategy || UploadStrategy.DEFAULT_UPLOAD_STRATEGY;
+		strategy = UploadStrategy.from(strategy);
+		
+		var chunkSize = options.chunkSize || UploadStrategySpecification.UNSPECIFIED_CHUNK_SIZE;
+		chunkSize = normalizeChunkSize(chunkSize);
+		
+		var closeChangeset = util.isDef(options.closeChangeset) ? options.closeChangeset : true;
+		closeChangeset = Boolean(closeChangeset);
+				
+		var spec = new UploadStrategySpecification();
+		spec.setStrategy(strategy);
+		spec.setChunkSize(chunkSize);
+		spec.setCloseChangsetAfterUpload(closeChangeset);
+		return spec;
+	};
+	
+	
+	var apiDataSet;
+	if (data instanceof DataSet) {
+		apiDataSet = new APIDataSet(data);
+	} else if (data instanceof ApiDataSet) {
+		apiDataSet = data;
+	} else if (util.isArray(data)) {
+		apiDataSet = new APIDataSet(data);
+	} else if (data instanceof Collection) {
+		apiDataSet = new APIDataSet(data);
+	} else {
+		util.assert(false, "data: unexpected type of value, got {0}", data);
+	};
+	
+	if (apiDataSet.isEmpty()) return;
+	apiDataSet.adjustRelationUploadOrder();
+	var toUpload = apiDataSet.getPrimitives();
+	
+	var changeset = options.changeset || new Changeset();
+	changeset = normalizeChangeset(changeset);
+	var spec = uploadSpecFromOptions(options);
+	var writer = new OsmServerWriter();
+	
+	writer.uploadOsm(spec, toUpload, changeset, null /* progress monitor */);
+	return writer.getProcessedPrimitives();
+};
+
+
+
+/* ------------------------------------------------------------------------------------------ */
+/* ApiConfig                                                                                  */
+/* ------------------------------------------------------------------------------------------ */
+
+/**
+ * <p>ApiConfig provides methods and properties for configuring API parameters.</p>
+ * 
+ * @class ApiConfig
+ * @memberof josm/api
+ */
+Object.defineProperty(exports, "ApiConfig", {
+	value: {},
+	writable: false,
+	enumerable: true
+});
+
+var Main = org.openstreetmap.josm.Main;
+var DEFAULT_URL = org.openstreetmap.josm.gui.preferences.server.OsmApiUrlInputPanel.defaulturl;
+var URL = java.net.URL;
+/**
+ * <p>Get or set the API server URL.</p>
+ * 
+ * <dl>
+ *   <dt><code class="signature">get</code></dt>
+ *   <dd>Replies the currently configured server URL or undefinend, if no server URL is
+ *   configured.</dd>
+ *   <dt><code class="signature">set</code></dt>
+ *   <dd>Sets the current server URL. If null or undefined, removes the current configuration. 
+ *   Accepts either a string or a {@class java.net.URL}. Only accepts http or https URLs.
+ *   </dd>
+ * </dl>
+ * 
+ * @example
+ * var conf = require("josm/api").ApiConfig;
+ * conf.serverUrl;   // -> the current server url
+ * 
+ * // set a new API url
+ * conf.serverUrl = "http://api06.dev.openstreetmap.org";  
+ * 
+ * @field
+ * @memberOf ApiConfig
+ * @static
+ * @summary Get or set the API server URL.
+ * @type string
+ * @name serverUrl
+ */
+Object.defineProperty(exports.ApiConfig, "serverUrl", {
+	enumerable: true,
+	get: function() {
+		var url = Main.pref.get("osm-server.url", null);
+		if (url == null) url = DEFAULT_URL;
+		return url == null ? undefined: util.trim(url);
+	},
+	
+	set: function(value) {
+		if (util.isNothing(value)) {
+			Main.pref.put("osm-server.url", null);
+		} else if (value instanceof URL) {
+			util.assert(value.getProtocol() == "http" || value.getProtocol() == "https", "url: expected a http or https URL, got {0}", value);
+			Main.pref.put("osm-server.url", value.toString());
+		} else if (util.isString(value)) {
+			value = util.trim(value);
+			try {
+				var url = new URL(value);
+				util.assert(url.getProtocol() == "http" || url.getProtocol() == "https", "url: expected a http or https URL, got {0}", url.toString());
+				Main.pref.put("osm-server.url", url.toString());
+			} catch(e) {				
+				util.assert(false, "url: doesn''t look like a valid URL, got {0}. Error: {1}", value, e);
+			}
+		} else {
+			util.assert(false, "Unexpected type of value, got {0}", value);
+		}
+	}
+});
+
+/**
+ * <p>Get the default server URL.</p>
+ * @example
+ * var conf = require("josm/api").ApiConfig;
+ * conf.defaultServerUrl;   // -> the default server url
+ * 
+ * @field
+ * @memberOf ApiConfig
+ * @static
+ * @summary Get the default server URL-
+ * @type string
+ * @name defaultServerUrl
+ * @readOnly
+ */
+Object.defineProperty(exports.ApiConfig, "defaultServerUrl", {
+	value: DEFAULT_URL,
+	writable: false,
+	enumerable: true
+});
+
+//function normalizeAuthMethod(authMethod) {
+//	util.assert(util.isString(authMethod), "authMethod: expected a string ,got {0}", authMethod);
+//	authMethod = util.trim(authMethod).toLowerCase();
+//	util.assert(authMethod == "basic" || authMethod == "oauth", "Unsupported value for authMethod, got {0}", authMethod);
+//	return authMethod;
+//};
+//
+//Object.defineProperty(exports.ApiConfig, "authMethod", {
+//	var Main = org.openstreetmap.josm.Main;
+//	get: function() {
+//		var authMethod = Main.pref.get("osm-server.auth-method", "basic");
+//		authMethod = util.trim(authMethod).toLowerCase();
+//		if (authMethod == "basic" || authMethod == "oauth") return authMethod;
+//		// unsupported value for authMethod in the preferences. Returning
+//		// "basic" as default.
+//		return "basic";		
+//	},
+//	set: function(value) {
+//		value = normalizeAuthMethod(value);
+//		Main.pref.set("osm-server.auth-method", value);		
+//	}	
+//});
+//
+//exports.ApiConfig.getCredentials = function(authMethod, options) {
+//	var CredentialsManager = org.openstreetmap.josm.io.auth.CredentialsManager;
+//	var OsmApi = org.openstreetmap.josm.io.OsmApi;
+//	var RequestorType = java.net.Authenticator.RequestorType;
+//	
+//	options = options || {};
+//	util.assert(typeof options === "object", "options: expected an object with named options, got {0}", options);
+//	
+//	function getBasicCredentials() {
+//		var cm = CredentialsManager.getInstance();
+//		if (options.host) options.host = util.trim(String(options.host));
+//		var host = options.host ? options.host : OsmApi.getInstance().getHost();
+//		var pa = cm.lookup(RequestorType.SERVER, host);
+//		return pa ? {host: host, user: pa.getUserName(), password: java.lang.String.valueOf(pa.getPassword())}
+//		          : {host: host, user: undefined, password: undefined};
+//	};
+//	authMethod = normalizeAuthMethod(authMethod);
+//	if (authMethod == "basic") return getBasicCredentials();
+//};
+//
+//exports.ApiConfig.setCredientials = function(authMethod, credentials, options) {
+//	
+//};
+
+	
+}());
