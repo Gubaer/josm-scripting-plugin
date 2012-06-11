@@ -728,7 +728,7 @@ exports.Api.upload = function(data, options) {
 		util.assert(false, "data: unexpected type of value, got {0}", data);
 	};
 	
-	if (apiDataSet.isEmpty()) return;
+	if (apiDataSet.isEmpty()) return undefined;
 	apiDataSet.adjustRelationUploadOrder();
 	var toUpload = apiDataSet.getPrimitives();
 	
@@ -746,7 +746,6 @@ exports.Api.upload = function(data, options) {
 /* ------------------------------------------------------------------------------------------ */
 /* ApiConfig                                                                                  */
 /* ------------------------------------------------------------------------------------------ */
-
 /**
  * <p>ApiConfig provides methods and properties for configuring API parameters.</p>
  * 
@@ -838,28 +837,53 @@ Object.defineProperty(exports.ApiConfig, "defaultServerUrl", {
 	enumerable: true
 });
 
-//function normalizeAuthMethod(authMethod) {
-//	util.assert(util.isString(authMethod), "authMethod: expected a string ,got {0}", authMethod);
-//	authMethod = util.trim(authMethod).toLowerCase();
-//	util.assert(authMethod == "basic" || authMethod == "oauth", "Unsupported value for authMethod, got {0}", authMethod);
-//	return authMethod;
-//};
-//
-//Object.defineProperty(exports.ApiConfig, "authMethod", {
-//	var Main = org.openstreetmap.josm.Main;
-//	get: function() {
-//		var authMethod = Main.pref.get("osm-server.auth-method", "basic");
-//		authMethod = util.trim(authMethod).toLowerCase();
-//		if (authMethod == "basic" || authMethod == "oauth") return authMethod;
-//		// unsupported value for authMethod in the preferences. Returning
-//		// "basic" as default.
-//		return "basic";		
-//	},
-//	set: function(value) {
-//		value = normalizeAuthMethod(value);
-//		Main.pref.set("osm-server.auth-method", value);		
-//	}	
-//});
+function normalizeAuthMethod(authMethod) {
+	util.assert(util.isString(authMethod), "authMethod: expected a string, got {0}", authMethod);
+	authMethod = util.trim(authMethod).toLowerCase();
+	util.assert(authMethod == "basic" || authMethod == "oauth", "Unsupported value for authMethod, got {0}", authMethod);
+	return authMethod;
+};
+
+/**
+ * <p>Get or set the authentication method.</p>
+ * 
+ * <p>JOSM can use authentication methods:</p>
+ * <dl>
+ *    <dt><code class="signature">basis</code></dt>
+ *    <dd>Basis authentication with a username and a password</dd>
+ *    <dt><code class="signature">oauth</code></dt>
+ *    <dd>Authentication with the <a href="http://oauth.net/">OAuth</a> protocol.</dd>
+ * </dl>
+ * 
+ * @example
+ * var conf = require("josm/api").ApiConfig;
+ * conf.authMethod;   // -> the current authentication method
+ * 
+ * // set OAuth as authentication method
+ * conf.authMethod = "oauth";
+ * 
+ * @field
+ * @memberOf ApiConfig
+ * @static
+ * @summary Get or set the authentication method.
+ * @type string
+ * @name authMethod
+ */
+Object.defineProperty(exports.ApiConfig, "authMethod", {
+	enumerate: true,
+	get: function() {
+		var authMethod = Main.pref.get("osm-server.auth-method", "basic");
+		authMethod = util.trim(authMethod).toLowerCase();
+		if (authMethod == "basic" || authMethod == "oauth") return authMethod;
+		// unsupported value for authMethod in the preferences. Returning
+		// "basic" as default.
+		return "basic";		
+	},
+	set: function(value) {
+		value = normalizeAuthMethod(value);
+		Main.pref.put("osm-server.auth-method", value);		
+	}	
+});
 //
 //exports.ApiConfig.getCredentials = function(authMethod, options) {
 //	var CredentialsManager = org.openstreetmap.josm.io.auth.CredentialsManager;
