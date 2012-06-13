@@ -117,6 +117,18 @@ tu.suite("properties access",
 		n=nb.createProxy(1234);		
 		util.assert(n.isIncomplete, "1- should be true");
 		util.assert(n.isProxy, "2 - should be true");
+	}),
+	
+	tu.test("property 'isModified'", function() {
+		var n;
+		
+		n=nb.create();		
+		util.assert(!n.isModified, "1- should be false");
+		util.assert(!n.modified, "2 - should be false");
+
+        n.isModified = true;
+        util.assert(n.isModified, "1 - should be true");
+        util.assert(n.modified, "2 - should be true");
 	})	
 ).run();
 

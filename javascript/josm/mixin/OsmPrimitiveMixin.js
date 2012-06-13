@@ -256,7 +256,6 @@ mixin.changesetId = {
  * <p>Get the timestamp this primitive was last modified on the server. Undefined, if this timestamp
  * isn't known, i.e. for local primitives or for proxy primitives.</p>
  * 
- * 
  * @example
  * var nb = require("josm/builder").NodeBuilder.forDataSet(ds);
  * 
@@ -317,10 +316,35 @@ mixin.isIncomplete = {
  * @instance
  * @readOnly
  * @type {boolean}
- * 
  */
 mixin.isProxy = mixin.isIncomplete;
 
+/**
+ * <p>Sets or gets whether this object is <em>modified</em>.</p>
+ *
+ * <p>Supported alias: <code>modified</code>.</p>
+ * 
+ * @example
+ * var node = ....           // create a node
+ * node.modified;            // -> true or false 
+ * node.isModified = true;   // sets the modified flag  to true 
+ * 
+ * @summary Sets or gets whether this object is <em>modified</em>.
+ * @name isModified
+ * @alias modified 
+ * @field
+ * @instance
+ * @type boolean
+ */
+mixin.isModified = mixin.modified = {
+	get: function() {
+		return this.$isModified();
+	},
+	set: function(value) {
+		util.assert(util.isDef(value), "value: missing mandatory value");
+		this.$setModified(Boolean(value));
+	}
+};
 
 function applyTagMap(obj, tags) {
 	if (util.isNothing(tags)) return;
@@ -565,7 +589,8 @@ mixin.set = function() {
  */
 mixin.has = function(key) {
 	if (util.isNothing(key)) return false;
-	if (key instanceof RegExp) {
+	// Strange: key instanceof RegExp doesn't work 
+	if (key.constructor.name == "RegExp") {
 		for(var it=this.keySet().iterator(); it.hasNext();) {
 			if (key.test(it.next())) return true;
 		}
