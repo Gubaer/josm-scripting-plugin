@@ -847,10 +847,10 @@ function normalizeAuthMethod(authMethod) {
 /**
  * <p>Get or set the authentication method.</p>
  * 
- * <p>JOSM can use authentication methods:</p>
+ * <p>JOSM uses two authentication methods:</p>
  * <dl>
- *    <dt><code class="signature">basis</code></dt>
- *    <dd>Basis authentication with a username and a password</dd>
+ *    <dt><code class="signature">basic</code></dt>
+ *    <dd>Basic authentication with a username and a password</dd>
  *    <dt><code class="signature">oauth</code></dt>
  *    <dd>Authentication with the <a href="http://oauth.net/">OAuth</a> protocol.</dd>
  * </dl>
@@ -884,30 +884,148 @@ Object.defineProperty(exports.ApiConfig, "authMethod", {
 		Main.pref.put("osm-server.auth-method", value);		
 	}	
 });
-//
-//exports.ApiConfig.getCredentials = function(authMethod, options) {
-//	var CredentialsManager = org.openstreetmap.josm.io.auth.CredentialsManager;
-//	var OsmApi = org.openstreetmap.josm.io.OsmApi;
-//	var RequestorType = java.net.Authenticator.RequestorType;
-//	
-//	options = options || {};
-//	util.assert(typeof options === "object", "options: expected an object with named options, got {0}", options);
-//	
-//	function getBasicCredentials() {
-//		var cm = CredentialsManager.getInstance();
-//		if (options.host) options.host = util.trim(String(options.host));
-//		var host = options.host ? options.host : OsmApi.getInstance().getHost();
-//		var pa = cm.lookup(RequestorType.SERVER, host);
-//		return pa ? {host: host, user: pa.getUserName(), password: java.lang.String.valueOf(pa.getPassword())}
-//		          : {host: host, user: undefined, password: undefined};
-//	};
-//	authMethod = normalizeAuthMethod(authMethod);
-//	if (authMethod == "basic") return getBasicCredentials();
-//};
-//
-//exports.ApiConfig.setCredientials = function(authMethod, credentials, options) {
-//	
-//};
+
+/**
+ * <p>Gets the credentials, i.e. username and password for the basic authentication method.</p>
+ * 
+ * <strong>Named options</strong>
+ * <dl>
+ *    <dt><code class="signature">host:string</dt>
+ *    <dd>The host name of the API server for which credentials are retrieved. If missing,
+ *    the host name of the currently configured OSM API server is assumed.</dd>
+ * </dl>
+ * 
+ * @example
+ * var conf = require("josm/api").ApiConfig;
+ * 
+ * // get username/password for the current OSM API server 
+ * var credentials = conf.getCredentials("basic");
+ * 
+ * @param {string} authMethod  the authentication method. Either "basic" or "oauth".
+ * @param {object} options  (optional) additional options (see above)
+ * @method
+ * @memberOf ApiConfig
+ * @static
+ * @summary Gets the credentials.
+ * @type object
+ * @name getCredentials
+ */
+exports.ApiConfig.getCredentials = function(authMethod, options) {
+	var CredentialsManager = org.openstreetmap.josm.io.auth.CredentialsManager;
+	var OsmApi = org.openstreetmap.josm.io.OsmApi;
+	var RequestorType = java.net.Authenticator.RequestorType;
+	
+	options = options || {};
+	util.assert(typeof options === "object", "options: expected an object with named options, got {0}", options);
+	
+	function getBasicCredentials() {
+		var cm = CredentialsManager.getInstance();
+		if (options.host) options.host = util.trim(String(options.host));
+		var host = options.host ? options.host : OsmApi.getOsmApi().getHost();
+		var pa = cm.lookup(RequestorType.SERVER, host);
+		return pa ? {host: host, user: pa.getUserName(), password: java.lang.String.valueOf(pa.getPassword())}
+		          : {host: host, user: undefined, password: undefined};
+	};
+	
+	function getOAuthCredentials() {
+		var cm = CredentialsManager.getInstance();
+		var token = cm.lookupOAuthAccessToken();
+		if (token == null) return undefined;
+		return {key: token.getKey(), secret: token.getSecret()};
+	};
+	
+	authMethod = normalizeAuthMethod(authMethod);
+	if (authMethod == "basic") return getBasicCredentials();
+	if (authMethod == "oauth") return getOAuthCredentials();
+	util.assert(false, "Unsupported authentication method, got {0}", authMethod);
+};
+
+
+function normalizeBasicCredentials(credentials) {
+	var PasswordAuthentication = java.net.PasswordAuthentication;
+	
+	if (util.isNothing(credentials)) return null;
+	util.assert(credentials instanceof PasswordAuthentication || typeof credentials === "object", "basic credentials: expected an object or an instance of PasswordAuthentication , got {0}", credentials);
+	if (credentials instanceof PasswordAuthentication) {
+		return credentials;
+	} else {
+		var user = String(credentials.user || "");
+		var password = credentials.password || null;
+		password = password ? new java.lang.String(password).toCharArray() : password;
+		return new PasswordAuthentication(user, password);
+	}	
+};
+
+function normalizeOAuthCredentials(credentials) {
+	var OAuthToken = org.openstreetmap.josm.data.oauth.OAuthToken;
+	if (util.isNothing(credentials)) return null;
+	util.assert(credentials instanceof OAuthToken || typeof credentials === "object", "oauth credentials: expected an object or an instance of OAuthToken , got {0}", credentials);
+	if (credentials instanceof OAuthToken) {
+		return credentials;
+	} else {
+		var key = String(credentials.key || "");
+		var secret = String(credentials.secret || "");
+		return new OAuthToken(key,secret);
+	}
+}
+
+/**
+ * <p>Set the credentials, i.e. username and password for the basic authentication method.</p>
+ * 
+ * <p>Basic authentication credentials are either an instance of java.net.PasswordAuthentication or
+ * an object <code>{user: string, password: string}</code>.</p>
+ * 
+ * <p>OAuth authentication credentials are either an instance of {@josmclass org.openstreetmap.josm.data.oauth.OAuthToken} or
+ * an object <code>{key: string, secret: string}</code>.</p>
+
+ * <strong>Named options</strong>
+ * <dl>
+ *    <dt><code class="signature">host:string</dt>
+ *    <dd>The host name of the API server for which credentials are set. If missing,
+ *    the host name of the currently configured OSM API server is assumed.</dd>
+ * </dl>
+ * 
+ * @example
+ * var conf = require("josm/api").ApiConfig;
+ * 
+ * // set the credentials
+ * conf.setCredentials("basic", {user:"test", password:"apassword"});
+ * 
+ * @param {string} authMethod  the authentication method. Either "basic" or "oauth".
+ * @param {object,org.openstreetmap.josm.data.oauth.OAuthToken,java.net.PasswordAuthentication} credentials  the credentials.
+ * @param {object} options  (optional) additional options (see above)
+ * @method
+ * @memberOf ApiConfig
+ * @static
+ * @summary Set the credentials.
+ * @type object
+ * @name setCredentials
+ */
+exports.ApiConfig.setCredentials = function(authMethod, credentials, options) {
+	var CredentialsManager = org.openstreetmap.josm.io.auth.CredentialsManager;
+	var RequestorType = java.net.Authenticator.RequestorType;
+	var OsmApi = org.openstreetmap.josm.io.OsmApi;
+	var out = java.lang.System.out;
+	
+	options = options || {};
+	util.assert(typeof options === "object", "options: expected an object with named options, got {0}", options);
+	authMethod = normalizeAuthMethod(authMethod);
+	if (authMethod == "basic") {
+		credentials = normalizeBasicCredentials(credentials);
+		util.assert(credentials != null, "credentials: can''t store null credentials");
+		var host = options.host ? String(options.host) : null;
+		host = host ? host : OsmApi.getOsmApi().getHost();
+		var cm = CredentialsManager.getInstance();
+		cm.store(RequestorType.SERVER, host, credentials);
+	} else if (authMethod == "oauth") {
+		credentials = normalizeOAuthCredentials(credentials);
+		util.assert(credentials != null, "credentials: can''t store null credentials");
+		var cm = CredentialsManager.getInstance();
+		cm.storeOAuthAccessToken(credentials);		
+	} else {
+		util.assert(false, "Unsupported authentication method, got {0}", authMethod);
+	}
+};
 
 	
 }());
