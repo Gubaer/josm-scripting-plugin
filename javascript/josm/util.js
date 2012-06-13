@@ -387,3 +387,22 @@ exports.print = function() {
 	java.lang.System.out.print(MessageFormat.format(args[0],args.slice(1)));
 };
 
+/**
+ * <p>Checks whether two java objects are either both null or equal by calling
+ * o1.equals(o2).</p>
+ * 
+ * @param {object} o1 a java object or null
+ * @param {object} o2 a java object or null
+ * @memberof josm/util
+ * @method
+ * @summary Are two java objects equal.
+ * @name javaEquals 
+ * @type boolean
+ */
+exports.javaEquals = function(o1, o2) {
+	exports.assert(typeof o1 === "object" && typeof o1.equals === "function");
+	exports.assert(typeof o2 === "object" && typeof o2.equals === "function");
+	if (o1 === null && o2 === null) return true;
+	if (o1 === null && o2 !== null) return false;	
+	return o1.equals(o2);
+};
