@@ -203,3 +203,37 @@ tu.suite("properties access",
 	})
 ).run();
 	
+
+
+tu.suite("setting modified flag as side effect",
+	test("lat", function() {
+		var n = nb.create(1234);		
+		n.lat = 1;
+		util.assert(n.modified, "1 - should be modified");
+		n.modified = false;
+		n.lat = 1;
+		util.assert(!n.modified, "2 - should not be modified");
+		n.lat = 2;
+		util.assert(n.modified, "3 - should  be modified");
+	}),
+	test("lon", function() {
+		var n = nb.create(1234);		
+		n.lon = 1;
+		util.assert(n.modified, "1 - should be modified");
+		n.modified = false;
+		n.lon = 1;
+		util.assert(!n.modified, "2 - should not be modified");
+		n.lon = 2;
+		util.assert(n.modified, "3 - should  be modified");
+	}),
+	test("pos", function() {
+		var n = nb.create(1234);		
+		n.pos = {lat: 1, lon: 2};
+		util.assert(n.modified, "1 - should be modified");
+		n.modified = false;
+		n.pos =  {lat: 1, lon: 2};
+		util.assert(!n.modified, "2 - should not be modified");
+		n.pos = {lat: 3, lon: 4};
+		util.assert(n.modified, "3 - should  be modified");
+	})
+).run();

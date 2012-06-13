@@ -55,17 +55,19 @@ var mixin = {};
  */
 mixin.lat =  {
 	get: function() {
-		if (this.isIncomplete() || this.getCoor() == null) return undefined;
+		if (this.isIncomplete || this.getCoor() == null) return undefined;
 		return this.getCoor().$lat();
 	},
 	set: function(lat) {
-		util.assert(! this.isIncomplete(), "Can''t set lat on an incomplete node");
+		util.assert(! this.isIncomplete, "Can''t set lat on an incomplete node");
 		util.assert(util.isNumber(lat), "Expected a number, got {0}", lat);
 		util.assert(LatLon.isValidLat(lat), "Expected a valid lat in the range [-90,90], got {0}", lat);
+		var oldlat = this.lat;
 		var coor = this.getCoor();
 		if (coor == null) coor = new LatLon(0,0);
 		coor = new LatLon(lat, coor.$lon());
 		this.setCoor(coor);
+		if (oldlat != this.lat && !this.modified) this.modified = true;
 	}	
 };
 
@@ -99,17 +101,19 @@ mixin.lat =  {
  */
 mixin.lon = {
 	get: function() {
-		if (this.isIncomplete() || this.getCoor() == null) return undefined;
+		if (this.isIncomplete || this.getCoor() == null) return undefined;
 		return this.getCoor().$lon();
 	},
 	set: function(lon) {
-		util.assert(! this.isIncomplete(), "Can''t set lon on an incomplete node");
+		util.assert(! this.isIncomplete, "Can''t set lon on an incomplete node");
 		util.assert(util.isNumber(lon), "Expected a number, got {0}", lon);
 		util.assert(LatLon.isValidLon(lon), "Expected a valid lon in the range [-180,180], got {0}", lon);
+		var oldlon = this.lon;
 		var coor = this.getCoor();
 		if (coor == null) coor = new LatLon(0,0);
 		coor = new LatLon(coor.$lon(), lon);
 		this.setCoor(coor);
+		if (oldlon != this.lon && !this.modified) this.modified = true;
 	}
 };
 
@@ -133,7 +137,7 @@ mixin.lon = {
  */
 mixin.east= {
 	get: function() {
-		if (this.isIncomplete() || this.getEastNorth() == null) return undefined;
+		if (this.isIncomplete || this.getEastNorth() == null) return undefined;
 		return this.getEastNorth().east();
 	}
 };
@@ -158,7 +162,7 @@ mixin.east= {
  */
 mixin.north = {
 	get: function() {
-		if (this.isIncomplete() || this.getEastNorth() == null) return undefined;
+		if (this.isIncomplete || this.getEastNorth() == null) return undefined;
 		return this.getEastNorth().north();
 	}
 };
@@ -199,24 +203,22 @@ mixin.north = {
  */
 mixin.pos =  {
 	get: function() {
-		if (this.isIncomplete() || this.getCoor() == null) return undefined;
+		if (this.isIncomplete || this.getCoor() == null) return undefined;
 		return this.getCoor();
 	},
 	set: function(coor) {
 		util.assert(util.isSomething(coor), "value must not be null or undefined");
+		util.assert(!this.isIncomplete, "Can''t set a position on an incomplete node");
+		var oldpos = this.pos;		
 		if (coor instanceof LatLon) {
 			this.setCoor(coor);
 		} else if (typeof coor === "object") {
-			util.assert(coor.hasOwnProperty("lat"), "Missing mandatory property 'lat' in {0}", coor);
-			util.assert(util.isNumber(coor.lat), "Expected a number in property 'lat' in {0}, got {1}", coor, coor.lat);
-			util.assert(LatLon.isValidLat(coor.lat), "Illegal lat value for property 'lat' in {0}, got {1}", coor, coor.lat);
-			util.assert(coor.hasOwnProperty("lon"), "Missing mandatory property 'lon' in {0}", coor);
-			util.assert(util.isNumber(coor.lon), "Expected a number in property 'lon' in {0}, got {1}", coor, coor.lon);
-			util.assert(LatLon.isValidLat(coor.lon), "Illegal lon value for property 'lon' in {0}, got {1}", coor, coor.lon);
-			this.setCoor(new LatLon(coor.lat, coor.lon));
+			var pos = LatLon.make(coor);
+			this.setCoor(pos);
 		} else {
 			util.assert(false, "Unexpected type of value, got {0}", coor);
 		}
+		if (!util.javaEquals(oldpos, this.pos) && !this.modified) this.modified = true;
 	}
 };
 
