@@ -1,0 +1,193 @@
+
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="chrome=1">
+	<title>JOSM Scripting Plugin - JS API documentation</title>
+	<link rel="stylesheet" href="../../stylesheets/styles.css">
+	<link rel="stylesheet" href="../../stylesheets/pygment_trac.css">
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script src="../../stylesheets/respond.js"></script>
+    <link href="http://alexgorbatchev.com/pub/sh/current/styles/shThemeRDark.css" rel="stylesheet" type="text/css" />
+	<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shCore.js" type="text/javascript"></script>
+	<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shBrushJScript.js" type="text/javascript"></script>
+	<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shAutoloader.js" type="text/javascript"></script>
+	<link rel="stylesheet" href="../../stylesheets/apidoc.css">
+	<!--[if lt IE 9]>
+	      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	    <![endif]-->
+	<!--[if lt IE 8]>
+	    <link rel="stylesheet" href="../../stylesheets/ie.css">
+	    <![endif]-->
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1, user-scalable=no">
+	
+	</head>
+<body>	
+	<div class="wrapper">
+		<h1>Mixin UploadStrategyMixin</h1>		
+		
+
+<p><p>This mixin is auto-loaded by the scripting plugin and mixed into the 
+native java class <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/gui/io/UploadStrategy.html' alt='org.openstreetmap.josm.gui.io.UploadStrategy'target='javadoc'>UploadStrategy</a>. It
+provides additional properties and methods which you can invoke on an instance of
+<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/gui/io/UploadStrategy.html' alt='org.openstreetmap.josm.gui.io.UploadStrategy'target='javadoc'>UploadStrategy</a>.</p></p>
+
+ 
+ 
+ 
+ <table>
+ <tr>
+ 	<th>Name</th>
+ 	<th>Description</th>
+ </tr>
+ 
+ 
+ 
+ <tr>
+   <td colspan="2">Functions</td>
+ </tr>
+  
+    <tr>
+    	<td><a href="#from">from()</a></td>
+    	<td>Convert value to  <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/gui/io/UploadStrategy.html' alt='org.openstreetmap.josm.gui.io.UploadStrategy'target='javadoc'>UploadStrategy</a></td>
+    </tr>
+ 
+    <tr>
+    	<td><a href="#is">is()</a></td>
+    	<td>Checks equality with string values</td>
+    </tr>
+ 
+ 
+ </table>
+ 
+
+
+
+
+
+
+
+ 
+
+
+
+
+<h2>Functions</h2>
+   
+   <p  id="from" class="member-header">
+      from:<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/gui/io/UploadStrategy.html' alt='org.openstreetmap.josm.gui.io.UploadStrategy' target='javadoc'>UploadStrategy</a>   
+   </p>
+   <p><p>Checks whether a value can be converted into an  <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/gui/io/UploadStrategy.html' alt='org.openstreetmap.josm.gui.io.UploadStrategy'target='javadoc'>UploadStrategy</a>,
+converts and normalizes it, and returns the converted value. Throws an error, if <code>value</code> can't
+be converted.</p>
+
+Accepts one of the following values:
+<dl>
+  <dt><code class="signature">a <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/gui/io/UploadStrategy.html' alt='org.openstreetmap.josm.gui.io.UploadStrategy'target='javadoc'>UploadStrategy</a></dt>
+  <dd>just replies value</dd>
+  <dt><code class="signature">a string</dt> 
+  <dd>One of the following strings: 
+    <ul>
+         <li>individualobjects</li>
+         <li>chunked</li>
+         <li>singlerequest</li>
+      </ul>
+  <dd>replies the matching enumration value <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/gui/io/UploadStrategy.html' alt='org.openstreetmap.josm.gui.io.UploadStrategy'target='javadoc'>UploadStrategy</a></dd>
+</dl>
+
+Throws an error, if value is null or undefined.</p>	
+
+<h3>Parameters</h3>
+<table>
+<tr>
+   <th>Name</th>
+   <th>Type</th>
+   <th>Description</th>
+</tr>
+
+
+<tr>
+     <td>value</td>    
+     <td><a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/gui/io/UploadStrategy.html' alt='org.openstreetmap.josm.gui.io.UploadStrategy' target='javadoc'>UploadStrategy</a>|string</td>
+     <td>the value to normalize</td>
+</tr>
+
+</table>
+
+
+
+   <h3>Examples</h3>
+   <script type="syntaxhighlighter" class="brush:js"><![CDATA[
+ var UploadStrategy = org.openstreetmap.josm.gui.io.UploadStrategy;
+var strategy = UploadStrategy.from("individualobjects");
+   ]]></script>
+
+
+  
+   <p  id="is" class="member-header">
+      is:boolean   
+   </p>
+   <p><p>Replies true, if <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/gui/io/UploadStrategy.html' alt='org.openstreetmap.josm.gui.io.UploadStrategy'target='javadoc'>UploadStrategy</a>,
+is equal to a specific enumeration value or to a string value. </p>
+
+Accepts one of the following values:
+<dl>
+  <dt><code class="signature">a <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/gui/io/UploadStrategy.html' alt='org.openstreetmap.josm.gui.io.UploadStrategy'target='javadoc'>UploadStrategy</a></dt>
+  <dd>replies true, if </dd>
+  <dt><code class="signature">a string</dt> 
+  <dd>One of the following strings: 
+    <ul>
+         <li>individualobjects</li>
+         <li>chunked</li>
+         <li>singlerequest</li>
+      </ul>
+  <dd>Replies true, if the value is a prefix of the preference value.</dd>
+</dl></p>	
+
+<h3>Parameters</h3>
+<table>
+<tr>
+   <th>Name</th>
+   <th>Type</th>
+   <th>Description</th>
+</tr>
+
+
+<tr>
+     <td>value</td>    
+     <td><a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/gui/io/UploadStrategy.html' alt='org.openstreetmap.josm.gui.io.UploadStrategy' target='javadoc'>UploadStrategy</a>|string</td>
+     <td>the value to check</td>
+</tr>
+
+</table>
+
+
+
+   <h3>Examples</h3>
+   <script type="syntaxhighlighter" class="brush:js"><![CDATA[
+ var UploadStrategy = org.openstreetmap.josm.gui.io.UploadStrategy;
+var strategy = UploadStrategy.INDIVIDUAL_OBJECTS_STRATEGY;
+strategy.is("indiv");             // true
+strategy.is("individualobjects"); // true
+strategy.is("chunked");           // false 
+   ]]></script>
+
+
+  
+ 
+
+
+
+
+
+		
+	</div><!-- end wrapper -->
+	<script type="text/javascript">
+    SyntaxHighlighter.all();
+	</script>
+	<!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
+</body>
+</html>
