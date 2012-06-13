@@ -668,15 +668,92 @@ exports.Api.downloadArea = function() {
 };
 
 
-exports.Api.upload = function(data, options) {
+/**
+ * <p>Uploads objects to the server.</p>
+ * 
+ * <p>You can submit data either as {@josmclass org.openstreetmap.josm.data.osm.DataSet},
+ * {@josmclass org.openstreetmap.josm.data.APIDataSet}, javascript array of 
+ * {@josmclass org.openstreetmap.josm.data.osm.OsmPrimitive}s or a {@class java.util.Collection} of
+ * {@josmclass org.openstreetmap.josm.data.osm.OsmPrimitive}s.</p>
+ * 
+ * <p>This method supports the same upload strategy as the JOSM upload dialog. Supply the named
+ * parameter <code>{strategy: ...}</code> to choose the strategy.</p>
+ * 
+ * <p style="background-color: #FAC0C7;border-style: solid; border-color: white;">
+ * Be careful when uploading data to the OSM server! Make sure not to upload copyright protected data
+ * or test data.
+ * </p>
+ * 
+ * <p>The method takes care to update the primitives in the uploaded data when the upload succeeds. For instance,
+ * uploaded new primitives become global objects and get assigned their new id and version, successfully deleted
+ * objects become invisible, etc.</p>
+ * 
+ * <p>Even if the entire upload of a dataset fails, a subset therefore may have been uploaded successfully. In order
+ * to keep track, which pritives have been uploaded successfully in case of an error, the method replies a collection of
+ * the successfully uploaded objects.</p>    
+
+ * <p>Named options</p>
+ * <dl>
+ *   <dt><code class="signature">strategy: string|{@josmclass org.openstreetmap.josm.gui.io.UploadStrategy}</code></dt>
+ *   <dd>Indicates how the data is uploaded. Either one of the strings
+ *     <ul>
+ *          <li>individualobjects</li>
+ *          <li>chunked</li>
+ *          <li>singlerequest</li>
+ *       </ul>
+ *      or one of the enumeration values in {@josmclass org.openstreetmap.josm.gui.io.UploadStrategy}.
+ *      Default falue: UploadStrategy.DEFAULT_UPLOAD_STRATEGY
+ *   </dd>
+ *   
+ *    <dt><code class="signature">changeset: number|{@josmclass org.openstreetmap.josm.data.osm.Changset}</code></dt>
+ *    <dd>The changeset to which the data is uploaded. Either a number (the changeset id) or a 
+ *    {@josmclass org.openstreetmap.josm.data.osm.Changset} instance. Default: creates a new changeset.</dd>
+ *    
+ *    <dt><code class="signature">chunkSize: number</code></dt>
+ *    <dd>The size of an upload chunk, if the data is uploaded with the upload strategy 
+ *    {@josmclass org.openstreetmap.josm.gui.io.UploadStrategy}.CHUNKED_DATASET_STRATEGY.</dd>
+ *    
+ *    <dt><code class="signature">closeChangeset: boolean</code></dt>
+ *    <dd>If true, closes the changeset after the upload. Default: true</dd>    
+ * </dl>
+ *
+ * @example
+ * var ds = new org.openstreetmap.josm.data.osm.DataSet();
+ * ds.wayBuilder.withNodes(
+ *     ds.nodeBuilder.withTags({name: 'node1'}).create(),
+ *     ds.nodeBuilder.withTags({name: 'node2'}.create()
+ * ).withTags({name: 'way1'}).create();
+ * var api = require("josm/api").Api;
+ * 
+ * // uploads the data in a new changeset in one chunk)
+ * var processed = api.upload(ds, "just testing");
+ * 
+ * @param {org.openstreetmap.josm.data.osm.DataSet, org.openstreetmap.josm.data.APIDataSet, array, java.util.Collection} data the data to upload
+ * @param {string} comment the upload comment 
+ * @param {object} options (optional) various options (see above) 
+ * @method
+ * @static
+ * @name upload
+ * @memberOf Api
+ * @type java.util.Collection
+ * @summary Uploads objects
+ */
+exports.Api.upload = function(data, comment, options) {
 	var UploadStrategy = org.openstreetmap.josm.gui.io.UploadStrategy;
 	var Changeset = org.openstreetmap.josm.data.osm.Changeset;
-	var APIDataSet = org.openstreetmap.josm.data.osm.APIDataSet;
+	var APIDataSet = org.openstreetmap.josm.data.APIDataSet;
+	var DataSet = org.openstreetmap.josm.data.osm.DataSet;
 	var UploadStrategySpecification = org.openstreetmap.josm.gui.io.UploadStrategySpecification;
-	
+	var Collection = java.util.Collection;
+	var OsmServerWriter = org.openstreetmap.josm.io.OsmServerWriter;
+
+	comment = comment || "";
+	comment = String(comment);
+
 	util.assertSomething(data, "data: must not be null or undefined");
 	options = options || {};
 	util.assert(typeof options === "object", "options: expected an object with named arguments, got {0}", options);
+	
 	
 	function normalizeChunkSize(size) {
 		util.assert(util.isNumber(size), "chunksize: expected a number, got {0}", size);
@@ -710,7 +787,7 @@ exports.Api.upload = function(data, options) {
 		var spec = new UploadStrategySpecification();
 		spec.setStrategy(strategy);
 		spec.setChunkSize(chunkSize);
-		spec.setCloseChangsetAfterUpload(closeChangeset);
+		spec.setCloseChangesetAfterUpload(closeChangeset);
 		return spec;
 	};
 	
@@ -718,7 +795,7 @@ exports.Api.upload = function(data, options) {
 	var apiDataSet;
 	if (data instanceof DataSet) {
 		apiDataSet = new APIDataSet(data);
-	} else if (data instanceof ApiDataSet) {
+	} else if (data instanceof APIDataSet) {
 		apiDataSet = data;
 	} else if (util.isArray(data)) {
 		apiDataSet = new APIDataSet(data);
@@ -734,10 +811,15 @@ exports.Api.upload = function(data, options) {
 	
 	var changeset = options.changeset || new Changeset();
 	changeset = normalizeChangeset(changeset);
+	changeset.put("comment", comment);
 	var spec = uploadSpecFromOptions(options);
 	var writer = new OsmServerWriter();
 	
 	writer.uploadOsm(spec, toUpload, changeset, null /* progress monitor */);
+	if (spec.isCloseChangesetAfterUpload()) {
+		exports.ChangesetApi.close(changeset);
+    }
+	
 	return writer.getProcessedPrimitives();
 };
 
