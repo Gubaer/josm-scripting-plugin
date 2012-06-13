@@ -355,7 +355,10 @@ function applyTagMap(obj, tags) {
 		if (util.isNothing(value)) continue;
 		key = util.trim(key + "");		
 		value = value + "";
-		obj.$put(key, value);
+		if (! obj.has(key) || value != obj.get(key)) {
+			obj.$put(key, value);
+			if (!obj.modified) obj.modified = true;
+		}
 	}
 };
 
@@ -367,7 +370,10 @@ function applyTagObject(obj,tags) {
 		var key = util.trim(p);
 		if (util.isNothing(value)) continue;
 		var value = value + "";
-		obj.$put(key,value);
+		if (! obj.has(key) || value != obj.get(key)) {
+			obj.$put(key, value);
+			if (!obj.modified) obj.modified = true;
+		}
 	}
 };
 
@@ -416,7 +422,9 @@ mixin.tags = {
 		return new Tags(this);
 	},
 	set: function(tags) {
-		this.removeAll();
+		var ntags = this.keySet().size();
+		this.removeAll();			
+		if (ntags && ! this.modified) this.modified = true;
 		if (util.isNothing(tags)) {
 			// skip
 		} else if (tags instanceof Map) {
@@ -520,10 +528,13 @@ mixin.set = function() {
 		util.assert(util.isSomething(name), "name: must not be null or undefined");
 		name = util.trim(name + "");
 		if (util.isNothing(value)) {
-			this.$remove(name);			
+			this.remove(name);			
 		} else {
 			value = value + "";
-			this.$put(name,value);
+			if (!this.has(name) || value != this.get(name)) {
+				this.$put(name,value);
+				if (!this.modified) this.modified = true;
+			}
 		}		
 	}
 	
@@ -623,7 +634,10 @@ mixin.has = function(key) {
 mixin.remove = function(key){
 	if (util.isNothing(key)) return;
 	key = util.trim(key + "");
-	this.$remove(key);
+	if (this.has(key)) {
+		this.$remove(key);
+		if (! this.modified) this.modified = true;
+	}
 };
 
 /**

@@ -30,16 +30,32 @@ public class Tags extends ScriptableObject {
 	@Override
 	public void put(String name, Scriptable start, Object value) {
 		if (value == null || value == Undefined.instance) {
-			primitive.remove(name.trim());
+			if (primitive.hasKey(name)) {
+				primitive.remove(name.trim());
+				primitive.setModified(true);
+			}
 		} else {
 			String s = value.toString();
+			boolean modified = !primitive.hasKey(name) || ! s.equals(primitive.get(name));
 			primitive.put(name.trim(), s);
+			if (!primitive.isModified() && modified) {
+				primitive.setModified(true);
+			}
 		}
 	}
 
 	@Override
 	public void delete(String name) {
-		primitive.remove(name.trim());
+		name = name.trim();
+		if (primitive.hasKey(name)) {
+			primitive.remove(name.trim());
+			// we could simply call primitive.setModified(true), but there's a lot
+			// of event firing going on in JOSM under the hoods - better not to 
+			// call this property getters unless realy necessary
+			if (! primitive.isModified()) {
+				primitive.setModified(true);
+			}
+		}		
 	}
 
 	@Override
