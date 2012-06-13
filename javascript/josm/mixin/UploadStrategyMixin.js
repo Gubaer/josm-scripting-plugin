@@ -36,7 +36,7 @@ var mixin = {};
  *          <li>chunked</li>
  *          <li>singlerequest</li>
  *       </ul>
- *   <dd>replies the matching enumration value {@josmclass org.openstreetmap.josm.gui.io.UploadStrategy}</dd>
+ *   <dd>replies the matching enumeration value {@josmclass org.openstreetmap.josm.gui.io.UploadStrategy}</dd>
  * </dl>
  * 
  * Throws an error, if value is null or undefined.
