@@ -1,3 +1,4 @@
+(function() {
 /**
  * <p>This module is auto-loaded by the scripting plugin and mixed into the 
  * native java class {@josmclass org.openstreetmap.josm.data.osm.Way}.</p>
@@ -33,6 +34,14 @@ exports.forClass = org.openstreetmap.josm.data.osm.Way;
  */
 var mixin = {};
 
+function nodeListEquals(l1, l2) {
+	if (l1.length != l2.length) return false;
+	for(var i=0; i<l1.length; i++) {
+		if (l1[i].id != l2[i].id) return false;
+	}
+	return true;
+};
+
 /**
  * <p>Set or get the nodes of a way.</p>
  * 
@@ -58,16 +67,20 @@ var mixin = {};
  */
 mixin.nodes = {
 	get: function() {
-		if (this.isIncomplete()) return undefined;
+		if (this.isIncomplete) return undefined;
 		var nodes = [];
 		for(var it = this.getNodes().iterator(); it.hasNext();) nodes.push(it.next());
 		return nodes; 
 	},
 	set: function(val) {
-		util.assert(util.isSomething(val), "nodes must not be null or undefined");			
-		if (val instanceof java.util.List) {
+		util.assert(util.isSomething(val), "nodes must not be null or undefined");
+		var oldnodes = this.nodes;
+		if (util.isArray(val) || val instanceof java.util.List) {
 			this.setNodes(val);
+		} else {
+			util.assert(false, "Expected array or list of nodes, got {0}", val);
 		}
+		if (!nodeListEquals(oldnodes, this.nodes) && !this.modified) this.modified = true;
 	}
 };
 
@@ -151,20 +164,19 @@ mixin.last = {
  * 
  * <strong>Signatures</strong>
  * <dl>
- *   <dt>remove(n1,n2, ...)</dt>
+ *   <dt><code class="signature">remove(n1,n2, ...)</code></dt>
  *   <dd>Removes the nodes. <code>n</code><em>i</em> are instances of {@josmclass org.openstreetmap.josm.data.osm.Node}.</dd>
  *
- *    <dt>remove(array|collection)</dt>
+ *    <dt><code class="signature">remove(array|collection)</code></dt>
  *   <dd>Removes the nodes. <code>array</code> is a javascript array of {@josmclass org.openstreetmap.josm.data.osm.Node}s,
  *   <code>collection</code> is a java collection of {@josmclass org.openstreetmap.josm.data.osm.Node}s.</dd>
  * </dl>
  * 
- * @type org.openstreetmap.josm.data.osm.Node
  * @method
  * @instance
  * @name remove
- * @memberof WayMixin
- * @summary TRemoves one or more nodes from the way.
+ * @memberOf WayMixin
+ * @summary Removes one or more nodes from the way.
  */	
 mixin.remove = function(){
 	var candidates = new HashSet();
@@ -174,15 +186,18 @@ mixin.remove = function(){
 			candidates.add(o);
 		} else if (util.isArray(o)) {
 			for(var i=0; i< o.length; i++) remember(o[i]);
-		} else if (arg instanceof Collection){
-			for(var it= arg.iterator(); it.hasNext();) remember(it.next());
+		} else if (o instanceof Collection){
+			for(var it= o.iterator(); it.hasNext();) remember(it.next());
 		} else {
 			// ignore 
 		}
 	}
-	
+	var oldnodes = this.nodes;
 	for (var i=0;i < arguments.length; i++) remember(arguments[i]);
-	this.removeNodes(candidates);		
+	this.removeNodes(candidates);
+	if (!nodeListEquals(oldnodes, this.nodes) && !this.modified) this.modified = true;
 };
 
 exports.mixin = util.mix(require("josm/mixin/OsmPrimitiveMixin").mixin,mixin);
+
+}());
