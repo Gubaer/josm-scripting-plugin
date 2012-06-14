@@ -34,7 +34,7 @@ var mixin = {};
  * @instance
  * @readOnly
  * @type {number}
- * 
+ * @summary The unique numeric id
  */
 mixin.id = {
 	get: function() {
@@ -68,6 +68,7 @@ mixin.id = {
  * @instance
  * @readOnly
  * @type {number}
+ * @summary The version of the object.
  */
 mixin.version = {
 	get: function() {
@@ -77,7 +78,7 @@ mixin.version = {
 };
 
 /**
- * <p>Replies true, if this is a local primitive</p>
+ * <p>Replies true, if this is a local primitive.</p>
  * 
  * @example
  * var nb = require("josm/builder").NodeBuilder;
@@ -96,7 +97,7 @@ mixin.version = {
  * @instance
  * @readOnly
  * @type {boolean}
- * 
+ * @summary Replies true, if this is a local primitive.
  */
 mixin.isLocal =  {
 	get: function() {
@@ -124,7 +125,7 @@ mixin.isLocal =  {
  * @instance
  * @readOnly
  * @type {boolean}
- * 
+ * @summary Replies true, if this is a global primitive
  */
 mixin.isGlobal = {
 	get: function() {
@@ -133,7 +134,7 @@ mixin.isGlobal = {
 };
 
 /**
- * <p>Replies the parent dataset or undefiend, if this primitive is not attached to a dataset.</p>
+ * <p>Replies the parent dataset or undefined, if this primitive is not attached to a dataset.</p>
  * 
  * @example
  * var ds = new DataSet();
@@ -153,6 +154,7 @@ mixin.isGlobal = {
  * @instance
  * @readOnly
  * @type org.openstreetmap.josm.data.osm.DataSet
+ * @summary Replies the parent dataset.
  * 
  */
 mixin.dataSet = {
@@ -183,13 +185,12 @@ mixin.dataSet = {
  * // assign the unique global user with id 12345
  * n1.user = 12345;
  * 
- * 
  * @memberOf OsmPrimitiveMixin
  * @name dataSet
  * @field
  * @instance
  * @type org.openstreetmap.josm.data.osm.DataSet
- * 
+ * @summary Set or get the user.
  */
 mixin.user = {
 	get: function() {
@@ -236,6 +237,7 @@ mixin.user = {
  * @field
  * @instance
  * @type {number}
+ * @summary et or get the changeset id this primitive was last modified in.
  * 
  */
 mixin.changesetId = {
@@ -268,7 +270,7 @@ mixin.changesetId = {
  * @instance
  * @readOnly
  * @type java.util.Date
- * 
+ * @summary Get the timestamp this primitive was last modified on the server.
  */
 mixin.timestamp = {
 	get: function() {
@@ -299,7 +301,7 @@ mixin.isNew = mixin.isLocal;
  * @instance
  * @readOnly
  * @type {boolean}
- * 
+ * @summary Replies true if this a proxy object
  */
 mixin.isIncomplete = {
 	get: function() {
@@ -415,7 +417,7 @@ function applyTagObject(obj,tags) {
  * @field
  * @instance
  * @type {object}
- * 
+ * @summary Get or set the tags of the object.
  */
 mixin.tags = {
 	get: function() {
@@ -451,6 +453,7 @@ mixin.tags = {
  * @field
  * @instance
  * @type {array}
+ * @summary Replies an array with the tag keys.
  */
 mixin.keys = {
 	get: function() {
@@ -478,6 +481,7 @@ mixin.keys = {
  * @method
  * @instance
  * @type {string}
+ * @summary Replies the value of a tag.
  */
 mixin.get = function(name) {
 	if (util.isNothing(name)) return undefined;
@@ -522,6 +526,7 @@ mixin.get = function(name) {
  * @method
  * @instance
  * @type {string}
+ * @summary Set a tag or a collection of tags.
  */
 mixin.set = function() {
 	function setWithNameAndValue(name,value){
@@ -597,6 +602,7 @@ mixin.set = function() {
  * @method
  * @instance
  * @type {boolean}
+ * @summary Checks whether a primitive has a tag.
  */
 mixin.has = function(key) {
 	if (util.isNothing(key)) return false;
@@ -630,6 +636,7 @@ mixin.has = function(key) {
  * @method
  * @instance
  * @type {boolean}
+ * @summary Removes a tag.
  */
 mixin.remove = function(key){
 	if (util.isNothing(key)) return;
@@ -649,6 +656,7 @@ mixin.remove = function(key){
 * @instance
 * @readOnly
 * @type {boolean}
+* @summary Replies true if this object is a node 
 */
 mixin.isNode = {
 	get: function() {
@@ -665,6 +673,7 @@ mixin.isNode = {
 * @instance
 * @readOnly
 * @type {boolean}
+* @summary Replies true if this object is a way 
 */
 mixin.isWay = {
 	get: function() {
@@ -682,6 +691,7 @@ mixin.isWay = {
 * @instance
 * @readOnly
 * @type {boolean}
+* @summary Replies true if this object is a relation
 */
 mixin.isRelation = {
 	get: function() {
@@ -689,6 +699,34 @@ mixin.isRelation = {
 	}
 };
 
+/**
+* <p>Set or get wheter this primitive is deleted.</p>
+* 
+* <p>In order to invoke the native method <code>isDeleted()</code>, prefix the name
+* with $, i.e.
+* <pre>
+*    node.$isDeleted(); // -> same as node.isDeleted  without parantheses
+* </pre>
+* </p>
+* 
+* @memberOf OsmPrimitiveMixin
+* @name isDeleted
+* @alias deleted
+* @field
+* @instance
+* @type {boolean}
+* @summary Set or get wheter this primitive is deleted.
+*/
+mixin.isDeleted = mixin.deleted = {
+	get: function() {
+		return this.$isDeleted();
+	},
+	set: function(value) {
+		util.assert(util.isDef(value), "value: mandatory value is missing");
+		util.assert(typeof value === "boolean", "value: expected a boolean, got {0}", value);
+		this.$setDeleted(value);
+	}
+};
 
 exports.forClass = org.openstreetmap.josm.data.osm.OsmPrimitive;
 exports.mixin = mixin;

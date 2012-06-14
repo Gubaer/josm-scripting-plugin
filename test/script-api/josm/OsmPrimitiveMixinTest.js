@@ -129,6 +129,31 @@ tu.suite("properties access",
         n.isModified = true;
         util.assert(n.isModified, "1 - should be true");
         util.assert(n.modified, "2 - should be true");
+	}),	
+	
+	tu.test("property 'isDeleted'", function() {
+		var n;
+		
+		n=nb.create();		
+		util.assert(!n.isDeleted, "1- should be false");
+		util.assert(!n.deleted, "2 - should be false");
+
+        n.isDeleted = true;
+        util.assert(n.isDeleted, "1 - should be true");
+        util.assert(n.deleted, "2 - should be true");
+        
+        n.deleted = false;
+		util.assert(!n.isDeleted, "1- should be false");
+		util.assert(!n.deleted, "2 - should be false");
+		
+
+		tu.expectAssertionError("undefined value", function() {
+			n.deleted = undefined;
+		});
+		
+		tu.expectAssertionError("string value not supported", function() {
+			n.deleted = "true";
+		});
 	})	
 ).run();
 
