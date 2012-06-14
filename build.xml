@@ -240,14 +240,15 @@
 
 	<target name="js-doc" depends="js-init" description="Create the documentation for the JOSM javascript API">
 		<echo>Writing API doc to '${api-doc.staging.dir}</echo>
-		<exec executable="${jsdoc3.cmd}" failonerror="yes" failifexecutionfails="yes">
+		<exec executable="./jsdoc.sh" failonerror="yes" failifexecutionfails="yes">
 			<arg value="-d ${api-doc.staging.dir}"/>
 			<arg value="-t templates/josm-scripting-plugin" />			
+			<arg value="-c doc/template/conf.json" />
 			<arg value="javascript/josm.js"/>
 			<arg value="javascript/josm/util.js"/>
 			<arg value="javascript/josm/builder.js"/>
 			<arg value="javascript/josm/layers.js"/>
-			<!-- <arg value="javascript/josm/api.js"/> -->
+			<arg value="javascript/josm/api.js"/>
 			<arg value="javascript/josm/mixin/RelationMixin.js"/>
 			<arg value="javascript/josm/mixin/OsmPrimitiveMixin.js"/>
 			<arg value="javascript/josm/mixin/NodeMixin.js"/>

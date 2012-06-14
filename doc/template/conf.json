@@ -1,0 +1,16 @@
+/*
+ * configuration file for jsdoc3 documentation generator
+ */
+{
+ "tags": {
+        "allowUnknownTags": true
+    },
+    "source": {
+        "includePattern": ".+\\.js(doc)?$",
+        "excludePattern": "(^|\\/)_"
+    },
+    "plugins": [
+        "ForClassTagPlugin"
+    ],
+    "jsVersion": 180
+}
