@@ -239,14 +239,14 @@ exports.ChangesetApi.get = function() {
 	var cs;
 	switch(arguments.length) {
 	case 0: 
-		util.assert(false, "Missing arguments. Expected a changeset it or a changeset");
+		util.assert(false, "Missing arguments. Expected a changeset id or a changeset");
 	case 1: 
 		var o = arguments[0];
 		if (o instanceof Changeset) {
 			cs = o;
 		} else if (util.isNumber(o)) {
 			util.assert(o > 0, "Expected a positive changeset id, got {0}", o);
-			cs = new Changeset(id);
+			cs = new Changeset(o);
 		} else {
 			util.assert(false, "Unexpected type of argument, expected Changeset or number, got {0}", o);
 		}
