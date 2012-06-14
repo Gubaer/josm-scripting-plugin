@@ -30,6 +30,7 @@
 		<h1>Class ChangesetApi</h1>		
 		
 
+
 <p><p>Provides methods to open, close, get, update, etc. changesets on the OSM API server.</p>
 
 <p><strong>Note:</strong> this class doesn't provide a constructor. Methods and properties
@@ -43,6 +44,7 @@ var api = require("josm/api").ChangesetApi;
 var cs = api.open();
 ]]></script>
 
+ 
  
  
  
@@ -81,6 +83,10 @@ var cs = api.open();
  
  </table>
  
+ 
+ 
+ 
+
 
 
 
@@ -119,7 +125,7 @@ var cs = api.open();
 
 <tr>
      <td>changeset</td>    
-     <td>number|<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Changeset.html' alt='org.openstreetmap.josm.data.osm.Changeset' target='javadoc'>Changeset</a></td>
+     <td>number</td>
      <td>the changeset to close</td>
 </tr>
 
@@ -169,7 +175,7 @@ util.assert(cs2.closed);  // the changeset is now closed
 
 <tr>
      <td>changeset</td>    
-     <td>number|<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Changeset.html' alt='org.openstreetmap.josm.data.osm.Changeset' target='javadoc'>Changeset</a></td>
+     <td>number</td>
      <td>the changeset to close</td>
 </tr>
 

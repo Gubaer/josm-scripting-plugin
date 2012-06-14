@@ -30,11 +30,12 @@
 		<h1>Mixin UploadStrategyMixin</h1>		
 		
 
-<p><p>This mixin is auto-loaded by the scripting plugin and mixed into the 
-native java class <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/gui/io/UploadStrategy.html' alt='org.openstreetmap.josm.gui.io.UploadStrategy'target='javadoc'>UploadStrategy</a>. It
-provides additional properties and methods which you can invoke on an instance of
-<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/gui/io/UploadStrategy.html' alt='org.openstreetmap.josm.gui.io.UploadStrategy'target='javadoc'>UploadStrategy</a>.</p></p>
 
+<p><p>This mixin 
+provides additional properties and methods which you can invoke on an instance of
+<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/gui/io/UploadStrategy.html' alt='org.openstreetmap.josm.gui.io.UploadStrategy' target='javadoc'>UploadStrategy</a>.</p></p>
+
+ 
  
  
  
@@ -52,7 +53,7 @@ provides additional properties and methods which you can invoke on an instance o
   
     <tr>
     	<td><a href="#from">from()</a></td>
-    	<td>Convert value to  <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/gui/io/UploadStrategy.html' alt='org.openstreetmap.josm.gui.io.UploadStrategy'target='javadoc'>UploadStrategy</a></td>
+    	<td>Convert value to  <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/gui/io/UploadStrategy.html' alt='org.openstreetmap.josm.gui.io.UploadStrategy' target='javadoc'>UploadStrategy</a></td>
     </tr>
  
     <tr>
@@ -63,6 +64,15 @@ provides additional properties and methods which you can invoke on an instance o
  
  </table>
  
+ 
+ 
+ 
+
+
+<p>This mixin provides additional properties and methods for the native Java class 
+<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/gui/io/UploadStrategy.html' alt='org.openstreetmap.josm.gui.io.UploadStrategy' target='javadoc'>UploadStrategy</a>, whose native public methods are available
+for scripting, too. If a native method name is hidden by property name in the mixin,
+prefix the native name with <code>$</code>.</p>
 
 
 
@@ -80,13 +90,13 @@ provides additional properties and methods which you can invoke on an instance o
    <p  id="from" class="member-header">
       from:<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/gui/io/UploadStrategy.html' alt='org.openstreetmap.josm.gui.io.UploadStrategy' target='javadoc'>UploadStrategy</a>   
    </p>
-   <p><p>Checks whether a value can be converted into an  <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/gui/io/UploadStrategy.html' alt='org.openstreetmap.josm.gui.io.UploadStrategy'target='javadoc'>UploadStrategy</a>,
+   <p><p>Checks whether a value can be converted into an  <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/gui/io/UploadStrategy.html' alt='org.openstreetmap.josm.gui.io.UploadStrategy' target='javadoc'>UploadStrategy</a>,
 converts and normalizes it, and returns the converted value. Throws an error, if <code>value</code> can't
 be converted.</p>
 
 Accepts one of the following values:
 <dl>
-  <dt><code class="signature">a <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/gui/io/UploadStrategy.html' alt='org.openstreetmap.josm.gui.io.UploadStrategy'target='javadoc'>UploadStrategy</a></dt>
+  <dt><code class="signature">a <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/gui/io/UploadStrategy.html' alt='org.openstreetmap.josm.gui.io.UploadStrategy' target='javadoc'>UploadStrategy</a></dt>
   <dd>just replies value</dd>
   <dt><code class="signature">a string</dt> 
   <dd>One of the following strings: 
@@ -95,7 +105,7 @@ Accepts one of the following values:
          <li>chunked</li>
          <li>singlerequest</li>
       </ul>
-  <dd>replies the matching enumration value <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/gui/io/UploadStrategy.html' alt='org.openstreetmap.josm.gui.io.UploadStrategy'target='javadoc'>UploadStrategy</a></dd>
+  <dd>replies the matching enumeration value <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/gui/io/UploadStrategy.html' alt='org.openstreetmap.josm.gui.io.UploadStrategy' target='javadoc'>UploadStrategy</a></dd>
 </dl>
 
 Throws an error, if value is null or undefined.</p>	
@@ -111,7 +121,7 @@ Throws an error, if value is null or undefined.</p>
 
 <tr>
      <td>value</td>    
-     <td><a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/gui/io/UploadStrategy.html' alt='org.openstreetmap.josm.gui.io.UploadStrategy' target='javadoc'>UploadStrategy</a>|string</td>
+     <td>string</td>
      <td>the value to normalize</td>
 </tr>
 
@@ -130,12 +140,12 @@ var strategy = UploadStrategy.from("individualobjects");
    <p  id="is" class="member-header">
       is:boolean   
    </p>
-   <p><p>Replies true, if <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/gui/io/UploadStrategy.html' alt='org.openstreetmap.josm.gui.io.UploadStrategy'target='javadoc'>UploadStrategy</a>,
+   <p><p>Replies true, if <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/gui/io/UploadStrategy.html' alt='org.openstreetmap.josm.gui.io.UploadStrategy' target='javadoc'>UploadStrategy</a>,
 is equal to a specific enumeration value or to a string value. </p>
 
 Accepts one of the following values:
 <dl>
-  <dt><code class="signature">a <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/gui/io/UploadStrategy.html' alt='org.openstreetmap.josm.gui.io.UploadStrategy'target='javadoc'>UploadStrategy</a></dt>
+  <dt><code class="signature">a <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/gui/io/UploadStrategy.html' alt='org.openstreetmap.josm.gui.io.UploadStrategy' target='javadoc'>UploadStrategy</a></dt>
   <dd>replies true, if </dd>
   <dt><code class="signature">a string</dt> 
   <dd>One of the following strings: 
@@ -158,7 +168,7 @@ Accepts one of the following values:
 
 <tr>
      <td>value</td>    
-     <td><a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/gui/io/UploadStrategy.html' alt='org.openstreetmap.josm.gui.io.UploadStrategy' target='javadoc'>UploadStrategy</a>|string</td>
+     <td>string</td>
      <td>the value to check</td>
 </tr>
 

@@ -30,8 +30,10 @@
 		<h1>Class ApiConfig</h1>		
 		
 
+
 <p><p>ApiConfig provides methods and properties for configuring API parameters.</p></p>
 
+ 
  
  
  
@@ -80,6 +82,10 @@
  
  </table>
  
+ 
+ 
+ 
+
 
 
 
@@ -128,7 +134,7 @@ conf.defaultServerUrl;   // -> the default server url
   configured.</dd>
   <dt><code class="signature">set</code></dt>
   <dd>Sets the current server URL. If null or undefined, removes the current configuration. 
-  Accepts either a string or a {@class java.net.URL}. Only accepts http or https URLs.
+  Accepts either a string or a <a href='http://docs.oracle.com/javase/6/docs/api/java/net/URL.html' alt='java.net.URL' target='javadoc'>URL</a>. Only accepts http or https URLs.
   </dd>
 </dl></p>
    
@@ -204,7 +210,7 @@ var credentials = conf.getCredentials("basic");
 <p>Basic authentication credentials are either an instance of java.net.PasswordAuthentication or
 an object <code>{user: string, password: string}</code>.</p>
 
-<p>OAuth authentication credentials are either an instance of <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/oauth/OAuthToken.html' alt='org.openstreetmap.josm.data.oauth.OAuthToken'target='javadoc'>OAuthToken</a> or
+<p>OAuth authentication credentials are either an instance of <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/oauth/OAuthToken.html' alt='org.openstreetmap.josm.data.oauth.OAuthToken' target='javadoc'>OAuthToken</a> or
 an object <code>{key: string, secret: string}</code>.</p>
 <strong>Named options</strong>
 <dl>
@@ -231,7 +237,7 @@ an object <code>{key: string, secret: string}</code>.</p>
 
 <tr>
      <td>credentials</td>    
-     <td>object|<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/oauth/OAuthToken.html' alt='org.openstreetmap.josm.data.oauth.OAuthToken' target='javadoc'>OAuthToken</a>|<a href='http://docs.oracle.com/javase/6/docs/api/java/net/PasswordAuthentication.html' alt='java.net.PasswordAuthentication' target='javadoc'>PasswordAuthentication</a></td>
+     <td>object</td>
      <td>the credentials.</td>
 </tr>
 

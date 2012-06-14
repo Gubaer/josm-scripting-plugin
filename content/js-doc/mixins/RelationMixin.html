@@ -30,18 +30,13 @@
 		<h1>Mixin RelationMixin</h1>		
 		
 
-<p><p>This mixin is auto-loaded by the scripting plugin and mixed into the 
-native java class <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Relation.html' alt='org.openstreetmap.josm.data.osm.Relation'target='javadoc'>Relation</a>. It
-provides additional properties and methods which you can invoke on an instance of
-<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Relation.html' alt='org.openstreetmap.josm.data.osm.Relation'target='javadoc'>Relation</a>.</p>
+
+<p><p>This mixin  provides additional properties and methods which you can invoke on an instance of
+<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Relation.html' alt='org.openstreetmap.josm.data.osm.Relation' target='javadoc'>Relation</a>.</p>
  
-<p>The native methods of <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Relation.html' alt='org.openstreetmap.josm.data.osm.Relation'target='javadoc'>Relation</a> are still 
-available for scripting. Just prefix their name with <code>$</code> if they are hidden
-by properties or functions defined in this mixin.</p>
-
-<p>RelationMixin inherits the properties and methods of OsmPrimitiveMixin.</p>
-
-<p>You can access relation members using <code>relation[i]</code>, see example below.</p>
+<p>You can access relation members using 
+<pre>relation[i]</pre>, 
+see examples below.</p>
 
 <script type="syntaxhighlighter" class="brush:js"><![CDATA[
  
@@ -61,6 +56,7 @@ for (var i=0; i < relation.length; i++) {
 }
 ]]></script>
 
+ 
  
  
  
@@ -124,6 +120,18 @@ for (var i=0; i < relation.length; i++) {
  
  </table>
  
+ 
+ 
+ 
+<p>This mixin extends the mixin <a href='../mixins/OsmPrimitiveMixin.html' alt='OsmPrimitiveMixin'>OsmPrimitiveMixin</a>. Properties and methods of the parent
+mixin are available for scripting, too.</p>
+
+
+
+<p>This mixin provides additional properties and methods for the native Java class 
+<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Relation.html' alt='org.openstreetmap.josm.data.osm.Relation' target='javadoc'>Relation</a>, whose native public methods are available
+for scripting, too. If a native method name is hidden by property name in the mixin,
+prefix the native name with <code>$</code>.</p>
 
 
 
@@ -148,10 +156,10 @@ for (var i=0; i < relation.length; i++) {
   <dt>set</dt>
   <dd>Assign the list of relation members. Assign null or undefined to remove all members.
    Assign an array or a java.util.List of members. Members can be instances of 
-   <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/RelationMember.html' alt='org.openstreetmap.josm.data.osm.RelationMember'target='javadoc'>RelationMember</a>,
-   <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html' alt='org.openstreetmap.josm.data.osm.Node'target='javadoc'>Node</a>,
-   <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Way.html' alt='org.openstreetmap.josm.data.osm.Way'target='javadoc'>Way</a>, or
-   <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Relation.html' alt='org.openstreetmap.josm.data.osm.Relation'target='javadoc'>Relation</a>. 
+   <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/RelationMember.html' alt='org.openstreetmap.josm.data.osm.RelationMember' target='javadoc'>RelationMember</a>,
+   <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html' alt='org.openstreetmap.josm.data.osm.Node' target='javadoc'>Node</a>,
+   <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Way.html' alt='org.openstreetmap.josm.data.osm.Way' target='javadoc'>Way</a>, or
+   <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Relation.html' alt='org.openstreetmap.josm.data.osm.Relation' target='javadoc'>Relation</a>. 
    null or undefined are ignored.<br/>
    <strong>Note:</strong> you can't assign members to a proxy relation.
   </dd>
@@ -186,16 +194,16 @@ var members = relation.members;
 <dl> 
   <dt><code class="signature">add(m1, m2, ...)</code></dt>
   <dd>Adds a variable number of members. null or undefined are ignored. A member is either an
-  instance of <code><a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/RelationMember.html' alt='org.openstreetmap.josm.data.osm.RelationMember'target='javadoc'>RelationMember</a></code> or a 
-  <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html' alt='org.openstreetmap.josm.data.osm.Node'target='javadoc'>Node</a>, <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Way.html' alt='org.openstreetmap.josm.data.osm.Way'target='javadoc'>Way</a>,
-  or <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Relation.html' alt='org.openstreetmap.josm.data.osm.Relation'target='javadoc'>Relation</a>. If an OSM primitive
+  instance of <code><a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/RelationMember.html' alt='org.openstreetmap.josm.data.osm.RelationMember' target='javadoc'>RelationMember</a></code> or a 
+  <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html' alt='org.openstreetmap.josm.data.osm.Node' target='javadoc'>Node</a>, <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Way.html' alt='org.openstreetmap.josm.data.osm.Way' target='javadoc'>Way</a>,
+  or <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Relation.html' alt='org.openstreetmap.josm.data.osm.Relation' target='javadoc'>Relation</a>. If an OSM primitive
   is passed in, a relation member with an empty role is created.</dd>
   <dt><code class="signature">add(array|list)</code></dt>
   <dd>Adds an array or list of members. null or undefined are ignored. A list is either a javascript
   array or an instance of a java List (<code>java.util.List</code>). A list element is either an
-  instance of <code><a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/RelationMember.html' alt='org.openstreetmap.josm.data.osm.RelationMember'target='javadoc'>RelationMember</a></code>,
-  or  or a  <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html' alt='org.openstreetmap.josm.data.osm.Node'target='javadoc'>Node</a>, <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Way.html' alt='org.openstreetmap.josm.data.osm.Way'target='javadoc'>Way</a>,
-  or <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Relation.html' alt='org.openstreetmap.josm.data.osm.Relation'target='javadoc'>Relation</a>. If an OSM primitive
+  instance of <code><a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/RelationMember.html' alt='org.openstreetmap.josm.data.osm.RelationMember' target='javadoc'>RelationMember</a></code>,
+  or  or a  <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html' alt='org.openstreetmap.josm.data.osm.Node' target='javadoc'>Node</a>, <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Way.html' alt='org.openstreetmap.josm.data.osm.Way' target='javadoc'>Way</a>,
+  or <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Relation.html' alt='org.openstreetmap.josm.data.osm.Relation' target='javadoc'>Relation</a>. If an OSM primitive
   is passed in, a relation member with an empty role is created. null and undefined are
   ignored.</dd>
 </dl></p>	

@@ -30,11 +30,12 @@
 		<h1>Class WayBuilder</h1>		
 		
 
-<p><p>WayBuilder helps to create OSM <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Way.html' alt='org.openstreetmap.josm.data.osm.Way'target='javadoc'>Way</a>s.</p>
+
+<p><p>WayBuilder helps to create OSM <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Way.html' alt='org.openstreetmap.josm.data.osm.Way' target='javadoc'>Way</a>s.</p>
 
 <p>Methods of WayBuilder can be used in a static and in an instance context.
 It isn't necessary to create an instance of WayBuilder, unless it is 
-configured with a <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/DataSet.html' alt='org.openstreetmap.josm.data.osm.DataSet'target='javadoc'>DataSet</a>,
+configured with a <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/DataSet.html' alt='org.openstreetmap.josm.data.osm.DataSet' target='javadoc'>DataSet</a>,
 which created ways are added to.</p></p>
 
 <script type="syntaxhighlighter" class="brush:js"><![CDATA[
@@ -50,6 +51,7 @@ which created ways are added to.</p></p>
  var w3 = wbuilder.createProxy(123456);
 ]]></script>
 
+ 
  
  
  
@@ -98,6 +100,10 @@ which created ways are added to.</p></p>
  
  </table>
  
+ 
+ 
+ 
+
 
 
 
@@ -230,7 +236,7 @@ var w1 = wbuilder.createProxy(12345);
 
   
    <p  id="forDataSet" class="member-header">
-      forDataSet:WayBuilder   
+      forDataSet:<a href='../classes/WayBuilder.html' alt='WayBuilder'>WayBuilder</a>   
    </p>
    <p><p>Creates a new WayBuilder which will add created nodes to the dataset <code>ds</code>.</p></p>	
 
@@ -248,7 +254,7 @@ var w = wbuilder.create();
 
   
    <p  id="withId" class="member-header">
-      withId:WayBuilder   
+      withId:<a href='../classes/WayBuilder.html' alt='WayBuilder'>WayBuilder</a>   
    </p>
    <p><p>Declares the global way id and the global way version.</p>
 
@@ -291,13 +297,13 @@ var w = wbuilder.create();
 
   
    <p  id="withNodes" class="member-header">
-      withNodes:WayBuilder   
+      withNodes:<a href='../classes/WayBuilder.html' alt='WayBuilder'>WayBuilder</a>   
    </p>
    <p><p>Declares the nodes of the way.</p>
 
-<p>Accepts either a vararg list of <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html' alt='org.openstreetmap.josm.data.osm.Node'target='javadoc'>Node</a>, 
-an array of <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html' alt='org.openstreetmap.josm.data.osm.Node'target='javadoc'>Node</a>s or a Java list 
-of <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html' alt='org.openstreetmap.josm.data.osm.Node'target='javadoc'>Node</a>s. At least <strong>two non-identical nodes</strong> 
+<p>Accepts either a vararg list of <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html' alt='org.openstreetmap.josm.data.osm.Node' target='javadoc'>Node</a>, 
+an array of <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html' alt='org.openstreetmap.josm.data.osm.Node' target='javadoc'>Node</a>s or a Java list 
+of <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html' alt='org.openstreetmap.josm.data.osm.Node' target='javadoc'>Node</a>s. At least <strong>two non-identical nodes</strong> 
 have to be supplied.
 The same node can occure more than once in the list, but a consecutive sequence
 of the same node is collapsed to one node.
@@ -337,7 +343,7 @@ var way = builder.withNodes(
 
   
    <p  id="withTags" class="member-header">
-      withTags:WayBuilder   
+      withTags:<a href='../classes/WayBuilder.html' alt='WayBuilder'>WayBuilder</a>   
    </p>
    <p><p>Declares the tags to be assigned to the new way.</p>
 

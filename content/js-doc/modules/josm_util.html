@@ -30,6 +30,7 @@
 		<h1>Module  josm/util</h1>		
 		
 
+
 <p><p>Provides a set of static utility functions.</p></p>
 
 
@@ -119,6 +120,11 @@
     <tr>
     	<td><a href="#isString">isString()</a></td>
     	<td>Returns true if  <code>val</code> is a string.</td>
+    </tr>
+ 
+    <tr>
+    	<td><a href="#javaEquals">javaEquals()</a></td>
+    	<td>Are two java objects equal.</td>
     </tr>
  
     <tr>
@@ -561,6 +567,40 @@ c = util.hasProperties(o);       // ->  false
      <td>val</td>    
      <td>any</td>
      <td>the value to check</td>
+</tr>
+
+</table>
+
+
+
+
+  
+   <p  id="javaEquals" class="member-header">
+      javaEquals:boolean   
+   </p>
+   <p><p>Checks whether two java objects are either both null or equal by calling
+o1.equals(o2).</p></p>	
+
+<h3>Parameters</h3>
+<table>
+<tr>
+   <th>Name</th>
+   <th>Type</th>
+   <th>Description</th>
+</tr>
+
+
+<tr>
+     <td>o1</td>    
+     <td>object</td>
+     <td>a java object or null</td>
+</tr>
+
+
+<tr>
+     <td>o2</td>    
+     <td>object</td>
+     <td>a java object or null</td>
 </tr>
 
 </table>

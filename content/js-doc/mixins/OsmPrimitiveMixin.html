@@ -30,11 +30,11 @@
 		<h1>Mixin OsmPrimitiveMixin</h1>		
 		
 
-<p><p>OsmPrimitiveMixin provides additional properties and methods which you can invoke on an instance of
-<a href="http://josm.openstreetmap.de/browser/josm/trunk/src/org/openstreetmap/josm/data/osm/OsmPrimitive.java">OsmPrimitive</a>. 
-The native methods of OsmPrimitives are still available for scripting, 
-unless they are shadowed by names of properties defined in this mixin.</p></p>
 
+<p><p>OsmPrimitiveMixin provides additional properties and methods which you can invoke on an instance of
+<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/OsmPrimitive.html' alt='org.openstreetmap.josm.data.osm.OsmPrimitive' target='javadoc'>OsmPrimitive</a>.</p>
+
+ 
  
  
  
@@ -50,37 +50,42 @@ unless they are shadowed by names of properties defined in this mixin.</p></p>
  
     <tr>
     	<td><a href="#changesetId">changesetId</a></td>
-    	<td></td>
+    	<td>et or get the changeset id this primitive was last modified in.</td>
     </tr>
  
     <tr>
     	<td><a href="#dataSet">dataSet</a></td>
-    	<td></td>
+    	<td>Replies the parent dataset.</td>
     </tr>
  
     <tr>
     	<td><a href="#dataSet">dataSet</a></td>
-    	<td></td>
+    	<td>Set or get the user.</td>
     </tr>
  
     <tr>
     	<td><a href="#id">id</a></td>
-    	<td></td>
+    	<td>The unique numeric id</td>
+    </tr>
+ 
+    <tr>
+    	<td><a href="#isDeleted">isDeleted</a></td>
+    	<td>Set or get wheter this primitive is deleted.</td>
     </tr>
  
     <tr>
     	<td><a href="#isGlobal">isGlobal</a></td>
-    	<td></td>
+    	<td>Replies true, if this is a global primitive</td>
     </tr>
  
     <tr>
     	<td><a href="#isIncomplete">isIncomplete</a></td>
-    	<td></td>
+    	<td>Replies true if this a proxy object</td>
     </tr>
  
     <tr>
     	<td><a href="#isLocal">isLocal</a></td>
-    	<td></td>
+    	<td>Replies true, if this is a local primitive.</td>
     </tr>
  
     <tr>
@@ -90,7 +95,7 @@ unless they are shadowed by names of properties defined in this mixin.</p></p>
  
     <tr>
     	<td><a href="#isNode">isNode</a></td>
-    	<td></td>
+    	<td>Replies true if this object is a node</td>
     </tr>
  
     <tr>
@@ -100,32 +105,32 @@ unless they are shadowed by names of properties defined in this mixin.</p></p>
  
     <tr>
     	<td><a href="#isRelation">isRelation</a></td>
-    	<td></td>
+    	<td>Replies true if this object is a relation</td>
     </tr>
  
     <tr>
     	<td><a href="#isWay">isWay</a></td>
-    	<td></td>
+    	<td>Replies true if this object is a way</td>
     </tr>
  
     <tr>
     	<td><a href="#keys">keys</a></td>
-    	<td></td>
+    	<td>Replies an array with the tag keys.</td>
     </tr>
  
     <tr>
     	<td><a href="#tags">tags</a></td>
-    	<td></td>
+    	<td>Get or set the tags of the object.</td>
     </tr>
  
     <tr>
     	<td><a href="#timestamp">timestamp</a></td>
-    	<td></td>
+    	<td>Get the timestamp this primitive was last modified on the server.</td>
     </tr>
  
     <tr>
     	<td><a href="#version">version</a></td>
-    	<td></td>
+    	<td>The version of the object.</td>
     </tr>
  
  
@@ -137,27 +142,36 @@ unless they are shadowed by names of properties defined in this mixin.</p></p>
   
     <tr>
     	<td><a href="#get">get()</a></td>
-    	<td></td>
+    	<td>Replies the value of a tag.</td>
     </tr>
  
     <tr>
     	<td><a href="#has">has()</a></td>
-    	<td></td>
+    	<td>Checks whether a primitive has a tag.</td>
     </tr>
  
     <tr>
     	<td><a href="#remove">remove()</a></td>
-    	<td></td>
+    	<td>Removes a tag.</td>
     </tr>
  
     <tr>
     	<td><a href="#set">set()</a></td>
-    	<td></td>
+    	<td>Set a tag or a collection of tags.</td>
     </tr>
  
  
  </table>
  
+ 
+ 
+ 
+
+
+<p>This mixin provides additional properties and methods for the native Java class 
+<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/OsmPrimitive.html' alt='org.openstreetmap.josm.data.osm.OsmPrimitive' target='javadoc'>OsmPrimitive</a>, whose native public methods are available
+for scripting, too. If a native method name is hidden by property name in the mixin,
+prefix the native name with <code>$</code>.</p>
 
 
 
@@ -186,7 +200,7 @@ n1.changesetId = 6;
 	     
      
    <p id="dataSet" class="member-header">dataSet:<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/DataSet.html' alt='org.openstreetmap.josm.data.osm.DataSet' target='javadoc'>DataSet</a></p>
-   <p><p>Replies the parent dataset or undefiend, if this primitive is not attached to a dataset.</p></p>
+   <p><p>Replies the parent dataset or undefined, if this primitive is not attached to a dataset.</p></p>
    
 		<script type="syntaxhighlighter" class="brush:js"><![CDATA[
 var ds = new DataSet();
@@ -237,6 +251,17 @@ var id = node.id;   // -> a negative value
 		]]></script>
 	     
      
+   <p id="isDeleted" class="member-header">isDeleted:boolean</p>
+   <p><p>Set or get wheter this primitive is deleted.</p>
+
+<p>In order to invoke the native method <code>isDeleted()</code>, prefix the name
+with $, i.e.
+<pre>
+   node.$isDeleted(); // -> same as node.isDeleted  without parantheses
+</pre>
+</p></p>
+        
+     
    <p id="isGlobal" class="member-header">isGlobal:boolean</p>
    <p><p>Replies true, if this is a global primitive</p></p>
    
@@ -257,7 +282,7 @@ node.isGlobal;   // -> true
         
      
    <p id="isLocal" class="member-header">isLocal:boolean</p>
-   <p><p>Replies true, if this is a local primitive</p></p>
+   <p><p>Replies true, if this is a local primitive.</p></p>
    
 		<script type="syntaxhighlighter" class="brush:js"><![CDATA[
 var nb = require("josm/builder").NodeBuilder;

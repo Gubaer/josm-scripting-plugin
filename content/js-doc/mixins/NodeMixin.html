@@ -30,17 +30,13 @@
 		<h1>Mixin NodeMixin</h1>		
 		
 
+
 <p><p>This mixin is auto-loaded by the scripting plugin and mixed into the 
-native java class <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html' alt='org.openstreetmap.josm.data.osm.Node'target='javadoc'>Node</a>. It
+native java class <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html' alt='org.openstreetmap.josm.data.osm.Node' target='javadoc'>Node</a>. It
 provides additional properties and methods which you can invoke on an instance of
-<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html' alt='org.openstreetmap.josm.data.osm.Node'target='javadoc'>Node</a>.</p>
+<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html' alt='org.openstreetmap.josm.data.osm.Node' target='javadoc'>Node</a>.</p></p>
+
  
-<p>The native methods of <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html' alt='org.openstreetmap.josm.data.osm.Node'target='javadoc'>Node</a> are still 
-available for scripting. Just prefix their name with <code>$</code> if they are hidden
-by properties or functions defined in this mixin.</p>
-
-<p>NodeMixin inherits the properties and methods of OsmPrimitiveMixin.</p></p>
-
  
  
  
@@ -84,6 +80,18 @@ by properties or functions defined in this mixin.</p>
  
  </table>
  
+ 
+ 
+ 
+<p>This mixin extends the mixin <a href='../mixins/OsmPrimitiveMixin.html' alt='OsmPrimitiveMixin'>OsmPrimitiveMixin</a>. Properties and methods of the parent
+mixin are available for scripting, too.</p>
+
+
+
+<p>This mixin provides additional properties and methods for the native Java class 
+<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html' alt='org.openstreetmap.josm.data.osm.Node' target='javadoc'>Node</a>, whose native public methods are available
+for scripting, too. If a native method name is hidden by property name in the mixin,
+prefix the native name with <code>$</code>.</p>
 
 
 
@@ -168,11 +176,11 @@ n.north;
 <dl>
  <dt>get</dt>
  <dd>replies an instance of 
-  <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/coor/LatLon.html' alt='org.openstreetmap.josm.data.coor.LatLon'target='javadoc'>LatLon</a> or
+  <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/coor/LatLon.html' alt='org.openstreetmap.josm.data.coor.LatLon' target='javadoc'>LatLon</a> or
   undefined, if the position isn't known.</dd>
   
  <dt>set</dt>
- <dd>Assign the position. Either an instance of  <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/coor/LatLon.html' alt='org.openstreetmap.josm.data.coor.LatLon'target='javadoc'>LatLon</a>
+ <dd>Assign the position. Either an instance of  <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/coor/LatLon.html' alt='org.openstreetmap.josm.data.coor.LatLon' target='javadoc'>LatLon</a>
   or an object with the properties <code>{lat: ..., lon: ...}</code></dd>
 </dl></p>
    
