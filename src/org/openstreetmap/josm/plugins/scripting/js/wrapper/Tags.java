@@ -9,14 +9,15 @@ import org.mozilla.javascript.ScriptableObject;
 import org.mozilla.javascript.TopLevel;
 import org.mozilla.javascript.Undefined;
 import org.openstreetmap.josm.data.osm.OsmPrimitive;
+import org.openstreetmap.josm.data.osm.Tagged;
 import org.openstreetmap.josm.plugins.scripting.js.RhinoEngine;
 
 public class Tags extends ScriptableObject {
 	private static final long serialVersionUID = 1L;
 	static private final Logger logger = Logger.getLogger(Tags.class.getName());
 	
-	private OsmPrimitive primitive;
-	public Tags(OsmPrimitive primitive) {
+	private Tagged primitive;
+	public Tags(Tagged primitive) {
 		this.primitive = primitive;
 		this.setPrototype(TopLevel.getObjectPrototype(RhinoEngine.getRootScope()));
 	}
@@ -30,37 +31,43 @@ public class Tags extends ScriptableObject {
 	@Override
 	public void put(String name, Scriptable start, Object value) {
 		if (value == null || value == Undefined.instance) {
-			if (primitive.hasKey(name)) {
+			if (primitive.get(name) != null) {
 				primitive.remove(name.trim());
-				primitive.setModified(true);
+				if (primitive instanceof OsmPrimitive) {
+					((OsmPrimitive)primitive).setModified(true);
+				}
 			}
 		} else {
 			String s = value.toString();
-			boolean modified = !primitive.hasKey(name) || ! s.equals(primitive.get(name));
+			boolean modified = primitive.get(name) == null || ! s.equals(primitive.get(name));
 			primitive.put(name.trim(), s);
-			if (!primitive.isModified() && modified) {
-				primitive.setModified(true);
-			}
+			if (primitive instanceof OsmPrimitive) {
+				if (!((OsmPrimitive)primitive).isModified() && modified) {
+					((OsmPrimitive)primitive).setModified(true);
+				}				
+			}			
 		}
 	}
 
 	@Override
 	public void delete(String name) {
 		name = name.trim();
-		if (primitive.hasKey(name)) {
+		if (primitive.get(name) != null) {
 			primitive.remove(name.trim());
 			// we could simply call primitive.setModified(true), but there's a lot
 			// of event firing going on in JOSM under the hoods - better not to 
 			// call this property getters unless realy necessary
-			if (! primitive.isModified()) {
-				primitive.setModified(true);
+			if (primitive instanceof OsmPrimitive) {
+				if (! ((OsmPrimitive)primitive).isModified()) {
+					((OsmPrimitive)primitive).setModified(true);
+				}				
 			}
 		}		
 	}
 
 	@Override
 	public boolean has(String name, Scriptable start) {
-		return primitive.hasKey(name.trim());
+		return primitive.get(name.trim()) != null;
 	}
 
 	@Override

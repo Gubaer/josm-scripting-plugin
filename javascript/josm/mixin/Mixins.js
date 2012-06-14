@@ -8,5 +8,6 @@ exports.mixins = [
 	"josm/mixin/LatLonMixin",
 	"josm/mixin/DataSetMixin",
 	"josm/mixin/BoundsMixin",
-	"josm/mixin/UploadStrategyMixin"
+	"josm/mixin/UploadStrategyMixin",
+	"josm/mixin/ChangesetMixin"
 ];
