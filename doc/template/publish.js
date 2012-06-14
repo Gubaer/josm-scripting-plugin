@@ -50,29 +50,20 @@ function mkdirs(file, parent) {
 function each(array, delegate) {
 	for (var i=0; i<array.length; i++) delegate(array[i], i);
 };
+ 
 
-function resolveJosmClassReferences(str) {
-    var MessageFormat = java.text.MessageFormat;
-	str = str.replace(/(?:\[(.+?)\])?\{@josmclass +(.+?)\}/gi,
-       function(match, content, longname) {
-		  var fqclassname = longname.replace(/\//g, ".");  
-		  var classname = fqclassname.replace(/.*\.([^\.]+)$/, "$1"); 
-		  var url = "http://josm.openstreetmap.de/doc/" + fqclassname.replace(/\./g, "/") + ".html";
-		  content = content || classname;
-		  return MessageFormat.format("<a href=''{0}'' alt=''{1}''target=''javadoc''>{2}</a>", url, fqclassname, content)
-       }
-    );
-    return str;
- };
- 
- function resolveLinks(str) {
-    if (!str) return str;
-    return helper.resolveLinks(
-        resolveJosmClassReferences(str) 
-    ); 
- };
- 
- function resolveType(type) {
+/**
+ * Turn the data about your docs into file output.
+ * @global
+ * @param {TAFFY} data - A TaffyDB collection representing
+ *                       all the symbols documented in your code.
+ * @param {object} opts - An object with options information.
+ */
+publish = function(data, opts) {
+
+	
+
+ function resolveTypes(type, content) {
 	 var URL_PREFIXES = {
 		"org.openstreetmap.josm": "http://josm.openstreetmap.de/doc/",
 		"java."                 : "http://docs.oracle.com/javase/6/docs/api/",
@@ -95,23 +86,46 @@ function resolveJosmClassReferences(str) {
 		 if (prefix) {
 			 var classname = type.replace(/.*\.([^\.]+)$/, "$1"); 
 			 var url = prefix + type.replace(/\./g, "/") + ".html";
-			 type = MessageFormat.format("<a href=''{0}'' alt=''{1}'' target=''javadoc''>{2}</a>", url, type, classname)
+			 content = content || classname;
+			 type = MessageFormat.format("<a href=''{0}'' alt=''{1}'' target=''javadoc''>{2}</a>", url, type, content)
+		 } else {
+			 var res = data.get({name: type});
+			 if (res.length < 1) return type;
+			 content  = content || type;
+			 if (res[0].kind == "class") {
+				 return MessageFormat.format("<a href=''../classes/{0}'' alt=''{1}''>{2}</a>", safeHtmlFilename(type), type, content);
+			 } else if (res[0].kind == "mixin") {
+				 return MessageFormat.format("<a href=''../mixins/{0}'' alt=''{1}''>{2}</a>", safeHtmlFilename(type), type, content);
+			 } else if (res[0].kind == "module") {
+				 return MessageFormat.format("<a href=''../modules/{0}'' alt=''{1}''>{2}</a>", safeHtmlFilename(type), type, content);
+			 }  else {
+				 return type;
+			 }
 		 }
 		 resolved.push(type);		 
 	 }
 	 return resolved.join("|"); 
- };
-
-/**
- * Turn the data about your docs into file output.
- * @global
- * @param {TAFFY} data - A TaffyDB collection representing
- *                       all the symbols documented in your code.
- * @param {object} opts - An object with options information.
- */
-publish = function(data, opts) {
-dump(opts);
-	
+ };	
+ 
+ 
+ function resolveClassReferences(str) {
+    var MessageFormat = java.text.MessageFormat;
+ 	str = str.replace(/(?:\[(.+?)\])?\{@class +(.+?)\}/gi,
+	    function(match, content, longname) {
+			  var fqclassname = longname.replace(/\//g, ".");  
+			  var classname = fqclassname.replace(/.*\.([^\.]+)$/, "$1"); 
+			  content = content || classname;
+			  return resolveTypes(fqclassname, content);
+			  //return MessageFormat.format("<a href=''{0}'' alt=''{1}''target=''javadoc''>{2}</a>", url, fqclassname, content)
+	    }
+     );
+     return str;
+  };
+  
+var viewHelper = {
+	resolveTypes: resolveTypes,
+	resolveClassReferences: resolveClassReferences
+};
 
 function publishDoclet(doclet, config) {
 	var filepath = path(opts.destination, config.path, safeHtmlFilename(doclet.name));
@@ -119,9 +133,7 @@ function publishDoclet(doclet, config) {
 	var fragment = view.render(config.template, {
 		doclet: doclet,
 	    data: data,
-	    resolveJosmClassReferences: resolveJosmClassReferences,
-	    resolveType: resolveType,
-	    resolveLinks: resolveLinks
+	    viewHelper: viewHelper
 	});
 	var html = view.render('page.tmpl', {
 		title: config.title + " " + doclet.name,
@@ -141,9 +153,7 @@ function publishOverview() {
 	mkdirs(filepath, true /* for parent */);
 	var fragment = view.render("overview.tmpl", {
 	    data: data,
-	    resolveJosmClassReferences: resolveJosmClassReferences,
-	    resolveType: resolveType,
-	    resolveLinks: resolveLinks
+	    viewHelper: viewHelper
 	});
 	var html = view.render('page.tmpl', {
 		title: "JOSM Scripting Plugin - JS API documentation",

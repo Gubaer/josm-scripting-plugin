@@ -1,8 +1,16 @@
 <?js
+  /*
+  * Template parameters:
+  *    doclet     -  the doclet for which the type page is generated 
+  *    data       - the complete doclet data
+  *    viewHelper - helper methods for the view 
+  */
+?>
+<?js
   var out = java.lang.System.out;
 ?>
 <?js /* ---------------- description and  example ------------------------- */ ?>
-<p><?js= doclet.description ? resolveLinks(doclet.description) : ""?></p>
+<p><?js= doclet.description ? viewHelper.resolveClassReferences(doclet.description) : ""?></p>
 <?js if (doclet.examples) { ?>
 <script type="syntaxhighlighter" class="brush:js"><![CDATA[
 <?js= doclet.examples ?>
@@ -57,7 +65,7 @@ This module provides the following mixins:
  <?js           for (var i=0; i< properties.length; i++) { ?>
     <tr>
     	<td><a href="#<?js= properties[i].name ?>"><?js= properties[i].name ?></a></td>
-    	<td><?js= resolveLinks(properties[i].summary ?  properties[i].summary : "") ?></td>
+    	<td><?js= viewHelper.resolveClassReferences(properties[i].summary ?  properties[i].summary : "") ?></td>
     </tr>
  <?js           } /* end for */ ?>
  <?js      } /* end if */ ?>
@@ -69,7 +77,7 @@ This module provides the following mixins:
   <?js          for (var i=0; i< methods.length; i++) { ?>
     <tr>
     	<td><a href="#<?js= methods[i].name ?>"><?js= methods[i].name ?>()</a></td>
-    	<td><?js= resolveLinks(methods[i].summary ?  methods[i].summary : "") ?></td>
+    	<td><?js= viewHelper.resolveClassReferences(methods[i].summary ?  methods[i].summary : "") ?></td>
     </tr>
  <?js           } /* end for */ ?>
  <?js      } /* end if */ ?>
@@ -84,7 +92,7 @@ if (properties.length > 0) { ?>
      var property = properties[i];
    ?>   
    <p id="<?js= property.name ?>" class="member-header"><?js= property.name ?><?js= property.type && property.type.names ? ":" + property.type.names : "" ?></p>
-   <p><?js=  resolveLinks(property.description) ?></p>
+   <p><?js=  viewHelper.resolveClassReferences(property.description) ?></p>
    <?js if (property.examples) { ?>
 		<script type="syntaxhighlighter" class="brush:js"><![CDATA[
 <?js= property.examples ?>
@@ -102,9 +110,9 @@ if (methods.length > 0) { ?>
      var method = methods[i];
    ?>
    <p  id="<?js= method.name ?>" class="member-header">
-      <?js= method.name ?><?js= method.type && method.type.names ? ":" + resolveType(method.type.names) : "" ?>   
+      <?js= method.name ?><?js= method.type && method.type.names ? ":" + viewHelper.resolveTypes(method.type.names) : "" ?>   
    </p>
-   <p><?js= resolveLinks(method.description) ?></p>	
+   <p><?js= viewHelper.resolveClassReferences(method.description) ?></p>	
 <?js
      var params = method.params;
      if (params && params.length > 0) {
@@ -120,8 +128,8 @@ if (methods.length > 0) { ?>
 <?js      var para = params[j];  ?>
 <tr>
      <td><?js= para.name ?></td>    
-     <td><?js= para.type && para.type.names ? resolveType(para.type.names) : "" ?></td>
-     <td><?js= para.description ? resolveLinks(para.description) : "" ?></td>
+     <td><?js= para.type && para.type.names ? viewHelper.resolveTypes(para.type.names) : "" ?></td>
+     <td><?js= para.description ? viewHelper.resolveClassReferences(para.description) : "" ?></td>
 </tr>
 <?js   }  /* end for */ ?>
 </table>

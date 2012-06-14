@@ -1,6 +1,10 @@
+(function() {
+	
 /**
- * <p>Additional properties and functions for JOSMs internal class OsmPrimitive.</p> 
+ * <p>This module is auto-loaded by the scripting plugin and mixed into the 
+ * native java class {@class org.openstreetmap.josm.data.osm.OsmPrimitive}.</p>
  * 
+ * @module josm/mixin/OsmPrimitiveMixin 
  */
 var util = require("josm/util");
 var User = org.openstreetmap.josm.data.osm.User;
@@ -10,11 +14,11 @@ var Map  = java.util.Map;
 
 /**
 * <p>OsmPrimitiveMixin provides additional properties and methods which you can invoke on an instance of
- * {@link http://josm.openstreetmap.de/browser/josm/trunk/src/org/openstreetmap/josm/data/osm/OsmPrimitive.java|OsmPrimitive}. 
- * The native methods of OsmPrimitives are still available for scripting, 
- * unless they are shadowed by names of properties defined in this mixin.</p>
- * 
+ * {@class org.openstreetmap.josm.data.osm.OsmPrimitive}.
+ *  
  * @mixin OsmPrimitiveMixin
+ * @memberOf josm/mixin/OsmPrimitiveMixin
+ * @forClass org.openstreetmap.josm.data.osm.OsmPrimitive
  */
 var mixin = {};
 
@@ -730,3 +734,5 @@ mixin.isDeleted = mixin.deleted = {
 
 exports.forClass = org.openstreetmap.josm.data.osm.OsmPrimitive;
 exports.mixin = mixin;
+
+}());

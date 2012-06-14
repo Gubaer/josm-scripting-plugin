@@ -143,7 +143,7 @@ function rememberTagsFromObject(builder, args) {
  * 
  * <p>Methods of NodeBuilder can be used in a static and in an instance context.
  * It isn't necessary to create an instance of NodeBuilder, unless it is 
- * configured with a {@josmclass org.openstreetmap.josm.data.osm.DataSet},
+ * configured with a {@class org.openstreetmap.josm.data.osm.DataSet},
  * which created nodes are added to.</p>
  * 
  * @example
@@ -191,7 +191,7 @@ exports.NodeBuilder = function(ds) {
  * @return the node builder
  * @param {org.openstreetmap.josm.data.osm.DataSet} ds the dataset which created objects are added to
  * @type NodeBuilder 
- * @summary Creates a new NodeBuilder for a specific {@josmclass org.openstreetmap.josm.data.osm.DataSet}.
+ * @summary Creates a new NodeBuilder for a specific {@class org.openstreetmap.josm.data.osm.DataSet}.
  */
 exports.NodeBuilder.forDataSet = function(ds) {
 	util.assert(util.isSomething(ds), "Expected a non-null defined object, got {0}", ds);
@@ -224,7 +224,7 @@ function initFromObject(builder, args) {
 }
 
 /**
- * <p>Creates a new  {@josmclass org.openstreetmap.josm.data.osm.Node}.</p>
+ * <p>Creates a new  {@class org.openstreetmap.josm.data.osm.Node}.</p>
  * 
  * <p>Can be used in an instance or in a static context.</p>.
  * 
@@ -234,7 +234,7 @@ function initFromObject(builder, args) {
  *   <li><code>lat</code> - a valide latitude (number in the range [-90,90])</li>
  *   <li><code>lon</code> - a valide longitude (number in the range [-180,180])</li>
  *   <li><code>pos</code> - either an array <code>[lat,lon]</code>, an object <code>{lat: ..., lon: ...}</code>,
- *   or an instance of {@josmclass org.openstreetmap.josm.data.coor.LatLon}</li>
+ *   or an instance of {@class org.openstreetmap.josm.data.coor.LatLon}</li>
  *   <li><code>tags</code> - an object with tags. Null values and undefined values are ignored. Any other value
  *   is converted to a string. Leading and trailing white space in keys is removed.</li>
  * </ul>
@@ -257,7 +257,7 @@ function initFromObject(builder, args) {
  *    <code>withId(..)</code>, creates a new local id.
  * @param {object} args (optional) additional parameters for creating the node 
  * @type org.openstreetmap.josm.data.osm.Node 
- * @summary Creates a new  {@josmclass org.openstreetmap.josm.data.osm.Node}
+ * @summary Creates a new  {@class org.openstreetmap.josm.data.osm.Node}
  * 
  */
 function create() {
@@ -315,7 +315,7 @@ exports.NodeBuilder.create = create;
 exports.NodeBuilder.prototype.create = create;
 
 /**
- * <p>Creates a new <em>proxy</em> {@josmclass org.openstreetmap.josm.data.osm.Node}. A proxy node is a node, for which we only know
+ * <p>Creates a new <em>proxy</em> {@class org.openstreetmap.josm.data.osm.Node}. A proxy node is a node, for which we only know
  * its global id. In order to know more details (position, tags, etc.), we would have to
  * download it from the OSM server.</p>
  * 
@@ -332,7 +332,7 @@ exports.NodeBuilder.prototype.create = create;
  * @param {number} id  (mandatory) the node id (not null, number > 0 expected)
  * @return the new proxy node 
  * @type org.openstreetmap.josm.data.osm.Node
- * @summary Creates a new <em>proxy</em> {@josmclass org.openstreetmap.josm.data.osm.Node}
+ * @summary Creates a new <em>proxy</em> {@class org.openstreetmap.josm.data.osm.Node}
  */
 function createProxy(id) {
 	var builder = receiver(this);
@@ -451,11 +451,11 @@ var receiver = function(that) {
 }
 
 /**
-* <p>WayBuilder helps to create OSM {@josmclass org.openstreetmap.josm.data.osm.Way}s.</p>
+* <p>WayBuilder helps to create OSM {@class org.openstreetmap.josm.data.osm.Way}s.</p>
 * 
 * <p>Methods of WayBuilder can be used in a static and in an instance context.
 * It isn't necessary to create an instance of WayBuilder, unless it is 
-* configured with a {@josmclass org.openstreetmap.josm.data.osm.DataSet},
+* configured with a {@class org.openstreetmap.josm.data.osm.DataSet},
 * which created ways are added to.</p>
 * @example
 *  var wbuilder = require("josm/builder").WayBuilder;
@@ -573,9 +573,9 @@ exports.WayBuilder.withTags = withTags;
 /**
  * <p>Declares the nodes of the way.</p>
  * 
- * <p>Accepts either a vararg list of {@josmclass org.openstreetmap.josm.data.osm.Node}, 
- * an array of {@josmclass org.openstreetmap.josm.data.osm.Node}s or a Java list 
- * of {@josmclass org.openstreetmap.josm.data.osm.Node}s. At least <strong>two non-identical nodes</strong> 
+ * <p>Accepts either a vararg list of {@class org.openstreetmap.josm.data.osm.Node}, 
+ * an array of {@class org.openstreetmap.josm.data.osm.Node}s or a Java list 
+ * of {@class org.openstreetmap.josm.data.osm.Node}s. At least <strong>two non-identical nodes</strong> 
  * have to be supplied.
  * The same node can occure more than once in the list, but a consecutive sequence
  * of the same node is collapsed to one node.
@@ -810,11 +810,11 @@ var receiver = function(that) {
 
 
 /**
-* <p>RelationBuilder helps to create OSM {@josmclass org.openstreetmap.josm.data.osm.Relation}s.</p>
+* <p>RelationBuilder helps to create OSM {@class org.openstreetmap.josm.data.osm.Relation}s.</p>
 * 
 * <p>Methods of RelationBuilder can be used in a static and in an instance context.
 * It isn't necessary to create an instance of RelationBuilder, unless it is 
-* configured with a {@josmclass org.openstreetmap.josm.data.osm.DataSet},
+* configured with a {@class org.openstreetmap.josm.data.osm.DataSet},
 * which created ways are added to.</p>
 * @example
  * var rbuilder = require("josm/builder").RelationBuilder;

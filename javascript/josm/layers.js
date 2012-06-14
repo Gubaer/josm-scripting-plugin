@@ -124,7 +124,7 @@ exports.has = function(layer) {
  * <p>Adds a layer.</p>
  * 
  * <p>Either pass in a layer object or a data set. In the later case, an 
- * {@josmclass org.openstreetmap.josm.gui.layer.OsmDataLayer} is
+ * {@class org.openstreetmap.josm.gui.layer.OsmDataLayer} is
  * automatically created.</p>
  * 
  * @example

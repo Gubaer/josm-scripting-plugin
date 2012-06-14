@@ -22,5 +22,5 @@ fi
 # rhino discards the path to the current script file, so we must add it back
 SOURCE="$0"
 while [ -h "$SOURCE" ] ; do SOURCE="$(readlink "$SOURCE")"; done
-java -classpath ${JSDOC3_HOME}/lib/js.jar org.mozilla.javascript.tools.shell.Main -modules ${JSDOC3_HOME}/node_modules -modules ${JSDOC3_HOME}/rhino_modules -modules ${JSDOC3_HOME} -modules doc/template ${JSDOC3_HOME}/jsdoc.js --dirname=${JSDOC3_HOME} $@
+java -classpath ${JSDOC3_HOME}/lib/js.jar org.mozilla.javascript.tools.shell.Main -modules ${JSDOC3_HOME}/node_modules -modules ${JSDOC3_HOME}/rhino_modules -modules ${JSDOC3_HOME} -modules ${BASEDIR}/doc/template ${JSDOC3_HOME}/jsdoc.js --dirname=${JSDOC3_HOME} $@
 

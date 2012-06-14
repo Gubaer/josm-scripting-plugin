@@ -1,7 +1,7 @@
 (function() {
 /**
  * <p>This module is auto-loaded by the scripting plugin and mixed into the 
- * native java class {@josmclass org.openstreetmap.josm.data.osm.Way}.</p>
+ * native java class {@class org.openstreetmap.josm.data.osm.Way}.</p>
  * 
  * @module josm/mixin/WayMixin
  */
@@ -14,18 +14,13 @@ var HashSet = java.util.HashSet;
 exports.forClass = org.openstreetmap.josm.data.osm.Way;
 
 /**
- * <p>This mixin is auto-loaded by the scripting plugin and mixed into the 
- * native java class {@josmclass org.openstreetmap.josm.data.osm.Way}. It
+ * <p>This mixin 
  * provides additional properties and methods which you can invoke on an instance of
- * {@josmclass org.openstreetmap.josm.data.osm.Way}.</p>
+ * {@class org.openstreetmap.josm.data.osm.Way}.</p>
  *  
- * <p>The native methods of {@josmclass org.openstreetmap.josm.data.osm.Way} are still 
- * available for scripting. Just prefix their name with <code>$</code> if they are hidden
- * by properties or functions defined in this mixin.</p>
- * 
- * <p>WayMixin inherits the properties and methods of [OsmPrimitiveMixin]{@link OsmPrimitiveMixin}.</p>
- * 
- * <p>You can access nodes using indexed properties, i.e. <code>way[i]</code>, see example below.
+ * <p>You can access nodes using indexed properties, i.e. 
+ * <pre>way[i]</pre>, 
+ * see example below.
  * 
  * @mixin WayMixin
  * @extends OsmPrimitiveMixin
@@ -49,7 +44,7 @@ function nodeListEquals(l1, l2) {
  *   <dt>get</dt>
  *   <dd>Replies the nodes as array.</dd>
  *   <dt>set</dt>
- *   <dd>Set the an array or {@class java.util.List} of {@josmclass org.openstreetmap.josm.data.osm.Node}s.</dd>
+ *   <dd>Set the an array or {@class java.util.List} of {@class org.openstreetmap.josm.data.osm.Node}s.</dd>
  * </dl>
  * 
  * @example
@@ -165,11 +160,11 @@ mixin.last = {
  * <strong>Signatures</strong>
  * <dl>
  *   <dt><code class="signature">remove(n1,n2, ...)</code></dt>
- *   <dd>Removes the nodes. <code>n</code><em>i</em> are instances of {@josmclass org.openstreetmap.josm.data.osm.Node}.</dd>
+ *   <dd>Removes the nodes. <code>n</code><em>i</em> are instances of {@class org.openstreetmap.josm.data.osm.Node}.</dd>
  *
  *    <dt><code class="signature">remove(array|collection)</code></dt>
- *   <dd>Removes the nodes. <code>array</code> is a javascript array of {@josmclass org.openstreetmap.josm.data.osm.Node}s,
- *   <code>collection</code> is a java collection of {@josmclass org.openstreetmap.josm.data.osm.Node}s.</dd>
+ *   <dd>Removes the nodes. <code>array</code> is a javascript array of {@class org.openstreetmap.josm.data.osm.Node}s,
+ *   <code>collection</code> is a java collection of {@class org.openstreetmap.josm.data.osm.Node}s.</dd>
  * </dl>
  * 
  * @method

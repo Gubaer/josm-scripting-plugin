@@ -1,7 +1,7 @@
 (function () {	
 /**
  * <p>This module is auto-loaded by the scripting plugin and mixed into the 
- * native java class {@josmclass org/openstreetmap/josm/data/osm/Relation}.</p>
+ * native java class {@class org/openstreetmap/josm/data/osm/Relation}.</p>
  * 
  * @module josm/mixin/RelationMixin
  */
@@ -14,18 +14,12 @@ var List = java.util.List;
 var mixin = {};
 
 /**
- * <p>This mixin is auto-loaded by the scripting plugin and mixed into the 
- * native java class {@josmclass org/openstreetmap/josm/data/osm/Relation}. It
- * provides additional properties and methods which you can invoke on an instance of
- * {@josmclass org/openstreetmap/josm/data/osm/Relation}.</p>
+ * <p>This mixin  provides additional properties and methods which you can invoke on an instance of
+ * {@class org/openstreetmap/josm/data/osm/Relation}.</p>
  *  
- * <p>The native methods of {@josmclass org/openstreetmap/josm/data/osm/Relation} are still 
- * available for scripting. Just prefix their name with <code>$</code> if they are hidden
- * by properties or functions defined in this mixin.</p>
- * 
- * <p>RelationMixin inherits the properties and methods of [OsmPrimitiveMixin]{@link OsmPrimitiveMixin}.</p>
- * 
- * <p>You can access relation members using <code>relation[i]</code>, see example below.
+ * <p>You can access relation members using 
+ * <pre>relation[i]</pre>, 
+ * see examples below.
  * 
  * @example 
  * var Relation = org.openstreetmap.josm.data.osm.Relation;
@@ -42,6 +36,7 @@ var mixin = {};
  * for (var i=0; i < relation.length; i++) {
  *    out.println(relation[i].role);
  * }
+ * 
  * @mixin RelationMixin
  * @extends OsmPrimitiveMixin
  * @forClass org.openstreetmap.josm.data.osm.Relation
@@ -83,10 +78,10 @@ function memberListEquals(l1,l2) {
  *   <dt>set</dt>
  *   <dd>Assign the list of relation members. Assign null or undefined to remove all members.
  *    Assign an array or a java.util.List of members. Members can be instances of 
- *    {@josmclass org/openstreetmap/josm/data/osm/RelationMember},
- *    {@josmclass org/openstreetmap/josm/data/osm/Node},
- *    {@josmclass org/openstreetmap/josm/data/osm/Way}, or
- *    {@josmclass org/openstreetmap/josm/data/osm/Relation}. 
+ *    {@class org/openstreetmap/josm/data/osm/RelationMember},
+ *    {@class org/openstreetmap/josm/data/osm/Node},
+ *    {@class org/openstreetmap/josm/data/osm/Way}, or
+ *    {@class org/openstreetmap/josm/data/osm/Relation}. 
  *    null or undefined are ignored.<br/>
  *    <strong>Note:</strong> you can't assign members to a proxy relation.
  *   </dd>
@@ -167,16 +162,16 @@ mixin.__putByIndex = function(idx, val) {
  * <dl> 
  *   <dt><code class="signature">add(m1, m2, ...)</code></dt>
  *   <dd>Adds a variable number of members. null or undefined are ignored. A member is either an
- *   instance of <code>{@josmclass org.openstreetmap.josm.data.osm.RelationMember}</code> or a 
- *   {@josmclass org.openstreetmap.josm.data.osm.Node}, {@josmclass org.openstreetmap.josm.data.osm.Way},
- *   or {@josmclass org.openstreetmap.josm.data.osm.Relation}. If an OSM primitive
+ *   instance of <code>{@class org.openstreetmap.josm.data.osm.RelationMember}</code> or a 
+ *   {@class org.openstreetmap.josm.data.osm.Node}, {@class org.openstreetmap.josm.data.osm.Way},
+ *   or {@class org.openstreetmap.josm.data.osm.Relation}. If an OSM primitive
  *   is passed in, a relation member with an empty role is created.</dd>
  *   <dt><code class="signature">add(array|list)</code></dt>
  *   <dd>Adds an array or list of members. null or undefined are ignored. A list is either a javascript
  *   array or an instance of a java List (<code>java.util.List</code>). A list element is either an
- *   instance of <code>{@josmclass org.openstreetmap.josm.data.osm.RelationMember}</code>,
- *   or  or a  {@josmclass org.openstreetmap.josm.data.osm.Node}, {@josmclass org.openstreetmap.josm.data.osm.Way},
- *   or {@josmclass org.openstreetmap.josm.data.osm.Relation}. If an OSM primitive
+ *   instance of <code>{@class org.openstreetmap.josm.data.osm.RelationMember}</code>,
+ *   or  or a  {@class org.openstreetmap.josm.data.osm.Node}, {@class org.openstreetmap.josm.data.osm.Way},
+ *   or {@class org.openstreetmap.josm.data.osm.Relation}. If an OSM primitive
  *   is passed in, a relation member with an empty role is created. null and undefined are
  *   ignored.</dd>
  * </dl>

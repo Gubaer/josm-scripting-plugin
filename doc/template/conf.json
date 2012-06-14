@@ -1,6 +1,3 @@
-/*
- * configuration file for jsdoc3 documentation generator
- */
 {
  "tags": {
         "allowUnknownTags": true

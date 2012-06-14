@@ -1,6 +1,8 @@
+(function() {
+	
 /**
  * <p>This module is auto-loaded by the scripting plugin and mixed into the 
- * native java class {@josmclass org/openstreetmap/josm/data/osm/Node}.</p>
+ * native java class {@class org.openstreetmap.josm.data.osm.Node}.</p>
  * 
  * @module josm/mixin/NodeMixin 
  */
@@ -9,15 +11,9 @@ var LatLon = org.openstreetmap.josm.data.coor.LatLon;
 
 /**
  * <p>This mixin is auto-loaded by the scripting plugin and mixed into the 
- * native java class {@josmclass org.openstreetmap.josm.data.osm.Node}. It
+ * native java class {@class org.openstreetmap.josm.data.osm.Node}. It
  * provides additional properties and methods which you can invoke on an instance of
- * {@josmclass org.openstreetmap.josm.data.osm.Node}.</p>
- *  
- * <p>The native methods of {@josmclass org.openstreetmap.josm.data.osm.Node} are still 
- * available for scripting. Just prefix their name with <code>$</code> if they are hidden
- * by properties or functions defined in this mixin.</p>
- * 
- * <p>NodeMixin inherits the properties and methods of [OsmPrimitiveMixin]{@link OsmPrimitiveMixin}.</p>
+ * {@class org.openstreetmap.josm.data.osm.Node}.</p>
  *   
  * @mixin NodeMixin
  * @extends OsmPrimitiveMixin
@@ -173,11 +169,11 @@ mixin.north = {
  * <dl>
  *  <dt>get</dt>
  *  <dd>replies an instance of 
- *   {@josmclass org.openstreetmap.josm.data.coor.LatLon} or
+ *   {@class org.openstreetmap.josm.data.coor.LatLon} or
  *   undefined, if the position isn't known.</dd>
  *   
  *  <dt>set</dt>
- *  <dd>Assign the position. Either an instance of  {@josmclass org.openstreetmap.josm.data.coor.LatLon}
+ *  <dd>Assign the position. Either an instance of  {@class org.openstreetmap.josm.data.coor.LatLon}
  *   or an object with the properties <code>{lat: ..., lon: ...}</code></dd>
  * </dl>
  * 
@@ -224,3 +220,5 @@ mixin.pos =  {
 
 exports.forClass = org.openstreetmap.josm.data.osm.Node;
 exports.mixin = util.mix(require("josm/mixin/OsmPrimitiveMixin").mixin, mixin);
+
+}());

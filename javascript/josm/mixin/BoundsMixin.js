@@ -1,8 +1,8 @@
+(function() {
+
 /**
- * <p>Additional properties and functions for JOSMs internal class 
- *  {@josmclass org/openstreetmap/josm/data/Bounds}.</p> 
- * 
- * This module is auto-loaded. 
+ * <p>This module is auto-loaded by the scripting plugin and mixed into the 
+ * native java class {@class org.openstreetmap.josm.data.Bounds}.</p>
  * 
  * @module josm/mixin/BoundsMixin
  */
@@ -13,14 +13,8 @@ var Bounds = org.openstreetmap.josm.data.Bounds;
 
 /**
  * <p>This mixin is auto-loaded by the scripting plugin and mixed into the 
- * native java class {@josmclass org/openstreetmap/josm/data/Bounds}. It
- * provides additional properties and methods which you can invoke on an instance of
- * {@josmclass org/openstreetmap/josm/data/Bounds}.</p>
+ * native java class {@class org/openstreetmap/josm/data/Bounds}.</p>
  *  
- * <p>The native methods of {@josmclass org/openstreetmap/josm/data/Bounds} are still 
- * available for scripting. Just prefix their name with <code>$</code> if they are hidden
- * by properties or functions defined in this mixin.</p>
- * 
  * @mixin BoundsMixin 
  * @forClass org.openstreetmap.josm.data.Bounds
  * @memberof josm/mixin/BoundsMixin
@@ -80,3 +74,5 @@ mixin.make.static=true;
 
 exports.forClass = org.openstreetmap.josm.data.Bounds;
 exports.mixin    = mixin;
+
+}());

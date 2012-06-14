@@ -1,8 +1,8 @@
+(function() {
+	
 /**
- * <p>Additional properties and functions for JOSMs internal class 
- *  {@josmclass org/openstreetmap/josm/data/osm/DataSet}.</p> 
- * 
- * This module is auto-loaded. 
+* <p>This module is auto-loaded by the scripting plugin and mixed into the 
+ * native java class {@class  org/openstreetmap/josm/data/osm/DataSet}.</p>
  * 
  * @module josm/mixin/DataSetMixin
  */
@@ -26,15 +26,9 @@ var Collections   = java.util.Collections;
 var SearchCompiler = org.openstreetmap.josm.actions.search.SearchCompiler;
 
 /**
- * <p>This mixin is auto-loaded by the scripting plugin and mixed into the 
- * native java class {@josmclass org/openstreetmap/josm/data/osm/DataSet}. It
- * provides additional properties and methods which you can invoke on an instance of
- * {@josmclass org/openstreetmap/josm/data/osm/DataSet}.</p>
+ * <p>This mixin provides additional properties and methods which you can invoke on an instance of
+ * {@class org/openstreetmap/josm/data/osm/DataSet}.</p>
  *  
- * <p>The native methods of {@josmclass org/openstreetmap/josm/data/osm/DataSet} are still 
- * available for scripting. Just prefix their name with <code>$</code> if they are hidden
- * by properties or functions defined in this mixin.</p>
- * 
  *  @example 
  *  var ds = new org.openstreetmap.josm.data.osm.DataSet();
  *  
@@ -94,13 +88,13 @@ function colToArray(col) {
  * <dl> 
  *   <dt><code class="signature">add(o1,o2, ...)</code></dt>
  *   <dd>Adds a variable number of objects. null or undefined are ignored. An object is either an
- *   instance of {@josmclass org/openstreetmap/josm/data/osm/Node}, {@josmclass org/openstreetmap/josm/data/osm/Way}, or {@josmclass org/openstreetmap/josm/data/osm/Relation}.</dd>
+ *   instance of {@class org/openstreetmap/josm/data/osm/Node}, {@class org/openstreetmap/josm/data/osm/Way}, or {@class org/openstreetmap/josm/data/osm/Relation}.</dd>
  *   
  *   <dt><code class="signature">add(array|collection)</code></dt>
  *   <dd>Adds an  javascript array or a java collection of objects. null or undefined are ignored. 
- *   A list element is an instance of {@josmclass org/openstreetmap/josm/data/osm/Node}, 
- *   a {@josmclass org/openstreetmap/josm/data/osm/Way}, 
- *   or {@josmclass org/openstreetmap/josm/data/osm/Relation}. null and undefined are
+ *   A list element is an instance of {@class org/openstreetmap/josm/data/osm/Node}, 
+ *   a {@class org/openstreetmap/josm/data/osm/Way}, 
+ *   or {@class org/openstreetmap/josm/data/osm/Relation}. null and undefined are
  *   ignored.</dd>
  * </dl>
  * 
@@ -188,13 +182,13 @@ function primitiveIdFromObject(obj) {
  *   <dt><code class="signature">get(id, type)</code></dt>
  *   <dd>Replies an object given by its unique numeric id and a type. The type is either a string 
  *   "node", "way", or "relation", or one of the symbols 
- *   {@josmclass org.openstreetmap.josm.data.osm.OsmPrimitiveType}.NODE, 
- *   {@josmclass org.openstreetmap.josm.data.osm.OsmPrimitiveType}.WAY, or
- *   {@josmclass org.openstreetmap.josm.data.osm.OsmPrimitiveType}.RELATION.</dd>
+ *   {@class org.openstreetmap.josm.data.osm.OsmPrimitiveType}.NODE, 
+ *   {@class org.openstreetmap.josm.data.osm.OsmPrimitiveType}.WAY, or
+ *   {@class org.openstreetmap.josm.data.osm.OsmPrimitiveType}.RELATION.</dd>
  *   
  *   <dt><code class="signature">get(id)</code></dt>
  *   <dd>Replies an object given an ID. <code>id</code> is either an instance of
- *   {@josmclass org.openstreetmap.josm.data.osm.PrimitiveId} or an object with 
+ *   {@class org.openstreetmap.josm.data.osm.PrimitiveId} or an object with 
  *   the properties <code>id</code> and <code>type</code>, i.e. <code>{id: 1234, type: "node"}</code>.</dd>
  * </dl>
  * 
@@ -272,7 +266,7 @@ mixin.get = function() {
 * @method
 * @instance
 * @name node
-* @summary Get a specific {@josmclass org.openstreetmap.josm.data.osm.Node} from the dataset.
+* @summary Get a specific {@class org.openstreetmap.josm.data.osm.Node} from the dataset.
 */
 mixin.node = function(id) {
 	return this.get(normalizeId(id), "node");
@@ -286,7 +280,7 @@ mixin.node = function(id) {
 * @method
 * @instance
 * @name way
-* @summary Get a specific {@josmclass org.openstreetmap.josm.data.osm.Way} from the dataset.
+* @summary Get a specific {@class org.openstreetmap.josm.data.osm.Way} from the dataset.
 */
 mixin.way = function(id) {
 	return this.get(normalizeId(id), "way");
@@ -300,7 +294,7 @@ mixin.way = function(id) {
 * @method
 * @instance
 * @name relation
-* @summary Get a specific {@josmclass org.openstreetmap.josm.data.osm.Relation} from the dataset.
+* @summary Get a specific {@class org.openstreetmap.josm.data.osm.Relation} from the dataset.
 */
 mixin.relation = function(id) {
 	return this.get(normalizeId(id), "relation");
@@ -370,17 +364,17 @@ function normalizeObjId(id, type){
  * <dl> 
  *   <dt><code class="signature">remove(id, type)</code></dt>
  *   <dd>Removes a single object given by its unique numeric ID (nid) and a type. The type is either a string 
- *   "node", "way", or "relation", or one of the symbols {@josmclass org.openstreetmap.josm.data.osm.OsmPrimitiveType}.NODE, {@josmclass org.openstreetmap.josm.data.osm.OsmPrimitiveType}.WAY, or
- *   {@josmclass org.openstreetmap.josm.data.osm.OsmPrimitiveType}.RELATION.</dd>
+ *   "node", "way", or "relation", or one of the symbols {@class org.openstreetmap.josm.data.osm.OsmPrimitiveType}.NODE, {@class org.openstreetmap.josm.data.osm.OsmPrimitiveType}.WAY, or
+ *   {@class org.openstreetmap.josm.data.osm.OsmPrimitiveType}.RELATION.</dd>
  *   
  *   <dt><code class="signature">remove(id, id, ...)</code></dt>
- *   <dd>Removes a collection of objects given by the ids. <code>id</code> is either an instance of {@josmclass org.openstreetmap.josm.data.osm.PrimitiveId} or an object with 
+ *   <dd>Removes a collection of objects given by the ids. <code>id</code> is either an instance of {@class org.openstreetmap.josm.data.osm.PrimitiveId} or an object with 
  *   the properties <code>id</code> and <code>type</code>, i.e. <code>{id: 1234, type: "node"}</code>.
  *   null and undefined are ignored.</dd>
  *   
  *   <dt><code class="signature">remove(array|collection)</code></dt>
  *   <dd>Removes a collection of objects given by the an array ora java.util.Collection of ids. 
- *   The collection elemeents are either instances of {@josmclass org.openstreetmap.josm.data.osm.PrimitiveId} or an object with 
+ *   The collection elemeents are either instances of {@class org.openstreetmap.josm.data.osm.PrimitiveId} or an object with 
  *   the properties <code>id</code> and <code>type</code>, i.e. <code>{id: 1234, type: "node"}</code>.
  *   null or undefined elements are ignored.
  *   </dd>
@@ -446,12 +440,12 @@ mixin.remove = function() {
  *   <dt><code class="signature">has(id, type)</code></dt>
  *   <dd>Replies true, if an object given by its unique numeric ID and a type is in the dataset. 
  *    The type is either a string 
- *   "node", "way", or "relation", or one of the symbols {@josmclass org.openstreetmap.josm.data.osm.OsmPrimitiveType}.NODE, {@josmclass org.openstreetmap.josm.data.osm.OsmPrimitiveType}.WAY, or
- *   {@josmclass org.openstreetmap.josm.data.osm.OsmPrimitiveType}.RELATION.</dd>
+ *   "node", "way", or "relation", or one of the symbols {@class org.openstreetmap.josm.data.osm.OsmPrimitiveType}.NODE, {@class org.openstreetmap.josm.data.osm.OsmPrimitiveType}.WAY, or
+ *   {@class org.openstreetmap.josm.data.osm.OsmPrimitiveType}.RELATION.</dd>
  *   
  *   <dt><code class="signature>has(id)</code></dt>
  *   <dd>Replies true, if an object with the id <code>id</code> exists in the dataset. <code>id</code> is either 
- *   an instance of {@josmclass org.openstreetmap.josm.data.osm.PrimitiveId} or an object with 
+ *   an instance of {@class org.openstreetmap.josm.data.osm.PrimitiveId} or an object with 
  *   the properties <code>id</code> and <code>type</code>, i.e. <code>{id: 1234, type: "node"}</code>.</dd>
  * </dl>
  * 
@@ -504,7 +498,7 @@ mixin.has = function() {
  * @type NodeBuilder
  * @instance
  * @readOnly
- * @summary the builder for creating {@josmclass org.openstreetmap.josm.data.osm.Node}s
+ * @summary the builder for creating {@class org.openstreetmap.josm.data.osm.Node}s
  */
 mixin.nodeBuilder = {
 	get: function() {
@@ -526,7 +520,7 @@ mixin.nodeBuilder = {
  * @type WayBuilder
  * @instance
  * @readOnly
- * @summary the builder for creating {@josmclass org.openstreetmap.josm.data.osm.Way}s
+ * @summary the builder for creating {@class org.openstreetmap.josm.data.osm.Way}s
  */
 mixin.wayBuilder = {
 	get: function() {
@@ -548,7 +542,7 @@ mixin.wayBuilder = {
  * @type RelationBuilder
  * @instance
  * @readOnly
- * @summary the builder for creating {@josmclass org.openstreetmap.josm.data.osm.Relation}s
+ * @summary the builder for creating {@class org.openstreetmap.josm.data.osm.Relation}s
  */
 mixin.relationBuilder = {
 	get: function() {
@@ -1002,14 +996,14 @@ DataSetSelectionFacade.prototype.toggle = function() {
  *
  *   <dt><code class="signature">isSelected(id)</code></dt>
  *   <dd>Replies true, if the object with id <code>id</code> is selected. <code>id</code> is either an instance of 
- *   {@josmclass org/openstreetmap/josm/data/osm/PrimitiveId} or an object with 
+ *   {@class org/openstreetmap/josm/data/osm/PrimitiveId} or an object with 
  *   the properties <code>id</code> and <code>type</code>, i.e. <code>{id: 1234, type: "node"}</code></dd>
  *
  *   <dt><code class="signature">isSelected(obj)</code></dt>
  *   <dd>Replies true, if the object <code>obj</code> is selected. obj is either a 
- *   {@josmclass org/openstreetmap/josm/data/osm/Node}, 
- *   a {@josmclass org/openstreetmap/josm/data/osm/Way}, or a 
- *   {@josmclass org/openstreetmap/josm/data/osm/Relation}.</dd>
+ *   {@class org/openstreetmap/josm/data/osm/Node}, 
+ *   a {@class org/openstreetmap/josm/data/osm/Way}, or a 
+ *   {@class org/openstreetmap/josm/data/osm/Relation}.</dd>
  * </dl>
  * 
  * @memberOf DataSetSelectionFacade
@@ -1120,3 +1114,5 @@ Object.defineProperty(DataSetSelectionFacade.prototype, "objects", {
 
 exports.forClass = org.openstreetmap.josm.data.osm.DataSet;
 exports.mixin    = mixin;
+
+}());

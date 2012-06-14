@@ -243,7 +243,7 @@
 		<exec executable="./jsdoc.sh" failonerror="yes" failifexecutionfails="yes">
 			<arg value="-d ${api-doc.staging.dir}"/>
 			<arg value="-t templates/josm-scripting-plugin" />			
-			<arg value="-c doc/template/conf.json" />
+			<arg value="-c /home/karl/repositories/josm-scripting-plugin/doc/template/conf.json" />
 			<arg value="javascript/josm.js"/>
 			<arg value="javascript/josm/util.js"/>
 			<arg value="javascript/josm/builder.js"/>

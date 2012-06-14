@@ -559,16 +559,16 @@ function downloadReferrer_3() {
  *   <dt><code class="signature">downloadReferrer(id, type, ?options)</code></dt>
  *   <dd><code>id</code> is the global numeric id. 
  *   <code>type</code> is either one of the strings "node", "way", or "relation", or one of the 
- *   enumeration {@josmclass org.openstreetmap.josm.data.osm.OsmPrimitiveType}.NODE, 
- *   {@josmclass org.openstreetmap.josm.data.osm.OsmPrimitiveType}.WAY, 
- *   or {@josmclass org.openstreetmap.josm.data.osm.OsmPrimitiveType}.RELATION.
+ *   enumeration {@class org.openstreetmap.josm.data.osm.OsmPrimitiveType}.NODE, 
+ *   {@class org.openstreetmap.josm.data.osm.OsmPrimitiveType}.WAY, 
+ *   or {@class org.openstreetmap.josm.data.osm.OsmPrimitiveType}.RELATION.
  *   </dd>
  *   
  *   <dt><code class="signature">downloadReferrer(id, ?options)</code></dt>
  *   <dd><code>id</code> is a <code>PrimitiveId</code> or an object 
  *   with the (mandatory) properties <code>id</code> and <code>type</code>, i.e. an object <code>{id: ..., type: ...}</code>.
  *   <code>id</code> is again a number, <code>type</code> is again either one of the strings "node", "way", or "relation", or one of the 
- *   enumeration {@josmclass org.openstreetmap.josm.data.osm.OsmPrimitiveType}.NODE, {@josmclass org.openstreetmap.josm.data.osm.OsmPrimitiveType}.WAY, or {@josmclass org.openstreetmap.josm.data.osm.OsmPrimitiveType}.RELATION.
+ *   enumeration {@class org.openstreetmap.josm.data.osm.OsmPrimitiveType}.NODE, {@class org.openstreetmap.josm.data.osm.OsmPrimitiveType}.WAY, or {@class org.openstreetmap.josm.data.osm.OsmPrimitiveType}.RELATION.
  *   </dd> 
  * </dl>
  * In both cases, <code>?options</code> is an (optional) object with the following  (optional) property:
@@ -671,10 +671,10 @@ exports.Api.downloadArea = function() {
 /**
  * <p>Uploads objects to the server.</p>
  * 
- * <p>You can submit data either as {@josmclass org.openstreetmap.josm.data.osm.DataSet},
- * {@josmclass org.openstreetmap.josm.data.APIDataSet}, javascript array of 
- * {@josmclass org.openstreetmap.josm.data.osm.OsmPrimitive}s or a {@class java.util.Collection} of
- * {@josmclass org.openstreetmap.josm.data.osm.OsmPrimitive}s.</p>
+ * <p>You can submit data either as {@class org.openstreetmap.josm.data.osm.DataSet},
+ * {@class org.openstreetmap.josm.data.APIDataSet}, javascript array of 
+ * {@class org.openstreetmap.josm.data.osm.OsmPrimitive}s or a {@class java.util.Collection} of
+ * {@class org.openstreetmap.josm.data.osm.OsmPrimitive}s.</p>
  * 
  * <p>This method supports the same upload strategy as the JOSM upload dialog. Supply the named
  * parameter <code>{strategy: ...}</code> to choose the strategy.</p>
@@ -694,24 +694,24 @@ exports.Api.downloadArea = function() {
 
  * <p>Named options</p>
  * <dl>
- *   <dt><code class="signature">strategy: string|{@josmclass org.openstreetmap.josm.gui.io.UploadStrategy}</code></dt>
+ *   <dt><code class="signature">strategy: string|{@class org.openstreetmap.josm.gui.io.UploadStrategy}</code></dt>
  *   <dd>Indicates how the data is uploaded. Either one of the strings
  *     <ul>
  *          <li>individualobjects</li>
  *          <li>chunked</li>
  *          <li>singlerequest</li>
  *       </ul>
- *      or one of the enumeration values in {@josmclass org.openstreetmap.josm.gui.io.UploadStrategy}.
+ *      or one of the enumeration values in {@class org.openstreetmap.josm.gui.io.UploadStrategy}.
  *      Default falue: UploadStrategy.DEFAULT_UPLOAD_STRATEGY
  *   </dd>
  *   
- *    <dt><code class="signature">changeset: number|{@josmclass org.openstreetmap.josm.data.osm.Changset}</code></dt>
+ *    <dt><code class="signature">changeset: number|{@class org.openstreetmap.josm.data.osm.Changset}</code></dt>
  *    <dd>The changeset to which the data is uploaded. Either a number (the changeset id) or a 
- *    {@josmclass org.openstreetmap.josm.data.osm.Changset} instance. Default: creates a new changeset.</dd>
+ *    {@class org.openstreetmap.josm.data.osm.Changset} instance. Default: creates a new changeset.</dd>
  *    
  *    <dt><code class="signature">chunkSize: number</code></dt>
  *    <dd>The size of an upload chunk, if the data is uploaded with the upload strategy 
- *    {@josmclass org.openstreetmap.josm.gui.io.UploadStrategy}.CHUNKED_DATASET_STRATEGY.</dd>
+ *    {@class org.openstreetmap.josm.gui.io.UploadStrategy}.CHUNKED_DATASET_STRATEGY.</dd>
  *    
  *    <dt><code class="signature">closeChangeset: boolean</code></dt>
  *    <dd>If true, closes the changeset after the upload. Default: true</dd>    
@@ -1057,7 +1057,7 @@ function normalizeOAuthCredentials(credentials) {
  * <p>Basic authentication credentials are either an instance of java.net.PasswordAuthentication or
  * an object <code>{user: string, password: string}</code>.</p>
  * 
- * <p>OAuth authentication credentials are either an instance of {@josmclass org.openstreetmap.josm.data.oauth.OAuthToken} or
+ * <p>OAuth authentication credentials are either an instance of {@class org.openstreetmap.josm.data.oauth.OAuthToken} or
  * an object <code>{key: string, secret: string}</code>.</p>
 
  * <strong>Named options</strong>
