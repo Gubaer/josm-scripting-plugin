@@ -1,3 +1,4 @@
+(function () {	
 /**
  * <p>This module is auto-loaded by the scripting plugin and mixed into the 
  * native java class {@josmclass org/openstreetmap/josm/data/osm/Relation}.</p>
@@ -64,6 +65,14 @@ mixin.length = {
 	}
 }
 
+function memberListEquals(l1,l2) {
+	if (l1.length != l2.length) return false;
+	for (var i=0; i< l1.length; i++) {
+		if (! l1[i].equals(l2[i])) return false;
+	}
+	return true;
+};
+
 /**
  * <p>The relation members</p>
  * 
@@ -108,26 +117,28 @@ mixin.members = {
 	}, 
 	set: function(val) {
 		var members = [];
-		function check(obj) {			
+		function remember(obj) {			
 			if (util.isNothing(obj)) return;
 			if (obj instanceof RelationMember) {
 				members.push(obj);
 			} else if (obj instanceof OsmPrimitive) {
 				members.push(new RelationMember(null, obj));
 			} else if (util.isArray(obj)) {
-				for (var i=0; i<obj.length;i++) check(obj[i]);
+				for (var i=0; i<obj.length;i++) remember(obj[i]);
 			} else if (obj instanceof List) {
-				for (var it=obj.iterator(); it.hasNext();) check(it.next());
+				for (var it=obj.iterator(); it.hasNext();) remember(it.next());
 			} else {
 				util.assert(false, "Can''t add object {0} as relation member", obj);
 			}
 		}
+		var oldmembers = this.members;
 		if (util.isNothing(val)) {
 			this.setMembers(null);
 		} else {
-			check(val);
+			remember(val);
 			this.setMembers(members);
 		}
+		if (!memberListEquals(oldmembers, this.members) && !this.modified) this.modified = true;
 	}		
 };
 
@@ -382,3 +393,5 @@ mixin.getObjectAt = function(idx) {
 
 exports.forClass=org.openstreetmap.josm.data.osm.Relation;
 exports.mixin = util.mix(require("josm/mixin/OsmPrimitiveMixin").mixin, mixin);
+
+}());

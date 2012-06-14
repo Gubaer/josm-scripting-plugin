@@ -114,3 +114,23 @@ tu.suite("get and set relation members using [...]",
 		});
 	})
 ).run();	
+
+tu.suite("modified flag",
+	test("modify the members list", function() {
+		var members = [nb.create(), rb.member('role.1', nb.create()), wb.create(12345)];		
+		var r = rb.withMembers(members).create(12345);
+		util.assert(!r.modified, "1 - should not be modified");
+		
+		r.members = members;	
+		util.assert(!r.modified, "2 - should not be modified");
+		
+		r.members = [members[0], members[1]];	
+		util.assert(r.modified, "3 - should be modified");
+		
+		r.members = [members[0], members[1]];	
+		util.assert(r.modified, "4 - should be modified");
+		
+		r.members = [members[0]];	
+		util.assert(r.modified, "5 - should be modified");
+	})
+).run();
