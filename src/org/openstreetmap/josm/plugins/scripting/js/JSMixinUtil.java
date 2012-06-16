@@ -1,4 +1,4 @@
-package org.openstreetmap.josm.plugins.scripting.js.api;
+package org.openstreetmap.josm.plugins.scripting.js;
 
 import org.mozilla.javascript.Scriptable;
 

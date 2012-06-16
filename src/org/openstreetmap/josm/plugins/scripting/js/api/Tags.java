@@ -19,7 +19,7 @@ public class Tags extends ScriptableObject {
 	private Tagged primitive;
 	public Tags(Tagged primitive) {
 		this.primitive = primitive;
-		this.setPrototype(TopLevel.getObjectPrototype(RhinoEngine.getRootScope()));
+		this.setPrototype(TopLevel.getObjectPrototype(RhinoEngine.getInstance().getScope()));
 	}
 
 	@Override

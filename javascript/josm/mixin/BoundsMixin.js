@@ -1,5 +1,5 @@
 (function() {
-
+ 
 /**
  * <p>This module is auto-loaded by the scripting plugin and mixed into the 
  * native java class {@class org.openstreetmap.josm.data.Bounds}.</p>

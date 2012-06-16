@@ -1,8 +1,11 @@
-package org.openstreetmap.josm.plugins.scripting.js.api;
+package org.openstreetmap.josm.plugins.scripting.js;
+
+import java.text.MessageFormat;
 
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Function;
 import org.mozilla.javascript.NativeJavaClass;
+import org.mozilla.javascript.ScriptRuntime;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -80,12 +83,16 @@ public class NativeJavaClassWithJSMixin extends NativeJavaClass{
 		if (o instanceof Scriptable) {
 			Object setter = ((Scriptable)o).get("set",(Scriptable)o);
 			if (setter == NOT_FOUND) {
-				WrappingUtil.assertApi(false, "Can''t set property ''{0}''. Javascript wrapper for class ''{1}'' doesn''t include a setter function.", name, javaObject.getClass());				
+				ScriptRuntime.throwError(Context.getCurrentContext(), parent, 
+					MessageFormat.format("Can''t set property ''{0}''. Javascript wrapper for class ''{1}'' doesn''t include a setter function.", name, javaObject.getClass())
+				);
 			} else if (setter instanceof Function) {
 				((Function) setter).call(Context.getCurrentContext(), parent, this, new Object[]{value});
 				return;
 			} else {
-				WrappingUtil.assertApi(false, "Can''t set property ''{0}''. Expected a setter function as value of property ''set'', got {1}",name, setter);
+				ScriptRuntime.throwError(Context.getCurrentContext(), parent, 
+					MessageFormat.format("Can''t set property ''{0}''. Expected a setter function as value of property ''set'', got {1}",name, setter)
+				);
 			}
 		} 
 		super.put(name, start, value);

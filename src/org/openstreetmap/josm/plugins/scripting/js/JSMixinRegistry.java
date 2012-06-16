@@ -1,11 +1,8 @@
-package org.openstreetmap.josm.plugins.scripting.js.api;
+package org.openstreetmap.josm.plugins.scripting.js;
 
-import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.NativeObject;
 import org.mozilla.javascript.RhinoException;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.Wrapper;
@@ -65,6 +62,13 @@ public class JSMixinRegistry {
 
 	static private Map<Class<?>, Scriptable> MIXINS = new HashMap<Class<?>, Scriptable>();
 	
+	static private Object unwrap(Object o) {
+		if (o instanceof Wrapper) {
+			o = ((Wrapper)o).unwrap();
+		}
+		return o;
+	}
+	
 	/**
 	 * <p>Register a mixin for a java class. The mixin is given by the properties in the
 	 * scriptable object <code>mixin</code></p>.
@@ -99,42 +103,32 @@ public class JSMixinRegistry {
 	 * 
 	 * @param parentScope the parent scope to be used when loading the module 
 	 * @param moduleName the module name 
-	 * @throws WrappingException thrown, if an exception occurs
+	 * @throws JSMixinException thrown, if an exception occurs
 	 */
-	static public void loadJSPrototype(Scriptable parentScope, String moduleName) throws WrappingException{
-		Context ctx = Context.getCurrentContext();
-		Scriptable scope = new NativeObject();
-		scope.setParentScope(parentScope);
-		String script = MessageFormat.format("require(''{0}'').forClass;", moduleName);
-		Object o = null;
+	static public void loadJSMixin(Scriptable parentScope, String moduleName) throws JSMixinException{
+		Scriptable module;
 		try {
-			o = ctx.evaluateString(scope, script, "inline", 0, null);
+			module = RhinoEngine.getInstance().require(moduleName);
 		} catch(RhinoException e){
-			throw new WrappingException(
-					MessageFormat.format("Failed to get property ''{0}'' in module ''{1}''.", "forClass",moduleName),
-					e
-			);
-		} 
-		if (o instanceof Wrapper) {
-			o = ((Wrapper)o).unwrap();
+			throw JSMixinException.make(e, "Failed to load module ''{0}'' providing a JS mixin.",moduleName);
 		}
-		if (! (o instanceof Class<?>)) {
-			throw WrappingException.we("Unexpected value for property ''{0}'' in module ''{1}''. Expected a java class object, got {2}", "forClass", moduleName, o);
+		Object forClass = module.get("forClass", module);
+		if (forClass == Scriptable.NOT_FOUND) {
+			throw JSMixinException.make("Property ''{0}'' in module ''{1}'' not found.", "forClass", moduleName);
 		}
-		Class<?> clazz = (Class<?>)o;
-		script = MessageFormat.format("require(''{0}'').mixin", moduleName);
-		try {
-			o = ctx.evaluateString(scope, script, "inline", 0, null);
-		} catch(RhinoException e){
-			throw new WrappingException(
-					MessageFormat.format("Failed to get property ''{0}'' in module ''{1}''.", "mixin",moduleName),
-					e
-			);
-		} 
-		if (! (o instanceof Scriptable)) {
-			throw WrappingException.we("Unexpected value for mixin ''mixin'' in module ''{0}''. Expected a Scriptable, got {1}", "mixin", moduleName, o);
+		forClass = unwrap(forClass);
+		if (! (forClass instanceof Class<?>)) {
+			throw JSMixinException.make("Unexpected value for property ''{0}'' in module ''{1}''. Expected a java class object, got {2}", "forClass", moduleName, forClass);
 		}
-		Scriptable mixin = (Scriptable)o;
-		registerMixin(clazz, mixin);
+		Class<?> clazz = (Class<?>)forClass;
+		
+		Object mixin = module.get("mixin", module);
+		if (mixin == Scriptable.NOT_FOUND) {
+			throw JSMixinException.make("Property ''{0}'' in module ''{1}'' not found.", "mixin", moduleName);
+		}
+		if (! (mixin instanceof Scriptable)) {
+			throw JSMixinException.make("Unexpected value for mixin ''mixin'' in module ''{0}''. Expected a Scriptable, got {1}", "mixin", moduleName, mixin);
+		}
+		registerMixin(clazz, (Scriptable)mixin);
 	}
 }
