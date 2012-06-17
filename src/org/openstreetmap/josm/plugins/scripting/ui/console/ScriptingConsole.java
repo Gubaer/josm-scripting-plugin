@@ -24,6 +24,7 @@ import javax.swing.UIManager;
 
 import org.openstreetmap.josm.data.preferences.BooleanProperty;
 import org.openstreetmap.josm.plugins.scripting.util.Assert;
+import org.openstreetmap.josm.tools.ImageProvider;
 import org.openstreetmap.josm.tools.WindowGeometry;
 
 @SuppressWarnings("serial")
@@ -134,6 +135,8 @@ public class ScriptingConsole extends JFrame {
 		
 		setJMenuBar(buildMenuBar());
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		
+		setIconImage(ImageProvider.get("script-engine").getImage());
 	}	
 	
 	public void setVisible(boolean visible){
