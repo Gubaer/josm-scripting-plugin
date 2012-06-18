@@ -106,7 +106,14 @@ public class GridBagConstraintBuilder {
 		gbc.fill = fill;
 		return this;
 	}
-
+	
+	public GridBagConstraintBuilder fillHorizontal() {
+		return fill(GridBagConstraints.HORIZONTAL);
+	}
+	
+	public GridBagConstraintBuilder fillVertical() {
+		return fill(GridBagConstraints.VERTICAL);
+	}
 	
 	public GridBagConstraintBuilder spacingright(int space){
 		if (gbc.insets == null) {
@@ -129,6 +136,10 @@ public class GridBagConstraintBuilder {
 		return this;
 	}
 	
+	public GridBagConstraintBuilder insets(Insets insets) {
+		gbc.insets = insets;
+		return this;
+	}
 	
 	public GridBagConstraints constraints() {
 		return gbc;

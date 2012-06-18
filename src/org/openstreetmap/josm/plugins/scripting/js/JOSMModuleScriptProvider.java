@@ -11,7 +11,9 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.jar.JarEntry;
@@ -24,6 +26,12 @@ import org.mozilla.javascript.Script;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.commonjs.module.ModuleScript;
 import org.mozilla.javascript.commonjs.module.ModuleScriptProvider;
+import org.openstreetmap.josm.Main;
+import org.openstreetmap.josm.data.Preferences;
+import org.openstreetmap.josm.data.Preferences.PreferenceChangeEvent;
+import org.openstreetmap.josm.data.Preferences.PreferenceChangedListener;
+import org.openstreetmap.josm.plugins.scripting.model.CommonJSModuleRepository;
+import org.openstreetmap.josm.plugins.scripting.model.PreferenceKeys;
 import org.openstreetmap.josm.plugins.scripting.util.Assert;
 
 /**
@@ -33,7 +41,7 @@ import org.openstreetmap.josm.plugins.scripting.util.Assert;
  * application is terminated.</p>
  * 
  */
-public class JOSMModuleScriptProvider implements ModuleScriptProvider {
+public class JOSMModuleScriptProvider implements ModuleScriptProvider, PreferenceChangedListener, PreferenceKeys{
 	static private final Logger logger = Logger.getLogger(JOSMModuleScriptProvider.class.getName());
 	private static boolean DO_TRACE = false;
 	
@@ -42,13 +50,61 @@ public class JOSMModuleScriptProvider implements ModuleScriptProvider {
 		return instance;
 	}
 	
+	/**
+	 * Normalizes a module id. Removes leading and trailing whitespace, replaces \ by /,
+	 * cuts trailing / and makes sure there is exactly one leading / 
+	 * 
+	 * @param moduleId the module id 
+	 * @return the normalized module id 
+	 */
 	static public String normalizeModuleId(String moduleId) {
 		return moduleId.trim()
 				.replace('\\', '/').replaceAll("^\\/+", "").replaceAll("\\/+$","")
 				.replaceAll("\\.[jJ][sS]$", "");
 	}
 	
-	private final List<URL> moduleRepositories = new ArrayList<URL>();
+	/** dynamic module repositories - they are looked up in the current
+	 * session but they are not persistet to preferences 
+	 */
+	private final List<URL> volatileRepos = new ArrayList<URL>();
+	
+	/** the module repositories configured in the preferences */
+	private final List<URL> preferenceRepos = new ArrayList<URL>();
+	
+	private final List<URL> allRepos = new ArrayList<URL>();	
+	protected void rebuildAllRepos() {
+		synchronized (allRepos) {
+			allRepos.clear();
+			allRepos.addAll(volatileRepos);
+			allRepos.addAll(preferenceRepos);
+		}
+	}
+	
+	static public List<URL> loadFromPreferences(Preferences prefs) {
+		Assert.assertArgNotNull(prefs, "prefs");
+		List<URL> ret = new ArrayList<URL>();
+		Collection<String> entries = prefs.getCollection(PREF_KEY_COMMONJS_MODULE_REPOSITORIES);
+		for (Iterator<String> it = entries.iterator(); it.hasNext();) {	
+			String entry = it.next().trim();
+			try {
+				ret.add(new CommonJSModuleRepository(entry).getURL());			
+			} catch(IllegalArgumentException e) {
+				logger.log(Level.WARNING, MessageFormat.format("Failed to create a module repository from preferences value <{0}>. Skipping it.", entry),e);
+				continue;
+			}
+		}
+		return ret;
+	}	
+	
+	static public List<URL> loadFromPreferences(){
+		return loadFromPreferences(Main.pref);
+	}
+
+	public JOSMModuleScriptProvider() {
+		preferenceRepos.addAll(loadFromPreferences());
+		Main.pref.addPreferenceChangeListener(this);
+		rebuildAllRepos();
+	}
 
 	/**
 	 * Adds a repository to the list of repositories where modules are looked up.
@@ -59,12 +115,17 @@ public class JOSMModuleScriptProvider implements ModuleScriptProvider {
 	 */
 	public void addRepository(URL repository) throws IllegalArgumentException {
 		Assert.assertArgNotNull(repository, "repository");
-		Assert.assertArg(repository.getProtocol().equals("file") || repository.getProtocol().equals("jar"), "Expected a file:/ or a jar:/ URL, got {0}", repository);
-		synchronized(moduleRepositories) {
-			if (! moduleRepositories.contains(repository)) {
-				moduleRepositories.add(repository);
+		try {
+			CommonJSModuleRepository repo = new CommonJSModuleRepository(repository);
+			synchronized(volatileRepos) {
+				if (! volatileRepos.contains(repo.getURL())) {
+					volatileRepos.add(repo.getURL());
+				}
 			}
+		} catch(IllegalArgumentException e) {
+			Assert.assertArg(false, "Unexpected url, got {0}. Exception was: {1}", repository, e);
 		}
+		rebuildAllRepos();
 	}
 	
 	/** the cache of compiled modules */
@@ -84,9 +145,6 @@ public class JOSMModuleScriptProvider implements ModuleScriptProvider {
 		logger.log(Level.WARNING, "require: " + MessageFormat.format(msg, args),t);
 	}
 
-	
-	
-	
 	protected URL lookupInDirectory(URL fileUrl, String moduleId) {
 		if (!fileUrl.getProtocol().equals("file")) return null;
 		File dir = new File(fileUrl.getFile());
@@ -193,7 +251,7 @@ public class JOSMModuleScriptProvider implements ModuleScriptProvider {
 	
 	public URL lookup(String moduleId) {
 		moduleId = normalizeModuleId(moduleId);
-		for(URL base: moduleRepositories) {
+		for(URL base: allRepos) {
 			URL url = null;
 			if (base.getProtocol().equals("file")) {
 				url = lookupInDirectory(base, moduleId);
@@ -221,5 +279,14 @@ public class JOSMModuleScriptProvider implements ModuleScriptProvider {
 		// moduleUri and paths are ignored 
 		//
 		return getModuleScript(cx, moduleId);		
+	}
+
+	@Override
+	public void preferenceChanged(PreferenceChangeEvent e) {
+		if (e.getKey().equals(PreferenceKeys.PREF_KEY_COMMONJS_MODULE_REPOSITORIES)) {
+			preferenceRepos.clear();
+			preferenceRepos.addAll(loadFromPreferences());
+			rebuildAllRepos();
+		}
 	}
 }
