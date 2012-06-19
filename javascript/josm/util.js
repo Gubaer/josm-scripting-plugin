@@ -406,3 +406,26 @@ exports.javaEquals = function(o1, o2) {
 	if (o1 === null && o2 !== null) return false;	
 	return o1.equals(o2);
 };
+
+/**
+ * <p>Iterates over the elements in <code>collection</code> and invokes 
+ * <code>delegate()</code> on each element.</p>
+ * 
+ * @param {array|arguments|java.util.Collection} collection the collection of elements
+ * @param {function} delegate the function to call on each elemennt
+ * @memberof josm/util
+ * @method
+ * @summary Iteraties over the elements of a collection 
+ * @name each
+ */
+exports.each = function(collection, delegate) {
+	if (exports.isNothing(collection) || exports.isNothing(delegate)) return;
+	if (exports.isArray(collection) || exports.isArguments(collection)) {
+		var len = collection.length;
+		for (var i=0; i<len; i++) delegate(collection[i]);
+	} else if (collection instanceof java.util.Collection) {
+		for (var it = collection.iterator(); it.hasNext();) delegate(it.next());
+	} else {
+		util.assert(false, "collection: unexpected type of value, got {0}", collection);
+	}
+};
