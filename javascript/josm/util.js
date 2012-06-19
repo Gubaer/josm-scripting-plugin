@@ -429,3 +429,16 @@ exports.each = function(collection, delegate) {
 		util.assert(false, "collection: unexpected type of value, got {0}", collection);
 	}
 };
+
+/**
+ * <p>Replies true, if a value is an array, an arguments list or a Java collection.
+ * 
+ * @param {object} value the value to check
+ * @memberof josm/util
+ * @method
+ * @summary Is a value a collection?
+ * @name isCollection
+ */
+exports.isCollection = function(value) {
+	return exports.isArray(value) || exports.isArguments(value) || value instanceof java.util.Collection; 
+};

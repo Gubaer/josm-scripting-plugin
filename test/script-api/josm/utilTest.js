@@ -41,3 +41,21 @@ tu.suite("josm/util - each",
 		});
 	})	
 ).run();
+
+tu.suite("josm/util - isCollection",
+	tu.test("isCollection - array", function() {
+		util.assert(util.isCollection([]), "array should be a collection");
+	}),
+	tu.test("isCollection - arguments", function() {
+		util.assert(util.isCollection(arguments), "arguments should be a collection");
+	}),
+	tu.test("isCollection - list", function() {
+		util.assert(util.isCollection(new java.util.ArrayList()), "list should be a collection");
+	}),
+	tu.test("isCollection - everything else isn't a collection", function() {
+		util.assert(!util.isCollection(null), "null isn't a collection");
+		util.assert(!util.isCollection(undefined), "undefined isn't a collection");
+		util.assert(!util.isCollection({}), "an object isn't a collection");
+		util.assert(!util.isCollection("foobar"), "an string isn't a collection");
+	})
+).run();
