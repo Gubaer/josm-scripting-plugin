@@ -12,6 +12,7 @@ import java.net.URL;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -97,12 +98,13 @@ public class JOSMModuleScriptProvider implements ModuleScriptProvider, Preferenc
 	}	
 	
 	static public List<URL> loadFromPreferences(){
+		if (Main.pref == null) return Collections.emptyList();
 		return loadFromPreferences(Main.pref);
 	}
 
 	public JOSMModuleScriptProvider() {
 		preferenceRepos.addAll(loadFromPreferences());
-		Main.pref.addPreferenceChangeListener(this);
+		if (Main.pref != null) Main.pref.addPreferenceChangeListener(this);
 		rebuildAllRepos();
 	}
 
