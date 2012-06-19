@@ -1,4 +1,5 @@
 (function() {
+	
 /**
  * <p>Provides access to the JOSM layers.</p>
  * 
@@ -21,15 +22,53 @@ var mv = function() {
  * Replies the number of currently open layers. 
  * 
  * @name length
- * @memberof josm/layers
+ * @memberOf josm/layers
  * @type {number}
- * @readonly
- * @filed
+ * @readOnly
+ * @field
  * @summary Replies the number of currently open layers. 
  */ 
 Object.defineProperty(exports, "length", {
 	get: function() {
 		return mv() == null? 0 : mv().getNumLayers();
+	}
+});
+
+/**
+ * <p>Set or get the active layer.</p> 
+ * 
+ * <dl>
+ *   <dt>get</dt>
+ *   <dd>Replies the active layer or undefined.</dd>
+ *   
+ *   <dt>set</dt>
+ *   <dd>Assign either an existing {@class org.openstreetmap.josm.layer.Layer} , the name of a layer as string, 
+ *   or a layer index as number.</dd>
+ * </dl>
+ * 
+ * @name activeLayer
+ * @memberOf josm/layers
+ * @type {org.openstreetmap.josm.layer.Layer}
+ * @field
+ * @summary Set or get the active layer.
+ */ 
+Object.defineProperty(exports, "activeLayer", {
+	get: function() {
+		return mv() == null? undefined : mv().getActiveLayer();
+	},
+	set: function(value) {
+		if (mv() == null) return;
+		util.assert(util.isSomething(value), "Value must not be null or undefined)");
+		var layer;
+		if (value instanceof Layer) {
+			layer = value; 
+		} else if (util.isNumber(value) || util.isString(value)) {
+			layer = exports.get(value);
+		} else {
+			util.assert(false, "Unexpected type of value, got {0}", value);
+		}
+		util.assert(util.isSomething(layer), "Layer ''{0}'' doesn''t exist. It can''t be set as active layer.", value);
+		mv().setActiveLayer(layer);
 	}
 });
 
