@@ -9,5 +9,6 @@ exports.mixins = [
 	"josm/mixin/DataSetMixin",
 	"josm/mixin/BoundsMixin",
 	"josm/mixin/UploadStrategyMixin",
-	"josm/mixin/ChangesetMixin"
+	"josm/mixin/ChangesetMixin",
+	"josm/mixin/OsmDataLayerMixin"
 ];
