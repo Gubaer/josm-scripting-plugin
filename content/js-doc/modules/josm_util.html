@@ -78,6 +78,11 @@
     </tr>
  
     <tr>
+    	<td><a href="#each">each()</a></td>
+    	<td>Iteraties over the elements of a collection</td>
+    </tr>
+ 
+    <tr>
     	<td><a href="#hasProperties">hasProperties()</a></td>
     	<td>Replies true, if <code>o</code> owns at least one property.</td>
     </tr>
@@ -90,6 +95,11 @@
     <tr>
     	<td><a href="#isArray">isArray()</a></td>
     	<td>Replies true if <code>val</code> is an array.</td>
+    </tr>
+ 
+    <tr>
+    	<td><a href="#isCollection">isCollection()</a></td>
+    	<td>Is a value a collection?</td>
     </tr>
  
     <tr>
@@ -328,6 +338,40 @@ c = util.countProperties(o);       // ->  undefined
 
 
   
+   <p  id="each" class="member-header">
+      each   
+   </p>
+   <p><p>Iterates over the elements in <code>collection</code> and invokes 
+<code>delegate()</code> on each element.</p></p>	
+
+<h3>Parameters</h3>
+<table>
+<tr>
+   <th>Name</th>
+   <th>Type</th>
+   <th>Description</th>
+</tr>
+
+
+<tr>
+     <td>collection</td>    
+     <td>array</td>
+     <td>the collection of elements</td>
+</tr>
+
+
+<tr>
+     <td>delegate</td>    
+     <td>function</td>
+     <td>the function to call on each elemennt</td>
+</tr>
+
+</table>
+
+
+
+
+  
    <p  id="hasProperties" class="member-header">
       hasProperties:boolean   
    </p>
@@ -410,6 +454,32 @@ c = util.hasProperties(o);       // ->  false
 <tr>
      <td>val</td>    
      <td>anything</td>
+     <td>the value to check</td>
+</tr>
+
+</table>
+
+
+
+
+  
+   <p  id="isCollection" class="member-header">
+      isCollection   
+   </p>
+   <p><p>Replies true, if a value is an array, an arguments list or a Java collection.</p>	
+
+<h3>Parameters</h3>
+<table>
+<tr>
+   <th>Name</th>
+   <th>Type</th>
+   <th>Description</th>
+</tr>
+
+
+<tr>
+     <td>value</td>    
+     <td>object</td>
      <td>the value to check</td>
 </tr>
 

@@ -1,0 +1,235 @@
+
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="chrome=1">
+	<title>JOSM Scripting Plugin - JS API documentation</title>
+	<link rel="stylesheet" href="../../stylesheets/styles.css">
+	<link rel="stylesheet" href="../../stylesheets/pygment_trac.css">
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script src="../../stylesheets/respond.js"></script>
+    <link href="http://alexgorbatchev.com/pub/sh/current/styles/shThemeRDark.css" rel="stylesheet" type="text/css" />
+	<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shCore.js" type="text/javascript"></script>
+	<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shBrushJScript.js" type="text/javascript"></script>
+	<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shAutoloader.js" type="text/javascript"></script>
+	<link rel="stylesheet" href="../../stylesheets/apidoc.css">
+	<!--[if lt IE 9]>
+	      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	    <![endif]-->
+	<!--[if lt IE 8]>
+	    <link rel="stylesheet" href="../../stylesheets/ie.css">
+	    <![endif]-->
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1, user-scalable=no">
+	
+	</head>
+<body>	
+	<div class="wrapper">
+		<h1>Module  josm/command</h1>		
+		
+
+
+<p><p>A collection of functions to create commands which can be applied, undone and redone on
+org.opoenstreetmap.josm.gui.layer.OsmDataLayers.</p></p>
+
+
+
+
+
+
+This module provides the following classes:
+<ul>
+
+      <li><a href="../classes/AddCommand.html">AddCommand</a></li>
+
+      <li><a href="../classes/ChangeCommand.html">ChangeCommand</a></li>
+
+      <li><a href="../classes/DeleteCommand.html">DeleteCommand</a></li>
+
+</ul>   
+
+
+
+
+
+
+
+ 
+ <table>
+ <tr>
+ 	<th>Name</th>
+ 	<th>Description</th>
+ </tr>
+ 
+ 
+ 
+ <tr>
+   <td colspan="2">Functions</td>
+ </tr>
+  
+    <tr>
+    	<td><a href="#add">add()</a></td>
+    	<td>Creates a command to add a collection of objects</td>
+    </tr>
+ 
+    <tr>
+    	<td><a href="#change">change()</a></td>
+    	<td>Creates a command to change a collection of objects</td>
+    </tr>
+ 
+    <tr>
+    	<td><a href="#delete">delete()</a></td>
+    	<td>Creates a command to delete a collection of objects</td>
+    </tr>
+ 
+ 
+ </table>
+ 
+
+
+ 
+
+
+
+
+<h2>Functions</h2>
+   
+   <p  id="add" class="member-header">
+      add   
+   </p>
+   <p><p>Creates a command to add a collection of objects to a data layer.</p>
+
+<strong>Signatures</strong>
+<dl>
+  <dt><code class="signature">add(obj, obj, ...)</code> </dt>
+  <dd><code>obj</code> are <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html' alt='org.openstreetmap.josm.data.osm.Node' target='javadoc'>Node</a>s,
+  <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Way.html' alt='org.openstreetmap.josm.data.osm.Way' target='javadoc'>Way</a>s, or
+  <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Relations.html' alt='org.openstreetmap.josm.data.osm.Relations' target='javadoc'>Relations</a>s. Or javascript array
+  or Java collections thereof.</dd>
+</dl></p>	
+
+
+
+   <h3>Examples</h3>
+   <script type="syntaxhighlighter" class="brush:js"><![CDATA[
+ var cmd = require("josm/command");
+var layers = require("josm/layer");
+var layer  = layers.get("Data Layer 1");
+
+// add two nodes 
+cmd.add(n1,n1).applyTo(layer);
+
+// add an array of two nodes and a way  
+layer.apply(
+   cmd.add([n1,n2,w2])
+);
+   ]]></script>
+
+
+  
+   <p  id="change" class="member-header">
+      change   
+   </p>
+   <p><p>Creates a command to change a collection of objects in  a data layer.</p>
+
+<strong>Signatures</strong>
+<dl>
+  <dt><code class="signature">change(obj,obj,..., options)</code> </dt>
+  <dd><code>obj</code> are <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html' alt='org.openstreetmap.josm.data.osm.Node' target='javadoc'>Node</a>s,
+  <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Way.html' alt='org.openstreetmap.josm.data.osm.Way' target='javadoc'>Way</a>s, or
+  <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Relations.html' alt='org.openstreetmap.josm.data.osm.Relations' target='javadoc'>Relations</a>s. Or javascript array
+  or Java collections thereof.</dd>
+</dl>
+
+The mandatory last argument is an object with named parameters. It accepts the following
+named parameters:
+<dl>
+  <dt><code class="signature">lat:number</code></dt>
+  <dd>Changes the latitude of the target nodes to <code>lat</code>.</dd>
+  
+  <dt><code class="signature">lon:number</code></dt>
+  <dd>Changes the longitude of the target nodes to <code>lon</code>.</dd>
+  
+  <dt><code class="signature">pos:<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/coor/LatLon.html' alt='org.openstreetmap.josm.data.coor.LatLon' target='javadoc'>LatLon</a>|object</code></dt>
+  <dd>Changes the position of the target nodes to <code>pos</code>. pos is either a
+  <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/coor/LatLon.html' alt='org.openstreetmap.josm.data.coor.LatLon' target='javadoc'>LatLon</a> or an object <code>{lat:..., lon:...}</code> 
+  </dd>
+  
+  <dt><code class="signature">tags:<a href='http://docs.oracle.com/javase/6/docs/api/java/util/Map.html' alt='java.util.Map' target='javadoc'>Map</a>|object</code></dt>
+  <dd>Changes the tags of the target objects to <code>tags</code>.</dd>
+  
+  <dt><code class="signature">nodes:<a href='http://docs.oracle.com/javase/6/docs/api/java/util/List.html' alt='java.util.List' target='javadoc'>List</a>|array</code></dt>
+  <dd>Changes the nodes of the target way sto <code>nodes</code>.</dd>
+  
+  <dt><code class="signature">members:<a href='http://docs.oracle.com/javase/6/docs/api/java/util/List.html' alt='java.util.List' target='javadoc'>List</a>|array</code></dt>
+  <dd>Changes the nodes of the target relations to <code>members</code>.</dd>
+</dl></p>	
+
+
+
+   <h3>Examples</h3>
+   <script type="syntaxhighlighter" class="brush:js"><![CDATA[
+ var cmd = require("josm/command");
+var layers = require("josm/layer");
+var layer = layers.get("Data Layer 1");
+
+// change the position of a node  
+cmd.change(n1,n1, {lat: 123.45, lon: 44.234}).applyTo(layer);
+
+// change the nodes of a way 
+layer.apply(
+   cmd.change(w2, {nodes: [n1,n2,3]})
+);
+
+// change the tags of a collection of primitives
+cmd.change(n1,n3, w1,r1, {
+   tags: {"mycustommtag": "value"}
+}).applyTo(layer);
+   ]]></script>
+
+
+  
+   <p  id="delete" class="member-header">
+      delete   
+   </p>
+   <p><p>Creates a command to delete a collection of objects in  a data layer.</p>
+
+<strong>Signatures</strong>
+<dl>
+  <dt><code class="signature">delete(obj,obj,..., ?options)</code> </dt>
+  <dd><code>obj</code> are <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html' alt='org.openstreetmap.josm.data.osm.Node' target='javadoc'>Node</a>s,
+  <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Way.html' alt='org.openstreetmap.josm.data.osm.Way' target='javadoc'>Way</a>s, or
+  <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Relations.html' alt='org.openstreetmap.josm.data.osm.Relations' target='javadoc'>Relations</a>s. Or javascript array
+  or Java collections thereof.</dd>
+</dl></p>	
+
+
+
+   <h3>Examples</h3>
+   <script type="syntaxhighlighter" class="brush:js"><![CDATA[
+ var cmd = require("josm/command");
+var layers= require("josm/layer");
+var layer = layers.get("Data Layer 1");
+
+// delete two nodes 
+cmd.delete(n1,n1).applyTo(layer);
+
+// delete an array of two nodes and a way  
+layer.apply(
+   cmd.delete([n1,n2,w2])
+);
+   ]]></script>
+
+
+  
+ 
+		
+	</div><!-- end wrapper -->
+	<script type="text/javascript">
+    SyntaxHighlighter.all();
+	</script>
+	<!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
+</body>
+</html>
