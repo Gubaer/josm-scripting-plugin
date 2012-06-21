@@ -405,6 +405,104 @@ exports.change = function() {
 	var tochange = checkAndFlatten(objs);
 	return new exports.ChangeCommand(tochange, change);
 };
+
+/**
+ * <p>Accessor to the global command history.</p>
+ * 
+ * <p>Provides static methods to redo and undo commands.</p>
+ * 
+ * @name CommandHistory
+ * @namespace
+ * @summary Accessor to the global command history.
+ */
+exports.CommandHistory = {};
+
+/**
+ * Undoes the last <code>depth</code> commands.
+ * 
+ * @method
+ * @name undo
+ * @memberOf Commands
+ * @static
+ * @summary Undoes the last <code>depth</code> commands.
+ * @param {number} depth (optional) the number of commands to be undone. Default if missing: 1 
+ */
+exports.CommandHistory.undo = function(depth) {
+	var Main = org.openstreetmap.josm.Main;
 	
+	if (util.isDef(depth)) {
+		util.assert(util.isNumber(depth), "depth: expected a number, got {0}", depth);
+		util.assert(depth > 0, "depth: expected number > 0, got {0}", depth);
+	}
+	if (!Main.main || !Main.main.undoRedo) return;
+	if (depth){
+		Main.main.undoRedo.undo(depth);
+	} else {
+		Main.main.undoRedo.undo();
+	}
+};
+
+/**
+ * Redoes the last <code>depth</code> commands.
+ * 
+ * @method
+ * @name redo
+ * @memberOf Commands
+ * @static
+ * @summary Redoes the last <code>depth</code> commands.
+ * @param {number} depth (optional) the number of commands to be redone. Default if missing: 1 
+ */
+exports.CommandHistory.redo = function(depth) {
+	var Main = org.openstreetmap.josm.Main;
+	
+	if (util.isDef(depth)) {
+		util.assert(util.isNumber(depth), "depth: expected a number, got {0}", depth);
+		util.assert(depth > 0, "depth: expected number > 0, got {0}", depth);
+	}
+	if (!Main.main || !Main.main.undoRedo) return;
+	if (depth){
+		Main.main.undoRedo.redo(depth);
+	} else {
+		Main.main.undoRedo.redo();
+	}
+};
+
+/**
+ * Removes commands in the command history, either all commands, or only the commands 
+ * applied to a specific layer.
+ * 
+ * @method
+ * @static
+ * @name clear
+ * @summary Removes commands in the command history 
+ * @param {org.openstreetmap.josm.gui.layer.Layer} layer (optional) the reference layer. Only commands 
+ * applied to this layer are remove. Default if missing: <strong>all</strong> commands are removed.
+ */
+exports.CommandHistory.clear = function(layer) {
+	var Main = org.openstreetmap.josm.Main;
+	var Layer = org.openstreetmap.josm.gui.layer.Layer;
+	
+	function clearAll() {
+		if (!Main.main || !Main.main.undoRedo) return;
+		Main.main.undoRedo.clean();
+	}
+	
+	function clearForLayer(layer) {
+		if (!Main.main || !Main.main.undoRedo) return;
+		Main.main.undoRedo.clean(layer);
+	}
+	
+	switch(arguments.length) {
+	case 0: clearAll(); break;
+	case 1: 
+		var layer = arguments[0];
+		util.assert(layer instanceof Layer, "Expected a Layer, got {0}", layer);
+		clearForLayer(layer);
+		break;
+	default:
+		util.assert(false, "Unexpected number of arguments");
+	}
+};
+
 }());
 

@@ -1,6 +1,8 @@
+(function() {
 /**
- * 
- * 
+ * <p>This module is auto-loaded by the scripting plugin. It provides the implementation
+ * of the global <code>josm</code> object.</p>
+ *
  * @module josm 
  * 
  */
@@ -35,6 +37,7 @@ var util = require("josm/util");
  * @summary JOSM version string
  */
 Object.defineProperty(exports, "version", {
+	enumerable: true,
 	get: function() {
 		return Version.getInstance().getVersionString();
 	}
@@ -58,6 +61,7 @@ Object.defineProperty(exports, "version", {
  * @summary accessor for JOSM layers
  */
 Object.defineProperty(exports, "layers", {
+	enumerable: true,
 	get: function() {
 		return require("josm/layers");
 	}
@@ -81,13 +85,14 @@ Object.defineProperty(exports, "layers", {
  *      <dd><code>messageType</code></dt>
  *      <dd>(optional) the message type. Use one of the following values: 
  *         <ul>
- *            <li>JOptionPane.INFORMATION_MESSAGE, "info","information"</li>
- *            <li>JOptionPane.ERROR_MESSAGE, "error"</li>
- *            <li>JOptionPane.WARNING_MESSAGE, "warning", "warn"</li>
- *            <li>JOptionPane.QUESTION_MESSAGE, "question"</li>
- *            <li>JOptionPane.PLAIN_MESSAGE, "plain"</li>
+ *            <li>{@class javax.swing.JOptionPane}.INFORMATION_MESSAGE, "info","information"</li>
+ *            <li>{@class javax.swing.JOptionPane}.ERROR_MESSAGE, "error"</li>
+ *            <li>{@class javax.swing.JOptionPane}.WARNING_MESSAGE, "warning", "warn"</li>
+ *            <li>{@class javax.swing.JOptionPane}.QUESTION_MESSAGE, "question"</li>
+ *            <li>{@class javax.swing.JOptionPane}.PLAIN_MESSAGE, "plain"</li>
  *         </ul>
- *         Default value is OptionPane.INFORMATION_MESSAGE. String values are not case sensitive and leading and
+ *         Default value is {@class javax.swing.JOptionPane}.INFORMATION_MESSAGE.
+ *         String values are not case sensitive and leading and
  *         trailing white space is removed.
  *      </dd>
  *   </dl>
@@ -198,3 +203,31 @@ exports.open = function() {
 	}
 	OpenFileAction.openFiles(files);
 };
+
+/**
+ * <p>Replies the global command history.</p>
+ * 
+ * <p>Use this object to undo/redo commands, or to clear the command history.</p>
+ * 
+ * @example
+ * // undoes the last command 
+ * josm.commands.undo();
+ * 
+ * // redoes two commands
+ * josm.commands.redo(2);
+ * 
+ * @memberOf josm
+ * @name commands
+ * @field
+ * @readOnly
+ * @instance
+ * @type {CommandHistory} 
+ * @summary Replies the global command history.
+ */
+var commands = require("josm/command").CommandHistory;
+Object.defineProperty(exports, "commands", {
+	enumerable: true,
+	value: commands 
+});
+
+}());
