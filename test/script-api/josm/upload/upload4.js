@@ -24,14 +24,10 @@ conf.serverUrl = "http://api06.dev.openstreetmap.org/api";
 conf.setCredentials("basic", {user: "guggis", password:"guggis1234"});
 assertNoProductionServer();
 
-
 var cs = csapi.open();
 
 var node = nb.withPosition(46.9488598, 7.4627158).create();
 api.upload([node], "uploading a node");
-
-
-
 
 data = [];
 for(var i=0; i< 50; i++) {

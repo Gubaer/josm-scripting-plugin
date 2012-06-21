@@ -45,7 +45,6 @@ function toArray(collection){
 	}
 };
 
-
 /**
  * A command to add a collection of objects to a data layer.
  * 
