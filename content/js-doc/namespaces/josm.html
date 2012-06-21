@@ -48,6 +48,11 @@
  </tr>
  
     <tr>
+    	<td><a href="#commands">commands</a></td>
+    	<td>Replies the global command history.</td>
+    </tr>
+ 
+    <tr>
     	<td><a href="#layers">layers</a></td>
     	<td>accessor for JOSM layers</td>
     </tr>
@@ -91,6 +96,20 @@
 
 <h2>Properties</h2>
       
+   <p id="commands" class="member-header">commands:CommandHistory</p>
+   <p><p>Replies the global command history.</p>
+
+<p>Use this object to undo/redo commands, or to clear the command history.</p></p>
+   
+		<script type="syntaxhighlighter" class="brush:js"><![CDATA[
+// undoes the last command 
+josm.commands.undo();
+
+// redoes two commands
+josm.commands.redo(2);
+		]]></script>
+	     
+     
    <p id="layers" class="member-header">layers:object</p>
    <p><p>Replies the layers object.</p></p>
    
@@ -137,13 +156,14 @@ josm.alert(josm.version);
      <dd><code>messageType</code></dt>
      <dd>(optional) the message type. Use one of the following values: 
         <ul>
-           <li>JOptionPane.INFORMATION_MESSAGE, "info","information"</li>
-           <li>JOptionPane.ERROR_MESSAGE, "error"</li>
-           <li>JOptionPane.WARNING_MESSAGE, "warning", "warn"</li>
-           <li>JOptionPane.QUESTION_MESSAGE, "question"</li>
-           <li>JOptionPane.PLAIN_MESSAGE, "plain"</li>
+           <li><a href='http://docs.oracle.com/javase/6/docs/api/javax/swing/JOptionPane.html' alt='javax.swing.JOptionPane' target='javadoc'>JOptionPane</a>.INFORMATION_MESSAGE, "info","information"</li>
+           <li><a href='http://docs.oracle.com/javase/6/docs/api/javax/swing/JOptionPane.html' alt='javax.swing.JOptionPane' target='javadoc'>JOptionPane</a>.ERROR_MESSAGE, "error"</li>
+           <li><a href='http://docs.oracle.com/javase/6/docs/api/javax/swing/JOptionPane.html' alt='javax.swing.JOptionPane' target='javadoc'>JOptionPane</a>.WARNING_MESSAGE, "warning", "warn"</li>
+           <li><a href='http://docs.oracle.com/javase/6/docs/api/javax/swing/JOptionPane.html' alt='javax.swing.JOptionPane' target='javadoc'>JOptionPane</a>.QUESTION_MESSAGE, "question"</li>
+           <li><a href='http://docs.oracle.com/javase/6/docs/api/javax/swing/JOptionPane.html' alt='javax.swing.JOptionPane' target='javadoc'>JOptionPane</a>.PLAIN_MESSAGE, "plain"</li>
         </ul>
-        Default value is OptionPane.INFORMATION_MESSAGE. String values are not case sensitive and leading and
+        Default value is <a href='http://docs.oracle.com/javase/6/docs/api/javax/swing/JOptionPane.html' alt='javax.swing.JOptionPane' target='javadoc'>JOptionPane</a>.INFORMATION_MESSAGE.
+        String values are not case sensitive and leading and
         trailing white space is removed.
      </dd>
   </dl>
