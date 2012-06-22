@@ -10,15 +10,18 @@ var util = require("josm/util");
 var layer = josm.layers.addDataLayer();
 
 var n = nb.create();
-// add a node to a layer
+
+// add a node and check node is there
 command.add(n).applyTo(layer);
+util.assert(layer.data.has(n));
 
-// und and redo
+// undo - node still there? 
 josm.commands.undo();
-josm.commands.redo();
+util.assert(! layer.data.has(n));
 
-// node still there?
-util.assert(layer.data.has(n))
+// redo - node again there?
+josm.commands.redo();
+util.assert(layer.data.has(n));
 
 // clear all commands
 josm.commands.clear();
