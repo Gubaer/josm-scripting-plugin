@@ -26,6 +26,7 @@ var properties = data.get({kind: "member", memberof: doclet.name}).sort(compareB
 var methods = data.get({kind: "function", memberof: doclet.name}).sort(compareByName);
 var classes = data.get({kind: "class", memberof: doclet.name}).sort(compareByName);
 var mixins = data.get({kind: "mixin", memberof: doclet.name}).sort(compareByName);
+var namespaces = data.get({kind: "namespace", memberof: doclet.name}).sort(compareByName);
  ?>
 
 <?js /* --------------------------- list of classes in the module ----------------------- */ ?>
@@ -48,6 +49,18 @@ This module provides the following mixins:
 </ul>   
 <p>Note, that mixins are loaded automatically by by JOSM. You don't have to load them using
 <code>require("my/mixin")</code>.</p>
+<?js } /* end if */ ?>
+
+<?js /* --------------------------- list of namespaces in the module ----------------------- */ ?>
+<?js if (namespaces.length > 0) { ?>
+This module provides the following namespaces:
+<ul>
+<?js     for(var i = 0; i < namespaces.length; i++) {  ?>
+      <li><a href="../namespaces/<?js= namespaces[i].name ?>.html"><?js= namespaces[i].name ?></a></li>
+<?js     }  /* end for */  ?>
+</ul>   
+<p>Namespaces are plain javascript objects. In contrast to classes, they can't be instantiated.
+They are similar to utility java classes, which provide static methods and fields only.</p>
 <?js } /* end if */ ?>
 
 

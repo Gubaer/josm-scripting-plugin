@@ -98,6 +98,8 @@ publish = function(data, opts) {
 				 return MessageFormat.format("<a href=''../mixins/{0}'' alt=''{1}''>{2}</a>", safeHtmlFilename(type), type, content);
 			 } else if (res[0].kind == "module") {
 				 return MessageFormat.format("<a href=''../modules/{0}'' alt=''{1}''>{2}</a>", safeHtmlFilename(type), type, content);
+			 } else if (res[0].kind == "namespace") {
+				 return MessageFormat.format("<a href=''../namespaces/{0}'' alt=''{1}''>{2}</a>", safeHtmlFilename(type), type, content);
 			 }  else {
 				 return type;
 			 }
