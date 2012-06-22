@@ -58,6 +58,11 @@
     </tr>
  
     <tr>
+    	<td><a href="#menu">menu</a></td>
+    	<td>Replies an accessor for JOSMs menu bar.</td>
+    </tr>
+ 
+    <tr>
     	<td><a href="#version">version</a></td>
     	<td>JOSM version string</td>
     </tr>
@@ -96,7 +101,7 @@
 
 <h2>Properties</h2>
       
-   <p id="commands" class="member-header">commands:CommandHistory</p>
+   <p id="commands" class="member-header">commands:<a href='../namespaces/CommandHistory.html' alt='CommandHistory'>CommandHistory</a></p>
    <p><p>Replies the global command history.</p>
 
 <p>Use this object to undo/redo commands, or to clear the command history.</p></p>
@@ -120,6 +125,13 @@ josm.alert("num layers: " + josm.layers.length);
 josm.alert("num layers: " + josm.layers.get(0).name);
 		]]></script>
 	     
+     
+   <p id="menu" class="member-header">menu:<a href='../namespaces/MenuBar.html' alt='MenuBar'>MenuBar</a></p>
+   <p><p>Replies an accessor for JOSMs menu bar.</p>
+
+<p>Use this object to inspect or modify the menu bar, i.e. to add additional menu
+items.</p></p>
+        
      
    <p id="version" class="member-header">version:string</p>
    <p><p>Replies the current JOSM version string.</p></p>

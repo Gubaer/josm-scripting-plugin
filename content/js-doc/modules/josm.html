@@ -45,6 +45,9 @@ of the global <code>josm</code> object.</p></p>
 
 
 
+
+
+
  
  <table>
  <tr>
@@ -64,6 +67,11 @@ of the global <code>josm</code> object.</p></p>
     <tr>
     	<td><a href="#layers">layers</a></td>
     	<td>accessor for JOSM layers</td>
+    </tr>
+ 
+    <tr>
+    	<td><a href="#menu">menu</a></td>
+    	<td>Replies an accessor for JOSMs menu bar.</td>
     </tr>
  
     <tr>
@@ -120,6 +128,13 @@ josm.alert("num layers: " + josm.layers.length);
 josm.alert("num layers: " + josm.layers.get(0).name);
 		]]></script>
 	     
+     
+   <p id="menu" class="member-header">menu:MenuBar</p>
+   <p><p>Replies an accessor for JOSMs menu bar.</p>
+
+<p>Use this object to inspect or modify the menu bar, i.e. to add additional menu
+items.</p></p>
+        
      
    <p id="version" class="member-header">version:string</p>
    <p><p>Replies the current JOSM version string.</p></p>
