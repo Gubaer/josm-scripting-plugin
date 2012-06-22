@@ -196,7 +196,7 @@ mixin.tooltip = {
  * @method
  * @name addToMenu
  * @summary Adds an action to a menu.
- * @memberOf JSMenuMixin
+ * @memberOf JSActionMixin
  * @instance
  * @param {java.swing.JMenu} menu  the menu. This should be one of the global JOSM menus.
  * @param {number} index (optional) the index where to add the menu. Default if missing: adds the menu at the end
@@ -291,7 +291,7 @@ function afterFromOptions(options) {
  * @method
  * @name addToToolbar
  * @summary Adds an action to the toolbar.
- * @memberOf JSMenuMixin
+ * @memberOf JSActionMixin
  * @instance
  * @param {objects} options  optional named parameters
  */
