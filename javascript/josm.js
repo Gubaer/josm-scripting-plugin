@@ -230,4 +230,24 @@ Object.defineProperty(exports, "commands", {
 	value: commands 
 });
 
+/**
+ * <p>Replies an accessor for JOSMs menu bar.</p>
+ * 
+ * <p>Use this object to inspect or modify the menu bar, i.e. to add additional menu
+ * items.</p>
+ * 
+ * @memberOf josm
+ * @name menu
+ * @field
+ * @readOnly
+ * @instance
+ * @type {MenuBar} 
+ * @summary Replies an accessor for JOSMs menu bar.
+ */
+var menu = require("josm/ui/menu").MenuBar;
+Object.defineProperty(exports, "menu", {
+	enumerable: true,
+	value: menu 
+});
+
 }());

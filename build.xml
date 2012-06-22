@@ -250,6 +250,7 @@
 			<arg value="javascript/josm/layers.js"/>
 			<arg value="javascript/josm/api.js"/>
 			<arg value="javascript/josm/command.js"/>
+			<arg value="javascript/josm/ui/menu.js"/>
 			<arg value="javascript/josm/mixin/RelationMixin.js"/>
 			<arg value="javascript/josm/mixin/OsmPrimitiveMixin.js"/>
 			<arg value="javascript/josm/mixin/NodeMixin.js"/>
