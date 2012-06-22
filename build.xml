@@ -261,6 +261,7 @@
 			<arg value="javascript/josm/mixin/UploadStrategyMixin.js"/>
 			<arg value="javascript/josm/mixin/OsmDataLayerMixin.js"/>
 			<arg value="javascript/josm/mixin/ChangesetMixin.js"/>
+			<arg value="javascript/josm/mixin/JSActionMixin.js"/>
 		</exec>
 	</target>	
 </project>
