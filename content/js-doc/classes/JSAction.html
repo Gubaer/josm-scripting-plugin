@@ -1,0 +1,114 @@
+
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="chrome=1">
+	<title>JOSM Scripting Plugin - JS API documentation</title>
+	<link rel="stylesheet" href="../../stylesheets/styles.css">
+	<link rel="stylesheet" href="../../stylesheets/pygment_trac.css">
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script src="../../stylesheets/respond.js"></script>
+    <link href="http://alexgorbatchev.com/pub/sh/current/styles/shThemeRDark.css" rel="stylesheet" type="text/css" />
+	<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shCore.js" type="text/javascript"></script>
+	<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shBrushJScript.js" type="text/javascript"></script>
+	<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shAutoloader.js" type="text/javascript"></script>
+	<link rel="stylesheet" href="../../stylesheets/apidoc.css">
+	<!--[if lt IE 9]>
+	      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	    <![endif]-->
+	<!--[if lt IE 8]>
+	    <link rel="stylesheet" href="../../stylesheets/ie.css">
+	    <![endif]-->
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1, user-scalable=no">
+	
+	</head>
+<body>	
+	<div class="wrapper">
+		<h1>Class JSAction</h1>		
+		
+
+
+<p><p>JosmAction is an action for which a menu item or a toolbar item can be added to 
+JOSMs menu or JOSMs toolbar respectively.</p>
+
+<p>This is just a shortcut for the Java class 
+<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/plugins/scripting/js/JSAction.html' alt='org.openstreetmap.josm.plugins.scripting.js.JSAction' target='javadoc'>JSAction</a>.</p>
+
+<p>The method accepts an object with the following optional named parameters.</p>
+<dl>
+  <dt><code class="signature">name:string</code></dt>
+  <dd>The optional name of the action. Default: an auto generated named.</dd>
+  
+  <dt><code class="signature">tooltip:string</code></dt>
+  <dd>The optional tooltip of the action. Default: empty string.</dd>
+  
+  <dt><code class="signature">iconName:string</code></dt>
+  <dd>The optional name of an icon. Default: null.</dd>
+  
+  <dt><code class="signature">toolbarId:string</code></dt>
+  <dd>The optional name of the tooblar, this action is going to be added to later. Note, that
+  it isn't added automatically, when this action is created. Default: null.</dd>
+  
+  <dt><code class="signature">onExecute:function</code></dt>
+  <dd>The (optional) function which is called when the action is executed. Default: null.</dd>
+
+  <dt><code class="signature">onInitEnabled:function</code></dt>
+  <dd>The (optional) function which is called when the <em>enabled</em> state of the function
+  is evaluated the first time. Default: null.</dd>
+  
+  <dt><code class="signature">onUpdateEnabled:function</code></dt>
+  <dd>The (optional) function which is called when the <em>enabled</em> state of the function
+  is reevaluated, in particular, when layer change events or selection change events occur. Default: null.</dd>
+</dl></p>
+
+<script type="syntaxhighlighter" class="brush:js"><![CDATA[
+var JSAction = require("josm/ui/menu").JSAction;
+var action = new JSAction({
+	  name: "My Action",
+   tooltip: "This is my action",
+   onInitEnabled: function() {
+      this.enabled = false;
+   }
+});
+
+action.onExecute = function() {
+   josm.alert("Action is executing ...");
+};
+]]></script>
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+
+
+
+
+
+
+ 
+
+
+
+ 
+
+
+
+
+
+		
+	</div><!-- end wrapper -->
+	<script type="text/javascript">
+    SyntaxHighlighter.all();
+	</script>
+	<!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
+</body>
+</html>

@@ -39,9 +39,39 @@
  
  
  
+ <table>
+ <tr>
+ 	<th>Name</th>
+ 	<th>Description</th>
+ </tr>
  
  
  
+ <tr>
+   <td colspan="2">Functions</td>
+ </tr>
+  
+    <tr>
+    	<td><a href="#clear">clear()</a></td>
+    	<td>Removes commands in the command history</td>
+    </tr>
+ 
+    <tr>
+    	<td><a href="#redo">redo()</a></td>
+    	<td>Redoes the last <code>depth</code> commands.</td>
+    </tr>
+ 
+    <tr>
+    	<td><a href="#undo">undo()</a></td>
+    	<td>Undoes the last <code>depth</code> commands.</td>
+    </tr>
+ 
+ 
+ </table>
+ 
+ 
+ 
+ 
 
 
 
@@ -54,6 +84,89 @@
 
 
 
+
+<h2>Functions</h2>
+   
+   <p  id="clear" class="member-header">
+      clear   
+   </p>
+   <p>Removes commands in the command history, either all commands, or only the commands 
+applied to a specific layer.</p>	
+
+<h3>Parameters</h3>
+<table>
+<tr>
+   <th>Name</th>
+   <th>Type</th>
+   <th>Description</th>
+</tr>
+
+
+<tr>
+     <td>layer</td>    
+     <td><a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/gui/layer/Layer.html' alt='org.openstreetmap.josm.gui.layer.Layer' target='javadoc'>Layer</a></td>
+     <td>(optional) the reference layer. Only commands 
+applied to this layer are remove. Default if missing: <strong>all</strong> commands are removed.</td>
+</tr>
+
+</table>
+
+
+
+
+  
+   <p  id="redo" class="member-header">
+      redo   
+   </p>
+   <p>Redoes the last <code>depth</code> commands.</p>	
+
+<h3>Parameters</h3>
+<table>
+<tr>
+   <th>Name</th>
+   <th>Type</th>
+   <th>Description</th>
+</tr>
+
+
+<tr>
+     <td>depth</td>    
+     <td>number</td>
+     <td>(optional) the number of commands to be redone. Default if missing: 1</td>
+</tr>
+
+</table>
+
+
+
+
+  
+   <p  id="undo" class="member-header">
+      undo   
+   </p>
+   <p>Undoes the last <code>depth</code> commands.</p>	
+
+<h3>Parameters</h3>
+<table>
+<tr>
+   <th>Name</th>
+   <th>Type</th>
+   <th>Description</th>
+</tr>
+
+
+<tr>
+     <td>depth</td>    
+     <td>number</td>
+     <td>(optional) the number of commands to be undone. Default if missing: 1</td>
+</tr>
+
+</table>
+
+
+
+
+  
  
 
 

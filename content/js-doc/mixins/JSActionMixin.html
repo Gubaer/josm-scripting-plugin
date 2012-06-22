@@ -1,0 +1,178 @@
+
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="chrome=1">
+	<title>JOSM Scripting Plugin - JS API documentation</title>
+	<link rel="stylesheet" href="../../stylesheets/styles.css">
+	<link rel="stylesheet" href="../../stylesheets/pygment_trac.css">
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script src="../../stylesheets/respond.js"></script>
+    <link href="http://alexgorbatchev.com/pub/sh/current/styles/shThemeRDark.css" rel="stylesheet" type="text/css" />
+	<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shCore.js" type="text/javascript"></script>
+	<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shBrushJScript.js" type="text/javascript"></script>
+	<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shAutoloader.js" type="text/javascript"></script>
+	<link rel="stylesheet" href="../../stylesheets/apidoc.css">
+	<!--[if lt IE 9]>
+	      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	    <![endif]-->
+	<!--[if lt IE 8]>
+	    <link rel="stylesheet" href="../../stylesheets/ie.css">
+	    <![endif]-->
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1, user-scalable=no">
+	
+	</head>
+<body>	
+	<div class="wrapper">
+		<h1>Mixin JSActionMixin</h1>		
+		
+
+
+<p><p>This mixin is auto-loaded by the scripting plugin and mixed into the 
+native java class <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/plugins/scripting/js/JSAction.html' alt='org.openstreetmap.josm.plugins.scripting.js.JSAction' target='javadoc'>JSAction</a>. It
+provides additional properties and methods which you can invoke on an instance of
+<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/plugins/scripting/js/JSAction.html' alt='org.openstreetmap.josm.plugins.scripting.js.JSAction' target='javadoc'>JSAction</a>.</p></p>
+
+ 
+ 
+ 
+ 
+ <table>
+ <tr>
+ 	<th>Name</th>
+ 	<th>Description</th>
+ </tr>
+ 
+ <tr>
+   <td colspan="2">Properties</td>
+ </tr>
+ 
+    <tr>
+    	<td><a href="#name">name</a></td>
+    	<td>Set or get the name.</td>
+    </tr>
+ 
+    <tr>
+    	<td><a href="#onExecute">onExecute</a></td>
+    	<td>Set or get the function to be called when the action is executed.</td>
+    </tr>
+ 
+    <tr>
+    	<td><a href="#onInitEnabled">onInitEnabled</a></td>
+    	<td>Set or get the function to be called when the <em>enabled</em> state of the
+action should be reevaluated.</td>
+    </tr>
+ 
+    <tr>
+    	<td><a href="#onUpdateEnabled">onUpdateEnabled</a></td>
+    	<td>Set or get the function to be called when the <em>enabled</em> state of the
+action should be reevaluated.</td>
+    </tr>
+ 
+    <tr>
+    	<td><a href="#tooltip">tooltip</a></td>
+    	<td>Set or get the tooltip text.</td>
+    </tr>
+ 
+ 
+ 
+ 
+ </table>
+ 
+ 
+ 
+ 
+
+
+<p>This mixin provides additional properties and methods for the native Java class 
+<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/plugins/scripting/js/JSAction.html' alt='org.openstreetmap.josm.plugins.scripting.js.JSAction' target='javadoc'>JSAction</a>, whose native public methods are available
+for scripting, too. If a native method name is hidden by property name in the mixin,
+prefix the native name with <code>$</code>.</p>
+
+
+
+
+
+
+
+
+<h2>Properties</h2>
+      
+   <p id="name" class="member-header">name:String</p>
+   <p><p>Set or get the name.</p>
+
+<dl>
+  <dt>get</dt>
+  <dd>Replies the name as string, or undefined, if no name is set. </dd>
+  <dt>set</dt>
+  <dd>Set null or undefined, to clear the name. Any other value is converted to a string.</dd>
+</dl></p>
+        
+     
+   <p id="onExecute" class="member-header">onExecute:function</p>
+   <p><p>Set or get the function to be called when the action is executed.</p>
+
+<dl>
+  <dt>get</dt>
+  <dd>Replies the function or undefined, if no function has been assigned. </dd>
+  <dt>set</dt>
+  <dd>Set the function, or null or undefined to remove the function.</dd>
+</dl></p>
+        
+     
+   <p id="onInitEnabled" class="member-header">onInitEnabled:function</p>
+   <p><p>Set or get the function to be called when the <em>enabled</em> state should
+be initialized.</p>
+
+<dl>
+  <dt>get</dt>
+  <dd>Replies the function or undefined, if no function has been assigned. </dd>
+  <dt>set</dt>
+  <dd>Set the function, or null or undefined to remove the function.</dd>
+</dl></p>
+        
+     
+   <p id="onUpdateEnabled" class="member-header">onUpdateEnabled:function</p>
+   <p><p>Set or get the function to be called when the <em>enabled</em> state of the
+action should be reevaluated.</p>
+
+<dl>
+  <dt>get</dt>
+  <dd>Replies the function or undefined, if no function has been assigned. </dd>
+  <dt>set</dt>
+  <dd>Set the function, or null or undefined to remove the function.</dd>
+</dl></p>
+        
+     
+   <p id="tooltip" class="member-header">tooltip:String</p>
+   <p><p>Set or get the tooltip text.</p>
+
+<dl>
+  <dt>get</dt>
+  <dd>Replies the tooltip as string, or undefined, if no tooltip is set. </dd>
+  <dt>set</dt>
+  <dd>Set null or undefined, to clear the tooltip. Any other value is converted to a string.</dd>
+</dl></p>
+        
+  
+ 
+
+
+
+ 
+
+
+
+
+
+		
+	</div><!-- end wrapper -->
+	<script type="text/javascript">
+    SyntaxHighlighter.all();
+	</script>
+	<!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
+</body>
+</html>
