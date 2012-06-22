@@ -59,11 +59,14 @@ public class JSAction extends JosmAction {
 		if (icon != null) {
 			putValue(SMALL_ICON, icon);
 		}
-		if (toolbarId != null) {
-			// just remember the id. It will be used later, when the action is added
-			// to the toolbar 
-			this.putValue("toolbar", toolbarId);
+		if (toolbarId == null) {
+			// automatically generate a toolbar id, if missing
+			toolbarId = "toolbar" + counter.incrementAndGet();
 		}
+		// just remember the id. It will be used later, when the action is added
+		// to the toolbar 
+		this.putValue("toolbar", toolbarId);
+		
 		// FIXME should accept shortcut as parameter
 		this.sc = Shortcut.registerShortcut(name, name, KeyEvent.VK_0, Shortcut.NONE);		
 		Main.registerActionShortcut(this, sc);

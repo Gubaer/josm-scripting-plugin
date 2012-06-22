@@ -101,7 +101,15 @@ action.onUpdateEnabled = onUpdateEnabled;
 
 //--------------- tests for adding the action to a menu  -----------------
 // add the action to the menu
-action.addTo(josm.menu.get("edit"));
+action.addToMenu(josm.menu.get("edit"));
+
+//--------------- tests for adding the action to the toolbar --------------
+//action.addToToolbar({at: "start"});
+//action.addToToolbar({at: "end"});
+//action.addToToolbar({at: 5});
+//action.addToToolbar({after: "open"});
+//action.addToToolbar({before: "upload"});
+action.addToToolbar();
 
 
 // continue manually:
