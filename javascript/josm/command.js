@@ -422,7 +422,7 @@ exports.CommandHistory = {};
  * 
  * @method
  * @name undo
- * @memberOf Commands
+ * @memberOf CommandHistory
  * @static
  * @summary Undoes the last <code>depth</code> commands.
  * @param {number} depth (optional) the number of commands to be undone. Default if missing: 1 
@@ -445,9 +445,10 @@ exports.CommandHistory.undo = function(depth) {
 /**
  * Redoes the last <code>depth</code> commands.
  * 
+ * @memberOf CommandHistory
  * @method
  * @name redo
- * @memberOf Commands
+ * @memberOf CommandHistory
  * @static
  * @summary Redoes the last <code>depth</code> commands.
  * @param {number} depth (optional) the number of commands to be redone. Default if missing: 1 
@@ -471,6 +472,7 @@ exports.CommandHistory.redo = function(depth) {
  * Removes commands in the command history, either all commands, or only the commands 
  * applied to a specific layer.
  * 
+ * @memberOf CommandHistory
  * @method
  * @static
  * @name clear
