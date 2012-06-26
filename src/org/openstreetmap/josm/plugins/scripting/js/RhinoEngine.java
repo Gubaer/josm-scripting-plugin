@@ -18,12 +18,15 @@ import javax.swing.SwingUtilities;
 
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.EvaluatorException;
+import org.mozilla.javascript.Function;
 import org.mozilla.javascript.NativeArray;
 import org.mozilla.javascript.NativeObject;
+import org.mozilla.javascript.RhinoException;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.commonjs.module.Require;
 import org.openstreetmap.josm.plugins.PluginException;
 import org.openstreetmap.josm.plugins.PluginInformation;
+import org.openstreetmap.josm.plugins.scripting.ScriptingPlugin;
 import org.openstreetmap.josm.plugins.scripting.util.Assert;
 import org.openstreetmap.josm.plugins.scripting.util.ExceptionUtil;
 import org.openstreetmap.josm.plugins.scripting.util.IOUtil;
@@ -81,6 +84,25 @@ public class RhinoEngine {
 			));
 		}
 	}
+	
+	protected URL buildRepositoryUrlForBuiltinModules() {
+		try {
+			PluginInformation info = PluginInformation.findPlugin("scripting");
+			if (info != null) {
+				return new URL(String.format("jar:%s!/js", info.file.toURI().toURL()));
+			} else {
+				logger.warning("Plugin information for plugin 'scripting' not found. Failed to initialize CommonJS module loader with path.");
+			}
+			
+		} catch (PluginException e) {
+			logger.log(Level.WARNING, "Failed to lookup plugin information for plugin 'scripting'. Cannot load CommonJS modules from the plugin jar.",e);
+			e.printStackTrace();
+		} catch(MalformedURLException e) {
+			logger.log(Level.WARNING, "Failed to create URL referring to the CommonJS modules in the plugin jar. Cannot load CommonJS mdodules from the plugin jar.",e);
+			e.printStackTrace();
+		}
+		return null;
+	}
 		
 	/**
 	 * <p>Initializes a standard scope for scripts running in the context of a JOSM instance.</p>
@@ -91,26 +113,21 @@ public class RhinoEngine {
 		Context ctx = Context.getCurrentContext();
 		if (ctx == null) ctx = Context.enter();
 		scope = ctx.initStandardObjects();
-				
-		String pluginJSURL = null;
-		try {
-			PluginInformation info = PluginInformation.findPlugin("scripting");
-			if (info != null) {
-				pluginJSURL = "jar:" + info.file.toURI().toURL().toString() + "!" + "/js";
-			} else {
-				logger.warning("Plugin information for plugin 'scripting' not found. Failed to initialize CommonJS module loader with path.");
-			}
-		} catch (PluginException e) {
-			e.printStackTrace();
-		} catch(MalformedURLException e) {
-			e.printStackTrace();
-		}
+		
+		JOSMModuleScriptProvider provider = JOSMModuleScriptProvider.getInstance();
+		URL pluginJSURL = buildRepositoryUrlForBuiltinModules();
 		if (pluginJSURL != null) {
-			try {
-				JOSMModuleScriptProvider.getInstance().addRepository(new URL(pluginJSURL));
-			} catch(MalformedURLException e){
-				logger.log(Level.WARNING, tr("Failed to create URL referring to the Javascript files in the 'scripting' jar."),e);
-			}
+			provider.addRepository(pluginJSURL);
+		}
+		
+		// add the $PLUGIN_HOME/modules to the list of module repositories
+		//
+		String dir = ScriptingPlugin.getInstance().getPluginDir();
+		File f = new File(new File(dir), "modules");
+		try {
+			provider.addRepository(f.toURI().toURL());
+		} catch(MalformedURLException e) {
+			logger.log(Level.WARNING, tr("Failed to create URL referring to the module repository ''{0}''", f),e);
 		}
 		// create and install the require function
 		require = new Require(ctx,scope, JOSMModuleScriptProvider.getInstance(), null, null, false);
@@ -240,5 +257,59 @@ public class RhinoEngine {
 		} finally {
 			IOUtil.close(reader);
 		}
+	}
+	
+	public File getStartScript() {
+		String dir = ScriptingPlugin.getInstance().getPluginDir();
+		return new File(new File(dir), "start.js"); 
+	}
+	
+	public void executeOnSwingEDT(final Function f) {
+		executeOnSwingEDT(f, null);
+	}
+	
+	public void executeOnSwingEDT(final Function f, Object[] args) {
+		final Object[] aargs = args == null ? new Object[]{} : args;
+		Runnable r = new Runnable() {
+			public void run() { 
+				f.call(Context.getCurrentContext(), getScope(), null, aargs);
+			}
+		};
+		enterSwingThreadContext();
+		try {
+			runOnSwingEDT(r);
+		} catch(RhinoException e) {
+			logger.log(Level.SEVERE, "Caught exception from JavaScript function", e);
+		}
+	}
+	
+	public void runStartScript() {
+		Scriptable start = require("onstart");
+		if (start == null) {
+			logger.warning(MessageFormat.format(
+			   "Failed to load start module ''{0}''. Skipping startup script.", "onstart"
+			));
+			return;
+		}
+		Object o = start.get("run", start);
+		if (o == Scriptable.NOT_FOUND){
+			logger.warning(MessageFormat.format(
+			    "Startup module ''{0}'' doesn''t provide a ''run'' method. Skipping startup script.", "onstart"
+			));
+			return;
+		}
+		if (! (o instanceof Function)) {
+			logger.warning(MessageFormat.format(
+				"Exported property ''run'' in tartup module ''{0}'' should be a function, got {1} instead. Skipping startup script.", "onstart", o
+			));
+			return;			
+		}
+		final Function f = (Function)o;
+		Runnable r = new Runnable() {
+			public void run() {
+				f.call(Context.getCurrentContext(), getScope(), null, new Object[]{});
+			}
+		};
+		runOnSwingEDT(r);
 	}
 }
