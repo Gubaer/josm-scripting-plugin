@@ -26,7 +26,18 @@
 	
 	</head>
 <body>	
-	<div class="wrapper">
+
+    <div id="header">
+        <nav>
+        <li><a href="../../index.html">Home</a></li>
+        <li><a href="../documentation.html">Documentation</a></li>
+        <li><a href="index.html">API</a></li>
+        <li class="downloads"><a href="../install.html">Install</a></li>
+        <li class="downloads"><a href="http://github.com/gubaer/josm-scripting-plugin">GitHub</a></li>        
+        </nav>   
+      </div><!-- end header -->
+      <div class="wrapper">
+	<section>
 		<h1>JOSM Scripting Plugin - JS API documentation</h1>		
 		
 <script>
@@ -67,6 +78,53 @@ function loadDocPage(page) {
 <li><a onclick="loadDocPage('classes/RelationBuilder.html')" target="api-doc">RelationBuilder</a></li> 
 
 <li><a onclick="loadDocPage('classes/WayBuilder.html')" target="api-doc">WayBuilder</a></li> 
+
+</ul>
+
+
+
+
+
+
+<h2>Namespaces</h2>
+<ul>
+
+<li><a onclick="loadDocPage('namespaces/CommandHistory.html')" target="api-doc">CommandHistory</a></li> 
+
+<li><a onclick="loadDocPage('namespaces/MenuBar.html')" target="api-doc">MenuBar</a></li> 
+
+<li><a onclick="loadDocPage('namespaces/josm.html')" target="api-doc">josm</a></li> 
+
+</ul>
+
+
+
+
+
+<h2>Mixins</h2>
+<ul>
+
+<li><a onclick="loadDocPage('mixins/BoundsMixin.html')" target="api-doc">BoundsMixin</a></li> 
+
+<li><a onclick="loadDocPage('mixins/ChangesetMixin.html')" target="api-doc">ChangesetMixin</a></li> 
+
+<li><a onclick="loadDocPage('mixins/DataSetMixin.html')" target="api-doc">DataSetMixin</a></li> 
+
+<li><a onclick="loadDocPage('mixins/JSActionMixin.html')" target="api-doc">JSActionMixin</a></li> 
+
+<li><a onclick="loadDocPage('mixins/LatLonMixin.html')" target="api-doc">LatLonMixin</a></li> 
+
+<li><a onclick="loadDocPage('mixins/NodeMixin.html')" target="api-doc">NodeMixin</a></li> 
+
+<li><a onclick="loadDocPage('mixins/OsmDataLayerMixin.html')" target="api-doc">OsmDataLayerMixin</a></li> 
+
+<li><a onclick="loadDocPage('mixins/OsmPrimitiveMixin.html')" target="api-doc">OsmPrimitiveMixin</a></li> 
+
+<li><a onclick="loadDocPage('mixins/RelationMixin.html')" target="api-doc">RelationMixin</a></li> 
+
+<li><a onclick="loadDocPage('mixins/UploadStrategyMixin.html')" target="api-doc">UploadStrategyMixin</a></li> 
+
+<li><a onclick="loadDocPage('mixins/WayMixin.html')" target="api-doc">WayMixin</a></li> 
 
 </ul>
 
@@ -115,52 +173,6 @@ function loadDocPage(page) {
 
 </ul>
 
-
-
-
-
-<h2>Namespaces</h2>
-<ul>
-
-<li><a onclick="loadDocPage('namespaces/CommandHistory.html')" target="api-doc">CommandHistory</a></li> 
-
-<li><a onclick="loadDocPage('namespaces/MenuBar.html')" target="api-doc">MenuBar</a></li> 
-
-<li><a onclick="loadDocPage('namespaces/josm.html')" target="api-doc">josm</a></li> 
-
-</ul>
-
-
-
-
-
-<h2>Mixins</h2>
-<ul>
-
-<li><a onclick="loadDocPage('mixins/BoundsMixin.html')" target="api-doc">BoundsMixin</a></li> 
-
-<li><a onclick="loadDocPage('mixins/ChangesetMixin.html')" target="api-doc">ChangesetMixin</a></li> 
-
-<li><a onclick="loadDocPage('mixins/DataSetMixin.html')" target="api-doc">DataSetMixin</a></li> 
-
-<li><a onclick="loadDocPage('mixins/JSActionMixin.html')" target="api-doc">JSActionMixin</a></li> 
-
-<li><a onclick="loadDocPage('mixins/LatLonMixin.html')" target="api-doc">LatLonMixin</a></li> 
-
-<li><a onclick="loadDocPage('mixins/NodeMixin.html')" target="api-doc">NodeMixin</a></li> 
-
-<li><a onclick="loadDocPage('mixins/OsmDataLayerMixin.html')" target="api-doc">OsmDataLayerMixin</a></li> 
-
-<li><a onclick="loadDocPage('mixins/OsmPrimitiveMixin.html')" target="api-doc">OsmPrimitiveMixin</a></li> 
-
-<li><a onclick="loadDocPage('mixins/RelationMixin.html')" target="api-doc">RelationMixin</a></li> 
-
-<li><a onclick="loadDocPage('mixins/UploadStrategyMixin.html')" target="api-doc">UploadStrategyMixin</a></li> 
-
-<li><a onclick="loadDocPage('mixins/WayMixin.html')" target="api-doc">WayMixin</a></li> 
-
-</ul>
-
 </div>
 
 <div id="content">
@@ -168,7 +180,10 @@ function loadDocPage(page) {
 </div>
 <div style="clear:both;"></div>
 		
+	</section>
 	</div><!-- end wrapper -->
+          
+	
 	<script type="text/javascript">
     SyntaxHighlighter.all();
 	</script>

@@ -26,7 +26,8 @@
 	
 	</head>
 <body>	
-	<div class="wrapper">
+
+     <div class="wrapper">
 		<h1>Class Api</h1>		
 		
 
@@ -261,7 +262,7 @@ var ds3 = api.downloadReferrer(id, {full: true});
 <p>This method supports the same upload strategy as the JOSM upload dialog. Supply the named
 parameter <code>{strategy: ...}</code> to choose the strategy.</p>
 
-<p style="background-color: #FAC0C7;border-style: solid; border-color: white;">
+<p style="background-color: red;border-style: solid; border-color: white;">
 Be careful when uploading data to the OSM server! Make sure not to upload copyright protected data
 or test data.
 </p>
@@ -286,9 +287,9 @@ the successfully uploaded objects.</p>
      Default falue: UploadStrategy.DEFAULT_UPLOAD_STRATEGY
   </dd>
   
-   <dt><code class="signature">changeset: number|<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Changset.html' alt='org.openstreetmap.josm.data.osm.Changset' target='javadoc'>Changset</a></code></dt>
+   <dt><code class="signature">changeset: number|<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Changeset.html' alt='org.openstreetmap.josm.data.osm.Changeset' target='javadoc'>Changeset</a></code></dt>
    <dd>The changeset to which the data is uploaded. Either a number (the changeset id) or a 
-   <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Changset.html' alt='org.openstreetmap.josm.data.osm.Changset' target='javadoc'>Changset</a> instance. Default: creates a new changeset.</dd>
+   <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Changeset.html' alt='org.openstreetmap.josm.data.osm.Changeset' target='javadoc'>Changeset</a> instance. Default: creates a new changeset.</dd>
    
    <dt><code class="signature">chunkSize: number</code></dt>
    <dd>The size of an upload chunk, if the data is uploaded with the upload strategy 
@@ -354,6 +355,8 @@ var processed = api.upload(ds, "just testing");
 
 		
 	</div><!-- end wrapper -->
+          
+	
 	<script type="text/javascript">
     SyntaxHighlighter.all();
 	</script>

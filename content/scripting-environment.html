@@ -1,0 +1,130 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>JOSM Scripting Plugin - Scripting environment</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <link href="http://alexgorbatchev.com/pub/sh/current/styles/shThemeRDark.css" rel="stylesheet" type="text/css" />
+	<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shCore.js" type="text/javascript"></script>
+	<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shBrushJScript.js" type="text/javascript"></script>
+	<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shAutoloader.js" type="text/javascript"></script>
+    
+    <script src="javascripts/respond.js"></script>
+    <script src="javascripts/linkutil.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+	<div id="header">
+        <nav>
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="documentation.html">Documentation</a></li>
+        <li><a href="js-doc/index.html">API</a></li>
+        <li class="downloads"><a href="install.html">Install</a></li>
+        </nav>   
+      </div><!-- end header -->
+
+    <div class="wrapper">
+    <section>
+
+<h1>Scripting environment</h1>
+
+<h2>The scripting context</h2>
+<p>The embedded scripting engine runs scripts in a <em>scripting context</em>. There is only one
+context for all scripts in JOSM. It is initialized when the Scripting Plugins starts up and 
+destroyed when JOSM is terminated. It is is populated with the following two 
+objects:</p>
+
+<dl>
+  <dt><code class="sample">josm</code></dt>
+  <dd>This global object represents the <a data-js-object="namespace:josm">running JOSM instance</a>.</dd>
+  
+  <dt><code class="sample">require()</code></dt>
+  <dd><code class="sample">require()</code> is a global function to load <a href="http://www.commonjs.org/specs/modules/1.0/">CommonJS modules</a>.</dd>
+</dl> 
+
+<h2>Loading and using provided modules</h2>
+<p>The embedded scripting engine can load CommonJS-compatible <a href="http://www.commonjs.org/specs/modules/1.0/">modules</a>.</p>
+<p>Here's an example scripts which loads the built built in module <a data-js-object="module:josm/util">josm/util</a>.</p>
+
+<script type="syntaxhighlighter" class="brush:js"><![CDATA[
+var util = require("josm/util");
+util.println("Hello world!");
+]]></script>
+
+<h2>Implementing and using custom modules</h2>
+<p>You can implement and use your own modules.
+Here's an example of a simple CommonJS-module which exports the function <code class="sample">sayHello()</code>.</p>
+<script type="syntaxhighlighter" class="brush:js"><![CDATA[
+// file: helloworld.js
+(function() {
+exports.sayHello = function() {
+    java.lang.System.out.println("Hello world!");
+};
+}());
+]]></script>
+
+<p>A client script can load and use the module. Here's an example:</p>
+<script type="syntaxhighlighter" class="brush:js"><![CDATA[
+var hello = require("helloworld");
+hello.sayHello();
+]]></script>
+
+<p>The places, where the Scripting Plugin is looking for modules, can be configured in the 
+preferences. It looks for modules in two places:</p>
+<ol>
+  <li>First, it tries to load modules from the plugin jar file in the directory <code class="sample">/js</code>.</li>
+  <li>Then, it tries to load it from one of the configured <em>plugin repositories</em>. Each repository is
+  either a directory in the local file system or in jar/zip file in the local filesystem.</li>
+</ol>
+
+<p style="text-align: center">
+<img src="images/configure-script-repositories.png" width="80%" height="80%"/>
+</p>
+
+<h2>The start module</h2>
+<p>There is a special module <code class="sample"><strong>ScriptingPluginStart</strong></code> which, if present, is
+loaded automatically when the Scripting Plugin starts. The following templates shows, that this plugin
+can export two functions which will be invoked by JOSM on startup and when the map
+frame changes.</p>
+
+<p>The default location of this module is in <code class="sample">$JOSM_HOME/plugins/scripting/modules</code>.</p>
+
+<script type="syntaxhighlighter" class="brush:js"><![CDATA[
+// file: ScriptingPlugin_Start.js
+exports.onStart = function() {
+    /* 
+     * add code to execute when the plugin is loaded
+     */  
+};
+
+exports.onMapFrameChanged = function(oldframe, newframe) {
+	/* 
+	 * add cot to execute when the the map frame changes, i.e. the UI
+	 * switches from the welcome pages to the layer view and vice versa
+	 */
+};
+}());
+]]></script>
+</section>
+</div>
+
+
+
+<script type="text/javascript">
+    SyntaxHighlighter.all()
+</script>
+
+    <!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
+        
+  </body>
+</html>

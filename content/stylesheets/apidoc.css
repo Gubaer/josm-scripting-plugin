@@ -1,12 +1,13 @@
 @charset "UTF-8";
 
 html, body { 
-	height: 100%; /* WICHTIG!!! STRECKT ANZEIGENBEREICH AUF 100% */
+	height: 100%;
 }
 
 code.signature {
+   font-family: 'Lucida Console',Monaco,'Courier New',Courier,monospaced;
    font-face: bold;
-   background-color: #1b2426;
+   background-color: #435a5f;
 }
 
 p.member-header {
@@ -25,6 +26,7 @@ div#content {
 	float: right;
 	width: 80%;
 	height: 100%;
+	font-size: 12pt;
 }
 
 iframe#api-doc {
@@ -34,14 +36,6 @@ iframe#api-doc {
 }
 
 .wrapper {
-/* 
-  max-width: 1024px;
-  width: 100%; 
-  margin: auto;
-  height:auto !important; 
-  height:100%; 
-  overflow: hidden !important;
-*/
   margin: auto;
   height: 100%;
   max-width: 1024px;

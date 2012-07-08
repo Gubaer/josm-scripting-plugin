@@ -1,0 +1,92 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>JOSM Scripting Plugin - Handling layers</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <link href="http://alexgorbatchev.com/pub/sh/current/styles/shThemeRDark.css" rel="stylesheet" type="text/css" />
+	<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shCore.js" type="text/javascript"></script>
+	<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shBrushJScript.js" type="text/javascript"></script>
+	<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shAutoloader.js" type="text/javascript"></script>
+    
+    <script src="javascripts/respond.js"></script>
+    <script src="javascripts/linkutil.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+       <div id="header">
+        <nav>
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="documentation.html">Documentation</a></li>
+        <li><a href="js-doc/index.html">API</a></li>
+        <li class="downloads"><a href="install.html">Install</a></li>
+        <li class="downloads"><a href="http://github.com/gubaer/josm-scripting-plugin">GitHub</a></li>        
+        </nav>   
+      </div><!-- end header -->
+  
+    <div class="wrapper">
+    <section>
+
+<h1>Handling layers</h1>
+<p>
+The global object <code class="sample">josm.layers</code> represents the current layers in josm. The methods
+and properties of this object are defined in the module <a data-js-object="module:josm/layers">layers</a>.
+</p>
+<p>
+The following scripts prints the names of the currently opened layers:
+</p>
+<script type="syntaxhighlighter" class="brush:js"><![CDATA[
+var util = require("josm/util");
+var l = josm.layers.length;
+for (var i=0; i<l; i++) {
+   util.println("Layer {0}: name is ''{1}''", i, josm.layers.get(i));
+}
+]]></script>
+
+<h2>Working with data layers</h2>
+<p>
+Data layers are instances of the JOSM native class <a data-josm-class="org.openstreetmap.josm.gui.layer.OsmDataLayer">OsmDataLayer</a>.
+The Javascript mixin <a data-js-object="mixin:OsmDataLayerMixin">OsmDataLayerMixin</a> provides 
+additional methods and properties for instances of a data layer.
+</p>
+<p>You can <strong>open</strong> a file with OSM data in a new data layer with the method
+<code>josm.open()</code>:</p>
+<script type="syntaxhighlighter" class="brush:js"><![CDATA[
+// Opens a new data layer for this file
+josm.open("/my/data/file.osm");
+]]></script>
+
+<p>Alternatively, you can create a data layer for a dataset, in particual for a dataset
+which has been <a data-js-object="class:Api">downloaded</a> from the central OSM server.
+
+<script type="syntaxhighlighter" class="brush:js"><![CDATA[
+var api = require("josm/api").Api;
+var dataset = api.downloadArea({
+      min: {lat: 46.9479186, lon: 7.4619484}, 
+      max: {lat: 46.9497642, lon: 7.4660683}  
+});
+josm.layers.addDataLayer({ds: dataset, name: "Obstberg"});  
+]]></script>
+
+
+</section>
+</div>
+
+<script type="text/javascript">
+    SyntaxHighlighter.all()
+</script>
+
+    <!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
+        
+  </body>
+</html>
