@@ -100,7 +100,7 @@
 				<attribute name="Author" value="Karl Guggisberg" />
 				<attribute name="Plugin-Class" value="org.openstreetmap.josm.plugins.scripting.ScriptingPlugin" />
 				<attribute name="Plugin-Date" value="${plugin.build.date}" />
-				<attribute name="Plugin-Description" value="Allows to run scripts in JOSM." />
+				<attribute name="Plugin-Description" value="Runs scripts in JOSM" />
 				<attribute name="Plugin-Link" value="http://gubaer.github.com/josm-scripting-plugin" />
 				<attribute name="Plugin-Mainversion" value="${josm.required.version}" />
 				<attribute name="Plugin-Version" value="${plugin.version}" />
@@ -213,15 +213,17 @@
 		<groovy><![CDATA[		
 		   def prop = new java.util.Properties()
 		   prop.load (new FileInputStream("build.properties"))
-		   def mf = new File("version-information.MF")
+		   def versionInfo = "";
 		   prop.each {k, v -> 
 			  def m = k =~ /^plugin\.(\d+)\.requires$/
 			  if (m.matches()) {
 			    def vplugin = m[0][1]
 			    def vjosm = v			   			    
-			    mf << "${vplugin}-Plugin-Url: ${vplugin};https://raw.github.com/Gubaer/josm-scripting-plugin/for-josm-${vjosm}/dist/scripting.jar"
+			    versionInfo += "${vplugin}-Plugin-Url: ${vplugin};https://raw.github.com/Gubaer/josm-scripting-plugin/for-josm-${vjosm}/dist/scripting.jar\n"
 			  }
-		  }		  		   
+		  }		
+		  def mf = new File("version-information.MF")
+		  mf.text = versionInfo;
 		]]></groovy>
 	</target>
 
