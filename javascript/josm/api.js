@@ -679,7 +679,7 @@ exports.Api.downloadArea = function() {
  * <p>This method supports the same upload strategy as the JOSM upload dialog. Supply the named
  * parameter <code>{strategy: ...}</code> to choose the strategy.</p>
  * 
- * <p style="background-color: #FAC0C7;border-style: solid; border-color: white;">
+ * <p style="background-color: red;border-style: solid; border-color: white;">
  * Be careful when uploading data to the OSM server! Make sure not to upload copyright protected data
  * or test data.
  * </p>
@@ -705,9 +705,9 @@ exports.Api.downloadArea = function() {
  *      Default falue: UploadStrategy.DEFAULT_UPLOAD_STRATEGY
  *   </dd>
  *   
- *    <dt><code class="signature">changeset: number|{@class org.openstreetmap.josm.data.osm.Changset}</code></dt>
+ *    <dt><code class="signature">changeset: number|{@class org.openstreetmap.josm.data.osm.Changeset}</code></dt>
  *    <dd>The changeset to which the data is uploaded. Either a number (the changeset id) or a 
- *    {@class org.openstreetmap.josm.data.osm.Changset} instance. Default: creates a new changeset.</dd>
+ *    {@class org.openstreetmap.josm.data.osm.Changeset} instance. Default: creates a new changeset.</dd>
  *    
  *    <dt><code class="signature">chunkSize: number</code></dt>
  *    <dd>The size of an upload chunk, if the data is uploaded with the upload strategy 
