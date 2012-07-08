@@ -1,6 +1,6 @@
 package org.openstreetmap.josm.plugins.scripting.ui.console;
 
-import java.io.Writer;
+import java.io.PrintWriter;
 
 import javax.swing.Action;
 
@@ -18,5 +18,5 @@ public interface IScriptLog {
 	 * 
 	 * @return the writer 
 	 */
-	Writer getLogWriter();	
+	PrintWriter getLogWriter();	
 }

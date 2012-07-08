@@ -26,13 +26,6 @@ josm.jar=/full/path/to/josm.jar
 #plugin.1111.requires=7777
 #plugin.2222.requires=8888
 
-# The full path to the ant-contrib.jar. 
-# Download from http://sourceforge.net/projects/ant-contrib/files/ and install.
-# On Ubuntu use 
-#    % sudo apt-get install ant-contrib
-# 
-ant.contrib.jar=/usr/share/java/ant-contrib.jar
-
 # The full path to the jsyntaxpane jar. Download from
 #    http://code.google.com/p/jsyntaxpane
 #
@@ -64,3 +57,15 @@ junit.jar=/full/path/to/jar
 #
 rhino.jar=/full/path/to/jar
 
+# The full path to the local installation of the JSDoc toolkit.
+# The JSDoc toolkit is used the generate the documentation for
+# the JOSM JavaScript API.
+#
+# Download from 
+#    http://code.google.com/p/jsdoc-toolkit/
+#
+jsdoc.dir=/full/path/to/the/local/installation
+
+# the directory where API docs are generated to 
+#
+api-doc.staging.dir=doc/js

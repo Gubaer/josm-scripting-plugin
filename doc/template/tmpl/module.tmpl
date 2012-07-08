@@ -1,0 +1,159 @@
+<?js
+  /*
+  * Template parameters:
+  *    doclet     -  the doclet for which the type page is generated 
+  *    data       - the complete doclet data
+  *    viewHelper - helper methods for the view 
+  */
+?>
+<?js
+  var out = java.lang.System.out;
+?>
+<?js /* ---------------- description and  example ------------------------- */ ?>
+<p><?js= doclet.description ? viewHelper.resolveClassReferences(doclet.description) : ""?></p>
+<?js if (doclet.examples) { ?>
+<script type="syntaxhighlighter" class="brush:js"><![CDATA[
+<?js= doclet.examples ?>
+]]></script>
+<?js } /* examples */ ?>
+
+<?js
+function compareByName(a,b) {
+    return a.name < b.name ? -1 : (a.name == b.name ? 0 : 1);
+};
+
+var properties = data.get({kind: "member", memberof: doclet.name}).sort(compareByName);
+var methods = data.get({kind: "function", memberof: doclet.name}).sort(compareByName);
+var classes = data.get({kind: "class", memberof: doclet.name}).sort(compareByName);
+var mixins = data.get({kind: "mixin", memberof: doclet.name}).sort(compareByName);
+var namespaces = data.get({kind: "namespace", memberof: doclet.name}).sort(compareByName);
+ ?>
+
+<?js /* --------------------------- list of classes in the module ----------------------- */ ?>
+<?js if (classes.length > 0) { ?>
+<p>This module provides the following classes:</p>
+<ul>
+<?js     for(var i = 0; i < classes.length; i++) {  ?>
+      <li><a href="../classes/<?js= classes[i].name ?>.html"><?js= classes[i].name ?></a></li>
+<?js     }  /* end for */  ?>
+</ul>   
+<?js } /* end if */ ?>
+
+<?js /* --------------------------- list of mixins in the module ----------------------- */ ?>
+<?js if (mixins.length > 0) { ?>
+This module provides the following mixins:
+<ul>
+<?js     for(var i = 0; i < mixins.length; i++) {  ?>
+      <li><a href="../mixins/<?js= mixins[i].name ?>.html"><?js= mixins[i].name ?></a></li>
+<?js     }  /* end for */  ?>
+</ul>   
+<p>Note, that mixins are loaded automatically by by JOSM. You don't have to load them using
+<code>require("my/mixin")</code>.</p>
+<?js } /* end if */ ?>
+
+<?js /* --------------------------- list of namespaces in the module ----------------------- */ ?>
+<?js if (namespaces.length > 0) { ?>
+This module provides the following namespaces:
+<ul>
+<?js     for(var i = 0; i < namespaces.length; i++) {  ?>
+      <li><a href="../namespaces/<?js= namespaces[i].name ?>.html"><?js= namespaces[i].name ?></a></li>
+<?js     }  /* end for */  ?>
+</ul>   
+<p>Namespaces are plain javascript objects. In contrast to classes, they can't be instantiated.
+They are similar to utility java classes, which provide static methods and fields only.</p>
+<?js } /* end if */ ?>
+
+
+
+ <?js if (properties.length + methods.length > 0) { ?>
+ <table>
+ <tr>
+ 	<th>Name</th>
+ 	<th>Description</th>
+ </tr>
+ <?js      if (properties.length > 0)  { ?>
+ <tr>
+   <td colspan="2">Properties</td>
+ </tr>
+ <?js           for (var i=0; i< properties.length; i++) { ?>
+    <tr>
+    	<td><a href="#<?js= properties[i].name ?>"><?js= properties[i].name ?></a></td>
+    	<td><?js= viewHelper.resolveClassReferences(properties[i].summary ?  properties[i].summary : "") ?></td>
+    </tr>
+ <?js           } /* end for */ ?>
+ <?js      } /* end if */ ?>
+ 
+ <?js      if (methods.length > 0)  { ?>
+ <tr>
+   <td colspan="2">Functions</td>
+ </tr>
+  <?js          for (var i=0; i< methods.length; i++) { ?>
+    <tr>
+    	<td><a href="#<?js= methods[i].name ?>"><?js= methods[i].name ?>()</a></td>
+    	<td><?js= viewHelper.resolveClassReferences(methods[i].summary ?  methods[i].summary : "") ?></td>
+    </tr>
+ <?js           } /* end for */ ?>
+ <?js      } /* end if */ ?>
+ </table>
+ <?js } /* if */ ?>
+
+<?js /* ----------- properties section (optional)     ------------------------- */ ?>
+<?js
+if (properties.length > 0) { ?>
+<h2>Properties</h2>
+   <?js for (var i=0; i< properties.length; i++) {
+     var property = properties[i];
+   ?>   
+   <p id="<?js= property.name ?>" class="member-header"><?js= property.name ?><?js= property.type && property.type.names ? ":" + property.type.names : "" ?></p>
+   <p><?js=  viewHelper.resolveClassReferences(property.description) ?></p>
+   <?js if (property.examples) { ?>
+		<script type="syntaxhighlighter" class="brush:js"><![CDATA[
+<?js= property.examples ?>
+		]]></script>
+	<?js } /* examples */ ?>     
+  <?js } ?>
+<?js }  ?> 
+
+
+<?js /* ----------- methods section (optional)     ------------------------- */ ?>
+<?js
+if (methods.length > 0) { ?>
+<h2>Functions</h2>
+   <?js for (var i=0; i< methods.length; i++) {
+     var method = methods[i];
+   ?>
+   <p  id="<?js= method.name ?>" class="member-header">
+      <?js= method.name ?><?js= method.type && method.type.names ? ":" + viewHelper.resolveTypes(method.type.names) : "" ?>   
+   </p>
+   <p><?js= viewHelper.resolveClassReferences(method.description) ?></p>	
+<?js
+     var params = method.params;
+     if (params && params.length > 0) {
+?>
+<h3>Parameters</h3>
+<table>
+<tr>
+   <th>Name</th>
+   <th>Type</th>
+   <th>Description</th>
+</tr>
+<?js   for(var j=0; j<params.length; j++) { ?>
+<?js      var para = params[j];  ?>
+<tr>
+     <td><?js= para.name ?></td>    
+     <td><?js= para.type && para.type.names ? viewHelper.resolveTypes(para.type.names) : "" ?></td>
+     <td><?js= para.description ? viewHelper.resolveClassReferences(para.description) : "" ?></td>
+</tr>
+<?js   }  /* end for */ ?>
+</table>
+<?js } /* end if */ ?>
+
+<?js if (method.examples) {   ?>
+   <h3>Examples</h3>
+   <script type="syntaxhighlighter" class="brush:js"><![CDATA[
+ <?js= method.examples ?>
+   ]]></script>
+<?js  } /* examples */ ?>
+
+  <?js }  /* for (methods) */  ?>
+<?js }  /* if (methods) */ ?> 

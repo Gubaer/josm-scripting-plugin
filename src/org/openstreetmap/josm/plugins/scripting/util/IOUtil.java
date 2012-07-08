@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
 import java.io.Writer;
+import java.util.jar.JarFile;
 
 public class IOUtil {
 
@@ -33,5 +34,15 @@ public class IOUtil {
 				writer.close();
 			} catch (IOException e) {
 			}
+	}
+	
+	static public void close(JarFile jar) {
+		if (jar != null) {
+			try {
+				jar.close();
+			} catch(IOException e){
+				
+			}
+		}
 	}
 }

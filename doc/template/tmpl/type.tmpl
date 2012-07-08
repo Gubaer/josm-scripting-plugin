@@ -1,0 +1,261 @@
+<?js
+  /*
+  * Template parameters:
+  *    doclet     -  the doclet for which the type page is generated 
+  *    data       - the complete doclet data
+  *    viewHelper - helper methods for the view 
+  */
+?>
+<?js
+  var out = java.lang.System.out;
+  var aliases;
+  /**
+   * Creates the list of doclet names including the canonical name and
+   * a list of optional aliases
+   */
+  function propertyNames(doclet) {
+     var names = [];
+	 names.push(doclet.name);
+     if (doclet.alias) {
+       for (var ai = 0; ai < doclet.alias.length; ai++) {
+         names.push(doclet.alias[ai]);
+       }
+     }
+     return names;
+  };
+  /**
+   * Builds the list of property links as <a ...> elements
+   */
+  function buildPropertyLinks(doclet) {
+     var name = doclet.name;
+     var names = propertyNames(doclet);
+  
+     var links = [];
+     for (var i=0; i<names.length; i++) {
+	    links.push("<a href='#" + name + "'>" + names[i] + "</a>");
+     }
+     return links.join(", ");
+  };
+
+  /**
+   * Builds the property summary from teh @summary tag; resolves links
+   * in the tag value.
+   */
+  function buildPropertySummary(doclet) {
+      var summary = doclet.summary || "";
+      return viewHelper.resolveClassReferences(summary)
+  };
+?>
+<?js /* =======================================================================  */ ?>
+<?js 
+function emitPropertiesSummary(properties) {                                   
+    if (properties.length == 0) return;
+?>                                                                      
+<tr>
+   <td colspan="2">Properties</td>
+</tr>
+<?js for (var i=0; i< properties.length; i++) { 
+        var property = properties[i];
+?>
+    <tr> 
+    	<td><?js= buildPropertyLinks(property)   ?></td>
+    	<td><?js= buildPropertySummary(property) ?></td>
+    </tr>
+<?js } /* end for */ ?>
+  
+<?js }; /* function emitPropertiesSummary */                                        ?>
+<?js /* =======================================================================  */ ?>
+
+<?js /* =======================================================================  */ ?>
+<?js 
+function emitMethodsSummary(methods) {                                      
+    if (methods.length == 0) return;
+?>                                                                      
+<tr>
+   <td colspan="2">Methods</td>
+</tr>
+<?js for (var i=0; i< methods.length; i++) { 
+        var method = methods[i];
+?>
+    <tr> 
+    	<td><?js= buildPropertyLinks(method)   ?></td>
+    	<td><?js= buildPropertySummary(method) ?></td>
+    </tr>
+<?js } /* end for */ ?>
+  
+<?js }; /* function emitMethodSummary */                                           ?>
+<?js /* =======================================================================  */ ?>
+
+<?js /* =======================================================================  */ ?>
+<?js 
+function emitProperties(properties) {                                   
+    if (properties.length == 0) return;
+
+    function buildPropertyType(property) {
+        return property.type && property.type.names 
+          ? ":" + viewHelper.resolveTypes(property.type.names) 
+          : ""; 
+    };
+
+	function buildPropertyDescription(property) {
+       return viewHelper.resolveClassReferences(property.description);
+    };
+
+    function buildAliases(property) {
+       if (!property.alias) return "";
+       return property.alias.join(", ");
+    };
+?>   
+<h2>Properties</h2>
+<?js for (var i=0; i< properties.length; i++) {
+      var property = properties[i];
+?>   
+   <p id="<?js= property.name ?>" class="member-header">
+     <?js= property.name ?><?js= buildPropertyType(property)?>
+<?js  if (property.alias) {                                                         ?>
+     <strong> | Aliases: </strong><?js= buildAliases(property) ?>
+<?js  }   /* if (aliases) */                                                        ?>     
+   </p>
+   <p><?js= buildPropertyDescription(property) ?></p>
+<?js    if (property.examples) {                                                    ?>
+		<script type="syntaxhighlighter" class="brush:js"><![CDATA[
+<?js= property.examples ?>
+		]]></script>
+<?js    } /* if(examples) */                                                        ?>     
+<?js } /* end for */                                                                ?>                                                                   
+  
+<?js }; /* function emitProperties */                                               ?>
+<?js /* =======================================================================  */ ?>
+
+<?js /* ---------------- description and  example ------------------------- */ ?>
+<p><?js= viewHelper.resolveClassReferences(doclet.description) ?></p>
+<?js if (doclet.examples) { ?>
+<script type="syntaxhighlighter" class="brush:js"><![CDATA[
+<?js= doclet.examples ?>
+]]></script>
+<?js } /* examples */ ?>
+ 
+ <?js 
+function compareByName(a,b) {
+    return a.name < b.name ? -1 : (a.name == b.name ? 0 : 1);
+};
+
+var properties = data.get({kind: "member", memberof: doclet.name}).sort(compareByName);
+var methods = data.get({kind: "function", memberof: doclet.name}).sort(compareByName);
+ ?>
+ <?js /* ---------------- properties and method summary ------------------------- */ ?>
+ <?js if (properties.length + methods.length > 0) { ?>
+ <table>
+ <tr>
+ 	<th>Name</th>
+ 	<th>Description</th>
+ </tr>
+ <?js  emitPropertiesSummary(properties); ?>
+ <?js  emitMethodsSummary(methods); ?>
+ </table>
+ <?js } /* if (properites or methods) */ ?>
+ 
+ <?js /* NOTE: augments is the canonical name for for 'extends' which is used in the documentation */ ?>
+ <?js if (doclet.augments)  {   ?>
+<p>This mixin extends the mixin <?js= viewHelper.resolveTypes(doclet.augments) ?>. Properties and methods of the parent
+mixin are available for scripting, too.</p>
+<?js }  /* END if doclet.extends */ ?>
+
+<?js if (doclet.forclass)  {   ?>
+<p>This mixin provides additional properties and methods for the native Java class 
+<?js= viewHelper.resolveTypes(doclet.forclass) ?>, whose native public methods are available
+for scripting, too. If a native method name is hidden by property name in the mixin,
+prefix the native name with <code>$</code>.</p>
+<?js }  /* END if doclet.forclass */ ?>
+
+<?js /* ----------- constructor section (optional)     ------------------------- */ ?>
+<?js
+var constructors =  data.get({memberof: doclet.name, kind: "class", name: doclet.name});
+if (constructors.length > 0) { ?>
+<h2>Constructor</h2>
+<?js
+     var constructor = constructors[0];
+   ?>   
+   <p id="<?js= constructor.name ?>" class="member-header">new <?js= constructor.name ?>()</p>
+   <p><?js=  viewHelper.resolveClassReferences(constructor.description) ?></p>
+   <?js if (constructor.examples) { ?>
+		<script type="syntaxhighlighter" class="brush:js"><![CDATA[
+<?js= constructor.examples ?>
+		]]></script>
+	<?js } /* examples */ ?>    
+	
+	<?js
+     var params = constructor.params;
+     if (params && params.length > 0) {
+?>
+<h3>Parameters</h3>
+<table>
+<tr>
+   <th>Name</th>
+   <th>Type</th>
+   <th>Description</th>
+</tr>
+<?js   for(var j=0; j<params.length; j++) { ?>
+<?js      var para = params[j];  ?>
+<tr>
+     <td><?js= para.name ?></td>    
+     <td><?js= para.type && para.type.names ? viewHelper.resolveTypes(para.type.names) : "" ?></td>
+     <td><?js= para.description ? viewHelper.resolveClassReferences(para.description) : "" ?></td>
+</tr>
+<?js   }  /* end for */ ?>
+</table>
+<?js } /* end if */ ?>
+	 
+<?js }  ?>
+
+
+<?js /* ----------- properties section (optional)     ------------------------- */ ?>
+<?js emitProperties(properties);                                                   ?>
+
+<?js /* ----------- methods section (optional)     ------------------------- */ ?>
+<?js
+if (methods.length > 0) { ?>
+<h2>Functions</h2>
+   <?js for (var i=0; i< methods.length; i++) {
+     var method = methods[i];
+   ?>
+   <p  id="<?js= method.name ?>" class="member-header">
+      <?js= method.name ?><?js= method.type && method.type.names ? ":" + viewHelper.resolveTypes(method.type.names) : "" ?>   
+   </p>
+   <p><?js= viewHelper.resolveClassReferences(method.description) ?></p>	
+<?js
+     var params = method.params;
+     if (params && params.length > 0) {
+?>
+<h3>Parameters</h3>
+<table>
+<tr>
+   <th>Name</th>
+   <th>Type</th>
+   <th>Description</th>
+</tr>
+<?js   for(var j=0; j<params.length; j++) { ?>
+<?js      var para = params[j];  ?>
+<tr>
+     <td><?js= para.name ?></td>    
+     <td><?js= para.type && para.type.names ? viewHelper.resolveTypes(para.type.names) : "" ?></td>
+     <td><?js= para.description ? viewHelper.resolveClassReferences(para.description) : "" ?></td>
+</tr>
+<?js   }  /* end for */ ?>
+</table>
+<?js } /* end if */ ?>
+
+<?js if (method.examples) {   ?>
+   <h3>Examples</h3>
+   <script type="syntaxhighlighter" class="brush:js"><![CDATA[
+ <?js= method.examples ?>
+   ]]></script>
+<?js  } /* examples */ ?>
+
+  <?js }  /* for (methods) */  ?>
+<?js }  /* if (methods) */ ?> 
+
+
+
+
+

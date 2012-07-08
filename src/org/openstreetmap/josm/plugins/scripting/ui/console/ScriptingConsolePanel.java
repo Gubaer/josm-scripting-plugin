@@ -141,14 +141,12 @@ public class ScriptingConsolePanel extends JPanel {
 			}
 		}			
 		editor.changeContentType("text/plain");
-		warnMissingSyntaxKit(desc);
-		
+		warnMissingSyntaxKit(desc);		
 	}
 	
 	public ScriptingConsolePanel() {
 		build();
 	}
-
 	
 	/**
 	 * <p>Reads the script from file {@code file}</p>
@@ -192,8 +190,6 @@ public class ScriptingConsolePanel extends JPanel {
 			model.addPropertyChangeListener(this);
 			updateEnabledState();
 		}
-		
-		
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {

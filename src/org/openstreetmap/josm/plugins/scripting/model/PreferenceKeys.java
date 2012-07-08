@@ -37,4 +37,13 @@ public interface PreferenceKeys {
 	 * 
 	 */
 	String PREF_KEY_SCRIPTING_ENGINE = "scripting.console.default.engine";
+	
+	
+	/**
+	 * <p>The array of CommonJS module repositories. Entries are URLs, either file
+	 *   URLs or jar URLs.</p>
+	 *   
+	 * <p>Default value: empty</p>
+	 */
+	String PREF_KEY_COMMONJS_MODULE_REPOSITORIES = "scripting.commonjs-module-repositories";
 }

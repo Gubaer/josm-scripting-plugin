@@ -24,6 +24,7 @@ import javax.swing.UIManager;
 
 import org.openstreetmap.josm.data.preferences.BooleanProperty;
 import org.openstreetmap.josm.plugins.scripting.util.Assert;
+import org.openstreetmap.josm.tools.ImageProvider;
 import org.openstreetmap.josm.tools.WindowGeometry;
 
 @SuppressWarnings("serial")
@@ -39,7 +40,7 @@ public class ScriptingConsole extends JFrame {
 	private JCheckBox cbAlwaysOnTop;
 	
 	private static ScriptingConsole instance = null;
-	public static ScriptingConsole getScriptingConsole() {
+	public static ScriptingConsole getInstance() {
 		return instance;
 	}
 	
@@ -134,6 +135,8 @@ public class ScriptingConsole extends JFrame {
 		
 		setJMenuBar(buildMenuBar());
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		
+		setIconImage(ImageProvider.get("script-engine").getImage());
 	}	
 	
 	public void setVisible(boolean visible){
@@ -171,6 +174,15 @@ public class ScriptingConsole extends JFrame {
 	
 	public ScriptEditorModel getScriptEditorModel() {
 		return pnlScriptingConsole.getScriptEditorModel();
+	}
+	
+	/**
+	 * Replies the script log.
+	 * 
+	 * @return the script log
+	 */
+	public IScriptLog getScriptLog() {
+		return pnlScriptingConsole.getScriptLog();
 	}
 	
 	private class ToggleAlwaysOnTopAction extends AbstractAction {
