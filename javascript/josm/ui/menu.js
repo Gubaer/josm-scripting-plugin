@@ -123,13 +123,13 @@ function stringPropertyFromPara(para, name, defaultValue) {
 };
 
 /**
- * <p>JosmAction is an action for which a menu item or a toolbar item can be added to 
+ * <p>JSAction is an action for which a menu item or a toolbar item can be added to 
  * JOSMs menu or JOSMs toolbar respectively.</p>
  * 
  * <p>This is just a shortcut for the Java class 
  * {@class org.openstreetmap.josm.plugins.scripting.js.JSAction}.</p>
  * 
- * <p>The method accepts an object with the following optional named parameters.</p>
+ * <p>The constructor accepts an object with the following optional named parameters.</p>
  * <dl>
  *   <dt><code class="signature">name:string</code></dt>
  *   <dd>The optional name of the action. Default: an auto generated named.</dd>
@@ -172,6 +172,7 @@ function stringPropertyFromPara(para, name, defaultValue) {
  * 
  * @class
  * @name JSAction 
+ * @memberOf josm/ui/menu
  * @see JSActionMixin
  * @param {object} para  the named parameters (see description)
  */
