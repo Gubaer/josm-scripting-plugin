@@ -259,11 +259,6 @@ public class RhinoEngine {
 		}
 	}
 	
-	public File getStartScript() {
-		String dir = ScriptingPlugin.getInstance().getPluginDir();
-		return new File(new File(dir), "start.js"); 
-	}
-	
 	public void executeOnSwingEDT(final Function f) {
 		executeOnSwingEDT(f, null);
 	}
