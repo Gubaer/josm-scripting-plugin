@@ -40,18 +40,6 @@ var classes = filterClasses(data.get({kind: "class"}).sort(compareByName));
 </ul>
 <?js } /* end if */ ?>
 
-<?js /* ------------------ list of modules ------------------- */ ?>
-<?js
-var modules = filterClasses(data.get({kind: "module"}).sort(compareByName));
-?>
-<?js if (modules.length) {  ?>
-<h2>Modules</h2>
-<ul>
-<?js     for (var i=0; i<modules.length; i++) { ?>
-<li><a onclick="loadDocPage('modules/<?js= safeHtmlFilename(modules[i].name) ?>')" target="api-doc"><?js= modules[i].name ?></a></li> 
-<?js     }  /* end for */ ?>
-</ul>
-<?js } /* end if */ ?>
 
 <?js /* ------------------ list of namespaces ------------------- */ ?>
 <?js
@@ -75,6 +63,19 @@ var mixins = filterClasses(data.get({kind: "mixin"}).sort(compareByName));
 <ul>
 <?js     for (var i=0; i<mixins.length; i++) { ?>
 <li><a onclick="loadDocPage('mixins/<?js= safeHtmlFilename(mixins[i].name) ?>')" target="api-doc"><?js= mixins[i].name ?></a></li> 
+<?js     }  /* end for */ ?>
+</ul>
+<?js } /* end if */ ?>
+
+<?js /* ------------------ list of modules ------------------- */ ?>
+<?js
+var modules = filterClasses(data.get({kind: "module"}).sort(compareByName));
+?>
+<?js if (modules.length) {  ?>
+<h2>Modules</h2>
+<ul>
+<?js     for (var i=0; i<modules.length; i++) { ?>
+<li><a onclick="loadDocPage('modules/<?js= safeHtmlFilename(modules[i].name) ?>')" target="api-doc"><?js= modules[i].name ?></a></li> 
 <?js     }  /* end for */ ?>
 </ul>
 <?js } /* end if */ ?>

@@ -31,7 +31,7 @@ var namespaces = data.get({kind: "namespace", memberof: doclet.name}).sort(compa
 
 <?js /* --------------------------- list of classes in the module ----------------------- */ ?>
 <?js if (classes.length > 0) { ?>
-This module provides the following classes:
+<p>This module provides the following classes:</p>
 <ul>
 <?js     for(var i = 0; i < classes.length; i++) {  ?>
       <li><a href="../classes/<?js= classes[i].name ?>.html"><?js= classes[i].name ?></a></li>

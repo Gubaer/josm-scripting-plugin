@@ -143,7 +143,8 @@ function publishDoclet(doclet, config) {
 			stylesheets: "../../stylesheets/",
 			javascripts: "../../javascript/"
 		},
-		body: fragment
+		body: fragment,
+		showHeader: false
 	});
 	out.println(config.title + " <" + doclet.name + ">: writing to <" + filepath + ">");
 	fs.writeFileSync(filepath, html);
@@ -163,7 +164,8 @@ function publishOverview() {
 			stylesheets: "../stylesheets/",
 			javascripts: "../avascript/"
 		},
-		body: fragment
+		body: fragment,
+		showHeader: true
 	});
 	out.println("Overview: writing to <" + filepath + ">");
 	fs.writeFileSync(filepath, html);

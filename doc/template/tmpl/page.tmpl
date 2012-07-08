@@ -4,6 +4,7 @@
   paths.stylesheets = paths.stylesheets || ""; 
   paths.javascripts = paths.javascripts || "";
   body = body || "";
+  showHeader = typeof showHeader != "undefined" ? Boolean(showHeader) : true;
 ?>
 <!doctype html>
 <html>
@@ -32,10 +33,29 @@
 	
 	</head>
 <body>	
-	<div class="wrapper">
+<?js  if (showHeader) { ?>
+    <div id="header">
+        <nav>
+        <li><a href="../../index.html">Home</a></li>
+        <li><a href="../documentation.html">Documentation</a></li>
+        <li><a href="index.html">API</a></li>
+        <li class="downloads"><a href="../install.html">Install</a></li>
+        <li class="downloads"><a href="http://github.com/gubaer/josm-scripting-plugin">GitHub</a></li>        
+        </nav>   
+      </div><!-- end header -->
+      <div class="wrapper">
+	<section>
+		<h1><?js= title ?></h1>		
+		<?js= body ?>		
+	</section>
+	</div><!-- end wrapper -->
+<?js }  else { ?>
+     <div class="wrapper">
 		<h1><?js= title ?></h1>		
 		<?js= body ?>		
 	</div><!-- end wrapper -->
+<?js }       ?>          
+	
 	<script type="text/javascript">
     SyntaxHighlighter.all();
 	</script>
