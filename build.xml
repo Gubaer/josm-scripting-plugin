@@ -101,9 +101,10 @@
 				<attribute name="Plugin-Class" value="org.openstreetmap.josm.plugins.scripting.ScriptingPlugin" />
 				<attribute name="Plugin-Date" value="${plugin.build.date}" />
 				<attribute name="Plugin-Description" value="Allows to run scripts in JOSM." />
-				<attribute name="Plugin-Link" value="http://wiki.openstreetmap.org/index.php/JOSM/Plugins/Scripting" />
+				<attribute name="Plugin-Link" value="http://gubaer.github.com/josm-scripting-plugin" />
 				<attribute name="Plugin-Mainversion" value="${josm.required.version}" />
 				<attribute name="Plugin-Version" value="${plugin.version}" />
+				<attribute name="Plugin-Icon" value="images/script-engine.png" />
 			</manifest>
 		</jar>
 	</target>
