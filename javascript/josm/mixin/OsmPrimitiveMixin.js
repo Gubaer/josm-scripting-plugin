@@ -93,7 +93,6 @@ mixin.version = {
  * 
  * node = nb.create(1234);
  * node.isLocal;   // -> false  
-
  * 
  * @memberOf OsmPrimitiveMixin
  * @name isLocal
@@ -102,8 +101,10 @@ mixin.version = {
  * @readOnly
  * @type {boolean}
  * @summary Replies true, if this is a local primitive.
+ * @alias local
+ * @alias isNew
  */
-mixin.isLocal =  {
+mixin.isLocal =  mixin.local = mixin.isNew = {
 	get: function() {
 		return this.$isNew();
 	}
@@ -125,13 +126,14 @@ mixin.isLocal =  {
  * 
  * @memberOf OsmPrimitiveMixin
  * @name isGlobal
+ * @alias global
  * @field
  * @instance
  * @readOnly
  * @type {boolean}
  * @summary Replies true, if this is a global primitive
  */
-mixin.isGlobal = {
+mixin.isGlobal = mixin.global = {
 	get: function() {
 		return ! this.$isNew();
 	}
@@ -190,7 +192,7 @@ mixin.dataSet = {
  * n1.user = 12345;
  * 
  * @memberOf OsmPrimitiveMixin
- * @name dataSet
+ * @name user
  * @field
  * @instance
  * @type org.openstreetmap.josm.data.osm.DataSet
@@ -284,46 +286,24 @@ mixin.timestamp = {
 };
 
 /**
- * <p>Synonym for isLocal.</p>
- * 
- * @memberOf OsmPrimitiveMixin
- * @name isNew
- * @field
- * @instance
- * @readOnly
- * @type {boolean}
- * 
- */
-mixin.isNew = mixin.isLocal;
-
-/**
  * <p>Replies true if this a proxy object, in JOSM terminology called an incomplete object.</p>
  * 
  * @memberOf OsmPrimitiveMixin
  * @name isIncomplete
+ * @alias isProxy
+ * @alias incomplete
+ * @alias proxy
  * @field
  * @instance
  * @readOnly
  * @type {boolean}
- * @summary Replies true if this a proxy object
+ * @summary Replies true if this is a proxy object
  */
-mixin.isIncomplete = {
+mixin.isIncomplete = mixin.isProxy = mixin.incomplete = mixin.proxy = {
 	get: function() {
 		return this.$isIncomplete();
 	}	
 };
-
-/**
- * <p>Replies true if this a proxy object (synonym for <code>isIncomplete</code>).</p>
- * 
- * @memberOf OsmPrimitiveMixin
- * @name isProxy
- * @field
- * @instance
- * @readOnly
- * @type {boolean}
- */
-mixin.isProxy = mixin.isIncomplete;
 
 /**
  * <p>Sets or gets whether this object is <em>modified</em>.</p>

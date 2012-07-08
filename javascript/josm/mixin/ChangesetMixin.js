@@ -115,7 +115,7 @@ mixin.min = {
  * @field
  * @name max
  * @summary Get or set the coordinates of the upper right corner
- * @memberof ChangesetMixin
+ * @memberOf ChangesetMixin
  * @instance
  * @type org.openstreetmap.josm.data.coor.LatLon
  */
