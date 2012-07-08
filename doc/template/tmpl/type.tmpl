@@ -8,7 +8,125 @@
 ?>
 <?js
   var out = java.lang.System.out;
+  var aliases;
+  /**
+   * Creates the list of doclet names including the canonical name and
+   * a list of optional aliases
+   */
+  function propertyNames(doclet) {
+     var names = [];
+	 names.push(doclet.name);
+     if (doclet.alias) {
+       for (var ai = 0; ai < doclet.alias.length; ai++) {
+         names.push(doclet.alias[ai]);
+       }
+     }
+     return names;
+  };
+  /**
+   * Builds the list of property links as <a ...> elements
+   */
+  function buildPropertyLinks(doclet) {
+     var name = doclet.name;
+     var names = propertyNames(doclet);
+  
+     var links = [];
+     for (var i=0; i<names.length; i++) {
+	    links.push("<a href='#" + name + "'>" + names[i] + "</a>");
+     }
+     return links.join(", ");
+  };
+
+  /**
+   * Builds the property summary from teh @summary tag; resolves links
+   * in the tag value.
+   */
+  function buildPropertySummary(doclet) {
+      var summary = doclet.summary || "";
+      return viewHelper.resolveClassReferences(summary)
+  };
 ?>
+<?js /* =======================================================================  */ ?>
+<?js 
+function emitPropertiesSummary(properties) {                                   
+    if (properties.length == 0) return;
+?>                                                                      
+<tr>
+   <td colspan="2">Properties</td>
+</tr>
+<?js for (var i=0; i< properties.length; i++) { 
+        var property = properties[i];
+?>
+    <tr> 
+    	<td><?js= buildPropertyLinks(property)   ?></td>
+    	<td><?js= buildPropertySummary(property) ?></td>
+    </tr>
+<?js } /* end for */ ?>
+  
+<?js }; /* function emitPropertiesSummary */                                        ?>
+<?js /* =======================================================================  */ ?>
+
+<?js /* =======================================================================  */ ?>
+<?js 
+function emitMethodsSummary(methods) {                                      
+    if (methods.length == 0) return;
+?>                                                                      
+<tr>
+   <td colspan="2">Methods</td>
+</tr>
+<?js for (var i=0; i< methods.length; i++) { 
+        var method = methods[i];
+?>
+    <tr> 
+    	<td><?js= buildPropertyLinks(method)   ?></td>
+    	<td><?js= buildPropertySummary(method) ?></td>
+    </tr>
+<?js } /* end for */ ?>
+  
+<?js }; /* function emitMethodSummary */                                           ?>
+<?js /* =======================================================================  */ ?>
+
+<?js /* =======================================================================  */ ?>
+<?js 
+function emitProperties(properties) {                                   
+    if (properties.length == 0) return;
+
+    function buildPropertyType(property) {
+        return property.type && property.type.names 
+          ? ":" + viewHelper.resolveTypes(property.type.names) 
+          : ""; 
+    };
+
+	function buildPropertyDescription(property) {
+       return viewHelper.resolveClassReferences(property.description);
+    };
+
+    function buildAliases(property) {
+       if (!property.alias) return "";
+       return property.alias.join(", ");
+    };
+?>   
+<h2>Properties</h2>
+<?js for (var i=0; i< properties.length; i++) {
+      var property = properties[i];
+?>   
+   <p id="<?js= property.name ?>" class="member-header">
+     <?js= property.name ?><?js= buildPropertyType(property)?>
+<?js  if (property.alias) {                                                         ?>
+     <strong> | Aliases: </strong><?js= buildAliases(property) ?>
+<?js  }   /* if (aliases) */                                                        ?>     
+   </p>
+   <p><?js= buildPropertyDescription(property) ?></p>
+<?js    if (property.examples) {                                                    ?>
+		<script type="syntaxhighlighter" class="brush:js"><![CDATA[
+<?js= property.examples ?>
+		]]></script>
+<?js    } /* if(examples) */                                                        ?>     
+<?js } /* end for */                                                                ?>                                                                   
+  
+<?js }; /* function emitProperties */                                               ?>
+<?js /* =======================================================================  */ ?>
+
 <?js /* ---------------- description and  example ------------------------- */ ?>
 <p><?js= viewHelper.resolveClassReferences(doclet.description) ?></p>
 <?js if (doclet.examples) { ?>
@@ -25,38 +143,17 @@ function compareByName(a,b) {
 var properties = data.get({kind: "member", memberof: doclet.name}).sort(compareByName);
 var methods = data.get({kind: "function", memberof: doclet.name}).sort(compareByName);
  ?>
- <?js /* ---------------- properties summary ------------------------- */ ?>
+ <?js /* ---------------- properties and method summary ------------------------- */ ?>
  <?js if (properties.length + methods.length > 0) { ?>
  <table>
  <tr>
  	<th>Name</th>
  	<th>Description</th>
  </tr>
- <?js      if (properties.length > 0)  { ?>
- <tr>
-   <td colspan="2">Properties</td>
- </tr>
- <?js           for (var i=0; i< properties.length; i++) { ?>
-    <tr>
-    	<td><a href="#<?js= properties[i].name ?>"><?js= properties[i].name ?></a></td>
-    	<td><?js= viewHelper.resolveClassReferences(properties[i].summary ?  properties[i].summary : "") ?></td>
-    </tr>
- <?js           } /* end for */ ?>
- <?js      } /* end if */ ?>
- 
- <?js      if (methods.length > 0)  { ?>
- <tr>
-   <td colspan="2">Functions</td>
- </tr>
-  <?js          for (var i=0; i< methods.length; i++) { ?>
-    <tr>
-    	<td><a href="#<?js= methods[i].name ?>"><?js= methods[i].name ?>()</a></td>
-    	<td><?js= viewHelper.resolveClassReferences(methods[i].summary ?  methods[i].summary : "") ?></td>
-    </tr>
- <?js           } /* end for */ ?>
- <?js      } /* end if */ ?>
+ <?js  emitPropertiesSummary(properties); ?>
+ <?js  emitMethodsSummary(methods); ?>
  </table>
- <?js } /* if */ ?>
+ <?js } /* if (properites or methods) */ ?>
  
  <?js /* NOTE: augments is the canonical name for for 'extends' which is used in the documentation */ ?>
  <?js if (doclet.augments)  {   ?>
@@ -113,22 +210,7 @@ if (constructors.length > 0) { ?>
 
 
 <?js /* ----------- properties section (optional)     ------------------------- */ ?>
-<?js
-if (properties.length > 0) { ?>
-<h2>Properties</h2>
-   <?js for (var i=0; i< properties.length; i++) {
-     var property = properties[i];
-   ?>   
-   <p id="<?js= property.name ?>" class="member-header"><?js= property.name ?><?js= property.type && property.type.names ? ":" + viewHelper.resolveTypes(property.type.names) : "" ?></p>
-   <p><?js=  viewHelper.resolveClassReferences(property.description) ?></p>
-   <?js if (property.examples) { ?>
-		<script type="syntaxhighlighter" class="brush:js"><![CDATA[
-<?js= property.examples ?>
-		]]></script>
-	<?js } /* examples */ ?>     
-  <?js } ?>
-<?js }  ?> 
-
+<?js emitProperties(properties);                                                   ?>
 
 <?js /* ----------- methods section (optional)     ------------------------- */ ?>
 <?js
