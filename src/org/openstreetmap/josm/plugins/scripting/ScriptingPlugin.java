@@ -30,6 +30,7 @@ import org.openstreetmap.josm.plugins.scripting.ui.ToggleConsoleAction;
 
 public class ScriptingPlugin extends Plugin {
 	static private final Logger logger = Logger.getLogger(ScriptingPlugin.class.getName());
+	static public final String START_MODULE_NAME = "ScriptingPlugin_Start";
 	
 	private static ScriptingPlugin instance;
 	private static Scriptable startModule;
@@ -56,17 +57,21 @@ public class ScriptingPlugin extends Plugin {
 		
 		RhinoEngine engine = RhinoEngine.getInstance();
 		engine.initScope();
-		try {
-			startModule = engine.require("start");
-		} catch(RhinoException e) {
-			JOSMModuleScriptProvider provider = JOSMModuleScriptProvider.getInstance();
-			URL url = provider.lookup("start");
-			logger.log(Level.SEVERE, String.format("Failed to load start module '%s' from URL '%s'.", "start", url), e);
+		JOSMModuleScriptProvider provider = JOSMModuleScriptProvider.getInstance();
+		URL url = provider.lookup(START_MODULE_NAME);
+		if (url == null) {
+			logger.info(String.format("No startup module '%s' found.", START_MODULE_NAME));
+		} else {
+			try {
+				startModule = engine.require(START_MODULE_NAME);
+			} catch(RhinoException e) {
+				logger.log(Level.SEVERE, String.format("Failed to load start module '%s' from URL '%s'.", START_MODULE_NAME, url), e);
+			}
+			if (startModule != null) {
+				logger.info(String.format("Successfully loaded startup module '%s' from URL '%s'", START_MODULE_NAME, url));
+				jsOnStart();
+			}	
 		}
-		if (startModule != null) {
-			logger.info(String.format("Successfully loaded startup module '%s'", "start"));
-			jsOnStart();
-		}				
 	}
 	
 	protected void jsOnStart() {
