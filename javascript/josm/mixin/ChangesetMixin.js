@@ -8,7 +8,7 @@
  */
 
 var util = require("josm/util");
-var Tags = org.openstreetmap.josm.plugins.scripting.js.wrapper.Tags;
+var Tags = org.openstreetmap.josm.plugins.scripting.js.api.Tags;
 
 /**
  * <p>This mixin is auto-loaded by the scripting plugin and mixed into the 

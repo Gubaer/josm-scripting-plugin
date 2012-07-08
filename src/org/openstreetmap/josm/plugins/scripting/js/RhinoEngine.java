@@ -111,7 +111,10 @@ public class RhinoEngine {
 	public void initScope() {
 		if (scope != null) return; 
 		Context ctx = Context.getCurrentContext();
-		if (ctx == null) ctx = Context.enter();
+		if (ctx == null) {
+			ctx = Context.enter();
+			ctx.setWrapFactory(new MixinWrapFactory());
+		}
 		scope = ctx.initStandardObjects();
 		
 		JOSMModuleScriptProvider provider = JOSMModuleScriptProvider.getInstance();

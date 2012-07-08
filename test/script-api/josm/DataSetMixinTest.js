@@ -839,7 +839,7 @@ tu.suite("each",
 		util.assert(map[1] == ds.node(1), "1 - wrong object");
 		util.assert(map[2] == ds.node(2), "2 - wrong object");
 		util.assert(map[w.id] == ds.way(w.id), "3 - wrong object");	
-		util.assert(map[4], "should  have proxy node");
+		util.assert(map[3], "should  have proxy node");
 	}),
 	test("each - options - all: false", function() {
 		var ds = new DataSet();

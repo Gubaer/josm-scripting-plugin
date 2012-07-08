@@ -57,6 +57,6 @@ api.upload(data, "test upload - 2", {
 });
 
 cs = csapi.get(cs.id);
-out.println("Changeset " + cs.getId() + ": open" + cs.isOpen());
+out.println("Changeset " + cs.getId() + ": open" + cs.isOpen);
 
 }());

@@ -1,6 +1,7 @@
 package org.openstreetmap.josm.plugins.scripting.js;
 
 import java.text.MessageFormat;
+import java.util.logging.Logger;
 
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Function;
@@ -15,6 +16,7 @@ import org.mozilla.javascript.Scriptable;
  * 
  */
 public class NativeJavaClassWithJSMixin extends NativeJavaClass{
+	static private final Logger logger = Logger.getLogger(NativeJavaClassWithJSMixin.class.getName());
 	private static final long serialVersionUID = 1L;
 
 	public NativeJavaClassWithJSMixin(Scriptable scope, Class<?> cls) {
