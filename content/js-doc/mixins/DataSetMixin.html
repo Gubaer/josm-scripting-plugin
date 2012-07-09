@@ -32,6 +32,18 @@
 		
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <p><p>This mixin provides additional properties and methods which you can invoke on an instance of
 <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/DataSet.html' alt='org.openstreetmap.josm.data.osm.DataSet' target='javadoc'>DataSet</a>.</p></p>
 
@@ -65,99 +77,100 @@
  	<th>Name</th>
  	<th>Description</th>
  </tr>
- 
- <tr>
+                                                                       
+<tr>
    <td colspan="2">Properties</td>
- </tr>
- 
-    <tr>
-    	<td><a href="#nodeBuilder">nodeBuilder</a></td>
+</tr>
+
+    <tr> 
+    	<td><a href='#nodeBuilder'>nodeBuilder</a></td>
     	<td>the builder for creating <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html' alt='org.openstreetmap.josm.data.osm.Node' target='javadoc'>Node</a>s</td>
     </tr>
- 
-    <tr>
-    	<td><a href="#relationBuilder">relationBuilder</a></td>
+
+    <tr> 
+    	<td><a href='#relationBuilder'>relationBuilder</a></td>
     	<td>the builder for creating <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Relation.html' alt='org.openstreetmap.josm.data.osm.Relation' target='javadoc'>Relation</a>s</td>
     </tr>
- 
-    <tr>
-    	<td><a href="#selection">selection</a></td>
+
+    <tr> 
+    	<td><a href='#selection'>selection</a></td>
     	<td>to manipulate the selected objects in the dataset</td>
     </tr>
- 
-    <tr>
-    	<td><a href="#wayBuilder">wayBuilder</a></td>
+
+    <tr> 
+    	<td><a href='#wayBuilder'>wayBuilder</a></td>
     	<td>the builder for creating <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Way.html' alt='org.openstreetmap.josm.data.osm.Way' target='javadoc'>Way</a>s</td>
     </tr>
- 
- 
- 
- 
- <tr>
-   <td colspan="2">Functions</td>
- </tr>
+
   
-    <tr>
-    	<td><a href="#add">add()</a></td>
+
+                                                                       
+<tr>
+   <td colspan="2">Methods</td>
+</tr>
+
+    <tr> 
+    	<td><a href='#add'>add</a></td>
     	<td>Adds one or more objects to the dataset.</td>
     </tr>
- 
-    <tr>
-    	<td><a href="#batch">batch()</a></td>
+
+    <tr> 
+    	<td><a href='#batch'>batch</a></td>
     	<td>Run a sequence of command without notifying listeners.</td>
     </tr>
- 
-    <tr>
-    	<td><a href="#each">each()</a></td>
+
+    <tr> 
+    	<td><a href='#each'>each</a></td>
     	<td>Iterates over the dataset.</td>
     </tr>
- 
-    <tr>
-    	<td><a href="#get">get()</a></td>
+
+    <tr> 
+    	<td><a href='#get'>get</a></td>
     	<td>Get an object from the dataset.</td>
     </tr>
- 
-    <tr>
-    	<td><a href="#has">has()</a></td>
+
+    <tr> 
+    	<td><a href='#has'>has</a></td>
     	<td>Check whether an object is in the dataset.</td>
     </tr>
- 
-    <tr>
-    	<td><a href="#load">load()</a></td>
+
+    <tr> 
+    	<td><a href='#load'>load</a></td>
     	<td>Loads a dataset from a file.</td>
     </tr>
- 
-    <tr>
-    	<td><a href="#node">node()</a></td>
+
+    <tr> 
+    	<td><a href='#node'>node</a></td>
     	<td>Get a specific <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html' alt='org.openstreetmap.josm.data.osm.Node' target='javadoc'>Node</a> from the dataset.</td>
     </tr>
- 
-    <tr>
-    	<td><a href="#query">query()</a></td>
+
+    <tr> 
+    	<td><a href='#query'>query</a></td>
     	<td>Queries the dataset.</td>
     </tr>
- 
-    <tr>
-    	<td><a href="#relation">relation()</a></td>
+
+    <tr> 
+    	<td><a href='#relation'>relation</a></td>
     	<td>Get a specific <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Relation.html' alt='org.openstreetmap.josm.data.osm.Relation' target='javadoc'>Relation</a> from the dataset.</td>
     </tr>
- 
-    <tr>
-    	<td><a href="#remove">remove()</a></td>
+
+    <tr> 
+    	<td><a href='#remove'>remove</a></td>
     	<td>Remove one or more objects from the dataset.</td>
     </tr>
- 
-    <tr>
-    	<td><a href="#save">save()</a></td>
+
+    <tr> 
+    	<td><a href='#save'>save</a></td>
     	<td>Saves a dataset to a file.</td>
     </tr>
- 
-    <tr>
-    	<td><a href="#way">way()</a></td>
+
+    <tr> 
+    	<td><a href='#way'>way</a></td>
     	<td>Get a specific <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Way.html' alt='org.openstreetmap.josm.data.osm.Way' target='javadoc'>Way</a> from the dataset.</td>
     </tr>
- 
- 
+
+  
+
  </table>
  
  
@@ -176,44 +189,56 @@ prefix the native name with <code>$</code>.</p>
 
 
 
-
-<h2>Properties</h2>
-      
-   <p id="nodeBuilder" class="member-header">nodeBuilder:<a href='../classes/NodeBuilder.html' alt='NodeBuilder'>NodeBuilder</a></p>
-   <p>Replies a node builder to create nodes in this dataset.</p>
    
+<h2>Properties</h2>
+   
+   <p id="nodeBuilder" class="member-header">
+     nodeBuilder:<a href='../classes/NodeBuilder.html' alt='NodeBuilder'>NodeBuilder</a>
+     
+   </p>
+   <p>Replies a node builder to create nodes in this dataset.</p>
+
 		<script type="syntaxhighlighter" class="brush:js"><![CDATA[
 var ds = new DataSet();
 var n = ds.nodeBuilder.withId(1234).withTags({amenity: "restaurant"}).create();
 ds.has(n);  // --> true
 		]]></script>
-	     
      
-   <p id="relationBuilder" class="member-header">relationBuilder:<a href='../classes/RelationBuilder.html' alt='RelationBuilder'>RelationBuilder</a></p>
-   <p>Replies a relation builder to create relations in this dataset.</p>
    
+   <p id="relationBuilder" class="member-header">
+     relationBuilder:<a href='../classes/RelationBuilder.html' alt='RelationBuilder'>RelationBuilder</a>
+     
+   </p>
+   <p>Replies a relation builder to create relations in this dataset.</p>
+
 		<script type="syntaxhighlighter" class="brush:js"><![CDATA[
 var ds = new DataSet();
 var r = ds.relationBuilder.withId(8765).create({tags: {type: "network"}});
 ds.has(r);  // --> true
 		]]></script>
-	     
      
-   <p id="selection" class="member-header">selection:<a href='../classes/DataSetSelectionFacade.html' alt='DataSetSelectionFacade'>DataSetSelectionFacade</a></p>
-   <p>Replies the dataset selection object.</p>
-        
-     
-   <p id="wayBuilder" class="member-header">wayBuilder:<a href='../classes/WayBuilder.html' alt='WayBuilder'>WayBuilder</a></p>
-   <p>Replies a way builder to create ways in this dataset.</p>
    
+   <p id="selection" class="member-header">
+     selection:<a href='../classes/DataSetSelectionFacade.html' alt='DataSetSelectionFacade'>DataSetSelectionFacade</a>
+     
+   </p>
+   <p>Replies the dataset selection object.</p>
+     
+   
+   <p id="wayBuilder" class="member-header">
+     wayBuilder:<a href='../classes/WayBuilder.html' alt='WayBuilder'>WayBuilder</a>
+     
+   </p>
+   <p>Replies a way builder to create ways in this dataset.</p>
+
 		<script type="syntaxhighlighter" class="brush:js"><![CDATA[
 var ds = new DataSet();
 var w = ds.wayBuilder.create(1234, {tags: {highway: "residential"}});
 ds.has(w);  // --> true
 		]]></script>
-	     
+     
+                                                                   
   
- 
 
 
 

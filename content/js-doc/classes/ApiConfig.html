@@ -32,6 +32,18 @@
 		
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <p><p>ApiConfig provides methods and properties for configuring API parameters.</p></p>
 
  
@@ -43,44 +55,45 @@
  	<th>Name</th>
  	<th>Description</th>
  </tr>
- 
- <tr>
+                                                                       
+<tr>
    <td colspan="2">Properties</td>
- </tr>
- 
-    <tr>
-    	<td><a href="#authMethod">authMethod</a></td>
+</tr>
+
+    <tr> 
+    	<td><a href='#authMethod'>authMethod</a></td>
     	<td>Get or set the authentication method.</td>
     </tr>
- 
-    <tr>
-    	<td><a href="#defaultServerUrl">defaultServerUrl</a></td>
+
+    <tr> 
+    	<td><a href='#defaultServerUrl'>defaultServerUrl</a></td>
     	<td>Get the default server URL-</td>
     </tr>
- 
-    <tr>
-    	<td><a href="#serverUrl">serverUrl</a></td>
+
+    <tr> 
+    	<td><a href='#serverUrl'>serverUrl</a></td>
     	<td>Get or set the API server URL.</td>
     </tr>
- 
- 
- 
- 
- <tr>
-   <td colspan="2">Functions</td>
- </tr>
+
   
-    <tr>
-    	<td><a href="#getCredentials">getCredentials()</a></td>
+
+                                                                       
+<tr>
+   <td colspan="2">Methods</td>
+</tr>
+
+    <tr> 
+    	<td><a href='#getCredentials'>getCredentials</a></td>
     	<td>Gets the credentials.</td>
     </tr>
- 
-    <tr>
-    	<td><a href="#setCredentials">setCredentials()</a></td>
+
+    <tr> 
+    	<td><a href='#setCredentials'>setCredentials</a></td>
     	<td>Set the credentials.</td>
     </tr>
- 
- 
+
+  
+
  </table>
  
  
@@ -94,10 +107,13 @@
 
 
 
-
+   
 <h2>Properties</h2>
-      
-   <p id="authMethod" class="member-header">authMethod:string</p>
+   
+   <p id="authMethod" class="member-header">
+     authMethod:string
+     
+   </p>
    <p><p>Get or set the authentication method.</p>
 
 <p>JOSM uses two authentication methods:</p>
@@ -107,7 +123,7 @@
    <dt><code class="signature">oauth</code></dt>
    <dd>Authentication with the <a href="http://oauth.net/">OAuth</a> protocol.</dd>
 </dl></p>
-   
+
 		<script type="syntaxhighlighter" class="brush:js"><![CDATA[
 var conf = require("josm/api").ApiConfig;
 conf.authMethod;   // -> the current authentication method
@@ -115,18 +131,24 @@ conf.authMethod;   // -> the current authentication method
 // set OAuth as authentication method
 conf.authMethod = "oauth";
 		]]></script>
-	     
      
-   <p id="defaultServerUrl" class="member-header">defaultServerUrl:string</p>
-   <p><p>Get the default server URL.</p></p>
    
+   <p id="defaultServerUrl" class="member-header">
+     defaultServerUrl:string
+     
+   </p>
+   <p><p>Get the default server URL.</p></p>
+
 		<script type="syntaxhighlighter" class="brush:js"><![CDATA[
 var conf = require("josm/api").ApiConfig;
 conf.defaultServerUrl;   // -> the default server url
 		]]></script>
-	     
      
-   <p id="serverUrl" class="member-header">serverUrl:string</p>
+   
+   <p id="serverUrl" class="member-header">
+     serverUrl:string
+     
+   </p>
    <p><p>Get or set the API server URL.</p>
 
 <dl>
@@ -138,7 +160,7 @@ conf.defaultServerUrl;   // -> the default server url
   Accepts either a string or a <a href='http://docs.oracle.com/javase/6/docs/api/java/net/URL.html' alt='java.net.URL' target='javadoc'>URL</a>. Only accepts http or https URLs.
   </dd>
 </dl></p>
-   
+
 		<script type="syntaxhighlighter" class="brush:js"><![CDATA[
 var conf = require("josm/api").ApiConfig;
 conf.serverUrl;   // -> the current server url
@@ -146,9 +168,9 @@ conf.serverUrl;   // -> the current server url
 // set a new API url
 conf.serverUrl = "http://api06.dev.openstreetmap.org";  
 		]]></script>
-	     
+     
+                                                                   
   
- 
 
 
 

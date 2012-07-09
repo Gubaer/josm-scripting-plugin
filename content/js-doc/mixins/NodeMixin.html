@@ -32,6 +32,18 @@
 		
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <p><p>This mixin is auto-loaded by the scripting plugin and mixed into the 
 native java class <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html' alt='org.openstreetmap.josm.data.osm.Node' target='javadoc'>Node</a>. It
 provides additional properties and methods which you can invoke on an instance of
@@ -46,38 +58,38 @@ provides additional properties and methods which you can invoke on an instance o
  	<th>Name</th>
  	<th>Description</th>
  </tr>
- 
- <tr>
+                                                                       
+<tr>
    <td colspan="2">Properties</td>
- </tr>
- 
-    <tr>
-    	<td><a href="#east">east</a></td>
+</tr>
+
+    <tr> 
+    	<td><a href='#east'>east</a></td>
     	<td>Get the projected east coordinate.</td>
     </tr>
- 
-    <tr>
-    	<td><a href="#lat">lat</a></td>
+
+    <tr> 
+    	<td><a href='#lat'>lat</a></td>
     	<td>Get or set the node latitude.</td>
     </tr>
- 
-    <tr>
-    	<td><a href="#lon">lon</a></td>
+
+    <tr> 
+    	<td><a href='#lon'>lon</a></td>
     	<td>Get or set the node longitude.</td>
     </tr>
- 
-    <tr>
-    	<td><a href="#north">north</a></td>
+
+    <tr> 
+    	<td><a href='#north'>north</a></td>
     	<td>Get the projected north coordinate.</td>
     </tr>
- 
-    <tr>
-    	<td><a href="#pos">pos</a></td>
+
+    <tr> 
+    	<td><a href='#pos'>pos</a></td>
     	<td>Get or set the node position.</td>
     </tr>
- 
- 
- 
+
+  
+
  
  </table>
  
@@ -100,12 +112,15 @@ prefix the native name with <code>$</code>.</p>
 
 
 
-
-<h2>Properties</h2>
-      
-   <p id="east" class="member-header">east:number</p>
-   <p><p>Get the projected east coordinate, or undefined, if the projected east coordinate isn't known.</p></p>
    
+<h2>Properties</h2>
+   
+   <p id="east" class="member-header">
+     east:number
+     
+   </p>
+   <p><p>Get the projected east coordinate, or undefined, if the projected east coordinate isn't known.</p></p>
+
 		<script type="syntaxhighlighter" class="brush:js"><![CDATA[
 var nb = require("josm/builder").NodeBuilder;
 
@@ -113,9 +128,12 @@ var nb = require("josm/builder").NodeBuilder;
 var n = nb.create();
 n.east;  
 		]]></script>
-	     
      
-   <p id="lat" class="member-header">lat:number</p>
+   
+   <p id="lat" class="member-header">
+     lat:number
+     
+   </p>
    <p><p>Get or set the node latitude.</p>
 
 <dl>
@@ -126,7 +144,7 @@ n.east;
   <dd>Assign the latitude. Expects a number in the range [-90,90]. Raises an error,
    if the node is a proxy node.</dd>
 </dl></p>
-   
+
 		<script type="syntaxhighlighter" class="brush:js"><![CDATA[
 var nb = require("josm/builder").NodeBuilder;
 
@@ -135,9 +153,12 @@ var n = nb.create();
 n.lat = 23.245;
 n.lat;  // -> 23.245
 		]]></script>
-	     
      
-   <p id="lon" class="member-header">lon:number</p>
+   
+   <p id="lon" class="member-header">
+     lon:number
+     
+   </p>
    <p><p>Get or set the node longitude.</p>
 
 <dl>
@@ -148,7 +169,7 @@ n.lat;  // -> 23.245
   <dd>Assign the longitude. Expects a number in the range [-180,180]. Raises an error,
    if the node is a proxy node.</dd>
 </dl></p>
-   
+
 		<script type="syntaxhighlighter" class="brush:js"><![CDATA[
 var nb = require("josm/builder").NodeBuilder;
 
@@ -157,11 +178,14 @@ var n = nb.create();
 n.lon = -120.78;
 n.lon;  // -> -120.78;
 		]]></script>
-	     
      
-   <p id="north" class="member-header">north:number</p>
-   <p><p>Get the projected north coordinate, or undefined, if the projected north coordinate isn't known.</p></p>
    
+   <p id="north" class="member-header">
+     north:number
+     
+   </p>
+   <p><p>Get the projected north coordinate, or undefined, if the projected north coordinate isn't known.</p></p>
+
 		<script type="syntaxhighlighter" class="brush:js"><![CDATA[
 var nb = require("josm/builder").NodeBuilder;
 
@@ -169,9 +193,12 @@ var nb = require("josm/builder").NodeBuilder;
 var n = nb.create();
 n.north;  
 		]]></script>
-	     
      
-   <p id="pos" class="member-header">pos:<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/coor/LatLon.html' alt='org.openstreetmap.josm.data.coor.LatLon' target='javadoc'>LatLon</a></p>
+   
+   <p id="pos" class="member-header">
+     pos:<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/coor/LatLon.html' alt='org.openstreetmap.josm.data.coor.LatLon' target='javadoc'>LatLon</a>
+     
+   </p>
    <p><p>Get or set the node position.</p>
 
 <dl>
@@ -184,7 +211,7 @@ n.north;
  <dd>Assign the position. Either an instance of  <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/coor/LatLon.html' alt='org.openstreetmap.josm.data.coor.LatLon' target='javadoc'>LatLon</a>
   or an object with the properties <code>{lat: ..., lon: ...}</code></dd>
 </dl></p>
-   
+
 		<script type="syntaxhighlighter" class="brush:js"><![CDATA[
 var LatLon = org.openstreetmap.josm.data.coor.LatLon;
 var nb = require("josm/builder").NodeBuilder;
@@ -198,9 +225,9 @@ n.pos = {lat: 23, lon: 32.33};
 // get the position
 n.pos;  // -> a LatLon with the position 
 		]]></script>
-	     
+     
+                                                                   
   
- 
 
 
 

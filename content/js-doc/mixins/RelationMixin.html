@@ -32,6 +32,18 @@
 		
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <p><p>This mixin  provides additional properties and methods which you can invoke on an instance of
 <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Relation.html' alt='org.openstreetmap.josm.data.osm.Relation' target='javadoc'>Relation</a>.</p>
  
@@ -66,59 +78,60 @@ for (var i=0; i < relation.length; i++) {
  	<th>Name</th>
  	<th>Description</th>
  </tr>
- 
- <tr>
+                                                                       
+<tr>
    <td colspan="2">Properties</td>
- </tr>
- 
-    <tr>
-    	<td><a href="#length">length</a></td>
+</tr>
+
+    <tr> 
+    	<td><a href='#length'>length</a></td>
     	<td>Replies the number of relation members.</td>
     </tr>
- 
-    <tr>
-    	<td><a href="#members">members</a></td>
+
+    <tr> 
+    	<td><a href='#members'>members</a></td>
     	<td>Set or get the relation members</td>
     </tr>
- 
- 
- 
- 
- <tr>
-   <td colspan="2">Functions</td>
- </tr>
+
   
-    <tr>
-    	<td><a href="#add">add()</a></td>
+
+                                                                       
+<tr>
+   <td colspan="2">Methods</td>
+</tr>
+
+    <tr> 
+    	<td><a href='#add'>add</a></td>
     	<td></td>
     </tr>
- 
-    <tr>
-    	<td><a href="#getIdAt">getIdAt()</a></td>
+
+    <tr> 
+    	<td><a href='#getIdAt'>getIdAt</a></td>
     	<td>Replies the object id of a member.</td>
     </tr>
- 
-    <tr>
-    	<td><a href="#getObjectAt">getObjectAt()</a></td>
+
+    <tr> 
+    	<td><a href='#getObjectAt'>getObjectAt</a></td>
     	<td>Replies the object of a member.</td>
     </tr>
- 
-    <tr>
-    	<td><a href="#getRoleAt">getRoleAt()</a></td>
+
+    <tr> 
+    	<td><a href='#getRoleAt'>getRoleAt</a></td>
     	<td>Replies the role of a member.</td>
     </tr>
- 
-    <tr>
-    	<td><a href="#insertAt">insertAt()</a></td>
+
+    <tr> 
+    	<td><a href='#insertAt'>insertAt</a></td>
     	<td>Inserts one or more members at a position.</td>
     </tr>
- 
-    <tr>
-    	<td><a href="#setAt">setAt()</a></td>
+
+    <tr> 
+    	<td><a href='#setAt'>setAt</a></td>
     	<td>Sets one or more members at a position.</td>
     </tr>
- 
- 
+
+  
+
  </table>
  
  
@@ -140,14 +153,20 @@ prefix the native name with <code>$</code>.</p>
 
 
 
-
+   
 <h2>Properties</h2>
-      
-   <p id="length" class="member-header">length:number</p>
-   <p>Replies the number of relation members.</p>
-        
+   
+   <p id="length" class="member-header">
+     length:number
      
-   <p id="members" class="member-header">members:array</p>
+   </p>
+   <p>Replies the number of relation members.</p>
+     
+   
+   <p id="members" class="member-header">
+     members:array
+     
+   </p>
    <p><p>The relation members</p>
 
 <dl>
@@ -165,7 +184,7 @@ prefix the native name with <code>$</code>.</p>
    <strong>Note:</strong> you can't assign members to a proxy relation.
   </dd>
 </dl></p>
-   
+
 		<script type="syntaxhighlighter" class="brush:js"><![CDATA[
 var rb = require("josm/builder").RelationBuilder;
 var nb = require("josm/builder").NodeBuilder;
@@ -177,9 +196,9 @@ relation.members = [nb.create(), rb.member('role.1', rb.create(12345))];
 // get members 
 var members = relation.members; 
 		]]></script>
-	     
+     
+                                                                   
   
- 
 
 
 

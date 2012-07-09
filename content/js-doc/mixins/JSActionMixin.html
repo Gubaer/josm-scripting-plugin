@@ -32,6 +32,18 @@
 		
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <p><p>This mixin is auto-loaded by the scripting plugin and mixed into the 
 native java class <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/plugins/scripting/js/JSAction.html' alt='org.openstreetmap.josm.plugins.scripting.js.JSAction' target='javadoc'>JSAction</a>. It
 provides additional properties and methods which you can invoke on an instance of
@@ -46,56 +58,57 @@ provides additional properties and methods which you can invoke on an instance o
  	<th>Name</th>
  	<th>Description</th>
  </tr>
- 
- <tr>
+                                                                       
+<tr>
    <td colspan="2">Properties</td>
- </tr>
- 
-    <tr>
-    	<td><a href="#name">name</a></td>
+</tr>
+
+    <tr> 
+    	<td><a href='#name'>name</a></td>
     	<td>Set or get the name.</td>
     </tr>
- 
-    <tr>
-    	<td><a href="#onExecute">onExecute</a></td>
+
+    <tr> 
+    	<td><a href='#onExecute'>onExecute</a></td>
     	<td>Set or get the function to be called when the action is executed.</td>
     </tr>
- 
-    <tr>
-    	<td><a href="#onInitEnabled">onInitEnabled</a></td>
+
+    <tr> 
+    	<td><a href='#onInitEnabled'>onInitEnabled</a></td>
     	<td>Set or get the function to be called when the <em>enabled</em> state of the
 action should be reevaluated.</td>
     </tr>
- 
-    <tr>
-    	<td><a href="#onUpdateEnabled">onUpdateEnabled</a></td>
+
+    <tr> 
+    	<td><a href='#onUpdateEnabled'>onUpdateEnabled</a></td>
     	<td>Set or get the function to be called when the <em>enabled</em> state of the
 action should be reevaluated.</td>
     </tr>
- 
-    <tr>
-    	<td><a href="#tooltip">tooltip</a></td>
+
+    <tr> 
+    	<td><a href='#tooltip'>tooltip</a></td>
     	<td>Set or get the tooltip text.</td>
     </tr>
- 
- 
- 
- 
- <tr>
-   <td colspan="2">Functions</td>
- </tr>
+
   
-    <tr>
-    	<td><a href="#addToMenu">addToMenu()</a></td>
+
+                                                                       
+<tr>
+   <td colspan="2">Methods</td>
+</tr>
+
+    <tr> 
+    	<td><a href='#addToMenu'>addToMenu</a></td>
     	<td>Adds an action to a menu.</td>
     </tr>
- 
-    <tr>
-    	<td><a href="#addToToolbar">addToToolbar()</a></td>
+
+    <tr> 
+    	<td><a href='#addToToolbar'>addToToolbar</a></td>
     	<td>Adds an action to the toolbar.</td>
     </tr>
- 
- 
+
+  
+
  </table>
  
  
@@ -114,10 +127,13 @@ prefix the native name with <code>$</code>.</p>
 
 
 
-
+   
 <h2>Properties</h2>
-      
-   <p id="name" class="member-header">name:String</p>
+   
+   <p id="name" class="member-header">
+     name:String
+     
+   </p>
    <p><p>Set or get the name.</p>
 
 <dl>
@@ -126,9 +142,12 @@ prefix the native name with <code>$</code>.</p>
   <dt>set</dt>
   <dd>Set null or undefined, to clear the name. Any other value is converted to a string.</dd>
 </dl></p>
-        
      
-   <p id="onExecute" class="member-header">onExecute:function</p>
+   
+   <p id="onExecute" class="member-header">
+     onExecute:function
+     
+   </p>
    <p><p>Set or get the function to be called when the action is executed.</p>
 
 <dl>
@@ -137,9 +156,12 @@ prefix the native name with <code>$</code>.</p>
   <dt>set</dt>
   <dd>Set the function, or null or undefined to remove the function.</dd>
 </dl></p>
-        
      
-   <p id="onInitEnabled" class="member-header">onInitEnabled:function</p>
+   
+   <p id="onInitEnabled" class="member-header">
+     onInitEnabled:function
+     
+   </p>
    <p><p>Set or get the function to be called when the <em>enabled</em> state should
 be initialized.</p>
 
@@ -149,9 +171,12 @@ be initialized.</p>
   <dt>set</dt>
   <dd>Set the function, or null or undefined to remove the function.</dd>
 </dl></p>
-        
      
-   <p id="onUpdateEnabled" class="member-header">onUpdateEnabled:function</p>
+   
+   <p id="onUpdateEnabled" class="member-header">
+     onUpdateEnabled:function
+     
+   </p>
    <p><p>Set or get the function to be called when the <em>enabled</em> state of the
 action should be reevaluated.</p>
 
@@ -161,9 +186,12 @@ action should be reevaluated.</p>
   <dt>set</dt>
   <dd>Set the function, or null or undefined to remove the function.</dd>
 </dl></p>
-        
      
-   <p id="tooltip" class="member-header">tooltip:String</p>
+   
+   <p id="tooltip" class="member-header">
+     tooltip:String
+     
+   </p>
    <p><p>Set or get the tooltip text.</p>
 
 <dl>
@@ -172,9 +200,9 @@ action should be reevaluated.</p>
   <dt>set</dt>
   <dd>Set null or undefined, to clear the tooltip. Any other value is converted to a string.</dd>
 </dl></p>
-        
+     
+                                                                   
   
- 
 
 
 

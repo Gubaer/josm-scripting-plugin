@@ -32,6 +32,18 @@
 		
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <p><p>This is the global JOSM API object. It represents a running JOSM instance.</p></p>
 
  
@@ -43,49 +55,50 @@
  	<th>Name</th>
  	<th>Description</th>
  </tr>
- 
- <tr>
+                                                                       
+<tr>
    <td colspan="2">Properties</td>
- </tr>
- 
-    <tr>
-    	<td><a href="#commands">commands</a></td>
+</tr>
+
+    <tr> 
+    	<td><a href='#commands'>commands</a></td>
     	<td>Replies the global command history.</td>
     </tr>
- 
-    <tr>
-    	<td><a href="#layers">layers</a></td>
+
+    <tr> 
+    	<td><a href='#layers'>layers</a></td>
     	<td>accessor for JOSM layers</td>
     </tr>
- 
-    <tr>
-    	<td><a href="#menu">menu</a></td>
+
+    <tr> 
+    	<td><a href='#menu'>menu</a></td>
     	<td>Replies an accessor for JOSMs menu bar.</td>
     </tr>
- 
-    <tr>
-    	<td><a href="#version">version</a></td>
+
+    <tr> 
+    	<td><a href='#version'>version</a></td>
     	<td>JOSM version string</td>
     </tr>
- 
- 
- 
- 
- <tr>
-   <td colspan="2">Functions</td>
- </tr>
+
   
-    <tr>
-    	<td><a href="#alert">alert()</a></td>
+
+                                                                       
+<tr>
+   <td colspan="2">Methods</td>
+</tr>
+
+    <tr> 
+    	<td><a href='#alert'>alert</a></td>
     	<td>display a message</td>
     </tr>
- 
-    <tr>
-    	<td><a href="#open">open()</a></td>
+
+    <tr> 
+    	<td><a href='#open'>open</a></td>
     	<td>Opens one or more files in JOSM</td>
     </tr>
- 
- 
+
+  
+
  </table>
  
  
@@ -99,14 +112,17 @@
 
 
 
-
+   
 <h2>Properties</h2>
-      
-   <p id="commands" class="member-header">commands:<a href='../namespaces/CommandHistory.html' alt='CommandHistory'>CommandHistory</a></p>
+   
+   <p id="commands" class="member-header">
+     commands:<a href='../namespaces/CommandHistory.html' alt='CommandHistory'>CommandHistory</a>
+     
+   </p>
    <p><p>Replies the global command history.</p>
 
 <p>Use this object to undo/redo commands, or to clear the command history.</p></p>
-   
+
 		<script type="syntaxhighlighter" class="brush:js"><![CDATA[
 // undoes the last command 
 josm.commands.undo();
@@ -114,35 +130,44 @@ josm.commands.undo();
 // redoes two commands
 josm.commands.redo(2);
 		]]></script>
-	     
      
-   <p id="layers" class="member-header">layers:object</p>
-   <p><p>Replies the layers object.</p></p>
    
+   <p id="layers" class="member-header">
+     layers:object
+     
+   </p>
+   <p><p>Replies the layers object.</p></p>
+
 		<script type="syntaxhighlighter" class="brush:js"><![CDATA[
 josm.alert("num layers: " + josm.layers.length);
 
 // name of first layer 
 josm.alert("num layers: " + josm.layers.get(0).name);
 		]]></script>
-	     
      
-   <p id="menu" class="member-header">menu:<a href='../namespaces/MenuBar.html' alt='MenuBar'>MenuBar</a></p>
+   
+   <p id="menu" class="member-header">
+     menu:<a href='../namespaces/MenuBar.html' alt='MenuBar'>MenuBar</a>
+     
+   </p>
    <p><p>Replies an accessor for JOSMs menu bar.</p>
 
 <p>Use this object to inspect or modify the menu bar, i.e. to add additional menu
 items.</p></p>
-        
      
-   <p id="version" class="member-header">version:string</p>
-   <p><p>Replies the current JOSM version string.</p></p>
    
+   <p id="version" class="member-header">
+     version:string
+     
+   </p>
+   <p><p>Replies the current JOSM version string.</p></p>
+
 		<script type="syntaxhighlighter" class="brush:js"><![CDATA[
 josm.alert(josm.version);
 		]]></script>
-	     
+     
+                                                                   
   
- 
 
 
 

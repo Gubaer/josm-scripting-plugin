@@ -32,6 +32,18 @@
 		
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <p><p>This mixin provides additional properties and methods which you can invoke on an instance of
 <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/coor/LatLon.html' alt='org.openstreetmap.josm.data.coor.LatLon' target='javadoc'>LatLon</a>.</p></p>
 
@@ -44,34 +56,35 @@
  	<th>Name</th>
  	<th>Description</th>
  </tr>
- 
- <tr>
+                                                                       
+<tr>
    <td colspan="2">Properties</td>
- </tr>
- 
-    <tr>
-    	<td><a href="#lat">lat</a></td>
+</tr>
+
+    <tr> 
+    	<td><a href='#lat'>lat</a></td>
     	<td>Get the latitude.</td>
     </tr>
- 
-    <tr>
-    	<td><a href="#lon">lon</a></td>
+
+    <tr> 
+    	<td><a href='#lon'>lon</a></td>
     	<td>Get the longitude.</td>
     </tr>
- 
- 
- 
- 
- <tr>
-   <td colspan="2">Functions</td>
- </tr>
+
   
-    <tr>
-    	<td><a href="#make">make()</a></td>
+
+                                                                       
+<tr>
+   <td colspan="2">Methods</td>
+</tr>
+
+    <tr> 
+    	<td><a href='#make'>make</a></td>
     	<td>Create a <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/coor/LatLon.html' alt='org.openstreetmap.josm.data.coor.LatLon' target='javadoc'>LatLon</a> from a javascript object.</td>
     </tr>
- 
- 
+
+  
+
  </table>
  
  
@@ -90,12 +103,15 @@ prefix the native name with <code>$</code>.</p>
 
 
 
-
-<h2>Properties</h2>
-      
-   <p id="lat" class="member-header">lat:number</p>
-   <p><p>Get the latitude.</p></p>
    
+<h2>Properties</h2>
+   
+   <p id="lat" class="member-header">
+     lat:number
+     
+   </p>
+   <p><p>Get the latitude.</p></p>
+
 		<script type="syntaxhighlighter" class="brush:js"><![CDATA[
 var LatLon = org.openstreetmap.josm.data.coor.LatLon;
 
@@ -107,11 +123,14 @@ pos.lat;     // -> 1
 // Note the parentheses - the native method has to be called as function!
 pos.$lat();  // -> 1
 		]]></script>
-	     
      
-   <p id="lon" class="member-header">lon:number</p>
-   <p><p>Get the longitude.</p></p>
    
+   <p id="lon" class="member-header">
+     lon:number
+     
+   </p>
+   <p><p>Get the longitude.</p></p>
+
 		<script type="syntaxhighlighter" class="brush:js"><![CDATA[
 var LatLon = org.openstreetmap.josm.data.coor.LatLon;
 
@@ -123,9 +142,9 @@ pos.lon;     // -> 2
 // Note the parentheses - the native method has to be called as function!
 pos.$lon();  // -> 1
 		]]></script>
-	     
+     
+                                                                   
   
- 
 
 
 
