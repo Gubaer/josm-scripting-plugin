@@ -21,6 +21,7 @@ public class MixinWrapFactory extends WrapFactory{
 		return new NativeJavaObjectWithJSMixin(scope, javaObject, staticType);
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public Scriptable wrapJavaClass(Context cx, Scriptable scope, Class javaClass) {
 		return new NativeJavaClassWithJSMixin(scope, javaClass);
