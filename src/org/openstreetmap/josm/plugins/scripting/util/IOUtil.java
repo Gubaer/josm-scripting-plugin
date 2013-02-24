@@ -2,6 +2,7 @@ package org.openstreetmap.josm.plugins.scripting.util;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.Reader;
 import java.io.Writer;
 import java.util.jar.JarFile;
@@ -44,5 +45,15 @@ public class IOUtil {
 				
 			}
 		}
+	}
+	
+	static public void close(OutputStream out) {
+	    if (out != null) {
+	        try {
+	            out.close();
+	        } catch(IOException e) {
+	            // ignore 
+	        }
+	    }
 	}
 }
