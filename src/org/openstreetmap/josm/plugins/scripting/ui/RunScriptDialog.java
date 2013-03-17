@@ -301,6 +301,7 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys{
 			chooser.setDialogTitle(tr("Select a script file"));
 			chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 			chooser.setMultiSelectionEnabled(false);
+			chooser.setFileHidingEnabled(false);
 			if (currentFile != null){
 				chooser.setCurrentDirectory(currentFile);
 				chooser.setSelectedFile(currentFile);
