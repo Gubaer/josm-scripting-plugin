@@ -3,18 +3,23 @@ package org.openstreetmap.josm.plugins.scripting;
 import static org.openstreetmap.josm.gui.help.HelpUtil.ht;
 import static org.openstreetmap.josm.tools.I18n.tr;
 
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
+import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.swing.Action;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 import javax.swing.JSeparator;
 
 import org.mozilla.javascript.Function;
@@ -22,6 +27,7 @@ import org.mozilla.javascript.RhinoException;
 import org.mozilla.javascript.Scriptable;
 import org.openstreetmap.josm.Main;
 import org.openstreetmap.josm.gui.MapFrame;
+import org.openstreetmap.josm.gui.MenuScroller;
 import org.openstreetmap.josm.gui.preferences.PreferenceSetting;
 import org.openstreetmap.josm.plugins.Plugin;
 import org.openstreetmap.josm.plugins.PluginInformation;
@@ -29,6 +35,7 @@ import org.openstreetmap.josm.plugins.scripting.js.JOSMModuleScriptProvider;
 import org.openstreetmap.josm.plugins.scripting.js.RhinoEngine;
 import org.openstreetmap.josm.plugins.scripting.preferences.ConfigureAction;
 import org.openstreetmap.josm.plugins.scripting.preferences.PreferenceEditor;
+import org.openstreetmap.josm.plugins.scripting.ui.MostRecentlyRunScriptsModel;
 import org.openstreetmap.josm.plugins.scripting.ui.RunScriptAction;
 import org.openstreetmap.josm.plugins.scripting.ui.ToggleConsoleAction;
 import org.openstreetmap.josm.plugins.scripting.util.IOUtil;
@@ -93,9 +100,9 @@ public class ScriptingPlugin extends Plugin {
         if (o == Scriptable.NOT_FOUND)
             return;
         if (!(o instanceof Function)) {
-            logger.warning(String
-                    .format("module 'start': property '%s' should be a function, got %s instead",
-                            "onStart", o));
+            logger.warning(String.format(
+                "module 'start': property '%s' should be a function, got %s instead",
+                 "onStart", o));
             return;
         }
         RhinoEngine.getInstance().executeOnSwingEDT((Function) o);
@@ -117,17 +124,49 @@ public class ScriptingPlugin extends Plugin {
                 new Object[] { oldFrame, newFrame });
     }
 
+    private final Action toggleConsoleAction = new ToggleConsoleAction();
+    private final Action runScriptAction = new RunScriptAction();
+    private final Action configureAction = new ConfigureAction();
+    
     protected void installScriptsMenu() {
-        JMenu mnuMacro;
-        mnuMacro = Main.main.menu.addMenu(tr("Scripting"), KeyEvent.VK_S,
-                Main.main.menu.defaultMenuPos, ht("/Plugin/Scripting"));
-        mnuMacro.setMnemonic('S');
-        mnuMacro.add(new JCheckBoxMenuItem(new ToggleConsoleAction()));
-        mnuMacro.add(new RunScriptAction());
-        mnuMacro.add(new JSeparator());
-        mnuMacro.add(new ConfigureAction());
+        final JMenu scriptingMenu = Main.main.menu.addMenu(
+                tr("Scripting"), KeyEvent.VK_S,
+                Main.main.menu.defaultMenuPos, ht("/Plugin/Scripting")
+        );
+        scriptingMenu.setMnemonic('S');
+        MostRecentlyRunScriptsModel.getInstance().loadFromPreferences(Main.pref);
+        populateStandardentries(scriptingMenu);
+        populateMruMenuEntries(scriptingMenu);
+        MostRecentlyRunScriptsModel.getInstance().addObserver(new Observer() {
+            @Override
+            public void update(Observable arg0, Object arg1) {
+                scriptingMenu.removeAll();
+                populateStandardentries(scriptingMenu);
+                populateMruMenuEntries(scriptingMenu);                
+            }            
+        });
+    }
+            
+    protected void populateStandardentries(JMenu scriptingMenu) {
+        scriptingMenu.add(new JCheckBoxMenuItem(toggleConsoleAction));
+        scriptingMenu.add(runScriptAction);
+        scriptingMenu.add(new JSeparator());
+        scriptingMenu.add(configureAction);
     }
 
+    protected void populateMruMenuEntries(JMenu scriptingMenu) {
+        List<Action> actions = MostRecentlyRunScriptsModel
+                .getInstance()
+                .getRunScriptActions();
+        if (!actions.isEmpty()) {
+            scriptingMenu.addSeparator();
+            for (int i = 0; i < actions.size() && i < 10; i++) {
+                JMenuItem item = new JMenuItem(actions.get(i));
+                scriptingMenu.add(item);
+            }
+        }
+    }
+  
     @Override
     public PreferenceSetting getPreferenceSetting() {
         return new PreferenceEditor();
@@ -135,7 +174,7 @@ public class ScriptingPlugin extends Plugin {
 
     @Override
     public void mapFrameInitialized(MapFrame oldFrame, MapFrame newFrame) {
-        jsOnMapFrameChanged(oldFrame, newFrame);
+        jsOnMapFrameChanged(oldFrame, newFrame);        
     }
 
     /**
