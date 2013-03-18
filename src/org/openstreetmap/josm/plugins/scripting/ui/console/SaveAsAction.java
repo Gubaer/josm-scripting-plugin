@@ -19,6 +19,7 @@ public class SaveAsAction extends AbstractAction {
 		chooser.setDialogTitle(tr("Select a script"));
 		chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		chooser.setMultiSelectionEnabled(false);
+		chooser.setFileHidingEnabled(false);
 		int ret = chooser.showSaveDialog(ScriptingConsole.getInstance());			
 		if (ret != JFileChooser.APPROVE_OPTION) return null;
 		

@@ -55,7 +55,7 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys{
 	static private final Logger logger = Logger.getLogger(RunScriptDialog.class.getName());
 
 	/** the input field for the script file name */
-	private HistoryComboBox cbScriptFile;
+	private MostRecentlyRunScriptsComboBox cbScriptFile;
 	private Action actRun;
 	
 	/**
@@ -98,7 +98,9 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys{
 		GridBagConstraints gc  = gbc().cell(0,0).weight(0, 0).fillboth().insets(3,3,3,3).constraints();
 		pnl.add(new JLabel(tr("File:")), gc);
 		
-		cbScriptFile = new HistoryComboBox();		
+		cbScriptFile = new MostRecentlyRunScriptsComboBox(
+		        MostRecentlyRunScriptsModel.getInstance()
+		);		
 		SelectAllOnFocusGainedDecorator.decorate((JTextField)cbScriptFile.getEditor().getEditorComponent());
 		cbScriptFile.setToolTipText(tr("Enter the name of a script file"));
 		gc = gbc(gc).cell(1,0).weightx(1.0).spacingright(0).constraints();
@@ -144,15 +146,6 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys{
 	@Override
 	public void setVisible(boolean visible) {
 		if (visible) {
-			/*
-			 * Restore the file history and the last entered script file name
-			 * from preferences
-			 */
-	        List<String> fileHistory = new LinkedList<String>(
-	        		Main.pref.getCollection(PREF_KEY_FILE_HISTORY, new LinkedList<String>())
-	        );
-	        Collections.reverse(fileHistory);
-	        cbScriptFile.setPossibleItems(fileHistory);
 	        String lastFile = Main.pref.get(PREF_KEY_LAST_FILE);
 	        if (lastFile != null && !lastFile.trim().isEmpty()){
 	        	cbScriptFile.setText(lastFile.trim());
@@ -165,7 +158,7 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys{
 			 */
 			String currentFile = cbScriptFile.getText();
 			Main.pref.put(PREF_KEY_LAST_FILE, currentFile.trim());
-			Main.pref.putCollection(PREF_KEY_FILE_HISTORY, cbScriptFile.getHistory());			
+			MostRecentlyRunScriptsModel.getInstance().saveToPreferences(Main.pref);
 		}
 		super.setVisible(visible);
 	}
@@ -190,97 +183,20 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys{
 			putValue(SMALL_ICON, ImageProvider.get("run"));
 		}
 		
-		protected void warnMacroFileDoesntExist(File f){			
-			HelpAwareOptionPane.showOptionDialog(
-					null,
-					tr("The script file ''{0}'' doesn''t exist.", f.toString()),
-					tr("File not found"),
-					JOptionPane.ERROR_MESSAGE,
-					HelpUtil.ht("/Plugin/Scripting")
-			);			
-		}
-		
-		protected void warnEmptyFile(){			
-			HelpAwareOptionPane.showOptionDialog(
-					cbScriptFile,
-					tr("Please enter a file name first."),
-					tr("Empty file name"),
-					JOptionPane.ERROR_MESSAGE,
-					HelpUtil.ht("/Plugin/Scripting")
-			);			
-		}
-		
-		protected void warnMacroFileIsntReadable(File f){
-			HelpAwareOptionPane.showOptionDialog(
-					RunScriptDialog.this,
-					tr("The script file ''{0}'' isn''t readable.", f.toString()),
-					tr("File not readable"),
-					JOptionPane.ERROR_MESSAGE,
-					HelpUtil.ht("/Plugin/Scripting")
-			);			
-		}
-		
-		protected void warnOpenScriptFileFailed(File f, Exception e){
-			HelpAwareOptionPane.showOptionDialog(
-					RunScriptDialog.this,
-					tr("Failed to read the script from the file ''{0}''.", f.toString()),
-					tr("IO error"),
-					JOptionPane.ERROR_MESSAGE,
-					HelpUtil.ht("/Plugin/Scripting")
-			);			
-			System.out.println(tr("Failed to read the script from the file ''{0}''.", f.toString()));
-			e.printStackTrace();			
-		}
-								
-		protected ScriptEngineDescriptor deriveOrAskScriptEngineDescriptor(File file) { 
-			JSR223ScriptEngineProvider provider = JSR223ScriptEngineProvider.getInstance();
-			String mimeType = provider.getContentTypeForFile(file);
-			if (mimeType.equals("application/javascript")) {
-				return ScriptEngineDescriptor.DEFAULT_SCRIPT_ENGINE;
-			}
-			ScriptEngineDescriptor desc = JSR223ScriptEngineProvider.getInstance().getEngineForFile(file);
-			if (desc != null) return desc;
-			return ScriptEngineSelectionDialog.select(RunScriptDialog.this);
-		}
-		
-		
-		
 		@Override
 		public void actionPerformed(ActionEvent evt) {
 			String fileName = cbScriptFile.getText().trim();
-			if (fileName.isEmpty()){
-				warnEmptyFile();
-				return;
-			}
-			final File f = new File(fileName);
-			if (! f.exists() || !f.isFile()) {
-				warnMacroFileDoesntExist(f);
-				return;
-			} else if (!f.canRead()) {
-				warnMacroFileIsntReadable(f);
-				return;
-			}
-			
-			cbScriptFile.addCurrentItemToHistory();
-			
-			try {
-				new FileReader(f);
-			} catch(IOException e){
-				warnOpenScriptFileFailed(f, e);
-				return;
-			} 			
-			ScriptEngineDescriptor desc = deriveOrAskScriptEngineDescriptor(f);
-			if (desc == null) return;
-			setVisible(false);		
-			
-			switch(desc.getEngineType()){
-			case EMBEDDED:
-				new ScriptExecutor(RunScriptDialog.this).runScriptWithEmbeddedEngine(f);
-				break;
-			case PLUGGED:
-				new ScriptExecutor(RunScriptDialog.this).runScriptWithPluggedEngine(desc, f);
-				break;
-			}
+			RunScriptService service = new RunScriptService();
+			if (!service.canRunScript(fileName, RunScriptDialog.this)) {
+			    return;
+			}			
+			ScriptEngineDescriptor engine = 
+			        service.deriveOrAskScriptEngineDescriptor(
+			                fileName, RunScriptDialog.this
+			        );
+			if (engine == null) return;
+			setVisible(false);
+			service.runScript(fileName, engine, RunScriptDialog.this);
 		}	
 	}
 	
@@ -301,6 +217,7 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys{
 			chooser.setDialogTitle(tr("Select a script file"));
 			chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 			chooser.setMultiSelectionEnabled(false);
+			chooser.setFileHidingEnabled(false);
 			if (currentFile != null){
 				chooser.setCurrentDirectory(currentFile);
 				chooser.setSelectedFile(currentFile);

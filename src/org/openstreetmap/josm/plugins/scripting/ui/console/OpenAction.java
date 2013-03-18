@@ -32,7 +32,8 @@ public class OpenAction extends AbstractAction {
 		JFileChooser chooser = new JFileChooser();
 		chooser.setDialogTitle(tr("Select a script"));
 		chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-		chooser.setMultiSelectionEnabled(false);		
+		chooser.setMultiSelectionEnabled(false);	
+		chooser.setFileHidingEnabled(false);
 		File dir = getLastOpenedDirectory();
 		if (dir != null) {
 			chooser.setCurrentDirectory(dir);

@@ -3,3 +3,4 @@
 #
 application/x-groovy  groovy
 application/javascript js jscript
+application/python py
