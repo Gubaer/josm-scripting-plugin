@@ -57,6 +57,13 @@ junit.jar=/full/path/to/jar
 #
 rhino.jar=/full/path/to/jar
 
+# the full path to the Jython jar
+# The Jython jar isn't shipped with the plugin, but it is required dependency
+# in the compilation steps
+#
+jython.jar=/full/path/to/jar
+
+
 # The full path to the local installation of the JSDoc toolkit.
 # The JSDoc toolkit is used the generate the documentation for
 # the JOSM JavaScript API.

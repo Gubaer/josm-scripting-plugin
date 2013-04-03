@@ -20,6 +20,7 @@
 			<pathelement location="${josm.jar}" />
 			<pathelement location="${jsyntaxpane.jar}" />
 			<pathelement location="${rhino.jar}" />
+			<pathelement location="${jython.jar}" />
 		</path>
 
 		<mkdir dir="${plugin.build.dir}" />
