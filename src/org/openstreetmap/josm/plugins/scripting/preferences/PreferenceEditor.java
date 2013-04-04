@@ -5,14 +5,13 @@ import static org.openstreetmap.josm.tools.I18n.tr;
 import java.awt.BorderLayout;
 
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 
+import org.openstreetmap.josm.Main;
 import org.openstreetmap.josm.gui.preferences.DefaultTabPreferenceSetting;
 import org.openstreetmap.josm.gui.preferences.PreferenceTabbedPane;
 import org.openstreetmap.josm.gui.preferences.PreferenceTabbedPane.PreferencePanel;
 import org.openstreetmap.josm.plugins.scripting.ui.GridBagConstraintBuilder;
-import org.openstreetmap.josm.tools.GBC;
 
 public class PreferenceEditor extends DefaultTabPreferenceSetting {
 	static public final String ICON_NAME = "script-engine";
@@ -21,6 +20,7 @@ public class PreferenceEditor extends DefaultTabPreferenceSetting {
 	private JTabbedPane tpPreferenceTabs;
 	private ScriptEnginesConfigurationPanel pnlScriptEngineConfiguration;
 	private RhinoEngineConfigurationPanel pnlRhinoEngineConfiguration;
+	private JythonConfigurationPanel pnlJythonConfiguration;
 	
 	public PreferenceEditor(){
 		super(
@@ -30,7 +30,6 @@ public class PreferenceEditor extends DefaultTabPreferenceSetting {
 				false // expert mode only?
 		);		
 	}
-
 	
 	@Override
 	public void addGui(PreferenceTabbedPane gui) {
@@ -38,7 +37,10 @@ public class PreferenceEditor extends DefaultTabPreferenceSetting {
 		tpPreferenceTabs = new JTabbedPane();
 		tpPreferenceTabs.add(tr("Script engines"), pnlScriptEngineConfiguration = new ScriptEnginesConfigurationPanel());
 		tpPreferenceTabs.add(tr("Embedded Rhino engine"), pnlRhinoEngineConfiguration = new RhinoEngineConfigurationPanel());
+		tpPreferenceTabs.add(tr("Jython engine"), pnlJythonConfiguration = new JythonConfigurationPanel());		
 		pnl.add(tpPreferenceTabs, BorderLayout.CENTER);
+		
+		pnlJythonConfiguration.loadFromPreferences();
 		
 		PreferencePanel pp = gui.createPreferenceTab(this);
 		pp.add(pnl, GridBagConstraintBuilder.gbc().cell(0, 2).fillboth().weight(1.0,1.0).constraints());
@@ -48,6 +50,7 @@ public class PreferenceEditor extends DefaultTabPreferenceSetting {
 	public boolean ok() {
 		pnlScriptEngineConfiguration.persistToPreferences();
 		pnlRhinoEngineConfiguration.persistToPreferences();
+		pnlJythonConfiguration.persistToPreferences();
 		return false;
 	}
 }

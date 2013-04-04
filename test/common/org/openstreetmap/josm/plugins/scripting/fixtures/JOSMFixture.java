@@ -22,7 +22,7 @@ public class JOSMFixture {
         return new JOSMFixture("/test-env.properties");
     }
 
-    private Properties testProperties;
+    public Properties testProperties;
     private String testPropertiesResourceName;
 
     public JOSMFixture(String testPropertiesResourceName) {

@@ -46,4 +46,26 @@ public interface PreferenceKeys {
 	 * <p>Default value: empty</p>
 	 */
 	String PREF_KEY_COMMONJS_MODULE_REPOSITORIES = "scripting.commonjs-module-repositories";
+	
+	/**
+	 * <p>The array of local paths which are added to the internal to
+	 * the <tt>sys.path</tt> of the internal Jython interpreter</p>
+	 * 
+	 * <p>Default value: empty</p>
+	 */
+	String PREF_KEY_JYTHON_SYS_PATHS = "scripting.jython.sys.path";
+	
+	/**
+	 * <p>The array of python plugins to be loaded when JOSM
+	 * starts up, provided the Jython interpreter is on the class
+	 * path.</p>
+	 * 
+	 * <p>Each entry has the form <tt>package_name.ClassName</tt>, i.e.
+	 * <tt>my_plugin.MyPlugin</tt>. The scripting plugin will load
+	 * it, if <tt>my_plugin.py</tt> is on the paths in <tt>sys.paths</tt>
+	 * and if it implements the python class <code>MyPlugin</code>.</p>
+	 * 
+	 * <p>Default value: empty</p>
+	 */
+	String PREF_KEY_JYTHON_PLUGINS = "scripting.jython.plugins";
 }

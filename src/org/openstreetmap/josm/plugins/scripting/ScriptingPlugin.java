@@ -1,15 +1,16 @@
 package org.openstreetmap.josm.plugins.scripting;
 
 import static org.openstreetmap.josm.gui.help.HelpUtil.ht;
+import static org.openstreetmap.josm.plugins.scripting.python.PythonPluginManagerFactory.isJythonPresent;
 import static org.openstreetmap.josm.tools.I18n.tr;
 
-import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.Collection;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -27,14 +28,16 @@ import org.mozilla.javascript.RhinoException;
 import org.mozilla.javascript.Scriptable;
 import org.openstreetmap.josm.Main;
 import org.openstreetmap.josm.gui.MapFrame;
-import org.openstreetmap.josm.gui.MenuScroller;
 import org.openstreetmap.josm.gui.preferences.PreferenceSetting;
 import org.openstreetmap.josm.plugins.Plugin;
 import org.openstreetmap.josm.plugins.PluginInformation;
 import org.openstreetmap.josm.plugins.scripting.js.JOSMModuleScriptProvider;
 import org.openstreetmap.josm.plugins.scripting.js.RhinoEngine;
+import org.openstreetmap.josm.plugins.scripting.model.PreferenceKeys;
 import org.openstreetmap.josm.plugins.scripting.preferences.ConfigureAction;
 import org.openstreetmap.josm.plugins.scripting.preferences.PreferenceEditor;
+import org.openstreetmap.josm.plugins.scripting.python.IPythonPluginManager;
+import org.openstreetmap.josm.plugins.scripting.python.PythonPluginManagerFactory;
 import org.openstreetmap.josm.plugins.scripting.ui.MostRecentlyRunScriptsModel;
 import org.openstreetmap.josm.plugins.scripting.ui.RunScriptAction;
 import org.openstreetmap.josm.plugins.scripting.ui.ToggleConsoleAction;
@@ -47,6 +50,8 @@ public class ScriptingPlugin extends Plugin {
 
     private static ScriptingPlugin instance;
     private static Scriptable startModule;
+    
+    private IPythonPluginManager pythonPluginManager;
 
     protected void initLocalInstallation() {
         File f = new File(getPluginDir(), "modules");
@@ -90,7 +95,35 @@ public class ScriptingPlugin extends Plugin {
                         START_MODULE_NAME, url));
                 jsOnStart();
             }
-        }        
+        }
+        if (isJythonPresent()) {
+            loadPythonPlugins();
+        }
+    }
+    
+    protected void loadPythonPlugins() {
+        pythonPluginManager = PythonPluginManagerFactory.createPythonPluginManager();
+        if (pythonPluginManager == null) return;
+        
+        Collection<String> paths = Main.pref.getCollection(
+               PreferenceKeys.PREF_KEY_JYTHON_SYS_PATHS,
+               null
+        );
+        if (paths != null) {
+            pythonPluginManager.updatePluginSpecificSysPaths(paths);
+        }
+        
+        Collection<String> plugins = Main.pref.getCollection(
+           PreferenceKeys.PREF_KEY_JYTHON_PLUGINS,
+           null
+        );
+        if (plugins != null) {
+            for (String plugin: plugins) {
+                plugin = plugin.trim();
+                if (plugin.isEmpty()) continue;
+                pythonPluginManager.loadPlugin(plugin);
+            }
+        }              
     }
 
     protected void jsOnStart() {
@@ -175,6 +208,10 @@ public class ScriptingPlugin extends Plugin {
     @Override
     public void mapFrameInitialized(MapFrame oldFrame, MapFrame newFrame) {
         jsOnMapFrameChanged(oldFrame, newFrame);        
+        
+        if (pythonPluginManager != null) {
+            pythonPluginManager.notifyMapFrameChanged(oldFrame, newFrame);
+        }
     }
 
     /**
