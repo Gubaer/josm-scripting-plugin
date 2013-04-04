@@ -2,6 +2,8 @@ package org.openstreetmap.josm.plugins.scripting.python;
 
 import static org.openstreetmap.josm.tools.I18n.tr;
 
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -45,6 +47,7 @@ public class PythonPluginManager implements
         if (paths != null) {
             sys.path.addAll(paths);
         }
+        sys.setClassLoader(PythonPluginManager.class.getClassLoader());        
     }
     
     private PythonInterpreter interpreter;
@@ -65,7 +68,7 @@ public class PythonPluginManager implements
         for (int i =0; i< state.path.size(); i++) {
             String path = (String)state.path.get(i);
             originalSysPaths.add(path);
-        }        
+        }                
     }
     
     /**
@@ -113,6 +116,7 @@ public class PythonPluginManager implements
                return null;
             }
             PyObject pluginInstance = pluginClass.__call__();
+            logger.info("instantiated plugin: " + pluginInstance);
             
             plugin = (JosmPythonPlugin)
                     pluginInstance.__tojava__(JosmPythonPlugin.class);
