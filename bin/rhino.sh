@@ -3,7 +3,7 @@
 # run rhino
 #
 
-BASEDIR=$(dirname $0)
+BASEDIR=$(dirname $0)/..
 if [ ! -e $BASEDIR/env.sh ];  then
   echo "FATAL: 'env.sh' doesn't exist. Copy 'env.sh.distrib' to 'env.sh' and configure local settings."
   exit 1
