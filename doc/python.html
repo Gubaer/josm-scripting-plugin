@@ -1,0 +1,96 @@
+---
+	layout: doc
+---
+<h1>Running JOSM with Python support</h1>
+
+<p>In order to run JOSM with Python support, a <a href="http://www.jython.org">Jython</a> jar has to be on the classpath at startup time.</p>
+
+Here's how to start JOSM:
+{% highlight bash %}
+$  josm -classpath "/your/josm.jar:/your/jython.jar" org.openstreetmap.josm.gui.MainApplication
+{% endhighlight %}
+
+or alternatively
+
+{% highlight bash %}
+$ export CLASSPATH=$CLASSPATH:/your/jython.jar
+$ josm -jar josm.jar 
+{% endhighlight %}
+
+Note that <code>jython.jar</code> isn't included in the scripting plugin. You have to <a href="http://www.jython.org/downloads.html">download</a> it manually.
+
+<h2 id="configure">Configuring Python support</h2>
+
+<ul>
+  <li>Select Scripting -> Configure ...</li>
+  <li>Select the tab "Configure script engines and scripts"</li>
+  <li>Select the tab "jython engine"</li>
+</ul>
+
+In the preferences you can configure
+
+<ol>
+  <li><strong>sys paths</strong>, i.e. directories and jar files where jython is looking for Python packages, modules, and classes
+  <li><strong>plugins</strong>, the names of Python plugins which shall be loaded at startup time 
+</ol>
+
+<h2>Writing a Python Plugin</h2>
+
+Here's a simple example of a Python plugin for JOSM.
+{% highlight python %}
+#
+# A simple Python plugin which does basically nothing. It only prints
+# a message when one of the callback methods is invoked by JOSM.
+#
+from org.openstreetmap.josm.plugins.scripting.python import JosmPythonPlugin
+
+class HelloWorldPlugin(JosmPythonPlugin):
+    def onLoad(self):        
+        print "onLoad: starting ..."
+        
+    def onMapFrameChanged(self, oldFrame, newFrame):
+        print "onMapFrameChanged:"
+        print "   old frame is: ", oldFrame
+        print "   new frame is: ", newFrame 
+{% endhighlight %}
+
+The plugin must inherit from
+{% highlight java %}
+org.openstreetmap.josm.plugins.scripting.python.JosmPythonPlugin
+{% endhighlight %}
+
+<h2>Deploying a Python Plugin</h2>
+<h3>as source files</h3>
+If you have plugin class `MyPythonPlugin` in the source file `my_plugin.py` then
+
+<ol>
+  <li>make sure the parent directory of `my_plugin.py` is on the sys paths (<a href="#configure">how?</a>)
+  <li>make sure you add the plugin name `my_plugin.MyPythonPlugin` to the list of plugins (<a href="#configure">how?</a>)
+</ol>
+
+<h3>as jar file</h3>
+
+<p>You can create a jar file with all the python source files required for a plugin. The jar file is a simple *archive* of the Python source files which implement the plugin.</p>
+
+If you have plugin class `MyPythonPlugin` in the source file `my_plugin.py`, you could create a jar archive as follows:
+{% highlight bash %}
+$ jar cvf my_plugin.jar  my_plugin.py # add other python modules required by your plugin
+{% endhighlight %}
+
+Here's a typical layout of a jar for a Python plugin:
+
+{% highlight bash %}
+my_plugin.jar
+  +--   my_plugin.py
+  +--   other_module.py
+  +--   my_package_1
+          +-- yet_another_module.py
+  +--  ....
+{% endhighlight %}
+
+To configure a plugin deployed in a jar file
+
+<ol>
+  <li>make sure the jar file `my_plugin.jar` is on the sys paths (<a href="#configure">how?</a>)
+  <li>make sure you add the plugin name `my_plugin.MyPythonPlugin` to the list of plugins (<a href="#configure">how?</a>)
+</ol>

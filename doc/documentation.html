@@ -3,7 +3,20 @@
 ---
 <h1>Documentation</h1>
 
-<h2>Using the embedded scripting engine</h2>
+<h2>Using a Jython engine</h2>
+<p>The JOSM Scripting Plugin can execute scripts written in Python. It can either execute Python scripts 
+using the JSR-223 compatible script engine provided by Jython or load and execute Python plugins 
+using Jythons embedding API.</p>
+
+
+<dl>
+  <dt><a href="python.html">Implementing and loading Python plugins</a></dt>
+  <dd>How to implement a Python plugin which is automatically loaded at startup time similar to the
+    traditional JOSM plugins written in Java.</dd>
+</dl>  
+
+
+<h2>Using the embedded JavaScript engine</h2>
 <p>The JOSM Scripting Plugin is shipped with an embedded scripting engine based on Mozilla Rhino. It consists of
 a custom instance of the Rhino engine, not identical with the engine shipped with the Java runtime environment (JRE)).</p>
 

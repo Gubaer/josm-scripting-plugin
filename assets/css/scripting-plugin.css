@@ -9,7 +9,10 @@ body {
 	border-style: solid;
 }
 
-code.javascript {
+code.javascript,
+code.bash,
+code.python
+{
 	font-size: 10pt;
 }
 
@@ -32,6 +35,16 @@ h2 {
 	font-size: 14pt;
 	margin-bottom: 0;
 	margin-top: 0;
+}
+
+h3 {
+	font-size: 12pt;
+	margin-bottom: 0;
+	margin-top: 0;
+}
+
+ul, ol {
+	margin-top: 1em;
 }
 
 dl dt {
