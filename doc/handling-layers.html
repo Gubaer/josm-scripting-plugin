@@ -1,0 +1,44 @@
+---
+  layout: doc
+---
+<h1>Handling layers</h1>
+<p>
+The global object <code class="sample">josm.layers</code> represents the current layers in josm. The methods
+and properties of this object are defined in the module <a data-js-object="module:josm/layers">layers</a>.
+</p>
+<p>
+The following scripts prints the names of the currently opened layers:
+</p>
+{% highlight javascript %}
+var util = require("josm/util");
+var l = josm.layers.length;
+for (var i=0; i<l; i++) {
+   util.println("Layer {0}: name is ''{1}''", i, josm.layers.get(i));
+}
+{% endhighlight %}
+
+<h2>Working with data layers</h2>
+<p>
+Data layers are instances of the JOSM native class <a data-josm-class="org.openstreetmap.josm.gui.layer.OsmDataLayer">OsmDataLayer</a>.
+The Javascript mixin <a data-js-object="mixin:OsmDataLayerMixin">OsmDataLayerMixin</a> provides 
+additional methods and properties for instances of a data layer.
+</p>
+<p>You can <strong>open</strong> a file with OSM data in a new data layer with the method
+<code>josm.open()</code>:</p>
+
+{% highlight javascript %}
+// Opens a new data layer for this file
+josm.open("/my/data/file.osm");
+{% endhighlight %}
+
+<p>Alternatively, you can create a data layer for a dataset, in particual for a dataset
+which has been <a data-js-object="class:Api">downloaded</a> from the central OSM server.
+
+{% highlight javascript %}
+var api = require("josm/api").Api;
+var dataset = api.downloadArea({
+      min: {lat: 46.9479186, lon: 7.4619484}, 
+      max: {lat: 46.9497642, lon: 7.4660683}  
+});
+josm.layers.addDataLayer({ds: dataset, name: "Obstberg"});  
+{% endhighlight %}

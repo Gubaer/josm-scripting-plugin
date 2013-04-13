@@ -1,0 +1,394 @@
+---
+    layout: apidoc
+---
+
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="span3">
+     {% include apitoc.html %}
+    </div>
+    <div class="span9">
+      
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="apidoc">
+<h1 class="title">Class WayBuilder</h1>
+
+<p><p>WayBuilder helps to create OSM <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Way.html' alt='org.openstreetmap.josm.data.osm.Way' target='javadoc'>Way</a>s.</p>
+
+<p>Methods of WayBuilder can be used in a static and in an instance context.
+It isn't necessary to create an instance of WayBuilder, unless it is 
+configured with a <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/DataSet.html' alt='org.openstreetmap.josm.data.osm.DataSet' target='javadoc'>DataSet</a>,
+which created ways are added to.</p></p>
+
+{% highlight javascript %}
+ var wbuilder = require("josm/builder").WayBuilder;
+ 
+ // create a new local way 
+ var w1 = wbuilder.create();
+ 
+ // create a new global way 
+ var w2 = wbuilder.withTags({highway: 'residential'}).create(123456);
+ 
+ // create a new proxy for a global way (an "incomplete" node in JOSM terminology)
+ var w3 = wbuilder.createProxy(123456);
+{% endhighlight %}
+
+ 
+ 
+ 
+ 
+ <table class="member-summary">
+ <tr>
+ 	<th>Name</th>
+ 	<th>Description</th>
+ </tr>
+ 
+                                                                       
+<tr>
+   <td colspan="2" class="section-header">Methods</td>
+</tr>
+
+    <tr> 
+    	<td><a href='#create'>create</a></td>
+    	<td>Creates a new way</td>
+    </tr>
+
+    <tr> 
+    	<td><a href='#createProxy'>createProxy</a></td>
+    	<td>Creates a new proxy way</td>
+    </tr>
+
+    <tr> 
+    	<td><a href='#forDataSet'>forDataSet</a></td>
+    	<td></td>
+    </tr>
+
+    <tr> 
+    	<td><a href='#withId'>withId</a></td>
+    	<td>Declares the global way id and the global way version.</td>
+    </tr>
+
+    <tr> 
+    	<td><a href='#withNodes'>withNodes</a></td>
+    	<td>Declares the nodes of the way.</td>
+    </tr>
+
+    <tr> 
+    	<td><a href='#withTags'>withTags</a></td>
+    	<td>Declares the tags to be assigned to the new way.</td>
+    </tr>
+
+  
+
+ </table>
+ 
+ 
+ 
+ 
+
+
+
+
+
+<h2>Constructor</h2>
+   
+   <p id="WayBuilder" class="member-header">new WayBuilder()</p>
+   <p><p>Creates a new builder for OSM ways</p></p>
+       
+	
+	
+<h3>Parameters</h3>
+<table class="parameters">
+<tr>
+   <th>Name</th>
+   <th>Type</th>
+   <th>Description</th>
+</tr>
+
+
+<tr>
+     <td>ds</td>    
+     <td><a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/DataSet.html' alt='org.openstreetmap.josm.data.osm.DataSet' target='javadoc'>DataSet</a></td>
+     <td>(optional) a JOSM dataset which created ways are
+   added to. If missing, the created ways aren't added to a dataset.</td>
+</tr>
+
+</table>
+
+	 
+
+
+
+
+
+
+
+
+<h2>Functions</h2>
+   
+   <p  id="create" class="member-header">
+      create:<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Way.html' alt='org.openstreetmap.josm.data.osm.Way' target='javadoc'>Way</a>   
+   </p>
+   <p><p>Creates a new way.</p>
+
+<p>Can be used in an instance or in a static context.</p>
+
+Optional named arguments in the parameters <code>options</code>:
+<dl>
+  <dt><code class="signature">id</code>:number</dt>
+  <dd>the id of a global way (number > 0)</dd>
+  
+  <dt><code class="signature">version</code>:number</dt>
+  <dd>the version of a global way (number > 0)</dd>
+  
+  <dt><code class="signature">nodes</code>:array|list</dt>
+  <dd>an array or a list of nodes</dd>
+  
+  <dt><code class="signature">tags</code>:object</dt>
+  <dd>an object with tags. Null values and undefined values are ignored. Any other value
+  is converted to a string. Leading and trailing white space in keys is removed.</dd>
+</dl></p>	
+
+<h3>Parameters</h3>
+<table class="parameters">
+<tr>
+   <th>Name</th>
+   <th>Type</th>
+   <th>Description</th>
+</tr>
+
+
+<tr>
+     <td>id</td>    
+     <td>number</td>
+     <td>(optional) a global way id. If missing and not set before using
+   <code>withId(..)</code>, creates a new local id.</td>
+</tr>
+
+
+<tr>
+     <td>options</td>    
+     <td>object</td>
+     <td>(optional) additional parameters for creating the way</td>
+</tr>
+
+</table>
+
+
+
+   <h3>Examples</h3>
+    {% highlight javascript %}
+
+ var wb = require("josm/builder").WayBuilder
+// create a new local way 
+var w1 = wb.create();
+
+// create a new global way 
+var w2 = wb.create(12345);
+
+// create a new global way with version 3 at a specific position and with some tags
+var w3 = wb.create(12345, {
+   version: 3, 
+   tags: {amenity: "restaurant"}, 
+   nodes: [n1,n2,n3]
+ });
+{% endhighlight %}
+
+
+  
+   <p  id="createProxy" class="member-header">
+      createProxy:<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Way.html' alt='org.openstreetmap.josm.data.osm.Way' target='javadoc'>Way</a>   
+   </p>
+   <p><p>Creates a new <em>proxy</em> way. A proxy way is a way, for which we only know
+its global id. In order to know more details (nodes, tags, etc.), we would have to
+download it from the OSM server.</p>
+
+<p>The method can be used in a static and in an instance context.</p></p>	
+
+
+
+   <h3>Examples</h3>
+    {% highlight javascript %}
+
+ var wbuilder = require("josm/builder").WayBuilder;
+
+// a new proxy way for the global way with id 12345
+var w1 = wbuilder.createProxy(12345);  
+{% endhighlight %}
+
+
+  
+   <p  id="forDataSet" class="member-header">
+      forDataSet:<a href='../classes/WayBuilder.html' alt='WayBuilder'>WayBuilder</a>   
+   </p>
+   <p><p>Creates a new WayBuilder which will add created nodes to the dataset <code>ds</code>.</p></p>	
+
+
+
+   <h3>Examples</h3>
+    {% highlight javascript %}
+
+ var ds = new org.openstreetmap.josm.data.osm.DataSet();
+var wbuilder = require("josm/builder").WayBuilder.forDataSet(ds);
+
+// creates a new local way and assigns it to the dataset 'ds'
+var w = wbuilder.create();
+{% endhighlight %}
+
+
+  
+   <p  id="withId" class="member-header">
+      withId:<a href='../classes/WayBuilder.html' alt='WayBuilder'>WayBuilder</a>   
+   </p>
+   <p><p>Declares the global way id and the global way version.</p>
+
+<p>The method can be used in a static and in an instance context.</p></p>	
+
+<h3>Parameters</h3>
+<table class="parameters">
+<tr>
+   <th>Name</th>
+   <th>Type</th>
+   <th>Description</th>
+</tr>
+
+
+<tr>
+     <td>id</td>    
+     <td>number</td>
+     <td>(mandatory) the global way id. A number > 0.</td>
+</tr>
+
+
+<tr>
+     <td>version</td>    
+     <td>number</td>
+     <td>(optional) the global way version. If present, a number > 0. If missing,
+  the version 1 is assumed.</td>
+</tr>
+
+</table>
+
+
+
+   <h3>Examples</h3>
+    {% highlight javascript %}
+
+  var wbuilder = require("josm/builder").WayBuilder;
+ // creates a global way with id 12345 an version 12   
+ var w = wbuilder.withId(12345, 12).create();
+{% endhighlight %}
+
+
+  
+   <p  id="withNodes" class="member-header">
+      withNodes:<a href='../classes/WayBuilder.html' alt='WayBuilder'>WayBuilder</a>   
+   </p>
+   <p><p>Declares the nodes of the way.</p>
+
+<p>Accepts either a vararg list of <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html' alt='org.openstreetmap.josm.data.osm.Node' target='javadoc'>Node</a>, 
+an array of <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html' alt='org.openstreetmap.josm.data.osm.Node' target='javadoc'>Node</a>s or a Java list 
+of <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html' alt='org.openstreetmap.josm.data.osm.Node' target='javadoc'>Node</a>s. At least <strong>two non-identical nodes</strong> 
+have to be supplied.
+The same node can occure more than once in the list, but a consecutive sequence
+of the same node is collapsed to one node.
+</p>
+
+<p>The method can be used in a static and in an instance context.</p></p>	
+
+<h3>Parameters</h3>
+<table class="parameters">
+<tr>
+   <th>Name</th>
+   <th>Type</th>
+   <th>Description</th>
+</tr>
+
+
+<tr>
+     <td>nodes</td>    
+     <td>object...</td>
+     <td>the list of nodes. See description and examples.</td>
+</tr>
+
+</table>
+
+
+
+   <h3>Examples</h3>
+    {% highlight javascript %}
+
+ var wbuilder = require("josm/builder").WayBuilder;
+var nbuilder = require("josm/builder").NodeBuilder;
+// creates a new local way with two local nodes
+var way = builder.withNodes(
+   nbuilder.create(), nbuilder.create()
+).create();
+{% endhighlight %}
+
+
+  
+   <p  id="withTags" class="member-header">
+      withTags:<a href='../classes/WayBuilder.html' alt='WayBuilder'>WayBuilder</a>   
+   </p>
+   <p><p>Declares the tags to be assigned to the new way.</p>
+
+<p>The method can be used in a static and in an instance context.</p></p>	
+
+<h3>Parameters</h3>
+<table class="parameters">
+<tr>
+   <th>Name</th>
+   <th>Type</th>
+   <th>Description</th>
+</tr>
+
+
+<tr>
+     <td>tags</td>    
+     <td>object</td>
+     <td>(optional) the tags</td>
+</tr>
+
+</table>
+
+
+
+   <h3>Examples</h3>
+    {% highlight javascript %}
+
+ var wbuilder = require("josm/builder").WayBuilder;
+// a new global  wy with the global id 12345 and tags name="Laubeggstrasse" and highway=residential
+var n1 = wbuilder.withTags({name:"Laubeggstrasse", highway:"residential"}).create(12345);  
+
+// a new local node tags name=test and highway=road
+var tags = {
+     name    : "Laubeggstrasse", 
+     highway : "residential"
+};     
+var n2 = wbuilder.withTags(tags).create();
+{% endhighlight %}
+
+
+  
+ 
+</div>
+
+
+
+
+ 
+    </div>
+  </div>
+</div>

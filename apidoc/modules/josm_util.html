@@ -1,0 +1,759 @@
+---
+    layout: apidoc
+---
+
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="span3">
+     {% include apitoc.html %}
+    </div>
+    <div class="span9">
+      
+
+<div class="apidoc">
+<h1 class="title">Module josm/util</h1>
+
+<p><p>Provides a set of static utility functions.</p></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+ <table class="member-summary">
+ <tr>
+ 	<th>Name</th>
+ 	<th>Description</th>
+ </tr>
+ 
+ 
+ 
+ <tr>
+   <td colspan="2" class="section-header">Functions</td>
+ </tr>
+  
+    <tr>
+    	<td><a href="#assert">assert()</a></td>
+    	<td>Assert a condition and throw an Error if the condition isn't met.</td>
+    </tr>
+ 
+    <tr>
+    	<td><a href="#assertNumber">assertNumber()</a></td>
+    	<td>Asserts that <code>val</code> is a number.</td>
+    </tr>
+ 
+    <tr>
+    	<td><a href="#assertSomething">assertSomething()</a></td>
+    	<td>Asserts that <code>val</code> is defined and non-null.</td>
+    </tr>
+ 
+    <tr>
+    	<td><a href="#countProperties">countProperties()</a></td>
+    	<td>Replies the number of properties owned by <code>o</code>.</td>
+    </tr>
+ 
+    <tr>
+    	<td><a href="#each">each()</a></td>
+    	<td>Iteraties over the elements of a collection</td>
+    </tr>
+ 
+    <tr>
+    	<td><a href="#hasProperties">hasProperties()</a></td>
+    	<td>Replies true, if <code>o</code> owns at least one property.</td>
+    </tr>
+ 
+    <tr>
+    	<td><a href="#isArguments">isArguments()</a></td>
+    	<td>Replies true if <code>val</code> is a list of arguments.</td>
+    </tr>
+ 
+    <tr>
+    	<td><a href="#isArray">isArray()</a></td>
+    	<td>Replies true if <code>val</code> is an array.</td>
+    </tr>
+ 
+    <tr>
+    	<td><a href="#isCollection">isCollection()</a></td>
+    	<td>Is a value a collection?</td>
+    </tr>
+ 
+    <tr>
+    	<td><a href="#isDef">isDef()</a></td>
+    	<td>Returns true if  <code>val</code> is defined.</td>
+    </tr>
+ 
+    <tr>
+    	<td><a href="#isFunction">isFunction()</a></td>
+    	<td>Replies true, if f is a function.</td>
+    </tr>
+ 
+    <tr>
+    	<td><a href="#isNothing">isNothing()</a></td>
+    	<td>Checks whether a value is null or undefined.</td>
+    </tr>
+ 
+    <tr>
+    	<td><a href="#isNumber">isNumber()</a></td>
+    	<td>Returns true if  <code>val</code> is a number.</td>
+    </tr>
+ 
+    <tr>
+    	<td><a href="#isSomething">isSomething()</a></td>
+    	<td>Checks whether a value is neither null nor undefined.</td>
+    </tr>
+ 
+    <tr>
+    	<td><a href="#isString">isString()</a></td>
+    	<td>Returns true if  <code>val</code> is a string.</td>
+    </tr>
+ 
+    <tr>
+    	<td><a href="#javaEquals">javaEquals()</a></td>
+    	<td>Are two java objects equal.</td>
+    </tr>
+ 
+    <tr>
+    	<td><a href="#mix">mix()</a></td>
+    	<td>Mixes the properties of a list of objects into one object.</td>
+    </tr>
+ 
+    <tr>
+    	<td><a href="#print">print()</a></td>
+    	<td>Prints a message to stdout (without newline).</td>
+    </tr>
+ 
+    <tr>
+    	<td><a href="#println">println()</a></td>
+    	<td>Prints a message to stdout (including newline).</td>
+    </tr>
+ 
+    <tr>
+    	<td><a href="#trim">trim()</a></td>
+    	<td>Trims leading and trailing whitespace from <code>s</code>.</td>
+    </tr>
+ 
+ 
+ </table>
+ 
+
+
+ 
+
+
+
+
+<h2>Functions</h2>
+   
+   <p  id="assert" class="member-header">
+      assert   
+   </p>
+   <p><p>Assert a condition and throw an Error if the condition isn't met.</p>
+
+<p><strong>Usage:</strong>
+<dl>
+  <dt><code>assert()</code></dt>
+  <dd>Does nothing</dd>
+  
+   <dt><code>assert(cond)</code></dt>
+   <dd>Checks the condition <code>cond</code>. If it is false, throws an Error.</dd>
+   
+   <dt><code>assert(cond, msg)</code></dt>
+   <dd>Checks the condition <code>cond</code>. If it is false, throws an Error, whose <code>description</code> property
+   is set to <code>msg</code>.</dd>
+
+	  <dt><code>assert(cond, msg, objs...)</code></dt>
+   <dd>Checks the condition <code>cond</code>. If it is false, throws an Error, whose <code>description</code> property
+   is set to the formatted message <code>msg</code>. Internally uses <code>java.text.MessageFormat</code> to format the message.</dd>
+
+</dl></p>	
+
+
+
+   <h3>Examples</h3>
+   {% highlight javascript %}
+ var util = require("josm/util");
+// throws an Error
+util.assert(false);                  
+
+// throws an Error e, with e.description == "My message"
+util.assert(false, "My message");    
+
+// throws an Error e, with e.description == "My message: test"
+util.assert(false, "My message: {0}", "test");    
+   {% endhighlight %}
+
+
+  
+   <p  id="assertNumber" class="member-header">
+      assertNumber   
+   </p>
+   <p>Asserts that <code>val</code> is a number.</p>	
+
+<h3>Parameters</h3>
+<table>
+<tr class="parameters">
+   <th>Name</th>
+   <th>Type</th>
+   <th>Description</th>
+</tr>
+
+
+<tr>
+     <td>val</td>    
+     <td>Anything</td>
+     <td>the value to check</td>
+</tr>
+
+
+<tr>
+     <td>msg</td>    
+     <td>String</td>
+     <td>(optional) message if the assertion fails</td>
+</tr>
+
+
+<tr>
+     <td>values</td>    
+     <td>Object...</td>
+     <td>(optional) additional values used in <code>msg</code> placeholders</td>
+</tr>
+
+</table>
+
+
+
+
+  
+   <p  id="assertSomething" class="member-header">
+      assertSomething   
+   </p>
+   <p>Asserts that <code>val</code> is defined and non-null.</p>	
+
+<h3>Parameters</h3>
+<table>
+<tr class="parameters">
+   <th>Name</th>
+   <th>Type</th>
+   <th>Description</th>
+</tr>
+
+
+<tr>
+     <td>val</td>    
+     <td>any</td>
+     <td>the value to check</td>
+</tr>
+
+
+<tr>
+     <td>msg</td>    
+     <td>string</td>
+     <td>(optional) message if the assertion fails</td>
+</tr>
+
+
+<tr>
+     <td>values</td>    
+     <td>object...</td>
+     <td>(optional) additional values used in <code>msg</code> placeholders</td>
+</tr>
+
+</table>
+
+
+
+   <h3>Examples</h3>
+   {% highlight javascript %}
+ var util = require("josm/util");
+util.assertSomething(null);    // -> throws an exception
+util.assertSomething(void 0);  // -> throws an exception
+
+util.assertSomting("test");    // -> OK 
+util.assertSomething(5);       // -> OK 
+   {% endhighlight %}
+
+
+  
+   <p  id="countProperties" class="member-header">
+      countProperties:number   
+   </p>
+   <p>Replies the number of properties owned by <code>o</code>.</p>	
+
+<h3>Parameters</h3>
+<table>
+<tr class="parameters">
+   <th>Name</th>
+   <th>Type</th>
+   <th>Description</th>
+</tr>
+
+
+<tr>
+     <td>o</td>    
+     <td>any</td>
+     <td>the object</td>
+</tr>
+
+</table>
+
+
+
+   <h3>Examples</h3>
+   {% highlight javascript %}
+ var util = require("josm/util");
+var o = {p1: "v1", p2: "v2"};
+var c = util.countProperties(o);   // ->  2
+
+o = {};
+c = util.countProperties(o);       // ->  0
+
+o = undefined;
+c = util.countProperties(o);       // ->  undefined 
+   {% endhighlight %}
+
+
+  
+   <p  id="each" class="member-header">
+      each   
+   </p>
+   <p><p>Iterates over the elements in <code>collection</code> and invokes 
+<code>delegate()</code> on each element.</p></p>	
+
+<h3>Parameters</h3>
+<table>
+<tr class="parameters">
+   <th>Name</th>
+   <th>Type</th>
+   <th>Description</th>
+</tr>
+
+
+<tr>
+     <td>collection</td>    
+     <td>array</td>
+     <td>the collection of elements</td>
+</tr>
+
+
+<tr>
+     <td>delegate</td>    
+     <td>function</td>
+     <td>the function to call on each elemennt</td>
+</tr>
+
+</table>
+
+
+
+
+  
+   <p  id="hasProperties" class="member-header">
+      hasProperties:boolean   
+   </p>
+   <p>Replies true, if <code>o</code> owns at least one property.</p>	
+
+<h3>Parameters</h3>
+<table>
+<tr class="parameters">
+   <th>Name</th>
+   <th>Type</th>
+   <th>Description</th>
+</tr>
+
+
+<tr>
+     <td>o</td>    
+     <td>any</td>
+     <td>the object</td>
+</tr>
+
+</table>
+
+
+
+   <h3>Examples</h3>
+   {% highlight javascript %}
+ var util = require("josm/util");
+var o = {p1: "v1", p2: "v2"};
+var c = util.hasProperties(o);   // ->  true
+
+o = {};
+c = util.hasProperties(o);       // ->  false
+
+o = undefined;
+c = util.hasProperties(o);       // ->  false 
+   {% endhighlight %}
+
+
+  
+   <p  id="isArguments" class="member-header">
+      isArguments:boolean   
+   </p>
+   <p>Replies true if <code>val</code> is a list of arguments.</p>	
+
+<h3>Parameters</h3>
+<table>
+<tr class="parameters">
+   <th>Name</th>
+   <th>Type</th>
+   <th>Description</th>
+</tr>
+
+
+<tr>
+     <td>val</td>    
+     <td>anything</td>
+     <td>the value to check</td>
+</tr>
+
+</table>
+
+
+
+
+  
+   <p  id="isArray" class="member-header">
+      isArray:boolean   
+   </p>
+   <p>Replies true if <code>val</code> is an array.</p>	
+
+<h3>Parameters</h3>
+<table>
+<tr class="parameters">
+   <th>Name</th>
+   <th>Type</th>
+   <th>Description</th>
+</tr>
+
+
+<tr>
+     <td>val</td>    
+     <td>anything</td>
+     <td>the value to check</td>
+</tr>
+
+</table>
+
+
+
+
+  
+   <p  id="isCollection" class="member-header">
+      isCollection   
+   </p>
+   <p><p>Replies true, if a value is an array, an arguments list or a Java collection.</p>	
+
+<h3>Parameters</h3>
+<table>
+<tr class="parameters">
+   <th>Name</th>
+   <th>Type</th>
+   <th>Description</th>
+</tr>
+
+
+<tr>
+     <td>value</td>    
+     <td>object</td>
+     <td>the value to check</td>
+</tr>
+
+</table>
+
+
+
+
+  
+   <p  id="isDef" class="member-header">
+      isDef:boolean   
+   </p>
+   <p>Returns true if  <code>val</code> is defined.</p>	
+
+<h3>Parameters</h3>
+<table>
+<tr class="parameters">
+   <th>Name</th>
+   <th>Type</th>
+   <th>Description</th>
+</tr>
+
+
+<tr>
+     <td>val</td>    
+     <td>any</td>
+     <td>the value to check</td>
+</tr>
+
+</table>
+
+
+
+
+  
+   <p  id="isFunction" class="member-header">
+      isFunction:boolean   
+   </p>
+   <p>Replies true, if f is a function.</p>	
+
+<h3>Parameters</h3>
+<table>
+<tr class="parameters">
+   <th>Name</th>
+   <th>Type</th>
+   <th>Description</th>
+</tr>
+
+
+<tr>
+     <td>f</td>    
+     <td>any</td>
+     <td>the object</td>
+</tr>
+
+</table>
+
+
+
+
+  
+   <p  id="isNothing" class="member-header">
+      isNothing:boolean   
+   </p>
+   <p>Checks whether a value is null or undefined.</p>	
+
+<h3>Parameters</h3>
+<table>
+<tr class="parameters">
+   <th>Name</th>
+   <th>Type</th>
+   <th>Description</th>
+</tr>
+
+
+<tr>
+     <td>value</td>    
+     <td>object</td>
+     <td>the value to check</td>
+</tr>
+
+</table>
+
+
+
+
+  
+   <p  id="isNumber" class="member-header">
+      isNumber:boolean   
+   </p>
+   <p>Returns true if  <code>val</code> is a number.</p>	
+
+<h3>Parameters</h3>
+<table>
+<tr class="parameters">
+   <th>Name</th>
+   <th>Type</th>
+   <th>Description</th>
+</tr>
+
+
+<tr>
+     <td>val</td>    
+     <td>any</td>
+     <td>the value to check</td>
+</tr>
+
+</table>
+
+
+
+
+  
+   <p  id="isSomething" class="member-header">
+      isSomething:boolean   
+   </p>
+   <p>Checks whether a value is neither null nor undefined.</p>	
+
+<h3>Parameters</h3>
+<table>
+<tr class="parameters">
+   <th>Name</th>
+   <th>Type</th>
+   <th>Description</th>
+</tr>
+
+
+<tr>
+     <td>value</td>    
+     <td>object</td>
+     <td>the value to check</td>
+</tr>
+
+</table>
+
+
+
+
+  
+   <p  id="isString" class="member-header">
+      isString:boolean   
+   </p>
+   <p>Returns true if  <code>val</code> is a string.</p>	
+
+<h3>Parameters</h3>
+<table>
+<tr class="parameters">
+   <th>Name</th>
+   <th>Type</th>
+   <th>Description</th>
+</tr>
+
+
+<tr>
+     <td>val</td>    
+     <td>any</td>
+     <td>the value to check</td>
+</tr>
+
+</table>
+
+
+
+
+  
+   <p  id="javaEquals" class="member-header">
+      javaEquals:boolean   
+   </p>
+   <p><p>Checks whether two java objects are either both null or equal by calling
+o1.equals(o2).</p></p>	
+
+<h3>Parameters</h3>
+<table>
+<tr class="parameters">
+   <th>Name</th>
+   <th>Type</th>
+   <th>Description</th>
+</tr>
+
+
+<tr>
+     <td>o1</td>    
+     <td>object</td>
+     <td>a java object or null</td>
+</tr>
+
+
+<tr>
+     <td>o2</td>    
+     <td>object</td>
+     <td>a java object or null</td>
+</tr>
+
+</table>
+
+
+
+
+  
+   <p  id="mix" class="member-header">
+      mix:object   
+   </p>
+   <p>Mixes the properties of a list of objects into one object.</p>	
+
+<h3>Parameters</h3>
+<table>
+<tr class="parameters">
+   <th>Name</th>
+   <th>Type</th>
+   <th>Description</th>
+</tr>
+
+
+<tr>
+     <td>a</td>    
+     <td>object...</td>
+     <td>variable number of objects</td>
+</tr>
+
+</table>
+
+
+
+
+  
+   <p  id="print" class="member-header">
+      print   
+   </p>
+   <p><p>Prints a message to stdout (without newline).</p>
+
+<p>Supports string templates à la java.text.MessageFormat.</p></p>	
+
+
+
+   <h3>Examples</h3>
+   {% highlight javascript %}
+ util.print("Hello world! My name is {0}", myname);
+ 
+   {% endhighlight %}
+
+
+  
+   <p  id="println" class="member-header">
+      println   
+   </p>
+   <p><p>Prints a message to stdout (including newline).</p>
+
+<p>Supports string templates à la java.text.MessageFormat.</p></p>	
+
+
+
+   <h3>Examples</h3>
+   {% highlight javascript %}
+ util.println("Hello world! My name is {0}", myname);
+   {% endhighlight %}
+
+
+  
+   <p  id="trim" class="member-header">
+      trim:string   
+   </p>
+   <p><p>Trims leading and trailing whitespace from <code>s</code>.</p> 
+
+<p>Replies s, if s is null or undefined. Any other value is converted to a string, then leading and trailing white
+space is removed.</p></p>	
+
+<h3>Parameters</h3>
+<table>
+<tr class="parameters">
+   <th>Name</th>
+   <th>Type</th>
+   <th>Description</th>
+</tr>
+
+
+<tr>
+     <td>s</td>    
+     <td>string</td>
+     <td>the string to be trimmed</td>
+</tr>
+
+</table>
+
+
+
+
+  
+ 
+</div> 
+    </div>
+  </div>
+</div>

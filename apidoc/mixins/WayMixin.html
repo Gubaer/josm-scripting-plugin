@@ -1,0 +1,217 @@
+---
+    layout: apidoc
+---
+
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="span3">
+     {% include apitoc.html %}
+    </div>
+    <div class="span9">
+      
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="apidoc">
+<h1 class="title">Mixin WayMixin</h1>
+
+<p><p>This mixin 
+provides additional properties and methods which you can invoke on an instance of
+<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Way.html' alt='org.openstreetmap.josm.data.osm.Way' target='javadoc'>Way</a>.</p>
+ 
+<p>You can access nodes using indexed properties, i.e. 
+<pre>way[i]</pre>, 
+see example below.</p>
+
+ 
+ 
+ 
+ 
+ <table class="member-summary">
+ <tr>
+ 	<th>Name</th>
+ 	<th>Description</th>
+ </tr>
+                                                                       
+<tr>
+   <td colspan="2" class="section-header">Properties</td>
+</tr>
+
+    <tr> 
+    	<td><a href='#first'>first</a></td>
+    	<td>The first node</td>
+    </tr>
+
+    <tr> 
+    	<td><a href='#last'>last</a></td>
+    	<td>The last node</td>
+    </tr>
+
+    <tr> 
+    	<td><a href='#length'>length</a></td>
+    	<td>Replies the number of nodes.</td>
+    </tr>
+
+    <tr> 
+    	<td><a href='#nodes'>nodes</a></td>
+    	<td>Set or get the nodes of a way.</td>
+    </tr>
+
+  
+
+                                                                       
+<tr>
+   <td colspan="2" class="section-header">Methods</td>
+</tr>
+
+    <tr> 
+    	<td><a href='#contains'>contains</a></td>
+    	<td>Checks if a node is part of a way.</td>
+    </tr>
+
+    <tr> 
+    	<td><a href='#remove'>remove</a></td>
+    	<td>Removes one or more nodes from the way.</td>
+    </tr>
+
+  
+
+ </table>
+ 
+ 
+ 
+ 
+<p>This mixin extends the mixin <a href='../mixins/OsmPrimitiveMixin.html' alt='OsmPrimitiveMixin'>OsmPrimitiveMixin</a>. Properties and methods of the parent
+mixin are available for scripting, too.</p>
+
+
+
+<p>This mixin provides additional properties and methods for the native Java class 
+<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Way.html' alt='org.openstreetmap.josm.data.osm.Way' target='javadoc'>Way</a>, whose native public methods are available
+for scripting, too. If a native method name is hidden by property name in the mixin,
+prefix the native name with <code>$</code>.</p>
+
+
+
+
+
+
+
+   
+<h2>Properties</h2>
+   
+   <p id="first" class="member-header">
+     first:<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html' alt='org.openstreetmap.josm.data.osm.Node' target='javadoc'>Node</a>
+     
+   </p>
+   <p><p>The first node or undefined, if this way doesn't have nodes 
+(i.e. because it is a proxy way).</p></p>
+     
+   
+   <p id="last" class="member-header">
+     last:<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html' alt='org.openstreetmap.josm.data.osm.Node' target='javadoc'>Node</a>
+     
+   </p>
+   <p><p>The last node or undefined, if this way doesn't have nodes 
+(i.e. because it is a proxy way).</p></p>
+     
+   
+   <p id="length" class="member-header">
+     length:number
+     
+   </p>
+   <p><p>Replies the number of nodes.</p></p>
+     
+   
+   <p id="nodes" class="member-header">
+     nodes:array
+     
+   </p>
+   <p><p>Set or get the nodes of a way.</p>
+
+<dl>
+  <dt>get</dt>
+  <dd>Replies the nodes as array.</dd>
+  <dt>set</dt>
+  <dd>Set the an array or <a href='http://docs.oracle.com/javase/6/docs/api/java/util/List.html' alt='java.util.List' target='javadoc'>List</a> of <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html' alt='org.openstreetmap.josm.data.osm.Node' target='javadoc'>Node</a>s.</dd>
+</dl></p>
+
+		{% highlight javascript %}
+var way = ...       // create the way;
+var n1,n2,n3 = ...; // create the nodes 
+way.nodes = [n1,n2,n3];
+way.nodes;  // -> [n1,n2,n3]
+		{% endhighlight %}
+     
+                                                                   
+  
+
+
+
+
+<h2>Functions</h2>
+   
+   <p  id="contains" class="member-header">
+      contains:boolean   
+   </p>
+   <p><p>Checks if a node is part of a way.</p></p>	
+
+<h3>Parameters</h3>
+<table class="parameters">
+<tr>
+   <th>Name</th>
+   <th>Type</th>
+   <th>Description</th>
+</tr>
+
+
+<tr>
+     <td>node</td>    
+     <td><a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html' alt='org.openstreetmap.josm.data.osm.Node' target='javadoc'>Node</a></td>
+     <td>the node to check</td>
+</tr>
+
+</table>
+
+
+
+
+  
+   <p  id="remove" class="member-header">
+      remove   
+   </p>
+   <p><p>Removes one or more nodes from the way.</p>
+
+<strong>Signatures</strong>
+<dl>
+  <dt><code class="signature">remove(n1,n2, ...)</code></dt>
+  <dd>Removes the nodes. <code>n</code><em>i</em> are instances of <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html' alt='org.openstreetmap.josm.data.osm.Node' target='javadoc'>Node</a>.</dd>
+
+   <dt><code class="signature">remove(array|collection)</code></dt>
+  <dd>Removes the nodes. <code>array</code> is a javascript array of <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html' alt='org.openstreetmap.josm.data.osm.Node' target='javadoc'>Node</a>s,
+  <code>collection</code> is a java collection of <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html' alt='org.openstreetmap.josm.data.osm.Node' target='javadoc'>Node</a>s.</dd>
+</dl></p>	
+
+
+
+
+  
+ 
+</div>
+
+
+
+
+ 
+    </div>
+  </div>
+</div>

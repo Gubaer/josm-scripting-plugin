@@ -1,0 +1,176 @@
+---
+    layout: apidoc
+---
+
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="span3">
+     {% include apitoc.html %}
+    </div>
+    <div class="span9">
+      
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="apidoc">
+<h1 class="title">Mixin LatLonMixin</h1>
+
+<p><p>This mixin provides additional properties and methods which you can invoke on an instance of
+<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/coor/LatLon.html' alt='org.openstreetmap.josm.data.coor.LatLon' target='javadoc'>LatLon</a>.</p></p>
+
+ 
+ 
+ 
+ 
+ <table class="member-summary">
+ <tr>
+ 	<th>Name</th>
+ 	<th>Description</th>
+ </tr>
+                                                                       
+<tr>
+   <td colspan="2" class="section-header">Properties</td>
+</tr>
+
+    <tr> 
+    	<td><a href='#lat'>lat</a></td>
+    	<td>Get the latitude.</td>
+    </tr>
+
+    <tr> 
+    	<td><a href='#lon'>lon</a></td>
+    	<td>Get the longitude.</td>
+    </tr>
+
+  
+
+                                                                       
+<tr>
+   <td colspan="2" class="section-header">Methods</td>
+</tr>
+
+    <tr> 
+    	<td><a href='#make'>make</a></td>
+    	<td>Create a <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/coor/LatLon.html' alt='org.openstreetmap.josm.data.coor.LatLon' target='javadoc'>LatLon</a> from a javascript object.</td>
+    </tr>
+
+  
+
+ </table>
+ 
+ 
+ 
+ 
+
+
+<p>This mixin provides additional properties and methods for the native Java class 
+<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/coor/LatLon.html' alt='org.openstreetmap.josm.data.coor.LatLon' target='javadoc'>LatLon</a>, whose native public methods are available
+for scripting, too. If a native method name is hidden by property name in the mixin,
+prefix the native name with <code>$</code>.</p>
+
+
+
+
+
+
+
+   
+<h2>Properties</h2>
+   
+   <p id="lat" class="member-header">
+     lat:number
+     
+   </p>
+   <p><p>Get the latitude.</p></p>
+
+		{% highlight javascript %}
+var LatLon = org.openstreetmap.josm.data.coor.LatLon;
+
+// set members 
+var pos = new LatLon(1,2);
+pos.lat;     // -> 1
+
+// you can still invoke the native java method lat(), just add $ as prefix.
+// Note the parentheses - the native method has to be called as function!
+pos.$lat();  // -> 1
+		{% endhighlight %}
+     
+   
+   <p id="lon" class="member-header">
+     lon:number
+     
+   </p>
+   <p><p>Get the longitude.</p></p>
+
+		{% highlight javascript %}
+var LatLon = org.openstreetmap.josm.data.coor.LatLon;
+
+// set members 
+var pos = new LatLon(1,2);
+pos.lon;     // -> 2
+
+// you can still invoke the native java method lon(), just add $ as prefix.
+// Note the parentheses - the native method has to be called as function!
+pos.$lon();  // -> 1
+		{% endhighlight %}
+     
+                                                                   
+  
+
+
+
+
+<h2>Functions</h2>
+   
+   <p  id="make" class="member-header">
+      make:<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/coor/LatLon.html' alt='org.openstreetmap.josm.data.coor.LatLon' target='javadoc'>LatLon</a>   
+   </p>
+   <p><p>Creates a <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/coor/LatLon.html' alt='org.openstreetmap.josm.data.coor.LatLon' target='javadoc'>LatLon</a> from a javascript object.</p></p>	
+
+<h3>Parameters</h3>
+<table class="parameters">
+<tr>
+   <th>Name</th>
+   <th>Type</th>
+   <th>Description</th>
+</tr>
+
+
+<tr>
+     <td>obj</td>    
+     <td>object</td>
+     <td>a javascript object with two number properties <code>lat:</code> and 
+  <code>lon:</code></td>
+</tr>
+
+</table>
+
+
+
+   <h3>Examples</h3>
+    {% highlight javascript %}
+
+ var pos = LatLon.make({lat: 1, lon: 2});
+{% endhighlight %}
+
+
+  
+ 
+</div>
+
+
+
+
+ 
+    </div>
+  </div>
+</div>

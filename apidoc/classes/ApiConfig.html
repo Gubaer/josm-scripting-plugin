@@ -1,0 +1,279 @@
+---
+    layout: apidoc
+---
+
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="span3">
+     {% include apitoc.html %}
+    </div>
+    <div class="span9">
+      
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="apidoc">
+<h1 class="title">Class ApiConfig</h1>
+
+<p><p>ApiConfig provides methods and properties for configuring API parameters.</p></p>
+
+ 
+ 
+ 
+ 
+ <table class="member-summary">
+ <tr>
+ 	<th>Name</th>
+ 	<th>Description</th>
+ </tr>
+                                                                       
+<tr>
+   <td colspan="2" class="section-header">Properties</td>
+</tr>
+
+    <tr> 
+    	<td><a href='#authMethod'>authMethod</a></td>
+    	<td>Get or set the authentication method.</td>
+    </tr>
+
+    <tr> 
+    	<td><a href='#defaultServerUrl'>defaultServerUrl</a></td>
+    	<td>Get the default server URL-</td>
+    </tr>
+
+    <tr> 
+    	<td><a href='#serverUrl'>serverUrl</a></td>
+    	<td>Get or set the API server URL.</td>
+    </tr>
+
+  
+
+                                                                       
+<tr>
+   <td colspan="2" class="section-header">Methods</td>
+</tr>
+
+    <tr> 
+    	<td><a href='#getCredentials'>getCredentials</a></td>
+    	<td>Gets the credentials.</td>
+    </tr>
+
+    <tr> 
+    	<td><a href='#setCredentials'>setCredentials</a></td>
+    	<td>Set the credentials.</td>
+    </tr>
+
+  
+
+ </table>
+ 
+ 
+ 
+ 
+
+
+
+
+
+
+
+
+   
+<h2>Properties</h2>
+   
+   <p id="authMethod" class="member-header">
+     authMethod:string
+     
+   </p>
+   <p><p>Get or set the authentication method.</p>
+
+<p>JOSM uses two authentication methods:</p>
+<dl>
+   <dt><code class="signature">basic</code></dt>
+   <dd>Basic authentication with a username and a password</dd>
+   <dt><code class="signature">oauth</code></dt>
+   <dd>Authentication with the <a href="http://oauth.net/">OAuth</a> protocol.</dd>
+</dl></p>
+
+		{% highlight javascript %}
+var conf = require("josm/api").ApiConfig;
+conf.authMethod;   // -> the current authentication method
+
+// set OAuth as authentication method
+conf.authMethod = "oauth";
+		{% endhighlight %}
+     
+   
+   <p id="defaultServerUrl" class="member-header">
+     defaultServerUrl:string
+     
+   </p>
+   <p><p>Get the default server URL.</p></p>
+
+		{% highlight javascript %}
+var conf = require("josm/api").ApiConfig;
+conf.defaultServerUrl;   // -> the default server url
+		{% endhighlight %}
+     
+   
+   <p id="serverUrl" class="member-header">
+     serverUrl:string
+     
+   </p>
+   <p><p>Get or set the API server URL.</p>
+
+<dl>
+  <dt><code class="signature">get</code></dt>
+  <dd>Replies the currently configured server URL or undefinend, if no server URL is
+  configured.</dd>
+  <dt><code class="signature">set</code></dt>
+  <dd>Sets the current server URL. If null or undefined, removes the current configuration. 
+  Accepts either a string or a <a href='http://docs.oracle.com/javase/6/docs/api/java/net/URL.html' alt='java.net.URL' target='javadoc'>URL</a>. Only accepts http or https URLs.
+  </dd>
+</dl></p>
+
+		{% highlight javascript %}
+var conf = require("josm/api").ApiConfig;
+conf.serverUrl;   // -> the current server url
+
+// set a new API url
+conf.serverUrl = "http://api06.dev.openstreetmap.org";  
+		{% endhighlight %}
+     
+                                                                   
+  
+
+
+
+
+<h2>Functions</h2>
+   
+   <p  id="getCredentials" class="member-header">
+      getCredentials:object   
+   </p>
+   <p><p>Gets the credentials, i.e. username and password for the basic authentication method.</p>
+
+<strong>Named options</strong>
+<dl>
+   <dt><code class="signature">host:string</dt>
+   <dd>The host name of the API server for which credentials are retrieved. If missing,
+   the host name of the currently configured OSM API server is assumed.</dd>
+</dl></p>	
+
+<h3>Parameters</h3>
+<table class="parameters">
+<tr>
+   <th>Name</th>
+   <th>Type</th>
+   <th>Description</th>
+</tr>
+
+
+<tr>
+     <td>authMethod</td>    
+     <td>string</td>
+     <td>the authentication method. Either "basic" or "oauth".</td>
+</tr>
+
+
+<tr>
+     <td>options</td>    
+     <td>object</td>
+     <td>(optional) additional options (see above)</td>
+</tr>
+
+</table>
+
+
+
+   <h3>Examples</h3>
+    {% highlight javascript %}
+
+ var conf = require("josm/api").ApiConfig;
+
+// get username/password for the current OSM API server 
+var credentials = conf.getCredentials("basic");
+{% endhighlight %}
+
+
+  
+   <p  id="setCredentials" class="member-header">
+      setCredentials:object   
+   </p>
+   <p><p>Set the credentials, i.e. username and password for the basic authentication method.</p>
+
+<p>Basic authentication credentials are either an instance of java.net.PasswordAuthentication or
+an object <code>{user: string, password: string}</code>.</p>
+
+<p>OAuth authentication credentials are either an instance of <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/oauth/OAuthToken.html' alt='org.openstreetmap.josm.data.oauth.OAuthToken' target='javadoc'>OAuthToken</a> or
+an object <code>{key: string, secret: string}</code>.</p>
+<strong>Named options</strong>
+<dl>
+   <dt><code class="signature">host:string</dt>
+   <dd>The host name of the API server for which credentials are set. If missing,
+   the host name of the currently configured OSM API server is assumed.</dd>
+</dl></p>	
+
+<h3>Parameters</h3>
+<table class="parameters">
+<tr>
+   <th>Name</th>
+   <th>Type</th>
+   <th>Description</th>
+</tr>
+
+
+<tr>
+     <td>authMethod</td>    
+     <td>string</td>
+     <td>the authentication method. Either "basic" or "oauth".</td>
+</tr>
+
+
+<tr>
+     <td>credentials</td>    
+     <td>object</td>
+     <td>the credentials.</td>
+</tr>
+
+
+<tr>
+     <td>options</td>    
+     <td>object</td>
+     <td>(optional) additional options (see above)</td>
+</tr>
+
+</table>
+
+
+
+   <h3>Examples</h3>
+    {% highlight javascript %}
+
+ var conf = require("josm/api").ApiConfig;
+
+// set the credentials
+conf.setCredentials("basic", {user:"test", password:"apassword"});
+{% endhighlight %}
+
+
+  
+ 
+</div>
+
+
+
+
+ 
+    </div>
+  </div>
+</div>
