@@ -18,7 +18,26 @@
 </head>
 
 <body>
-   {% include navbar.html %}
+   <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="brand" href="#"></a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li class="active"><a href="index.html">Home</a></li>
+              <li><a href="doc/documentation.html">Documentation</a></li>
+              <li><a href="apidoc/modules/josm.html">JavaScript API</a></li>
+              <li><a href="http://github.com/Gubaer/josm-scripting-plugin" target="extern">GitHub</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
 
    <div class="container-fluid">
    
@@ -35,12 +54,10 @@
 		<a href="http://josm.openstreetmap.de">JOSM</a>.</p>
 
 
-		<p>It includes a built-in "native" scripting engine for Javascript based on <a href="http://www.mozilla.org/rhino/" target="external">Mozilla Rhino</a> and an 
-		<a href="js-doc/index.html" target="_top">API for Javascript</a>  to manipulate JOSMs internal application objects.
+		<p>It includes a built-in scripting engine for Javascript based on <a href="http://www.mozilla.org/rhino/" target="external">Mozilla Rhino</a> and an 
+		<a href="apidoc/modules/josm.html" target="_top">API for Javascript</a>  to manipulate JOSMs internal application objects.
 		</p>
-
-
-   	    {% highlight javascript %}
+{% highlight javascript %}
 var command = require("josm/command");
 var nodeBuilder = require("josm/builder").NodeBuilder; 
 josm.activeLayer.apply(
@@ -67,10 +84,6 @@ josm.alert("Added a node");
 
    </div> <!-- /container -->
 
-	<!-- ****  housekeeping scripts  -->
-	<script type="text/javascript">
-	    SyntaxHighlighter.all()
-	</script>
    <script src="http://code.jquery.com/jquery.js"></script>
    <script src="assets/js/bootstrap.min.js"></script>
 </body>  
