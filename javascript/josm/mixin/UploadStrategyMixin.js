@@ -26,16 +26,17 @@ var mixin = {};
  * 
  * Accepts one of the following values:
  * <dl>
- *   <dt><code class="signature">a {@class org.openstreetmap.josm.gui.io.UploadStrategy}</dt>
+ *   <dt><code class="signature">a {@class org.openstreetmap.josm.gui.io.UploadStrategy}</code></dt>
  *   <dd>just replies value</dd>
- *   <dt><code class="signature">a string</dt> 
+ *   <dt><code class="signature">a string</code></dt> 
  *   <dd>One of the following strings: 
  *     <ul>
  *          <li>individualobjects</li>
  *          <li>chunked</li>
  *          <li>singlerequest</li>
  *       </ul>
- *   <dd>replies the matching enumeration value {@class org.openstreetmap.josm.gui.io.UploadStrategy}</dd>
+ *   
+ *   Replies the matching enumeration value {@class org.openstreetmap.josm.gui.io.UploadStrategy}</dd>
  * </dl>
  * 
  * Throws an error, if value is null or undefined.
@@ -75,16 +76,18 @@ mixin.from.static = true;
  * 
  * Accepts one of the following values:
  * <dl>
- *   <dt><code class="signature">a {@class org.openstreetmap.josm.gui.io.UploadStrategy}</dt>
+ *   <dt><code class="signature">a {@class org.openstreetmap.josm.gui.io.UploadStrategy}</code></dt>
  *   <dd>replies true, if </dd>
- *   <dt><code class="signature">a string</dt> 
+ *   <dt><code class="signature">a string</code></dt> 
  *   <dd>One of the following strings: 
  *     <ul>
  *          <li>individualobjects</li>
  *          <li>chunked</li>
  *          <li>singlerequest</li>
  *       </ul>
- *   <dd>Replies true, if the value is a prefix of the preference value.</dd>
+ *   
+ *   Replies true, if the value is a prefix of the preference value.
+ *   </dd>
  * </dl>
  * 
  * @example
