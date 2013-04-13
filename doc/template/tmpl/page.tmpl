@@ -1,3 +1,6 @@
+---
+    layout: apidoc
+---
 <?js
   paths = paths || {};
   /* url prefix for stylesheets */
@@ -6,59 +9,13 @@
   body = body || "";
   showHeader = typeof showHeader != "undefined" ? Boolean(showHeader) : true;
 ?>
-<!doctype html>
-<html>
-<head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="chrome=1">
-	<title>JOSM Scripting Plugin - JS API documentation</title>
-	<link rel="stylesheet" href="<?js= paths.stylesheets ?>styles.css">
-	<link rel="stylesheet" href="<?js= paths.stylesheets ?>pygment_trac.css">
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-	<script src="<?js= paths.stylesheets ?>respond.js"></script>
-    <link href="http://alexgorbatchev.com/pub/sh/current/styles/shThemeRDark.css" rel="stylesheet" type="text/css" />
-	<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shCore.js" type="text/javascript"></script>
-	<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shBrushJScript.js" type="text/javascript"></script>
-	<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shAutoloader.js" type="text/javascript"></script>
-	<link rel="stylesheet" href="<?js= paths.stylesheets ?>apidoc.css">
-	<!--[if lt IE 9]>
-	      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-	    <![endif]-->
-	<!--[if lt IE 8]>
-	    <link rel="stylesheet" href="<?js= paths.stylesheets ?>ie.css">
-	    <![endif]-->
-	<meta name="viewport"
-		content="width=device-width, initial-scale=1, user-scalable=no">
-	
-	</head>
-<body>	
-<?js  if (showHeader) { ?>
-    <div id="header">
-        <nav>
-        <li><a href="../../index.html">Home</a></li>
-        <li><a href="../documentation.html">Documentation</a></li>
-        <li><a href="index.html">API</a></li>
-        <li class="downloads"><a href="../install.html">Install</a></li>
-        <li class="downloads"><a href="http://github.com/gubaer/josm-scripting-plugin">GitHub</a></li>        
-        </nav>   
-      </div><!-- end header -->
-      <div class="wrapper">
-	<section>
-		<h1><?js= title ?></h1>		
-		<?js= body ?>		
-	</section>
-	</div><!-- end wrapper -->
-<?js }  else { ?>
-     <div class="wrapper">
-		<h1><?js= title ?></h1>		
-		<?js= body ?>		
-	</div><!-- end wrapper -->
-<?js }       ?>          
-	
-	<script type="text/javascript">
-    SyntaxHighlighter.all();
-	</script>
-	<!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
-</body>
-</html>
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="span3">
+     {% include apitoc.html %}
+    </div>
+    <div class="span9">
+      <?js= body ?> 
+    </div>
+  </div>
+</div>

@@ -9,12 +9,14 @@
 <?js
   var out = java.lang.System.out;
 ?>
+<div class="apidoc">
+<h1 class="title">Module <?js= doclet.name ?></h1>
 <?js /* ---------------- description and  example ------------------------- */ ?>
 <p><?js= doclet.description ? viewHelper.resolveClassReferences(doclet.description) : ""?></p>
 <?js if (doclet.examples) { ?>
-<script type="syntaxhighlighter" class="brush:js"><![CDATA[
+{% highlight javascript %}
 <?js= doclet.examples ?>
-]]></script>
+{% endhighlight %}
 <?js } /* examples */ ?>
 
 <?js
@@ -66,14 +68,14 @@ They are similar to utility java classes, which provide static methods and field
 
 
  <?js if (properties.length + methods.length > 0) { ?>
- <table>
+ <table class="member-summary">
  <tr>
  	<th>Name</th>
  	<th>Description</th>
  </tr>
  <?js      if (properties.length > 0)  { ?>
  <tr>
-   <td colspan="2">Properties</td>
+   <td colspan="2" class="section-header">Properties</td>
  </tr>
  <?js           for (var i=0; i< properties.length; i++) { ?>
     <tr>
@@ -85,7 +87,7 @@ They are similar to utility java classes, which provide static methods and field
  
  <?js      if (methods.length > 0)  { ?>
  <tr>
-   <td colspan="2">Functions</td>
+   <td colspan="2" class="section-header">Functions</td>
  </tr>
   <?js          for (var i=0; i< methods.length; i++) { ?>
     <tr>
@@ -107,9 +109,9 @@ if (properties.length > 0) { ?>
    <p id="<?js= property.name ?>" class="member-header"><?js= property.name ?><?js= property.type && property.type.names ? ":" + property.type.names : "" ?></p>
    <p><?js=  viewHelper.resolveClassReferences(property.description) ?></p>
    <?js if (property.examples) { ?>
-		<script type="syntaxhighlighter" class="brush:js"><![CDATA[
+		{% highlight javascript %}
 <?js= property.examples ?>
-		]]></script>
+		{% endhighlight %}
 	<?js } /* examples */ ?>     
   <?js } ?>
 <?js }  ?> 
@@ -132,7 +134,7 @@ if (methods.length > 0) { ?>
 ?>
 <h3>Parameters</h3>
 <table>
-<tr>
+<tr class="parameters">
    <th>Name</th>
    <th>Type</th>
    <th>Description</th>
@@ -150,10 +152,11 @@ if (methods.length > 0) { ?>
 
 <?js if (method.examples) {   ?>
    <h3>Examples</h3>
-   <script type="syntaxhighlighter" class="brush:js"><![CDATA[
+   {% highlight javascript %}
  <?js= method.examples ?>
-   ]]></script>
+   {% endhighlight %}
 <?js  } /* examples */ ?>
 
   <?js }  /* for (methods) */  ?>
 <?js }  /* if (methods) */ ?> 
+</div>

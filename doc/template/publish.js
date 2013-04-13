@@ -135,7 +135,8 @@ function publishDoclet(doclet, config) {
 	var fragment = view.render(config.template, {
 		doclet: doclet,
 	    data: data,
-	    viewHelper: viewHelper
+	    viewHelper: viewHelper,
+	    title: config.title + " " + doclet.name
 	});
 	var html = view.render('page.tmpl', {
 		title: config.title + " " + doclet.name,
@@ -150,25 +151,15 @@ function publishDoclet(doclet, config) {
 	fs.writeFileSync(filepath, html);
 };
 
-
-function publishOverview() {
-	var filepath = path(opts.destination, "index.html");
+function publishTOC() {
+	var filepath = path(opts.destination, "apitoc.html");
 	mkdirs(filepath, true /* for parent */);
-	var fragment = view.render("overview.tmpl", {
+	var fragment = view.render("toc.tmpl", {
 	    data: data,
 	    viewHelper: viewHelper
 	});
-	var html = view.render('page.tmpl', {
-		title: "JOSM Scripting Plugin - JS API documentation",
-		paths: {
-			stylesheets: "../stylesheets/",
-			javascripts: "../avascript/"
-		},
-		body: fragment,
-		showHeader: true
-	});
-	out.println("Overview: writing to <" + filepath + ">");
-	fs.writeFileSync(filepath, html);
+	out.println("TOC: writing to <" + filepath + ">");
+	fs.writeFileSync(filepath, fragment);
 };
 
 function dump(obj) {
@@ -218,7 +209,7 @@ each(classes, function(module) {
 	});;
 });	   
 
-publishOverview();
+publishTOC();
 
 }; // publish
 }());

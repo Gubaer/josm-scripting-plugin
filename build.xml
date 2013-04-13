@@ -267,5 +267,7 @@
 			<arg value="javascript/josm/mixin/ChangesetMixin.js"/>
 			<arg value="javascript/josm/mixin/JSActionMixin.js"/>
 		</exec>
+		<echo>Copying API TOC to jekyll _includes dir</echo>
+		<copy file="${api-doc.staging.dir}/apitoc.html" todir="${jekyll.includes.dir}" />
 	</target>	
 </project>

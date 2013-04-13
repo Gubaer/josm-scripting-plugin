@@ -4,6 +4,7 @@
   *    doclet     -  the doclet for which the type page is generated 
   *    data       - the complete doclet data
   *    viewHelper - helper methods for the view 
+  *    title      - the page title 
   */
 ?>
 <?js
@@ -52,7 +53,7 @@ function emitPropertiesSummary(properties) {
     if (properties.length == 0) return;
 ?>                                                                      
 <tr>
-   <td colspan="2">Properties</td>
+   <td colspan="2" class="section-header">Properties</td>
 </tr>
 <?js for (var i=0; i< properties.length; i++) { 
         var property = properties[i];
@@ -72,7 +73,7 @@ function emitMethodsSummary(methods) {
     if (methods.length == 0) return;
 ?>                                                                      
 <tr>
-   <td colspan="2">Methods</td>
+   <td colspan="2" class="section-header">Methods</td>
 </tr>
 <?js for (var i=0; i< methods.length; i++) { 
         var method = methods[i];
@@ -118,21 +119,22 @@ function emitProperties(properties) {
    </p>
    <p><?js= buildPropertyDescription(property) ?></p>
 <?js    if (property.examples) {                                                    ?>
-		<script type="syntaxhighlighter" class="brush:js"><![CDATA[
+		{% highlight javascript %}
 <?js= property.examples ?>
-		]]></script>
+		{% endhighlight %}
 <?js    } /* if(examples) */                                                        ?>     
 <?js } /* end for */                                                                ?>                                                                   
   
 <?js }; /* function emitProperties */                                               ?>
 <?js /* =======================================================================  */ ?>
-
+<div class="apidoc">
+<h1 class="title"><?js= title ?></h1>
 <?js /* ---------------- description and  example ------------------------- */ ?>
 <p><?js= viewHelper.resolveClassReferences(doclet.description) ?></p>
 <?js if (doclet.examples) { ?>
-<script type="syntaxhighlighter" class="brush:js"><![CDATA[
+{% highlight javascript %}
 <?js= doclet.examples ?>
-]]></script>
+{% endhighlight %}
 <?js } /* examples */ ?>
  
  <?js 
@@ -145,7 +147,7 @@ var methods = data.get({kind: "function", memberof: doclet.name}).sort(compareBy
  ?>
  <?js /* ---------------- properties and method summary ------------------------- */ ?>
  <?js if (properties.length + methods.length > 0) { ?>
- <table>
+ <table class="member-summary">
  <tr>
  	<th>Name</th>
  	<th>Description</th>
@@ -179,9 +181,9 @@ if (constructors.length > 0) { ?>
    <p id="<?js= constructor.name ?>" class="member-header">new <?js= constructor.name ?>()</p>
    <p><?js=  viewHelper.resolveClassReferences(constructor.description) ?></p>
    <?js if (constructor.examples) { ?>
-		<script type="syntaxhighlighter" class="brush:js"><![CDATA[
+{% highlight javascript %}
 <?js= constructor.examples ?>
-		]]></script>
+{% endhighlight %}	
 	<?js } /* examples */ ?>    
 	
 	<?js
@@ -189,7 +191,7 @@ if (constructors.length > 0) { ?>
      if (params && params.length > 0) {
 ?>
 <h3>Parameters</h3>
-<table>
+<table class="parameters">
 <tr>
    <th>Name</th>
    <th>Type</th>
@@ -228,7 +230,7 @@ if (methods.length > 0) { ?>
      if (params && params.length > 0) {
 ?>
 <h3>Parameters</h3>
-<table>
+<table class="parameters">
 <tr>
    <th>Name</th>
    <th>Type</th>
@@ -247,14 +249,15 @@ if (methods.length > 0) { ?>
 
 <?js if (method.examples) {   ?>
    <h3>Examples</h3>
-   <script type="syntaxhighlighter" class="brush:js"><![CDATA[
+    {% highlight javascript %}
+
  <?js= method.examples ?>
-   ]]></script>
+{% endhighlight %}
 <?js  } /* examples */ ?>
 
   <?js }  /* for (methods) */  ?>
 <?js }  /* if (methods) */ ?> 
-
+</div>
 
 
 
