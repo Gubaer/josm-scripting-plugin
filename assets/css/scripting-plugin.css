@@ -144,3 +144,35 @@ dl dt {
 .apidoc .title {
 	font-size: 16pt;
 }
+
+a[data-js-object]:hover,
+a[data-josm-class]:hover
+{
+	cursor: hand;
+	cursor: pointer;
+}
+
+
+
+table{
+	border-collapse: collapse;
+	width: 100%;
+}
+
+table td{
+	padding-left: 6px;
+	padding-right: 6px;	
+}
+table td, 
+table th,
+table
+{
+	border: 1px dotted rgb(200,200,200);
+}
+
+table th {
+	font-weight: bold;
+	background: rgb(240,240,240);
+	text-align: left;
+
+}
