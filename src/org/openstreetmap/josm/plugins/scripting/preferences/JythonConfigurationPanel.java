@@ -17,8 +17,10 @@ import org.openstreetmap.josm.Main;
 import org.openstreetmap.josm.gui.widgets.HtmlPanel;
 import org.openstreetmap.josm.gui.widgets.VerticallyScrollablePanel;
 
+@SuppressWarnings("serial")
 public class JythonConfigurationPanel extends VerticallyScrollablePanel{
-	private static final Logger logger = Logger.getLogger(JythonConfigurationPanel.class.getName());
+	@SuppressWarnings("unused")
+    private static final Logger logger = Logger.getLogger(JythonConfigurationPanel.class.getName());
 
 	private SysPathsEditorPanel pnlSysPathEditor;
 	private PythonPluginsConfigurationPanel pnlPythonPlugins;

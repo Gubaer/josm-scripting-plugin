@@ -45,22 +45,22 @@ import org.openstreetmap.josm.tools.ImageProvider;
 
 public class RhinoEngineConfigurationPanel extends VerticallyScrollablePanel{
 	private static final Logger logger = Logger.getLogger(RhinoEngineConfigurationPanel.class.getName());
-		
+
 	private RepositoriesListModel mdlRepositories;
 	private JList lstRepositories;
 	private AddAction actAdd;
 	private RemoveAction actRemove;
 	private UpAction actUp;
 	private DownAction actDown;
-	
+
 	protected JPanel buildInfoPanel() {
 		HtmlPanel info = new HtmlPanel();
 		info.setText(
 				"<html>"
-				+ tr("The scripting plugin includes an embedded scripting engine for JavaScript based on Mozilla Rhino."
+				+ tr("The scripting plugin includes an embedded scripting engine for JavaScript based on Mozilla Rhino. "
 				    + "It can load CommonJS modules either from the local filesystem or from jar/zip "
 				    + "files.<br><br>"
-				    + "Per default, it loadsCommonJS modules from the directory <strong>/js</strong> in the plugin jar, " 
+				    + "Per default, it loads CommonJS modules from the directory <strong>/js</strong> in the plugin jar, "
 				    + "but you can add additional directories and jar files.<br><br>"
 				    + "Configure them in the list below."
 				)
@@ -68,7 +68,7 @@ public class RhinoEngineConfigurationPanel extends VerticallyScrollablePanel{
 		);
 		return info;
 	}
-	
+
 	protected JPanel buildTablePanel() {
 		JPanel panel = new JPanel(new BorderLayout());
 		DefaultListSelectionModel selectionModel = new DefaultListSelectionModel();
@@ -79,9 +79,9 @@ public class RhinoEngineConfigurationPanel extends VerticallyScrollablePanel{
 		sp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 		sp.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		panel.add(sp, BorderLayout.CENTER);
-		return panel;		
+		return panel;
 	}
-	
+
 	protected JPanel buildActionPanel() {
 		JPanel panel = new JPanel(new GridBagLayout());
 		GridBagConstraints gc = gbc().fillHorizontal().weight(1.0, 0.0).constraints();
@@ -90,11 +90,11 @@ public class RhinoEngineConfigurationPanel extends VerticallyScrollablePanel{
 		panel.add(new JButton(actUp = new UpAction()), gbc(gc).cell(0,2).constraints());
 		panel.add(new JButton(actDown  =new DownAction()), gbc(gc).cell(0,3).constraints());
 		panel.add(new JPanel(), gbc().cell(0, 4).fillboth().weight(1.0, 1.0).constraints());
-		
+
 		lstRepositories.addListSelectionListener(actRemove);
 		lstRepositories.addListSelectionListener(actUp);
 		lstRepositories.addListSelectionListener(actDown);
-		
+
 		return panel;
 	}
 
@@ -105,46 +105,46 @@ public class RhinoEngineConfigurationPanel extends VerticallyScrollablePanel{
 		JPanel p2 = buildActionPanel();
 		add(buildInfoPanel(), gbc().cell(0,0,2,1).fillHorizontal().weight(1.0, 0.0).insets(insets).constraints());
 		add(p2, gbc().cell(0,1).fillVertical().weight(0.0,1.0).insets(insets).constraints());
-		add(p1, gbc().cell(1,1).fillboth().weight(1.0,1.0).insets(insets).constraints());		
+		add(p1, gbc().cell(1,1).fillboth().weight(1.0,1.0).insets(insets).constraints());
 	}
-	
+
 	public RhinoEngineConfigurationPanel() {
 		build();
 	}
-	
+
 	public void persistToPreferences() {
 		mdlRepositories.saveToPreferences();
 	}
-	
+
 	static public class RepositoriesListModel extends AbstractListModel implements PreferenceKeys {
-		
+
 		private final List<URL> repositories = new ArrayList<URL>();
 		private DefaultListSelectionModel selectionModel;
-		
+
 		public RepositoriesListModel(DefaultListSelectionModel selectionModel) {
 			loadFromPreferences();
 			this.selectionModel = selectionModel;
 		}
-		
+
 		public void loadFromPreferences() {
 			Assert.assertState(Main.pref != null, "Main.pref is not initialized. Can''t load preferences."); // do not translate
 			loadFromPreferences(Main.pref);
 		}
-		
+
 		public void loadFromPreferences(Preferences prefs) {
 			Assert.assertArgNotNull(prefs, "prefs");
 			Collection<String> entries = prefs.getCollection(PREF_KEY_COMMONJS_MODULE_REPOSITORIES);
-			for (Iterator<String> it = entries.iterator(); it.hasNext();) {	
+			for (Iterator<String> it = entries.iterator(); it.hasNext();) {
 				String entry = it.next().trim();
 				try {
-					repositories.add(new CommonJSModuleRepository(entry).getURL());			
+					repositories.add(new CommonJSModuleRepository(entry).getURL());
 				} catch(IllegalArgumentException e) {
 					logger.log(Level.WARNING, MessageFormat.format("Failed to create a module repository from preferences value <{0}>. Skipping it.", entry),e);
 					continue;
 				}
 			}
 		}
-		
+
 		public void saveToPreferences(Preferences pref) {
 			List<String> entries = new ArrayList<String>();
 			for (URL url: repositories) {
@@ -152,38 +152,38 @@ public class RhinoEngineConfigurationPanel extends VerticallyScrollablePanel{
 			}
 			pref.putCollection(PREF_KEY_COMMONJS_MODULE_REPOSITORIES, entries);
 		}
-						
+
 		public void saveToPreferences() {
 			Assert.assertState(Main.pref != null, "Main.pref is not initialized. Can''t save preferences."); // do not translate
 			saveToPreferences(Main.pref);
 		}
-		
+
 		public void remove(int i) {
 			repositories.remove(i);
 			fireIntervalRemoved(this,i,i);
 		}
-		
-		
+
+
 		public void up(int i) {
 			URL tomove = repositories.remove(i);
 			repositories.add(i-1, tomove);
 			selectionModel.setSelectionInterval(i-1, i-1);
 			fireContentsChanged(this,0,getSize());
 		}
-		
+
 		public void down(int i) {
 			URL tomove = repositories.remove(i);
 			repositories.add(i+1, tomove);
 			selectionModel.setSelectionInterval(i+1, i+1);
 			fireContentsChanged(this,0,getSize());
 		}
-		
+
 		public void add(CommonJSModuleRepository repository) {
 			if (repository == null) return;
 			repositories.add(repository.getURL());
 			fireContentsChanged(this,0,getSize());
 		}
-		
+
 		@Override
 		public Object getElementAt(int index) {
 			return repositories.get(index);
@@ -192,11 +192,11 @@ public class RhinoEngineConfigurationPanel extends VerticallyScrollablePanel{
 		@Override
 		public int getSize() {
 			return repositories.size();
-		}		
+		}
 	}
-	
+
 	static public class RepositoryCellRenderer extends JLabel implements ListCellRenderer {
-		
+
 		private Icon jarIcon;
 		private Icon dirIcon;
 		public RepositoryCellRenderer() {
@@ -207,13 +207,13 @@ public class RhinoEngineConfigurationPanel extends VerticallyScrollablePanel{
 		@Override
 		public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean hasFocus) {
 			URL url = (URL)value;
-			setText(url.toString());			
+			setText(url.toString());
 			if (isSelected) {
 				setForeground(UIManager.getColor("List.selectionForeground"));
 				setBackground(UIManager.getColor("List.selectionBackground"));
 			} else {
 				setForeground(UIManager.getColor("List.foreground"));
-				setBackground(UIManager.getColor("List.background"));				
+				setBackground(UIManager.getColor("List.background"));
 			}
 			if (url.getProtocol().equals("jar")) {
 				setIcon(jarIcon);
@@ -221,9 +221,9 @@ public class RhinoEngineConfigurationPanel extends VerticallyScrollablePanel{
 				setIcon(dirIcon);
 			}
 			return this;
-		}		
+		}
 	}
-	
+
 	private class AddAction extends AbstractAction {
 
 		public AddAction() {
@@ -241,7 +241,7 @@ public class RhinoEngineConfigurationPanel extends VerticallyScrollablePanel{
 			}
 		}
 	}
-	
+
 	private class RemoveAction extends AbstractAction implements ListSelectionListener {
 
 		public RemoveAction() {
@@ -250,24 +250,24 @@ public class RhinoEngineConfigurationPanel extends VerticallyScrollablePanel{
 			putValue(Action.SMALL_ICON, ImageProvider.get("dialogs", "delete"));
 			updateEnabledState();
 		}
-		
+
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			int selIdx = lstRepositories.getSelectedIndex();
 			mdlRepositories.remove(selIdx);
 		}
-		
+
 		protected void updateEnabledState() {
 			int selIdx = lstRepositories.getSelectedIndex();
 			setEnabled(selIdx != -1);
 		}
-		
+
 		@Override
 		public void valueChanged(ListSelectionEvent evt) {
 			updateEnabledState();
-		}		
+		}
 	}
-	
+
 	private class UpAction extends AbstractAction implements ListSelectionListener {
 
 		public UpAction() {
@@ -276,25 +276,25 @@ public class RhinoEngineConfigurationPanel extends VerticallyScrollablePanel{
 			putValue(Action.SMALL_ICON, ImageProvider.get("dialogs", "moveup"));
 			updateEnabledState();
 		}
-		
+
 
 		protected void updateEnabledState() {
 			int selIdx = lstRepositories.getSelectedIndex();
 			setEnabled(selIdx != -1 && selIdx != 0);
 		}
-			
+
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			int selIdx = lstRepositories.getSelectedIndex();
 			mdlRepositories.up(selIdx);
 		}
-		
+
 		@Override
 		public void valueChanged(ListSelectionEvent evt) {
 			updateEnabledState();
 		}
 	}
-	
+
 	private class DownAction extends AbstractAction implements ListSelectionListener {
 
 		public DownAction() {
@@ -308,12 +308,12 @@ public class RhinoEngineConfigurationPanel extends VerticallyScrollablePanel{
 			int selIdx = lstRepositories.getSelectedIndex();
 			mdlRepositories.down(selIdx);
 		}
-		
+
 		protected void updateEnabledState() {
 			int selIdx = lstRepositories.getSelectedIndex();
 			setEnabled(selIdx != -1 && selIdx != lstRepositories.getModel().getSize() - 1);
 		}
-				
+
 		@Override
 		public void valueChanged(ListSelectionEvent evt) {
 			updateEnabledState();
