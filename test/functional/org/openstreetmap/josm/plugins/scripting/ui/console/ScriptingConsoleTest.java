@@ -8,26 +8,22 @@ import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
-import org.openstreetmap.josm.Main;
-import org.openstreetmap.josm.data.Preferences;
-import org.openstreetmap.josm.data.projection.Mercator;
 import org.openstreetmap.josm.plugins.scripting.fixtures.JOSMFixture;
 
 
 public class ScriptingConsoleTest extends JFrame {
-	
-	private JOSMFixture fixture;
-	
+
+	private final JOSMFixture fixture;
+
 	public ScriptingConsoleTest() {
 
 		fixture = JOSMFixture.createUnitTestFixture();
-		fixture.init();	
-		
-	
+		fixture.init();
+
 		Container c = getContentPane();
 		c.setLayout(new FlowLayout());
 		JButton btn = new JButton();
-		btn.setAction(new AbstractAction() {			
+		btn.setAction(new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				ScriptingConsole.showScriptingConsole();
@@ -35,11 +31,11 @@ public class ScriptingConsoleTest extends JFrame {
 		});
 		btn.setText("Launch");
 		c.add(btn);
-		
+
 		setSize(200,200);
 	}
 
-	static public void main(String args[]) {		
+	static public void main(String args[]) {
 		ScriptingConsoleTest app = new ScriptingConsoleTest();
 		app.setVisible(true);
 	}
