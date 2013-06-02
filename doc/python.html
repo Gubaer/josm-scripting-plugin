@@ -7,14 +7,14 @@
 
 Here's how to start JOSM:
 {% highlight bash %}
-$  josm -classpath "/your/josm.jar:/your/jython.jar" org.openstreetmap.josm.gui.MainApplication
+$  java -classpath "/your/josm.jar:/your/jython.jar" org.openstreetmap.josm.gui.MainApplication
 {% endhighlight %}
 
 or alternatively
 
 {% highlight bash %}
 $ export CLASSPATH=$CLASSPATH:/your/jython.jar
-$ josm -jar josm.jar 
+$ java -jar josm.jar 
 {% endhighlight %}
 
 Note that <code>jython.jar</code> isn't included in the scripting plugin. You have to <a href="http://www.jython.org/downloads.html">download</a> it manually.
