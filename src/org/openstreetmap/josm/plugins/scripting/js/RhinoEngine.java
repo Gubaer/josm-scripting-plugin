@@ -336,7 +336,7 @@ public class RhinoEngine {
 		}
 		if (! (o instanceof Function)) {
 			logger.warning(MessageFormat.format(
-				"Exported property ''run'' in tartup module ''{0}'' should be "
+				"Exported property ''run'' in startup module ''{0}'' should be"
 			   + " a function, got {1} instead. Skipping startup script.",
 			   "onstart", o
 			));
