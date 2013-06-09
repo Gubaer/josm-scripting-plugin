@@ -214,17 +214,29 @@
 		<groovy><![CDATA[		
 		   def prop = new java.util.Properties()
 		   prop.load (new FileInputStream("build.properties"))
-		   def versionInfo = "";
+		   def versions = [:];
+		   // former versions
 		   prop.each {k, v -> 
 			  def m = k =~ /^plugin\.(\d+)\.requires$/
 			  if (m.matches()) {
-			    def vplugin = m[0][1]
-			    def vjosm = v			   			    
-			    versionInfo += "${vplugin}-Plugin-Url: ${vplugin};https://raw.github.com/Gubaer/josm-scripting-plugin/for-josm-${vjosm}/dist/scripting.jar\n"
+			    versions[m[0][1].toInteger()] = v.toInteger();
+			    // versionInfo += "${vplugin}-Plugin-Url: ${vplugin};https://raw.github.com/Gubaer/josm-scripting-plugin/for-josm-${vjosm}/dist/scripting.jar\n"
 			  }
-		  }		
-		  def mf = new File("version-information.MF")
-		  mf.text = versionInfo;
+		   }
+		   // current version
+		   versions[prop["plugin.version"].toInteger()] = prop["josm.required.version"].toInteger();
+			
+		   def josmVersions = versions.values().toList().unique().sort();
+		   def bestPluginVersion = {josmVersion ->
+			  return versions.findAll{k, v -> v == josmVersion}
+			         .keySet().toList().max();
+		   }
+		   def versionInfo = josmVersions.collect {josm ->
+			  def bestPlugin = bestPluginVersion(josm);
+			  return "${josm}-Plugin-Url: ${bestPlugin};https://raw.github.com/Gubaer/josm-scripting-plugin/for-josm-${josm}/dist/scripting.jar"
+		   }.join("\n");			
+		   def mf = new File("version-information.MF")
+		   mf.text = versionInfo;
 		]]></groovy>
 	</target>
 
