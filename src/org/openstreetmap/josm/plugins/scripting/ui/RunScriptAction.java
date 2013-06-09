@@ -22,7 +22,7 @@ public class RunScriptAction extends JosmAction {
                     Shortcut.NONE // don't assign an action group, let the
                                   // the user assign in the preferences
             ), false, // don't register toolbar item
-            "scripting:toggleConsole", false // don't install adapters
+            "scripting:runScript", false // don't install adapters
         );
         putValue("help", HelpUtil.ht("/Plugin/Scripting"));
     }

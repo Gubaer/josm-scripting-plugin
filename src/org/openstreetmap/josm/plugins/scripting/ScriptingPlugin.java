@@ -24,6 +24,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JSeparator;
 
 import org.mozilla.javascript.Function;
+import org.mozilla.javascript.JavaScriptException;
 import org.mozilla.javascript.RhinoException;
 import org.mozilla.javascript.Scriptable;
 import org.openstreetmap.josm.Main;
@@ -50,7 +51,7 @@ public class ScriptingPlugin extends Plugin {
 
     private static ScriptingPlugin instance;
     private static Scriptable startModule;
-    
+
     private IPythonPluginManager pythonPluginManager;
 
     protected void initLocalInstallation() {
@@ -70,41 +71,50 @@ public class ScriptingPlugin extends Plugin {
 
     public ScriptingPlugin(PluginInformation info) {
         super(info);
-        instance = this;
-        installResourceFiles();
-        installScriptsMenu();
-        initLocalInstallation();
-        RhinoEngine engine = RhinoEngine.getInstance();
-        engine.initScope();
-        JOSMModuleScriptProvider provider = JOSMModuleScriptProvider
-                .getInstance();
-        URL url = provider.lookup(START_MODULE_NAME);
-        if (url == null) {
-            logger.info(String.format("No startup module '%s' found.",
-                    START_MODULE_NAME));
-        } else {
-            try {
-                startModule = engine.require(START_MODULE_NAME);
-            } catch (RhinoException e) {
-                logger.log(Level.SEVERE, String.format(
+        try {
+            instance = this;
+            installResourceFiles();
+            installScriptsMenu();
+            initLocalInstallation();
+            RhinoEngine engine = RhinoEngine.getInstance();
+            engine.initScope();
+            JOSMModuleScriptProvider provider = JOSMModuleScriptProvider
+                    .getInstance();
+            URL url = provider.lookup(START_MODULE_NAME);
+            if (url == null) {
+                logger.info(String.format("No startup module '%s' found.",
+                        START_MODULE_NAME));
+            } else {
+                try {
+                    startModule = engine.require(START_MODULE_NAME);
+                } catch (RhinoException e) {
+                    logger.log(Level.SEVERE, String.format(
                         "Failed to load start module '%s' from URL '%s'.",
                         START_MODULE_NAME, url), e);
-            }
-            if (startModule != null) {
-                logger.info(String.format("Successfully loaded startup module '%s' from URL '%s'",
+                }
+                if (startModule != null) {
+                    logger.info(String.format(
+                        "Successfully loaded startup module '%s' from URL '%s'",
                         START_MODULE_NAME, url));
-                jsOnStart();
+                    jsOnStart();
+                }
             }
-        }
-        if (isJythonPresent()) {
-            loadPythonPlugins();
+            if (isJythonPresent()) {
+                loadPythonPlugins();
+            }
+        } catch(JavaScriptException e) {
+            System.out.println(
+              tr("FATAL: Failed to initialize scripting plugin.\n")
+            );
+            System.out.println(e);
+            e.printStackTrace();
         }
     }
-    
+
     protected void loadPythonPlugins() {
         pythonPluginManager = PythonPluginManagerFactory.createPythonPluginManager();
         if (pythonPluginManager == null) return;
-        
+
         Collection<String> paths = Main.pref.getCollection(
                PreferenceKeys.PREF_KEY_JYTHON_SYS_PATHS,
                null
@@ -112,7 +122,7 @@ public class ScriptingPlugin extends Plugin {
         if (paths != null) {
             pythonPluginManager.updatePluginSpecificSysPaths(paths);
         }
-        
+
         Collection<String> plugins = Main.pref.getCollection(
            PreferenceKeys.PREF_KEY_JYTHON_PLUGINS,
            null
@@ -123,7 +133,7 @@ public class ScriptingPlugin extends Plugin {
                 if (plugin.isEmpty()) continue;
                 pythonPluginManager.loadPlugin(plugin);
             }
-        }              
+        }
     }
 
     protected void jsOnStart() {
@@ -149,8 +159,9 @@ public class ScriptingPlugin extends Plugin {
             return;
         if (!(o instanceof Function)) {
             logger.warning(String.format(
-                    "module 'start': property '%s' should be a function, got %s instead",
-                    "onMapFrameChanged", o));
+            "module 'start': property '%s' should be a function, got %s instead",
+             "onMapFrameChanged", o)
+             );
             return;
         }
         RhinoEngine.getInstance().executeOnSwingEDT((Function) o,
@@ -160,7 +171,7 @@ public class ScriptingPlugin extends Plugin {
     private final Action toggleConsoleAction = new ToggleConsoleAction();
     private final Action runScriptAction = new RunScriptAction();
     private final Action configureAction = new ConfigureAction();
-    
+
     protected void installScriptsMenu() {
         final JMenu scriptingMenu = Main.main.menu.addMenu(
                 tr("Scripting"), KeyEvent.VK_S,
@@ -175,11 +186,11 @@ public class ScriptingPlugin extends Plugin {
             public void update(Observable arg0, Object arg1) {
                 scriptingMenu.removeAll();
                 populateStandardentries(scriptingMenu);
-                populateMruMenuEntries(scriptingMenu);                
-            }            
+                populateMruMenuEntries(scriptingMenu);
+            }
         });
     }
-            
+
     protected void populateStandardentries(JMenu scriptingMenu) {
         scriptingMenu.add(new JCheckBoxMenuItem(toggleConsoleAction));
         scriptingMenu.add(runScriptAction);
@@ -199,7 +210,7 @@ public class ScriptingPlugin extends Plugin {
             }
         }
     }
-  
+
     @Override
     public PreferenceSetting getPreferenceSetting() {
         return new PreferenceEditor();
@@ -207,20 +218,20 @@ public class ScriptingPlugin extends Plugin {
 
     @Override
     public void mapFrameInitialized(MapFrame oldFrame, MapFrame newFrame) {
-        jsOnMapFrameChanged(oldFrame, newFrame);        
-        
+        jsOnMapFrameChanged(oldFrame, newFrame);
+
         if (pythonPluginManager != null) {
             pythonPluginManager.notifyMapFrameChanged(oldFrame, newFrame);
         }
     }
 
     /**
-     * Installs the default mime types shipped in the resource 
+     * Installs the default mime types shipped in the resource
      * <tt>/resources/mime.types.default</tt> in the plugin directory.
      */
     protected void installResourceFiles() {
 	    File mimeTypesTarget = new File(getPluginDir(), "mime.types");
-	    if (mimeTypesTarget.exists()) return; // don't have to install it 
+	    if (mimeTypesTarget.exists()) return; // don't have to install it
 	    FileOutputStream fout = null;
 	    InputStream is = null;
 	    try {
@@ -229,7 +240,7 @@ public class ScriptingPlugin extends Plugin {
 	        if (is == null) {
 	            logger.warning(String.format(
 	                    "Didn't find resource '%s'. "
-	                   + "Can't install default mime types.", 
+	                   + "Can't install default mime types.",
 	                   res));
 	            return;
 	        }
@@ -250,7 +261,7 @@ public class ScriptingPlugin extends Plugin {
 	              getPluginDir(),
 	              e.toString()
 	        ));
-	        e.printStackTrace();	    
+	        e.printStackTrace();
 	    } finally {
 	       IOUtil.close(fout);
 	       IOUtil.close(is);
