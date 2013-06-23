@@ -174,7 +174,7 @@ public class ScriptingPlugin extends Plugin {
 
     protected void installScriptsMenu() {
         final JMenu scriptingMenu = Main.main.menu.addMenu(
-                tr("Scripting"), KeyEvent.VK_S,
+                tr("Scripting"), -1 /* no mnemonic key */ ,
                 Main.main.menu.defaultMenuPos, ht("/Plugin/Scripting")
         );
         scriptingMenu.setMnemonic('S');
