@@ -230,18 +230,28 @@ public class RhinoEngine {
 	 * @param script the script
 	 */
 	public void evaluateOnSwingThread(final String script) {
-		if (script == null) return;
-		Runnable r = new Runnable() {
-			@Override
-            public void run() {
-				enterSwingThreadContext();
-				Context ctx = Context.getCurrentContext();
-				ctx.evaluateString(scope, script, "inlineScript", 1,
-				        null /* no security domain */);
-			}
-		};
-		runOnSwingEDT(r);
+	    evaluateOnSwingThread(script, null);
 	}
+
+	/**
+     * Evaluate a script on the Swing EDT
+     *
+     * @param script the script
+     */
+    public void evaluateOnSwingThread(final String script, String sourceName) {
+        if (script == null) return;
+        final String sn = sourceName == null ? "inlineScript" : sourceName;
+        Runnable r = new Runnable() {
+            @Override
+            public void run() {
+                enterSwingThreadContext();
+                Context ctx = Context.getCurrentContext();
+                ctx.evaluateString(scope, script, sn, 1,
+                        null /* no security domain */);
+            }
+        };
+        runOnSwingEDT(r);
+    }
 
 	/**
 	 * Reads and evaluates the script in the file <code>file</code> on the
