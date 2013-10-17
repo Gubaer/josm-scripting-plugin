@@ -273,7 +273,9 @@ public class ScriptEnginesConfigurationPanel extends VerticallyScrollablePanel{
 		        Object value, boolean isSelected, boolean hasFocus,
 		        int row, int column) {
 			ScriptEngineJarInfo jar = (ScriptEngineJarInfo)value;
+			// shouldn't happen, but see #6 reported on a Mac
 			reset();
+			if (jar == null) return this;
 			switch(column){
 			case 0: renderJarStatus(jar); break;
 			case 1:
@@ -355,7 +357,6 @@ public class ScriptEnginesConfigurationPanel extends VerticallyScrollablePanel{
 			add(btnLauchFileChooser = new JButton(
 			    new LaunchFileChooserAction()), gc
 			);
-
 		}
 
 		public void addCellEditorListener(CellEditorListener l) {
