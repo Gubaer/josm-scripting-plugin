@@ -21,17 +21,17 @@ import org.openstreetmap.josm.plugins.scripting.model.PreferenceKeys;
  */
 public class ScriptEngineJarTableModel extends AbstractTableModel implements PreferenceKeys{
 	static private final Logger logger = Logger.getLogger(ScriptEngineJarTableModel.class.getName());
-	
+
 	private final List<ScriptEngineJarInfo> jars = new ArrayList<ScriptEngineJarInfo>();
 	private DefaultListSelectionModel selectionModel;
-	
+
 	public ScriptEngineJarTableModel() {
 		this(null);
 	}
-	
+
 	/**
 	 * Creates the model
-	 * 
+	 *
 	 * @param selectionModel the selection model to be used. Internally creates a selection model,
 	 * if null
 	 */
@@ -39,16 +39,16 @@ public class ScriptEngineJarTableModel extends AbstractTableModel implements Pre
 		this.selectionModel = selectionModel;
 		if (this.selectionModel == null) this.selectionModel = new DefaultListSelectionModel();
 	}
-	
+
 	/**
 	 * <p>Replies the selection model known to this table model.</p>
-	 * 
-	 * <p>Make sure that a table using an instance of this model, is also using the 
+	 *
+	 * <p>Make sure that a table using an instance of this model, is also using the
 	 * respective selection model.</p>
 	 * <pre>
 	 *    model = new ScriptEngineJarTableModel();
 	 *    JTable table = new JTable(model);
-	 *    table.setSelectionModel(model.getSelectionModel()); 
+	 *    table.setSelectionModel(model.getSelectionModel());
 	 * </pre>
 	 * @return
 	 */
@@ -81,9 +81,9 @@ public class ScriptEngineJarTableModel extends AbstractTableModel implements Pre
 
 	@Override
 	public boolean isCellEditable(int row, int col) {
-		return col == 1; 
+		return col == 1;
 	}
-	
+
 	/**
 	 * <p>Restores the configured jar files from preferences.</p>
 	 */
@@ -99,8 +99,8 @@ public class ScriptEngineJarTableModel extends AbstractTableModel implements Pre
 		}
 		fireTableDataChanged();
 	}
-	
-	
+
+
 	/**
 	 * <p>Persists the jar paths to the preferences.</p>
 	 */
@@ -114,7 +114,7 @@ public class ScriptEngineJarTableModel extends AbstractTableModel implements Pre
 		}
 		Main.pref.putCollection(PREF_KEY_SCRIPTING_ENGINE_JARS, paths);
 	}
-	
+
 	public void deleteSelected(){
 		boolean updated = false;
 		for (int i = jars.size() -1; i >= 0; i--){
@@ -125,9 +125,9 @@ public class ScriptEngineJarTableModel extends AbstractTableModel implements Pre
 		}
 		if (updated){
 			fireTableDataChanged();
-		}		
+		}
 	}
-	
+
 	public void addNew(){
 		jars.add(new ScriptEngineJarInfo(""));
 		fireTableDataChanged();
@@ -136,15 +136,15 @@ public class ScriptEngineJarTableModel extends AbstractTableModel implements Pre
 	@Override
 	public void fireTableDataChanged() {
 		super.fireTableDataChanged();
-		
-		// propagate the new list of scripte engine jars to the global script engine
-		// provider. 
+
+		// propagate the new list of script engine jars to the global script
+		// engine provider.
 		List<File> jarfiles = new ArrayList<File>();
 		for (ScriptEngineJarInfo info: jars) {
-			String path = info.getJarFilePath();
-			path = path.trim();
+			String path = info.getJarFilePath().trim();
 			if (path.isEmpty()) continue;
-			if (! info.getStatusMessage().equals(ScriptEngineJarInfo.OK_MESSAGE)) continue;
+			if (!info.getStatusMessage().equals(ScriptEngineJarInfo.OK_MESSAGE))
+			    continue;
 			jarfiles.add(new File(path));
 		}
 		JSR223ScriptEngineProvider.getInstance().setScriptEngineJars(jarfiles);
