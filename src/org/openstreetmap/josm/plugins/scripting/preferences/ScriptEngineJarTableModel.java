@@ -141,8 +141,7 @@ public class ScriptEngineJarTableModel extends AbstractTableModel implements Pre
 		// engine provider.
 		List<File> jarfiles = new ArrayList<File>();
 		for (ScriptEngineJarInfo info: jars) {
-			String path = info.getJarFilePath();
-			path = path.trim();
+			String path = info.getJarFilePath().trim();
 			if (path.isEmpty()) continue;
 			if (!info.getStatusMessage().equals(ScriptEngineJarInfo.OK_MESSAGE))
 			    continue;
