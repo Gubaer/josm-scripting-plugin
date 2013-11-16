@@ -277,8 +277,8 @@ public class JOSMModuleScriptProvider implements ModuleScriptProvider, Preferenc
 	}
 	
 	@Override
-	public  ModuleScript getModuleScript(Context cx, String moduleId, URI moduleUri, Scriptable paths) throws Exception {
-		// moduleUri and paths are ignored 
+	public  ModuleScript getModuleScript(Context cx, String moduleId, URI moduleUri, URI baseUri, Scriptable paths) throws Exception {
+		// moduleUri, baseUri and paths are ignored 
 		//
 		return getModuleScript(cx, moduleId);		
 	}
