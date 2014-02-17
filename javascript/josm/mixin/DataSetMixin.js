@@ -1060,7 +1060,7 @@ DataSetSelectionFacade.prototype.has = DataSetSelectionFacade.prototype.isSelect
  */
 Object.defineProperty(DataSetSelectionFacade.prototype, "nodes", {
 	get: function() {
-		return colToArray(this.getSelectedNodes());
+		return colToArray(this._ds.getSelectedNodes());
 	}
 });
 
@@ -1076,7 +1076,7 @@ Object.defineProperty(DataSetSelectionFacade.prototype, "nodes", {
  */
 Object.defineProperty(DataSetSelectionFacade.prototype, "ways", {
 	get: function() {
-		return colToArray(this.getSelectedWays());
+		return colToArray(this._ds.getSelectedWays());
 	}
 });
 
@@ -1092,7 +1092,7 @@ Object.defineProperty(DataSetSelectionFacade.prototype, "ways", {
  */
 Object.defineProperty(DataSetSelectionFacade.prototype, "relations", {
 	get: function() {
-		return colToArray(this.getSelectedRelations());
+		return colToArray(this._ds.getSelectedRelations());
 	}
 });
 
@@ -1108,7 +1108,7 @@ Object.defineProperty(DataSetSelectionFacade.prototype, "relations", {
  */
 Object.defineProperty(DataSetSelectionFacade.prototype, "objects", {
 	get: function() {
-		return colToArray(this.getSelected());
+		return colToArray(this._ds.getSelected());
 	}
 });
 
