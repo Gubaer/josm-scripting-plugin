@@ -728,7 +728,7 @@ exports.Api.downloadArea = function() {
  * // uploads the data in a new changeset in one chunk)
  * var processed = api.upload(ds, "just testing");
  * 
- * @param {org.openstreetmap.josm.data.osm.DataSet, org.openstreetmap.josm.data.APIDataSet, array, java.util.Collection} data the data to upload
+ * @param {(org.openstreetmap.josm.data.osm.DataSet|org.openstreetmap.josm.data.APIDataSet|array|java.util.Collection)} data the data to upload
  * @param {string} comment the upload comment 
  * @param {object} options (optional) various options (see above) 
  * @method
@@ -1074,7 +1074,7 @@ function normalizeOAuthCredentials(credentials) {
  * conf.setCredentials("basic", {user:"test", password:"apassword"});
  * 
  * @param {string} authMethod  the authentication method. Either "basic" or "oauth".
- * @param {object,org.openstreetmap.josm.data.oauth.OAuthToken,java.net.PasswordAuthentication} credentials  the credentials.
+ * @param {(object|org.openstreetmap.josm.data.oauth.OAuthToken|java.net.PasswordAuthentication)} credentials  the credentials.
  * @param {object} options  (optional) additional options (see above)
  * @method
  * @memberOf ApiConfig

@@ -592,7 +592,7 @@ exports.WayBuilder.withTags = withTags;
  * ).create();
  * 
  * @memberOf WayBuilder
- * @param {object...} nodes  the list of nodes. See description and examples. 
+ * @param nodes  the list of nodes. See description and examples. 
  * @return a way builder (for method chaining)
  * @type WayBuilder
  * @summary Declares the nodes of the way.
@@ -1044,7 +1044,7 @@ exports.RelationBuilder.prototype.createProxy = createProxy;
  *   
  * 
  * @memberOf RelationBuilder
- * @param {object...} nodes  the list of members. See description and examples. 
+ * @param nodes  the list of members. See description and examples. 
  * @return the relation builder (for method chaining)
  * @type RelationBuilder
  * @summary Declares the members of a relation.
