@@ -33,8 +33,8 @@ of the global <code>josm</code> object.</p></p>
  
  <table class="member-summary">
  <tr>
- 	<th>Name</th>
- 	<th>Description</th>
+    <th>Name</th>
+    <th>Description</th>
  </tr>
  
  <tr>
@@ -42,23 +42,23 @@ of the global <code>josm</code> object.</p></p>
  </tr>
  
     <tr>
-    	<td><a href="#commands">commands</a></td>
-    	<td>Replies the global command history.</td>
+        <td><a href="#commands">commands</a></td>
+        <td>Replies the global command history.</td>
     </tr>
  
     <tr>
-    	<td><a href="#layers">layers</a></td>
-    	<td>accessor for JOSM layers</td>
+        <td><a href="#layers">layers</a></td>
+        <td>accessor for JOSM layers</td>
     </tr>
  
     <tr>
-    	<td><a href="#menu">menu</a></td>
-    	<td>Replies an accessor for JOSMs menu bar.</td>
+        <td><a href="#menu">menu</a></td>
+        <td>Replies an accessor for JOSMs menu bar.</td>
     </tr>
  
     <tr>
-    	<td><a href="#version">version</a></td>
-    	<td>JOSM version string</td>
+        <td><a href="#version">version</a></td>
+        <td>JOSM version string</td>
     </tr>
  
  
@@ -69,18 +69,21 @@ of the global <code>josm</code> object.</p></p>
  </tr>
   
     <tr>
-    	<td><a href="#alert">alert()</a></td>
-    	<td>display a message</td>
+        <td><a href="#alert">alert()</a></td>
+        <td>display a message</td>
     </tr>
  
     <tr>
-    	<td><a href="#open">open()</a></td>
-    	<td>Opens one or more files in JOSM</td>
+        <td><a href="#open">open()</a></td>
+        <td>Opens one or more files in JOSM</td>
     </tr>
  
  
  </table>
  
+ 
+ 
+
 
 
 
@@ -91,25 +94,25 @@ of the global <code>josm</code> object.</p></p>
 
 <p>Use this object to undo/redo commands, or to clear the command history.</p></p>
    
-		{% highlight javascript %}
+        {% highlight javascript %}
 // undoes the last command 
 josm.commands.undo();
 
 // redoes two commands
 josm.commands.redo(2);
-		{% endhighlight %}
-	     
+        {% endhighlight %}
+         
      
    <p id="layers" class="member-header">layers:object</p>
    <p><p>Replies the layers object.</p></p>
    
-		{% highlight javascript %}
+        {% highlight javascript %}
 josm.alert("num layers: " + josm.layers.length);
 
 // name of first layer 
 josm.alert("num layers: " + josm.layers.get(0).name);
-		{% endhighlight %}
-	     
+        {% endhighlight %}
+         
      
    <p id="menu" class="member-header">menu:MenuBar</p>
    <p><p>Replies an accessor for JOSMs menu bar.</p>
@@ -121,13 +124,12 @@ items.</p></p>
    <p id="version" class="member-header">version:string</p>
    <p><p>Replies the current JOSM version string.</p></p>
    
-		{% highlight javascript %}
+        {% highlight javascript %}
 josm.alert(josm.version);
-		{% endhighlight %}
-	     
+        {% endhighlight %}
+         
   
  
-
 
 
 
@@ -165,7 +167,7 @@ josm.alert(josm.version);
      </dd>
   </dl>
   </dd>
-</dl></p>	
+</dl></p> 
 
 
 
@@ -197,19 +199,18 @@ a java.io.File.</p>
   <li>creates a gpx layer for gpx files</li>
   <li>creates an image layer for a directory with images</li>
   <li>etc.</li>
-</ul></p>	
+</ul>
+
+* @example
+// open a data file in a new data layer 
+josm.open("/my/data/file.osm");</p> 
 
 
-
-   <h3>Examples</h3>
-   {% highlight javascript %}
- // open a data file in a new data layer 
-josm.open("/my/data/file.osm");
-   {% endhighlight %}
 
 
   
  
+
 </div> 
     </div>
   </div>
