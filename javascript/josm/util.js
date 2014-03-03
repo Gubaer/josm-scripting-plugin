@@ -132,7 +132,7 @@ exports.assert = function() {
  * 
  * @param {any} val the value to check
  * @param {string} msg  (optional) message if the assertion fails
- * @param {object...} values (optional) additional values used in <code>msg</code> placeholders 
+ * @param values (optional) additional values used in <code>msg</code> placeholders 
  * @memberof josm/util
  * @method
  * @summary  Asserts that <code>val</code> is defined and non-null.
@@ -153,7 +153,7 @@ exports.assertSomething = function(val) {
  * 
  * @param {Anything} val the value to check
  * @param {String} msg  (optional) message if the assertion fails
- * @param {Object...} values (optional) additional values used in <code>msg</code> placeholders 
+ * @param values (optional) additional values used in <code>msg</code> placeholders 
  * @memberof josm/util
  * @method
  * @summary  Asserts that <code>val</code> is a number.
@@ -317,7 +317,6 @@ exports.isFunction = function(f) {
 /**
  * Mixes the properties of a list of objects into one object.
  * 
- * @param {object...} a variable number of objects
  * @return a new object which includes the combined properties of the argument objects 
  * @type object
  * @memberof josm/util

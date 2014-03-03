@@ -39,13 +39,14 @@
   };
 
   /**
-   * Builds the property summary from teh @summary tag; resolves links
+   * Builds the property summary from the @summary tag; resolves links
    * in the tag value.
    */
   function buildPropertySummary(doclet) {
       var summary = doclet.summary || "";
       return viewHelper.resolveClassReferences(summary)
   };
+
 ?>
 <?js /* =======================================================================  */ ?>
 <?js 
@@ -142,8 +143,8 @@ function compareByName(a,b) {
     return a.name < b.name ? -1 : (a.name == b.name ? 0 : 1);
 };
 
-var properties = data.get({kind: "member", memberof: doclet.name}).sort(compareByName);
-var methods = data.get({kind: "function", memberof: doclet.name}).sort(compareByName);
+var properties = data({kind: "member", memberof: doclet.name}).order("name");
+var methods = data({kind: "function", memberof: doclet.name}).order("name");
  ?>
  <?js /* ---------------- properties and method summary ------------------------- */ ?>
  <?js if (properties.length + methods.length > 0) { ?>
@@ -172,7 +173,7 @@ prefix the native name with <code>$</code>.</p>
 
 <?js /* ----------- constructor section (optional)     ------------------------- */ ?>
 <?js
-var constructors =  data.get({memberof: doclet.name, kind: "class", name: doclet.name});
+var constructors =  data({memberof: doclet.name, kind: "class", name: doclet.name});
 if (constructors.length > 0) { ?>
 <h2>Constructor</h2>
 <?js
@@ -184,9 +185,9 @@ if (constructors.length > 0) { ?>
 {% highlight javascript %}
 <?js= constructor.examples ?>
 {% endhighlight %}	
-	<?js } /* examples */ ?>    
+<?js  } /* examples */ ?>    
 	
-	<?js
+<?js
      var params = constructor.params;
      if (params && params.length > 0) {
 ?>
