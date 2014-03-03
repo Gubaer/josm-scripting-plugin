@@ -209,8 +209,11 @@ For this purpose, the Scripting Plugin provides a <a data-js-object="module:josm
   
   // creates and applies two undoable/redoable commands 
   layer.apply(
-	command.change(ds.node(12345), {lat: 12.45}),
+	  command.change(ds.node(12345), {lat: 12.45}),
   	command.change(ds.relation(67890), {tags: {name: "a new name"}})
+
+    // to remove a tag, set its value to null
+    command.change(ds.way(87632), {tags: {width: null}})    
   );
 {% endhighlight %}
 
