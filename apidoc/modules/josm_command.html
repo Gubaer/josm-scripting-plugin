@@ -9,12 +9,12 @@
     </div>
     <div class="span9">
       
-
 <div class="apidoc">
 <h1 class="title">Module josm/command</h1>
 
 <p><p>A collection of functions to create commands which can be applied, undone and redone on
-<a href='../modules/org.opoenstreetmap.josm.gui.layer.OsmDataLayer.html' alt='org.opoenstreetmap.josm.gui.layer.OsmDataLayer'>OsmDataLayer</a>s.</p></p>
+org.opoenstreetmap.josm.gui.layer.OsmDataLayers.</p></p>
+
 
 
 
@@ -39,8 +39,7 @@
 
 
 
-
-
+  
  
  <table class="member-summary">
  <tr>
@@ -49,36 +48,36 @@
  </tr>
  
  
+
  
- <tr>
-   <td colspan="2" class="section-header">Functions</td>
- </tr>
-  
-    <tr>
-        <td><a href="#add">add()</a></td>
+ 
+ 
+                                                                      
+<tr>
+   <td colspan="2" class="section-header">Methods</td>
+</tr>
+
+    <tr> 
+        <td><a href='#add'>add</a></td>
         <td>Creates a command to add a collection of objects</td>
     </tr>
- 
-    <tr>
-        <td><a href="#change">change()</a></td>
+
+    <tr> 
+        <td><a href='#change'>change</a></td>
         <td>Creates a command to change a collection of objects</td>
     </tr>
- 
-    <tr>
-        <td><a href="#delete">delete()</a></td>
+
+    <tr> 
+        <td><a href='#delete'>delete</a></td>
         <td>Creates a command to delete a collection of objects</td>
     </tr>
- 
- 
- </table>
- 
- 
- 
 
 
+</table>
 
- 
 
+                                                                   
+  
 
 
 <h2>Functions</h2>
@@ -95,13 +94,15 @@
   <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Way.html' alt='org.openstreetmap.josm.data.osm.Way' target='javadoc'>Way</a>s, or
   <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Relations.html' alt='org.openstreetmap.josm.data.osm.Relations' target='javadoc'>Relations</a>s. Or javascript array
   or Java collections thereof.</dd>
-</dl></p> 
+</dl></p>    
 
 
 
    <h3>Examples</h3>
-   {% highlight javascript %}
- var cmd = require("josm/command");
+
+
+{% highlight javascript %}
+var cmd = require("josm/command");
 var layers = require("josm/layer");
 var layer  = layers.get("Data Layer 1");
 
@@ -112,10 +113,11 @@ cmd.add(n1,n1).applyTo(layer);
 layer.apply(
    cmd.add([n1,n2,w2])
 );
-   {% endhighlight %}
+{% endhighlight %}
 
 
-  
+
+ 
    <p  id="change" class="member-header">
       change   
    </p>
@@ -152,13 +154,15 @@ named parameters:
   
   <dt><code class="signature">members:<a href='http://docs.oracle.com/javase/6/docs/api/java/util/List.html' alt='java.util.List' target='javadoc'>List</a>|array</code></dt>
   <dd>Changes the nodes of the target relations to <code>members</code>.</dd>
-</dl></p> 
+</dl></p>    
 
 
 
    <h3>Examples</h3>
-   {% highlight javascript %}
- var cmd = require("josm/command");
+
+
+{% highlight javascript %}
+var cmd = require("josm/command");
 var layers = require("josm/layer");
 var layer = layers.get("Data Layer 1");
 
@@ -174,10 +178,11 @@ layer.apply(
 cmd.change(n1,n3, w1,r1, {
    tags: {"mycustommtag": "value"}
 }).applyTo(layer);
-   {% endhighlight %}
+{% endhighlight %}
 
 
-  
+
+ 
    <p  id="delete" class="member-header">
       delete   
    </p>
@@ -190,13 +195,15 @@ cmd.change(n1,n3, w1,r1, {
   <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Way.html' alt='org.openstreetmap.josm.data.osm.Way' target='javadoc'>Way</a>s, or
   <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Relations.html' alt='org.openstreetmap.josm.data.osm.Relations' target='javadoc'>Relations</a>s. Or javascript array
   or Java collections thereof.</dd>
-</dl></p> 
+</dl></p>    
 
 
 
    <h3>Examples</h3>
-   {% highlight javascript %}
- var cmd = require("josm/command");
+
+
+{% highlight javascript %}
+var cmd = require("josm/command");
 var layers= require("josm/layer");
 var layer = layers.get("Data Layer 1");
 
@@ -207,10 +214,12 @@ cmd.delete(n1,n1).applyTo(layer);
 layer.apply(
    cmd.delete([n1,n2,w2])
 );
-   {% endhighlight %}
+{% endhighlight %}
 
 
-  
+
+ 
+
  
 
 </div> 

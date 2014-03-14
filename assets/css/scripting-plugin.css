@@ -174,5 +174,11 @@ table th {
 	font-weight: bold;
 	background: rgb(240,240,240);
 	text-align: left;
+}
 
+P.documentation-warning {
+   background-color: #F5A9A9;
+   border-style: solid; 
+   border-color: white;
+   padding: 2px;
 }

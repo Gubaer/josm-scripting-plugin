@@ -8,58 +8,228 @@
      {% include apitoc.html %}
     </div>
     <div class="span9">
-      
-
-
-
-
-
-
-
-
-
-
-
-
+        
 <div class="apidoc">
 <h1 class="title">Mixin ChangesetMixin</h1>
+<p>This mixin is auto-loaded by the scripting plugin and mixed into the 
+native java class <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Changeset.html' alt='org.openstreetmap.josm.data.osm.Changeset' target='javadoc'>Changeset</a>.</p> 
 
-<p><p>This mixin is auto-loaded by the scripting plugin and mixed into the 
-native java class <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Changeset.html' alt='org.openstreetmap.josm.data.osm.Changeset' target='javadoc'>Changeset</a>.</p></p>
+
+
+  
+ 
+ <table class="member-summary">
+ <tr>
+    <th>Name</th>
+    <th>Description</th>
+ </tr>
+ 
+ 
+                                                                      
+<tr>
+   <td colspan="2" class="section-header">Properties</td>
+</tr>
+
+    <tr> 
+        <td><a href='#bounds'>bounds</a></td>
+        <td>Get the bounding box the bounding box.</td>
+    </tr>
+
+    <tr> 
+        <td><a href='#closedAt'>closedAt</a></td>
+        <td>Set or get the date this changeset was closed.</td>
+    </tr>
+
+    <tr> 
+        <td><a href='#createdAt'>createdAt</a></td>
+        <td>Set or get the date this changeset was created.</td>
+    </tr>
+
+    <tr> 
+        <td><a href='#id'>id</a></td>
+        <td>Replies the unique numeric id.</td>
+    </tr>
+
+    <tr> 
+        <td><a href='#isOpen'>isOpen</a>, <a href='#isOpen'>open</a></td>
+        <td>Get or set whether this changeset is open.</td>
+    </tr>
+
+    <tr> 
+        <td><a href='#max'>max</a></td>
+        <td>Get or set the coordinates of the upper right corner</td>
+    </tr>
+
+    <tr> 
+        <td><a href='#min'>min</a></td>
+        <td>Get or set the coordinates of the lower left corner</td>
+    </tr>
+
+    <tr> 
+        <td><a href='#tags'>tags</a></td>
+        <td>Get or set the tags.</td>
+    </tr>
+
 
  
  
  
- 
- 
- 
- 
+
+
+
 
 
 <p>This mixin provides additional properties and methods for the native Java class 
 <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Changeset.html' alt='org.openstreetmap.josm.data.osm.Changeset' target='javadoc'>Changeset</a>, whose native public methods are available
-for scripting, too. If a native method name is hidden by property name in the mixin,
-prefix the native name with <code>$</code>.</p>
+for scripting, too. If a native method name is hidden by a property name in the mixin,
+then prefix the native name with <code>$</code>.</p>
 
 
 
 
 
 
+<h2>Properties</h2>
+   
+   <p id="bounds" class="member-header">
+     bounds:<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/Bounds.html' alt='org.openstreetmap.josm.data.Bounds' target='javadoc'>Bounds</a>
+          
+   </p>
+   <p><p>Get the bounding box the bounding box.</p>
+<dl>
+  <dt>get:</dt>
+  <dd>Replies a <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/Bounds.html' alt='org.openstreetmap.josm.data.Bounds' target='javadoc'>Bounds</a> or undefined, if the bounding box isn't known.</dd>
+</dl></p>   
+   
 
    
-<h2>Properties</h2>
+   <p id="closedAt" class="member-header">
+     closedAt:<a href='http://docs.oracle.com/javase/6/docs/api/java/util/Date.html' alt='java.util.Date' target='javadoc'>Date</a>
+          
+   </p>
+   <p><p>Set or get the date this changeset was closed.</p> 
+
+<dl>
+  <dt>get:</dt>
+  <dd>Replies a <a href='http://docs.oracle.com/javase/6/docs/api/java/utilDate.html' alt='java.utilDate' target='javadoc'>utilDate</a> or undefined, if the date isn't known.</dd>
+  
+  <dt>set:</dt>
+  <dd>Assign null or undefined to clear the date. Assign a <a href='http://docs.oracle.com/javase/6/docs/api/java/util/Date.html' alt='java.util.Date' target='javadoc'>Date</a>
+  to set the date. Note, that you can't assign a javascript Date object.</dd>
+</dl></p>   
+   
+
+   
+   <p id="createdAt" class="member-header">
+     createdAt:<a href='http://docs.oracle.com/javase/6/docs/api/java/util/Date.html' alt='java.util.Date' target='javadoc'>Date</a>
+          
+   </p>
+   <p><p>Set or get the date this changeset was created.</p> 
+<dl>
+  <dt>get:</dt>
+  <dd>Replies a <a href='http://docs.oracle.com/javase/6/docs/api/java/utilDate.html' alt='java.utilDate' target='javadoc'>utilDate</a> or undefined, if the date isn't known.</dd>
+  
+  <dt>set:</dt>
+  <dd>Assign null or undefined to clear the date. Assign a <a href='http://docs.oracle.com/javase/6/docs/api/java/util/Date.html' alt='java.util.Date' target='javadoc'>Date</a>
+  to set the date. Note, that you can't assign a javascript Date object.</dd>
+</dl></p>   
+   
+
+   
+   <p id="id" class="member-header">
+     id:number
+          
+   </p>
+   <p><p>Replies the unique numeric id.</p></p>   
+   
+
+   
+   <p id="isOpen" class="member-header">
+     isOpen:boolean
+     
+     <strong> | Aliases: </strong>open
+     
+   </p>
+   <p><p>Get or set whether this changeset is open.</p></p>   
+   
+
+   
+   <p id="max" class="member-header">
+     max:<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/coor/LatLon.html' alt='org.openstreetmap.josm.data.coor.LatLon' target='javadoc'>LatLon</a>
+          
+   </p>
+   <p><p>Set or get the coordinates of the upper right corner of the bounding box.</p>
+<dl>
+  <dt>get:</dt>
+  <dd>Replies a <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/coor/LatLon.html' alt='org.openstreetmap.josm.data.coor.LatLon' target='javadoc'>LatLon</a> or undefined, if max isn't known.</dd>
+  
+  <dt>set:</dt>
+  <dd>Assign null or undefined to clear the coordinates. Assign a <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/coor/LatLon.html' alt='org.openstreetmap.josm.data.coor.LatLon' target='javadoc'>LatLon</a> or
+  an object <code>{lat:number, lon: number}</code> to set the coordinates.</dd>
+</dl></p>   
+   
+
+   
+   <p id="min" class="member-header">
+     min:<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/coor/LatLon.html' alt='org.openstreetmap.josm.data.coor.LatLon' target='javadoc'>LatLon</a>
+          
+   </p>
+   <p><p>Set or get the coordinates of the lower left corner of the bounding box.</p>
+
+<dl>
+  <dt>get:</dt>
+  <dd>Replies a <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/coor/LatLon.html' alt='org.openstreetmap.josm.data.coor.LatLon' target='javadoc'>LatLon</a> or undefined, if min isn't known.</dd>
+  
+  <dt>set:</dt>
+  <dd>Assign null or undefined to clear the coordinates. Assign a <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/coor/LatLon.html' alt='org.openstreetmap.josm.data.coor.LatLon' target='javadoc'>LatLon</a> or
+  an object <code>{lat:number, lon: number}</code> to set the coordinates.</dd>
+</dl></p>   
+   
+
+   
+   <p id="tags" class="member-header">
+     tags:object
+          
+   </p>
+   <p><p>Get or set the tags of the changeset.</p>
+<p><strong>get:</strong> - replies the tags as javascript object.</p>
+
+ <p><strong>set:</strong>
+   <ul>
+     <li>assign null or undefined to remove all tags</li>
+     <li>assign an object to set its properties as tags.</li>
+     <li>assign an java.util.Map to set its elements as tags</li>
+   </ul>
+ </p>
+ 
+ <p>null values and undefined tag values aren't assigned. tag keys are normalized, i.e. leading and
+ trailing white space is removed. Both, tag keys and tag values, are converted to strings.</p></p>   
+   
+
+{% highlight javascript %}
+var cs = .... // create a changeset
+
+// set the tags using a javascript object
+cs.tags = {amenity:"restaurant", name:"Obstberg"}; 
+cs.tags.amenity;  // -> restaurant
+cs.tags.name;     // -> Obstberg
+
+// remove all tags 
+cs.tags = null;
+
+// set tags using a java map 
+var tags = new java.util.HashMap();
+tags.put("amenity", "restaurant");
+tags.put("name", "Obstberg");
+cs.tags = tags; 
+{% endhighlight %}
+
+    
                                                                    
   
 
-
-
  
 </div>
-
-
-
-
  
     </div>
   </div>

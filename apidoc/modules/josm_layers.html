@@ -9,7 +9,6 @@
     </div>
     <div class="span9">
       
-
 <div class="apidoc">
 <h1 class="title">Module josm/layers</h1>
 
@@ -28,7 +27,7 @@
 
 
 
-
+  
  
  <table class="member-summary">
  <tr>
@@ -36,64 +35,67 @@
     <th>Description</th>
  </tr>
  
- <tr>
-   <td colspan="2" class="section-header">Properties</td>
- </tr>
  
-    <tr>
-        <td><a href="#activeLayer">activeLayer</a></td>
+                                                                      
+<tr>
+   <td colspan="2" class="section-header">Properties</td>
+</tr>
+
+    <tr> 
+        <td><a href='#activeLayer'>activeLayer</a></td>
         <td>Set or get the active layer.</td>
     </tr>
- 
-    <tr>
-        <td><a href="#length">length</a></td>
+
+    <tr> 
+        <td><a href='#length'>length</a></td>
         <td>Replies the number of currently open layers.</td>
     </tr>
+
+
  
  
  
- 
- <tr>
-   <td colspan="2" class="section-header">Functions</td>
- </tr>
-  
-    <tr>
-        <td><a href="#add">add()</a></td>
+                                                                      
+<tr>
+   <td colspan="2" class="section-header">Methods</td>
+</tr>
+
+    <tr> 
+        <td><a href='#add'>add</a></td>
         <td>Adds a layer.</td>
     </tr>
- 
-    <tr>
-        <td><a href="#addDataLayer">addDataLayer()</a></td>
+
+    <tr> 
+        <td><a href='#addDataLayer'>addDataLayer</a></td>
         <td>Adds a data layer</td>
     </tr>
- 
-    <tr>
-        <td><a href="#get">get()</a></td>
+
+    <tr> 
+        <td><a href='#get'>get</a></td>
         <td>Replies one of the layers given a key.</td>
     </tr>
- 
-    <tr>
-        <td><a href="#has">has()</a></td>
+
+    <tr> 
+        <td><a href='#has'>has</a></td>
         <td>Checks whether <code>layer</code> is currently registered layer.</td>
     </tr>
- 
-    <tr>
-        <td><a href="#remove">remove()</a></td>
+
+    <tr> 
+        <td><a href='#remove'>remove</a></td>
         <td>Removes a layer.</td>
     </tr>
- 
- 
- </table>
- 
- 
- 
 
+
+</table>
 
 
 
 <h2>Properties</h2>
-      
-   <p id="activeLayer" class="member-header">activeLayer:org.openstreetmap.josm.layer.Layer</p>
+   
+   <p id="activeLayer" class="member-header">
+     activeLayer:<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/layer/Layer.html' alt='org.openstreetmap.josm.layer.Layer' target='javadoc'>Layer</a>
+          
+   </p>
    <p><p>Set or get the active layer.</p> 
 
 <dl>
@@ -103,15 +105,20 @@
   <dt>set</dt>
   <dd>Assign either an existing <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/layer/Layer.html' alt='org.openstreetmap.josm.layer.Layer' target='javadoc'>Layer</a> , the name of a layer as string, 
   or a layer index as number.</dd>
-</dl></p>
-        
-     
-   <p id="length" class="member-header">length:number</p>
-   <p>Replies the number of currently open layers.</p>
-        
-  
- 
+</dl></p>   
+   
 
+   
+   <p id="length" class="member-header">
+     length:number
+          
+   </p>
+   <p>Replies the number of currently open layers.</p>   
+   
+
+    
+                                                                   
+  
 
 
 <h2>Functions</h2>
@@ -123,11 +130,12 @@
 
 <p>Either pass in a layer object or a data set. In the later case, an 
 <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/gui/layer/OsmDataLayer.html' alt='org.openstreetmap.josm.gui.layer.OsmDataLayer' target='javadoc'>OsmDataLayer</a> is
-automatically created.</p></p> 
+automatically created.</p></p>    
+
 
 <h3>Parameters</h3>
-<table>
-<tr class="parameters">
+<table class="parameters">
+<tr>
    <th>Name</th>
    <th>Type</th>
    <th>Description</th>
@@ -144,10 +152,11 @@ automatically created.</p></p>
 </table>
 
 
-
    <h3>Examples</h3>
-   {% highlight javascript %}
- var layers = require("josm/layers");
+
+
+{% highlight javascript %}
+var layers = require("josm/layers");
 var OsmDataLayer = org.openstreetmap.josm.gui.layer.OsmDataLayer;	
 var DataSet = org.openstreetmap.josm.data.osm.DataSet;
 
@@ -158,10 +167,11 @@ layers.add(dataLayer);
 // or add a dataset, which will create a data layer
 var ds = new DataSet();
 layer.add(ds); 
-   {% endhighlight %}
+{% endhighlight %}
 
 
-  
+
+ 
    <p  id="addDataLayer" class="member-header">
       addDataLayer:<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/gui/layer/OsmDataLayer.html' alt='org.openstreetmap.josm.gui.layer.OsmDataLayer' target='javadoc'>OsmDataLayer</a>   
    </p>
@@ -177,13 +187,15 @@ layer.add(ds);
   <dd>create data layer with a new  dataset and name <code>name</code></dd>
   <dt><code class="signature">addDataLayer({name: ..., ds: ...})</code></dt>
   <dd>create data layer with a new  dataset and name <code>name</code></dd>
-</dl></p> 
+</dl></p>    
 
 
 
    <h3>Examples</h3>
-   {% highlight javascript %}
- // creates a new data layer 
+
+
+{% highlight javascript %}
+// creates a new data layer 
 var layer = josm.layers.addDataLayer();
 
 // creates a new data layer with name 'test'
@@ -192,10 +204,11 @@ layer = josm.layers.addDataLayer("test");
 // creates a new data layer for the dataset ds
 var ds = new DataSet();
 layer = josm.layers.addDataLayer(ds);
-   {% endhighlight %}
+{% endhighlight %}
 
 
-  
+
+ 
    <p  id="get" class="member-header">
       get   
    </p>
@@ -205,11 +218,12 @@ layer = josm.layers.addDataLayer(ds);
   undefined, if no layer for this index exists.</li>
    <li>If <code>key</code> is a string, replies the first layer whose name is identical to key (
    case insensitive, without leading/trailing whitespace), or undefined, if no layer with such a name exists.</li>
-</ul></p> 
+</ul></p>    
+
 
 <h3>Parameters</h3>
-<table>
-<tr class="parameters">
+<table class="parameters">
+<tr>
    <th>Name</th>
    <th>Type</th>
    <th>Description</th>
@@ -218,35 +232,38 @@ layer = josm.layers.addDataLayer(ds);
 
 <tr>
      <td>key</td>    
-     <td><a href='../modules/number.html' alt='number'>number</a></td>
+     <td>number</td>
      <td>the key to retrieve the layer</td>
 </tr>
 
 </table>
 
 
-
    <h3>Examples</h3>
-   {% highlight javascript %}
- var layers = require("josm/layers");
+
+
+{% highlight javascript %}
+var layers = require("josm/layers");
 
 // get the first layer  
 var layer1  = layers.get(0);
 
 // get the first layer with name "data layer"
 var layer2 = layers.get("data layer"); 
-   {% endhighlight %}
+{% endhighlight %}
 
 
-  
+
+ 
    <p  id="has" class="member-header">
-      has:<a href='../modules/boolean.html' alt='boolean'>boolean</a>   
+      has:boolean   
    </p>
-   <p><p>Checks whether <code>layer</code> is a currently registered layer.</p></p> 
+   <p><p>Checks whether <code>layer</code> is a currently registered layer.</p></p>    
+
 
 <h3>Parameters</h3>
-<table>
-<tr class="parameters">
+<table class="parameters">
+<tr>
    <th>Name</th>
    <th>Type</th>
    <th>Description</th>
@@ -255,17 +272,18 @@ var layer2 = layers.get("data layer");
 
 <tr>
      <td>layer</td>    
-     <td><a href='../modules/string.html' alt='string'>Layer</a></td>
+     <td>string</td>
      <td>a layer, a layer name, or a layer index</td>
 </tr>
 
 </table>
 
 
-
    <h3>Examples</h3>
-   {% highlight javascript %}
- var layers = require("josm/layers");
+
+
+{% highlight javascript %}
+var layers = require("josm/layers");
 
 // is there a layer with name "my layer"? 
 var b = layers.has("my layer");
@@ -276,10 +294,11 @@ b = layers.has(2);
 // is there a specific layer? 
 var l = layers.get(0); 
 b = layers.has(l);
-   {% endhighlight %}
+{% endhighlight %}
 
 
-  
+
+ 
    <p  id="remove" class="member-header">
       remove   
    </p>
@@ -289,11 +308,12 @@ b = layers.has(l);
   isn't a valid layer index, nothing is removed.</li>
   <li>If <code>key</code> is a <code>string</code>, removes the layer with the name <code>key</code>. Leading 
   and trailing white space is removed, matching is a case-insensitive sub-string match.</li>
-</ul></p> 
+</ul></p>    
+
 
 <h3>Parameters</h3>
-<table>
-<tr class="parameters">
+<table class="parameters">
+<tr>
    <th>Name</th>
    <th>Type</th>
    <th>Description</th>
@@ -302,27 +322,30 @@ b = layers.has(l);
 
 <tr>
      <td>key</td>    
-     <td><a href='../modules/number.html' alt='number'>number</a></td>
+     <td>number</td>
      <td>indicates the layer to remove</td>
 </tr>
 
 </table>
 
 
-
    <h3>Examples</h3>
-   {% highlight javascript %}
- var layers = require("josm/layers");
+
+
+{% highlight javascript %}
+var layers = require("josm/layers");
 
 // remove the first layer 
 layers.remove(0);
 
 // remove the first layer matching with the supplied name
 layers.remove("myLayerName");   
-   {% endhighlight %}
+{% endhighlight %}
 
 
-  
+
+ 
+
  
 
 </div> 

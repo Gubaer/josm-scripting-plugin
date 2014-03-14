@@ -8,58 +8,78 @@
      {% include apitoc.html %}
     </div>
     <div class="span9">
-      
-
-
-
-
-
-
-
-
-
-
-
-
+        
 <div class="apidoc">
 <h1 class="title">Mixin OsmDataLayerMixin</h1>
+<p>This mixin is auto-loaded by the scripting plugin and mixed into the 
+native java class <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/layer/OsmDataLayer.html' alt='org.openstreetmap.josm.layer.OsmDataLayer' target='javadoc'>OsmDataLayer</a>.</p> 
 
-<p><p>This mixin is auto-loaded by the scripting plugin and mixed into the 
-native java class <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/layer/OsmDataLayer.html' alt='org.openstreetmap.josm.layer.OsmDataLayer' target='javadoc'>OsmDataLayer</a>.</p></p>
+
+
+  
+ 
+ <table class="member-summary">
+ <tr>
+    <th>Name</th>
+    <th>Description</th>
+ </tr>
+ 
+ 
 
  
  
  
- 
- 
- 
- 
+                                                                      
+<tr>
+   <td colspan="2" class="section-header">Methods</td>
+</tr>
+
+    <tr> 
+        <td><a href='#apply'>apply</a></td>
+        <td>Apply commands</td>
+    </tr>
+
+
+</table>
+
+
+
 
 
 <p>This mixin provides additional properties and methods for the native Java class 
 <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/gui/layer/OsmDataLayer.html' alt='org.openstreetmap.josm.gui.layer.OsmDataLayer' target='javadoc'>OsmDataLayer</a>, whose native public methods are available
-for scripting, too. If a native method name is hidden by property name in the mixin,
-prefix the native name with <code>$</code>.</p>
+for scripting, too. If a native method name is hidden by a property name in the mixin,
+then prefix the native name with <code>$</code>.</p>
 
 
 
 
 
-
-
-   
-<h2>Properties</h2>
                                                                    
   
 
 
+<h2>Functions</h2>
+   
+   <p  id="apply" class="member-header">
+      apply   
+   </p>
+   <p>Applies one or more undoable/redoable commands to the data layer.
+
+<strong>Signature</strong>
+<dl>
+  <dt><code class="signature">apply(cmd,cmd,...)</code></dt>
+  <dd><code>cmd</code> is either an instance of <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/command/Command.html' alt='org.openstreetmap.josm.command.Command' target='javadoc'>Command</a> 
+  or an object with a method <code>createJOSMCommand(OsmDataLayer)</code>.</dd>
+</dl></p>    
+
+
+
+
+ 
 
  
 </div>
-
-
-
-
  
     </div>
   </div>

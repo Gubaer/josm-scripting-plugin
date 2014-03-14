@@ -9,7 +9,6 @@
     </div>
     <div class="span9">
       
-
 <div class="apidoc">
 <h1 class="title">Module josm/util</h1>
 
@@ -28,7 +27,7 @@
 
 
 
-
+  
  
  <table class="member-summary">
  <tr>
@@ -37,121 +36,121 @@
  </tr>
  
  
+
  
- <tr>
-   <td colspan="2" class="section-header">Functions</td>
- </tr>
-  
-    <tr>
-        <td><a href="#assert">assert()</a></td>
+ 
+ 
+                                                                      
+<tr>
+   <td colspan="2" class="section-header">Methods</td>
+</tr>
+
+    <tr> 
+        <td><a href='#assert'>assert</a></td>
         <td>Assert a condition and throw an Error if the condition isn't met.</td>
     </tr>
- 
-    <tr>
-        <td><a href="#assertNumber">assertNumber()</a></td>
+
+    <tr> 
+        <td><a href='#assertNumber'>assertNumber</a></td>
         <td>Asserts that <code>val</code> is a number.</td>
     </tr>
- 
-    <tr>
-        <td><a href="#assertSomething">assertSomething()</a></td>
+
+    <tr> 
+        <td><a href='#assertSomething'>assertSomething</a></td>
         <td>Asserts that <code>val</code> is defined and non-null.</td>
     </tr>
- 
-    <tr>
-        <td><a href="#countProperties">countProperties()</a></td>
+
+    <tr> 
+        <td><a href='#countProperties'>countProperties</a></td>
         <td>Replies the number of properties owned by <code>o</code>.</td>
     </tr>
- 
-    <tr>
-        <td><a href="#each">each()</a></td>
+
+    <tr> 
+        <td><a href='#each'>each</a></td>
         <td>Iteraties over the elements of a collection</td>
     </tr>
- 
-    <tr>
-        <td><a href="#hasProperties">hasProperties()</a></td>
+
+    <tr> 
+        <td><a href='#hasProperties'>hasProperties</a></td>
         <td>Replies true, if <code>o</code> owns at least one property.</td>
     </tr>
- 
-    <tr>
-        <td><a href="#isArguments">isArguments()</a></td>
+
+    <tr> 
+        <td><a href='#isArguments'>isArguments</a></td>
         <td>Replies true if <code>val</code> is a list of arguments.</td>
     </tr>
- 
-    <tr>
-        <td><a href="#isArray">isArray()</a></td>
+
+    <tr> 
+        <td><a href='#isArray'>isArray</a></td>
         <td>Replies true if <code>val</code> is an array.</td>
     </tr>
- 
-    <tr>
-        <td><a href="#isCollection">isCollection()</a></td>
+
+    <tr> 
+        <td><a href='#isCollection'>isCollection</a></td>
         <td>Is a value a collection?</td>
     </tr>
- 
-    <tr>
-        <td><a href="#isDef">isDef()</a></td>
+
+    <tr> 
+        <td><a href='#isDef'>isDef</a></td>
         <td>Returns true if  <code>val</code> is defined.</td>
     </tr>
- 
-    <tr>
-        <td><a href="#isFunction">isFunction()</a></td>
+
+    <tr> 
+        <td><a href='#isFunction'>isFunction</a></td>
         <td>Replies true, if f is a function.</td>
     </tr>
- 
-    <tr>
-        <td><a href="#isNothing">isNothing()</a></td>
+
+    <tr> 
+        <td><a href='#isNothing'>isNothing</a></td>
         <td>Checks whether a value is null or undefined.</td>
     </tr>
- 
-    <tr>
-        <td><a href="#isNumber">isNumber()</a></td>
+
+    <tr> 
+        <td><a href='#isNumber'>isNumber</a></td>
         <td>Returns true if  <code>val</code> is a number.</td>
     </tr>
- 
-    <tr>
-        <td><a href="#isSomething">isSomething()</a></td>
+
+    <tr> 
+        <td><a href='#isSomething'>isSomething</a></td>
         <td>Checks whether a value is neither null nor undefined.</td>
     </tr>
- 
-    <tr>
-        <td><a href="#isString">isString()</a></td>
+
+    <tr> 
+        <td><a href='#isString'>isString</a></td>
         <td>Returns true if  <code>val</code> is a string.</td>
     </tr>
- 
-    <tr>
-        <td><a href="#javaEquals">javaEquals()</a></td>
+
+    <tr> 
+        <td><a href='#javaEquals'>javaEquals</a></td>
         <td>Are two java objects equal.</td>
     </tr>
- 
-    <tr>
-        <td><a href="#mix">mix()</a></td>
+
+    <tr> 
+        <td><a href='#mix'>mix</a></td>
         <td>Mixes the properties of a list of objects into one object.</td>
     </tr>
- 
-    <tr>
-        <td><a href="#print">print()</a></td>
+
+    <tr> 
+        <td><a href='#print'>print</a></td>
         <td>Prints a message to stdout (without newline).</td>
     </tr>
- 
-    <tr>
-        <td><a href="#println">println()</a></td>
+
+    <tr> 
+        <td><a href='#println'>println</a></td>
         <td>Prints a message to stdout (including newline).</td>
     </tr>
- 
-    <tr>
-        <td><a href="#trim">trim()</a></td>
+
+    <tr> 
+        <td><a href='#trim'>trim</a></td>
         <td>Trims leading and trailing whitespace from <code>s</code>.</td>
     </tr>
- 
- 
- </table>
- 
- 
- 
 
 
+</table>
 
- 
 
+                                                                   
+  
 
 
 <h2>Functions</h2>
@@ -177,13 +176,15 @@
    <dd>Checks the condition <code>cond</code>. If it is false, throws an Error, whose <code>description</code> property
    is set to the formatted message <code>msg</code>. Internally uses <code>java.text.MessageFormat</code> to format the message.</dd>
 
-</dl></p> 
+</dl></p>    
 
 
 
    <h3>Examples</h3>
-   {% highlight javascript %}
- var util = require("josm/util");
+
+
+{% highlight javascript %}
+var util = require("josm/util");
 // throws an Error
 util.assert(false);                  
 
@@ -192,18 +193,20 @@ util.assert(false, "My message");
 
 // throws an Error e, with e.description == "My message: test"
 util.assert(false, "My message: {0}", "test");    
-   {% endhighlight %}
+{% endhighlight %}
 
 
-  
+
+ 
    <p  id="assertNumber" class="member-header">
       assertNumber   
    </p>
-   <p>Asserts that <code>val</code> is a number.</p> 
+   <p>Asserts that <code>val</code> is a number.</p>    
+
 
 <h3>Parameters</h3>
-<table>
-<tr class="parameters">
+<table class="parameters">
+<tr>
    <th>Name</th>
    <th>Type</th>
    <th>Description</th>
@@ -212,14 +215,14 @@ util.assert(false, "My message: {0}", "test");
 
 <tr>
      <td>val</td>    
-     <td><a href='../modules/Anything.html' alt='Anything'>Anything</a></td>
+     <td>Anything</td>
      <td>the value to check</td>
 </tr>
 
 
 <tr>
      <td>msg</td>    
-     <td><a href='../modules/String.html' alt='String'>String</a></td>
+     <td>String</td>
      <td>(optional) message if the assertion fails</td>
 </tr>
 
@@ -234,16 +237,16 @@ util.assert(false, "My message: {0}", "test");
 
 
 
-
-  
+ 
    <p  id="assertSomething" class="member-header">
       assertSomething   
    </p>
-   <p>Asserts that <code>val</code> is defined and non-null.</p> 
+   <p>Asserts that <code>val</code> is defined and non-null.</p>    
+
 
 <h3>Parameters</h3>
-<table>
-<tr class="parameters">
+<table class="parameters">
+<tr>
    <th>Name</th>
    <th>Type</th>
    <th>Description</th>
@@ -252,14 +255,14 @@ util.assert(false, "My message: {0}", "test");
 
 <tr>
      <td>val</td>    
-     <td><a href='../modules/any.html' alt='any'>any</a></td>
+     <td>any</td>
      <td>the value to check</td>
 </tr>
 
 
 <tr>
      <td>msg</td>    
-     <td><a href='../modules/string.html' alt='string'>string</a></td>
+     <td>string</td>
      <td>(optional) message if the assertion fails</td>
 </tr>
 
@@ -273,27 +276,30 @@ util.assert(false, "My message: {0}", "test");
 </table>
 
 
-
    <h3>Examples</h3>
-   {% highlight javascript %}
- var util = require("josm/util");
+
+
+{% highlight javascript %}
+var util = require("josm/util");
 util.assertSomething(null);    // -> throws an exception
 util.assertSomething(void 0);  // -> throws an exception
 
 util.assertSomting("test");    // -> OK 
 util.assertSomething(5);       // -> OK 
-   {% endhighlight %}
+{% endhighlight %}
 
 
-  
+
+ 
    <p  id="countProperties" class="member-header">
-      countProperties:<a href='../modules/number.html' alt='number'>number</a>   
+      countProperties:number   
    </p>
-   <p>Replies the number of properties owned by <code>o</code>.</p> 
+   <p>Replies the number of properties owned by <code>o</code>.</p>    
+
 
 <h3>Parameters</h3>
-<table>
-<tr class="parameters">
+<table class="parameters">
+<tr>
    <th>Name</th>
    <th>Type</th>
    <th>Description</th>
@@ -302,17 +308,18 @@ util.assertSomething(5);       // -> OK
 
 <tr>
      <td>o</td>    
-     <td><a href='../modules/any.html' alt='any'>any</a></td>
+     <td>any</td>
      <td>the object</td>
 </tr>
 
 </table>
 
 
-
    <h3>Examples</h3>
-   {% highlight javascript %}
- var util = require("josm/util");
+
+
+{% highlight javascript %}
+var util = require("josm/util");
 var o = {p1: "v1", p2: "v2"};
 var c = util.countProperties(o);   // ->  2
 
@@ -321,19 +328,21 @@ c = util.countProperties(o);       // ->  0
 
 o = undefined;
 c = util.countProperties(o);       // ->  undefined 
-   {% endhighlight %}
+{% endhighlight %}
 
 
-  
+
+ 
    <p  id="each" class="member-header">
       each   
    </p>
    <p><p>Iterates over the elements in <code>collection</code> and invokes 
-<code>delegate()</code> on each element.</p></p> 
+<code>delegate()</code> on each element.</p></p>    
+
 
 <h3>Parameters</h3>
-<table>
-<tr class="parameters">
+<table class="parameters">
+<tr>
    <th>Name</th>
    <th>Type</th>
    <th>Description</th>
@@ -342,14 +351,14 @@ c = util.countProperties(o);       // ->  undefined
 
 <tr>
      <td>collection</td>    
-     <td><a href='../modules/array.html' alt='array'>array</a></td>
+     <td>array</td>
      <td>the collection of elements</td>
 </tr>
 
 
 <tr>
      <td>delegate</td>    
-     <td><a href='../modules/function.html' alt='function'>function</a></td>
+     <td>function</td>
      <td>the function to call on each elemennt</td>
 </tr>
 
@@ -357,16 +366,16 @@ c = util.countProperties(o);       // ->  undefined
 
 
 
-
-  
+ 
    <p  id="hasProperties" class="member-header">
-      hasProperties:<a href='../modules/boolean.html' alt='boolean'>boolean</a>   
+      hasProperties:boolean   
    </p>
-   <p>Replies true, if <code>o</code> owns at least one property.</p> 
+   <p>Replies true, if <code>o</code> owns at least one property.</p>    
+
 
 <h3>Parameters</h3>
-<table>
-<tr class="parameters">
+<table class="parameters">
+<tr>
    <th>Name</th>
    <th>Type</th>
    <th>Description</th>
@@ -375,17 +384,18 @@ c = util.countProperties(o);       // ->  undefined
 
 <tr>
      <td>o</td>    
-     <td><a href='../modules/any.html' alt='any'>any</a></td>
+     <td>any</td>
      <td>the object</td>
 </tr>
 
 </table>
 
 
-
    <h3>Examples</h3>
-   {% highlight javascript %}
- var util = require("josm/util");
+
+
+{% highlight javascript %}
+var util = require("josm/util");
 var o = {p1: "v1", p2: "v2"};
 var c = util.hasProperties(o);   // ->  true
 
@@ -394,18 +404,20 @@ c = util.hasProperties(o);       // ->  false
 
 o = undefined;
 c = util.hasProperties(o);       // ->  false 
-   {% endhighlight %}
+{% endhighlight %}
 
 
-  
+
+ 
    <p  id="isArguments" class="member-header">
-      isArguments:<a href='../modules/boolean.html' alt='boolean'>boolean</a>   
+      isArguments:boolean   
    </p>
-   <p>Replies true if <code>val</code> is a list of arguments.</p> 
+   <p>Replies true if <code>val</code> is a list of arguments.</p>    
+
 
 <h3>Parameters</h3>
-<table>
-<tr class="parameters">
+<table class="parameters">
+<tr>
    <th>Name</th>
    <th>Type</th>
    <th>Description</th>
@@ -414,7 +426,7 @@ c = util.hasProperties(o);       // ->  false
 
 <tr>
      <td>val</td>    
-     <td><a href='../modules/anything.html' alt='anything'>anything</a></td>
+     <td>anything</td>
      <td>the value to check</td>
 </tr>
 
@@ -422,16 +434,16 @@ c = util.hasProperties(o);       // ->  false
 
 
 
-
-  
+ 
    <p  id="isArray" class="member-header">
-      isArray:<a href='../modules/boolean.html' alt='boolean'>boolean</a>   
+      isArray:boolean   
    </p>
-   <p>Replies true if <code>val</code> is an array.</p> 
+   <p>Replies true if <code>val</code> is an array.</p>    
+
 
 <h3>Parameters</h3>
-<table>
-<tr class="parameters">
+<table class="parameters">
+<tr>
    <th>Name</th>
    <th>Type</th>
    <th>Description</th>
@@ -440,7 +452,7 @@ c = util.hasProperties(o);       // ->  false
 
 <tr>
      <td>val</td>    
-     <td><a href='../modules/anything.html' alt='anything'>anything</a></td>
+     <td>anything</td>
      <td>the value to check</td>
 </tr>
 
@@ -448,16 +460,16 @@ c = util.hasProperties(o);       // ->  false
 
 
 
-
-  
+ 
    <p  id="isCollection" class="member-header">
       isCollection   
    </p>
-   <p><p>Replies true, if a value is an array, an arguments list or a Java collection.</p> 
+   <p><p>Replies true, if a value is an array, an arguments list or a Java collection.</p>    
+
 
 <h3>Parameters</h3>
-<table>
-<tr class="parameters">
+<table class="parameters">
+<tr>
    <th>Name</th>
    <th>Type</th>
    <th>Description</th>
@@ -466,7 +478,7 @@ c = util.hasProperties(o);       // ->  false
 
 <tr>
      <td>value</td>    
-     <td><a href='../modules/object.html' alt='object'>object</a></td>
+     <td>object</td>
      <td>the value to check</td>
 </tr>
 
@@ -474,16 +486,16 @@ c = util.hasProperties(o);       // ->  false
 
 
 
-
-  
+ 
    <p  id="isDef" class="member-header">
-      isDef:<a href='../modules/boolean.html' alt='boolean'>boolean</a>   
+      isDef:boolean   
    </p>
-   <p>Returns true if  <code>val</code> is defined.</p> 
+   <p>Returns true if  <code>val</code> is defined.</p>    
+
 
 <h3>Parameters</h3>
-<table>
-<tr class="parameters">
+<table class="parameters">
+<tr>
    <th>Name</th>
    <th>Type</th>
    <th>Description</th>
@@ -492,7 +504,7 @@ c = util.hasProperties(o);       // ->  false
 
 <tr>
      <td>val</td>    
-     <td><a href='../modules/any.html' alt='any'>any</a></td>
+     <td>any</td>
      <td>the value to check</td>
 </tr>
 
@@ -500,16 +512,16 @@ c = util.hasProperties(o);       // ->  false
 
 
 
-
-  
+ 
    <p  id="isFunction" class="member-header">
-      isFunction:<a href='../modules/boolean.html' alt='boolean'>boolean</a>   
+      isFunction:boolean   
    </p>
-   <p>Replies true, if f is a function.</p> 
+   <p>Replies true, if f is a function.</p>    
+
 
 <h3>Parameters</h3>
-<table>
-<tr class="parameters">
+<table class="parameters">
+<tr>
    <th>Name</th>
    <th>Type</th>
    <th>Description</th>
@@ -518,7 +530,7 @@ c = util.hasProperties(o);       // ->  false
 
 <tr>
      <td>f</td>    
-     <td><a href='../modules/any.html' alt='any'>any</a></td>
+     <td>any</td>
      <td>the object</td>
 </tr>
 
@@ -526,16 +538,16 @@ c = util.hasProperties(o);       // ->  false
 
 
 
-
-  
+ 
    <p  id="isNothing" class="member-header">
-      isNothing:<a href='../modules/boolean.html' alt='boolean'>boolean</a>   
+      isNothing:boolean   
    </p>
-   <p>Checks whether a value is null or undefined.</p> 
+   <p>Checks whether a value is null or undefined.</p>    
+
 
 <h3>Parameters</h3>
-<table>
-<tr class="parameters">
+<table class="parameters">
+<tr>
    <th>Name</th>
    <th>Type</th>
    <th>Description</th>
@@ -544,7 +556,7 @@ c = util.hasProperties(o);       // ->  false
 
 <tr>
      <td>value</td>    
-     <td><a href='../modules/object.html' alt='object'>object</a></td>
+     <td>object</td>
      <td>the value to check</td>
 </tr>
 
@@ -552,16 +564,16 @@ c = util.hasProperties(o);       // ->  false
 
 
 
-
-  
+ 
    <p  id="isNumber" class="member-header">
-      isNumber:<a href='../modules/boolean.html' alt='boolean'>boolean</a>   
+      isNumber:boolean   
    </p>
-   <p>Returns true if  <code>val</code> is a number.</p> 
+   <p>Returns true if  <code>val</code> is a number.</p>    
+
 
 <h3>Parameters</h3>
-<table>
-<tr class="parameters">
+<table class="parameters">
+<tr>
    <th>Name</th>
    <th>Type</th>
    <th>Description</th>
@@ -570,7 +582,7 @@ c = util.hasProperties(o);       // ->  false
 
 <tr>
      <td>val</td>    
-     <td><a href='../modules/any.html' alt='any'>any</a></td>
+     <td>any</td>
      <td>the value to check</td>
 </tr>
 
@@ -578,16 +590,16 @@ c = util.hasProperties(o);       // ->  false
 
 
 
-
-  
+ 
    <p  id="isSomething" class="member-header">
-      isSomething:<a href='../modules/boolean.html' alt='boolean'>boolean</a>   
+      isSomething:boolean   
    </p>
-   <p>Checks whether a value is neither null nor undefined.</p> 
+   <p>Checks whether a value is neither null nor undefined.</p>    
+
 
 <h3>Parameters</h3>
-<table>
-<tr class="parameters">
+<table class="parameters">
+<tr>
    <th>Name</th>
    <th>Type</th>
    <th>Description</th>
@@ -596,7 +608,7 @@ c = util.hasProperties(o);       // ->  false
 
 <tr>
      <td>value</td>    
-     <td><a href='../modules/object.html' alt='object'>object</a></td>
+     <td>object</td>
      <td>the value to check</td>
 </tr>
 
@@ -604,16 +616,16 @@ c = util.hasProperties(o);       // ->  false
 
 
 
-
-  
+ 
    <p  id="isString" class="member-header">
-      isString:<a href='../modules/boolean.html' alt='boolean'>boolean</a>   
+      isString:boolean   
    </p>
-   <p>Returns true if  <code>val</code> is a string.</p> 
+   <p>Returns true if  <code>val</code> is a string.</p>    
+
 
 <h3>Parameters</h3>
-<table>
-<tr class="parameters">
+<table class="parameters">
+<tr>
    <th>Name</th>
    <th>Type</th>
    <th>Description</th>
@@ -622,7 +634,7 @@ c = util.hasProperties(o);       // ->  false
 
 <tr>
      <td>val</td>    
-     <td><a href='../modules/any.html' alt='any'>any</a></td>
+     <td>any</td>
      <td>the value to check</td>
 </tr>
 
@@ -630,17 +642,17 @@ c = util.hasProperties(o);       // ->  false
 
 
 
-
-  
+ 
    <p  id="javaEquals" class="member-header">
-      javaEquals:<a href='../modules/boolean.html' alt='boolean'>boolean</a>   
+      javaEquals:boolean   
    </p>
    <p><p>Checks whether two java objects are either both null or equal by calling
-o1.equals(o2).</p></p> 
+o1.equals(o2).</p></p>    
+
 
 <h3>Parameters</h3>
-<table>
-<tr class="parameters">
+<table class="parameters">
+<tr>
    <th>Name</th>
    <th>Type</th>
    <th>Description</th>
@@ -649,14 +661,14 @@ o1.equals(o2).</p></p>
 
 <tr>
      <td>o1</td>    
-     <td><a href='../modules/object.html' alt='object'>object</a></td>
+     <td>object</td>
      <td>a java object or null</td>
 </tr>
 
 
 <tr>
      <td>o2</td>    
-     <td><a href='../modules/object.html' alt='object'>object</a></td>
+     <td>object</td>
      <td>a java object or null</td>
 </tr>
 
@@ -664,61 +676,67 @@ o1.equals(o2).</p></p>
 
 
 
-
-  
+ 
    <p  id="mix" class="member-header">
-      mix:<a href='../modules/object.html' alt='object'>object</a>   
+      mix:object   
    </p>
-   <p>Mixes the properties of a list of objects into one object.</p> 
+   <p>Mixes the properties of a list of objects into one object.</p>    
 
 
 
 
-  
+ 
    <p  id="print" class="member-header">
       print   
    </p>
    <p><p>Prints a message to stdout (without newline).</p>
 
-<p>Supports string templates à la java.text.MessageFormat.</p></p> 
+<p>Supports string templates à la java.text.MessageFormat.</p></p>    
 
 
 
    <h3>Examples</h3>
-   {% highlight javascript %}
- util.print("Hello world! My name is {0}", myname);
+
+
+{% highlight javascript %}
+util.print("Hello world! My name is {0}", myname);
  
-   {% endhighlight %}
+{% endhighlight %}
 
 
-  
+
+ 
    <p  id="println" class="member-header">
       println   
    </p>
    <p><p>Prints a message to stdout (including newline).</p>
 
-<p>Supports string templates à la java.text.MessageFormat.</p></p> 
+<p>Supports string templates à la java.text.MessageFormat.</p></p>    
 
 
 
    <h3>Examples</h3>
-   {% highlight javascript %}
- util.println("Hello world! My name is {0}", myname);
-   {% endhighlight %}
 
 
-  
+{% highlight javascript %}
+util.println("Hello world! My name is {0}", myname);
+{% endhighlight %}
+
+
+
+ 
    <p  id="trim" class="member-header">
-      trim:<a href='../modules/string.html' alt='string'>string</a>   
+      trim:string   
    </p>
    <p><p>Trims leading and trailing whitespace from <code>s</code>.</p> 
 
 <p>Replies s, if s is null or undefined. Any other value is converted to a string, then leading and trailing white
-space is removed.</p></p> 
+space is removed.</p></p>    
+
 
 <h3>Parameters</h3>
-<table>
-<tr class="parameters">
+<table class="parameters">
+<tr>
    <th>Name</th>
    <th>Type</th>
    <th>Description</th>
@@ -727,7 +745,7 @@ space is removed.</p></p>
 
 <tr>
      <td>s</td>    
-     <td><a href='../modules/string.html' alt='string'>string</a></td>
+     <td>string</td>
      <td>the string to be trimmed</td>
 </tr>
 
@@ -735,8 +753,8 @@ space is removed.</p></p>
 
 
 
+ 
 
-  
  
 
 </div> 

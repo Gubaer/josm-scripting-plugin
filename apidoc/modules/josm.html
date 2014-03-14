@@ -9,7 +9,6 @@
     </div>
     <div class="span9">
       
-
 <div class="apidoc">
 <h1 class="title">Module josm</h1>
 
@@ -29,7 +28,7 @@ of the global <code>josm</code> object.</p></p>
 
 
 
-
+  
  
  <table class="member-summary">
  <tr>
@@ -37,100 +36,116 @@ of the global <code>josm</code> object.</p></p>
     <th>Description</th>
  </tr>
  
- <tr>
-   <td colspan="2" class="section-header">Properties</td>
- </tr>
  
-    <tr>
-        <td><a href="#commands">commands</a></td>
+                                                                      
+<tr>
+   <td colspan="2" class="section-header">Properties</td>
+</tr>
+
+    <tr> 
+        <td><a href='#commands'>commands</a></td>
         <td>Replies the global command history.</td>
     </tr>
- 
-    <tr>
-        <td><a href="#layers">layers</a></td>
+
+    <tr> 
+        <td><a href='#layers'>layers</a></td>
         <td>accessor for JOSM layers</td>
     </tr>
- 
-    <tr>
-        <td><a href="#menu">menu</a></td>
+
+    <tr> 
+        <td><a href='#menu'>menu</a></td>
         <td>Replies an accessor for JOSMs menu bar.</td>
     </tr>
- 
-    <tr>
-        <td><a href="#version">version</a></td>
+
+    <tr> 
+        <td><a href='#version'>version</a></td>
         <td>JOSM version string</td>
     </tr>
+
+
  
  
  
- 
- <tr>
-   <td colspan="2" class="section-header">Functions</td>
- </tr>
-  
-    <tr>
-        <td><a href="#alert">alert()</a></td>
+                                                                      
+<tr>
+   <td colspan="2" class="section-header">Methods</td>
+</tr>
+
+    <tr> 
+        <td><a href='#alert'>alert</a></td>
         <td>display a message</td>
     </tr>
- 
-    <tr>
-        <td><a href="#open">open()</a></td>
+
+    <tr> 
+        <td><a href='#open'>open</a></td>
         <td>Opens one or more files in JOSM</td>
     </tr>
- 
- 
- </table>
- 
- 
- 
 
+
+</table>
 
 
 
 <h2>Properties</h2>
-      
-   <p id="commands" class="member-header">commands:CommandHistory</p>
+   
+   <p id="commands" class="member-header">
+     commands:<a href='../namespaces/CommandHistory.html' alt='CommandHistory'>CommandHistory</a>
+          
+   </p>
    <p><p>Replies the global command history.</p>
 
-<p>Use this object to undo/redo commands, or to clear the command history.</p></p>
+<p>Use this object to undo/redo commands, or to clear the command history.</p></p>   
    
-        {% highlight javascript %}
+
+{% highlight javascript %}
 // undoes the last command 
 josm.commands.undo();
 
 // redoes two commands
 josm.commands.redo(2);
-        {% endhighlight %}
-         
-     
-   <p id="layers" class="member-header">layers:object</p>
-   <p><p>Replies the layers object.</p></p>
+{% endhighlight %}
+
    
-        {% highlight javascript %}
+   <p id="layers" class="member-header">
+     layers:object
+          
+   </p>
+   <p><p>Replies the layers object.</p></p>   
+   
+
+{% highlight javascript %}
 josm.alert("num layers: " + josm.layers.length);
 
 // name of first layer 
 josm.alert("num layers: " + josm.layers.get(0).name);
-        {% endhighlight %}
-         
-     
-   <p id="menu" class="member-header">menu:MenuBar</p>
+{% endhighlight %}
+
+   
+   <p id="menu" class="member-header">
+     menu:<a href='../namespaces/MenuBar.html' alt='MenuBar'>MenuBar</a>
+          
+   </p>
    <p><p>Replies an accessor for JOSMs menu bar.</p>
 
 <p>Use this object to inspect or modify the menu bar, i.e. to add additional menu
-items.</p></p>
-        
-     
-   <p id="version" class="member-header">version:string</p>
-   <p><p>Replies the current JOSM version string.</p></p>
+items.</p></p>   
    
-        {% highlight javascript %}
-josm.alert(josm.version);
-        {% endhighlight %}
-         
-  
- 
 
+   
+   <p id="version" class="member-header">
+     version:string
+          
+   </p>
+   <p><p>Replies the current JOSM version string.</p></p>   
+   
+
+{% highlight javascript %}
+josm.alert(josm.version);
+{% endhighlight %}
+
+    
+                                                                   
+  
 
 
 <h2>Functions</h2>
@@ -167,13 +182,15 @@ josm.alert(josm.version);
      </dd>
   </dl>
   </dd>
-</dl></p> 
+</dl></p>    
 
 
 
    <h3>Examples</h3>
-   {% highlight javascript %}
- // display an information alert
+
+
+{% highlight javascript %}
+// display an information alert
 josm.alert("Hello World!");
 
 // display an error alert 
@@ -181,10 +198,11 @@ josm.alert("Got an error", {
    title: "Error Alert",
    messageType: "error"    
 });
-   {% endhighlight %}
+{% endhighlight %}
 
 
-  
+
+ 
    <p  id="open" class="member-header">
       open   
    </p>
@@ -203,12 +221,13 @@ a java.io.File.</p>
 
 * @example
 // open a data file in a new data layer 
-josm.open("/my/data/file.osm");</p> 
+josm.open("/my/data/file.osm");</p>    
 
 
 
 
-  
+ 
+
  
 
 </div> 
