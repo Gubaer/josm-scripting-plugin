@@ -1,4 +1,9 @@
 <?js
+/*
+ * Renders the table of contenst 
+ */
+  var data = obj.data;
+  var self = this;
 
 function filterClasses(classes) {
    var ret =[];
@@ -9,11 +14,8 @@ function filterClasses(classes) {
    return ret;
 };
 
-function safeHtmlFilename(fn) {
-	return fn.replace(/[^a-zA-Z0-9$\-_\.]/g, "_") + ".html";
-};
+var safeHtmlFilename = require("viewhelper").safeHtmlFilename;
 
-var out = java.lang.System.out;
 ?>
 <div class="toc">
 <?js /* ------------------ list of classes ------------------- */ ?>
@@ -23,7 +25,9 @@ var classes = data({kind: "class"}).order("name");
 <?js if (classes.count() > 0) {           ?>
 <h2 class="section-header">Classes</h2>
 <ul class="section-header">
-<?js     classes.each(function(cls) {     ?>
+<?js     classes.each(function(cls) {     
+            if (cls.name == cls.memberof) return;
+?>
 <li><a href="../classes/<?js= safeHtmlFilename(cls.name) ?>"><?js= cls.name ?></a></li> 
 <?js     });  /* end each */              ?>
 </ul>

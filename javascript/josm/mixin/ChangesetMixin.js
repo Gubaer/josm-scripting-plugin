@@ -103,7 +103,6 @@ mixin.min = {
 
 /**
  * <p>Set or get the coordinates of the upper right corner of the bounding box.</p>
- * 
  * <dl>
  *   <dt>get:</dt>
  *   <dd>Replies a {@class org.openstreetmap.josm.data.coor.LatLon} or undefined, if max isn't known.</dd>
@@ -141,7 +140,6 @@ mixin.max = {
 
 /**
  * <p>Get the bounding box the bounding box.</p>
- * 
  * <dl>
  *   <dt>get:</dt>
  *   <dd>Replies a {@class org.openstreetmap.josm.data.Bounds} or undefined, if the bounding box isn't known.</dd>
@@ -196,7 +194,6 @@ function applyTagObject(obj,tags) {
 
 /**
  * <p>Get or set the tags of the changeset.</p>
- * 
  * <p><strong>get:</strong> - replies the tags as javascript object.</p>
  * 
  *  <p><strong>set:</strong>
@@ -255,8 +252,7 @@ mixin.tags = {
 };
 
 /**
- * <p>Set or get the date this changeset was created.</p>. 
- * 
+ * <p>Set or get the date this changeset was created.</p> 
  * <dl>
  *   <dt>get:</dt>
  *   <dd>Replies a {@class java.utilDate} or undefined, if the date isn't known.</dd>
@@ -293,7 +289,7 @@ mixin.createdAt = {
 };
 
 /**
- * <p>Set or get the date this changeset was closed.</p>. 
+ * <p>Set or get the date this changeset was closed.</p> 
  * 
  * <dl>
  *   <dt>get:</dt>

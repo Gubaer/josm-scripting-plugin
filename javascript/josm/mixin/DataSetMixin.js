@@ -883,6 +883,7 @@ function DataSetSelectionFacade(ds) {
  * @method
  * @instance
  * @name set
+ * @summary Set the selected objects as selected.
  */
 DataSetSelectionFacade.prototype.set = function() {
 	if (arguments.length == 2 && util.isNumber(arguments[0])) {
@@ -913,6 +914,7 @@ DataSetSelectionFacade.prototype.set = function() {
  * @method
  * @instance
  * @name add
+ * @summary Adds selected objects
  */
 DataSetSelectionFacade.prototype.add = function() {
 	if (arguments.length == 2 && util.isNumber(arguments[0])) {
@@ -938,6 +940,7 @@ DataSetSelectionFacade.prototype.add = function() {
  * @method
  * @instance
  * @name clear
+ * @summary Unselects a collection of objects
  */
 DataSetSelectionFacade.prototype.clear = function() {
 	if (arguments.length == 2 && util.isNumber(arguments[0])) {
@@ -956,13 +959,14 @@ DataSetSelectionFacade.prototype.clear = function() {
  * @method
  * @instance
  * @name clearAll
+ * @summary Clear the selection
  */
 DataSetSelectionFacade.prototype.clearAll = function() {
 	this._ds.clearSelection();
 };
 
 /**
- * <p>Toggle the selecction state of a collection of objects.</p>
+ * <p>Toggle the selection state of a collection of objects.</p>
  * 
  * <strong>Signatures</strong>
  * <dl> 
@@ -977,6 +981,7 @@ DataSetSelectionFacade.prototype.clearAll = function() {
  * @method
  * @instance
  * @name toggle
+ * @summary Toggle the selection state of a collection of objects
  */
 DataSetSelectionFacade.prototype.toggle = function() {
 	if (arguments.length == 2 && util.isNumber(arguments[0])) {
@@ -1010,6 +1015,8 @@ DataSetSelectionFacade.prototype.toggle = function() {
  * @method
  * @instance
  * @name isSelected
+ * @alias has
+ * @summary true, if an object is currently selected
  */
 DataSetSelectionFacade.prototype.isSelected = function() {
 	var args = Array.prototype.slice.call(arguments,0);
@@ -1057,6 +1064,7 @@ DataSetSelectionFacade.prototype.has = DataSetSelectionFacade.prototype.isSelect
  * @type {array}
  * @instance
  * @readOnly
+ * @summary an array with the selected nodes
  */
 Object.defineProperty(DataSetSelectionFacade.prototype, "nodes", {
 	get: function() {
@@ -1073,6 +1081,7 @@ Object.defineProperty(DataSetSelectionFacade.prototype, "nodes", {
  * @type {array}
  * @instance
  * @readOnly
+ * @summary an array with the selected ways
  */
 Object.defineProperty(DataSetSelectionFacade.prototype, "ways", {
 	get: function() {
@@ -1089,6 +1098,7 @@ Object.defineProperty(DataSetSelectionFacade.prototype, "ways", {
  * @type {array}
  * @instance
  * @readOnly
+ * @summary  an array with the selected relations
  */
 Object.defineProperty(DataSetSelectionFacade.prototype, "relations", {
 	get: function() {
@@ -1100,11 +1110,12 @@ Object.defineProperty(DataSetSelectionFacade.prototype, "relations", {
  * Replies an array with the selected objects.
  * 
  * @memberOf DataSetSelectionFacade
- * @name relations
+ * @name objects
  * @field
  * @type {array}
  * @instance
  * @readOnly
+ * @summary an array with the selected object
  */
 Object.defineProperty(DataSetSelectionFacade.prototype, "objects", {
 	get: function() {

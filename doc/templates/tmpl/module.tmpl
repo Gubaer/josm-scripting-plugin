@@ -1,28 +1,23 @@
 <?js
   /*
-  * Template parameters:
-  *    doclet     -  the doclet for which the type page is generated 
-  *    data       - the complete doclet data
-  *    viewHelper - helper methods for the view 
-  */
-?>
-<?js
+   * Renders the page for a module
+   */
+  var doclet = obj.doclet;  // the module doclet
+  var data   = obj.data;    // the TAFFY db with the doclets
+
+  var self = this;
+  var ViewHelper = require("viewhelper").ViewHelper;
+  var vh = new ViewHelper(data);
   var out = java.lang.System.out;
 ?>
 <div class="apidoc">
 <h1 class="title">Module <?js= doclet.name ?></h1>
 <?js /* ---------------- description and  example ------------------------- */ ?>
-<p><?js= doclet.description ? viewHelper.resolveClassReferences(doclet.description) : ""?></p>
-<?js if (doclet.examples) { ?>
-{% highlight javascript %}
-<?js= doclet.examples ?>
-{% endhighlight %}
-<?js } /* examples */ ?>
+<p><?js= doclet.description ? vh.resolveClassReferences(doclet.description) : ""?></p>
+<?js= self.partial("type/examples.tmpl", doclet.examples) ?>
 
 <?js
 
-var properties = data({kind: "member", memberof: doclet.name}).order("name");
-var methods = data({kind: "function", memberof: doclet.name}).order("name");
 var classes = data({kind: "class", memberof: doclet.name}).order("name");
 var mixins = data({kind: "mixin", memberof: doclet.name}).order("name");
 var namespaces = data({kind: "namespace", memberof: doclet.name}).order("name");
@@ -62,97 +57,8 @@ This module provides the following namespaces:
 They are similar to utility java classes, which provide static methods and fields only.</p>
 <?js } /* end if */ ?>
 
-
-
- <?js if (properties.count() + methods.count() > 0) { ?>
- <table class="member-summary">
- <tr>
-    <th>Name</th>
-    <th>Description</th>
- </tr>
- <?js      if (properties.count() > 0)  { ?>
- <tr>
-   <td colspan="2" class="section-header">Properties</td>
- </tr>
- <?js           properties.each(function(p) { ?>
-    <tr>
-        <td><a href="#<?js= p.name ?>"><?js= p.name ?></a></td>
-        <td><?js= viewHelper.resolveClassReferences(p.summary ?  p.summary : "") ?></td>
-    </tr>
- <?js           }); /* end for */ ?>
- <?js      } /* end if */ ?>
- 
- <?js      if (methods.count() > 0)  { ?>
- <tr>
-   <td colspan="2" class="section-header">Functions</td>
- </tr>
-  <?js          methods.each(function(m) { ?>
-    <tr>
-        <td><a href="#<?js= m.name ?>"><?js= m.name ?>()</a></td>
-        <td><?js= viewHelper.resolveClassReferences(m.summary ?  m.summary : "") ?></td>
-    </tr>
- <?js           }); /* end for */ ?>
- <?js      } /* end if */ ?>
- </table>
- <?js } /* if */ ?>
- 
- 
-
-
-<?js /* ----------- properties section (optional)     ------------------------- */ ?>
-<?js
-if (properties.count() > 0) { ?>
-<h2>Properties</h2>
-   <?js properties.each(function(p) {  ?>   
-   <p id="<?js= p.name ?>" class="member-header"><?js= p.name ?><?js= p.type && p.type.names ? ":" + p.type.names : "" ?></p>
-   <p><?js=  viewHelper.resolveClassReferences(p.description) ?></p>
-   <?js if (p.examples) { ?>
-        {% highlight javascript %}
-<?js= p.examples ?>
-        {% endhighlight %}
-    <?js } /* examples */ ?>     
-  <?js }); ?>
-<?js }  ?> 
-
-<?js /* ----------- methods section (optional)     ------------------------- */ ?>
-<?js
-if (methods.count() > 0) { ?>
-<h2>Functions</h2>
-   <?js methods.each(function(m) {?>
-   <p  id="<?js= m.name ?>" class="member-header">
-      <?js= m.name ?><?js= m.type && m.type.names ? ":" + viewHelper.resolveTypes(m.type.names) : "" ?>   
-   </p>
-   <p><?js= viewHelper.resolveClassReferences(m.description) ?></p> 
-<?js
-     var params = m.params;
-     if (params && params.length > 0) {
-?>
-<h3>Parameters</h3>
-<table>
-<tr class="parameters">
-   <th>Name</th>
-   <th>Type</th>
-   <th>Description</th>
-</tr>
-<?js   for(var j=0; j<params.length; j++) { ?>
-<?js      var para = params[j];  ?>
-<tr>
-     <td><?js= para.name ?></td>    
-     <td><?js= para.type && para.type.names ? viewHelper.resolveTypes(para.type.names) : "" ?></td>
-     <td><?js= para.description ? viewHelper.resolveClassReferences(para.description) : "" ?></td>
-</tr>
-<?js   }  /* end for */ ?>
-</table>
-<?js } /* end if */ ?>
-
-<?js if (m.examples) {   ?>
-   <h3>Examples</h3>
-   {% highlight javascript %}
- <?js= m.examples ?>
-   {% endhighlight %}
-<?js  } /* examples */ ?>
-
-  <?js });  /* for (methods) */  ?>
-<?js }  /* if (methods) */ ?> 
+<?js= self.partial("type/membersummary.tmpl", {"doclet": doclet, "data": data}) ?>
+<?js= self.partial("type/properties.tmpl", {"doclet": doclet, "data": data}) ?>
+<?js= self.partial("type/methods.tmpl", {"doclet": doclet, "data": data}) ?>
 
 </div>
