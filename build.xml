@@ -255,29 +255,9 @@
 
 
 	<target name="js-doc" depends="js-init" description="Create the documentation for the JOSM javascript API">
-		<echo>Writing API doc to '${api-doc.staging.dir}</echo>
-		<exec executable="./bin/jsdoc.sh" failonerror="yes" failifexecutionfails="yes">
-			<arg value="-d ${api-doc.staging.dir}"/>
-			<arg value="-t templates/josm-scripting-plugin" />			
-			<arg value="-c doc/template/conf.json" />
-			<arg value="javascript/josm.js"/>
-			<arg value="javascript/josm/util.js"/>
-			<arg value="javascript/josm/builder.js"/>
-			<arg value="javascript/josm/layers.js"/>
-			<arg value="javascript/josm/api.js"/>
-			<arg value="javascript/josm/command.js"/>
-			<arg value="javascript/josm/ui/menu.js"/>
-			<arg value="javascript/josm/mixin/RelationMixin.js"/>
-			<arg value="javascript/josm/mixin/OsmPrimitiveMixin.js"/>
-			<arg value="javascript/josm/mixin/NodeMixin.js"/>
-			<arg value="javascript/josm/mixin/WayMixin.js"/>
-			<arg value="javascript/josm/mixin/LatLonMixin.js"/>
-			<arg value="javascript/josm/mixin/DataSetMixin.js"/>
-			<arg value="javascript/josm/mixin/BoundsMixin.js"/>
-			<arg value="javascript/josm/mixin/UploadStrategyMixin.js"/>
-			<arg value="javascript/josm/mixin/OsmDataLayerMixin.js"/>
-			<arg value="javascript/josm/mixin/ChangesetMixin.js"/>
-			<arg value="javascript/josm/mixin/JSActionMixin.js"/>
+		<echo>Writing API doc to '${api-doc.staging.dir}'</echo>
+		<exec executable="./jsdoc.sh" failonerror="yes" failifexecutionfails="yes" dir=".">
+			<arg value="${api-doc.staging.dir}" />
 		</exec>
 		<echo>Copying API TOC to jekyll _includes dir</echo>
 		<copy file="${api-doc.staging.dir}/apitoc.html" todir="${jekyll.includes.dir}" />
