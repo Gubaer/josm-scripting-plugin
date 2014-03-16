@@ -32,7 +32,8 @@ If you want to contribute to the scripting plugin itself, please fork this repos
 submit your pull requests.
 
 ## How to build
-``shell
+
+```bash
 % git checkout deploy          # switch to deploy branch
 
 # edit build.gradle and add a new pair with a plugin build number and a
@@ -40,9 +41,9 @@ submit your pull requests.
 
 % git clean build              # build the plugin
 % git deploy                   # deploys the plugin jar to github,
-                               # ready to be downloaded from the JOSM
-                               # plugin management system 
-``
+                               # where it is picked up by the JOSM
+                               # plugin installer
+```
 
 ## Credits
 The JOSM scripting plugin uses: 
