@@ -45,6 +45,10 @@ submit your pull requests.
                                # plugin installer
 ```
 
+## Build status
+
+[![Build Status](https://drone.io/github.com/Gubaer/josm-scripting-plugin/status.png)](https://drone.io/github.com/Gubaer/josm-scripting-plugin/latest)
+
 ## Credits
 The JOSM scripting plugin uses: 
 
