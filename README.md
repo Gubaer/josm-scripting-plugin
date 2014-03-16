@@ -31,6 +31,19 @@ In addition, it can execute scripts written in Ruby, Groovy, and other languages
 If you want to contribute to the scripting plugin itself, please fork this repository and
 submit your pull requests.
 
+## How to build
+``shell
+% git checkout deploy          # switch to deploy branch
+
+# edit build.gradle and add a new pair with a plugin build number and a
+# JOSM build number
+
+% git clean build              # build the plugin
+% git deploy                   # deploys the plugin jar to github,
+                               # ready to be downloaded from the JOSM
+                               # plugin management system 
+``
+
 ## Credits
 The JOSM scripting plugin uses: 
 
