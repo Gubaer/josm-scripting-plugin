@@ -55,7 +55,7 @@ mixin.lat =  {
 		return this.getCoor().$lat();
 	},
 	set: function(lat) {
-		util.assert(! this.isIncomplete, "Can''t set lat on an incomplete node");
+		util.assert(! this.isIncomplete, "Can't set lat on an incomplete node");
 		util.assert(util.isNumber(lat), "Expected a number, got {0}", lat);
 		util.assert(LatLon.isValidLat(lat), "Expected a valid lat in the range [-90,90], got {0}", lat);
 		var oldlat = this.lat;

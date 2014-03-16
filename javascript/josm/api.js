@@ -411,7 +411,7 @@ function downloadObject_3() {
  *   enumeration OsmPrimitiveType.NODE, OsmPrimitiveType.WAY, or OsmPrimitiveType.RELATION
  *   </dd>
  *   
- *   <dt><codee class="signaure">downloadObject(id, ?options)</code></dt>
+ *   <dt><code class="signaure">downloadObject(id, ?options)</code></dt>
  *   <dd><code>id</code> is a <code>PrimitiveId</code> or an object 
  *   with the (mandatory) properties <code>id</code> and <code>type</code>, i.e. an object <code>{id: ..., type: ...}</code>.
  *   <code>id</code> is again a number, <code>type</code> is again either one of the strings "node", "way", or "relation", or one of the 
@@ -679,8 +679,8 @@ exports.Api.downloadArea = function() {
  * <p>This method supports the same upload strategy as the JOSM upload dialog. Supply the named
  * parameter <code>{strategy: ...}</code> to choose the strategy.</p>
  * 
- * <p style="background-color: red;border-style: solid; border-color: white;">
- * Be careful when uploading data to the OSM server! Make sure not to upload copyright protected data
+ * <p class="documentation-warning">
+ * Be careful when uploading data to the OSM server! Do not upload copyright protected data
  * or test data.
  * </p>
  * 
@@ -728,7 +728,7 @@ exports.Api.downloadArea = function() {
  * // uploads the data in a new changeset in one chunk)
  * var processed = api.upload(ds, "just testing");
  * 
- * @param {org.openstreetmap.josm.data.osm.DataSet, org.openstreetmap.josm.data.APIDataSet, array, java.util.Collection} data the data to upload
+ * @param {(org.openstreetmap.josm.data.osm.DataSet|org.openstreetmap.josm.data.APIDataSet|array|java.util.Collection)} data the data to upload
  * @param {string} comment the upload comment 
  * @param {object} options (optional) various options (see above) 
  * @method
@@ -972,9 +972,9 @@ Object.defineProperty(exports.ApiConfig, "authMethod", {
  * 
  * <strong>Named options</strong>
  * <dl>
- *    <dt><code class="signature">host:string</dt>
+ *    <dt><code class="signature">host:string</code></dt>
  *    <dd>The host name of the API server for which credentials are retrieved. If missing,
- *    the host name of the currently configured OSM API server is assumed.</dd>
+ *    the host name of the currently configured OSM API server is used.</dd>
  * </dl>
  * 
  * @example
@@ -1062,9 +1062,9 @@ function normalizeOAuthCredentials(credentials) {
 
  * <strong>Named options</strong>
  * <dl>
- *    <dt><code class="signature">host:string</dt>
+ *    <dt><code class="signature">host:string</code></dt>
  *    <dd>The host name of the API server for which credentials are set. If missing,
- *    the host name of the currently configured OSM API server is assumed.</dd>
+ *    the host name of the currently configured OSM API server is used.</dd>
  * </dl>
  * 
  * @example
@@ -1074,7 +1074,7 @@ function normalizeOAuthCredentials(credentials) {
  * conf.setCredentials("basic", {user:"test", password:"apassword"});
  * 
  * @param {string} authMethod  the authentication method. Either "basic" or "oauth".
- * @param {object,org.openstreetmap.josm.data.oauth.OAuthToken,java.net.PasswordAuthentication} credentials  the credentials.
+ * @param {(object|org.openstreetmap.josm.data.oauth.OAuthToken|java.net.PasswordAuthentication)} credentials  the credentials.
  * @param {object} options  (optional) additional options (see above)
  * @method
  * @memberOf ApiConfig

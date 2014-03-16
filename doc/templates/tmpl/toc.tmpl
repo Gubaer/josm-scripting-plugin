@@ -1,0 +1,75 @@
+<?js
+/*
+ * Renders the table of contenst 
+ */
+  var data = obj.data;
+  var self = this;
+
+function filterClasses(classes) {
+   var ret =[];
+   for (var i=0; i<classes.length;i++) {
+      var cls = classes[i];
+      if (cls.name != cls.memberof) ret.push(cls);
+   }
+   return ret;
+};
+
+var safeHtmlFilename = require("viewhelper").safeHtmlFilename;
+
+?>
+<div class="toc">
+<?js /* ------------------ list of classes ------------------- */ ?>
+<?js
+var classes = data({kind: "class"}).order("name");
+?>
+<?js if (classes.count() > 0) {           ?>
+<h2 class="section-header">Classes</h2>
+<ul class="section-header">
+<?js     classes.each(function(cls) {     
+            if (cls.name == cls.memberof) return;
+?>
+<li><a href="../classes/<?js= safeHtmlFilename(cls.name) ?>"><?js= cls.name ?></a></li> 
+<?js     });  /* end each */              ?>
+</ul>
+<?js } /* end if */ ?>
+
+
+<?js /* ------------------ list of namespaces ------------------- */ ?>
+<?js
+var namespaces = data({kind: "namespace"}).order("name");
+?>
+<?js if (namespaces.count() > 0) {  ?>
+<h2 class="section-header">Namespaces</h2>
+<ul>
+<?js     namespaces.each(function(ns) { ?>
+<li><a href="../namespaces/<?js= safeHtmlFilename(ns.name) ?>"><?js= ns.name ?></a></li> 
+<?js     });  /* end each */ ?>
+</ul>
+<?js } /* end if */ ?>
+
+<?js /* ------------------ list of mixins ------------------- */ ?>
+<?js
+var mixins = data({kind: "mixin"}).order("name");
+?>
+<?js if (mixins.count() > 0) {  ?>
+<h2 class="section-header">Mixins</h2>
+<ul>
+<?js    mixins.each(function(mixin) {  ?>
+<li><a href="../mixins/<?js= safeHtmlFilename(mixin.name) ?>"><?js= mixin.name ?></a></li> 
+<?js    });  /* end each */ ?>
+</ul>
+<?js } /* end if */ ?>
+
+<?js /* ------------------ list of modules ------------------- */ ?>
+<?js
+var modules = data({kind: "module"}).order("name");
+?>
+<?js if (modules.count() > 0) {  ?>
+<h2 class="section-header">Modules</h2>
+<ul>
+<?js     modules.each(function(module) {  ?>
+<li><a href="../modules/<?js= safeHtmlFilename(module.name) ?>"><?js= module.name ?></a></li> 
+<?js     });  /* end for */ ?>
+</ul>
+<?js } /* end if */ ?>
+</div>

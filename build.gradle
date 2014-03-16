@@ -1,0 +1,201 @@
+apply plugin: "java"
+apply plugin: "groovy"
+
+project.ext.pluginVersions = [
+    /* plugin version,  required JOSM version */
+    [30580,    6088],
+	[30570,    6088],
+	[30560,    6088],
+	[30550,    6088],
+	[30540,    5464],
+	[30530,    5464],
+	[30520,    5464],
+	[30510,    5464],
+	[30500,    5464],
+	[30400,    5464],
+	[30300,    5464],
+	[30200,    5464],
+	[30100,    5464],
+	[30000,    5315],
+	[26007,    4878],
+    [26005,    4100]
+]
+
+def currentPluginVersion() {
+    return project.ext.pluginVersions.collect{it[0]}.max()
+}
+
+def currentPluginMainVersion() {
+    return project.ext.pluginVersions.collect{it[1]}.max()
+}
+
+def bestPluginVersion(josmVersion) {
+    return project.ext.pluginVersions
+        .findAll{it[1] == josmVersion}   
+        .collect{it[0]}
+        .max()
+}
+
+repositories {
+    mavenCentral()
+}
+
+configurations {
+	rhino
+	jsyntaxpane
+}
+
+dependencies {
+    rhino group: "org.mozilla", name: "rhino", version: "1.7R4"
+    jsyntaxpane group: "de.sciss", name: "jsyntaxpane", version: "1.0.0"
+    
+    compile configurations.rhino.dependencies
+    compile configurations.jsyntaxpane.dependencies
+    
+    compile group: "jython", name: "jython", version: "2.1"
+    compile files("libs/josm-latest.jar")
+
+    testCompile configurations.rhino.dependencies
+    testCompile configurations.jsyntaxpane.dependencies
+    testCompile group: "jython", name: "jython", version: "2.1"
+}
+
+
+jar.baseName = "scripting"
+
+jar {
+    metaInf {
+	    from("resources") {
+	        include "mime.types"
+	    }
+	}
+    manifest {
+        attributes(
+            "Plugin-Date": new Date().format("yyyy-MM-dd HH:mm"),
+            "Plugin-Version": currentPluginVersion(),
+            "Plugin-Mainversion": currentPluginMainVersion(),
+            "Created-By": System.getProperty('java.version') + ' (' + System.getProperty('java.vendor') + ')',
+            "Built-With": "gradle-${project.getGradle().getGradleVersion()}, groovy-${GroovySystem.getVersion()}",
+            "Plugin-Class" : "org.openstreetmap.josm.plugins.scripting.ScriptingPlugin",
+            "Plugin-Description": "Runs scripts in JOSM",
+            "Plugin-Icon" : "images/script-engine.png",
+            "Plugin-Link" : "http://gubaer.github.com/josm-scripting-plugin"
+        )
+        
+        pluginVersions.collect{it[1]}.unique().sort().each {jv -> 
+            def dv = bestPluginVersion(jv)
+            def key = "${jv}_Plugin-Url".toString()
+            def value = "${dv};https://raw.github.com/Gubaer/josm-scripting-plugin/for-josm-${jv}/dist/scripting.jar".toString()
+            attributes([(key):value]) 
+        }        
+    }
+    from zipTree(configurations.rhino.asPath)
+    from zipTree(configurations.jsyntaxpane.asPath)
+    
+    from("src") {
+      include("**/*.dtd")      
+    }
+}
+
+compileJava {
+  sourceCompatibility = 1.6
+  targetCompatibility = 1.6
+}
+
+project.ext.josmUrl = "http://josm.openstreetmap.de/josm-latest.jar"
+task  getJosm {
+    description = "Download the latest JOSM build jar from the JOSM website"
+    doLast {
+        if (! file("libs").exists()) {
+            file("libs").mkdir()
+        }
+        if (!file("libs/josm-latest.jar").exists()) {    
+            println "Downloading JOSM from <${project.ext.josmUrl}> ..."    
+            def cmd ="wget ${project.ext.josmUrl} -O libs/josm-latest.jar"
+            cmd.execute().text
+        }
+    }
+}
+compileJava.dependsOn "getJosm"
+
+sourceSets {
+    main {
+        java.srcDirs = ["src"]   
+        resources {
+            srcDirs(file("."))
+            include("LICENSE")
+            include("README.md")
+            include("contrib/LICENSE.*")
+            include("contrib/README.*")
+            include("images/**/*.png")
+            include("scripts/*.groovy")
+            include("scripts/*.py")
+            include("scripts/*.jy")
+            include("scripts/*.js")
+            include("javascript/**/*.js")
+        }     
+    }
+}
+
+task deploy {
+    doLast {
+        def deployBranch = "deploy"
+        def jar = "dist/scripting.jar";
+        file("dist").mkdirs()
+        ant.copy(todir: "dist") {
+            fileset(dir : "build/libs") {
+                  include(name:"scripting.jar")
+            }
+        }
+        Git.ensureOnBranch(deployBranch)
+        Git.add(jar)
+        Git.commit(jar, "commited plugin build ${currentPluginVersion()}") 
+        def tag = "for-josm-${currentPluginMainVersion()}"
+        Git.tagHead(tag)
+        Git.push("origin", deployBranch)
+        Git.pushTags()
+    }
+}
+
+class Git {
+
+    static private def executeAndLog(cmd) {
+        def proc = cmd.execute()
+        proc.waitFor()
+        println "Exit Value: ${proc.exitValue()}"
+        println "Output: ${proc.in.text}"
+        println "Error: ${proc.err.text}"
+        if (proc.exitValue() != 0) {
+            throw new Error("git command failed. command was <$cmd>")
+        }
+    }
+
+    static def ensureOnBranch(branch) {
+        def proc = "git rev-parse --abbrev-ref HEAD".execute()  
+        def ret = proc.in.text.trim()
+        if (ret != branch) {
+            throw new Error("currently on branch '$ret', but expected branch '$branch'")
+        }
+    }
+
+    static def add(file) {
+        executeAndLog(["git", "add", file])
+    }
+
+    static def commit(file, message) {
+        executeAndLog(["git", "commit", "-m", message, file])
+    }
+
+    static def push(remote, branch) {
+        executeAndLog("git push $remote $branch")
+    }
+
+    static def tagHead(tag) {
+        executeAndLog(["git", "tag", "-f", tag, "HEAD"])
+    }
+
+    static def pushTags() {
+        executeAndLog("git push --tags -f") 
+    }
+}
+

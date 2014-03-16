@@ -1,0 +1,40 @@
+<?js
+  /*
+  * Renders the detail information for properties of a type 
+  */
+
+var doclet = obj.doclet;     // the doclet representing the type
+var data   = obj.data;     // the TAFFY DB with the doclets
+
+
+var ViewHelper = require("viewhelper").ViewHelper;
+var vh = new ViewHelper(data);
+var self = this;
+
+function buildPropertyType(property) {       
+    var ret = property.type && property.type.names 
+          ? ":" + vh.resolveTypes(property.type.names) 
+          : ""; 
+    return ret;
+}
+
+function buildAliases(property) {
+    return property.alias ? property.alias.join(", ") : "";
+}
+
+var properties = data({kind: "member", memberof: doclet.name}).order("name");
+?>
+<?js if (properties.count() > 0) {  ?>
+<h2>Properties</h2>
+<?js properties.each(function(property) {  ?>   
+   <p id="<?js= property.name ?>" class="member-header">
+     <?js= property.name ?><?js= buildPropertyType(property) ?>
+     <?js  if (property.alias) {                                                    ?>
+     <strong> | Aliases: </strong><?js= buildAliases(property) ?>
+<?js  }   /* if (aliases) */                                                        ?>     
+   </p>
+   <p><?js= vh.resolveClassReferences(property.description) ?></p>   
+   <?js= self.partial("type/examples.tmpl", property.examples) ?>
+<?js }); /* each property */                                                        ?>    
+<?js }  /* end if */                                                                ?>                                                                   
+  

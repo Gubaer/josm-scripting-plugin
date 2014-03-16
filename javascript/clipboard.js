@@ -25,7 +25,7 @@
  * @name text
  * @field
  * @instance
- * @memberOf clipboard
+ * @memberof clipboard
  * @summary Set or get the clipboard content as text
  * @type {string}
  */
