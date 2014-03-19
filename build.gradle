@@ -3,6 +3,7 @@ apply plugin: "groovy"
 
 project.ext.pluginVersions = [
     /* plugin version,  required JOSM version */
+    [30600,    6912],    // TableCellEditorSupport removed
     [30590,    6088],    // fixed build issue
     [30580,    6088],
 	[30570,    6088],
