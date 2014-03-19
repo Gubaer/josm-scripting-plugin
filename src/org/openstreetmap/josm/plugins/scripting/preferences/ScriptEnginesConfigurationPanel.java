@@ -38,7 +38,7 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
-import org.openstreetmap.josm.gui.util.TableCellEditorSupport;
+import org.openstreetmap.josm.gui.util.CellEditorSupport;
 import org.openstreetmap.josm.gui.widgets.HtmlPanel;
 import org.openstreetmap.josm.gui.widgets.SelectAllOnFocusGainedDecorator;
 import org.openstreetmap.josm.gui.widgets.VerticallyScrollablePanel;
@@ -334,11 +334,11 @@ public class ScriptEnginesConfigurationPanel extends VerticallyScrollablePanel{
 
 		private JTextField tfJarFile;
 		private JButton btnLauchFileChooser;
-		private TableCellEditorSupport tableCellEditorSupport;
+		private CellEditorSupport tableCellEditorSupport;
 		private ScriptEngineJarInfo info;
 
 		public JarFileNameEditor() {
-			tableCellEditorSupport = new TableCellEditorSupport(this);
+			tableCellEditorSupport = new CellEditorSupport(this);
 			build();
 		}
 

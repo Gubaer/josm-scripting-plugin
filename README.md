@@ -35,6 +35,8 @@ submit your pull requests.
 
 ```bash
 % git checkout deploy          # switch to deploy branch
+% git merge master             # make sure the latest changes are merged to 'deploy'
+% git push origin deploy       # push the 'deploy' branch
 
 # edit build.gradle and add a new pair with a plugin build number and a
 # JOSM build number
