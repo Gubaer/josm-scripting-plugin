@@ -39,11 +39,15 @@ submit your pull requests.
 # edit build.gradle and add a new pair with a plugin build number and a
 # JOSM build number
 
-% git clean build              # build the plugin
-% git deploy                   # deploys the plugin jar to github,
+% gradle clean build           # build the plugin
+% gradle deploy                # deploys the plugin jar to github,
                                # where it is picked up by the JOSM
                                # plugin installer
 ```
+
+## Build status
+
+[![Build Status](https://drone.io/github.com/Gubaer/josm-scripting-plugin/status.png)](https://drone.io/github.com/Gubaer/josm-scripting-plugin/latest)
 
 ## Credits
 The JOSM scripting plugin uses: 

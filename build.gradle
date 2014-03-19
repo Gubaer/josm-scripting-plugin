@@ -3,6 +3,7 @@ apply plugin: "groovy"
 
 project.ext.pluginVersions = [
     /* plugin version,  required JOSM version */
+    [30590,    6088],    // fixed build issue
     [30580,    6088],
 	[30570,    6088],
 	[30560,    6088],
@@ -133,6 +134,7 @@ sourceSets {
             include("scripts/*.jy")
             include("scripts/*.js")
             include("javascript/**/*.js")
+            include("resources/*.default")
         }     
     }
 }
