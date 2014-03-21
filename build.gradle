@@ -3,6 +3,7 @@ apply plugin: "groovy"
 
 project.ext.pluginVersions = [
     /* plugin version,  required JOSM version */
+    [30601,    6912],    // alex85k - script engine download
     [30600,    6912],    // TableCellEditorSupport removed
     [30590,    6088],    // fixed build issue
     [30580,    6088],
@@ -97,6 +98,11 @@ jar {
     from("src") {
       include("**/*.dtd")      
     }
+
+    from("javascript") {
+      into("js")
+      include("**/*.js")      
+    }
 }
 
 compileJava {
@@ -133,8 +139,7 @@ sourceSets {
             include("scripts/*.groovy")
             include("scripts/*.py")
             include("scripts/*.jy")
-            include("scripts/*.js")
-            include("javascript/**/*.js")
+            include("scripts/*.js")            
             include("resources/*.default")
         }     
     }

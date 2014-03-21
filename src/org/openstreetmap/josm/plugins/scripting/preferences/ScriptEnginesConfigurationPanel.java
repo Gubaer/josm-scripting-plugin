@@ -13,6 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.EventObject;
 import java.util.logging.Logger;
 
@@ -37,12 +38,15 @@ import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
+import org.openstreetmap.josm.Main;
+import org.openstreetmap.josm.data.CustomConfigurator;
 
 import org.openstreetmap.josm.gui.util.CellEditorSupport;
 import org.openstreetmap.josm.gui.widgets.HtmlPanel;
 import org.openstreetmap.josm.gui.widgets.SelectAllOnFocusGainedDecorator;
 import org.openstreetmap.josm.gui.widgets.VerticallyScrollablePanel;
 import org.openstreetmap.josm.plugins.scripting.model.JSR223ScriptEngineProvider;
+import static org.openstreetmap.josm.plugins.scripting.model.PreferenceKeys.PREF_KEY_SCRIPTING_ENGINE_JARS;
 import org.openstreetmap.josm.plugins.scripting.ui.ScriptEngineCellRenderer;
 import org.openstreetmap.josm.tools.ImageProvider;
 
@@ -57,6 +61,15 @@ public class ScriptEnginesConfigurationPanel extends VerticallyScrollablePanel{
 	private ScriptEngineJarTableModel model;
 	private JTable tblJarFiles;
 	private RemoveJarAction actDelete;
+
+        private final String[][] availableEngines = {
+            { "Jython",
+              "http://search.maven.org/remotecontent?filepath=org/python/jython-standalone/2.5.3/jython-standalone-2.5.3.jar" },
+            { "JRuby",
+              "http://jruby.org.s3.amazonaws.com/downloads/1.7.11/jruby-complete-1.7.11.jar" },
+            { "Groovy",
+              "http://repo1.maven.org/maven2/org/codehaus/groovy/groovy-all/2.2.2/groovy-all-2.2.2.jar" }
+        };
 
 	public ScriptEnginesConfigurationPanel() {
 		build();
@@ -116,6 +129,9 @@ public class ScriptEnginesConfigurationPanel extends VerticallyScrollablePanel{
 		ctrlPanel.add(new JButton(actAdd));
 		actDelete = new RemoveJarAction();
 		ctrlPanel.add(new JButton(actDelete));
+                for (String[] pair : availableEngines ) {
+                    ctrlPanel.add(new JButton(new DownloadEngineAction(pair[0], pair[1])));
+                }
 		model.getSelectionModel().addListSelectionListener(actDelete);
 		tblJarFiles.getActionMap().put("deleteSelection", actDelete);
 		tblJarFiles.getInputMap(WHEN_FOCUSED).put(KeyStroke.getKeyStroke(
@@ -328,7 +344,39 @@ public class ScriptEnginesConfigurationPanel extends VerticallyScrollablePanel{
 		}
 	}
 
-	private static class JarFileNameEditor extends JPanel implements TableCellEditor {
+        private class DownloadEngineAction extends AbstractAction {
+                public final String engineURL;
+		public final String engineName;
+
+                public DownloadEngineAction(String engineName, String engineURL) {
+                    this.engineURL = engineURL;
+                    this.engineName = engineName;
+                    putValue(NAME, tr("Get {0}", engineName));
+                    putValue(SHORT_DESCRIPTION,
+		    tr("Download {0} from {1} automatically", engineName, engineURL));
+                    putValue(SMALL_ICON, ImageProvider.get("download"));
+		}
+
+		@Override
+                public void actionPerformed(ActionEvent e) {
+                    final String downloadPath = "scripting/" + engineName + ".jar";
+                    CustomConfigurator.downloadFile(engineURL, downloadPath, "plugins");
+                    Main.worker.submit(new Runnable() {
+                        @Override
+                        public void run() {
+                            ArrayList<String> jars = new ArrayList(Main.pref.getCollection(PREF_KEY_SCRIPTING_ENGINE_JARS));
+                            File engineFile = new File(Main.pref.getPluginsDirectory(), downloadPath);
+                            String path = engineFile.getAbsolutePath();
+                            if (jars.contains(path)) return;
+                            jars.add(path);
+                            Main.pref.putCollection(PREF_KEY_SCRIPTING_ENGINE_JARS, jars);
+                            model.restoreFromPreferences();
+                        }
+                    });
+                }
+        }
+
+        private static class JarFileNameEditor extends JPanel implements TableCellEditor {
 		static private final Logger logger = Logger.getLogger(
 		    JarFileNameEditor.class.getName());
 
