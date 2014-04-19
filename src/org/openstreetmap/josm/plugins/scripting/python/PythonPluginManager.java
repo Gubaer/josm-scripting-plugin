@@ -16,6 +16,7 @@ import org.openstreetmap.josm.gui.MapFrame;
 import org.openstreetmap.josm.plugins.scripting.model.PreferenceKeys;
 import org.python.core.Py;
 import org.python.core.PyObject;
+import org.python.core.PyString;
 import org.python.core.PySystemState;
 import org.python.util.PythonInterpreter;
 
@@ -43,9 +44,13 @@ public class PythonPluginManager implements
     @Override
     public void updatePluginSpecificSysPaths(Collection<String> paths) {
         PySystemState sys = Py.getSystemState();
-        sys.path.addAll(originalSysPaths);
+        for (String path: originalSysPaths) {
+        	sys.path.append(new PyString(path));
+        }        
         if (paths != null) {
-            sys.path.addAll(paths);
+        	for (String path: paths) {
+            	sys.path.append(new PyString(path));
+            } 
         }
         sys.setClassLoader(PythonPluginManager.class.getClassLoader());        
     }
@@ -65,9 +70,9 @@ public class PythonPluginManager implements
     private final List<String> originalSysPaths = new ArrayList<String>(); 
     public PythonPluginManager() {
         PySystemState state = Py.getSystemState();
-        for (int i =0; i< state.path.size(); i++) {
-            String path = (String)state.path.get(i);
-            originalSysPaths.add(path);
+        for (int i =0; i< state.path.__len__(); i++) {
+            PyString path = (PyString)state.path.__getitem__(i);
+            originalSysPaths.add(path.toString());
         }                
     }
     
