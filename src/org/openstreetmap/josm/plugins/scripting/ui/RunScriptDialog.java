@@ -13,11 +13,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.logging.Logger;
 
 import javax.swing.AbstractAction;
@@ -33,14 +28,11 @@ import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 
 import org.openstreetmap.josm.Main;
-import org.openstreetmap.josm.gui.HelpAwareOptionPane;
 import org.openstreetmap.josm.gui.SideButton;
 import org.openstreetmap.josm.gui.help.ContextSensitiveHelpAction;
 import org.openstreetmap.josm.gui.help.HelpUtil;
-import org.openstreetmap.josm.gui.widgets.HistoryComboBox;
 import org.openstreetmap.josm.gui.widgets.HtmlPanel;
 import org.openstreetmap.josm.gui.widgets.SelectAllOnFocusGainedDecorator;
-import org.openstreetmap.josm.plugins.scripting.model.JSR223ScriptEngineProvider;
 import org.openstreetmap.josm.plugins.scripting.model.PreferenceKeys;
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
 import org.openstreetmap.josm.tools.ImageProvider;
@@ -158,7 +150,6 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys{
 			 */
 			String currentFile = cbScriptFile.getText();
 			Main.pref.put(PREF_KEY_LAST_FILE, currentFile.trim());
-			MostRecentlyRunScriptsModel.getInstance().saveToPreferences(Main.pref);
 		}
 		super.setVisible(visible);
 	}

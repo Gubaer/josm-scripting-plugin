@@ -6,10 +6,12 @@ import java.awt.Component;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.JOptionPane;
 
+import org.openstreetmap.josm.Main;
 import org.openstreetmap.josm.gui.HelpAwareOptionPane;
 import org.openstreetmap.josm.gui.help.HelpUtil;
 import org.openstreetmap.josm.plugins.scripting.model.JSR223ScriptEngineProvider;
@@ -156,10 +158,15 @@ public class RunScriptService {
         Assert.assertArgNotNull(engine);
         File f  = new File(fileName);
 
-        MostRecentlyRunScriptsModel.getInstance().remember(f.getAbsolutePath());
+        MostRecentlyRunScriptsModel model = MostRecentlyRunScriptsModel.getInstance();
+        model.remember(f.getAbsolutePath());
+		model.saveToPreferences(Main.pref);
+		
         switch(engine.getEngineType()){
         case EMBEDDED:
-            logger.info("runScript: embedded ...");
+        	if (logger.isLoggable(Level.FINE)) {
+        		logger.log(Level.FINE, "executing script with embedded engine ...");
+        	}
             new ScriptExecutor(parent).runScriptWithEmbeddedEngine(f);
             break;
         case PLUGGED:

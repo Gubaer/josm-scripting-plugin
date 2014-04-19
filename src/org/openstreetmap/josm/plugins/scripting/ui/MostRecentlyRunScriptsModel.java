@@ -11,10 +11,9 @@ import java.util.Observer;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
 
 import org.openstreetmap.josm.data.Preferences;
-import org.openstreetmap.josm.gui.tagging.ac.AutoCompletingComboBox;
-import org.openstreetmap.josm.gui.tagging.ac.AutoCompletionListItem;
 import org.openstreetmap.josm.plugins.scripting.model.PreferenceKeys;
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
 import org.openstreetmap.josm.tools.ImageProvider;
@@ -55,8 +54,8 @@ public class MostRecentlyRunScriptsModel extends Observable
     public void remember(String script) {
         switch(scripts.indexOf(script)) {
         case -1: 
-            System.out.println("remebering script: " + script);
-            scripts.add(script);
+            //System.out.println("remembering script: " + script);
+            scripts.add(0, script);
             break;
         case 0:
             /* do nothing */
@@ -120,13 +119,13 @@ public class MostRecentlyRunScriptsModel extends Observable
      * 
      * @return the combo box model
      */
-    public DefaultComboBoxModel getComboBoxModel() {
+    public DefaultComboBoxModel<?> getComboBoxModel() {
         return comboBoxModel;
     }
     private ComboBoxModel comboBoxModel = new ComboBoxModel();
     
     @SuppressWarnings("serial")
-    private class ComboBoxModel extends DefaultComboBoxModel {
+    private class ComboBoxModel extends DefaultComboBoxModel<Object> {
         public void fireContentChanged() {
             super.fireContentsChanged(MostRecentlyRunScriptsModel.this,
                     0, scripts.size());
