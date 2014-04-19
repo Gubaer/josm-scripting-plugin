@@ -150,7 +150,6 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys{
 			 */
 			String currentFile = cbScriptFile.getText();
 			Main.pref.put(PREF_KEY_LAST_FILE, currentFile.trim());
-			MostRecentlyRunScriptsModel.getInstance().saveToPreferences(Main.pref);
 		}
 		super.setVisible(visible);
 	}

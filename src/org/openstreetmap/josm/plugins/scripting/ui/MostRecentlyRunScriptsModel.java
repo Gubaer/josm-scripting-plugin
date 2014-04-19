@@ -54,8 +54,8 @@ public class MostRecentlyRunScriptsModel extends Observable
     public void remember(String script) {
         switch(scripts.indexOf(script)) {
         case -1: 
-            System.out.println("remebering script: " + script);
-            scripts.add(script);
+            //System.out.println("remembering script: " + script);
+            scripts.add(0, script);
             break;
         case 0:
             /* do nothing */
