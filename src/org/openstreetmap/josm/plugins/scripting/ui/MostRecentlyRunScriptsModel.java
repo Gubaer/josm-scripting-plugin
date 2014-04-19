@@ -119,13 +119,13 @@ public class MostRecentlyRunScriptsModel extends Observable
      * 
      * @return the combo box model
      */
-    public DefaultComboBoxModel<?> getComboBoxModel() {
+    public DefaultComboBoxModel getComboBoxModel() {
         return comboBoxModel;
     }
     private ComboBoxModel comboBoxModel = new ComboBoxModel();
     
     @SuppressWarnings("serial")
-    private class ComboBoxModel extends DefaultComboBoxModel<Object> {
+    private class ComboBoxModel extends DefaultComboBoxModel {
         public void fireContentChanged() {
             super.fireContentsChanged(MostRecentlyRunScriptsModel.this,
                     0, scripts.size());
