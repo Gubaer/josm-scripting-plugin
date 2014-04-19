@@ -4,6 +4,7 @@ apply plugin: "eclipse"
 
 project.ext.pluginVersions = [
     /* plugin version,  required JOSM version */
+    [30602,    6912],    // fixed #16
     [30601,    6912],    // alex85k - script engine download
     [30600,    6912],    // TableCellEditorSupport removed
     [30590,    6088],    // fixed build issue
