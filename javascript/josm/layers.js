@@ -289,7 +289,8 @@ exports.addDataLayer = function() {
 		} else if (typeof arguments[0] === "object") {
 		    if (util.isString(arguments[0].name)) {
 		    	name = util.trim(arguments[0].name);
-		    } else if (arguments[0].ds instanceof DataSet) {
+		    }
+		    if (arguments[0].ds instanceof DataSet) {
 		    	ds = arguments[0].ds;		    	
 		    }
 		} else {

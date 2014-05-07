@@ -823,8 +823,6 @@ exports.Api.upload = function(data, comment, options) {
 	return writer.getProcessedPrimitives();
 };
 
-
-
 /* ------------------------------------------------------------------------------------------ */
 /* ApiConfig                                                                                  */
 /* ------------------------------------------------------------------------------------------ */
@@ -841,7 +839,7 @@ Object.defineProperty(exports, "ApiConfig", {
 });
 
 var Main = org.openstreetmap.josm.Main;
-var DEFAULT_URL = org.openstreetmap.josm.gui.preferences.server.OsmApiUrlInputPanel.defaulturl;
+var DEFAULT_URL = "http://api.openstreetmap.com/api/0.6";
 var URL = java.net.URL;
 /**
  * <p>Get or set the API server URL.</p>
