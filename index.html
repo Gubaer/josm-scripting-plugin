@@ -60,18 +60,18 @@
 {% highlight javascript %}
 var command = require("josm/command");
 var nodeBuilder = require("josm/builder").NodeBuilder; 
-josm.activeLayer.apply(
+josm.layers.activeLayer.apply(
     command.add(
-	    nodeBuilder
-	      .withTags({amenity: "restaurant"})
-	      .withPosition(12.34,45.67)
-	      .create())
-	)
+      nodeBuilder
+        .withTags({amenity: "restaurant"})
+        .withPosition(12.34,45.67)
+        .create()
+  )
 );
 josm.alert("Added a node");
 {% endhighlight %}
 
-    <p>It also executes scripts in Python and can <a href="doc/python.html">load and execute plugins</a>
+    <p>It also executes Python scripts and can <a href="doc/python.html">load and execute plugins</a>
       written in Python.</p>
 
 		<p>In addition, it can execute scripts written in 
