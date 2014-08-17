@@ -4,7 +4,7 @@ apply plugin: "eclipse"
 
 project.ext.pluginVersions = [
     /* plugin version,  required JOSM version */
-    [30700,    7347],    // Java 7
+    [30700,    7347],    // Java 7; fixed #26
     [30604,    6912],    // fixed #23
     [30603,    6912],    // fix build against JDK 1.6
     [30602,    6912],    // fixed #16
