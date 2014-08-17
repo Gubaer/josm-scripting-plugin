@@ -4,6 +4,7 @@ apply plugin: "eclipse"
 
 project.ext.pluginVersions = [
     /* plugin version,  required JOSM version */
+    [30700,    7347],    // Java 7
     [30604,    6912],    // fixed #23
     [30603,    6912],    // fix build against JDK 1.6
     [30602,    6912],    // fixed #16
@@ -110,8 +111,8 @@ jar {
 }
 
 compileJava {
-  sourceCompatibility = 1.6
-  targetCompatibility = 1.6
+  sourceCompatibility = 1.7
+  targetCompatibility = 1.7
 }
 
 project.ext.josmUrl = "http://josm.openstreetmap.de/josm-latest.jar"
