@@ -443,7 +443,7 @@ mixin.remove = function() {
  *   "node", "way", or "relation", or one of the symbols {@class org.openstreetmap.josm.data.osm.OsmPrimitiveType}.NODE, {@class org.openstreetmap.josm.data.osm.OsmPrimitiveType}.WAY, or
  *   {@class org.openstreetmap.josm.data.osm.OsmPrimitiveType}.RELATION.</dd>
  *   
- *   <dt><code class="signature>has(id)</code></dt>
+ *   <dt><code class="signature">has(id)</code></dt>
  *   <dd>Replies true, if an object with the id <code>id</code> exists in the dataset. <code>id</code> is either 
  *   an instance of {@class org.openstreetmap.josm.data.osm.PrimitiveId} or an object with 
  *   the properties <code>id</code> and <code>type</code>, i.e. <code>{id: 1234, type: "node"}</code>.</dd>
