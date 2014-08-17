@@ -97,6 +97,7 @@ public class ChangeMultiCommand extends Command {
 				OsmPrimitive p = changed[i];
 				oldState[i] = p.save();
 				change.apply(p);
+				p.setModified(true);
 			}
 			return true;
 		} finally {
