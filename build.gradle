@@ -170,6 +170,10 @@ task deploy {
     }
 }
 
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.1'
+}
+
 class Git {
 
     static private def executeAndLog(cmd) {
