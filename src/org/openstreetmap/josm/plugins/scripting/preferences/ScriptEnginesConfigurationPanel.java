@@ -30,6 +30,7 @@ import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.event.CellEditorListener;
 import javax.swing.event.ListSelectionEvent;
@@ -38,15 +39,19 @@ import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
+
+import jsyntaxpane.util.SwingUtils;
+
 import org.openstreetmap.josm.Main;
 import org.openstreetmap.josm.data.CustomConfigurator;
-
 import org.openstreetmap.josm.gui.util.CellEditorSupport;
 import org.openstreetmap.josm.gui.widgets.HtmlPanel;
 import org.openstreetmap.josm.gui.widgets.SelectAllOnFocusGainedDecorator;
 import org.openstreetmap.josm.gui.widgets.VerticallyScrollablePanel;
 import org.openstreetmap.josm.plugins.scripting.model.JSR223ScriptEngineProvider;
+
 import static org.openstreetmap.josm.plugins.scripting.model.PreferenceKeys.PREF_KEY_SCRIPTING_ENGINE_JARS;
+
 import org.openstreetmap.josm.plugins.scripting.ui.ScriptEngineCellRenderer;
 import org.openstreetmap.josm.tools.ImageProvider;
 
@@ -381,7 +386,12 @@ public class ScriptEnginesConfigurationPanel extends VerticallyScrollablePanel{
 					jars.add(path);
 					Main.pref.putCollection(PREF_KEY_SCRIPTING_ENGINE_JARS,
 							jars);
-					model.restoreFromPreferences();
+					//refresh on the UI thread
+					SwingUtilities.invokeLater(new Runnable() {
+						public void run() {
+							model.restoreFromPreferences();							
+						}
+					});
 				}
 			});
 		}
