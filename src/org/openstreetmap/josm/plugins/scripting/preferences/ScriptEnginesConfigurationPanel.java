@@ -364,7 +364,7 @@ public class ScriptEnginesConfigurationPanel extends VerticallyScrollablePanel{
                     Main.worker.submit(new Runnable() {
                         @Override
                         public void run() {
-                            ArrayList<String> jars = new ArrayList(Main.pref.getCollection(PREF_KEY_SCRIPTING_ENGINE_JARS));
+                            ArrayList<String> jars = new ArrayList<>(Main.pref.getCollection(PREF_KEY_SCRIPTING_ENGINE_JARS));
                             File engineFile = new File(Main.pref.getPluginsDirectory(), downloadPath);
                             String path = engineFile.getAbsolutePath();
                             if (jars.contains(path)) return;
