@@ -14,8 +14,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.EventObject;
+import java.util.List;
+import java.util.Properties;
 import java.util.logging.Logger;
 
 import javax.script.ScriptEngineFactory;
@@ -50,6 +54,7 @@ import org.openstreetmap.josm.gui.widgets.SelectAllOnFocusGainedDecorator;
 import org.openstreetmap.josm.gui.widgets.VerticallyScrollablePanel;
 import org.openstreetmap.josm.plugins.scripting.model.JSR223ScriptEngineProvider;
 import org.openstreetmap.josm.plugins.scripting.ui.ScriptEngineCellRenderer;
+import org.openstreetmap.josm.plugins.scripting.util.IOUtil;
 import org.openstreetmap.josm.tools.ImageProvider;
 
 /**
@@ -59,22 +64,68 @@ import org.openstreetmap.josm.tools.ImageProvider;
  */
 @SuppressWarnings("serial")
 public class ScriptEnginesConfigurationPanel extends VerticallyScrollablePanel{
+	
+	private final static String RES_SCRIPT_ENGINE_JARS 
+		= "/resources/script-engine-jars.properties";
+	
+	private static class EngineJarDescriptor {
+		String name;
+		String downloadUrl;
+		EngineJarDescriptor(String name, String downloadUrl){
+			this.name = name;
+			this.downloadUrl = downloadUrl;
+		}
+	}
+	
+	private static List<EngineJarDescriptor> downloadableEngines = null;
+	
+	private static void readDownloadableEngines() {
+		downloadableEngines = new ArrayList<>();
+		
+		InputStream in = ScriptEnginesConfigurationPanel.class
+				.getResourceAsStream(RES_SCRIPT_ENGINE_JARS);
+		if (in == null) {
+			System.err.println(tr("Error: resource file ''{0}'' not found", 
+			RES_SCRIPT_ENGINE_JARS));
+		}
+		Properties prop = new Properties();
+		try {
+			prop.load(in);
+		} catch(IOException e) {
+			System.err.println(tr("Error: failed to load resource file ''{0}''",
+					RES_SCRIPT_ENGINE_JARS));
+			System.err.println(e);
+			e.printStackTrace();
+		} finally {
+			IOUtil.close(in);
+		}
+		String value = prop.getProperty("engines");
+		if (value == null) {
+			System.out.println(tr(
+				"Warning: property  ''{0}'' in resource file ''{1}'' not found",
+				"engines", RES_SCRIPT_ENGINE_JARS));
+			return;
+		}
+		String[] engines = value.split(",");
+		for (String engine: engines) {
+			engine = engine.trim().toLowerCase();
+			String name = prop.getProperty(engine + ".name");
+			String url = prop.getProperty(engine + ".download-url");
+			if (name == null || url == null) continue;
+			name = name.trim();
+			url = url.trim();
+			if (name.isEmpty() || url.isEmpty()) continue;
+			EngineJarDescriptor desc = new EngineJarDescriptor(name, url);
+			downloadableEngines.add(desc);
+		}
+	}
 
 	private ScriptEngineJarTableModel model;
 	private JTable tblJarFiles;
 	private RemoveJarAction actDelete;
 
-	//TODO: move to configuration file
-    private final String[][] availableEngines = {
-        { "Jython",
-          "http://repo1.maven.org/maven2/org/python/jython/2.5.3/jython-2.5.3.jar" },
-        { "JRuby",
-          "http://jruby.org.s3.amazonaws.com/downloads/1.7.11/jruby-complete-1.7.11.jar" },
-        { "Groovy",
-          "http://repo1.maven.org/maven2/org/codehaus/groovy/groovy-all/2.2.2/groovy-all-2.2.2.jar" }
-    };
-
 	public ScriptEnginesConfigurationPanel() {
+		if (downloadableEngines == null) readDownloadableEngines();
 		build();
 		model.restoreFromPreferences();
 	}
@@ -134,8 +185,9 @@ public class ScriptEnginesConfigurationPanel extends VerticallyScrollablePanel{
 		ctrlPanel.add(new JButton(actAdd));
 		actDelete = new RemoveJarAction();
 		ctrlPanel.add(new JButton(actDelete));
-        for (String[] pair : availableEngines ) {
-            ctrlPanel.add(new JButton(new DownloadEngineAction(pair[0], pair[1])));
+        for (EngineJarDescriptor desc: downloadableEngines) {
+            ctrlPanel.add(new JButton(
+            		new DownloadEngineAction(desc.name, desc.downloadUrl)));
         }
 		model.getSelectionModel().addListSelectionListener(actDelete);
 		tblJarFiles.getActionMap().put("deleteSelection", actDelete);
