@@ -65,7 +65,7 @@ public class ScriptEnginesConfigurationPanel extends VerticallyScrollablePanel{
 	//TODO: move to configuration file
     private final String[][] availableEngines = {
         { "Jython",
-          "http://search.maven.org/remotecontent?filepath=org/python/jython-standalone/2.5.3/jython-standalone-2.5.3.jar" },
+          "http://repo1.maven.org/maven2/org/python/jython/2.5.3/jython-2.5.3.jar" },
         { "JRuby",
           "http://jruby.org.s3.amazonaws.com/downloads/1.7.11/jruby-complete-1.7.11.jar" },
         { "Groovy",
@@ -363,6 +363,10 @@ public class ScriptEnginesConfigurationPanel extends VerticallyScrollablePanel{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			final String downloadPath = "scripting/" + engineName + ".jar";
+			//TODO: downloadFiles doesn't follow redirects and saves the
+			// error message for the 30x status as jar file
+			// Either fix downloadFile or replace it with a more robust 
+			// implementation for this plugin.
 			CustomConfigurator.downloadFile(engineURL, downloadPath, "plugins");
 			Main.worker.submit(new Runnable() {
 				@Override
