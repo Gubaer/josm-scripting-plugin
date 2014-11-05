@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.EventObject;
 import java.util.logging.Logger;
 
+import javax.script.ScriptEngineFactory;
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -29,6 +30,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
+import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
@@ -80,7 +82,9 @@ public class ScriptEnginesConfigurationPanel extends VerticallyScrollablePanel{
 
 	protected JPanel buildScriptEnginesInfoPanel() {
 		JPanel pnl = new JPanel(new BorderLayout());
-		JList lstEngines = new JList(JSR223ScriptEngineProvider.getInstance());
+		JList<ScriptEngineFactory> lstEngines = 
+				new JList<ScriptEngineFactory>(JSR223ScriptEngineProvider
+					.getInstance());
 		lstEngines.setCellRenderer(new ScriptEngineCellRenderer());
 		lstEngines.setVisibleRowCount(3);
 		pnl.add(lstEngines, BorderLayout.CENTER);
@@ -394,6 +398,7 @@ public class ScriptEnginesConfigurationPanel extends VerticallyScrollablePanel{
 	}
 
     private static class JarFileNameEditor extends JPanel implements TableCellEditor {
+		@SuppressWarnings("unused")
 		static private final Logger logger = Logger.getLogger(
 		    JarFileNameEditor.class.getName());
 
