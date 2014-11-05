@@ -1,8 +1,6 @@
 package org.openstreetmap.josm.plugins.scripting.preferences;
 
 import static org.openstreetmap.josm.plugins.scripting.ui.GridBagConstraintBuilder.gbc;
-import static org.openstreetmap.josm.plugins.scripting.python.PythonPluginManagerFactory.isJythonPresent;
-
 import static org.openstreetmap.josm.tools.I18n.tr;
 
 import java.awt.BorderLayout;
