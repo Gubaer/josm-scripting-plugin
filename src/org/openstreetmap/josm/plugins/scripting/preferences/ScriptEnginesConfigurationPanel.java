@@ -1,5 +1,6 @@
 package org.openstreetmap.josm.plugins.scripting.preferences;
 
+import static org.openstreetmap.josm.plugins.scripting.model.PreferenceKeys.PREF_KEY_SCRIPTING_ENGINE_JARS;
 import static org.openstreetmap.josm.tools.I18n.tr;
 
 import java.awt.BorderLayout;
@@ -40,8 +41,6 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
-import jsyntaxpane.util.SwingUtils;
-
 import org.openstreetmap.josm.Main;
 import org.openstreetmap.josm.data.CustomConfigurator;
 import org.openstreetmap.josm.gui.util.CellEditorSupport;
@@ -49,9 +48,6 @@ import org.openstreetmap.josm.gui.widgets.HtmlPanel;
 import org.openstreetmap.josm.gui.widgets.SelectAllOnFocusGainedDecorator;
 import org.openstreetmap.josm.gui.widgets.VerticallyScrollablePanel;
 import org.openstreetmap.josm.plugins.scripting.model.JSR223ScriptEngineProvider;
-
-import static org.openstreetmap.josm.plugins.scripting.model.PreferenceKeys.PREF_KEY_SCRIPTING_ENGINE_JARS;
-
 import org.openstreetmap.josm.plugins.scripting.ui.ScriptEngineCellRenderer;
 import org.openstreetmap.josm.tools.ImageProvider;
 
