@@ -18,7 +18,7 @@ import org.openstreetmap.josm.tools.ImageProvider;
  * <p>Implements a list cell renderer for the list of scripting engines.</p>
  *
  */
-public class ScriptEngineCellRenderer implements ListCellRenderer {
+public class ScriptEngineCellRenderer implements ListCellRenderer<ScriptEngineFactory> {
 
 	private final JLabel lbl = new JLabel();
 	
@@ -62,14 +62,16 @@ public class ScriptEngineCellRenderer implements ListCellRenderer {
 		lbl.setBorder(BorderFactory.createEmptyBorder(1, 3, 1, 3));
 		lbl.setIcon(ImageProvider.get("script-engine"));
 	}
-	
+
 	@Override
-	public Component getListCellRendererComponent(JList list, Object obj,int index, boolean isSelected, boolean cellHasFocus) {
-		ScriptEngineFactory factory = (ScriptEngineFactory)obj;
+	public Component getListCellRendererComponent(
+			JList<? extends ScriptEngineFactory> list,
+			ScriptEngineFactory factory, int index, boolean isSelected,
+			boolean cellHasFocus) {
 		boolean enabled = list.isEnabled();
 		renderColors(isSelected, enabled);
 		lbl.setText(getDisplayName(factory));
 		lbl.setToolTipText(getTooltipText(factory));
 		return lbl;
-	}		
+	}
 }
