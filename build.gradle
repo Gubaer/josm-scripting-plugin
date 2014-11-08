@@ -2,45 +2,19 @@ apply plugin: "java"
 apply plugin: "groovy"
 apply plugin: "eclipse"
 
-project.ext.pluginVersions = [
-    /* plugin version,  required JOSM version */
-    [30700,    7347],    // Java 7; fixed #26
-    [30604,    6912],    // fixed #23
-    [30603,    6912],    // fix build against JDK 1.6
-    [30602,    6912],    // fixed #16
-    [30601,    6912],    // alex85k - script engine download
-    [30600,    6912],    // TableCellEditorSupport removed
-    [30590,    6088],    // fixed build issue
-    [30580,    6088],
-	[30570,    6088],
-	[30560,    6088],
-	[30550,    6088],
-	[30540,    5464],
-	[30530,    5464],
-	[30520,    5464],
-	[30510,    5464],
-	[30500,    5464],
-	[30400,    5464],
-	[30300,    5464],
-	[30200,    5464],
-	[30100,    5464],
-	[30000,    5315],
-	[26007,    4878],
-    [26005,    4100]
-]
 
-def currentPluginVersion() {
-    return project.ext.pluginVersions.collect{it[0]}.max()
+def currentPluginVersion(config) {
+    return config.releases.collect {it.pluginVersion}.max()
 }
 
-def currentPluginMainVersion() {
-    return project.ext.pluginVersions.collect{it[1]}.max()
+def currentPluginMainVersion(config) {
+    return config.releases.collect {it.josmVersion}.max()
 }
 
-def bestPluginVersion(josmVersion) {
-    return project.ext.pluginVersions
-        .findAll{it[1] == josmVersion}   
-        .collect{it[0]}
+def bestPluginVersion(config, josmVersion) {
+    return config.releases
+        .findAll{it.josmVersion == josmVersion}   
+        .collect{it.pluginVersion}
         .max()
 }
 
@@ -78,10 +52,11 @@ jar {
 	    }
 	}
     manifest {
+        def config = new ConfigSlurper().parse(new File("releases.conf").text)
         attributes(
             "Plugin-Date": new Date().format("yyyy-MM-dd HH:mm"),
-            "Plugin-Version": currentPluginVersion(),
-            "Plugin-Mainversion": currentPluginMainVersion(),
+            "Plugin-Version": currentPluginVersion(config),
+            "Plugin-Mainversion": currentPluginMainVersion(config),
             "Created-By": System.getProperty('java.version') + ' (' + System.getProperty('java.vendor') + ')',
             "Built-With": "gradle-${project.getGradle().getGradleVersion()}, groovy-${GroovySystem.getVersion()}",
             "Plugin-Class" : "org.openstreetmap.josm.plugins.scripting.ScriptingPlugin",
@@ -89,9 +64,8 @@ jar {
             "Plugin-Icon" : "images/script-engine.png",
             "Plugin-Link" : "http://gubaer.github.com/josm-scripting-plugin"
         )
-        
-        pluginVersions.collect{it[1]}.unique().sort().each {jv -> 
-            def dv = bestPluginVersion(jv)
+        config.releases.collect{it.josmVersion}.unique().sort().each {jv -> 
+            def dv = bestPluginVersion(config, jv)
             def key = "${jv}_Plugin-Url".toString()
             def value = "${dv};https://raw.github.com/Gubaer/josm-scripting-plugin/for-josm-${jv}/dist/scripting.jar".toString()
             attributes([(key):value]) 
