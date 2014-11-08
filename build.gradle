@@ -127,6 +127,7 @@ sourceSets {
 
 task deploy {
     doLast {
+        def config = new ConfigSlurper().parse(new File("releases.conf").text)
         def deployBranch = "deploy"
         def jar = "dist/scripting.jar";
         file("dist").mkdirs()
@@ -137,8 +138,8 @@ task deploy {
         }
         Git.ensureOnBranch(deployBranch)
         Git.add(jar)
-        Git.commit(jar, "commited plugin build ${currentPluginVersion()}") 
-        def tag = "for-josm-${currentPluginMainVersion()}"
+        Git.commit(jar, "commited plugin build ${currentPluginVersion(config)}") 
+        def tag = "for-josm-${currentPluginMainVersion(config)}"
         Git.tagHead(tag)
         Git.push("origin", deployBranch)
         Git.pushTags()
