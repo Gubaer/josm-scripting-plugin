@@ -1,5 +1,6 @@
 package org.openstreetmap.josm.plugins.scripting.preferences;
 
+import static org.openstreetmap.josm.plugins.scripting.model.PreferenceKeys.PREF_KEY_SCRIPTING_ENGINE_JARS;
 import static org.openstreetmap.josm.tools.I18n.tr;
 
 import java.awt.BorderLayout;
@@ -13,10 +14,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.EventObject;
+import java.util.List;
+import java.util.Properties;
 import java.util.logging.Logger;
 
+import javax.script.ScriptEngineFactory;
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -30,6 +36,7 @@ import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.event.CellEditorListener;
 import javax.swing.event.ListSelectionEvent;
@@ -38,16 +45,16 @@ import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
+
 import org.openstreetmap.josm.Main;
 import org.openstreetmap.josm.data.CustomConfigurator;
-
 import org.openstreetmap.josm.gui.util.CellEditorSupport;
 import org.openstreetmap.josm.gui.widgets.HtmlPanel;
 import org.openstreetmap.josm.gui.widgets.SelectAllOnFocusGainedDecorator;
 import org.openstreetmap.josm.gui.widgets.VerticallyScrollablePanel;
 import org.openstreetmap.josm.plugins.scripting.model.JSR223ScriptEngineProvider;
-import static org.openstreetmap.josm.plugins.scripting.model.PreferenceKeys.PREF_KEY_SCRIPTING_ENGINE_JARS;
 import org.openstreetmap.josm.plugins.scripting.ui.ScriptEngineCellRenderer;
+import org.openstreetmap.josm.plugins.scripting.util.IOUtil;
 import org.openstreetmap.josm.tools.ImageProvider;
 
 /**
@@ -57,28 +64,77 @@ import org.openstreetmap.josm.tools.ImageProvider;
  */
 @SuppressWarnings("serial")
 public class ScriptEnginesConfigurationPanel extends VerticallyScrollablePanel{
+	
+	private final static String RES_SCRIPT_ENGINE_JARS 
+		= "/resources/script-engine-jars.properties";
+	
+	private static class EngineJarDescriptor {
+		String name;
+		String downloadUrl;
+		EngineJarDescriptor(String name, String downloadUrl){
+			this.name = name;
+			this.downloadUrl = downloadUrl;
+		}
+	}
+	
+	private static List<EngineJarDescriptor> downloadableEngines = null;
+	
+	private static void readDownloadableEngines() {
+		downloadableEngines = new ArrayList<>();
+		
+		InputStream in = ScriptEnginesConfigurationPanel.class
+				.getResourceAsStream(RES_SCRIPT_ENGINE_JARS);
+		if (in == null) {
+			System.err.println(tr("Error: resource file ''{0}'' not found", 
+			RES_SCRIPT_ENGINE_JARS));
+		}
+		Properties prop = new Properties();
+		try {
+			prop.load(in);
+		} catch(IOException e) {
+			System.err.println(tr("Error: failed to load resource file ''{0}''",
+					RES_SCRIPT_ENGINE_JARS));
+			System.err.println(e);
+			e.printStackTrace();
+		} finally {
+			IOUtil.close(in);
+		}
+		String value = prop.getProperty("engines");
+		if (value == null) {
+			System.out.println(tr(
+				"Warning: property  ''{0}'' in resource file ''{1}'' not found",
+				"engines", RES_SCRIPT_ENGINE_JARS));
+			return;
+		}
+		String[] engines = value.split(",");
+		for (String engine: engines) {
+			engine = engine.trim().toLowerCase();
+			String name = prop.getProperty(engine + ".name");
+			String url = prop.getProperty(engine + ".download-url");
+			if (name == null || url == null) continue;
+			name = name.trim();
+			url = url.trim();
+			if (name.isEmpty() || url.isEmpty()) continue;
+			EngineJarDescriptor desc = new EngineJarDescriptor(name, url);
+			downloadableEngines.add(desc);
+		}
+	}
 
 	private ScriptEngineJarTableModel model;
 	private JTable tblJarFiles;
 	private RemoveJarAction actDelete;
 
-        private final String[][] availableEngines = {
-            { "Jython",
-              "http://search.maven.org/remotecontent?filepath=org/python/jython-standalone/2.5.3/jython-standalone-2.5.3.jar" },
-            { "JRuby",
-              "http://jruby.org.s3.amazonaws.com/downloads/1.7.11/jruby-complete-1.7.11.jar" },
-            { "Groovy",
-              "http://repo1.maven.org/maven2/org/codehaus/groovy/groovy-all/2.2.2/groovy-all-2.2.2.jar" }
-        };
-
 	public ScriptEnginesConfigurationPanel() {
+		if (downloadableEngines == null) readDownloadableEngines();
 		build();
 		model.restoreFromPreferences();
 	}
 
 	protected JPanel buildScriptEnginesInfoPanel() {
 		JPanel pnl = new JPanel(new BorderLayout());
-		JList lstEngines = new JList(JSR223ScriptEngineProvider.getInstance());
+		JList<ScriptEngineFactory> lstEngines = 
+				new JList<ScriptEngineFactory>(JSR223ScriptEngineProvider
+					.getInstance());
 		lstEngines.setCellRenderer(new ScriptEngineCellRenderer());
 		lstEngines.setVisibleRowCount(3);
 		pnl.add(lstEngines, BorderLayout.CENTER);
@@ -129,9 +185,10 @@ public class ScriptEnginesConfigurationPanel extends VerticallyScrollablePanel{
 		ctrlPanel.add(new JButton(actAdd));
 		actDelete = new RemoveJarAction();
 		ctrlPanel.add(new JButton(actDelete));
-                for (String[] pair : availableEngines ) {
-                    ctrlPanel.add(new JButton(new DownloadEngineAction(pair[0], pair[1])));
-                }
+        for (EngineJarDescriptor desc: downloadableEngines) {
+            ctrlPanel.add(new JButton(
+            		new DownloadEngineAction(desc.name, desc.downloadUrl)));
+        }
 		model.getSelectionModel().addListSelectionListener(actDelete);
 		tblJarFiles.getActionMap().put("deleteSelection", actDelete);
 		tblJarFiles.getInputMap(WHEN_FOCUSED).put(KeyStroke.getKeyStroke(
@@ -344,39 +401,55 @@ public class ScriptEnginesConfigurationPanel extends VerticallyScrollablePanel{
 		}
 	}
 
-        private class DownloadEngineAction extends AbstractAction {
-                public final String engineURL;
+	private class DownloadEngineAction extends AbstractAction {
+		public final String engineURL;
 		public final String engineName;
 
-                public DownloadEngineAction(String engineName, String engineURL) {
-                    this.engineURL = engineURL;
-                    this.engineName = engineName;
-                    putValue(NAME, tr("Get {0}", engineName));
-                    putValue(SHORT_DESCRIPTION,
-		    tr("Download {0} from {1} automatically", engineName, engineURL));
-                    putValue(SMALL_ICON, ImageProvider.get("download"));
+		public DownloadEngineAction(String engineName, String engineURL) {
+			this.engineURL = engineURL;
+			this.engineName = engineName;
+			putValue(NAME, tr("Get {0}", engineName));
+			putValue(
+					SHORT_DESCRIPTION,
+					tr("Download {0} from {1} automatically", engineName,
+							engineURL));
+			putValue(SMALL_ICON, ImageProvider.get("download"));
 		}
 
 		@Override
-                public void actionPerformed(ActionEvent e) {
-                    final String downloadPath = "scripting/" + engineName + ".jar";
-                    CustomConfigurator.downloadFile(engineURL, downloadPath, "plugins");
-                    Main.worker.submit(new Runnable() {
-                        @Override
-                        public void run() {
-                            ArrayList<String> jars = new ArrayList(Main.pref.getCollection(PREF_KEY_SCRIPTING_ENGINE_JARS));
-                            File engineFile = new File(Main.pref.getPluginsDirectory(), downloadPath);
-                            String path = engineFile.getAbsolutePath();
-                            if (jars.contains(path)) return;
-                            jars.add(path);
-                            Main.pref.putCollection(PREF_KEY_SCRIPTING_ENGINE_JARS, jars);
-                            model.restoreFromPreferences();
-                        }
-                    });
-                }
-        }
+		public void actionPerformed(ActionEvent e) {
+			final String downloadPath = "scripting/" + engineName + ".jar";
+			//TODO: downloadFiles doesn't follow redirects and saves the
+			// error message for the 30x status as jar file
+			// Either fix downloadFile or replace it with a more robust 
+			// implementation for this plugin.
+			CustomConfigurator.downloadFile(engineURL, downloadPath, "plugins");
+			Main.worker.submit(new Runnable() {
+				@Override
+				public void run() {
+					ArrayList<String> jars = new ArrayList<>(Main.pref
+							.getCollection(PREF_KEY_SCRIPTING_ENGINE_JARS));
+					File engineFile = new File(Main.pref.getPluginsDirectory(),
+							downloadPath);
+					String path = engineFile.getAbsolutePath();
+					if (jars.contains(path))
+						return;
+					jars.add(path);
+					Main.pref.putCollection(PREF_KEY_SCRIPTING_ENGINE_JARS,
+							jars);
+					//refresh on the UI thread
+					SwingUtilities.invokeLater(new Runnable() {
+						public void run() {
+							model.restoreFromPreferences();							
+						}
+					});
+				}
+			});
+		}
+	}
 
-        private static class JarFileNameEditor extends JPanel implements TableCellEditor {
+    private static class JarFileNameEditor extends JPanel implements TableCellEditor {
+		@SuppressWarnings("unused")
 		static private final Logger logger = Logger.getLogger(
 		    JarFileNameEditor.class.getName());
 

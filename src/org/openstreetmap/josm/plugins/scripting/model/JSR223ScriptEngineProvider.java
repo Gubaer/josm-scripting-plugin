@@ -32,7 +32,8 @@ import org.openstreetmap.josm.plugins.scripting.util.IOUtil;
  * <p>Provides a list model for the list of available script engines.</p>
  * 
  */
-public class JSR223ScriptEngineProvider extends AbstractListModel implements PreferenceKeys {
+@SuppressWarnings("serial")
+public class JSR223ScriptEngineProvider extends AbstractListModel<ScriptEngineFactory> implements PreferenceKeys {
 	
 	/**
 	 * The list of default mime types, mapping file suffixes to content mime types, provided
@@ -330,7 +331,7 @@ public class JSR223ScriptEngineProvider extends AbstractListModel implements Pre
 	/* ListModel                                                                            */
 	/* ------------------------------------------------------------------------------------ */
 	@Override
-	public Object getElementAt(int i) {
+	public ScriptEngineFactory getElementAt(int i) {
 		return factories.get(i);
 	}
 

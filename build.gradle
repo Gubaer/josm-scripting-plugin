@@ -146,6 +146,7 @@ sourceSets {
             include("scripts/*.jy")
             include("scripts/*.js")            
             include("resources/*.default")
+            include("resources/script-engine-jars.properties")
         }     
     }
 }
