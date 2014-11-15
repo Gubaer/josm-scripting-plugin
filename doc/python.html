@@ -1,23 +1,17 @@
 ---
   layout: doc
 ---
-<h1>Running JOSM with Python support</h1>
+<h1>Running JOSM with support for plugins written in Python</h1>
 
-<p>In order to run JOSM with Python support, a <a href="http://www.jython.org">Jython</a> jar has to be on the classpath at startup time.</p>
+<p>In order to run plugins written in Python, a <a href="http://www.jython.org">Jython</a> jar has to be on the classpath at startup time.</p>
 
 Here's how to start JOSM:
 {% highlight bash %}
 $  java -classpath "/your/josm.jar:/your/jython.jar" org.openstreetmap.josm.gui.MainApplication
 {% endhighlight %}
 
-or alternatively
-
-{% highlight bash %}
-$ export CLASSPATH=$CLASSPATH:/your/jython.jar
-$ java -jar josm.jar 
-{% endhighlight %}
-
-Note that <code>jython.jar</code> isn't included in the scripting plugin. You have to <a href="http://www.jython.org/downloads.html">download</a> it manually.
+<code>jython.jar</code> isn't included in the scripting plugin. The scripting plugin can download
+it for you, just go to Scripting -> Configure..., or you can download it manually.  
 
 <h2 id="configure">Configuring Python support</h2>
 
