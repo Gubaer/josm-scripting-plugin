@@ -28,19 +28,21 @@ public class JythonConfigurationPanel extends VerticallyScrollablePanel{
 	protected JPanel buildInfoPanel() {
 	    String text;
 	    if (isJythonPresent()) {
-	        text = "<html>"
-                + tr("The scripting plugin can load and run plugins written in <strong>Python</strong>. "
+	        text = "<html>" + tr(
+	                "The scripting plugin can load and run plugins written in <strong>Python</strong>. "
                     + "Below you can configure where it looks for locally deployed plugins and "
                     + "which plugins it should load and launch at startup time."
                 )
                 + "</html>";
 	    } else {
             text = "<html>"
-                + tr("<strong>Python plugin support is disabled</strong><br>"
+                + tr("<strong>Support for python plugins is disabled.</strong><br>"
                     + "The scripting plugin can load and run plugins written in <strong>Python</strong>. "
                     + "In order to use this feature the Jython interpreter has to be on "
                     + "the class path when you start JOSM. Currently, it isn''t and "
-                    + "Python plugin support is therefore disabled."
+                    + "python plugin support is therefore disabled.<br><br>"
+                    + "Launch JOSM with the following command line: <br>"
+                    + "java -cp \"josm-jar.jar:/path/to/jython.jar\" org.openstreetmap.josm.gui.MainApplication"
                 )
                 + "</html>";
 	    }
