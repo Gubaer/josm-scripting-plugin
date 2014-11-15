@@ -34,12 +34,12 @@ dependencies {
     compile configurations.rhino.dependencies
     compile configurations.jsyntaxpane.dependencies
     
-    compile group: "jython", name: "jython", version: "2.1"
+    compile group: "org.python", name: "jython", version: "2.5.3"
     compile files("libs/josm-latest.jar")
 
     testCompile configurations.rhino.dependencies
     testCompile configurations.jsyntaxpane.dependencies
-    testCompile group: "jython", name: "jython", version: "2.1"
+    testCompile group: "org.python", name: "jython", version: "2.5.3"
 }
 
 
