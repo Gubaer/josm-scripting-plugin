@@ -38,15 +38,14 @@ import org.openstreetmap.josm.plugins.scripting.util.IOUtil;
 import org.openstreetmap.josm.tools.ImageProvider;
 import org.openstreetmap.josm.tools.WindowGeometry;
 
+@SuppressWarnings("serial")
 public class ModuleRepositoryDialog extends JDialog {
 	
+	@SuppressWarnings("unused")
 	static private final Logger logger = Logger.getLogger(ModuleRepositoryDialog.class.getName());
 	
 	private JTextField tfRepositoryUrl;
-	private JButton btnLookupFile;
-	private LookupFileAction actLookupFile;
 	private OKAction actOK;
-	private CancelAction actCancel;
 	private CommonJSModuleRepository repository;
 	
 	protected JPanel buildInfoPanel() {
@@ -73,7 +72,7 @@ public class ModuleRepositoryDialog extends JDialog {
 		JPanel pnl = new JPanel(new GridBagLayout());
 		pnl.add(new JLabel("Repository URL:"), gbc().cell(0, 0).anchor(GridBagConstraints.WEST).insets(0,2,0,2).constraints());
 		pnl.add(tfRepositoryUrl = new JTextField(), gbc().cell(1,0).fillboth().weightx(1.0).insets(0,2,0,2).constraints());
-		pnl.add(btnLookupFile = new JButton(actLookupFile = new LookupFileAction()), gbc().cell(2, 0).insets(0,2,0,2).constraints());
+		pnl.add(new JButton(new LookupFileAction()), gbc().cell(2, 0).insets(0,2,0,2).constraints());
 		
 		tfRepositoryUrl.getDocument().addDocumentListener(new DocumentAdapter());
 		return pnl;
@@ -82,7 +81,7 @@ public class ModuleRepositoryDialog extends JDialog {
 	protected JPanel buildCommandPanel() {
 		JPanel pnl = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		pnl.add(new JButton(actOK = new OKAction()));
-		pnl.add(new JButton(actCancel = new CancelAction()));
+		pnl.add(new JButton(new CancelAction()));
 		return pnl;
 	}
 	
