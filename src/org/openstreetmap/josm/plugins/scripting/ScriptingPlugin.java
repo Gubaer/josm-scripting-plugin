@@ -4,7 +4,6 @@ import static org.openstreetmap.josm.gui.help.HelpUtil.ht;
 import static org.openstreetmap.josm.plugins.scripting.python.PythonPluginManagerFactory.isJythonPresent;
 import static org.openstreetmap.josm.tools.I18n.tr;
 
-import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;

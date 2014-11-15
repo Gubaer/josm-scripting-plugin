@@ -2,8 +2,6 @@ package org.openstreetmap.josm.plugins.scripting.python;
 
 import static org.openstreetmap.josm.tools.I18n.tr;
 
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;

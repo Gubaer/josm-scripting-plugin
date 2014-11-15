@@ -17,20 +17,25 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.EventObject;
 import java.util.List;
 import java.util.Properties;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 import java.util.logging.Logger;
 
 import javax.script.ScriptEngineFactory;
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
@@ -47,11 +52,12 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
 import org.openstreetmap.josm.Main;
-import org.openstreetmap.josm.data.CustomConfigurator;
+import org.openstreetmap.josm.gui.io.DownloadFileTask;
 import org.openstreetmap.josm.gui.util.CellEditorSupport;
 import org.openstreetmap.josm.gui.widgets.HtmlPanel;
 import org.openstreetmap.josm.gui.widgets.SelectAllOnFocusGainedDecorator;
 import org.openstreetmap.josm.gui.widgets.VerticallyScrollablePanel;
+import org.openstreetmap.josm.plugins.scripting.ScriptingPlugin;
 import org.openstreetmap.josm.plugins.scripting.model.JSR223ScriptEngineProvider;
 import org.openstreetmap.josm.plugins.scripting.ui.ScriptEngineCellRenderer;
 import org.openstreetmap.josm.plugins.scripting.util.IOUtil;
@@ -68,16 +74,88 @@ public class ScriptEnginesConfigurationPanel extends VerticallyScrollablePanel{
 	private final static String RES_SCRIPT_ENGINE_JARS 
 		= "/resources/script-engine-jars.properties";
 	
-	private static class EngineJarDescriptor {
-		String name;
-		String downloadUrl;
+	/**
+	 * Describes the jar file for scripting engine which JOSM can load
+	 * download and install automatically 
+	 */
+	public static class EngineJarDescriptor {
+		private String name;
+		private String downloadUrl;
 		EngineJarDescriptor(String name, String downloadUrl){
 			this.name = name;
 			this.downloadUrl = downloadUrl;
 		}
+		
+		/**
+		 * Replies a file object representing a local copy of the jar 
+		 * file for this script engine.
+		 * 
+		 * @return the file; null, if the local name can't be derived from
+		 *    the descriptor
+		 */
+		public File getLocalJarFile() {
+			if (downloadUrl == null) return null;
+			if (downloadUrl.lastIndexOf("/") < 0) return null;
+			File engineFile = new File(
+			 ScriptingPlugin.getInstance().getPluginDir(),
+			    downloadUrl.substring(downloadUrl.lastIndexOf("/"))
+		    );
+			return engineFile;					
+		}
+
+		/**
+		 * Replies the local path of the engine jar file, relative to the
+		 * home directory of the scripting plugin 
+		 * @return
+		 */
+		public String getRelativePluginPath() {
+			if (downloadUrl == null) return null;
+			return ScriptingPlugin.getInstance()
+					.getPluginInformation().getName()
+					+ "/" + getLocalJarFile();
+		}
+		
+		/**
+		 * Replies true if the local jar file exists and can be read; false
+		 * otherwise 
+		 * 
+		 */
+		public boolean hasLocalJarFile() {
+			File jar = getLocalJarFile();
+			System.out.println("jar file: " + jar);
+			if (jar == null) return false;
+			return jar.isFile() && jar.canRead();
+		}
+		
+		public String getName() {
+			return name;
+		}
+		
+		public String getDownloadUrl() {
+			return downloadUrl;
+		}
 	}
 	
+	
 	private static List<EngineJarDescriptor> downloadableEngines = null;
+	
+	/**
+	 * Replies the unmodifiable list of downloadable engines 
+	 */
+	public static List<EngineJarDescriptor> getDownloadableEngines() {
+		if (downloadableEngines == null) {
+			readDownloadableEngines();
+		}
+		return Collections.unmodifiableList(downloadableEngines);
+	}
+	
+	public static EngineJarDescriptor getEngineDescriptor(String name) {		
+		for (EngineJarDescriptor desc: getDownloadableEngines()) {
+			if (name.equalsIgnoreCase(desc.getName())) return desc;
+		}
+		return null;
+	}
+	
 	
 	private static void readDownloadableEngines() {
 		downloadableEngines = new ArrayList<>();
@@ -123,6 +201,7 @@ public class ScriptEnginesConfigurationPanel extends VerticallyScrollablePanel{
 	private ScriptEngineJarTableModel model;
 	private JTable tblJarFiles;
 	private RemoveJarAction actDelete;
+	private JComboBox<String> cbDownloadableEngines;
 
 	public ScriptEnginesConfigurationPanel() {
 		if (downloadableEngines == null) readDownloadableEngines();
@@ -180,15 +259,22 @@ public class ScriptEnginesConfigurationPanel extends VerticallyScrollablePanel{
 		gc.fill = GridBagConstraints.BOTH;
 		pnl.add(jp, gc);
 
-		JPanel ctrlPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		JPanel ctrlPanel = new JPanel(new BorderLayout());
+		JPanel p = new JPanel(new FlowLayout());
 		AddJarAction actAdd = new AddJarAction();
-		ctrlPanel.add(new JButton(actAdd));
+		p.add(new JButton(actAdd));
 		actDelete = new RemoveJarAction();
-		ctrlPanel.add(new JButton(actDelete));
+		p.add(new JButton(actDelete));
+		ctrlPanel.add(p, BorderLayout.WEST);
+		p = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+		p.add(new JLabel(tr("Available engines:")));
+		p.add(cbDownloadableEngines = new JComboBox<String>());
         for (EngineJarDescriptor desc: downloadableEngines) {
-            ctrlPanel.add(new JButton(
-            		new DownloadEngineAction(desc.name, desc.downloadUrl)));
+        	cbDownloadableEngines.addItem(desc.getName());
         }
+        p.add(new JButton(new DownloadEngineAction()));
+        ctrlPanel.add(p, BorderLayout.EAST);
+        
 		model.getSelectionModel().addListSelectionListener(actDelete);
 		tblJarFiles.getActionMap().put("deleteSelection", actDelete);
 		tblJarFiles.getInputMap(WHEN_FOCUSED).put(KeyStroke.getKeyStroke(
@@ -402,41 +488,50 @@ public class ScriptEnginesConfigurationPanel extends VerticallyScrollablePanel{
 	}
 
 	private class DownloadEngineAction extends AbstractAction {
-		public final String engineURL;
-		public final String engineName;
 
-		public DownloadEngineAction(String engineName, String engineURL) {
-			this.engineURL = engineURL;
-			this.engineName = engineName;
-			putValue(NAME, tr("Get {0}", engineName));
+		public DownloadEngineAction() {
+			//putValue(NAME, tr("Download"));
 			putValue(
 					SHORT_DESCRIPTION,
-					tr("Download {0} from {1} automatically", engineName,
-							engineURL));
+					tr("Download and install scripting engine"));
 			putValue(SMALL_ICON, ImageProvider.get("download"));
 		}
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			final String downloadPath = "scripting/" + engineName + ".jar";
-			//TODO: downloadFiles doesn't follow redirects and saves the
+			String name = (String)cbDownloadableEngines.getSelectedItem();
+			if (name == null) return;
+			final EngineJarDescriptor desc = getEngineDescriptor(name);
+			if (desc == null) return;
+			
+			//TODO: DownloadFileTask doesn't follow redirects and saves the
 			// error message for the 30x status as jar file
-			// Either fix downloadFile or replace it with a more robust 
+			// Either fix DownloadFileTask or replace it with a more robust 
 			// implementation for this plugin.
-			CustomConfigurator.downloadFile(engineURL, downloadPath, "plugins");
+			final DownloadFileTask downloadFileTask = new DownloadFileTask(
+					Main.parent, 
+					desc.getDownloadUrl(),
+					desc.getLocalJarFile(),
+					true  /* mkdir */,
+					false /* unzip */
+		    );
+	        final Future<?> future = Main.worker.submit(downloadFileTask);
 			Main.worker.submit(new Runnable() {
 				@Override
 				public void run() {
+					try {
+						future.get();
+					} catch(InterruptedException | ExecutionException e) {
+						e.printStackTrace();
+						return;
+					} 
 					ArrayList<String> jars = new ArrayList<>(Main.pref
 							.getCollection(PREF_KEY_SCRIPTING_ENGINE_JARS));
-					File engineFile = new File(Main.pref.getPluginsDirectory(),
-							downloadPath);
-					String path = engineFile.getAbsolutePath();
-					if (jars.contains(path))
-						return;
-					jars.add(path);
-					Main.pref.putCollection(PREF_KEY_SCRIPTING_ENGINE_JARS,
-							jars);
+					if (!jars.contains(desc.getLocalJarFile().toString())){ 
+						jars.add(desc.getLocalJarFile().toString());
+						Main.pref.putCollection(PREF_KEY_SCRIPTING_ENGINE_JARS,
+								jars);						
+					}
 					//refresh on the UI thread
 					SwingUtilities.invokeLater(new Runnable() {
 						public void run() {

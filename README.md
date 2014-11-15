@@ -33,13 +33,12 @@ submit your pull requests.
 
 ## How to build
 
+Add a new entry to [releases.conf](releases.conf) then run:
+
 ```bash
 % git checkout deploy          # switch to deploy branch
 % git merge master             # make sure the latest changes are merged to 'deploy'
 % git push origin deploy       # push the 'deploy' branch
-
-# edit build.gradle and add a new pair with a plugin build number and a
-# JOSM build number
 
 % gradle clean build           # build the plugin
 % gradle deploy                # deploys the plugin jar to github,

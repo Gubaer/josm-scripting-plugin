@@ -1,7 +1,8 @@
 package org.openstreetmap.josm.plugins.scripting.python;
 
-import java.util.logging.Logger;
 import static org.openstreetmap.josm.tools.I18n.tr;
+
+import java.util.logging.Logger;
 
 /**
  * Dynamically loads and instantiates a {@link IPythonPluginManager},
@@ -9,8 +10,10 @@ import static org.openstreetmap.josm.tools.I18n.tr;
  *
  */
 public class PythonPluginManagerFactory {
+	
     static final private Logger logger = Logger.getLogger(
             PythonPluginManagerFactory.class.getName());
+   
    
     /**
      * Creates and replies an instance of the python plugin manager, or
@@ -33,19 +36,12 @@ public class PythonPluginManagerFactory {
                (IPythonPluginManager) mgrClass.newInstance();
             logger.info("Enabled support for Python plugins.");
             return mgr;
-        } catch(ClassNotFoundException e) {
+        } catch(ClassNotFoundException | InstantiationException 
+        		| IllegalAccessException | NoClassDefFoundError e) {
             System.out.println(e);
             e.printStackTrace();
             return null;
-        } catch(InstantiationException e) {
-            System.out.println(e);
-            e.printStackTrace();
-            return null;
-        } catch (IllegalAccessException e) {            
-            System.out.println(e);
-            e.printStackTrace();
-            return null;
-        }        
+        }
     }
     
     /**
