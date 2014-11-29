@@ -13,7 +13,8 @@ import org.openstreetmap.josm.plugins.scripting.model.JSR223ScriptEngineProvider
  * <strong>ScriptEngineComboBoxModel</strong> is an adapter for {@link JSR223ScriptEngineProvider}.
  * It provides a combo box model for the script engines provided by {@link JSR223ScriptEngineProvider}.
  */
-public class ScriptEngineComboBoxModel extends AbstractListModel implements ComboBoxModel{
+public class ScriptEngineComboBoxModel extends AbstractListModel<ScriptEngineFactory> 
+    implements ComboBoxModel<ScriptEngineFactory>{
 
 	private ScriptEngineFactory selected;
 	private final List<ScriptEngineFactory> factories = new ArrayList<ScriptEngineFactory>();
@@ -31,7 +32,7 @@ public class ScriptEngineComboBoxModel extends AbstractListModel implements Comb
 	}
 
 	@Override
-	public Object getElementAt(int index) {
+	public ScriptEngineFactory getElementAt(int index) {
 		return factories.get(index);
 	}
 

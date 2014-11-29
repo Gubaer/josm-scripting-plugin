@@ -47,8 +47,7 @@ public class RhinoEngineConfigurationPanel extends VerticallyScrollablePanel{
 	private static final Logger logger = Logger.getLogger(RhinoEngineConfigurationPanel.class.getName());
 
 	private RepositoriesListModel mdlRepositories;
-	private JList lstRepositories;
-	private AddAction actAdd;
+	private JList<URL> lstRepositories;
 	private RemoveAction actRemove;
 	private UpAction actUp;
 	private DownAction actDown;
@@ -72,7 +71,7 @@ public class RhinoEngineConfigurationPanel extends VerticallyScrollablePanel{
 	protected JPanel buildTablePanel() {
 		JPanel panel = new JPanel(new BorderLayout());
 		DefaultListSelectionModel selectionModel = new DefaultListSelectionModel();
-		lstRepositories = new JList(mdlRepositories = new RepositoriesListModel(selectionModel));
+		lstRepositories = new JList<>(mdlRepositories = new RepositoriesListModel(selectionModel));
 		lstRepositories.setCellRenderer(new RepositoryCellRenderer());
 		lstRepositories.setSelectionModel(selectionModel);
 		JScrollPane sp = new JScrollPane(lstRepositories);
@@ -85,7 +84,7 @@ public class RhinoEngineConfigurationPanel extends VerticallyScrollablePanel{
 	protected JPanel buildActionPanel() {
 		JPanel panel = new JPanel(new GridBagLayout());
 		GridBagConstraints gc = gbc().fillHorizontal().weight(1.0, 0.0).constraints();
-		panel.add(new JButton(actAdd = new AddAction()), gbc(gc).cell(0, 0).constraints());
+		panel.add(new JButton(new AddAction()), gbc(gc).cell(0, 0).constraints());
 		panel.add(new JButton(actRemove = new RemoveAction()), gbc(gc).cell(0, 1).constraints());
 		panel.add(new JButton(actUp = new UpAction()), gbc(gc).cell(0,2).constraints());
 		panel.add(new JButton(actDown  =new DownAction()), gbc(gc).cell(0,3).constraints());
@@ -116,7 +115,7 @@ public class RhinoEngineConfigurationPanel extends VerticallyScrollablePanel{
 		mdlRepositories.saveToPreferences();
 	}
 
-	static public class RepositoriesListModel extends AbstractListModel implements PreferenceKeys {
+	static public class RepositoriesListModel extends AbstractListModel<URL> implements PreferenceKeys {
 
 		private final List<URL> repositories = new ArrayList<URL>();
 		private DefaultListSelectionModel selectionModel;
@@ -185,7 +184,7 @@ public class RhinoEngineConfigurationPanel extends VerticallyScrollablePanel{
 		}
 
 		@Override
-		public Object getElementAt(int index) {
+		public URL getElementAt(int index) {
 			return repositories.get(index);
 		}
 
@@ -195,7 +194,7 @@ public class RhinoEngineConfigurationPanel extends VerticallyScrollablePanel{
 		}
 	}
 
-	static public class RepositoryCellRenderer extends JLabel implements ListCellRenderer {
+	static public class RepositoryCellRenderer extends JLabel implements ListCellRenderer<URL> {
 
 		private Icon jarIcon;
 		private Icon dirIcon;
@@ -205,8 +204,7 @@ public class RhinoEngineConfigurationPanel extends VerticallyScrollablePanel{
 			dirIcon = ImageProvider.get("directory");
 		}
 		@Override
-		public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean hasFocus) {
-			URL url = (URL)value;
+		public Component getListCellRendererComponent(JList<? extends URL> list, URL url, int index, boolean isSelected, boolean hasFocus) {
 			setText(url.toString());
 			if (isSelected) {
 				setForeground(UIManager.getColor("List.selectionForeground"));

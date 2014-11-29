@@ -20,7 +20,6 @@ import java.io.File;
 import java.util.UUID;
 import java.util.logging.Logger;
 
-import javax.script.ScriptEngine;
 import javax.script.ScriptEngineFactory;
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
@@ -333,7 +332,7 @@ public class ScriptDescriptorEditorDialog extends JDialog {
 		private JRadioButton rbDeriveFromFileName;
 		private JRadioButton rbManuallySelectScriptEngine;
 		private ButtonGroup bgMethodToSelectScriptEngine;
-		private JComboBox cbScriptEngines;
+		private JComboBox<ScriptEngineFactory> cbScriptEngines;
 		private JPanel  pnlSelectScriptEngine;
 		private HtmlPanel pnlAutomaticallyDeriveEngine;
 		
@@ -371,7 +370,6 @@ public class ScriptDescriptorEditorDialog extends JDialog {
 		public void refreshAutomaticallyDerivedScriptingEngine() {
 			String msg = tr("Automatically derive a script engine from the file name.");
 			if (rbDeriveFromFileName.isSelected()) {
-				String file = tfScriptFile.getText();
 // FIXME: 				
 //				if (! file.trim().isEmpty()) { 			
 //					ScriptEngine engine = JSR223ScriptEngineProvider.getInstance().getEngineForFile(new File(file));
@@ -410,7 +408,7 @@ public class ScriptDescriptorEditorDialog extends JDialog {
 				gbc = gbc().cell(0, 1).weight(0.0, 0.0).anchor(NORTHWEST).spacingright(5).constraints();
 				pnlSelectScriptEngine.add(new JLabel(tr("Script engines:")), gbc);
 				gbc = gbc().cell(1, 1).weight(0.0, 0.0).anchor(NORTHWEST).constraints();
-				pnlSelectScriptEngine.add(cbScriptEngines = new JComboBox(new ScriptEngineComboBoxModel()), gbc);
+				pnlSelectScriptEngine.add(cbScriptEngines = new JComboBox<>(new ScriptEngineComboBoxModel()), gbc);
 				cbScriptEngines.setRenderer(new ScriptEngineCellRenderer());
 				cbScriptEngines.setToolTipText(tr("Choose a script engine"));
 				

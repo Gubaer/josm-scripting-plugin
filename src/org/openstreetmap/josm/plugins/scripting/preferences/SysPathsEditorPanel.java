@@ -79,7 +79,7 @@ public class SysPathsEditorPanel extends JPanel {
         return icon;            
     }
     
-    private JList lstPaths;
+    private JList<File> lstPaths;
     private SysPathsModel mdlPaths;
     
     private AddAction actAdd;
@@ -103,7 +103,7 @@ public class SysPathsEditorPanel extends JPanel {
         JPanel pnl = new JPanel();
         pnl.setLayout(new BorderLayout());
         DefaultListSelectionModel selectionModel = new DefaultListSelectionModel();
-        lstPaths = new JList(mdlPaths = new SysPathsModel(selectionModel));
+        lstPaths = new JList<>(mdlPaths = new SysPathsModel(selectionModel));
         lstPaths.setCellRenderer(new SysPathCellRenderer());
         lstPaths.setSelectionModel(selectionModel);
         JScrollPane sp = new JScrollPane(lstPaths);
@@ -159,7 +159,7 @@ public class SysPathsEditorPanel extends JPanel {
         return mdlPaths;
     }
     
-    static public class SysPathsModel extends AbstractListModel implements PreferenceKeys {
+    static public class SysPathsModel extends AbstractListModel<File> implements PreferenceKeys {
         static private final Logger logger = Logger.getLogger(SysPathsModel.class.getName());
         
         private final List<File> paths = new ArrayList<File>();
@@ -267,17 +267,18 @@ public class SysPathsEditorPanel extends JPanel {
         }
         
         @Override
-        public Object getElementAt(int index) {
+        public File getElementAt(int index) {
             return paths.get(index);
         }
 
         @Override
         public int getSize() {
             return paths.size();
-        }       
+        }
     }
     
-    static public class SysPathCellRenderer extends JLabel implements ListCellRenderer {        
+    static public class SysPathCellRenderer extends JLabel 
+    	implements ListCellRenderer<File> {        
         static private final Logger logger = 
                 Logger.getLogger(SysPathCellRenderer.class.getName());
         
@@ -291,16 +292,16 @@ public class SysPathsEditorPanel extends JPanel {
             dirIcon = saveImageGet("directory");
         }
         @Override
-        public Component getListCellRendererComponent(JList list, Object value, 
+        public Component getListCellRendererComponent(JList<? extends File> list,
+        		File path, 
                 int index, boolean isSelected, boolean hasFocus) {
-            File path = (File)value;
             setText(path.getAbsolutePath());            
             if (isSelected) {
                 setForeground(UIManager.getColor("List.selectionForeground"));
                 setBackground(UIManager.getColor("List.selectionBackground"));
             } else {
                 setForeground(UIManager.getColor("List.foreground"));
-                setBackground(UIManager.getColor("List.background"));               
+                setBackground(UIManager.getColor("List.background"));
             }
             if (path.isDirectory()) {
                 setIcon(dirIcon);
@@ -310,7 +311,7 @@ public class SysPathsEditorPanel extends JPanel {
                 setIcon(null);
             }
             return this;
-        }       
+        }
     }
     
     private class AddAction extends AbstractAction {
@@ -413,14 +414,11 @@ public class SysPathsEditorPanel extends JPanel {
 
         static private final Logger logger = Logger.getLogger(
                 SysPathDialog.class.getName());
-        
+
         private JTextField tfPath;
-        private JButton btnLookupFile;
-        private LookupFileAction actLookupFile;
         private OKAction actOK;
-        private CancelAction actCancel;
         private File path;
-        
+
         protected JPanel buildInfoPanel() {
             HtmlPanel info = new HtmlPanel();
             info.setText(
@@ -444,9 +442,13 @@ public class SysPathsEditorPanel extends JPanel {
         
         protected JPanel buildEntryPanel() {
             JPanel pnl = new JPanel(new GridBagLayout());
-            pnl.add(new JLabel("Path:"), gbc().cell(0, 0).anchor(GridBagConstraints.WEST).insets(0,2,0,2).constraints());
-            pnl.add(tfPath = new JTextField(), gbc().cell(1,0).fillboth().weightx(1.0).insets(0,2,0,2).constraints());
-            pnl.add(btnLookupFile = new JButton(actLookupFile = new LookupFileAction()), gbc().cell(2, 0).insets(0,2,0,2).constraints());
+            pnl.add(new JLabel("Path:"), gbc().cell(0, 0)
+            		.anchor(GridBagConstraints.WEST)
+            		.insets(0,2,0,2).constraints());
+            pnl.add(tfPath = new JTextField(), gbc().cell(1,0).fillboth()
+            		.weightx(1.0).insets(0,2,0,2).constraints());
+            pnl.add(new JButton(new LookupFileAction()), gbc().cell(2, 0)
+            		.insets(0,2,0,2).constraints());
             
             tfPath.getDocument().addDocumentListener(new DocumentAdapter());
             return pnl;
@@ -455,7 +457,7 @@ public class SysPathsEditorPanel extends JPanel {
         protected JPanel buildCommandPanel() {
             JPanel pnl = new JPanel(new FlowLayout(FlowLayout.CENTER));
             pnl.add(new JButton(actOK = new OKAction()));
-            pnl.add(new JButton(actCancel = new CancelAction()));
+            pnl.add(new JButton(new CancelAction()));
             return pnl;
         }
         
@@ -486,7 +488,8 @@ public class SysPathsEditorPanel extends JPanel {
         }
             
         public SysPathDialog(Component parent){
-            super(JOptionPane.getFrameForComponent(parent), ModalityType.DOCUMENT_MODAL);
+            super(JOptionPane.getFrameForComponent(parent), 
+            		ModalityType.DOCUMENT_MODAL);
             build();
             validatePath();
         }

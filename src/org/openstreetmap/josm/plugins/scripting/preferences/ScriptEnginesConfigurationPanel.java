@@ -1,6 +1,7 @@
 package org.openstreetmap.josm.plugins.scripting.preferences;
 
-import static org.openstreetmap.josm.plugins.scripting.model.PreferenceKeys.PREF_KEY_SCRIPTING_ENGINE_JARS;
+import static org.openstreetmap.josm.plugins.scripting.model
+	.PreferenceKeys.PREF_KEY_SCRIPTING_ENGINE_JARS;
 import static org.openstreetmap.josm.tools.I18n.tr;
 
 import java.awt.BorderLayout;
@@ -35,7 +36,6 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSeparator;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
