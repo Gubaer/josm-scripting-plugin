@@ -229,41 +229,41 @@ public class ScriptingPlugin extends Plugin {
      * <tt>/resources/mime.types.default</tt> in the plugin directory.
      */
     protected void installResourceFiles() {
-	    File mimeTypesTarget = new File(getPluginDir(), "mime.types");
-	    if (mimeTypesTarget.exists()) return; // don't have to install it
-	    FileOutputStream fout = null;
-	    InputStream is = null;
-	    try {
-	        String res = "/resources/mime.types.default";
-	        is = getClass().getResourceAsStream(res);
-	        if (is == null) {
-	            logger.warning(String.format(
-	                    "Didn't find resource '%s'. "
-	                   + "Can't install default mime types.",
-	                   res));
-	            return;
-	        }
-	        fout = new FileOutputStream(mimeTypesTarget);
-	        byte [] buf = new byte[1024];
-	        int read;
-	        while((read = is.read(buf)) > 0) {
-	            fout.write(buf, 0, read);
-	        }
-	        logger.info(String.format(
-	              "Successfully installed default mime types in file '%s'.",
-	              mimeTypesTarget.getAbsolutePath()
-	        ));
-	    } catch(IOException e) {
-	        logger.warning(String.format(
-	                "Failed to install default mime types "
-	              + "in the plugin directory '%s'. Expection is: %s",
-	              getPluginDir(),
-	              e.toString()
-	        ));
-	        e.printStackTrace();
-	    } finally {
-	       IOUtil.close(fout);
-	       IOUtil.close(is);
-	    }
-	}
+        File mimeTypesTarget = new File(getPluginDir(), "mime.types");
+        if (mimeTypesTarget.exists()) return; // don't have to install it
+        FileOutputStream fout = null;
+        InputStream is = null;
+        try {
+            String res = "/resources/mime.types.default";
+            is = getClass().getResourceAsStream(res);
+            if (is == null) {
+                logger.warning(String.format(
+                        "Didn't find resource '%s'. "
+                       + "Can't install default mime types.",
+                       res));
+                return;
+            }
+            fout = new FileOutputStream(mimeTypesTarget);
+            byte [] buf = new byte[1024];
+            int read;
+            while((read = is.read(buf)) > 0) {
+                fout.write(buf, 0, read);
+            }
+            logger.info(String.format(
+                  "Successfully installed default mime types in file '%s'.",
+                  mimeTypesTarget.getAbsolutePath()
+            ));
+        } catch(IOException e) {
+            logger.warning(String.format(
+                    "Failed to install default mime types "
+                  + "in the plugin directory '%s'. Expection is: %s",
+                  getPluginDir(),
+                  e.toString()
+            ));
+            e.printStackTrace();
+        } finally {
+           IOUtil.close(fout);
+           IOUtil.close(is);
+        }
+    }
 }

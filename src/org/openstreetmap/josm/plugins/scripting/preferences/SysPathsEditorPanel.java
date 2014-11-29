@@ -59,34 +59,34 @@ import org.openstreetmap.josm.plugins.scripting.util.IOUtil;
 import org.openstreetmap.josm.tools.ImageProvider;
 import org.openstreetmap.josm.tools.WindowGeometry;
 
-public class SysPathsEditorPanel extends JPanel {  
+public class SysPathsEditorPanel extends JPanel {
     static private Logger logger = Logger.getLogger(
             SysPathsEditorPanel.class.getName());
-    
+
     static private Icon saveImageGet(String name) {
         ImageIcon icon = ImageProvider.getIfAvailable(name);
         if (icon == null) {
            logger.warning(tr("Failed to load icon ''{0}''", name));
         }
-        return icon;            
+        return icon;
     }
-    
+
     static private Icon saveImageGet(String dir, String name) {
         ImageIcon icon = ImageProvider.getIfAvailable(dir, name);
         if (icon == null) {
            logger.warning(tr("Failed to load icon ''{0}/{1}''", dir, name));
         }
-        return icon;            
+        return icon;
     }
-    
+
     private JList<File> lstPaths;
     private SysPathsModel mdlPaths;
-    
+
     private AddAction actAdd;
     private RemoveAction actRemove;
     private UpAction actUp;
     private DownAction actDown;
-    
+
     protected JPanel buildInfoPanel() {
         HtmlPanel info = new HtmlPanel();
         info.setText(
@@ -98,7 +98,7 @@ public class SysPathsEditorPanel extends JPanel {
         );
         return info;
     }
-    
+
     protected JPanel buildListPanel() {
         JPanel pnl = new JPanel();
         pnl.setLayout(new BorderLayout());
@@ -112,29 +112,29 @@ public class SysPathsEditorPanel extends JPanel {
         pnl.add(sp, BorderLayout.CENTER);
         return pnl;
     }
-    
+
     protected void initAndWireAction() {
         actAdd = new AddAction();
         actRemove = new RemoveAction();
         actUp = new UpAction();
         actDown  =new DownAction();
-        
+
         lstPaths.addListSelectionListener(actRemove);
         lstPaths.addListSelectionListener(actUp);
         lstPaths.addListSelectionListener(actDown);
-        
+
         SysPathPopUp popup = new SysPathPopUp();
         lstPaths.setComponentPopupMenu(popup);
-        // keyboard bindings 
+        // keyboard bindings
         int condition = JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT;
         InputMap inputMap = lstPaths.getInputMap(condition);
         ActionMap actionMap = lstPaths.getActionMap();
 
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0), "delete");
         actionMap.put("delete", actRemove);
-        
+
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_INSERT, 0), "insert");
-        actionMap.put("insert", actAdd);        
+        actionMap.put("insert", actAdd);
     }
 
     protected void build() {
@@ -143,51 +143,51 @@ public class SysPathsEditorPanel extends JPanel {
         JPanel p1 = buildListPanel();
         initAndWireAction();
         add(buildInfoPanel(), gbc().cell(0,0).fillHorizontal().weight(1.0, 0.0).insets(insets).constraints());
-        add(p1, gbc().cell(0,1).fillboth().weight(1.0,1.0).insets(insets).constraints());       
+        add(p1, gbc().cell(0,1).fillboth().weight(1.0,1.0).insets(insets).constraints());
     }
-    
+
     public SysPathsEditorPanel() {
         build();
     }
-    
+
     /**
-     * Replies the sys paths model used by this editor 
-     * 
+     * Replies the sys paths model used by this editor
+     *
      * @return
      */
     public SysPathsModel getModel() {
         return mdlPaths;
     }
-    
+
     static public class SysPathsModel extends AbstractListModel<File> implements PreferenceKeys {
         static private final Logger logger = Logger.getLogger(SysPathsModel.class.getName());
-        
+
         private final List<File> paths = new ArrayList<File>();
         private DefaultListSelectionModel selectionModel;
-        
+
         public SysPathsModel(DefaultListSelectionModel selectionModel) {
             this.selectionModel = selectionModel;
         }
-                
+
         /**
          * Sets the paths this model manages
-         * 
-         * @param paths the paths 
+         *
+         * @param paths the paths
          */
         public void setPaths(Collection<String> paths) {
             this.paths.clear();
-            paths.remove(null); // remove null elements 
+            paths.remove(null); // remove null elements
             for(String path: paths) {
                 path = path.trim();
                 this.paths.add(new File(path));
-            }       
+            }
             fireContentsChanged(this, 0, this.paths.size());
         }
-        
+
         /**
          * Replies a list of the paths managed by this model.
-         * 
-         * @return the paths 
+         *
+         * @return the paths
          */
         public List<String> getPaths() {
             List<String> ret = new ArrayList<String>();
@@ -196,32 +196,32 @@ public class SysPathsEditorPanel extends JPanel {
             }
             return ret;
         }
-        
+
         /**
          * Loads the paths from the preferences with key <code>key</code>
-         * 
-         * @param prefs the preferences 
-         * @param key  the preference key 
+         *
+         * @param prefs the preferences
+         * @param key  the preference key
          */
         public void loadFromPreferences(Preferences prefs, String key) {
             Assert.assertArgNotNull(prefs, "prefs");
             Collection<String> entries = prefs.getCollection(key);
-            for (Iterator<String> it = entries.iterator(); it.hasNext();) { 
+            for (Iterator<String> it = entries.iterator(); it.hasNext();) {
                 String entry = it.next().trim();
                 if (entry.isEmpty()) continue;
                 paths.add(new File(entry));
             }
         }
-        
+
         public void loadFromPreferences(Preferences prefs) {
             loadFromPreferences(prefs, PREF_KEY_JYTHON_SYS_PATHS);
         }
-        
+
         /**
-         * Saves the paths to the preferences 
-         * 
-         * @param prefs the preferences 
-         * @param key the preference key 
+         * Saves the paths to the preferences
+         *
+         * @param prefs the preferences
+         * @param key the preference key
          */
         public void persistToPreferences(Preferences prefs, String key) {
             List<String> entries = new ArrayList<String>();
@@ -230,42 +230,42 @@ public class SysPathsEditorPanel extends JPanel {
             }
             prefs.putCollection(key, entries);
         }
-        
+
         /**
-         * Saves the paths to the preferences 
-         * 
-         * @param prefs the preferences 
+         * Saves the paths to the preferences
+         *
+         * @param prefs the preferences
          */
         public void persistToPreferences(Preferences prefs) {
             persistToPreferences(prefs, PREF_KEY_JYTHON_SYS_PATHS);
-        }      
-                                
+        }
+
         public void remove(int i) {
             paths.remove(i);
             fireIntervalRemoved(this,i,i);
         }
-        
-        
+
+
         public void up(int i) {
             File tomove = paths.remove(i);
             paths.add(i-1, tomove);
             selectionModel.setSelectionInterval(i-1, i-1);
             fireContentsChanged(this,0,getSize());
         }
-        
+
         public void down(int i) {
             File tomove = paths.remove(i);
             paths.add(i+1, tomove);
             selectionModel.setSelectionInterval(i+1, i+1);
             fireContentsChanged(this,0,getSize());
         }
-        
+
         public void add(File path) {
             if (path == null) return;
             paths.add(path);
             fireContentsChanged(this,0,getSize());
         }
-        
+
         @Override
         public File getElementAt(int index) {
             return paths.get(index);
@@ -276,16 +276,16 @@ public class SysPathsEditorPanel extends JPanel {
             return paths.size();
         }
     }
-    
-    static public class SysPathCellRenderer extends JLabel 
-    	implements ListCellRenderer<File> {        
-        static private final Logger logger = 
+
+    static public class SysPathCellRenderer extends JLabel
+        implements ListCellRenderer<File> {
+        static private final Logger logger =
                 Logger.getLogger(SysPathCellRenderer.class.getName());
-        
+
         private Icon jarIcon;
         private Icon dirIcon;
-        
-      
+
+
         public SysPathCellRenderer() {
             setOpaque(true);
             jarIcon = saveImageGet("jar");
@@ -293,9 +293,9 @@ public class SysPathsEditorPanel extends JPanel {
         }
         @Override
         public Component getListCellRendererComponent(JList<? extends File> list,
-        		File path, 
+                File path,
                 int index, boolean isSelected, boolean hasFocus) {
-            setText(path.getAbsolutePath());            
+            setText(path.getAbsolutePath());
             if (isSelected) {
                 setForeground(UIManager.getColor("List.selectionForeground"));
                 setBackground(UIManager.getColor("List.selectionBackground"));
@@ -313,7 +313,7 @@ public class SysPathsEditorPanel extends JPanel {
             return this;
         }
     }
-    
+
     private class AddAction extends AbstractAction {
 
         public AddAction() {
@@ -331,7 +331,7 @@ public class SysPathsEditorPanel extends JPanel {
             }
         }
     }
-    
+
     private class RemoveAction extends AbstractAction implements ListSelectionListener {
 
         public RemoveAction() {
@@ -340,24 +340,24 @@ public class SysPathsEditorPanel extends JPanel {
             putValue(Action.SMALL_ICON, saveImageGet("dialogs", "delete"));
             updateEnabledState();
         }
-        
+
         @Override
         public void actionPerformed(ActionEvent arg0) {
             int selIdx = lstPaths.getSelectedIndex();
             mdlPaths.remove(selIdx);
         }
-        
+
         protected void updateEnabledState() {
             int selIdx = lstPaths.getSelectedIndex();
             setEnabled(selIdx != -1);
         }
-        
+
         @Override
         public void valueChanged(ListSelectionEvent evt) {
             updateEnabledState();
-        }       
+        }
     }
-    
+
     private class UpAction extends AbstractAction implements ListSelectionListener {
 
         public UpAction() {
@@ -366,24 +366,24 @@ public class SysPathsEditorPanel extends JPanel {
             putValue(Action.SMALL_ICON, saveImageGet("dialogs", "moveup"));
             updateEnabledState();
         }
-        
+
         protected void updateEnabledState() {
             int selIdx = lstPaths.getSelectedIndex();
             setEnabled(selIdx != -1 && selIdx != 0);
         }
-            
+
         @Override
         public void actionPerformed(ActionEvent arg0) {
             int selIdx = lstPaths.getSelectedIndex();
             mdlPaths.up(selIdx);
         }
-        
+
         @Override
         public void valueChanged(ListSelectionEvent evt) {
             updateEnabledState();
         }
     }
-    
+
     private class DownAction extends AbstractAction implements ListSelectionListener {
 
         public DownAction() {
@@ -397,19 +397,19 @@ public class SysPathsEditorPanel extends JPanel {
             int selIdx = lstPaths.getSelectedIndex();
             mdlPaths.down(selIdx);
         }
-        
+
         protected void updateEnabledState() {
             int selIdx = lstPaths.getSelectedIndex();
             setEnabled(selIdx != -1 && selIdx != lstPaths.getModel().getSize() - 1);
         }
-                
+
         @Override
         public void valueChanged(ListSelectionEvent evt) {
             updateEnabledState();
         }
     }
-    
-    
+
+
     static public class SysPathDialog extends JDialog {
 
         static private final Logger logger = Logger.getLogger(
@@ -424,13 +424,13 @@ public class SysPathsEditorPanel extends JPanel {
             info.setText(
                     "<html>"
                     + tr("Please enter or paste a valid directory path or path to" +
-                    	" a jar/zip file."
+                        " a jar/zip file."
                     )
                     + "</html>"
             );
             return info;
         }
-        
+
         protected class DocumentAdapter implements DocumentListener {
             @Override
             public void changedUpdate(DocumentEvent e) {validatePath();};
@@ -439,28 +439,28 @@ public class SysPathsEditorPanel extends JPanel {
             @Override
             public void removeUpdate(DocumentEvent e) {validatePath();};
         }
-        
+
         protected JPanel buildEntryPanel() {
             JPanel pnl = new JPanel(new GridBagLayout());
             pnl.add(new JLabel("Path:"), gbc().cell(0, 0)
-            		.anchor(GridBagConstraints.WEST)
-            		.insets(0,2,0,2).constraints());
+                    .anchor(GridBagConstraints.WEST)
+                    .insets(0,2,0,2).constraints());
             pnl.add(tfPath = new JTextField(), gbc().cell(1,0).fillboth()
-            		.weightx(1.0).insets(0,2,0,2).constraints());
+                    .weightx(1.0).insets(0,2,0,2).constraints());
             pnl.add(new JButton(new LookupFileAction()), gbc().cell(2, 0)
-            		.insets(0,2,0,2).constraints());
-            
+                    .insets(0,2,0,2).constraints());
+
             tfPath.getDocument().addDocumentListener(new DocumentAdapter());
             return pnl;
         }
-        
+
         protected JPanel buildCommandPanel() {
             JPanel pnl = new JPanel(new FlowLayout(FlowLayout.CENTER));
             pnl.add(new JButton(actOK = new OKAction()));
             pnl.add(new JButton(new CancelAction()));
             return pnl;
         }
-        
+
         protected void build() {
             Container content = getContentPane();
             content.setLayout(new BorderLayout());
@@ -473,7 +473,7 @@ public class SysPathsEditorPanel extends JPanel {
             setTitle(tr("Create or edit a path"));
             setIconImage(ImageProvider.get("script-engine").getImage());
         }
-        
+
         public void setPath(File repo) {
             tfPath.setText("");
             if (repo != null) {
@@ -482,18 +482,18 @@ public class SysPathsEditorPanel extends JPanel {
             this.path = repo;
             validatePath();
         }
-        
+
         public File getPath() {
             return path;
         }
-            
+
         public SysPathDialog(Component parent){
-            super(JOptionPane.getFrameForComponent(parent), 
-            		ModalityType.DOCUMENT_MODAL);
+            super(JOptionPane.getFrameForComponent(parent),
+                    ModalityType.DOCUMENT_MODAL);
             build();
             validatePath();
         }
-        
+
         protected boolean isExistingJarFile(File f) {
             JarFile jar = null;
             try {
@@ -505,7 +505,7 @@ public class SysPathsEditorPanel extends JPanel {
                 IOUtil.close(jar);
             }
         }
-        
+
         protected void validatePath() {
             boolean valid = true;
             String s = tfPath.getText().trim();
@@ -529,10 +529,10 @@ public class SysPathsEditorPanel extends JPanel {
             } else {
                 tfPath.setBackground(new Color(255, 199, 210));
                 actOK.setEnabled(false);
-            }   
+            }
             tfPath.setToolTipText(msg);
         }
-            
+
         @Override
         public void setVisible(boolean visible) {
             if (visible) {
@@ -540,7 +540,7 @@ public class SysPathsEditorPanel extends JPanel {
             }
             super.setVisible(visible);
         }
-        
+
         private class LookupFileAction extends AbstractAction {
 
             public LookupFileAction() {
@@ -558,20 +558,20 @@ public class SysPathsEditorPanel extends JPanel {
                 fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
                 fc.setMultiSelectionEnabled(false);
                 int answer = fc.showOpenDialog(SysPathDialog.this);
-                if (answer != JFileChooser.APPROVE_OPTION) return;          
-                File f = fc.getSelectedFile();  
+                if (answer != JFileChooser.APPROVE_OPTION) return;
+                File f = fc.getSelectedFile();
                 tfPath.setText(f.getAbsolutePath());
             }
-            
+
             protected File getCurrentDirectory() {
                 String s = tfPath.getText().trim();
                 if (s.isEmpty()) return new File(".");
                 File f = new File(s);
                 if (f.isDirectory()) return f;
-                return f.getParentFile();    
+                return f.getParentFile();
             }
         }
-            
+
         private class CancelAction extends AbstractAction {
             public CancelAction() {
                 putValue(Action.NAME, tr("Cancel"));
@@ -582,8 +582,8 @@ public class SysPathsEditorPanel extends JPanel {
                 setVisible(false);
             }
         }
-        
-        
+
+
         private class OKAction extends AbstractAction {
             public OKAction() {
                 putValue(Action.NAME, tr("OK"));
@@ -598,7 +598,7 @@ public class SysPathsEditorPanel extends JPanel {
             }
         }
     }
-        
+
     private class SysPathPopUp extends JPopupMenu {
         public SysPathPopUp() {
             add(actAdd);

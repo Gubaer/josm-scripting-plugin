@@ -20,22 +20,22 @@ import org.openstreetmap.josm.tools.ImageProvider;
 
 /**
  * <p>This model manages a list of most recently run scripts.</p>
- * 
+ *
  * <p>Use {@link #remember()} to remember an entry.</p>
- * 
+ *
  * <p>There is a unique instance of this model which can be connected to
  * either an {@link Observer} or a {@link ComboBox}.</p>
  *
  */
-public class MostRecentlyRunScriptsModel extends Observable 
+public class MostRecentlyRunScriptsModel extends Observable
     implements PreferenceKeys{
-    
+
     static private MostRecentlyRunScriptsModel instance;
     /**
      * Unique instance of the model for the list of most recently
      * run scripts.
-     * 
-     * @return the unique instance 
+     *
+     * @return the unique instance
      */
     static public MostRecentlyRunScriptsModel getInstance() {
         if (instance == null) {
@@ -43,17 +43,17 @@ public class MostRecentlyRunScriptsModel extends Observable
         }
         return instance;
     }
-    
+
     final private List<String> scripts = new ArrayList<String>();
-    
+
     /**
-     * Remembers a script in the list of most recently run scripts 
-     * 
+     * Remembers a script in the list of most recently run scripts
+     *
      * @param script
      */
     public void remember(String script) {
         switch(scripts.indexOf(script)) {
-        case -1: 
+        case -1:
             //System.out.println("remembering script: " + script);
             scripts.add(0, script);
             break;
@@ -64,7 +64,7 @@ public class MostRecentlyRunScriptsModel extends Observable
             /* move script at first position */
             scripts.remove(script);
             scripts.add(0, script);
-        }      
+        }
         int s;
         while((s = scripts.size()) > 10) {
             scripts.remove(s-1);
@@ -74,26 +74,26 @@ public class MostRecentlyRunScriptsModel extends Observable
         comboBoxModel.fireContentChanged();
 
     }
-    
+
     /**
      * Saves the list of most recently run scripts to the preferences.
-     * 
-     * @param prefs the preferences 
+     *
+     * @param prefs the preferences
      */
     public void saveToPreferences(Preferences prefs) {
         prefs.putCollection(PREF_KEY_FILE_HISTORY, scripts);
     }
-    
+
     protected boolean canRun(String script) {
         File f = new File(script);
         return f.exists() && f.isFile() && f.canRead();
     }
-    
+
     /**
      * Loads the list of the most recently run scripts from the
      * preferences.
-     * 
-     * @param prefs the preferences 
+     *
+     * @param prefs the preferences
      */
     public void loadFromPreferences(Preferences prefs) {
         Collection<String> entries = prefs.getCollection(
@@ -112,18 +112,18 @@ public class MostRecentlyRunScriptsModel extends Observable
         notifyObservers();
         comboBoxModel.fireContentChanged();
     }
-    
+
     /**
-     * Replies a combo box model which can be set for an 
+     * Replies a combo box model which can be set for an
      * {@link JComboBox}.
-     * 
+     *
      * @return the combo box model
      */
     public DefaultComboBoxModel getComboBoxModel() {
         return comboBoxModel;
     }
     private ComboBoxModel comboBoxModel = new ComboBoxModel();
-    
+
     @SuppressWarnings("serial")
     private class ComboBoxModel extends DefaultComboBoxModel {
         public void fireContentChanged() {
@@ -137,9 +137,9 @@ public class MostRecentlyRunScriptsModel extends Observable
         @Override
         public int getSize() {
             return scripts.size();
-        }        
+        }
     }
-    
+
     @SuppressWarnings("serial")
     static private class RunScriptAction extends AbstractAction {
         private String script;
@@ -155,8 +155,8 @@ public class MostRecentlyRunScriptsModel extends Observable
             RunScriptService service = new RunScriptService();
             if (!service.canRunScript(script, null /* parent */)) {
                 return;
-            }           
-            ScriptEngineDescriptor engine = 
+            }
+            ScriptEngineDescriptor engine =
                     service.deriveOrAskScriptEngineDescriptor(
                             script, null /* parent */
                     );
@@ -168,7 +168,7 @@ public class MostRecentlyRunScriptsModel extends Observable
     /**
      * Replies a list of actions, one run action for each script
      * in the list of most recently run scripts.
-     * 
+     *
      * @return the list of actions
      */
     public List<Action> getRunScriptActions() {

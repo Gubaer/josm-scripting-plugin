@@ -11,17 +11,17 @@ import org.openstreetmap.josm.tools.ImageProvider;
 
 @SuppressWarnings("serial")
 public class CloseAction extends AbstractAction {
-@SuppressWarnings("unused")
-static private final Logger logger = Logger.getLogger(CloseAction.class.getName());
-		
-	public CloseAction() {
-		putValue(NAME, tr("Close"));
-		putValue(SHORT_DESCRIPTION, tr("Close the scripting console"));
-		putValue(SMALL_ICON, ImageProvider.get("exit"));
-	}
+    @SuppressWarnings("unused")
+    static private final Logger logger = Logger.getLogger(CloseAction.class.getName());
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		ScriptingConsole.hideScriptingConsole();
-	}
+    public CloseAction() {
+        putValue(NAME, tr("Close"));
+        putValue(SHORT_DESCRIPTION, tr("Close the scripting console"));
+        putValue(SMALL_ICON, ImageProvider.get("exit"));
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        ScriptingConsole.hideScriptingConsole();
+    }
 }

@@ -33,14 +33,14 @@ import org.openstreetmap.josm.plugins.scripting.model.PreferenceKeys;
 import org.openstreetmap.josm.tools.ImageProvider;
 
 public class PythonPluginsConfigurationPanel extends JPanel {
-    
+
     private PythonPluginsTable tblPlugins;
     private PythonPluginsModel mdlPlugins;
     private PluginTablePopUp popupPluginTable;
-    
+
     private AddAction actAdd;
     private DeleteAction actDelete;
-    
+
     protected JPanel buildInfoPanel() {
         String text = "<html>"
             + tr("Add a list of fully qualified names of Python plugin "
@@ -53,7 +53,7 @@ public class PythonPluginsConfigurationPanel extends JPanel {
         info.setText(text);
         return info;
     }
-    
+
     protected JPanel buildTablePanel() {
         JPanel pnl = new JPanel(new BorderLayout());
         mdlPlugins = new PythonPluginsModel();
@@ -64,73 +64,73 @@ public class PythonPluginsConfigurationPanel extends JPanel {
         pnl.add(pane, BorderLayout.CENTER);
         return pnl;
     }
-    
+
     protected void initAndWireAction() {
         actAdd = new AddAction();
         actDelete = new DeleteAction();
-        
-        mdlPlugins.getSelectionModel().addListSelectionListener(actDelete);   
-        
-        // keyboard bindings 
+
+        mdlPlugins.getSelectionModel().addListSelectionListener(actDelete);
+
+        // keyboard bindings
         int condition = JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT;
         InputMap inputMap = tblPlugins.getInputMap(condition);
         ActionMap actionMap = tblPlugins.getActionMap();
 
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0), "delete");
         actionMap.put("delete", actDelete);
-        
+
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_INSERT, 0), "insert");
         actionMap.put("insert", actAdd);
     }
-    
+
     protected void initAndWirePopup() {
         popupPluginTable = new PluginTablePopUp();
         tblPlugins.setComponentPopupMenu(popupPluginTable);
     }
-    
+
     protected void build() {
         setLayout(new GridBagLayout());
         Insets insets = new Insets(3,3,3,3);
-        add(buildInfoPanel(), 
+        add(buildInfoPanel(),
                 gbc().cell(0,0).fillHorizontal()
                 .weight(1.0, 0.0).insets(insets).constraints());
-        add(buildTablePanel(), 
+        add(buildTablePanel(),
                 gbc().cell(0,1).fillboth().weight(1.0, 1.0)
                 .insets(insets).constraints());
     }
-    
+
     public PythonPluginsConfigurationPanel() {
         build();
         initAndWireAction();
         initAndWirePopup();
     }
-    
+
     public PythonPluginsModel getModel() {
         return mdlPlugins;
     }
-    
+
     static public class PythonPluginsModel extends AbstractTableModel
         implements PreferenceKeys {
         private final List<String> plugins = new ArrayList<String>();
-        private final DefaultListSelectionModel selectionModel = 
+        private final DefaultListSelectionModel selectionModel =
                 new DefaultListSelectionModel();
-        
+
         public DefaultListSelectionModel getSelectionModel() {
             return selectionModel;
         }
-        
+
         /**
-         * Adds an additonal empty plugin 
+         * Adds an additonal empty plugin
          */
         public void addNew(){
             plugins.add("");
             fireTableDataChanged();
         }
-        
+
         /**
          * Set the list of plugin names to be edited.
-         * 
-         * @param plugins the collecion of plugin names 
+         *
+         * @param plugins the collecion of plugin names
          */
         public void setPlugins(Collection<String> plugins){
             this.plugins.clear();
@@ -139,12 +139,12 @@ public class PythonPluginsConfigurationPanel extends JPanel {
             Collections.sort(this.plugins);
             fireTableDataChanged();
         }
-        
+
         /**
          * Replies the list of plugin names in this model (ignoring any
          * empty plugin name consisting of white space only)
-         * 
-         * @return the list of plugin names 
+         *
+         * @return the list of plugin names
          */
         public List<String> getPlugins() {
             List<String> ret = new ArrayList<String>();
@@ -154,9 +154,9 @@ public class PythonPluginsConfigurationPanel extends JPanel {
             }
             return ret;
         }
-        
+
         /**
-         * Removes the currently selected plugins 
+         * Removes the currently selected plugins
          */
         public void removeSelectedPlugins() {
           int deleted = 0;
@@ -168,7 +168,7 @@ public class PythonPluginsConfigurationPanel extends JPanel {
           }
           fireTableDataChanged();
         }
-        
+
         public void loadFromPreferences(Preferences pref) {
             Collection<String> c = pref.getCollection(
                PREF_KEY_JYTHON_PLUGINS,
@@ -177,7 +177,7 @@ public class PythonPluginsConfigurationPanel extends JPanel {
             if (c == null) return;
             setPlugins(c);
         }
-        
+
         public void persistToPreferences(Preferences pref) {
             List<String> plugins = getPlugins();
             pref.putCollection(
@@ -185,7 +185,7 @@ public class PythonPluginsConfigurationPanel extends JPanel {
               plugins
             );
         }
-        
+
         @Override
         public int getColumnCount() {
             return 1;
@@ -199,32 +199,32 @@ public class PythonPluginsConfigurationPanel extends JPanel {
         @Override
         public Object getValueAt(int row, int col) {
             return plugins.get(row);
-        }       
-        
+        }
+
         public void setValueAt(Object value, int row, int col) {
             String plugin = (String)value;
             plugins.set(row,plugin);
         }
-        
+
         @Override
         public boolean isCellEditable(int row, int column) {
             return true;
         }
     }
-    
+
     static public class PythonPluginsTable extends JTable {
         public PythonPluginsTable(PythonPluginsModel model) {
             super(model);
             setTableHeader(null);
             setSelectionModel(model.getSelectionModel());
         }
-        
+
         //hack: enables popup on empty table
-        public boolean getScrollableTracksViewportHeight() { 
-            return getPreferredSize().height < getParent().getHeight(); 
-        } 
+        public boolean getScrollableTracksViewportHeight() {
+            return getPreferredSize().height < getParent().getHeight();
+        }
     }
-    
+
     private class AddAction extends AbstractAction {
         public AddAction() {
             putValue(NAME, tr("Add"));
@@ -234,26 +234,26 @@ public class PythonPluginsConfigurationPanel extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent evt) {
-            mdlPlugins.addNew();            
-        }        
+            mdlPlugins.addNew();
+        }
     }
-    
-    private class DeleteAction extends AbstractAction 
+
+    private class DeleteAction extends AbstractAction
             implements ListSelectionListener {
-        
+
         public DeleteAction() {
             putValue(NAME, tr("Remove"));
             putValue(SHORT_DESCRIPTION, tr("Remove selected plugins"));
-            putValue(SMALL_ICON, ImageProvider.getIfAvailable("dialogs", "delete")); 
+            putValue(SMALL_ICON, ImageProvider.getIfAvailable("dialogs", "delete"));
         }
-        
+
         public void updateEnabledState() {
             setEnabled(!mdlPlugins.getSelectionModel().isSelectionEmpty());
         }
 
         @Override
         public void actionPerformed(ActionEvent arg0) {
-            mdlPlugins.removeSelectedPlugins();            
+            mdlPlugins.removeSelectedPlugins();
         }
 
         @Override
@@ -261,7 +261,7 @@ public class PythonPluginsConfigurationPanel extends JPanel {
           updateEnabledState();
         }
     }
-    
+
     private class PluginTablePopUp extends JPopupMenu {
         public PluginTablePopUp() {
            add(actAdd);

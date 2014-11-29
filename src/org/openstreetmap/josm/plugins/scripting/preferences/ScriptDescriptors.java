@@ -31,65 +31,65 @@ import org.xml.sax.SAXException;
 @XmlType(name="scriptsType")
 @XmlRootElement(name="scripts")
 public class ScriptDescriptors {
-	
-	/**
-	 * Unmarshals a script descriptor list from an XML stream.
-	 * 
-	 * @param reader the XML stream 
-	 * @return the list of script descriptors. Never null. Replies an empty list, if the 
-	 * XML stream doesn't contain at least one script descriptor.
-	 * 
-	 * @throws JAXBException throw if JAXB fails
-	 * @throws SAXException thrown if parsing the XML stream fails
-	 * @throws IOException thrown if an IO operation fails
-	 */
-	static public List<ScriptDescriptor> unmarshall(Reader reader) throws JAXBException, SAXException, IOException{
-		JAXBContext jc = JAXBContext.newInstance(ScriptDescriptors.class, ScriptDescriptor.class);
-		Unmarshaller um = jc.createUnmarshaller();
-		um.setSchema(getSchema());
-		um.setEventHandler(new ValidationEventHandler() {			
-			@Override
-			public boolean handleEvent(ValidationEvent event) {				
-				return false;
-			}
-		});
-		ScriptDescriptors sd = (ScriptDescriptors)um.unmarshal(reader);
-		return sd.scripts == null ? Collections.<ScriptDescriptor>emptyList() : sd.scripts;
-	}
-	
-	static public void marshall(Writer writer, List<ScriptDescriptor> scripts) throws JAXBException{
-		JAXBContext jc = JAXBContext.newInstance(ScriptDescriptors.class, ScriptDescriptor.class);
-		Marshaller m = jc.createMarshaller();
-		m.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
-		m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-		ScriptDescriptors descs = new ScriptDescriptors();
-		descs.scripts = scripts;
-		m.marshal(descs, writer);
-	}
-	
-	/**
-	 * Replies the XSD schema for the script descriptors file.
-	 * 
-	 * @return the schema
-	 * @throws IOException thrown if the schema can't be read from resources
-	 * @throws SAXException thrown if the schema can't be parsed
-	 */
-	static public Schema getSchema() throws IOException, SAXException {
-		SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-		InputStream is = null;
-		try {
-			is = ScriptDescriptor.class.getResourceAsStream("script.xsd");			
-			if (is == null){
-				throw new IOException(
-						MessageFormat.format("failed to open input stream to resource ''{0}''", "script.xsd")
-				);
-			}
-			return factory.newSchema(new StreamSource(is));
-		} finally {
-			IOUtil.close(is);
-		}
-	}
-	
-	@XmlElement(name="script")
-	protected List<ScriptDescriptor> scripts;	
+
+    /**
+     * Unmarshals a script descriptor list from an XML stream.
+     *
+     * @param reader the XML stream
+     * @return the list of script descriptors. Never null. Replies an empty list, if the
+     * XML stream doesn't contain at least one script descriptor.
+     *
+     * @throws JAXBException throw if JAXB fails
+     * @throws SAXException thrown if parsing the XML stream fails
+     * @throws IOException thrown if an IO operation fails
+     */
+    static public List<ScriptDescriptor> unmarshall(Reader reader) throws JAXBException, SAXException, IOException{
+        JAXBContext jc = JAXBContext.newInstance(ScriptDescriptors.class, ScriptDescriptor.class);
+        Unmarshaller um = jc.createUnmarshaller();
+        um.setSchema(getSchema());
+        um.setEventHandler(new ValidationEventHandler() {
+            @Override
+            public boolean handleEvent(ValidationEvent event) {
+                return false;
+            }
+        });
+        ScriptDescriptors sd = (ScriptDescriptors)um.unmarshal(reader);
+        return sd.scripts == null ? Collections.<ScriptDescriptor>emptyList() : sd.scripts;
+    }
+
+    static public void marshall(Writer writer, List<ScriptDescriptor> scripts) throws JAXBException{
+        JAXBContext jc = JAXBContext.newInstance(ScriptDescriptors.class, ScriptDescriptor.class);
+        Marshaller m = jc.createMarshaller();
+        m.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
+        m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+        ScriptDescriptors descs = new ScriptDescriptors();
+        descs.scripts = scripts;
+        m.marshal(descs, writer);
+    }
+
+    /**
+     * Replies the XSD schema for the script descriptors file.
+     *
+     * @return the schema
+     * @throws IOException thrown if the schema can't be read from resources
+     * @throws SAXException thrown if the schema can't be parsed
+     */
+    static public Schema getSchema() throws IOException, SAXException {
+        SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+        InputStream is = null;
+        try {
+            is = ScriptDescriptor.class.getResourceAsStream("script.xsd");
+            if (is == null){
+                throw new IOException(
+                        MessageFormat.format("failed to open input stream to resource ''{0}''", "script.xsd")
+                );
+            }
+            return factory.newSchema(new StreamSource(is));
+        } finally {
+            IOUtil.close(is);
+        }
+    }
+
+    @XmlElement(name="script")
+    protected List<ScriptDescriptor> scripts;
 }

@@ -18,23 +18,23 @@ public class ConfigureAction extends JosmAction {
 
     private PreferenceDialog dialog;
 
-	public ConfigureAction() {
-		super(
-			tr("Configure..."),        			    // title
-			"scripting-preference", 			    // icon name
-			tr("Configure scripting preferences"),  // tooltip
-			null,                                   // no shortcut
-			false                                   // don't register
-		);
-		putValue("help", HelpUtil.ht("/Plugin/Scripting"));
-	}
+    public ConfigureAction() {
+        super(
+            tr("Configure..."),                        // title
+            "scripting-preference",                 // icon name
+            tr("Configure scripting preferences"),  // tooltip
+            null,                                   // no shortcut
+            false                                   // don't register
+        );
+        putValue("help", HelpUtil.ht("/Plugin/Scripting"));
+    }
 
-	@Override
-	public void actionPerformed(ActionEvent evt) {
-		dialog = new PreferenceDialog(Main.parent);
-		dialog.addComponentListener(visibilityListener);
-		dialog.setVisible(true);
-	}
+    @Override
+    public void actionPerformed(ActionEvent evt) {
+        dialog = new PreferenceDialog(Main.parent);
+        dialog.addComponentListener(visibilityListener);
+        dialog.setVisible(true);
+    }
 
     private final ComponentListener visibilityListener = new  ComponentListener() {
         @Override
