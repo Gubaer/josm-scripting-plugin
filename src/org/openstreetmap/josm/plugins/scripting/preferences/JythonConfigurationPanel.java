@@ -19,22 +19,22 @@ import org.openstreetmap.josm.gui.widgets.VerticallyScrollablePanel;
 
 @SuppressWarnings("serial")
 public class JythonConfigurationPanel extends VerticallyScrollablePanel{
-	@SuppressWarnings("unused")
+    @SuppressWarnings("unused")
     private static final Logger logger = Logger.getLogger(JythonConfigurationPanel.class.getName());
 
-	private SysPathsEditorPanel pnlSysPathEditor;
-	private PythonPluginsConfigurationPanel pnlPythonPlugins;
+    private SysPathsEditorPanel pnlSysPathEditor;
+    private PythonPluginsConfigurationPanel pnlPythonPlugins;
 
-	protected JPanel buildInfoPanel() {
-	    String text;
-	    if (isJythonPresent()) {
-	        text = "<html>" + tr(
-	                "The scripting plugin can load and run plugins written in <strong>Python</strong>. "
+    protected JPanel buildInfoPanel() {
+        String text;
+        if (isJythonPresent()) {
+            text = "<html>" + tr(
+                    "The scripting plugin can load and run plugins written in <strong>Python</strong>. "
                     + "Below you can configure where it looks for locally deployed plugins and "
                     + "which plugins it should load and launch at startup time."
                 )
                 + "</html>";
-	    } else {
+        } else {
             text = "<html>"
                 + tr("<strong>Support for python plugins is disabled.</strong><br>"
                     + "The scripting plugin can load and run plugins written in <strong>Python</strong>. "
@@ -45,64 +45,64 @@ public class JythonConfigurationPanel extends VerticallyScrollablePanel{
                     + "java -cp \"josm-jar.jar:/path/to/jython.jar\" org.openstreetmap.josm.gui.MainApplication"
                 )
                 + "</html>";
-	    }
+        }
 
-		HtmlPanel info = new HtmlPanel();
-		info.setText(text);
-		return info;
-	}
+        HtmlPanel info = new HtmlPanel();
+        info.setText(text);
+        return info;
+    }
 
-	protected void build() {
-		setLayout(new GridBagLayout());
-		Insets insets = new Insets(3,3,3,3);
-		pnlSysPathEditor = new SysPathsEditorPanel();
-		pnlPythonPlugins = new PythonPluginsConfigurationPanel();
-		add(buildInfoPanel(), gbc().cell(0,0).fillHorizontal().weight(1.0, 0.0).insets(insets).constraints());
-		add(pnlSysPathEditor,
-		        gbc().cell(0,1).fillboth().weight(1.0, 0.5)
-		        .insets(insets).constraints());
-		add(pnlPythonPlugins,
-		        gbc().cell(0,2).fillboth().weight(1.0, 0.5)
-		        .insets(insets).constraints());
-		if (!isJythonPresent()) {
-		    disableComponenteTree(pnlSysPathEditor);
-		    disableComponenteTree(pnlPythonPlugins);
-		}
-	}
+    protected void build() {
+        setLayout(new GridBagLayout());
+        Insets insets = new Insets(3,3,3,3);
+        pnlSysPathEditor = new SysPathsEditorPanel();
+        pnlPythonPlugins = new PythonPluginsConfigurationPanel();
+        add(buildInfoPanel(), gbc().cell(0,0).fillHorizontal().weight(1.0, 0.0).insets(insets).constraints());
+        add(pnlSysPathEditor,
+                gbc().cell(0,1).fillboth().weight(1.0, 0.5)
+                .insets(insets).constraints());
+        add(pnlPythonPlugins,
+                gbc().cell(0,2).fillboth().weight(1.0, 0.5)
+                .insets(insets).constraints());
+        if (!isJythonPresent()) {
+            disableComponenteTree(pnlSysPathEditor);
+            disableComponenteTree(pnlPythonPlugins);
+        }
+    }
 
-	public JythonConfigurationPanel() {
-		build();
-	}
+    public JythonConfigurationPanel() {
+        build();
+    }
 
-	protected void disableComponenteTree(Component root) {
-	    if (root == null) return;
-	    root.setEnabled(false);
-	    if (root instanceof JComponent) {
-	       JComponent c = (JComponent) root;
-	       if (c.getComponentPopupMenu() != null) {
-	           c.setComponentPopupMenu(null);
-	       }
-	    }
-	    if (root instanceof Container) {
-	        for (Component child: ((Container)root).getComponents()) {
-	            disableComponenteTree(child);
-	        }
-	    }
-	}
+    protected void disableComponenteTree(Component root) {
+        if (root == null) return;
+        root.setEnabled(false);
+        if (root instanceof JComponent) {
+           JComponent c = (JComponent) root;
+           if (c.getComponentPopupMenu() != null) {
+               c.setComponentPopupMenu(null);
+           }
+        }
+        if (root instanceof Container) {
+            for (Component child: ((Container)root).getComponents()) {
+                disableComponenteTree(child);
+            }
+        }
+    }
 
-	/**
-	 * Persist the current preferences values
-	 */
-	public void persistToPreferences() {
-	    pnlSysPathEditor.getModel().persistToPreferences(Main.pref);
-	    pnlPythonPlugins.getModel().persistToPreferences(Main.pref);
-	}
+    /**
+     * Persist the current preferences values
+     */
+    public void persistToPreferences() {
+        pnlSysPathEditor.getModel().persistToPreferences(Main.pref);
+        pnlPythonPlugins.getModel().persistToPreferences(Main.pref);
+    }
 
-	/**
-	 * Load the preferences values from the preferences file
-	 */
-	public void loadFromPreferences() {
-	    pnlSysPathEditor.getModel().loadFromPreferences(Main.pref);
-	    pnlPythonPlugins.getModel().loadFromPreferences(Main.pref);
-	}
+    /**
+     * Load the preferences values from the preferences file
+     */
+    public void loadFromPreferences() {
+        pnlSysPathEditor.getModel().loadFromPreferences(Main.pref);
+        pnlPythonPlugins.getModel().loadFromPreferences(Main.pref);
+    }
 }

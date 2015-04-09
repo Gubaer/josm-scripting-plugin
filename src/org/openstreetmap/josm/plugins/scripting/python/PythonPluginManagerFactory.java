@@ -10,16 +10,16 @@ import java.util.logging.Logger;
  *
  */
 public class PythonPluginManagerFactory {
-	
+
     static final private Logger logger = Logger.getLogger(
             PythonPluginManagerFactory.class.getName());
-   
-   
+
+
     /**
      * Creates and replies an instance of the python plugin manager, or
      * null, if either the python interpreter is not on the class path
      * or dynamically loading {@link PythonPluginManager} fails.
-     * 
+     *
      * @return the python plugin manager or null
      */
     static public IPythonPluginManager createPythonPluginManager() {
@@ -32,21 +32,21 @@ public class PythonPluginManagerFactory {
             Class<?> mgrClass = Class.forName(
                "org.openstreetmap.josm.plugins.scripting.python.PythonPluginManager"
             );
-            IPythonPluginManager mgr = 
+            IPythonPluginManager mgr =
                (IPythonPluginManager) mgrClass.newInstance();
             logger.info("Enabled support for Python plugins.");
             return mgr;
-        } catch(ClassNotFoundException | InstantiationException 
-        		| IllegalAccessException | NoClassDefFoundError e) {
+        } catch(ClassNotFoundException | InstantiationException
+                | IllegalAccessException | NoClassDefFoundError e) {
             System.out.println(e);
             e.printStackTrace();
             return null;
         }
     }
-    
+
     /**
      * Replies true, if the Jython Interpreter is on the class path
-     * 
+     *
      * @return true, if the Jython Interpreter is on the class path
      */
     static public boolean isJythonPresent() {

@@ -62,7 +62,8 @@ jar {
             "Plugin-Class" : "org.openstreetmap.josm.plugins.scripting.ScriptingPlugin",
             "Plugin-Description": "Runs scripts in JOSM",
             "Plugin-Icon" : "images/script-engine.png",
-            "Plugin-Link" : "http://gubaer.github.com/josm-scripting-plugin"
+            "Plugin-Link" : "http://gubaer.github.com/josm-scripting-plugin",
+            "Plugin-Canloadatruntime" : "true"
         )
         config.releases.collect{it.josmVersion}.unique().sort().each {jv -> 
             def dv = bestPluginVersion(config, jv)

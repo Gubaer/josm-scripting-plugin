@@ -160,13 +160,13 @@ public class RunScriptService {
 
         MostRecentlyRunScriptsModel model = MostRecentlyRunScriptsModel.getInstance();
         model.remember(f.getAbsolutePath());
-		model.saveToPreferences(Main.pref);
-		
+        model.saveToPreferences(Main.pref);
+
         switch(engine.getEngineType()){
         case EMBEDDED:
-        	if (logger.isLoggable(Level.FINE)) {
-        		logger.log(Level.FINE, "executing script with embedded engine ...");
-        	}
+            if (logger.isLoggable(Level.FINE)) {
+                logger.log(Level.FINE, "executing script with embedded engine ...");
+            }
             new ScriptExecutor(parent).runScriptWithEmbeddedEngine(f);
             break;
         case PLUGGED:
