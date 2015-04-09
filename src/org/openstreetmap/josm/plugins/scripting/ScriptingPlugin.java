@@ -256,7 +256,7 @@ public class ScriptingPlugin extends Plugin {
         } catch(IOException e) {
             logger.warning(String.format(
                     "Failed to install default mime types "
-                  + "in the plugin directory '%s'. Expection is: %s",
+                  + "in the plugin directory '%s'. Exception is: %s",
                   getPluginDir(),
                   e.toString()
             ));
