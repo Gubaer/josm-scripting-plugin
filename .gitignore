@@ -3,3 +3,10 @@ build.properties
 jsdoc.log
 version-information.MF
 build
+.classpath
+.gradle
+.project
+.settings
+jsdoc.local.sh
+libs
+out
