@@ -126,6 +126,10 @@ sourceSets {
     }
 }
 
+clean.doFirst {
+    delete "libs/josm-latest.jar"
+}
+
 task deploy {
     doLast {
         def config = new ConfigSlurper().parse(new File("releases.conf").text)
