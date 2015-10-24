@@ -8,6 +8,7 @@
  */		
 var util = require("josm/util");
 var layers = require("josm/layers");
+
 var OsmPrimitive = org.openstreetmap.josm.data.osm.OsmPrimitive;
 var OsmDataLayer = org.openstreetmap.josm.gui.layer.OsmDataLayer;
 
@@ -504,6 +505,101 @@ exports.CommandHistory.clear = function(layer) {
 	default:
 		util.assert(false, "Unexpected number of arguments");
 	}
+};
+
+/**
+* Combines two or more ways into one resulting way. 
+* 
+* Reuses the logic behind the JOSM standard menu entry Tools-&gt;Combine Ways.
+* If invoked from a script, this may trigger modal dialogs which are presented
+* to the user, in particular if the direction of the ways has to be reversed 
+* because otherwise they could not be combined.
+* 
+* @param ways the ways to be combined
+* @example
+* var cmd = require("josm/command");
+* var layers = require("josm/layer");
+* var ds = layers.activeLayer.data; 
+* var ways  = [ds.way(1), ds.way(2), ds.way(3)];
+* 
+* // pass in an array ...
+* cmd.combineWays(ways);
+* // ... or the individual ways ...
+* cmd.combineWays(ds.way(1), ds.way(2), ds.way(3));
+* // ... or any combination thereof. 
+* 
+* @method
+* @name combineWays
+* @summary Combines two or more ways into one resulting way.
+* @static
+* @memberOf josm/command
+*/
+exports.combineWays = function() {	
+	// ways becomes a java.util.HashSet
+	var ways = checkAndFlatten(arguments);
+	
+	// remove any primitives which are not nodes from the arguments
+	var it = ways.iterator();
+	while (it.hasNext()) {
+	    var primitive = it.next();
+	    if (primitive == null || ! primitive.isWay) {
+	    	it.remove();
+	    } 
+	}
+	// at least two remaining ways required to combine them. If less, just
+	// return, don't throw
+	if (ways.size() <=1) return; 
+	
+	
+	var activeLayer = layers.activeLayer;
+	if (activeLayer == null) return;
+	var data = activeLayer.data;
+
+	var CombineWayAction = org.openstreetmap.josm.actions.CombineWayAction;
+	var ret = CombineWayAction.combineWaysWorker(ways);
+	// happens, if combineWayWorkers present a modal dialog and the user
+	// aborts it
+	if (ret == null) return;
+	// ret.b is the SequenceCommand which combines the ways into one
+	// resulting ways. Apply this command to the active layer.
+	activeLayer.apply(ret.b);  
+};
+
+/**
+* Combines the currently selected ways in the active layer into one resulting 
+* way.
+*
+* Returns without effect if
+* <ul>
+*   <li>there is no active layer</li>
+*   <li>the active layer is not a data layer</li>
+*   <li>there are less than two selected ways in the active layer</li>
+* </ul>
+*
+* Reuses the logic behind the JOSM standard menu entry Tools-&gt;Combine Ways.
+* If invoked from a script, this may trigger modal dialogs which are presented
+* to the user, in particular if the direction of the ways has to be reversed 
+* because otherwise they could not be combined.
+*
+* @example
+* var cmd = require("josm/command");
+* var layers = require("josm/layer");
+* var ds = layers.activeLayer.data; 
+* var ways  = [ds.way(1), ds.way(2), ds.way(3)];
+* cmd.combineWays(ways);
+*
+* @method
+* @name combineSelectedWays
+* @summary Combines the currently selected ways.
+* @static
+* @memberOf josm/command
+*/
+exports.combineSelectedWays = function() {
+	var activeLayer = layers.activeLayer;
+	if (activeLayer == null) return;
+	var ways = activeLayer.data.selection.ways;
+	if (ways == null || ways.length <= 1) return;
+	exports.combineWays(ways);
 };
 
 }());
