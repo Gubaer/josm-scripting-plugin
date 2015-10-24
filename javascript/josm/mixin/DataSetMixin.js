@@ -573,7 +573,7 @@ mixin.selection = {
 * <strong>Signatures</strong>
  * <dl> 
  *   <dt><code class="signature">query(josmSearchExpression,?options)</code></dt>
- *   <dd>Queries the dataset using the JOSM search exprssion <code>josmSearchExpression</code>. 
+ *   <dd>Queries the dataset using the JOSM search expression <code>josmSearchExpression</code>. 
  *   <code>josmSearchExpression</code> is a string as you would enter it in the JOSM search
  *   dialog. <code>options</code> is an (optional) object with named parameters, see below.</dd>
  *   
