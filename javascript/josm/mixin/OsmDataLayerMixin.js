@@ -10,6 +10,8 @@
 var util = require("josm/util");
 var LatLon = org.openstreetmap.josm.data.coor.LatLon;
 var Bounds = org.openstreetmap.josm.data.Bounds;
+var Command = org.openstreetmap.josm.command.Command;
+ 
 
 /**
  * <p>This mixin is auto-loaded by the scripting plugin and mixed into the 
