@@ -586,18 +586,26 @@ mixin.selection = {
  * 
  * The parameter <code>options</code> consist of the following (optional) named parameters:
  * <dl> 
- *   <dt><code class="signature">all</code> : boolean</dt>
- *   <dd>If true, searches <em>all</em> objects in the dataset. If false, ignores incomplete or deleted
+ *   <dt><code class="signature">allElements</code> : boolean (Deprecated parameter names: 
+ *       <code class="signature">all</code>)</dt>
+ *   <dd>If true, searches <em>all</em> objects in the dataset. If false, 
+ *   ignores incomplete or deleted
  *   objects. Default: false.</dd>
  *   
  *   <dt><code class="signature">caseSensitive</code> : boolean</dt>
- *   <dd><strong>Only applies for searches with a JOSM search expression</strong>. If true, 
+ *   <dd><strong>Only applicable for searches with a JOSM search expression</strong>. If true, 
  *   searches case sensitive. If false, searches case insensitive. Default: false.</dd>
  * 
- *   <dt><code class="signature">withRegexp</code> : boolean</dt>
- *   <dd><strong>Only applies for searches with a JOSM search expression</strong>. If true, 
+ *   <dt><code class="signature">regexSearch</code> : boolean (Deprecated parameter names:
+ *   	 <code class="signature">withRegexp</code>, 
+ *       <code class="signature">regexpSearch</code>)</dt>
+ *   <dd><strong>Only applicable for searches with a JOSM search expression</strong>. If true, 
  *   the search expression contains regular expressions. If false, it includes only plain strings
  *   for searching. Default: false.</dd>
+ *   
+ *   <dt><code class="signature">mapCSSSearch</code></dt>
+ *   <dd><strong>Only applies for searches with a JOSM search expression</strong>. 
+ *    Default: false.</dd>
  * </dl>
  * 
  * @param {string|function} expression  the match expression
@@ -610,21 +618,38 @@ mixin.selection = {
  */
 mixin.query = function(expression, options) {
 	var collection;
+	var SearchAction =  org.openstreetmap.josm.actions.search.SearchAction;
+	var SearchSetting = SearchAction.SearchSetting;
+	options = options || {};
+	
 	switch(arguments.length){
 	case 0: return [];
 	case 1:
 	case 2:
-		options = options || {};
-		collection = options.all ? this.allPrimitives() : this.allNonDeletedCompletePrimitives();
 		if (util.isString(expression)) {	
-			var matcher = SearchCompiler.compile(expression, Boolean(options.caseSensitive), Boolean(options.withRegexp));
+			var ss = new SearchSetting();
+			ss.caseSensitive = Boolean(options.caseSensitive);
+			ss.regexSearch =
+				   Boolean(options.regexSearch) 
+				|| Boolean(options.regexpSearch)
+				|| Boolean(options.withRegexp);
+			ss.allElements =
+				   Boolean(options.all) 
+				|| Boolean(options.allElements);
+			ss.mapCSSSearch = Boolean(options.mapCSSSearch);
+			ss.text = expression;
+			var matcher = SearchCompiler.compile(ss);
 			var predicate= function josmSearchExpressionPredicate(matcher) {
 				return function(obj) {
 					return matcher.match(obj);
 				};
 			};
+			var collection = ss.allElements ?
+					this.allPrimitives() 
+				  : this.allNonDeletedCompletePrimitives();
 	        return collect(collection, predicate(matcher));
 		} else if (util.isFunction(expression)) {
+			var collection = options.all ? this.allPrimitives() : this.allNonDeletedCompletePrimitives();
 			return collect(collection, expression);
 		} else {
 			util.assert(false, "expression: Unexpected type of argument, got {0}", arguments[0]);
