@@ -458,7 +458,15 @@ var receiver = function(that) {
 * configured with a {@class org.openstreetmap.josm.data.osm.DataSet},
 * which created ways are added to.</p>
 * @example
-*  var wbuilder = require("josm/builder").WayBuilder;
+*  var WayBuilder = require("josm/builder").WayBuilder;
+*  var DataSet = org.openstreetmap.josm.data.osm.DataSet;
+*  
+*  var wbuilder;
+*  var ds = new DataSet();
+*  // create a way builder without and underlying dataset
+*  wbuilder = new WayBuilder();
+*  // create a way builder with an underlying dataset
+*  wbuilder =  new WayBuilder(ds);
 *  
 *  // create a new local way 
 *  var w1 = wbuilder.create();
