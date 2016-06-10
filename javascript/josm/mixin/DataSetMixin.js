@@ -992,7 +992,9 @@ DataSetSelectionFacade.prototype.clear = function() {
  * @summary Clear the selection
  */
 DataSetSelectionFacade.prototype.clearAll = function() {
-	this._ds.clearSelection();
+    // clearSelection has multiple overloaded variants. Make sure to call
+	// the one with no arguments. 
+	this._ds["clearSelection()"]();
 };
 
 /**
