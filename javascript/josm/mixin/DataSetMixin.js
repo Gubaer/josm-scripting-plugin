@@ -22,6 +22,7 @@ var OsmPrimitiveType     = org.openstreetmap.josm.data.osm.OsmPrimitiveType;
 var DataSet      = org.openstreetmap.josm.data.osm.DataSet;
 var Collection   = java.util.Collection;
 var HashMap   = java.util.HashMap;
+var HashSet   = java.util.HashSet;
 var Collections   = java.util.Collections;
 var SearchCompiler = org.openstreetmap.josm.actions.search.SearchCompiler;
 
@@ -82,13 +83,14 @@ function colToArray(col) {
 }
 
 /**
- * <p>Adds one or more to the dataset.</p>
+ * <p>Adds one or more primitives to the dataset.</p>
  * 
  * <strong>Signatures</strong>
  * <dl> 
  *   <dt><code class="signature">add(o1,o2, ...)</code></dt>
  *   <dd>Adds a variable number of objects. null or undefined are ignored. An object is either an
- *   instance of {@class org/openstreetmap/josm/data/osm/Node}, {@class org/openstreetmap/josm/data/osm/Way}, or {@class org/openstreetmap/josm/data/osm/Relation}.</dd>
+ *   instance of {@class org/openstreetmap/josm/data/osm/Node}, {@class org/openstreetmap/josm/data/osm/Way}, 
+ *   or {@class org/openstreetmap/josm/data/osm/Relation}.</dd>
  *   
  *   <dt><code class="signature">add(array|collection)</code></dt>
  *   <dd>Adds an  javascript array or a java collection of objects. null or undefined are ignored. 
@@ -364,11 +366,13 @@ function normalizeObjId(id, type){
  * <dl> 
  *   <dt><code class="signature">remove(id, type)</code></dt>
  *   <dd>Removes a single object given by its unique numeric ID (nid) and a type. The type is either a string 
- *   "node", "way", or "relation", or one of the symbols {@class org.openstreetmap.josm.data.osm.OsmPrimitiveType}.NODE, {@class org.openstreetmap.josm.data.osm.OsmPrimitiveType}.WAY, or
+ *   "node", "way", or "relation", or one of the symbols {@class org.openstreetmap.josm.data.osm.OsmPrimitiveType}.NODE, 
+ *   {@class org.openstreetmap.josm.data.osm.OsmPrimitiveType}.WAY, or
  *   {@class org.openstreetmap.josm.data.osm.OsmPrimitiveType}.RELATION.</dd>
  *   
  *   <dt><code class="signature">remove(id, id, ...)</code></dt>
- *   <dd>Removes a collection of objects given by the ids. <code>id</code> is either an instance of {@class org.openstreetmap.josm.data.osm.PrimitiveId} or an object with 
+ *   <dd>Removes a collection of objects given by the ids. <code>id</code> is either an instance of 
+ *   {@class org.openstreetmap.josm.data.osm.PrimitiveId} or an object with 
  *   the properties <code>id</code> and <code>type</code>, i.e. <code>{id: 1234, type: "node"}</code>.
  *   null and undefined are ignored.</dd>
  *   
@@ -440,7 +444,8 @@ mixin.remove = function() {
  *   <dt><code class="signature">has(id, type)</code></dt>
  *   <dd>Replies true, if an object given by its unique numeric ID and a type is in the dataset. 
  *    The type is either a string 
- *   "node", "way", or "relation", or one of the symbols {@class org.openstreetmap.josm.data.osm.OsmPrimitiveType}.NODE, {@class org.openstreetmap.josm.data.osm.OsmPrimitiveType}.WAY, or
+ *   "node", "way", or "relation", or one of the symbols {@class org.openstreetmap.josm.data.osm.OsmPrimitiveType}.NODE, 
+ *   {@class org.openstreetmap.josm.data.osm.OsmPrimitiveType}.WAY, or
  *   {@class org.openstreetmap.josm.data.osm.OsmPrimitiveType}.RELATION.</dd>
  *   
  *   <dt><code class="signature">has(id)</code></dt>
