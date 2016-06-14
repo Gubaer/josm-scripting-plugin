@@ -147,7 +147,16 @@ function rememberTagsFromObject(builder, args) {
  * which created nodes are added to.</p>
  * 
  * @example
- *  var nbuilder = require("josm/builder").NodeBuilder;
+ *  var NodeBuilder = require("josm/builder").NodeBuilder;
+ *  var DataSet = org.openstreetmap.josm.data.osm.DataSet;
+ *  
+ *  var ds = new DataSet();
+ *  // create a node builder without and underlying dataset ...
+ *  var nbuilder = new NodeBuilder();
+ *  // ... with an underlying dataset ....
+ *  nbuilder =  new NodeBuilder(ds);
+ *  // ... or using this factory method
+ *  nbuilder = NodeBuilder.forDataSet(ds); 
  *  
  *  // create a new local node at position (0,0) without tags
  *  var n1 = nbuilder.create();
@@ -828,18 +837,25 @@ var receiver = function(that) {
 * configured with a {@class org.openstreetmap.josm.data.osm.DataSet},
 * which created ways are added to.</p>
 * @example
- * var RelationBuilder = require("josm/builder").RelationBuilder;
- * 
- * var
- *  
- * // create a new local relation 
- * var r1 = rbuilder.create();
- *  
- * // create a new global way 
- * var r2 = rbuilder.withTags({route: 'bicycle'}).create(123456);
- *  
- * // create a new proxy for a global relation (an "incomplete" node in JOSM terminology)
- * var r3 = rbuilder.createProxy(123456);
+* var RelationBuilder = require("josm/builder").RelationBuilder;
+* var DataSet = org.openstreetmap.josm.data.osm.DataSet;
+*  
+* var ds = new DataSet();
+* // create a relation builder without and underlying dataset ...
+* var rbuilder = new RelationBuilder();
+* // ... with an underlying dataset ...
+* rbuilder =  new RelationBuilder(ds);
+* // ... or using this factory method
+* rbuilder = RelationBuilder.forDataSet(ds); 
+*
+* // create a new local relation 
+* var r1 = rbuilder.create();
+*  
+* // create a new global way 
+* var r2 = rbuilder.withTags({route: 'bicycle'}).create(123456);
+*  
+* // create a new proxy for a global relation (an "incomplete" node in JOSM terminology)
+* var r3 = rbuilder.createProxy(123456);
 * 
 * @class RelationBuilder
 * @memberof josm/builder
