@@ -134,7 +134,7 @@ clean.doFirst {
 
 task deploy {
     doLast {
-        def config = new ConfigSlurper().parse(new File("releases.conf").text)
+        def config = new ConfigSlurper().parse(file("releases.conf").text)
         def deployBranch = "deploy"
         def jar = "dist/scripting.jar";
         file("dist").mkdirs()
