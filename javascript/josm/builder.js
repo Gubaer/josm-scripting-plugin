@@ -147,7 +147,16 @@ function rememberTagsFromObject(builder, args) {
  * which created nodes are added to.</p>
  * 
  * @example
- *  var nbuilder = require("josm/builder").NodeBuilder;
+ *  var NodeBuilder = require("josm/builder").NodeBuilder;
+ *  var DataSet = org.openstreetmap.josm.data.osm.DataSet;
+ *  
+ *  var ds = new DataSet();
+ *  // create a node builder without and underlying dataset ...
+ *  var nbuilder = new NodeBuilder();
+ *  // ... with an underlying dataset ....
+ *  nbuilder =  new NodeBuilder(ds);
+ *  // ... or using this factory method
+ *  nbuilder = NodeBuilder.forDataSet(ds); 
  *  
  *  // create a new local node at position (0,0) without tags
  *  var n1 = nbuilder.create();
@@ -458,7 +467,17 @@ var receiver = function(that) {
 * configured with a {@class org.openstreetmap.josm.data.osm.DataSet},
 * which created ways are added to.</p>
 * @example
-*  var wbuilder = require("josm/builder").WayBuilder;
+*  var WayBuilder = require("josm/builder").WayBuilder;
+*  var DataSet = org.openstreetmap.josm.data.osm.DataSet;
+*  
+*  var ds = new DataSet();
+*  // create a way builder without and underlying dataset ...
+*  var wbuilder = new WayBuilder();
+*  // ... with an underlying dataset ....
+*  wbuilder =  new WayBuilder(ds);
+*  // ... or using this factory method
+*  wbuilder = WayBuilder.forDataSet(ds); 
+*  
 *  
 *  // create a new local way 
 *  var w1 = wbuilder.create();
@@ -491,7 +510,7 @@ exports.WayBuilder = function(ds) {
 };
 
 /**
- * <p>Creates a new WayBuilder which will add created nodes to the dataset <code>ds</code>.</p>
+ * <p>Creates a new WayBuilder with an underlying dataset.</p>
  * 
  * @example
  * var ds = new org.openstreetmap.josm.data.osm.DataSet();
@@ -505,6 +524,7 @@ exports.WayBuilder = function(ds) {
  * @name forDataSet
  * @return the way builder
  * @type WayBuilder
+ * @summary Creates a new WayBuilder with an underlying dataset.
  */
 exports.WayBuilder.forDataSet = function(ds) {
 	util.assert(util.isSomething(ds), "Expected a non-null defined object, got {0}", ds);
@@ -546,7 +566,7 @@ exports.WayBuilder.withId = withId;
  * 
  * @example
  * var wbuilder = require("josm/builder").WayBuilder;
- * // a new global  wy with the global id 12345 and tags name="Laubeggstrasse" and highway=residential
+ * // a new global way with the global id 12345 and tags name="Laubeggstrasse" and highway=residential
  * var n1 = wbuilder.withTags({name:"Laubeggstrasse", highway:"residential"}).create(12345);  
  * 
  * // a new local node tags name=test and highway=road
@@ -817,16 +837,25 @@ var receiver = function(that) {
 * configured with a {@class org.openstreetmap.josm.data.osm.DataSet},
 * which created ways are added to.</p>
 * @example
- * var rbuilder = require("josm/builder").RelationBuilder;
- *  
- * // create a new local relation 
- * var r1 = rbuilder.create();
- *  
- * // create a new global way 
- * var r2 = rbuilder.withTags({route: 'bicycle'}).create(123456);
- *  
- * // create a new proxy for a global relation (an "incomplete" node in JOSM terminology)
- * var r3 = rbuilder.createProxy(123456);
+* var RelationBuilder = require("josm/builder").RelationBuilder;
+* var DataSet = org.openstreetmap.josm.data.osm.DataSet;
+*  
+* var ds = new DataSet();
+* // create a relation builder without and underlying dataset ...
+* var rbuilder = new RelationBuilder();
+* // ... with an underlying dataset ...
+* rbuilder =  new RelationBuilder(ds);
+* // ... or using this factory method
+* rbuilder = RelationBuilder.forDataSet(ds); 
+*
+* // create a new local relation 
+* var r1 = rbuilder.create();
+*  
+* // create a new global way 
+* var r2 = rbuilder.withTags({route: 'bicycle'}).create(123456);
+*  
+* // create a new proxy for a global relation (an "incomplete" node in JOSM terminology)
+* var r3 = rbuilder.createProxy(123456);
 * 
 * @class RelationBuilder
 * @memberof josm/builder
@@ -850,7 +879,7 @@ exports.RelationBuilder = function(ds) {
 };
 
 /**
- * <p>Creates a new RelationBuilder which will add created relations to the dataset <code>ds</code>.</p>
+ * <p>Creates a new RelationBuilder which will add created relations to the dataset.</p>
  * 
  * @example
  * var ds = new org.openstreetmap.josm.data.osm.DataSet();
