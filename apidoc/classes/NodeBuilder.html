@@ -21,7 +21,16 @@ which created nodes are added to.</p>
 
 
 {% highlight javascript %}
-var nbuilder = require("josm/builder").NodeBuilder;
+var NodeBuilder = require("josm/builder").NodeBuilder;
+var DataSet = org.openstreetmap.josm.data.osm.DataSet;
+
+var ds = new DataSet();
+// create a node builder without and underlying dataset ...
+var nbuilder = new NodeBuilder();
+// ... with an underlying dataset ....
+nbuilder =  new NodeBuilder(ds);
+// ... or using this factory method
+nbuilder = NodeBuilder.forDataSet(ds); 
 
 // create a new local node at position (0,0) without tags
 var n1 = nbuilder.create();

@@ -218,13 +218,14 @@ ds.has(w);  // --> true
    <p  id="add" class="member-header">
       add   
    </p>
-   <p><p>Adds one or more to the dataset.</p>
+   <p><p>Adds one or more primitives to the dataset.</p>
 
 <strong>Signatures</strong>
 <dl> 
   <dt><code class="signature">add(o1,o2, ...)</code></dt>
   <dd>Adds a variable number of objects. null or undefined are ignored. An object is either an
-  instance of <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html' alt='org.openstreetmap.josm.data.osm.Node' target='javadoc'>Node</a>, <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Way.html' alt='org.openstreetmap.josm.data.osm.Way' target='javadoc'>Way</a>, or <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Relation.html' alt='org.openstreetmap.josm.data.osm.Relation' target='javadoc'>Relation</a>.</dd>
+  instance of <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html' alt='org.openstreetmap.josm.data.osm.Node' target='javadoc'>Node</a>, <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Way.html' alt='org.openstreetmap.josm.data.osm.Way' target='javadoc'>Way</a>, 
+  or <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Relation.html' alt='org.openstreetmap.josm.data.osm.Relation' target='javadoc'>Relation</a>.</dd>
   
   <dt><code class="signature">add(array|collection)</code></dt>
   <dd>Adds an  javascript array or a java collection of objects. null or undefined are ignored. 
@@ -417,7 +418,8 @@ var o5 = ds.get(way);
   <dt><code class="signature">has(id, type)</code></dt>
   <dd>Replies true, if an object given by its unique numeric ID and a type is in the dataset. 
    The type is either a string 
-  "node", "way", or "relation", or one of the symbols <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/OsmPrimitiveType.html' alt='org.openstreetmap.josm.data.osm.OsmPrimitiveType' target='javadoc'>OsmPrimitiveType</a>.NODE, <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/OsmPrimitiveType.html' alt='org.openstreetmap.josm.data.osm.OsmPrimitiveType' target='javadoc'>OsmPrimitiveType</a>.WAY, or
+  "node", "way", or "relation", or one of the symbols <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/OsmPrimitiveType.html' alt='org.openstreetmap.josm.data.osm.OsmPrimitiveType' target='javadoc'>OsmPrimitiveType</a>.NODE, 
+  <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/OsmPrimitiveType.html' alt='org.openstreetmap.josm.data.osm.OsmPrimitiveType' target='javadoc'>OsmPrimitiveType</a>.WAY, or
   <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/OsmPrimitiveType.html' alt='org.openstreetmap.josm.data.osm.OsmPrimitiveType' target='javadoc'>OsmPrimitiveType</a>.RELATION.</dd>
   
   <dt><code class="signature">has(id)</code></dt>
@@ -550,7 +552,7 @@ var ds2 = DataSet.load("/tmp/my-data.ogz", {format: "osm.gz"});
 <strong>Signatures</strong>
 <dl> 
   <dt><code class="signature">query(josmSearchExpression,?options)</code></dt>
-  <dd>Queries the dataset using the JOSM search exprssion <code>josmSearchExpression</code>. 
+  <dd>Queries the dataset using the JOSM search expression <code>josmSearchExpression</code>. 
   <code>josmSearchExpression</code> is a string as you would enter it in the JOSM search
   dialog. <code>options</code> is an (optional) object with named parameters, see below.</dd>
   
@@ -563,18 +565,26 @@ var ds2 = DataSet.load("/tmp/my-data.ogz", {format: "osm.gz"});
 
 The parameter <code>options</code> consist of the following (optional) named parameters:
 <dl> 
-  <dt><code class="signature">all</code> : boolean</dt>
-  <dd>If true, searches <em>all</em> objects in the dataset. If false, ignores incomplete or deleted
+  <dt><code class="signature">allElements</code> : boolean (Deprecated parameter names: 
+      <code class="signature">all</code>)</dt>
+  <dd>If true, searches <em>all</em> objects in the dataset. If false, 
+  ignores incomplete or deleted
   objects. Default: false.</dd>
   
   <dt><code class="signature">caseSensitive</code> : boolean</dt>
-  <dd><strong>Only applies for searches with a JOSM search expression</strong>. If true, 
+  <dd><strong>Only applicable for searches with a JOSM search expression</strong>. If true, 
   searches case sensitive. If false, searches case insensitive. Default: false.</dd>
 
-  <dt><code class="signature">withRegexp</code> : boolean</dt>
-  <dd><strong>Only applies for searches with a JOSM search expression</strong>. If true, 
+  <dt><code class="signature">regexSearch</code> : boolean (Deprecated parameter names:
+  	 <code class="signature">withRegexp</code>, 
+      <code class="signature">regexpSearch</code>)</dt>
+  <dd><strong>Only applicable for searches with a JOSM search expression</strong>. If true, 
   the search expression contains regular expressions. If false, it includes only plain strings
   for searching. Default: false.</dd>
+  
+  <dt><code class="signature">mapCSSSearch</code></dt>
+  <dd><strong>Only applies for searches with a JOSM search expression</strong>. 
+   Default: false.</dd>
 </dl></p>    
 
 
@@ -640,11 +650,13 @@ The parameter <code>options</code> consist of the following (optional) named par
 <dl> 
   <dt><code class="signature">remove(id, type)</code></dt>
   <dd>Removes a single object given by its unique numeric ID (nid) and a type. The type is either a string 
-  "node", "way", or "relation", or one of the symbols <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/OsmPrimitiveType.html' alt='org.openstreetmap.josm.data.osm.OsmPrimitiveType' target='javadoc'>OsmPrimitiveType</a>.NODE, <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/OsmPrimitiveType.html' alt='org.openstreetmap.josm.data.osm.OsmPrimitiveType' target='javadoc'>OsmPrimitiveType</a>.WAY, or
+  "node", "way", or "relation", or one of the symbols <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/OsmPrimitiveType.html' alt='org.openstreetmap.josm.data.osm.OsmPrimitiveType' target='javadoc'>OsmPrimitiveType</a>.NODE, 
+  <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/OsmPrimitiveType.html' alt='org.openstreetmap.josm.data.osm.OsmPrimitiveType' target='javadoc'>OsmPrimitiveType</a>.WAY, or
   <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/OsmPrimitiveType.html' alt='org.openstreetmap.josm.data.osm.OsmPrimitiveType' target='javadoc'>OsmPrimitiveType</a>.RELATION.</dd>
   
   <dt><code class="signature">remove(id, id, ...)</code></dt>
-  <dd>Removes a collection of objects given by the ids. <code>id</code> is either an instance of <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/PrimitiveId.html' alt='org.openstreetmap.josm.data.osm.PrimitiveId' target='javadoc'>PrimitiveId</a> or an object with 
+  <dd>Removes a collection of objects given by the ids. <code>id</code> is either an instance of 
+  <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/PrimitiveId.html' alt='org.openstreetmap.josm.data.osm.PrimitiveId' target='javadoc'>PrimitiveId</a> or an object with 
   the properties <code>id</code> and <code>type</code>, i.e. <code>{id: 1234, type: "node"}</code>.
   null and undefined are ignored.</dd>
   

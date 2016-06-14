@@ -68,6 +68,16 @@ org.opoenstreetmap.josm.gui.layer.OsmDataLayers.</p></p>
     </tr>
 
     <tr> 
+        <td><a href='#combineSelectedWays'>combineSelectedWays</a></td>
+        <td>Combines the currently selected ways.</td>
+    </tr>
+
+    <tr> 
+        <td><a href='#combineWays'>combineWays</a></td>
+        <td>Combines two or more ways into one resulting way.</td>
+    </tr>
+
+    <tr> 
         <td><a href='#delete'>delete</a></td>
         <td>Creates a command to delete a collection of objects</td>
     </tr>
@@ -178,6 +188,88 @@ layer.apply(
 cmd.change(n1,n3, w1,r1, {
    tags: {"mycustommtag": "value"}
 }).applyTo(layer);
+{% endhighlight %}
+
+
+
+ 
+   <p  id="combineSelectedWays" class="member-header">
+      combineSelectedWays   
+   </p>
+   <p>Combines the currently selected ways in the active layer into one resulting 
+way.
+
+Returns without effect if
+<ul>
+  <li>there is no active layer</li>
+  <li>the active layer is not a data layer</li>
+  <li>there are less than two selected ways in the active layer</li>
+</ul>
+
+Reuses the logic behind the JOSM standard menu entry Tools-&gt;Combine Ways.
+If invoked from a script, this may trigger modal dialogs which are presented
+to the user, in particular if the direction of the ways has to be reversed 
+because otherwise they could not be combined.</p>    
+
+
+
+   <h3>Examples</h3>
+
+
+{% highlight javascript %}
+var cmd = require("josm/command");
+var layers = require("josm/layer");
+var ds = layers.activeLayer.data; 
+var ways  = [ds.way(1), ds.way(2), ds.way(3)];
+cmd.combineWays(ways);
+{% endhighlight %}
+
+
+
+ 
+   <p  id="combineWays" class="member-header">
+      combineWays   
+   </p>
+   <p>Combines two or more ways into one resulting way. 
+
+Reuses the logic behind the JOSM standard menu entry Tools-&gt;Combine Ways.
+If invoked from a script, this may trigger modal dialogs which are presented
+to the user, in particular if the direction of the ways has to be reversed 
+because otherwise they could not be combined.</p>    
+
+
+<h3>Parameters</h3>
+<table class="parameters">
+<tr>
+   <th>Name</th>
+   <th>Type</th>
+   <th>Description</th>
+</tr>
+
+
+<tr>
+     <td>ways</td>    
+     <td></td>
+     <td>the ways to be combined</td>
+</tr>
+
+</table>
+
+
+   <h3>Examples</h3>
+
+
+{% highlight javascript %}
+var cmd = require("josm/command");
+var layers = require("josm/layer");
+var ds = layers.activeLayer.data; 
+var ways  = [ds.way(1), ds.way(2), ds.way(3)];
+
+// pass in an array ...
+cmd.combineWays(ways);
+// ... or the individual ways ...
+cmd.combineWays(ds.way(1), ds.way(2), ds.way(3));
+// ... or any combination thereof. 
 {% endhighlight %}
 
 
