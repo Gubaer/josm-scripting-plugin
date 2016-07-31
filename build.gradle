@@ -32,7 +32,7 @@ configurations {
 }
 
 dependencies {
-    rhino group: "org.mozilla", name: "rhino", version: "1.7.7"
+    rhino group: "org.mozilla", name: "rhino", version: "1.7.7.1"
     jsyntaxpane group: "de.sciss", name: "jsyntaxpane", version: "1.0.0"
     
     compile configurations.rhino.dependencies
