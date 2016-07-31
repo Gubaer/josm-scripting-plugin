@@ -1,7 +1,10 @@
+plugins {
+    id "de.undercouch.download" version "3.1.1"
+}
+
 apply plugin: "java"
 apply plugin: "groovy"
 apply plugin: "eclipse"
-
 
 def currentPluginVersion(config) {
     return config.releases.collect {it.pluginVersion}.max()
@@ -28,19 +31,19 @@ configurations {
 }
 
 dependencies {
-    rhino group: "org.mozilla", name: "rhino", version: "1.7R4"
+    rhino group: "org.mozilla", name: "rhino", version: "1.7.7.1"
     jsyntaxpane group: "de.sciss", name: "jsyntaxpane", version: "1.0.0"
     
     compile configurations.rhino.dependencies
     compile configurations.jsyntaxpane.dependencies
     
-    compile group: "org.python", name: "jython", version: "2.5.3"
-    compile files("libs/josm-latest.jar")
+    compile group: "org.python", name: "jython", version: "2.7.0"
+    compile files("libs/josm.jar")
    
 
     testCompile configurations.rhino.dependencies
     testCompile configurations.jsyntaxpane.dependencies
-    testCompile group: "org.python", name: "jython", version: "2.5.3"
+    testCompile group: "org.python", name: "jython", version: "2.7.0"
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
 
@@ -88,24 +91,26 @@ jar {
 }
 
 compileJava {
-  sourceCompatibility = 1.7
-  targetCompatibility = 1.7
+  sourceCompatibility = JavaVersion.VERSION_1_8
+  targetCompatibility = JavaVersion.VERSION_1_8
 }
 
-project.ext.josmUrl = "http://josm.openstreetmap.de/josm-latest.jar"
 task  getJosm {
-    description = "Download the latest JOSM build jar from the JOSM website"
+    description = "Download a JOSM jar from the JOSM website"
     doLast {
         if (! file("libs").exists()) {
             file("libs").mkdir()
         }
-        if (!file("libs/josm-latest.jar").exists()) {    
-            println "Downloading JOSM from <${project.ext.josmUrl}> ..."    
-            def cmd ="wget ${project.ext.josmUrl} -O libs/josm-latest.jar"
-            cmd.execute().text
+        if (!file("libs/josm.jar").exists()) {    
+            println "Downloading JOSM from <${josmDownloadUrl}> ..."    
+            download {
+                src josmDownloadUrl
+                dest "libs/josm.jar"
+            }
         }
     }
 }
+
 compileJava.dependsOn "getJosm"
 
 sourceSets {
@@ -129,12 +134,12 @@ sourceSets {
 }
 
 clean.doFirst {
-    delete "libs/josm-latest.jar"
+    delete "libs/josm.jar"
 }
 
 task deploy {
     doLast {
-        def config = new ConfigSlurper().parse(new File("releases.conf").text)
+        def config = new ConfigSlurper().parse(file("releases.conf").text)
         def deployBranch = "deploy"
         def jar = "dist/scripting.jar";
         file("dist").mkdirs()
@@ -154,7 +159,7 @@ task deploy {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.8'
+    gradleVersion = '2.14.1'
 }
 
 class Git {
