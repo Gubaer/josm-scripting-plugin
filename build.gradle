@@ -154,7 +154,7 @@ task deploy {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.8'
+    gradleVersion = '2.14.1'
 }
 
 class Git {
