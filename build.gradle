@@ -99,10 +99,10 @@ compileJava {
 task  getJosm {
     description = "Download a JOSM jar from the JOSM website"
     doLast {
-        if (! file("contrib").exists()) {
-            file("contrib").mkdir()
+        if (! file("libs").exists()) {
+            file("libs").mkdir()
         }
-        if (!file("contrib/josm.jar").exists()) {    
+        if (!file("libs/josm.jar").exists()) {    
             println "Downloading JOSM from <${josmDownloadUrl}> ..."    
             download {
                 src josmDownloadUrl
@@ -135,7 +135,7 @@ sourceSets {
 }
 
 clean.doFirst {
-    delete "libs/josm-latest.jar"
+    delete "libs/josm.jar"
 }
 
 task deploy {
