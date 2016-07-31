@@ -1,3 +1,7 @@
+plugins {
+    id "de.undercouch.download" version "3.1.1"
+}
+
 apply plugin: "java"
 apply plugin: "groovy"
 apply plugin: "eclipse"
@@ -35,7 +39,7 @@ dependencies {
     compile configurations.jsyntaxpane.dependencies
     
     compile group: "org.python", name: "jython", version: "2.5.3"
-    compile files("libs/josm-latest.jar")
+    compile files("libs/josm.jar")
    
 
     testCompile configurations.rhino.dependencies
@@ -92,20 +96,22 @@ compileJava {
   targetCompatibility = 1.7
 }
 
-project.ext.josmUrl = "http://josm.openstreetmap.de/josm-latest.jar"
 task  getJosm {
-    description = "Download the latest JOSM build jar from the JOSM website"
+    description = "Download a JOSM jar from the JOSM website"
     doLast {
-        if (! file("libs").exists()) {
-            file("libs").mkdir()
+        if (! file("contrib").exists()) {
+            file("contrib").mkdir()
         }
-        if (!file("libs/josm-latest.jar").exists()) {    
-            println "Downloading JOSM from <${project.ext.josmUrl}> ..."    
-            def cmd ="wget ${project.ext.josmUrl} -O libs/josm-latest.jar"
-            cmd.execute().text
+        if (!file("contrib/josm.jar").exists()) {    
+            println "Downloading JOSM from <${josmDownloadUrl}> ..."    
+            download {
+                src josmDownloadUrl
+                dest "libs/josm.jar"
+            }
         }
     }
 }
+
 compileJava.dependsOn "getJosm"
 
 sourceSets {
