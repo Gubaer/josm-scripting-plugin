@@ -6,7 +6,6 @@ import org.openstreetmap.josm.gui.MapFrame;
 
 public interface IPythonPluginManager {
 
-
     /**
      * Updates <tt>sys.path</tt> of the current Jython environment.
      *
@@ -16,8 +15,7 @@ public interface IPythonPluginManager {
      *
      * @param paths the plugin specific paths
      */
-    public void updatePluginSpecificSysPaths(Collection<String> paths);
-
+    void updatePluginSpecificSysPaths(Collection<String> paths);
 
     /**
      * <p>Loads a Python plugin.</p>
@@ -35,7 +33,6 @@ public interface IPythonPluginManager {
      * </p>
      *
      * @param pluginClassName the fully qualified plugin class name
-     *
      * @return the loaded python plugin
      */
     JosmPythonPlugin loadPlugin(String pluginClassName);
