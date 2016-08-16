@@ -31,6 +31,7 @@ In the preferences you can configure
 <h2>Writing a Python Plugin</h2>
 
 Here's a simple example of a Python plugin for JOSM.
+
 {% highlight python %}
 #
 # A simple Python plugin which does basically nothing. It only prints
@@ -55,20 +56,20 @@ org.openstreetmap.josm.plugins.scripting.python.JosmPythonPlugin
 
 <h2>Deploying a Python Plugin</h2>
 <h3>as source files</h3>
-If you have plugin class `MyPythonPlugin` in the source file `my_plugin.py` then
+If you have plugin class <span class="formalName">MyPythonPlugin</span> in the source file <span class="formalName">my_plugin.py</span> then
 
 <ol>
-  <li>make sure the parent directory of `my_plugin.py` is on the sys paths (<a href="#configure">how?</a>)
-  <li>make sure you add the plugin name `my_plugin.MyPythonPlugin` to the list of plugins (<a href="#configure">how?</a>)
+  <li>make sure the parent directory of <span class="formalName">my_plugin.py</span> is on the sys paths (<a href="#configure">how?</a>)
+  <li>make sure you add the plugin name <span class="formalName">my_plugin.MyPythonPlugin<span> to the list of plugins (<a href="#configure">how?</a>)
 </ol>
 
 <h3>as jar file</h3>
 
-<p>You can create a jar file with all the python source files required for a plugin. The jar file is a simple *archive* of the Python source files which implement the plugin.</p>
+<p>You can create a jar file which includes the python source files required for a plugin.</p>
 
-If you have plugin class `MyPythonPlugin` in the source file `my_plugin.py`, you could create a jar archive as follows:
+If you have a plugin class <span class="formalName">MyPythonPlugin</span> in the source file <span class="formalName">my_plugin.py</span>, you can create a jar archive as follows:
 {% highlight bash %}
-$ jar cvf my_plugin.jar  my_plugin.py # add other python modules required by your plugin
+$ jar cvf my_plugin.jar my_plugin.py # add other python modules required by your plugin
 {% endhighlight %}
 
 Here's a typical layout of a jar for a Python plugin:
@@ -85,6 +86,6 @@ my_plugin.jar
 To configure a plugin deployed in a jar file
 
 <ol>
-  <li>make sure the jar file `my_plugin.jar` is on the sys paths (<a href="#configure">how?</a>)
-  <li>make sure you add the plugin name `my_plugin.MyPythonPlugin` to the list of plugins (<a href="#configure">how?</a>)
+  <li>make sure the jar file <span class="formalName">my_plugin.jar</span> is on the sys paths (<a href="#configure">how?</a>)
+  <li>make sure you add the plugin name <span class="formalName">my_plugin.MyPythonPluginy</span> to the list of plugins (<a href="#configure">how?</a>)
 </ol>

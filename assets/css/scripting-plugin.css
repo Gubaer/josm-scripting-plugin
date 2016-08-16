@@ -182,3 +182,7 @@ P.documentation-warning {
    border-color: white;
    padding: 2px;
 }
+
+.formalName {
+	font-family: Courier, "Lucida Console", monospace;
+}
