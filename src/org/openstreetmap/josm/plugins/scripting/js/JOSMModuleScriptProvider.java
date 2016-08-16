@@ -11,10 +11,8 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.jar.JarEntry;
@@ -84,16 +82,19 @@ public class JOSMModuleScriptProvider implements ModuleScriptProvider, Preferenc
     static public List<URL> loadFromPreferences(Preferences prefs) {
         Assert.assertArgNotNull(prefs, "prefs");
         List<URL> ret = new ArrayList<URL>();
-        Collection<String> entries = prefs.getCollection(PREF_KEY_COMMONJS_MODULE_REPOSITORIES);
-        for (Iterator<String> it = entries.iterator(); it.hasNext();) {
-            String entry = it.next().trim();
-            try {
-                ret.add(new CommonJSModuleRepository(entry).getURL());
-            } catch(IllegalArgumentException e) {
-                logger.log(Level.WARNING, MessageFormat.format("Failed to create a module repository from preferences value <{0}>. Skipping it.", entry),e);
-                continue;
-            }
-        }
+        prefs.getCollection(PREF_KEY_COMMONJS_MODULE_REPOSITORIES).stream()
+            .map(String::trim)
+            .forEach(entry -> {
+                try {
+                    ret.add(new CommonJSModuleRepository(entry).getURL());
+                } catch(IllegalArgumentException e) {
+                   logger.log(
+                       Level.WARNING, MessageFormat.format(
+                       "Failed to create a module repository from "
+                     + "preference value <{0}>. Skipping it.", entry)
+                   ,e);
+                }
+            });
         return ret;
     }
 
