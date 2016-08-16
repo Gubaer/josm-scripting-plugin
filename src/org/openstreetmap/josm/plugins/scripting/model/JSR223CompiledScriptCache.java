@@ -58,7 +58,7 @@ public class JSR223CompiledScriptCache {
         }
     }
 
-    private final Map<File, CacheEntry> cache = new HashMap<File, CacheEntry>();
+    private final Map<File, CacheEntry> cache = new HashMap<>();
 
     public JSR223CompiledScriptCache() {}
 
@@ -79,7 +79,7 @@ public class JSR223CompiledScriptCache {
         Assert.assertArgNotNull(scriptFile, "scriptFile");
         Assert.assertArgNotNull(compiler, "compiler");
         CacheEntry entry = cache.get(scriptFile);
-        if (entry != null && entry.getTimestamp() >= scriptFile.lastModified()) {
+        if (entry != null && entry.getTimestamp() >= scriptFile.lastModified()){
             return entry.getScript();
         }
         FileReader reader = null;
