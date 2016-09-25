@@ -864,6 +864,7 @@ mixin.save = function(target, options) {
 			this.getReadLock().lock();
 			writer.header();
 			writer.writeContent(this);
+			writer.footer();
 		} finally {
 			this.getReadLock().unlock();
 		}
