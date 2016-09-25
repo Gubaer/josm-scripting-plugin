@@ -35,7 +35,7 @@ public class AddMultiCommand extends Command {
     private OsmPrimitive[] added;
 
     protected List<OsmPrimitive> normalize(Collection<OsmPrimitive> toAdd) {
-        List<OsmPrimitive> ret = new ArrayList<OsmPrimitive>(toAdd);
+        List<OsmPrimitive> ret = new ArrayList<>(toAdd);
         ret.remove(null);
         Collections.sort(ret, new Comparator<OsmPrimitive>() {
             @Override
@@ -47,6 +47,15 @@ public class AddMultiCommand extends Command {
                 return i < j ? -1 : +1;
             }
         });
+        Collections.sort(ret,
+                (OsmPrimitive o1, OsmPrimitive o2) -> {
+                int c = o1.getType().compareTo(o2.getType());
+                if (c != 0) return c;
+                long i = o1.getId(); long j = o2.getId();
+                if (i == j) return 0;
+                return i < j ? -1 : +1;
+        });
+
         OsmPrimitive last = null;
         for(Iterator<OsmPrimitive> it = ret.iterator(); it.hasNext(); ) {
             OsmPrimitive cur = it.next();
@@ -113,7 +122,7 @@ public class AddMultiCommand extends Command {
 
     @Override
     public void fillModifiedData(Collection<OsmPrimitive> modified,
-            Collection<OsmPrimitive> deleted, Collection<OsmPrimitive> added) {
+         Collection<OsmPrimitive> deleted, Collection<OsmPrimitive> added) {
         // empty - we have our own undo implementation
     }
 
@@ -124,7 +133,7 @@ public class AddMultiCommand extends Command {
 
     @Override
     public Collection<PseudoCommand> getChildren() {
-        List<PseudoCommand> children = new ArrayList<PseudoCommand>();
+        List<PseudoCommand> children = new ArrayList<>();
         for (final OsmPrimitive p: added) {
             PseudoCommand cmd = new PseudoCommand() {
                 @Override

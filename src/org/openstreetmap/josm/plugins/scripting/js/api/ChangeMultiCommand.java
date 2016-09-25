@@ -5,7 +5,6 @@ import static org.openstreetmap.josm.tools.I18n.trn;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -27,17 +26,14 @@ public class ChangeMultiCommand extends Command {
     private PrimitiveData[] oldState;
 
     protected List<OsmPrimitive> normalize(Collection<OsmPrimitive> target) {
-        List<OsmPrimitive> ret = new ArrayList<OsmPrimitive>(target);
+        List<OsmPrimitive> ret = new ArrayList<>(target);
         ret.remove(null);
-        Collections.sort(ret, new Comparator<OsmPrimitive>() {
-            @Override
-            public int compare(OsmPrimitive o1, OsmPrimitive o2) {
-                int c = o1.getType().compareTo(o2.getType());
-                if (c != 0) return c;
-                long i = o1.getId(); long j = o2.getId();
-                if (i == j) return 0;
-                return i < j ? -1 : +1;
-            }
+        Collections.sort(ret, (OsmPrimitive o1, OsmPrimitive o2) -> {
+            int c = o1.getType().compareTo(o2.getType());
+            if (c != 0) return c;
+            long i = o1.getId(); long j = o2.getId();
+            if (i == j) return 0;
+            return i < j ? -1 : +1;
         });
         OsmPrimitive last = null;
         for(Iterator<OsmPrimitive> it = ret.iterator(); it.hasNext(); ) {
@@ -121,7 +117,7 @@ public class ChangeMultiCommand extends Command {
 
     @Override
     public Collection<PseudoCommand> getChildren() {
-        List<PseudoCommand> children = new ArrayList<PseudoCommand>();
+        List<PseudoCommand> children = new ArrayList<>();
         for (final OsmPrimitive p: changed) {
             PseudoCommand cmd = new PseudoCommand() {
                 @Override

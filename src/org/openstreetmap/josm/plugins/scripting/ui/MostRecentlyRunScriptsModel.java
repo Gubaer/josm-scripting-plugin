@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.stream.Collectors;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -72,7 +73,6 @@ public class MostRecentlyRunScriptsModel extends Observable
         setChanged();
         notifyObservers();
         comboBoxModel.fireContentChanged();
-
     }
 
     /**
@@ -100,14 +100,11 @@ public class MostRecentlyRunScriptsModel extends Observable
                 PREF_KEY_FILE_HISTORY
         );
         scripts.clear();
-        int n = Math.min(10, entries.size());
-        int i = 0;
-        for(String script: entries) {
-           if (i >= n) break;
-           if (!canRun(script)) continue;
-           if (scripts.contains(script)) continue;
-           scripts.add(script);
-        }
+        entries.stream()
+            .filter(s->!canRun(s))
+            .distinct()
+            .limit(10)
+            .collect(Collectors.toCollection(() -> scripts));
         setChanged();
         notifyObservers();
         comboBoxModel.fireContentChanged();
@@ -119,19 +116,19 @@ public class MostRecentlyRunScriptsModel extends Observable
      *
      * @return the combo box model
      */
-    public DefaultComboBoxModel getComboBoxModel() {
+    public DefaultComboBoxModel<String> getComboBoxModel() {
         return comboBoxModel;
     }
-    private ComboBoxModel comboBoxModel = new ComboBoxModel();
+    private final ComboBoxModel comboBoxModel = new ComboBoxModel();
 
     @SuppressWarnings("serial")
-    private class ComboBoxModel extends DefaultComboBoxModel {
+    private class ComboBoxModel extends DefaultComboBoxModel<String> {
         public void fireContentChanged() {
             super.fireContentsChanged(MostRecentlyRunScriptsModel.this,
                     0, scripts.size());
         }
         @Override
-        public Object getElementAt(int idx) {
+        public String getElementAt(int idx) {
             return scripts.get(idx);
         }
         @Override
@@ -172,7 +169,7 @@ public class MostRecentlyRunScriptsModel extends Observable
      * @return the list of actions
      */
     public List<Action> getRunScriptActions() {
-        List<Action> actions = new ArrayList<Action>();
+        List<Action> actions = new ArrayList<>();
         for(int i=0; i< scripts.size(); i++) {
             actions.add(new RunScriptAction(i+1, scripts.get(i)));
         }

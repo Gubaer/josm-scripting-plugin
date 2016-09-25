@@ -29,7 +29,6 @@ import org.openstreetmap.josm.plugins.PluginInformation;
 import org.openstreetmap.josm.plugins.scripting.ScriptingPlugin;
 import org.openstreetmap.josm.plugins.scripting.util.Assert;
 import org.openstreetmap.josm.plugins.scripting.util.ExceptionUtil;
-import org.openstreetmap.josm.plugins.scripting.util.IOUtil;
 
 /**
  * A facade to the embedded rhino scripting engine.
@@ -196,16 +195,13 @@ public class RhinoEngine {
      * @see #exitSwingThreadContext()
      */
     public void enterSwingThreadContext() {
-        Runnable r = new Runnable() {
-            @Override
-            public void run() {
-                Context ctx = Context.getCurrentContext();
-                if (ctx == null) {
-                    ctx = Context.enter();
-                    ctx.setWrapFactory(new MixinWrapFactory());
-                }
-                initScope();
+        Runnable r = () -> {
+            Context ctx = Context.getCurrentContext();
+            if (ctx == null) {
+                ctx = Context.enter();
+                ctx.setWrapFactory(new MixinWrapFactory());
             }
+            initScope();
         };
         runOnSwingEDT(r);
     }
@@ -214,12 +210,9 @@ public class RhinoEngine {
      * Exit the context used on the Swing EDT.
      */
     public void exitSwingThreadContext() {
-        Runnable r = new Runnable() {
-            @Override
-            public void run() {
-                if (Context.getCurrentContext() == null) return;
-                Context.exit();
-            }
+        Runnable r = () -> {
+            if (Context.getCurrentContext() == null) return;
+            Context.exit();
         };
         runOnSwingEDT(r);
     }
@@ -241,14 +234,11 @@ public class RhinoEngine {
     public void evaluateOnSwingThread(final String script, String sourceName) {
         if (script == null) return;
         final String sn = sourceName == null ? "inlineScript" : sourceName;
-        Runnable r = new Runnable() {
-            @Override
-            public void run() {
-                enterSwingThreadContext();
-                Context ctx = Context.getCurrentContext();
-                ctx.evaluateString(scope, script, sn, 1,
-                        null /* no security domain */);
-            }
+        Runnable r = () -> {
+            enterSwingThreadContext();
+            Context ctx = Context.getCurrentContext();
+            ctx.evaluateString(scope, script, sn, 1,
+                    null /* no security domain */);
         };
         runOnSwingEDT(r);
     }
@@ -274,9 +264,7 @@ public class RhinoEngine {
         Assert.assertArg(file.canRead(),
              "Can''t read script from file, because file isn''t readable. "
              + "Got file ''{0}''", file);
-        Reader reader = null;
-        try {
-            final Reader fr = new FileReader(file);
+        try (Reader fr = new FileReader(file)){
             enterSwingThreadContext();
             Runnable r = new Runnable() {
                 @Override
@@ -301,8 +289,6 @@ public class RhinoEngine {
                 }
                 throw e;
             }
-        } finally {
-            IOUtil.close(reader);
         }
     }
 
@@ -312,12 +298,8 @@ public class RhinoEngine {
 
     public void executeOnSwingEDT(final Function f, Object[] args) {
         final Object[] aargs = args == null ? new Object[]{} : args;
-        Runnable r = new Runnable() {
-            @Override
-            public void run() {
+        Runnable r = () ->
                 f.call(Context.getCurrentContext(), getScope(), null, aargs);
-            }
-        };
         enterSwingThreadContext();
         try {
             runOnSwingEDT(r);
@@ -353,13 +335,9 @@ public class RhinoEngine {
             return;
         }
         final Function f = (Function)o;
-        Runnable r = new Runnable() {
-            @Override
-            public void run() {
+        Runnable r = () ->
                 f.call(Context.getCurrentContext(), getScope(),
                         null, new Object[]{});
-            }
-        };
         runOnSwingEDT(r);
     }
 }

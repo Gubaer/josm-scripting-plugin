@@ -211,7 +211,8 @@ public class ScriptingConsole extends JFrame {
         void scriptingConsoleChanged(ScriptingConsole oldValue, ScriptingConsole newValue);
     }
 
-    private static final CopyOnWriteArrayList<ScriptingConsoleListener> listeners = new CopyOnWriteArrayList<ScriptingConsole.ScriptingConsoleListener>();
+    private static final CopyOnWriteArrayList<ScriptingConsoleListener>
+        listeners = new CopyOnWriteArrayList<>();
 
     public static void addScriptingConsoleListener(ScriptingConsoleListener l){
         if (l == null) return;

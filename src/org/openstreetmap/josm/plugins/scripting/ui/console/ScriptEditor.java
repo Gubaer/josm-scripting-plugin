@@ -25,7 +25,6 @@ import javax.swing.text.Document;
 
 import org.openstreetmap.josm.gui.HelpAwareOptionPane;
 import org.openstreetmap.josm.plugins.scripting.util.Assert;
-import org.openstreetmap.josm.plugins.scripting.util.IOUtil;
 
 /**
  * <p>Editor for scripts. Basically a minimal text editor with syntax highlighting for
@@ -135,10 +134,8 @@ public class ScriptEditor extends JPanel implements PropertyChangeListener {
      */
     public void open(File file) {
         Document doc = editor.getDocument();
-        BufferedReader reader = null;
-        try {
+        try(BufferedReader reader = new BufferedReader(new FileReader(file))) {
             doc.remove(doc.getStartPosition().getOffset(), doc.getLength());
-            reader = new BufferedReader(new FileReader(file));
             String line = null;
             while((line = reader.readLine()) != null){
                 doc.insertString(doc.getLength(), line, null);
@@ -149,8 +146,6 @@ public class ScriptEditor extends JPanel implements PropertyChangeListener {
         } catch(IOException e){
             e.printStackTrace();
             alertIOExceptionWhenLoading(file, e);
-        } finally {
-            IOUtil.close(reader);
         }
         model.setScriptFile(file);
     }
@@ -165,15 +160,11 @@ public class ScriptEditor extends JPanel implements PropertyChangeListener {
     public void save(File file) {
         Assert.assertArgNotNull(file, "file");
         String script = editor.getText();
-        PrintWriter writer = null;
-        try {
-            writer = new PrintWriter(new FileWriter(file));
+        try (PrintWriter writer = new PrintWriter(new FileWriter(file))){
             writer.print(script);
         } catch(IOException e){
             e.printStackTrace();
             alertIOExceptionWhenSaving(file, e);
-        } finally {
-            IOUtil.close(writer);
         }
         model.setScriptFile(file);
     }
