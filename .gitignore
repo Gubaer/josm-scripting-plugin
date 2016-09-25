@@ -4,6 +4,7 @@ jsdoc.log
 version-information.MF
 build
 .classpath
+.buildpath
 .gradle
 .project
 .settings
