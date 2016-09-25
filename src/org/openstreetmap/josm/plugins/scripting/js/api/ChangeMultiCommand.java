@@ -5,13 +5,10 @@ import static org.openstreetmap.josm.tools.I18n.trn;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.Icon;
 
-import org.openstreetmap.josm.command.Command;
 import org.openstreetmap.josm.command.PseudoCommand;
 import org.openstreetmap.josm.data.osm.DataSet;
 import org.openstreetmap.josm.data.osm.OsmPrimitive;
@@ -20,39 +17,11 @@ import org.openstreetmap.josm.gui.layer.OsmDataLayer;
 import org.openstreetmap.josm.plugins.scripting.util.Assert;
 import org.openstreetmap.josm.tools.ImageProvider;
 
-public class ChangeMultiCommand extends Command {
+public class ChangeMultiCommand extends MultiCommand {
 
     private Change change;
     private OsmPrimitive[] changed;
     private PrimitiveData[] oldState;
-
-    protected List<OsmPrimitive> normalize(Collection<OsmPrimitive> target) {
-        List<OsmPrimitive> ret = new ArrayList<OsmPrimitive>(target);
-        ret.remove(null);
-        Collections.sort(ret, new Comparator<OsmPrimitive>() {
-            @Override
-            public int compare(OsmPrimitive o1, OsmPrimitive o2) {
-                int c = o1.getType().compareTo(o2.getType());
-                if (c != 0) return c;
-                long i = o1.getId(); long j = o2.getId();
-                if (i == j) return 0;
-                return i < j ? -1 : +1;
-            }
-        });
-        OsmPrimitive last = null;
-        for(Iterator<OsmPrimitive> it = ret.iterator(); it.hasNext(); ) {
-            OsmPrimitive cur = it.next();
-            if (last == null) {last=cur; continue;}
-            if (last.equals(cur)) it.remove();
-            last =cur;
-        }
-        return ret;
-    }
-
-    protected static OsmDataLayer checkLayer(OsmDataLayer layer) {
-        Assert.assertArgNotNull(layer);
-        return layer;
-    }
 
     /**
      * Creates a command for adding a collection of objects to a layer.
@@ -68,7 +37,7 @@ public class ChangeMultiCommand extends Command {
      * @throws IllegalArgumentException thrown if one of the parameters is null
      */
     public ChangeMultiCommand(OsmDataLayer layer, Collection<OsmPrimitive> toChange, Change change){
-        super(checkLayer(layer));
+        super(layer);
         Assert.assertArgNotNull(toChange);
         Assert.assertArgNotNull(change);
         List<OsmPrimitive> normalized = normalize(toChange);
@@ -121,7 +90,7 @@ public class ChangeMultiCommand extends Command {
 
     @Override
     public Collection<PseudoCommand> getChildren() {
-        List<PseudoCommand> children = new ArrayList<PseudoCommand>();
+        List<PseudoCommand> children = new ArrayList<>();
         for (final OsmPrimitive p: changed) {
             PseudoCommand cmd = new PseudoCommand() {
                 @Override

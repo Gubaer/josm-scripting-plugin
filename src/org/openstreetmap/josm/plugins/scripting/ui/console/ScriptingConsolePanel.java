@@ -8,7 +8,6 @@ import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
-import java.util.List;
 import java.util.logging.Logger;
 
 import javax.swing.AbstractAction;
@@ -19,14 +18,14 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.SwingUtilities;
 
-import jsyntaxpane.DefaultSyntaxKit;
-
 import org.openstreetmap.josm.gui.HelpAwareOptionPane;
 import org.openstreetmap.josm.gui.HelpAwareOptionPane.ButtonSpec;
 import org.openstreetmap.josm.gui.SideButton;
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
 import org.openstreetmap.josm.plugins.scripting.ui.ScriptExecutor;
 import org.openstreetmap.josm.tools.ImageProvider;
+
+import jsyntaxpane.DefaultSyntaxKit;
 
 /**
  * The panel displaying the script editor and the console log in a split pane.
@@ -77,16 +76,11 @@ public class ScriptingConsolePanel extends JPanel {
         spConsole = buildSplitPane();
         setLayout(new BorderLayout());
         add(spConsole, BorderLayout.CENTER);
-        editor.getModel().addPropertyChangeListener(
-                new PropertyChangeListener() {
-                    @Override
-                    public void propertyChange(PropertyChangeEvent evt) {
-                        if (! evt.getPropertyName().equals(ScriptEditorModel.PROP_SCRIPT_ENGINE)) return;
-                        ScriptEngineDescriptor desc = (ScriptEngineDescriptor)evt.getNewValue();
-                        updateScriptContentType(desc);
-                    }
-                }
-        );
+        editor.getModel().addPropertyChangeListener(evt -> {
+            if (! evt.getPropertyName().equals(ScriptEditorModel.PROP_SCRIPT_ENGINE)) return;
+            ScriptEngineDescriptor desc = (ScriptEngineDescriptor)evt.getNewValue();
+            updateScriptContentType(desc);
+        });
         updateScriptContentType(editor.getModel().getScriptEngineDescriptor());
     }
 
@@ -133,8 +127,7 @@ public class ScriptingConsolePanel extends JPanel {
             editor.changeContentType("text/plain");
             return;
         }
-        List<String> mimeTypes = desc.getContentMimeTypes();
-        for (String mt: mimeTypes) {
+        for (String mt: desc.getContentMimeTypes()) {
             if (MimeTypeToSyntaxKitMap.getInstance().isSupported(mt)) {
                 editor.changeContentType(mt);
                 return;

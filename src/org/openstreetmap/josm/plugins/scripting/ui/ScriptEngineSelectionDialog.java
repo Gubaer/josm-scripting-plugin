@@ -88,7 +88,7 @@ public class ScriptEngineSelectionDialog extends JDialog {
         return dialog.selectedEngine;
     }
 
-    private JList lstEngines;
+    private JList<ScriptEngineFactory> lstEngines;
     private JButton btnOK;
     private ScriptEngineDescriptor selectedEngine;
     private JSR223ScriptEngineProvider model;
@@ -137,7 +137,7 @@ public class ScriptEngineSelectionDialog extends JDialog {
     protected JPanel buildControlButtonPanel() {
         JPanel pnl = new JPanel(new FlowLayout(FlowLayout.CENTER));
         SideButton btn;
-        pnl.add(btnOK = new SideButton(actOK = new OKAction()));
+        pnl.add(btnOK = new SideButton(actOK));
         btnOK.setFocusable(true);
         CancelAction actCancel;
         pnl.add(btn = new SideButton(actCancel = new CancelAction()));
@@ -236,7 +236,7 @@ public class ScriptEngineSelectionDialog extends JDialog {
 
     protected void build() {
 
-        lstEngines = new JList(model = JSR223ScriptEngineProvider.getInstance());
+        lstEngines = new JList<>(model = JSR223ScriptEngineProvider.getInstance());
 
         Container c = getContentPane();
         c.setLayout(new BorderLayout());
@@ -254,7 +254,7 @@ public class ScriptEngineSelectionDialog extends JDialog {
         );
     }
 
-    private OKAction actOK = new OKAction();
+    private final OKAction actOK = new OKAction();
     private class OKAction extends AbstractAction implements ListSelectionListener, ChangeListener {
         public OKAction() {
             putValue(NAME, tr("OK"));
@@ -323,10 +323,7 @@ public class ScriptEngineSelectionDialog extends JDialog {
         super.setVisible(visible);
     }
 
-    private ChangeListener clEngineTypeChanged = new ChangeListener() {
-        @Override
-        public void stateChanged(ChangeEvent evt) {
-            lstEngines.setEnabled(rbPluggableScriptingEngine.isSelected());
-        }
-    };
+    private final ChangeListener clEngineTypeChanged =
+        (ChangeEvent evt) ->
+        lstEngines.setEnabled(rbPluggableScriptingEngine.isSelected());
 }

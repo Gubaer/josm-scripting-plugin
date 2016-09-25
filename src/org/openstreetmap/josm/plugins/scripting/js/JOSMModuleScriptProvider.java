@@ -63,14 +63,14 @@ public class JOSMModuleScriptProvider implements ModuleScriptProvider, Preferenc
     }
 
     /** dynamic module repositories - they are looked up in the current
-     * session but they are not persistet to preferences
+     * session but they are not persisted to preferences
      */
-    private final List<URL> volatileRepos = new ArrayList<URL>();
+    private final List<URL> volatileRepos = new ArrayList<>();
 
     /** the module repositories configured in the preferences */
-    private final List<URL> preferenceRepos = new ArrayList<URL>();
+    private final List<URL> preferenceRepos = new ArrayList<>();
 
-    private final List<URL> allRepos = new ArrayList<URL>();
+    private final List<URL> allRepos = new ArrayList<>();
     protected void rebuildAllRepos() {
         synchronized (allRepos) {
             allRepos.clear();
@@ -81,7 +81,7 @@ public class JOSMModuleScriptProvider implements ModuleScriptProvider, Preferenc
 
     static public List<URL> loadFromPreferences(Preferences prefs) {
         Assert.assertArgNotNull(prefs, "prefs");
-        List<URL> ret = new ArrayList<URL>();
+        List<URL> ret = new ArrayList<>();
         prefs.getCollection(PREF_KEY_COMMONJS_MODULE_REPOSITORIES).stream()
             .map(String::trim)
             .forEach(entry -> {
@@ -132,7 +132,7 @@ public class JOSMModuleScriptProvider implements ModuleScriptProvider, Preferenc
     }
 
     /** the cache of compiled modules */
-    private final Map<String, ModuleScript> cache = new HashMap<String, ModuleScript>();
+    private final Map<String, ModuleScript> cache = new HashMap<>();
 
 
     protected void trace(String msg, Object...args) {
@@ -235,19 +235,15 @@ public class JOSMModuleScriptProvider implements ModuleScriptProvider, Preferenc
     }
 
     protected ModuleScript load(URL module, URL base) throws IOException, URISyntaxException{
-        Reader reader = null;
-        try {
-            reader = new InputStreamReader(
+        try (Reader reader = new InputStreamReader(
                 module.openStream(),
                 "UTF8"
-            );
+            )){
             Script script = Context.getCurrentContext().compileReader(reader, module.toString(),1,null);
             return new ModuleScript(script, module.toURI(), base == null ? null : base.toURI());
         } catch(UnsupportedEncodingException e) {
             // should not happen -  just in case
             e.printStackTrace();
-        } finally {
-            if (reader != null) reader.close();
         }
         return null;
     }

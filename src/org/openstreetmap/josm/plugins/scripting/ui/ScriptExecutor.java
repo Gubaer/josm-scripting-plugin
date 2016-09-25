@@ -9,6 +9,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import javax.script.Compilable;
 import javax.script.CompiledScript;
@@ -274,33 +275,24 @@ public class ScriptExecutor {
             warnScriptingEngineNotFound(desc);
             return;
         }
-        Runnable task = new Runnable() {
-            @Override
-            public void run() {
-                FileReader reader = null;
-                try {
-                    engine.eval(script);
-                } catch(ScriptException e){
-                    warnExecutingScriptFailed(e);
-                } finally {
-                    IOUtil.close(reader);
-                }
+        Runnable task = () -> {
+            try {
+                engine.eval(script);
+            } catch(ScriptException e){
+                warnExecutingScriptFailed(e);
             }
         };
         runOnSwingEDT(task);
     }
 
     protected String readFile(File scriptFile) throws IOException {
-        BufferedReader reader = new BufferedReader(
+        try (BufferedReader reader = new BufferedReader(
                 new FileReader(scriptFile)
-        );
-        StringBuilder sb = new StringBuilder();
-        String line;
-        while((line = reader.readLine()) != null) {
-            sb.append(line).append("\n");
+        )) {
+            String ret = reader.lines()
+                    .collect(Collectors.joining("\n"));
+            return ret;
         }
-        reader.close();
-        return sb.toString();
     }
 
     /**
