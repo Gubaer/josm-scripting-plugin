@@ -44,6 +44,9 @@ public class PythonPluginManager implements
     public void updatePluginSpecificSysPaths(Collection<String> paths) {
         PySystemState sys = Py.getSystemState();
         originalSysPaths.stream().map(PyString::new).forEach(sys.path::append);
+        if (paths != null) {
+            paths.stream().map(PyString::new).forEach(sys.path::append);
+        }
         sys.setClassLoader(PythonPluginManager.class.getClassLoader());
     }
 
