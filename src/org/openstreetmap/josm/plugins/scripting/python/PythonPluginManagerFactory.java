@@ -14,7 +14,6 @@ public class PythonPluginManagerFactory {
     static final private Logger logger = Logger.getLogger(
             PythonPluginManagerFactory.class.getName());
 
-
     /**
      * Creates and replies an instance of the python plugin manager, or
      * null, if either the python interpreter is not on the class path
@@ -30,7 +29,8 @@ public class PythonPluginManagerFactory {
         }
         try {
             Class<?> mgrClass = Class.forName(
-               "org.openstreetmap.josm.plugins.scripting.python.PythonPluginManager"
+                 "org.openstreetmap.josm.plugins.scripting.python"
+               + ".PythonPluginManager"
             );
             IPythonPluginManager mgr =
                (IPythonPluginManager) mgrClass.newInstance();

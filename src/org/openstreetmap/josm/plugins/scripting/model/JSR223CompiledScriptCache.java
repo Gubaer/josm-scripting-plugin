@@ -15,14 +15,16 @@ import org.openstreetmap.josm.plugins.scripting.util.Assert;
 import org.openstreetmap.josm.plugins.scripting.util.IOUtil;
 
 /**
- * <p><strong>CompiledScriptCache</strong> maintains a cache of compiled scripts for script languages
- * which are compiled before executed.</p>
+ * <p><strong>CompiledScriptCache</strong> maintains a cache of compiled
+ * scripts for script languages which are compiled before executed.</p>
  *
  */
 public class JSR223CompiledScriptCache {
-    static private final Logger logger = Logger.getLogger(JSR223CompiledScriptCache.class.getName());
+    static private final Logger logger = Logger.getLogger(
+            JSR223CompiledScriptCache.class.getName());
 
-    private static final JSR223CompiledScriptCache instance = new JSR223CompiledScriptCache();
+    private static final JSR223CompiledScriptCache instance =
+            new JSR223CompiledScriptCache();
 
     /**
      * <p>Replies the global cache instance</p>
@@ -56,31 +58,34 @@ public class JSR223CompiledScriptCache {
         }
     }
 
-    private final Map<File, CacheEntry> cache = new HashMap<File, CacheEntry>();
+    private final Map<File, CacheEntry> cache = new HashMap<>();
 
     public JSR223CompiledScriptCache() {}
 
     /**
-     * <p>Compiles a script using {@code compiler} and replies the compiled script. Looks
-     * up compiled scripts in an internal cache.</p>
+     * <p>Compiles a script using {@code compiler} and replies the compiled
+     * script. Looks up compiled scripts in an internal cache.</p>
      *
      * @param compiler the compiler. Must not be null.
      * @param scriptFile the script file. Must not be null.
      * @return the compiled script
      * @throws ScriptException thrown if compiling fails
      * @throws IOException thrown if IO with the script file fails
-     * @throws IllegalArgumentException thrown if {@code compiler} or {@code scriptFile} is null
+     * @throws IllegalArgumentException thrown if {@code compiler} or
+     *      {@code scriptFile} is null
      */
-    public CompiledScript compile(Compilable compiler, File scriptFile) throws ScriptException, IOException, IllegalArgumentException {
+    public CompiledScript compile(Compilable compiler, File scriptFile)
+            throws ScriptException, IOException, IllegalArgumentException {
         Assert.assertArgNotNull(scriptFile, "scriptFile");
         Assert.assertArgNotNull(compiler, "compiler");
         CacheEntry entry = cache.get(scriptFile);
-        if (entry != null && entry.getTimestamp() >= scriptFile.lastModified()) {
+        if (entry != null && entry.getTimestamp() >= scriptFile.lastModified()){
             return entry.getScript();
         }
         FileReader reader = null;
         try {
-            CompiledScript script = compiler.compile(reader = new FileReader(scriptFile));
+            CompiledScript script = compiler.compile(
+                    reader = new FileReader(scriptFile));
             entry = new CacheEntry(scriptFile, script);
             cache.put(scriptFile, entry);
             return script;

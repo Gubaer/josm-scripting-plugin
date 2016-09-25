@@ -11,19 +11,21 @@ import org.openstreetmap.josm.plugins.scripting.util.Assert;
 /**
  * <p>Represents a location where CommonJS modules are loaded from.</p>
  *
- * <p>The scripting plugin loads CommonJS modules either from a directory in the file system or from
- * a jar file in the local file system. It doesn't load modules from remove location, i.e. from a HTTP
- * server.</p>
+ * <p>The scripting plugin loads CommonJS modules either from a directory in
+ * the file system or from a jar file in the local file system. It doesn't
+ * load modules from remove location, i.e. from a HTTP server.</p>
  */
 public class CommonJSModuleRepository {
-    static private final Logger logger = Logger.getLogger(CommonJSModuleRepository.class.getName());
+    static private final Logger logger = Logger.getLogger(
+            CommonJSModuleRepository.class.getName());
 
     private URL url;
 
     /**
      * <p>Creates a repository.</p>
      *
-     * <p>Doesn't enforce that <code>dir</code> exists or that it is a directory.</p>
+     * <p>Doesn't enforce that <code>dir</code> exists or that it is a
+     * directory.</p>
      *
      * @param dir a directory. Must not be null.
      * @throws IllegalArgumentException thrown if dir is null
@@ -33,7 +35,8 @@ public class CommonJSModuleRepository {
         try {
             url = dir.toURI().toURL();
         } catch(MalformedURLException e) {
-            Assert.assertArg(false, "Failed to convert file {0} to URL. Exception is: {1}", dir, e);
+            Assert.assertArg(false, "Failed to convert file {0} to URL. "
+               + "Exception is: {1}", dir, e);
         }
     }
 
@@ -45,12 +48,17 @@ public class CommonJSModuleRepository {
             try {
                 URL jarFileUrl = new URL(s);
                 if (jarFileUrl.getProtocol().equals("file")) return;
-                Assert.assertArg(false, "Type of URL not supported for CommonJS module repository, got {0}", url);
+                Assert.assertArg(false,
+                    "Type of URL not supported for CommonJS module repository, "
+                   + "got {0}", url);
             } catch(MalformedURLException e){
-                Assert.assertArg(false, "Failed to create URL for jar file <{0}>.", s);
+                Assert.assertArg(false,
+                    "Failed to create URL for jar file <{0}>.", s);
             }
         } else {
-            Assert.assertArg(false, "Type of URL not supported for CommonJS module repository, got {0}", url);
+            Assert.assertArg(false,
+                "Type of URL not supported for CommonJS module repository, "
+              + "got {0}", url);
         }
     }
 
@@ -59,7 +67,8 @@ public class CommonJSModuleRepository {
      *
      * <p><code>url</code> must be a valid file or jar URL.</p>
      *
-     * @param url an acceptable URL for a module repository as string. Must not be null.
+     * @param url an acceptable URL for a module repository as string.
+     *              Must not be null.
      * @throws IllegalArgumentException thrown if url is null
      */
     public CommonJSModuleRepository(String url) throws IllegalArgumentException{
@@ -69,7 +78,8 @@ public class CommonJSModuleRepository {
             ensureValidUrl(repo);
             this.url = repo;
         } catch(MalformedURLException e){
-            Assert.assertArg(false, "Invalid URL, got {0}. Expection is: {1}", url, e);
+            Assert.assertArg(false, "Invalid URL, got {0}. Expection is: {1}",
+                    url, e);
         }
     }
 
@@ -93,9 +103,11 @@ public class CommonJSModuleRepository {
      * <p><code>jar</code> must be an existing local jar file.</p>
      *
      * @param jar an existing and readable local jar file. Must not be null.
-     * @throws IllegalArgumentException thrown if jar is null or if the jar URL can't be created
+     * @throws IllegalArgumentException thrown if jar is null or if the jar
+     *      URL can't be created
      */
-    public CommonJSModuleRepository(JarFile jar) throws IllegalArgumentException {
+    public CommonJSModuleRepository(JarFile jar)
+           throws IllegalArgumentException {
         this(jar, "/");
     }
 
@@ -106,17 +118,24 @@ public class CommonJSModuleRepository {
      *
      * @param jar an existing and readable local jar file. Must not be null.
      * @param jarPath the jar path. May be null.
-     * @throws IllegalArgumentException thrown if jar is null or if the jar URL can't be created
+     * @throws IllegalArgumentException thrown if jar is null or if the jar URL
+     *   can't be created
      */
-    public CommonJSModuleRepository(JarFile jar, String jarPath) throws IllegalArgumentException {
+    public CommonJSModuleRepository(JarFile jar, String jarPath)
+            throws IllegalArgumentException {
         Assert.assertArgNotNull(jar, "jar");
         if (jarPath == null) jarPath = "/";
-        jarPath = "/" + jarPath.trim().replace("\\", "/").replaceAll("/+", "/").replaceAll("^/","");
+        jarPath = "/" + jarPath.trim().replace("\\", "/")
+                .replaceAll("/+", "/")
+                .replaceAll("^/","");
 
         try {
-            this.url = new URL("jar:" + new File(jar.getName()).toURI().toURL() + "!" + jarPath);
+            this.url = new URL("jar:" + new File(jar.getName()).toURI()
+                    .toURL() + "!" + jarPath);
         } catch(MalformedURLException e) {
-            Assert.assertArg(false, "Failed to create jar URL for jar file <{0}> and jar path <{1}>. Expection is: {2}", jar, jarPath, e);
+            Assert.assertArg(false,
+                "Failed to create jar URL for jar file <{0}> and jar path "
+              + "<{1}>. Exception is: {2}", jar, jarPath, e);
         }
     }
 
@@ -142,9 +161,11 @@ public class CommonJSModuleRepository {
     }
 
     /**
-     * <p>Replies jar file entry where to look for CommonJS modules in the jar file.</p>
+     * <p>Replies jar file entry where to look for CommonJS modules in the
+     *      jar file.</p>
      *
-     * <p>Replies null, if this module repository is a local directory, not a jar file.</p>
+     * <p>Replies null, if this module repository is a local directory, not
+     *      a jar file.</p>
      *
      * @return the jar file entry or null
      */
@@ -166,9 +187,9 @@ public class CommonJSModuleRepository {
         return url;
     }
 
-    /* ----------------------------------------------------------------------------------- */
-    /* hash code and equals                                                                */
-    /* ----------------------------------------------------------------------------------- */
+    /* --------------------------------------------------------------------- */
+    /* hash code and equals                                                  */
+    /* ----------------------------------------------------------------------*/
     @Override
     public int hashCode() {
         final int prime = 31;

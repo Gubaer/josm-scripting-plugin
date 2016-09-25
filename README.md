@@ -15,17 +15,17 @@ particular in
 The scripting plugin can be installed and kept up to date using JOSMs plugin manager:
 
 1. Select Preferences -> Plugins
-2. Search for the plugin "Scripting" and install ist 
+2. Search for the plugin "Scripting" and install it 
 
 ## For developers
 The scripting plugin includes an embedded scripting engine for JavaScript based on 
 [Mozilla Rhino](http://www.mozilla.org/rhino/).
-It provides a custom JavaScript API to write scripts for the JOSM editor, please refer to 
+It provides a custom JavaScript API to write scripts for the JOSM editor,refer to 
 the [API documentation](http://gubaer.github.com/josm-scripting-plugin/).
 
-Furthermore, it can load and execute [plugins written in Python](http://gubaer.github.com/josm-scripting-plugin/doc/python.html).
-
-In addition, it can execute scripts written in Ruby, Groovy, and other languages, refer to 
+Furthermore, it can 
+* load and execute [plugins written in Python](http://gubaer.github.com/josm-scripting-plugin/doc/python.html).
+* execute scripts written in Ruby, Groovy, and other languages, refer to 
 [these examples](https://github.com/Gubaer/josm-scripting-plugin/tree/master/scripts). 
 
 If you want to contribute to the scripting plugin itself, please fork this repository and
@@ -40,8 +40,8 @@ Add a new entry to [releases.conf](releases.conf) then run:
 % git merge master             # make sure the latest changes are merged to 'deploy'
 % git push origin deploy       # push the 'deploy' branch
 
-% gradle clean build           # build the plugin
-% gradle deploy                # deploys the plugin jar to github,
+% ./gradlew clean build        # build the plugin
+% ./gradlew deploy             # deploys the plugin jar to github,
                                # where it is picked up by the JOSM
                                # plugin installer
 ```

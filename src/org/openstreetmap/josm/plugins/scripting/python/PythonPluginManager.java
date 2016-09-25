@@ -22,7 +22,8 @@ import org.python.util.PythonInterpreter;
  * <p>An instance of this class manages the configured Python
  * plugins for JOSM.</p>
  *
- * <p>A Python plugin implements the Java interface {@link JosmPythonPlugin}.</p>
+ * <p>A Python plugin implements the Java interface {@link JosmPythonPlugin}.
+ * </p>
  *
  * <p>The manager loads configured Python plugins when the scripting
  * plugin starts up, provided the Jython interpreter is on the class
@@ -42,14 +43,7 @@ public class PythonPluginManager implements
     @Override
     public void updatePluginSpecificSysPaths(Collection<String> paths) {
         PySystemState sys = Py.getSystemState();
-        for (String path: originalSysPaths) {
-            sys.path.append(new PyString(path));
-        }
-        if (paths != null) {
-            for (String path: paths) {
-                sys.path.append(new PyString(path));
-            }
-        }
+        originalSysPaths.stream().map(PyString::new).forEach(sys.path::append);
         sys.setClassLoader(PythonPluginManager.class.getClassLoader());
     }
 
@@ -63,12 +57,12 @@ public class PythonPluginManager implements
 
     /** the map of loaded plugins */
     static final private Map<String, JosmPythonPlugin> plugins =
-            new HashMap<String, JosmPythonPlugin>();
+            new HashMap<>();
 
-    private final List<String> originalSysPaths = new ArrayList<String>();
+    private final List<String> originalSysPaths = new ArrayList<>();
     public PythonPluginManager() {
         PySystemState state = Py.getSystemState();
-        for (int i =0; i< state.path.__len__(); i++) {
+        for (int i = 0; i< state.path.__len__(); i++) {
             PyString path = (PyString)state.path.__getitem__(i);
             originalSysPaths.add(path.toString());
         }
@@ -111,11 +105,11 @@ public class PythonPluginManager implements
             }
         }
 
-
         try {
             PyObject pluginClass = interpreter.get(className);
             if (pluginClass == null) {
-               logger.warning(tr("Failed to lookup plugin class ''{0}''.", className));
+               logger.warning(tr("Failed to lookup plugin class ''{0}''.",
+                       className));
                return null;
             }
             PyObject pluginInstance = pluginClass.__call__();
@@ -126,7 +120,8 @@ public class PythonPluginManager implements
             plugins.put(pluginClassName, plugin);
 
         } catch(Exception e) {
-            logger.warning(tr("Failed to instantiate plugin ''{0}''.", pluginClassName));
+            logger.warning(tr("Failed to instantiate plugin ''{0}''.",
+                    pluginClassName));
             e.printStackTrace();
             return null;
         }
@@ -146,8 +141,8 @@ public class PythonPluginManager implements
 
     @Override
     public void notifyMapFrameChanged(MapFrame oldFrame, MapFrame newFrame){
-        for(JosmPythonPlugin plugin: plugins.values()) {
-            plugin.onMapFrameChanged(oldFrame, newFrame);
-        }
+        plugins.values().forEach(plugin ->
+            plugin.onMapFrameChanged(oldFrame, newFrame)
+        );
     }
 }
