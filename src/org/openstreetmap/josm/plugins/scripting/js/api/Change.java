@@ -4,6 +4,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.openstreetmap.josm.data.coor.LatLon;
 import org.openstreetmap.josm.data.osm.Node;
@@ -225,16 +226,16 @@ public class Change {
         @Override
         public String explain(OsmPrimitive primitive) {
             StringBuffer sb = new StringBuffer();
-            if (newValue == null) {
-
-            } else {
+            sb.append("nodes=[");
+            if (newValue != null) {
                 List<Node> nodes = (List<Node>)newValue;
-                for (Node n: nodes) {
-                    if (sb.length() > 0) sb.append(", ");
-                    sb.append(n.getDisplayName(DefaultNameFormatter.getInstance()));
-                }
+                sb.append(nodes.stream()
+                   .map(n -> n.getDisplayName(DefaultNameFormatter.getInstance()))
+                   .collect(Collectors.joining(", "))
+                );
             }
-            return "nodes=[" + sb.toString() + "]";
+            sb.append("]");
+            return sb.toString();
         }
 
         @Override
@@ -260,7 +261,7 @@ public class Change {
             if (newValue == null){
                 this.newValue = null;
             } else {
-                @SuppressWarnings("unchecked") List<Node> nodes = new ArrayList<Node>((List<Node>)newValue);
+                @SuppressWarnings("unchecked") List<Node> nodes = new ArrayList<>((List<Node>)newValue);
                 nodes.remove(null);
                 this.newValue = nodes;
             }
@@ -289,14 +290,17 @@ public class Change {
         @Override
         public String explain(OsmPrimitive primitive) {
             StringBuffer sb = new StringBuffer();
+            sb.append("members=[");
             if (newValue != null) {
+                @SuppressWarnings("unchecked")
                 List<RelationMember> members = (List<RelationMember>)newValue;
-                for (RelationMember m : members) {
-                    if (sb.length() > 0) sb.append(", ");
-                    sb.append(m.getRole()).append("/").append(m.getMember().getDisplayName(DefaultNameFormatter.getInstance()));
-                }
+                sb.append(members.stream()
+                    .map(m -> m.getRole() + "/" + m.getMember().getDisplayName(DefaultNameFormatter.getInstance()))
+                    .collect(Collectors.joining(", "))
+                );
             }
-            return "members=[" + sb.toString() + "]";
+            sb.append("]");
+            return sb.toString();
         }
 
         @Override
@@ -317,14 +321,14 @@ public class Change {
         public MemberChange(Object newValue) {
             ensureValidValue(newValue);
             if (newValue != null) {
-                @SuppressWarnings("unchecked") List<RelationMember> members = new ArrayList<RelationMember>((List<RelationMember>)newValue);
+                @SuppressWarnings("unchecked") List<RelationMember> members = new ArrayList<>((List<RelationMember>)newValue);
                 members.remove(null);
                 this.newValue = members;
             }
         }
     }
 
-    private final List<PropertyChange> changes = new ArrayList<PropertyChange>();
+    private final List<PropertyChange> changes = new ArrayList<>();
 
     /**
      * Schedules a property change for the latitude of a {@link Node}
@@ -412,12 +416,14 @@ public class Change {
      */
     public String explain(OsmPrimitive primitive) {
         StringBuilder sb = new StringBuilder();
-        for (PropertyChange change: changes) {
-            if (change.appliesTo(primitive)) {
-                if (sb.length() > 0) sb.append(", ");
-                sb.append(change.explain(primitive));
-            }
-        }
-        return primitive.getDisplayName(DefaultNameFormatter.getInstance()) + ": " + sb.toString();
+        sb.append(primitive.getDisplayName(DefaultNameFormatter.getInstance()));
+        sb.append(": ");
+        sb.append(
+            changes.stream()
+                .filter(change -> change.appliesTo(primitive))
+                .map(change -> change.explain(primitive))
+                .collect(Collectors.joining(", "))
+        );
+        return sb.toString();
     }
 }
