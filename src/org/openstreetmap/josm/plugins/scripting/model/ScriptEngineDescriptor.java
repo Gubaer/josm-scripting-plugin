@@ -4,6 +4,7 @@ import static org.openstreetmap.josm.tools.I18n.tr;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -57,20 +58,19 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
             preferencesValue = preferencesValue.trim().toLowerCase();
             int i = preferencesValue.indexOf("/");
             if (i > 0) preferencesValue = preferencesValue.substring(0, i);
-            for (ScriptEngineType type: ScriptEngineType.values()){
-                if (type.preferencesValue.equals(preferencesValue)) return type;
-            }
-            return null;
+            final String pv = preferencesValue;
+            return Arrays.stream(values())
+                .filter(e -> e.preferencesValue.equals(pv))
+                .findFirst()
+                .orElse(null);
         }
     }
-
 
     private ScriptEngineType engineType;
     private String engineId;
     private String languageName = null;
     private String engineName = null;
-    private final List<String> contentMimeTypes = new ArrayList<String>();
-
+    private final List<String> contentMimeTypes = new ArrayList<>();
 
     /**
      * The default script engine descriptor. Refers to the embedded script engine based
@@ -90,7 +90,7 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
      */
     static public final Map<String, ScriptEngineDescriptor> EMBEDDED_SCRIPT_ENGINES;
     static {
-         HashMap<String, ScriptEngineDescriptor> m = new HashMap<String, ScriptEngineDescriptor>();
+         HashMap<String, ScriptEngineDescriptor> m = new HashMap<>();
          m.put(DEFAULT_SCRIPT_ENGINE.getEngineId(), DEFAULT_SCRIPT_ENGINE);
          EMBEDDED_SCRIPT_ENGINES = Collections.unmodifiableMap(m);
     }

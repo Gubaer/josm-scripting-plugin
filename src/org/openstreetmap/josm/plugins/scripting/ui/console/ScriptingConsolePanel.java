@@ -61,12 +61,7 @@ public class ScriptingConsolePanel extends JPanel {
         sp.setDividerSize(5);
         sp.setTopComponent(buildInputPanel());
         sp.setBottomComponent(log = new ScriptLogPanel());
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                sp.setDividerLocation(0.7);
-            }
-        });
+        SwingUtilities.invokeLater(() ->sp.setDividerLocation(0.7));
         return sp;
     }
 
@@ -127,12 +122,10 @@ public class ScriptingConsolePanel extends JPanel {
             editor.changeContentType("text/plain");
             return;
         }
-        for (String mt: desc.getContentMimeTypes()) {
-            if (MimeTypeToSyntaxKitMap.getInstance().isSupported(mt)) {
-                editor.changeContentType(mt);
-                return;
-            }
-        }
+        desc.getContentMimeTypes().stream()
+            .filter(mt -> MimeTypeToSyntaxKitMap.getInstance().isSupported(mt))
+            .findFirst()
+            .ifPresent(mt -> editor.changeContentType(mt));
         editor.changeContentType("text/plain");
         warnMissingSyntaxKit(desc);
     }

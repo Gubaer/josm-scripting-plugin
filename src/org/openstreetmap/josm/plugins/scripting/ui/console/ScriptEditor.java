@@ -14,6 +14,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Iterator;
 
 import javax.swing.JEditorPane;
 import javax.swing.JLabel;
@@ -136,8 +137,8 @@ public class ScriptEditor extends JPanel implements PropertyChangeListener {
         Document doc = editor.getDocument();
         try(BufferedReader reader = new BufferedReader(new FileReader(file))) {
             doc.remove(doc.getStartPosition().getOffset(), doc.getLength());
-            String line = null;
-            while((line = reader.readLine()) != null){
+            for(Iterator<String> it = reader.lines().iterator();it.hasNext();) {
+                String line = it.next();
                 doc.insertString(doc.getLength(), line, null);
                 doc.insertString(doc.getLength(), "\n", null);
             }

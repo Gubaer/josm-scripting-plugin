@@ -45,7 +45,7 @@ public class MostRecentlyRunScriptsModel extends Observable
         return instance;
     }
 
-    final private List<String> scripts = new ArrayList<String>();
+    final private List<String> scripts = new ArrayList<>();
 
     /**
      * Remembers a script in the list of most recently run scripts
@@ -139,7 +139,7 @@ public class MostRecentlyRunScriptsModel extends Observable
 
     @SuppressWarnings("serial")
     static private class RunScriptAction extends AbstractAction {
-        private String script;
+        private final String script;
         public RunScriptAction(int pos, String script) {
             File f = new File(script);
             putValue(NAME, String.format("%s %s", pos, f.getName()));
@@ -154,9 +154,9 @@ public class MostRecentlyRunScriptsModel extends Observable
                 return;
             }
             ScriptEngineDescriptor engine =
-                    service.deriveOrAskScriptEngineDescriptor(
-                            script, null /* parent */
-                    );
+                service.deriveOrAskScriptEngineDescriptor(
+                        script, null /* parent */
+                );
             if (engine == null) return;
             service.runScript(script, engine);
         }

@@ -38,7 +38,6 @@ import org.openstreetmap.josm.plugins.scripting.python.PythonPluginManagerFactor
 import org.openstreetmap.josm.plugins.scripting.ui.MostRecentlyRunScriptsModel;
 import org.openstreetmap.josm.plugins.scripting.ui.RunScriptAction;
 import org.openstreetmap.josm.plugins.scripting.ui.ToggleConsoleAction;
-import org.openstreetmap.josm.plugins.scripting.util.IOUtil;
 
 public class ScriptingPlugin extends Plugin implements PreferenceKeys{
     static private final Logger logger = Logger.getLogger(ScriptingPlugin.class
@@ -167,11 +166,12 @@ public class ScriptingPlugin extends Plugin implements PreferenceKeys{
         populateStandardentries(scriptingMenu);
         populateMruMenuEntries(scriptingMenu);
         MostRecentlyRunScriptsModel.getInstance().addObserver(
-                (arg0, arg1) ->  {
+            (a, b) ->  {
                 scriptingMenu.removeAll();
                 populateStandardentries(scriptingMenu);
                 populateMruMenuEntries(scriptingMenu);
-        });
+             }
+       );
     }
 
     protected void populateStandardentries(JMenu scriptingMenu) {
@@ -215,11 +215,8 @@ public class ScriptingPlugin extends Plugin implements PreferenceKeys{
     protected void installResourceFiles() {
         File mimeTypesTarget = new File(getPluginDir(), "mime.types");
         if (mimeTypesTarget.exists()) return; // don't have to install it
-        FileOutputStream fout = null;
-        InputStream is = null;
-        try {
-            String res = "/resources/mime.types.default";
-            is = getClass().getResourceAsStream(res);
+        String res = "/resources/mime.types.default";
+        try(InputStream is = getClass().getResourceAsStream(res)){
             if (is == null) {
                 logger.warning(String.format(
                         "Didn't find resource '%s'. "
@@ -227,11 +224,12 @@ public class ScriptingPlugin extends Plugin implements PreferenceKeys{
                        res));
                 return;
             }
-            fout = new FileOutputStream(mimeTypesTarget);
-            byte [] buf = new byte[1024];
-            int read;
-            while((read = is.read(buf)) > 0) {
-                fout.write(buf, 0, read);
+            try(FileOutputStream fout = new FileOutputStream(mimeTypesTarget)) {
+                byte [] buf = new byte[1024];
+                int read;
+                while((read = is.read(buf)) > 0) {
+                    fout.write(buf, 0, read);
+                }
             }
             logger.info(String.format(
                   "Successfully installed default mime types in file '%s'.",
@@ -245,9 +243,6 @@ public class ScriptingPlugin extends Plugin implements PreferenceKeys{
                   e.toString()
             ));
             e.printStackTrace();
-        } finally {
-           IOUtil.close(fout);
-           IOUtil.close(is);
         }
     }
 }

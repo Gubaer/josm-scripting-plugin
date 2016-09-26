@@ -88,8 +88,8 @@ public class RunScriptService {
         if (mimeType.equals("application/javascript")) {
             return ScriptEngineDescriptor.DEFAULT_SCRIPT_ENGINE;
         }
-        ScriptEngineDescriptor desc = JSR223ScriptEngineProvider.
-                getInstance()
+        ScriptEngineDescriptor desc = JSR223ScriptEngineProvider
+                .getInstance()
                 .getEngineForFile(file);
         if (desc != null) return desc;
         return ScriptEngineSelectionDialog.select(parent);
@@ -118,9 +118,10 @@ public class RunScriptService {
             return false;
         }
 
-        try {
-            new FileReader(f);
+        try(FileReader reader = new FileReader(f)){
+            // just try to open the reader ...
         } catch(IOException e){
+            // ... and if it fails, warn about it
             warnOpenScriptFileFailed(f, e, parent);
             return false;
         }

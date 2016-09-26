@@ -68,7 +68,7 @@ public class ScriptLogPanel extends JPanel implements IScriptLog{
             SimpleAttributeSet set = new SimpleAttributeSet();
             StyleConstants.setForeground(set, Color.RED);
             doc.insertString(doc.getLength(), w.getBuffer().toString(), set);
-        } catch(Exception e) {
+        } catch(BadLocationException e) {
             e.printStackTrace();
         }
     }

@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -117,24 +118,23 @@ public class JSR223ScriptEngineProvider extends AbstractListModel<ScriptEngineFa
     }
 
     protected void buildClassLoader() {
-        List<URL> urls = scriptEngineJars.stream()
+        URL[] urls = scriptEngineJars.stream()
             .map(jar -> {
                 try {
-                    return Optional.of(jar.toURI().toURL());
+                    return jar.toURI().toURL();
                 } catch(MalformedURLException e) {
                     // shouldn't happen because the entries in 'scriptEngineJars'
                     // are existing, valid files. Ignore the exception.
                     e.printStackTrace();
-                    return Optional.<URL>empty();
+                    return null;
                 }
             })
-            .filter(url -> url.isPresent())
-            .map(url -> url.get())
-            .collect(Collectors.toList());
+            .filter(url -> url != null)
+            .toArray((size) -> new URL[size]);
 
-        if (! urls.isEmpty()){
+        if (urls.length > 0){
             scriptClassLoader = new URLClassLoader(
-                    urls.toArray(new URL[urls.size()]),
+                    urls,
                     getClass().getClassLoader()
             );
         } else {
@@ -149,7 +149,7 @@ public class JSR223ScriptEngineProvider extends AbstractListModel<ScriptEngineFa
         factories.addAll(manager.getEngineFactories());
 
         Collections.sort(factories,
-                (f1,f2) -> f1.getEngineName().compareTo(f2.getEngineName())
+            (f1,f2) -> f1.getEngineName().compareTo(f2.getEngineName())
         );
     }
 
@@ -214,15 +214,13 @@ public class JSR223ScriptEngineProvider extends AbstractListModel<ScriptEngineFa
      */
     public ScriptEngineDescriptor getEngineForFile(File scriptFile) {
         if (scriptFile == null) return null;
-
-        String mimeType = getContentTypeForFile(scriptFile);
-
+        final String mimeType = getContentTypeForFile(scriptFile);
         return getScriptEngineManager().getEngineFactories().stream()
-                .filter(factory -> factory.getMimeTypes().contains(mimeType))
-                .findFirst()
-                .flatMap(factory -> Optional.of(new ScriptEngineDescriptor(factory)))
-                .orElse(null);
-    }
+            .filter(factory -> factory.getMimeTypes().contains(mimeType))
+            .findFirst()
+            .flatMap(factory -> Optional.of(new ScriptEngineDescriptor(factory)))
+            .orElse(null);
+}
 
 
     /**
@@ -249,12 +247,13 @@ public class JSR223ScriptEngineProvider extends AbstractListModel<ScriptEngineFa
     public void setScriptEngineJars(List<File> jars){
         this.scriptEngineJars.clear();
         if (jars != null){
-            for (File jar: jars){
-                if (jar == null) continue;
-                ScriptEngineJarInfo info = new ScriptEngineJarInfo(jar.toString());
-                if (! info.getStatusMessage().equals(ScriptEngineJarInfo.OK_MESSAGE)) continue;
-                this.scriptEngineJars.add(jar);
-            }
+            jars.stream()
+                .filter(jar -> jar != null)
+                .filter(jar -> new ScriptEngineJarInfo(jar.toString())
+                      .getStatusMessage()
+                      .equals(ScriptEngineJarInfo.OK_MESSAGE)
+                 )
+                .collect(Collectors.toCollection(() -> scriptEngineJars));
         }
         buildClassLoader();
         loadScriptEngineFactories();
@@ -302,14 +301,14 @@ public class JSR223ScriptEngineProvider extends AbstractListModel<ScriptEngineFa
      * @return the script engine factory
      */
     public ScriptEngineFactory getScriptFactoryByName(String name){
-        if (name == null) return null;
-        for (ScriptEngineFactory factory: factories) {
-            if (factory.getEngineName().equals(name)) return factory;
-            for (String n: factory.getNames()) {
-                if (n.equals(name)) return factory;
-            }
-        }
-        return null;
+        Predicate<ScriptEngineFactory> hasName = (factory) ->
+               (factory.getEngineName().equals(name))
+            || factory.getNames().contains(name);
+
+        return factories.stream()
+            .filter(hasName)
+            .findFirst()
+            .orElse(null);
     }
 
     /**

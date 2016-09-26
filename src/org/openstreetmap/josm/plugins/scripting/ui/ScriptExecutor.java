@@ -97,12 +97,12 @@ public class ScriptExecutor {
         }
 
         HelpAwareOptionPane.showOptionDialog(
-                this.parent,
-                tr("An error occured in the script.")
-                + (details.isEmpty() ? "" : ("<br><br><strong>Details:</strong> " + details)),
-                tr("Script Error"),
-                JOptionPane.ERROR_MESSAGE,
-                HelpUtil.ht("/Plugin/Scripting")
+            this.parent,
+            tr("An error occured in the script.")
+            + (details.isEmpty() ? "" : ("<br><br><strong>Details:</strong> " + details)),
+            tr("Script Error"),
+            JOptionPane.ERROR_MESSAGE,
+            HelpUtil.ht("/Plugin/Scripting")
         );
         System.out.println(tr("Script execution has failed."));
         e.printStackTrace();
@@ -110,11 +110,11 @@ public class ScriptExecutor {
 
     protected void warnOpenScriptFileFailed(File f, Exception e){
         HelpAwareOptionPane.showOptionDialog(
-                this.parent,
-                tr("Failed to read the script from file ''{0}''.", f.toString()),
-                tr("IO error"),
-                JOptionPane.ERROR_MESSAGE,
-                HelpUtil.ht("/Plugin/Scripting")
+            this.parent,
+            tr("Failed to read the script from file ''{0}''.", f.toString()),
+            tr("IO error"),
+            JOptionPane.ERROR_MESSAGE,
+            HelpUtil.ht("/Plugin/Scripting")
         );
         System.out.println(tr("Failed to read the script from file ''{0}''.", f.toString()));
         e.printStackTrace();
@@ -122,77 +122,77 @@ public class ScriptExecutor {
 
     protected void notifyRhinoException(File scriptFile, RhinoException e) {
         HelpAwareOptionPane.showOptionDialog(
-                this.parent,
-                "<html>"
-                + tr(
-                    "<p>Failed to execute the script file ''{0}''.</p><p/>"
-                    + "<p><strong>Error message:</strong>{1}</p>"
-                    + "<p><strong>At:</strong>line {2}, column {3}</p>",
-                    scriptFile.toString(),
-                    e.getMessage(),
-                    e.lineNumber(),
-                    e.columnNumber()
-                )
-                + "</html>"
-                ,
-                tr("Script execution failed"),
-                JOptionPane.ERROR_MESSAGE,
-                HelpUtil.ht("/Plugin/Scripting")
+            this.parent,
+            "<html>"
+            + tr(
+                "<p>Failed to execute the script file ''{0}''.</p><p/>"
+                + "<p><strong>Error message:</strong>{1}</p>"
+                + "<p><strong>At:</strong>line {2}, column {3}</p>",
+                scriptFile.toString(),
+                e.getMessage(),
+                e.lineNumber(),
+                e.columnNumber()
+            )
+            + "</html>"
+            ,
+            tr("Script execution failed"),
+            JOptionPane.ERROR_MESSAGE,
+            HelpUtil.ht("/Plugin/Scripting")
         );
     }
 
     protected void notifyRhinoException(RhinoException e) {
         HelpAwareOptionPane.showOptionDialog(
-                this.parent,
-                "<html>"
-                + tr(
-                    "<p>Failed to execute a script.</p><p/>"
-                    + "<p><strong>Error message:</strong>{0}</p>"
-                    + "<p><strong>At:</strong>line {1}, column {2}</p>",
-                    e.getMessage(),
-                    e.lineNumber(),
-                    e.columnNumber()
-                )
-                + "</html>"
-                ,
-                tr("Script execution failed"),
-                JOptionPane.ERROR_MESSAGE,
-                HelpUtil.ht("/Plugin/Scripting")
-        );
+            this.parent,
+            "<html>"
+            + tr(
+                "<p>Failed to execute a script.</p><p/>"
+                + "<p><strong>Error message:</strong>{0}</p>"
+                + "<p><strong>At:</strong>line {1}, column {2}</p>",
+                e.getMessage(),
+                e.lineNumber(),
+                e.columnNumber()
+            )
+            + "</html>"
+            ,
+            tr("Script execution failed"),
+            JOptionPane.ERROR_MESSAGE,
+            HelpUtil.ht("/Plugin/Scripting")
+    );
     }
 
     protected void notifyIOExeption(File scriptFile, IOException e) {
         HelpAwareOptionPane.showOptionDialog(
-                this.parent,
-                "<html>"
-                + tr(
-                    "<p>Failed to execute the script file ''{0}''.</p><p/>"
-                    + "<p><strong>Error message:</strong>{1}</p>",
-                    scriptFile.toString(),
-                    e.getMessage()
-                )
-                + "</html>"
-                ,
-                tr("Script execution failed"),
-                JOptionPane.ERROR_MESSAGE,
-                HelpUtil.ht("/Plugin/Scripting")
+            this.parent,
+            "<html>"
+            + tr(
+                "<p>Failed to execute the script file ''{0}''.</p><p/>"
+                + "<p><strong>Error message:</strong>{1}</p>",
+                scriptFile.toString(),
+                e.getMessage()
+            )
+            + "</html>"
+            ,
+            tr("Script execution failed"),
+            JOptionPane.ERROR_MESSAGE,
+            HelpUtil.ht("/Plugin/Scripting")
         );
     }
 
     protected void notifyRuntimeException(RuntimeException e) {
         HelpAwareOptionPane.showOptionDialog(
-                this.parent,
-                "<html>"
-                + tr(
-                    "<p>Failed to execute a script.</p><p/>"
-                    + "<p><strong>Error message:</strong>{0}</p>",
-                    e.getMessage()
-                )
-                + "</html>"
-                ,
-                tr("Script execution failed"),
-                JOptionPane.ERROR_MESSAGE,
-                HelpUtil.ht("/Plugin/Scripting")
+            this.parent,
+            "<html>"
+            + tr(
+                "<p>Failed to execute a script.</p><p/>"
+                + "<p><strong>Error message:</strong>{0}</p>",
+                e.getMessage()
+            )
+            + "</html>"
+            ,
+            tr("Script execution failed"),
+            JOptionPane.ERROR_MESSAGE,
+            HelpUtil.ht("/Plugin/Scripting")
         );
     }
 
@@ -236,25 +236,22 @@ public class ScriptExecutor {
             warnScriptingEngineNotFound(desc);
             return;
         }
-        Runnable task = new Runnable() {
-            @Override
-            public void run() {
-                FileReader reader = null;
-                try {
-                    if (engine instanceof Compilable) {
-                        CompiledScript script = JSR223CompiledScriptCache.getInstance().compile((Compilable)engine,scriptFile);
-                        script.eval();
-                    } else {
-                        reader = new FileReader(scriptFile);
-                        engine.eval(reader);
-                    }
-                } catch(ScriptException e){
-                    warnExecutingScriptFailed(e);
-                } catch(IOException e){
-                    warnOpenScriptFileFailed(scriptFile, e);
-                } finally {
-                    IOUtil.close(reader);
+        Runnable task = () -> {
+            FileReader reader = null;
+            try {
+                if (engine instanceof Compilable) {
+                    CompiledScript script = JSR223CompiledScriptCache.getInstance().compile((Compilable)engine,scriptFile);
+                    script.eval();
+                } else {
+                    reader = new FileReader(scriptFile);
+                    engine.eval(reader);
                 }
+            } catch(ScriptException e){
+                warnExecutingScriptFailed(e);
+            } catch(IOException e){
+                warnOpenScriptFileFailed(scriptFile, e);
+            } finally {
+                IOUtil.close(reader);
             }
         };
         runOnSwingEDT(task);
@@ -286,11 +283,9 @@ public class ScriptExecutor {
     }
 
     protected String readFile(File scriptFile) throws IOException {
-        try (BufferedReader reader = new BufferedReader(
-                new FileReader(scriptFile)
-        )) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(scriptFile))) {
             String ret = reader.lines()
-                    .collect(Collectors.joining("\n"));
+                .collect(Collectors.joining("\n"));
             return ret;
         }
     }

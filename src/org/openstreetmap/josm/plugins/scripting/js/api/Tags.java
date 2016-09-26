@@ -1,7 +1,5 @@
 package org.openstreetmap.josm.plugins.scripting.js.api;
 
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -78,17 +76,8 @@ public class Tags extends ScriptableObject {
 
     @Override
     public Object[] getAllIds() {
-        Collection<String> keys = primitive.keySet();
-        if (keys.size() == 0){
-            return new Object[]{};
-        } else {
-            Object[] ret = new Object[keys.size()];
-            Iterator<String> it; int i;
-            for (it = keys.iterator(), i=0; it.hasNext(); i++ ) {
-                ret[i] = it.next();
-            }
-            return ret;
-        }
+        return primitive.keySet().stream()
+             .toArray((size) -> new Object[size]);
     }
 
     @Override

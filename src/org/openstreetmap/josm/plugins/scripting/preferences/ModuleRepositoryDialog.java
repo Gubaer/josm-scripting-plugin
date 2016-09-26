@@ -248,7 +248,6 @@ public class ModuleRepositoryDialog extends JDialog {
         }
     }
 
-
     private class OKAction extends AbstractAction {
         public OKAction() {
             putValue(Action.NAME, tr("OK"));
