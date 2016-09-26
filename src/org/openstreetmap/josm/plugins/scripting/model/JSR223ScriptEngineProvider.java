@@ -109,9 +109,9 @@ public class JSR223ScriptEngineProvider extends AbstractListModel<ScriptEngineFa
             if (jars == null) return;
             jars.stream()
                 .map(String::trim)
-                .filter(String::isEmpty)
+                .filter(s -> !s.isEmpty())
                 .map(ScriptEngineJarInfo::new)
-                .filter(info -> !info.getStatusMessage().equals(ScriptEngineJarInfo.OK_MESSAGE))
+                .filter(info -> info.getStatusMessage().equals(ScriptEngineJarInfo.OK_MESSAGE))
                 .forEach(info -> scriptEngineJars.add(new File(info.getJarFilePath())));
         }
         buildClassLoader();

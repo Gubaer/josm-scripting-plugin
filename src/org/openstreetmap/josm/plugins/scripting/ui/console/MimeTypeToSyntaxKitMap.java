@@ -56,7 +56,7 @@ public class MimeTypeToSyntaxKitMap {
     protected void loadMappings(BufferedReader br) {
         Pattern p = Pattern.compile("^\\s*(\\S+)\\s+(\\S+)");
         br.lines()
-            .filter(l -> l.matches("^\\s*#"))
+            .filter(l -> !l.matches("^\\s*#"))
             .forEach(line -> {
                 Matcher m = p.matcher(line);
                 if (!m.matches()) return;

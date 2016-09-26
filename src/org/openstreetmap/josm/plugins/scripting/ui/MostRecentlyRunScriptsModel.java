@@ -101,7 +101,7 @@ public class MostRecentlyRunScriptsModel extends Observable
         );
         scripts.clear();
         entries.stream()
-            .filter(s->!canRun(s))
+            .filter(s->canRun(s))
             .distinct()
             .limit(10)
             .collect(Collectors.toCollection(() -> scripts));
