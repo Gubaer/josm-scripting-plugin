@@ -12,7 +12,6 @@ import javax.script.CompiledScript;
 import javax.script.ScriptException;
 
 import org.openstreetmap.josm.plugins.scripting.util.Assert;
-import org.openstreetmap.josm.plugins.scripting.util.IOUtil;
 
 /**
  * <p><strong>CompiledScriptCache</strong> maintains a cache of compiled
@@ -82,15 +81,11 @@ public class JSR223CompiledScriptCache {
         if (entry != null && entry.getTimestamp() >= scriptFile.lastModified()){
             return entry.getScript();
         }
-        FileReader reader = null;
-        try {
-            CompiledScript script = compiler.compile(
-                    reader = new FileReader(scriptFile));
+        try (FileReader reader = new FileReader(scriptFile)){
+            CompiledScript script = compiler.compile(reader);
             entry = new CacheEntry(scriptFile, script);
             cache.put(scriptFile, entry);
             return script;
-        } finally {
-            IOUtil.close(reader);
         }
     }
 }

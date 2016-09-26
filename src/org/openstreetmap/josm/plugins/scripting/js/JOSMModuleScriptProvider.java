@@ -235,10 +235,7 @@ public class JOSMModuleScriptProvider implements ModuleScriptProvider, Preferenc
     }
 
     protected ModuleScript load(URL module, URL base) throws IOException, URISyntaxException{
-        try (Reader reader = new InputStreamReader(
-                module.openStream(),
-                "UTF8"
-            )){
+        try (Reader reader = new InputStreamReader(module.openStream(),"UTF8")){
             Script script = Context.getCurrentContext().compileReader(reader, module.toString(),1,null);
             return new ModuleScript(script, module.toURI(), base == null ? null : base.toURI());
         } catch(UnsupportedEncodingException e) {
