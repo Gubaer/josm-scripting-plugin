@@ -120,7 +120,7 @@ public class PythonPluginsConfigurationPanel extends JPanel {
         }
 
         /**
-         * Adds an additonal empty plugin
+         * Adds an additional empty plugin
          */
         public void addNew(){
             plugins.add("");

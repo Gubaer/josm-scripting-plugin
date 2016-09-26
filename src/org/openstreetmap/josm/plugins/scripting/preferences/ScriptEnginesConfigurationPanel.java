@@ -149,10 +149,10 @@ public class ScriptEnginesConfigurationPanel extends VerticallyScrollablePanel{
     }
 
     public static EngineJarDescriptor getEngineDescriptor(String name) {
-        for (EngineJarDescriptor desc: getDownloadableEngines()) {
-            if (name.equalsIgnoreCase(desc.getName())) return desc;
-        }
-        return null;
+        return getDownloadableEngines().stream()
+            .filter(desc -> name.equalsIgnoreCase(desc.getName()))
+            .findFirst()
+            .orElse(null);
     }
 
 
@@ -515,13 +515,11 @@ public class ScriptEnginesConfigurationPanel extends VerticallyScrollablePanel{
                     false /* unzip */
             );
             final Future<?> future = Main.worker.submit(downloadFileTask);
-            Main.worker.submit(new Runnable() {
-                @Override
-                public void run() {
+            Main.worker.submit(() -> {
                     try {
                         future.get();
-                    } catch(InterruptedException | ExecutionException e) {
-                        e.printStackTrace();
+                    } catch(InterruptedException | ExecutionException ex) {
+                        ex.printStackTrace();
                         return;
                     }
                     ArrayList<String> jars = new ArrayList<>(Main.pref
@@ -532,12 +530,9 @@ public class ScriptEnginesConfigurationPanel extends VerticallyScrollablePanel{
                                 jars);
                     }
                     //refresh on the UI thread
-                    SwingUtilities.invokeLater(new Runnable() {
-                        public void run() {
-                            model.restoreFromPreferences();
-                        }
-                    });
-                }
+                    SwingUtilities.invokeLater(() ->
+                        model.restoreFromPreferences()
+                    );
             });
         }
     }

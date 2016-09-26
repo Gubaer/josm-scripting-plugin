@@ -9,10 +9,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.Collection;
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -43,7 +40,7 @@ import org.openstreetmap.josm.plugins.scripting.ui.RunScriptAction;
 import org.openstreetmap.josm.plugins.scripting.ui.ToggleConsoleAction;
 import org.openstreetmap.josm.plugins.scripting.util.IOUtil;
 
-public class ScriptingPlugin extends Plugin {
+public class ScriptingPlugin extends Plugin implements PreferenceKeys{
     static private final Logger logger = Logger.getLogger(ScriptingPlugin.class
             .getName());
     static public final String START_MODULE_NAME = "ScriptingPlugin_Start";
@@ -114,25 +111,14 @@ public class ScriptingPlugin extends Plugin {
         pythonPluginManager = PythonPluginManagerFactory.createPythonPluginManager();
         if (pythonPluginManager == null) return;
 
-        Collection<String> paths = Main.pref.getCollection(
-               PreferenceKeys.PREF_KEY_JYTHON_SYS_PATHS,
-               null
+        pythonPluginManager.updatePluginSpecificSysPaths(
+            Main.pref.getCollection(PREF_KEY_JYTHON_SYS_PATHS)
         );
-        if (paths != null) {
-            pythonPluginManager.updatePluginSpecificSysPaths(paths);
-        }
 
-        Collection<String> plugins = Main.pref.getCollection(
-           PreferenceKeys.PREF_KEY_JYTHON_PLUGINS,
-           null
-        );
-        if (plugins != null) {
-            for (String plugin: plugins) {
-                plugin = plugin.trim();
-                if (plugin.isEmpty()) continue;
-                pythonPluginManager.loadPlugin(plugin);
-            }
-        }
+        Main.pref.getCollection(PREF_KEY_JYTHON_PLUGINS)
+            .stream()
+            .filter(plugin -> ! plugin.trim().isEmpty())
+            .forEach(plugin -> pythonPluginManager.loadPlugin(plugin));
     }
 
     protected void jsOnStart() {
@@ -180,13 +166,11 @@ public class ScriptingPlugin extends Plugin {
         MostRecentlyRunScriptsModel.getInstance().loadFromPreferences(Main.pref);
         populateStandardentries(scriptingMenu);
         populateMruMenuEntries(scriptingMenu);
-        MostRecentlyRunScriptsModel.getInstance().addObserver(new Observer() {
-            @Override
-            public void update(Observable arg0, Object arg1) {
+        MostRecentlyRunScriptsModel.getInstance().addObserver(
+                (arg0, arg1) ->  {
                 scriptingMenu.removeAll();
                 populateStandardentries(scriptingMenu);
                 populateMruMenuEntries(scriptingMenu);
-            }
         });
     }
 

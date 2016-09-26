@@ -34,7 +34,6 @@ import javax.swing.event.DocumentListener;
 
 import org.openstreetmap.josm.gui.widgets.HtmlPanel;
 import org.openstreetmap.josm.plugins.scripting.model.CommonJSModuleRepository;
-import org.openstreetmap.josm.plugins.scripting.util.IOUtil;
 import org.openstreetmap.josm.tools.ImageProvider;
 import org.openstreetmap.josm.tools.WindowGeometry;
 
@@ -118,14 +117,10 @@ public class ModuleRepositoryDialog extends JDialog {
     }
 
     protected boolean isExistingJarFile(File f) {
-        JarFile jar = null;
-        try {
-            jar = new JarFile(f);
+        try(JarFile jar = new JarFile(f)) {
             return true;
         } catch(IOException e) {
             return false;
-        } finally {
-            IOUtil.close(jar);
         }
     }
 

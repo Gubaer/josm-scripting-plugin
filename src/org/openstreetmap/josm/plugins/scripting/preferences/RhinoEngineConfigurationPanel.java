@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import javax.swing.AbstractAction;
 import javax.swing.AbstractListModel;
@@ -117,7 +118,7 @@ public class RhinoEngineConfigurationPanel extends VerticallyScrollablePanel{
 
     static public class RepositoriesListModel extends AbstractListModel<URL> implements PreferenceKeys {
 
-        private final List<URL> repositories = new ArrayList<URL>();
+        private final List<URL> repositories = new ArrayList<>();
         private DefaultListSelectionModel selectionModel;
 
         public RepositoriesListModel(DefaultListSelectionModel selectionModel) {
@@ -145,11 +146,10 @@ public class RhinoEngineConfigurationPanel extends VerticallyScrollablePanel{
         }
 
         public void saveToPreferences(Preferences pref) {
-            List<String> entries = new ArrayList<String>();
-            for (URL url: repositories) {
-                entries.add(url.toString());
-            }
-            pref.putCollection(PREF_KEY_COMMONJS_MODULE_REPOSITORIES, entries);
+            List<String> entries = repositories.stream()
+                    .map(url -> url.toString())
+                    .collect(Collectors.toList());
+            pref.putCollection(PREF_KEY_COMMONJS_MODULE_REPOSITORIES,entries);
         }
 
         public void saveToPreferences() {

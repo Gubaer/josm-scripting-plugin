@@ -40,16 +40,14 @@ public class ScriptEngineJarInfo implements Comparable<ScriptEngineJarInfo>{
             statusMessage = tr("''{0}'' isn''t readable. Can''t load a script engine from this file.", jar);
             return;
         }
-        JarFile jf = null;
-        try {
-            jf = new JarFile(jar);
+        try (JarFile jf = new JarFile(jar)){
+            ZipEntry ze = jf.getEntry("META-INF/services/javax.script.ScriptEngineFactory");
+            if (ze == null){
+                statusMessage = tr("The jar file ''{0}'' doesn''t provide a script engine. The entry ''{1}'' is missing.", jar,"/META-INF/services/javax.script.ScriptEngineFactory");
+                return;
+            }
         } catch (IOException e) {
             statusMessage = tr("Failed to open file ''{0}'' as jar file. Can''t load a script engine from this file.", jar);
-            return;
-        }
-        ZipEntry ze = jf.getEntry("META-INF/services/javax.script.ScriptEngineFactory");
-        if (ze == null){
-            statusMessage = tr("The jar file ''{0}'' doesn''t provide a script engine. The entry ''{1}'' is missing.", jar,"/META-INF/services/javax.script.ScriptEngineFactory");
             return;
         }
         statusMessage = OK_MESSAGE;

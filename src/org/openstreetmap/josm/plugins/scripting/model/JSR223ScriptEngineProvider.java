@@ -10,10 +10,11 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import javax.activation.MimetypesFileTypeMap;
 import javax.script.ScriptEngine;
@@ -105,9 +106,7 @@ public class JSR223ScriptEngineProvider extends AbstractListModel<ScriptEngineFa
     protected void restoreScriptEngineUrlsFromPreferences() {
         scriptEngineJars.clear();
         if (Main.pref != null) {
-            Collection<String> jars = Main.pref.getCollection(PREF_KEY_SCRIPTING_ENGINE_JARS,null);
-            if (jars == null) return;
-            jars.stream()
+            Main.pref.getCollection(PREF_KEY_SCRIPTING_ENGINE_JARS).stream()
                 .map(String::trim)
                 .filter(s -> !s.isEmpty())
                 .map(ScriptEngineJarInfo::new)
@@ -118,20 +117,24 @@ public class JSR223ScriptEngineProvider extends AbstractListModel<ScriptEngineFa
     }
 
     protected void buildClassLoader() {
-        URL [] urls = new URL[scriptEngineJars.size()];
-        for(int i=0; i < scriptEngineJars.size(); i++){
-            try {
-                urls[i] = scriptEngineJars.get(i).toURI().toURL();
-            } catch(MalformedURLException e){
-                // shouldn't happen because the entries in 'scriptEngineJars'
-                // are existing, valid files. Ignore the exception.
-                e.printStackTrace();
-                continue;
-            }
-        }
-        if (urls.length > 0){
+        List<URL> urls = scriptEngineJars.stream()
+            .map(jar -> {
+                try {
+                    return Optional.of(jar.toURI().toURL());
+                } catch(MalformedURLException e) {
+                    // shouldn't happen because the entries in 'scriptEngineJars'
+                    // are existing, valid files. Ignore the exception.
+                    e.printStackTrace();
+                    return Optional.<URL>empty();
+                }
+            })
+            .filter(url -> url.isPresent())
+            .map(url -> url.get())
+            .collect(Collectors.toList());
+
+        if (! urls.isEmpty()){
             scriptClassLoader = new URLClassLoader(
-                    urls,
+                    urls.toArray(new URL[urls.size()]),
                     getClass().getClassLoader()
             );
         } else {
@@ -213,12 +216,12 @@ public class JSR223ScriptEngineProvider extends AbstractListModel<ScriptEngineFa
         if (scriptFile == null) return null;
 
         String mimeType = getContentTypeForFile(scriptFile);
-        for (ScriptEngineFactory factory: getScriptEngineManager().getEngineFactories()) {
-            if (factory.getMimeTypes().contains(mimeType)) {
-                return new ScriptEngineDescriptor(factory);
-            }
-        }
-        return null;
+
+        return getScriptEngineManager().getEngineFactories().stream()
+                .filter(factory -> factory.getMimeTypes().contains(mimeType))
+                .findFirst()
+                .flatMap(factory -> Optional.of(new ScriptEngineDescriptor(factory)))
+                .orElse(null);
     }
 
 
@@ -279,12 +282,11 @@ public class JSR223ScriptEngineProvider extends AbstractListModel<ScriptEngineFa
     public ScriptEngine getScriptEngine(ScriptEngineDescriptor desc) {
         Assert.assertArgNotNull(desc, "desc");
         Assert.assertArg(desc.getEngineType().equals(ScriptEngineType.PLUGGED), "Expected a descriptor for a plugged script engine, got ''{0}''", desc);
-        for (ScriptEngineFactory factory: factories) {
-            if (desc.getEngineId().equals(factory.getNames().get(0))) {
-                return factory.getScriptEngine();
-            }
-        }
-        return null;
+        return factories.stream()
+            .filter(factory -> desc.getEngineId().equals(factory.getNames().get(0)))
+            .findFirst()
+            .flatMap(factory -> Optional.of(factory.getScriptEngine()))
+            .orElse(null);
     }
 
     /**
@@ -316,7 +318,7 @@ public class JSR223ScriptEngineProvider extends AbstractListModel<ScriptEngineFa
      * @return the factories
      */
     public List<ScriptEngineFactory> getScriptEngineFactories() {
-        return new ArrayList<ScriptEngineFactory>(factories);
+        return new ArrayList<>(factories);
     }
 
     /* ------------------------------------------------------------------------------------ */

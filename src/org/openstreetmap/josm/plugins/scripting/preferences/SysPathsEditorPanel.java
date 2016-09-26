@@ -18,10 +18,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import java.util.jar.JarFile;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import javax.swing.AbstractAction;
 import javax.swing.AbstractListModel;
@@ -55,7 +55,6 @@ import org.openstreetmap.josm.data.Preferences;
 import org.openstreetmap.josm.gui.widgets.HtmlPanel;
 import org.openstreetmap.josm.plugins.scripting.model.PreferenceKeys;
 import org.openstreetmap.josm.plugins.scripting.util.Assert;
-import org.openstreetmap.josm.plugins.scripting.util.IOUtil;
 import org.openstreetmap.josm.tools.ImageProvider;
 import org.openstreetmap.josm.tools.WindowGeometry;
 
@@ -162,7 +161,7 @@ public class SysPathsEditorPanel extends JPanel {
     static public class SysPathsModel extends AbstractListModel<File> implements PreferenceKeys {
         static private final Logger logger = Logger.getLogger(SysPathsModel.class.getName());
 
-        private final List<File> paths = new ArrayList<File>();
+        private final List<File> paths = new ArrayList<>();
         private DefaultListSelectionModel selectionModel;
 
         public SysPathsModel(DefaultListSelectionModel selectionModel) {
@@ -176,11 +175,11 @@ public class SysPathsEditorPanel extends JPanel {
          */
         public void setPaths(Collection<String> paths) {
             this.paths.clear();
-            paths.remove(null); // remove null elements
-            for(String path: paths) {
-                path = path.trim();
-                this.paths.add(new File(path));
-            }
+            paths.stream()
+                .filter(path -> path != null)
+                .map(String::trim)
+                .map(File::new)
+                .collect(Collectors.toCollection(() -> this.paths));
             fireContentsChanged(this, 0, this.paths.size());
         }
 
@@ -190,11 +189,9 @@ public class SysPathsEditorPanel extends JPanel {
          * @return the paths
          */
         public List<String> getPaths() {
-            List<String> ret = new ArrayList<String>();
-            for(File path: paths) {
-                ret.add(path.getAbsolutePath());
-            }
-            return ret;
+            return paths.stream()
+                .map(File::getAbsolutePath)
+                .collect(Collectors.toList());
         }
 
         /**
@@ -205,12 +202,11 @@ public class SysPathsEditorPanel extends JPanel {
          */
         public void loadFromPreferences(Preferences prefs, String key) {
             Assert.assertArgNotNull(prefs, "prefs");
-            Collection<String> entries = prefs.getCollection(key);
-            for (Iterator<String> it = entries.iterator(); it.hasNext();) {
-                String entry = it.next().trim();
-                if (entry.isEmpty()) continue;
-                paths.add(new File(entry));
-            }
+            prefs.getCollection(key).stream()
+                .map(String::trim)
+                .filter(path -> !path.isEmpty())
+                .map(File::new)
+                .collect(Collectors.toCollection(() -> paths));
         }
 
         public void loadFromPreferences(Preferences prefs) {
@@ -224,10 +220,9 @@ public class SysPathsEditorPanel extends JPanel {
          * @param key the preference key
          */
         public void persistToPreferences(Preferences prefs, String key) {
-            List<String> entries = new ArrayList<String>();
-            for (File path: paths) {
-                entries.add(path.getAbsolutePath());
-            }
+            List<String> entries = paths.stream()
+                    .map(File::getAbsolutePath)
+                    .collect(Collectors.toList());
             prefs.putCollection(key, entries);
         }
 
@@ -409,7 +404,6 @@ public class SysPathsEditorPanel extends JPanel {
         }
     }
 
-
     static public class SysPathDialog extends JDialog {
 
         static private final Logger logger = Logger.getLogger(
@@ -495,14 +489,10 @@ public class SysPathsEditorPanel extends JPanel {
         }
 
         protected boolean isExistingJarFile(File f) {
-            JarFile jar = null;
-            try {
-                jar = new JarFile(f);
+            try (JarFile jar = new JarFile(f)) {
                 return true;
             } catch(IOException e) {
                 return false;
-            } finally {
-                IOUtil.close(jar);
             }
         }
 

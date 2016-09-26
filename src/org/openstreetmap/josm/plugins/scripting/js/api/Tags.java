@@ -3,6 +3,7 @@ package org.openstreetmap.josm.plugins.scripting.js.api;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
@@ -98,14 +99,9 @@ public class Tags extends ScriptableObject {
     @Override
     public Object getDefaultValue(Class<?> typeHint) {
         if (typeHint == null || typeHint == String.class || typeHint == Scriptable.class) {
-            StringBuffer sb = new StringBuffer();
-            Collection<String> keys = primitive.keySet();
-            for (Iterator<String> it=keys.iterator(); it.hasNext();) {
-                String key = it.next();
-                if (sb.length() > 0) sb.append(",");
-                sb.append(key).append("=").append(primitive.get(key));
-            }
-            return sb.toString();
+            return primitive.keySet().stream()
+                .map(key -> key + "=" + primitive.get(key))
+                .collect(Collectors.joining(","));
         } else if (typeHint == Number.class) {
             return primitive.keySet().size();
         } else if (typeHint == Boolean.class) {

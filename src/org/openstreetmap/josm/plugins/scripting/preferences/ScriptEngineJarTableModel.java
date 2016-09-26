@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.ListSelectionModel;
@@ -22,7 +23,7 @@ import org.openstreetmap.josm.plugins.scripting.model.PreferenceKeys;
 public class ScriptEngineJarTableModel extends AbstractTableModel implements PreferenceKeys{
     static private final Logger logger = Logger.getLogger(ScriptEngineJarTableModel.class.getName());
 
-    private final List<ScriptEngineJarInfo> jars = new ArrayList<ScriptEngineJarInfo>();
+    private final List<ScriptEngineJarInfo> jars = new ArrayList<>();
     private DefaultListSelectionModel selectionModel;
 
     public ScriptEngineJarTableModel() {
@@ -91,11 +92,11 @@ public class ScriptEngineJarTableModel extends AbstractTableModel implements Pre
         jars.clear();
         Collection<String> paths = Main.pref.getCollection(PREF_KEY_SCRIPTING_ENGINE_JARS);
         if (paths != null) {
-            for (String path: paths){
-                path = path.trim();
-                if (path.isEmpty()) continue;
-                jars.add(new ScriptEngineJarInfo(path));
-            }
+            paths.stream()
+                .map(String::trim)
+                .filter(path -> ! path.isEmpty())
+                .map(path -> new ScriptEngineJarInfo(path))
+                .collect(Collectors.toCollection(() -> jars));
         }
         fireTableDataChanged();
     }
@@ -105,13 +106,10 @@ public class ScriptEngineJarTableModel extends AbstractTableModel implements Pre
      * <p>Persists the jar paths to the preferences.</p>
      */
     public void persistToPreferences() {
-        Collection<String> paths = new ArrayList<String>();
-        for (ScriptEngineJarInfo info: jars) {
-            String path = info.getJarFilePath();
-            path = path.trim();
-            if (path.isEmpty()) continue;
-            paths.add(path);
-        }
+        List<String> paths = jars.stream()
+                .map(info -> info.getJarFilePath().trim())
+                .filter(path -> ! path.isEmpty())
+                .collect(Collectors.toList());
         Main.pref.putCollection(PREF_KEY_SCRIPTING_ENGINE_JARS, paths);
     }
 
@@ -139,14 +137,12 @@ public class ScriptEngineJarTableModel extends AbstractTableModel implements Pre
 
         // propagate the new list of script engine jars to the global script
         // engine provider.
-        List<File> jarfiles = new ArrayList<File>();
-        for (ScriptEngineJarInfo info: jars) {
-            String path = info.getJarFilePath().trim();
-            if (path.isEmpty()) continue;
-            if (!info.getStatusMessage().equals(ScriptEngineJarInfo.OK_MESSAGE))
-                continue;
-            jarfiles.add(new File(path));
-        }
+        List<File> jarfiles = jars.stream()
+            .filter(info -> ! info.getJarFilePath().trim().isEmpty())
+            .filter(info -> info.getStatusMessage().equals(ScriptEngineJarInfo.OK_MESSAGE))
+            .map(info -> new File(info.getJarFilePath().trim()))
+            .collect(Collectors.toList());
+
         JSR223ScriptEngineProvider.getInstance().setScriptEngineJars(jarfiles);
     }
 }
