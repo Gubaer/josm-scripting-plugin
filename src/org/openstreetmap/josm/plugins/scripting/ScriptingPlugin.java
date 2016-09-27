@@ -16,7 +16,6 @@ import java.util.logging.Logger;
 import javax.swing.Action;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
-import javax.swing.JMenuItem;
 import javax.swing.JSeparator;
 
 import org.mozilla.javascript.Function;
@@ -187,10 +186,7 @@ public class ScriptingPlugin extends Plugin implements PreferenceKeys{
                 .getRunScriptActions();
         if (!actions.isEmpty()) {
             scriptingMenu.addSeparator();
-            for (int i = 0; i < actions.size() && i < 10; i++) {
-                JMenuItem item = new JMenuItem(actions.get(i));
-                scriptingMenu.add(item);
-            }
+            actions.stream().limit(10).forEach(scriptingMenu::add);
         }
     }
 
