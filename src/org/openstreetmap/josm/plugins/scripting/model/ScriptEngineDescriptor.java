@@ -22,7 +22,8 @@ import org.openstreetmap.josm.plugins.scripting.util.Assert;
  *
  */
 public class ScriptEngineDescriptor implements PreferenceKeys {
-    static private final Logger logger = Logger.getLogger(ScriptEngineDescriptor.class.getName());
+    static private final Logger logger =
+            Logger.getLogger(ScriptEngineDescriptor.class.getName());
 
     static public enum ScriptEngineType {
         /**
@@ -40,9 +41,10 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
         }
 
         /**
-         * <p>Infers the script engine type from preference value. The value is a string
-         * <code>type/engineId</code>. This methods decodes the component <code>type</code>.
-         * Replies <code>null</code> if no type can be inferred.</p>
+         * <p>Infers the script engine type from preference value. The value is
+         * a string <code>type/engineId</code>. This methods decodes the
+         * component <code>type</code>. Replies <code>null</code> if no type
+         * can be inferred.</p>
          *
          * <strong>Examples</strong>
          * <pre>
@@ -53,7 +55,8 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
          * @param preferencesValue the preferences value
          * @return the type
          */
-        static public ScriptEngineType fromPreferencesValue(String preferencesValue) {
+        static public ScriptEngineType fromPreferencesValue(
+                String preferencesValue) {
             if (preferencesValue == null) return null;
             preferencesValue = preferencesValue.trim().toLowerCase();
             int i = preferencesValue.indexOf("/");
@@ -76,19 +79,21 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
      * The default script engine descriptor. Refers to the embedded script engine based
      * on Mozilla Rhino.
      */
-    static public final ScriptEngineDescriptor DEFAULT_SCRIPT_ENGINE = new ScriptEngineDescriptor(
+    static public final ScriptEngineDescriptor DEFAULT_SCRIPT_ENGINE =
+        new ScriptEngineDescriptor(
             ScriptEngineType.EMBEDDED,
             "rhino",
             "JavaScript",
             "Mozilla Rhino",
             "text/javascript"
-    );
+        );
 
     /**
-     * An unmodifiable map of embedded script engines (currently only one entry for the embedded
-     * engine based on Mozilla Rhino)
+     * An unmodifiable map of embedded script engines (currently only one entry
+     * for the embedded engine based on Mozilla Rhino)
      */
-    static public final Map<String, ScriptEngineDescriptor> EMBEDDED_SCRIPT_ENGINES;
+    static public final Map<String, ScriptEngineDescriptor>
+        EMBEDDED_SCRIPT_ENGINES;
     static {
          HashMap<String, ScriptEngineDescriptor> m = new HashMap<>();
          m.put(DEFAULT_SCRIPT_ENGINE.getEngineId(), DEFAULT_SCRIPT_ENGINE);
@@ -97,8 +102,8 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
 
 
     /**
-     * <p>Replies a script engine descriptor derived from a preference value <code>engineType/engineId</code> in
-     * {@link Main#prefs}.<p>
+     * <p>Replies a script engine descriptor derived from a preference value
+     * <code>engineType/engineId</code> in {@link Main#prefs}.<p>
      *
      * @return the scripting engine descriptor
      * @see #buildFromPreferences(Preferences)
@@ -108,64 +113,92 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
     }
 
     /**
-     * <p>Replies a script engine descriptor derived from a preference value <code>engineType/engineId</code>.<p>
+     * <p>Replies a script engine descriptor derived from a preference value
+     * <code>engineType/engineId</code>.<p>
      *
-     * <p>It looks for  the preference value with key {@link PreferenceKeys#PREF_KEY_SCRIPTING_ENGINE}. If this
-     * key doesn't exist or if it doesn't refer to a supported combination of <code>engineType</code> and
-     * <code>engineId</code>, the default scripting engine descriptor {@link #DEFAULT_SCRIPT_ENGINE} is
+     * <p>It looks for  the preference value with key
+     * {@link PreferenceKeys#PREF_KEY_SCRIPTING_ENGINE}.
+     * If this key doesn't exist or if it doesn't refer to a supported
+     * combination of <code>engineType</code> and <code>engineId</code>, the
+     * default scripting engine descriptor {@link #DEFAULT_SCRIPT_ENGINE} is
      * replied.</p>
      *
      * @param preferences the preferences
      * @return the scripting engine descriptor
      */
-    static public ScriptEngineDescriptor buildFromPreferences(Preferences preferences) {
+    static public ScriptEngineDescriptor buildFromPreferences(
+            Preferences preferences) {
         if (preferences == null) return DEFAULT_SCRIPT_ENGINE;
         String prefValue = preferences.get(PREF_KEY_SCRIPTING_ENGINE);
         return buildFromPreferences(prefValue);
     }
 
     /**
-     * <p>Replies a script engine descriptor derived from a preference value <code>engineType/engineId</code>.<p>
+     * <p>Replies a script engine descriptor derived from a preference value
+     * <code>engineType/engineId</code>.<p>
      *
-     * @param preferenceValue the preference value. If null, replies the {@link #DEFAULT_SCRIPT_ENGINE}
+     * @param preferenceValue the preference value. If null, replies the
+     *      {@link #DEFAULT_SCRIPT_ENGINE}
+     *
      * @return the scripting engine descriptor
      */
-    static public ScriptEngineDescriptor buildFromPreferences(String preferenceValue){
+    static public ScriptEngineDescriptor buildFromPreferences(
+            String preferenceValue){
         if (preferenceValue == null) return DEFAULT_SCRIPT_ENGINE;
-        ScriptEngineType type = ScriptEngineType.fromPreferencesValue(preferenceValue);
+        ScriptEngineType type =
+                ScriptEngineType.fromPreferencesValue(preferenceValue);
         if (type == null) {
-            //NOTE: might be a legal preferences value for former plugin versions. No attempt to recover from these
-            // values, when this code goes productive, former preference values are automatically reset to the
-            // to the current default scripting engine.
-            System.out.println(tr("Warning: preference with key ''{0}'' consist of an unsupported value. Expected pattern ''type/id'', got ''{1}''. Assuming default scripting engine.", PREF_KEY_SCRIPTING_ENGINE, preferenceValue));
+            //NOTE: might be a legal preferences value for former plugin
+            // versions. No attempt to recover from these values, when this
+            // code goes productive, former preference values are automatically
+            // reset to the current default scripting engine.
+            System.out.println(tr("Warning: preference with key ''{0}'' "
+                + "consist of an unsupported value. Expected pattern "
+                + "''type/id'', got ''{1}''. Assuming default scripting engine.",
+                PREF_KEY_SCRIPTING_ENGINE, preferenceValue));
             return DEFAULT_SCRIPT_ENGINE;
         }
-        int i = preferenceValue.indexOf("/");
+        final int i = preferenceValue.indexOf("/");
         if (i < 0) return DEFAULT_SCRIPT_ENGINE;
         String engineId = preferenceValue.substring(i+1);
         switch(type){
             case EMBEDDED:
                 if (engineId == null) return DEFAULT_SCRIPT_ENGINE;
                 engineId = engineId.trim().toLowerCase();
-                ScriptEngineDescriptor desc = EMBEDDED_SCRIPT_ENGINES.get(engineId);
+                final ScriptEngineDescriptor desc =
+                        EMBEDDED_SCRIPT_ENGINES.get(engineId);
                 if (desc == null) {
-                    System.out.println(tr("Warning: preference with key ''{0}'' refers to an unsupported embedded scripting engine with id ''{1}''. Assuming default scripting engine.", PREF_KEY_SCRIPTING_ENGINE, engineId));
+                    System.out.println(tr("Warning: preference with key ''{0}''"
+                            + " refers to an unsupported embedded scripting "
+                            + "engine with id ''{1}''. "
+                            + "Assuming default scripting engine.",
+                            PREF_KEY_SCRIPTING_ENGINE, engineId));
                     return DEFAULT_SCRIPT_ENGINE;
                 }
                 return desc;
             case PLUGGED:
-                engineId = engineId.trim(); // don't lowercase. Lookup in ScriptEngineManager could be case sensitive
-                if (! JSR223ScriptEngineProvider.getInstance().hasEngineWithName(engineId)) {
-                    System.out.println(tr("Warning: preference with key ''{0}'' refers to an unsupported JSR223 compatible scripting engine with id ''{1}''. Assuming default scripting engine.", PREF_KEY_SCRIPTING_ENGINE, engineId));
+                //don't lowercase. Lookup in ScriptEngineManager could be case
+                //sensitive
+                engineId = engineId.trim();
+                if (! JSR223ScriptEngineProvider.getInstance()
+                        .hasEngineWithName(engineId)) {
+                    System.out.println(tr("Warning: preference with key ''{0}''"
+                            + " refers to an unsupported JSR223 compatible "
+                            + " scripting engine with id ''{1}''. "
+                            + " Assuming default scripting engine.",
+                            PREF_KEY_SCRIPTING_ENGINE,
+                            engineId));
                     return DEFAULT_SCRIPT_ENGINE;
                 }
-                return new ScriptEngineDescriptor(ScriptEngineType.PLUGGED, engineId);
+                return new ScriptEngineDescriptor(ScriptEngineType.PLUGGED,
+                        engineId);
         }
         return DEFAULT_SCRIPT_ENGINE;
     }
 
     protected void initParametersForJSR223Engine(String engineId) {
-        ScriptEngineFactory factory = JSR223ScriptEngineProvider.getInstance().getScriptFactoryByName(engineId);
+        ScriptEngineFactory factory = JSR223ScriptEngineProvider.getInstance()
+                .getScriptFactoryByName(engineId);
         if (factory == null){
             this.languageName = null;
             this.engineName = null;
@@ -217,9 +250,11 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
      * @param engineId the engine id. Must not be null.
      * @param languageName the name of the scripting language. May be null.
      * @param engineName the name of the scripting engine. May be null.
-     * @param contentType the content type of the script sources. Ignored if null.
+     * @param contentType the content type of the script sources. Ignored
+     *   if null.
      */
-    public ScriptEngineDescriptor(ScriptEngineType engineType, String engineId, String languageName, String engineName, String contentType) {
+    public ScriptEngineDescriptor(ScriptEngineType engineType, String engineId,
+            String languageName, String engineName, String contentType) {
         Assert.assertArgNotNull(engineType, "type");
         Assert.assertArgNotNull(engineId, "id");
         this.engineId = engineId;
@@ -240,9 +275,12 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
     public ScriptEngineDescriptor(ScriptEngineFactory factory) {
         Assert.assertArgNotNull(factory, "factory");
         this.engineType = ScriptEngineType.PLUGGED;
-        List<String> engineNames = factory.getNames();
+        final List<String> engineNames = factory.getNames();
         if (engineNames == null || engineNames.isEmpty()) {
-            logger.warning(MessageFormat.format("script engine factory ''{0}'' doesn''t provide an engine id. Using engine name ''{1}'' instead.", factory.getEngineName()));
+            logger.warning(MessageFormat.format("script engine factory ''{0}''"
+                    + " doesn''t provide an engine id. "
+                    + "Using engine name ''{1}'' instead.",
+                    factory.getEngineName()));
             this.engineId = factory.getEngineName();
         } else {
             // use the first of the provided names as ID
@@ -279,20 +317,23 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
     }
 
     /**
-     * Replies a string representing the descriptor in the format <em>engineType/engineInfo</em>.
+     * Replies a string representing the descriptor in the format
+     * <em>engineType/engineInfo</em>.
      *
      * @return the preferences value
      * @see #buildFromPreferences()
      */
     public String getPreferencesValue() {
-        return MessageFormat.format("{0}/{1}", engineType.preferencesValue, engineId);
+        return MessageFormat.format("{0}/{1}", engineType.preferencesValue,
+                engineId);
     }
 
     /**
-     * Replies the name of the scripting language supported by this scripting engine, or null,
-     * if the name isn't known.
+     * Replies the name of the scripting language supported by this scripting
+     * engine, or null, if the name isn't known.
      *
-     * @return the name of the scripting language supported by this scripting engine.
+     * @return the name of the scripting language supported by this scripting
+     *  engine.
      */
     public String getLanguageName() {
         return languageName;
@@ -311,7 +352,8 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
     /**
      * Replies the content types of the script source
      *
-     * @return the content types. An unmodifiable list. An empty list, if no content types are known.
+     * @return the content types. An unmodifiable list. An empty list, if no
+     *  content types are known.
      */
     public List<String> getContentMimeTypes() {
         return Collections.unmodifiableList(contentMimeTypes);
@@ -325,8 +367,10 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((engineId == null) ? 0 : engineId.hashCode());
-        result = prime * result + ((engineType == null) ? 0 : engineType.hashCode());
+        result = prime * result
+                + ((engineId == null) ? 0 : engineId.hashCode());
+        result = prime * result
+                + ((engineType == null) ? 0 : engineType.hashCode());
         return result;
     }
 
