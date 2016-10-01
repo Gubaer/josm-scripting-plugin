@@ -17,11 +17,14 @@ import org.openstreetmap.josm.plugins.scripting.ScriptingPlugin;
 
 import jsyntaxpane.DefaultSyntaxKit;
 /**
- * <p>Provides a map of mime types to class names for syntax kits. Looks for two configuration files:</p>
+ * <p>Provides a map of mime types to class names for syntax kits.
+ * Looks for two configuration files:</p>
  *
  * <ol>
- *   <li><tt>/resources/syntax-kit-map.default</tt> - the default mappings provided in the plugin jar</li>
- *   <li><tt>$PLUGIN_DATA_DIR/syntax-kit-map</tt> - additional local mappings</li>
+ *   <li><tt>/resources/syntax-kit-map.default</tt> - the default mappings
+ *   provided in the plugin jar</li>
+ *   <li><tt>$PLUGIN_DATA_DIR/syntax-kit-map</tt> - additional local
+ *   mappings</li>
  * </ol>
  *
  */
@@ -43,7 +46,9 @@ public class MimeTypeToSyntaxKitMap {
             Class.forName(className);
             return true;
         } catch (ClassNotFoundException e) {
-            System.out.println(tr("Warning: syntax kit ''{0}'' can''t be loaded. Ignoring mapping for mime type ''{1}''.", className, mimeType));
+            System.out.println(tr("Warning: syntax kit ''{0}'' can''t be "
+                    + "loaded. Ignoring mapping for mime type ''{1}''.",
+                    className, mimeType));
             return false;
         }
     }
@@ -53,25 +58,29 @@ public class MimeTypeToSyntaxKitMap {
     }
 
     protected void loadMappings(BufferedReader br) {
-        Pattern p = Pattern.compile("^\\s*(\\S+)\\s+(\\S+)");
+       final  Pattern p = Pattern.compile("^\\s*(\\S+)\\s+(\\S+)");
         br.lines()
             .filter(l -> !l.matches("^\\s*#"))
             .forEach(line -> {
-                Matcher m = p.matcher(line);
+                final Matcher m = p.matcher(line);
                 if (!m.matches()) return;
-                String mimeType = m.group(1);
-                String className = m.group(2);
+                final String mimeType = m.group(1);
+                final String className = m.group(2);
                 if (! isClassAvailable(mimeType, className)) return;
                 map.put(mimeType, className);
             });
     }
 
     protected void loadDefaultMappings() {
-        try(InputStream in =  getClass().getResourceAsStream("/resources/syntax-kit-map.default")){
+        try(final InputStream in =  getClass().
+                getResourceAsStream("/resources/syntax-kit-map.default")){
             if (in == null){
-                System.out.println(tr("Warning: failed to open resource file ''{0}''", "/resources/syntax-kit-map.default"));
+                System.out.println(tr("Warning: failed to open resource file "
+                        + "''{0}''", "/resources/syntax-kit-map.default"));
             }
-            System.out.println(tr("Loading default map from mime-types to syntax kits from resource ''{0}''", "/resources/syntax-kit-map.default"));
+            System.out.println(tr("Loading default map from mime-types to "
+                    + "syntax kits from resource ''{0}''",
+                    "/resources/syntax-kit-map.default"));
             BufferedReader br = new BufferedReader(new InputStreamReader(in));
             loadMappings(br);
         } catch(IOException e) {
@@ -80,17 +89,20 @@ public class MimeTypeToSyntaxKitMap {
     }
 
     protected void loadLocalMappings() {
-        ScriptingPlugin plugin = ScriptingPlugin.getInstance();
+        final ScriptingPlugin plugin = ScriptingPlugin.getInstance();
         if (plugin == null) return;
-        String dir = plugin.getPluginDir();
+        final String dir = plugin.getPluginDir();
         if (dir == null) return;
-        File f = new File(dir, "syntax-kit-map");
+        final File f = new File(dir, "syntax-kit-map");
         if (! f.exists() || !f.isFile() || !f.canRead()) return;
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(f)))){
-            System.out.println(tr("Loading local map from mime-types to syntax kits from resource ''{0}''",f.toString()));
+        try (BufferedReader br = new BufferedReader(
+                new InputStreamReader(new FileInputStream(f)))){
+            System.out.println(tr("Loading local map from mime-types to "
+                    + "syntax kits from resource ''{0}''",f.toString()));
             loadMappings(br);
         } catch(IOException e){
-            System.out.println(tr("Error: failed to load local map from mime-types to syntax kits"));
+            System.out.println(tr("Error: failed to load local map from "
+                    + "mime-types to syntax kits"));
             e.printStackTrace();
         }
     }

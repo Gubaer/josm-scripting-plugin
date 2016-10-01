@@ -8,7 +8,8 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 
 /**
- * <p><strong>DocumentWriter</strong> is a writer which appends text to a {@link Document}.</p>
+ * <p><strong>DocumentWriter</strong> is a writer which appends text to
+ * a {@link Document}.</p>
  *
  */
 public class DocumentWriter extends Writer {
