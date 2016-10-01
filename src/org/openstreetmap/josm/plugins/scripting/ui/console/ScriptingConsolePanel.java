@@ -34,7 +34,8 @@ import jsyntaxpane.DefaultSyntaxKit;
 @SuppressWarnings("serial")
 public class ScriptingConsolePanel extends JPanel {
     @SuppressWarnings("unused")
-    private static final Logger logger = Logger.getLogger(ScriptingConsolePanel.class.getName());
+    private static final Logger logger =
+        Logger.getLogger(ScriptingConsolePanel.class.getName());
 
     private JSplitPane spConsole;
     private ScriptLogPanel log;
@@ -72,8 +73,12 @@ public class ScriptingConsolePanel extends JPanel {
         setLayout(new BorderLayout());
         add(spConsole, BorderLayout.CENTER);
         editor.getModel().addPropertyChangeListener(evt -> {
-            if (! evt.getPropertyName().equals(ScriptEditorModel.PROP_SCRIPT_ENGINE)) return;
-            ScriptEngineDescriptor desc = (ScriptEngineDescriptor)evt.getNewValue();
+            if (! evt.getPropertyName()
+                    .equals(ScriptEditorModel.PROP_SCRIPT_ENGINE)) {
+                return;
+            }
+            ScriptEngineDescriptor desc =
+                    (ScriptEngineDescriptor)evt.getNewValue();
             updateScriptContentType(desc);
         });
         updateScriptContentType(editor.getModel().getScriptEngineDescriptor());
@@ -83,9 +88,11 @@ public class ScriptingConsolePanel extends JPanel {
     protected void warnMissingSyntaxKit(ScriptEngineDescriptor desc) {
         StringBuffer sb = new StringBuffer();
         sb.append("<html>");
-        sb.append(tr("Didn''t find a suitable syntax kit for the script engine <strong>{0}</strong>.", desc.getEngineName()));
+        sb.append(tr("Didn''t find a suitable syntax kit for the script engine "
+                + "<strong>{0}</strong>.", desc.getEngineName()));
         sb.append("<p>");
-        sb.append(tr("No syntax kit is configured for either of the following content types:"));
+        sb.append(tr("No syntax kit is configured for either of the following "
+                + "content types:"));
         sb.append("<ul>");
         for(String mt: desc.getContentMimeTypes()) {
             sb.append("<li><tt>").append(mt).append("</tt></li>");
@@ -93,7 +100,8 @@ public class ScriptingConsolePanel extends JPanel {
         sb.append("</ul>");
         sb.append(tr("Syntax highlighting is going to be disabled."));
         sb.append("<p>");
-        sb.append(tr("Refer to the online help how to configure syntax kits for specific content types."));
+        sb.append(tr("Refer to the online help how to configure syntax kits "
+                + "for specific content types."));
         sb.append("</html>");
 
         ButtonSpec[] btns = new ButtonSpec[] {
@@ -166,7 +174,8 @@ public class ScriptingConsolePanel extends JPanel {
         return log;
     }
 
-    class RunScriptAction extends AbstractAction implements PropertyChangeListener {
+    class RunScriptAction extends AbstractAction
+        implements PropertyChangeListener {
         private ScriptEditorModel model;
         public RunScriptAction(ScriptEditorModel model) {
             this.model = model;
@@ -182,10 +191,12 @@ public class ScriptingConsolePanel extends JPanel {
             String source = editor.getScript();
             switch(model.getScriptEngineDescriptor().getEngineType()) {
             case EMBEDDED:
-                new ScriptExecutor(ScriptingConsolePanel.this).runScriptWithEmbeddedEngine(source);
+                new ScriptExecutor(ScriptingConsolePanel.this)
+                    .runScriptWithEmbeddedEngine(source);
                 break;
             case PLUGGED:
-                new ScriptExecutor(ScriptingConsolePanel.this).runScriptWithPluggedEngine(
+                new ScriptExecutor(ScriptingConsolePanel.this)
+                    .runScriptWithPluggedEngine(
                         model.getScriptEngineDescriptor(),
                         source
                         );
@@ -199,7 +210,10 @@ public class ScriptingConsolePanel extends JPanel {
 
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
-            if (!evt.getPropertyName().equals(ScriptEditorModel.PROP_SCRIPT_ENGINE)) return;
+            if (!evt.getPropertyName()
+                    .equals(ScriptEditorModel.PROP_SCRIPT_ENGINE)) {
+                return;
+            }
             updateEnabledState();
         }
     }
