@@ -11,8 +11,10 @@ import javax.swing.AbstractAction;
 
 import org.openstreetmap.josm.tools.ImageProvider;
 
-public class SaveAction extends AbstractAction implements PropertyChangeListener{
-    static private final Logger logger = Logger.getLogger(SaveAsAction.class.getName());
+public class SaveAction extends AbstractAction implements
+        PropertyChangeListener{
+    static private final Logger logger =
+           Logger.getLogger(SaveAsAction.class.getName());
 
     public SaveAction() {
         putValue(NAME, tr("Save"));
@@ -27,7 +29,7 @@ public class SaveAction extends AbstractAction implements PropertyChangeListener
     }
 
     protected void updateEnabledState() {
-        ScriptingConsole console = ScriptingConsole.getInstance();
+        final ScriptingConsole console = ScriptingConsole.getInstance();
         if (console == null){
             setEnabled(false);
             return;
@@ -35,9 +37,9 @@ public class SaveAction extends AbstractAction implements PropertyChangeListener
         setEnabled(console.getScriptEditorModel().getScriptFile() != null);
     }
 
-    /* ----------------------------------------------------------------------- */
-    /* interface PropertyChangeListener                                        */
-    /* ----------------------------------------------------------------------- */
+    /* --------------------------------------------------------------------- */
+    /* interface PropertyChangeListener                                      */
+    /* --------------------------------------------------------------------- */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         updateEnabledState();
