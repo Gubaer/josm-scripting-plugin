@@ -81,7 +81,8 @@ public class MimeTypeToSyntaxKitMap {
             System.out.println(tr("Loading default map from mime-types to "
                     + "syntax kits from resource ''{0}''",
                     "/resources/syntax-kit-map.default"));
-            BufferedReader br = new BufferedReader(new InputStreamReader(in));
+            final BufferedReader br =
+                    new BufferedReader(new InputStreamReader(in));
             loadMappings(br);
         } catch(IOException e) {
             // may be thrown if closing the resource fails - ignore

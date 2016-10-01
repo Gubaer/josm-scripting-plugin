@@ -14,7 +14,8 @@ import org.openstreetmap.josm.tools.ImageProvider;
 
 public class OpenAction extends AbstractAction {
     private static final long serialVersionUID = 1L;
-    static private final Logger logger = Logger.getLogger(OpenAction.class.getName());
+    static private final Logger logger = Logger.getLogger(
+            OpenAction.class.getName());
     static public final StringProperty PREF_LAST_OPEN_DIR = new StringProperty(
             OpenAction.class.getName() + ".lastDir",
             null
