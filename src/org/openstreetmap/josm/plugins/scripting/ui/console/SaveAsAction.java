@@ -12,15 +12,17 @@ import javax.swing.JFileChooser;
 import org.openstreetmap.josm.tools.ImageProvider;
 
 public class SaveAsAction extends AbstractAction {
-    static private final Logger logger = Logger.getLogger(SaveAsAction.class.getName());
+    @SuppressWarnings("unused")
+    static private final Logger logger =
+            Logger.getLogger(SaveAsAction.class.getName());
 
     protected File askFile() {
-        JFileChooser chooser = new JFileChooser();
+        final JFileChooser chooser = new JFileChooser();
         chooser.setDialogTitle(tr("Select a script"));
         chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         chooser.setMultiSelectionEnabled(false);
         chooser.setFileHidingEnabled(false);
-        int ret = chooser.showSaveDialog(ScriptingConsole.getInstance());
+        final int ret = chooser.showSaveDialog(ScriptingConsole.getInstance());
         if (ret != JFileChooser.APPROVE_OPTION) return null;
 
         return chooser.getSelectedFile();
@@ -34,7 +36,7 @@ public class SaveAsAction extends AbstractAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        File f = askFile();
+        final File f = askFile();
         if (f == null) return;
         ScriptingConsole.getInstance().save(f);
     }
