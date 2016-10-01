@@ -41,7 +41,8 @@ import org.openstreetmap.josm.tools.WindowGeometry;
 public class ModuleRepositoryDialog extends JDialog {
 
     @SuppressWarnings("unused")
-    static private final Logger logger = Logger.getLogger(ModuleRepositoryDialog.class.getName());
+    static private final Logger logger =
+        Logger.getLogger(ModuleRepositoryDialog.class.getName());
 
     private JTextField tfRepositoryUrl;
     private OKAction actOK;
@@ -51,7 +52,8 @@ public class ModuleRepositoryDialog extends JDialog {
         HtmlPanel info = new HtmlPanel();
         info.setText(
                 "<html>"
-                + tr("Please enter or paste a valide file or jar URL. HTTP URLs are not supported."
+                + tr("Please enter or paste a valide file or jar URL. "
+                   + "HTTP URLs are not supported."
                 )
                 + "</html>"
         );
@@ -69,9 +71,13 @@ public class ModuleRepositoryDialog extends JDialog {
 
     protected JPanel buildEntryPanel() {
         JPanel pnl = new JPanel(new GridBagLayout());
-        pnl.add(new JLabel("Repository URL:"), gbc().cell(0, 0).anchor(GridBagConstraints.WEST).insets(0,2,0,2).constraints());
-        pnl.add(tfRepositoryUrl = new JTextField(), gbc().cell(1,0).fillboth().weightx(1.0).insets(0,2,0,2).constraints());
-        pnl.add(new JButton(new LookupFileAction()), gbc().cell(2, 0).insets(0,2,0,2).constraints());
+        pnl.add(new JLabel("Repository URL:"), gbc().cell(0, 0)
+                .anchor(GridBagConstraints.WEST).insets(0,2,0,2)
+                .constraints());
+        pnl.add(tfRepositoryUrl = new JTextField(), gbc().cell(1,0).fillboth()
+                .weightx(1.0).insets(0,2,0,2).constraints());
+        pnl.add(new JButton(new LookupFileAction()), gbc().cell(2, 0)
+                .insets(0,2,0,2).constraints());
 
         tfRepositoryUrl.getDocument().addDocumentListener(new DocumentAdapter());
         return pnl;
@@ -111,7 +117,8 @@ public class ModuleRepositoryDialog extends JDialog {
     }
 
     public ModuleRepositoryDialog(Component parent){
-        super(JOptionPane.getFrameForComponent(parent), ModalityType.DOCUMENT_MODAL);
+        super(JOptionPane.getFrameForComponent(parent),
+                ModalityType.DOCUMENT_MODAL);
         build();
         validateRepository();
     }
@@ -139,7 +146,8 @@ public class ModuleRepositoryDialog extends JDialog {
                 } else if (f.isDirectory()) {
                     valid =  true;
                 } else {
-                    msg = tr("''{0}'' is neither an existing directory nor an existing jar file",s);
+                    msg = tr("''{0}'' is neither an existing directory nor an "
+                            + "existing jar file",s);
                     valid = false;
                 }
             } else {
@@ -151,11 +159,13 @@ public class ModuleRepositoryDialog extends JDialog {
                     } else if (f.isFile()) {
                         valid = isExistingJarFile(f);
                         if (!valid) {
-                            msg = tr("URL ''{0}'' doesn''t refer to an existing local jar file",s);
+                            msg = tr("URL ''{0}'' doesn''t refer to an "
+                                    + "existing local jar file",s);
                         }
                     } else {
                         valid = false;
-                        msg = tr("URL ''{0}'' doesn''t refer to an existing local directory or jar file",s);
+                        msg = tr("URL ''{0}'' doesn''t refer to an existing "
+                                + "local directory or jar file",s);
                     }
                 } catch(IllegalArgumentException e){
                     e.printStackTrace();
@@ -164,7 +174,8 @@ public class ModuleRepositoryDialog extends JDialog {
             }
         }
         if (valid){
-            tfRepositoryUrl.setBackground(UIManager.getColor("TextField.background"));
+            tfRepositoryUrl.setBackground(UIManager.
+                    getColor("TextField.background"));
             actOK.setEnabled(!s.isEmpty());
         } else {
             tfRepositoryUrl.setBackground(new Color(255, 199, 210));
@@ -176,7 +187,8 @@ public class ModuleRepositoryDialog extends JDialog {
     @Override
     public void setVisible(boolean visible) {
         if (visible) {
-            WindowGeometry.centerInWindow(getParent(),new Dimension(600,150)).applySafe(this);
+            WindowGeometry.centerInWindow(getParent(),
+                    new Dimension(600,150)).applySafe(this);
         }
         super.setVisible(visible);
     }
@@ -185,7 +197,8 @@ public class ModuleRepositoryDialog extends JDialog {
 
         public LookupFileAction() {
             putValue(Action.NAME, "...");
-            putValue(Action.SHORT_DESCRIPTION, tr("Select a directory or a jar file"));
+            putValue(Action.SHORT_DESCRIPTION,
+                    tr("Select a directory or a jar file"));
         }
         @Override
         public void actionPerformed(ActionEvent evt) {
@@ -201,11 +214,14 @@ public class ModuleRepositoryDialog extends JDialog {
             if (answer != JFileChooser.APPROVE_OPTION) return;
             File f = fc.getSelectedFile();
             if (f.isDirectory()) {
-                tfRepositoryUrl.setText(new CommonJSModuleRepository(f).getURL().toString());
+                tfRepositoryUrl.setText(
+                        new CommonJSModuleRepository(f).getURL().toString());
             } else if (f.isFile()) {
                 try {
                     JarFile jar = new JarFile(f);
-                    tfRepositoryUrl.setText(new CommonJSModuleRepository(jar).getURL().toString());
+                    tfRepositoryUrl.setText(
+                            new CommonJSModuleRepository(jar)
+                                .getURL().toString());
                 } catch (IOException e) {
                     try {
                         tfRepositoryUrl.setText(f.toURI().toURL().toString());
