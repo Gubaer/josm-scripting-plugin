@@ -36,7 +36,8 @@ public class ConfigureAction extends JosmAction {
         dialog.setVisible(true);
     }
 
-    private final ComponentListener visibilityListener = new  ComponentListener() {
+    private final ComponentListener visibilityListener =
+            new  ComponentListener() {
         @Override
         public void componentHidden(ComponentEvent arg0) {
             // cleanup when dialog becomes invisible
