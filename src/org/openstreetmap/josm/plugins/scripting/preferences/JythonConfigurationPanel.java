@@ -1,7 +1,9 @@
 package org.openstreetmap.josm.plugins.scripting.preferences;
 
-import static org.openstreetmap.josm.plugins.scripting.python.PythonPluginManagerFactory.isJythonPresent;
-import static org.openstreetmap.josm.plugins.scripting.ui.GridBagConstraintBuilder.gbc;
+import static org.openstreetmap.josm.plugins.scripting.python
+    .PythonPluginManagerFactory.isJythonPresent;
+import static org.openstreetmap.josm.plugins.scripting.ui
+    .GridBagConstraintBuilder.gbc;
 import static org.openstreetmap.josm.tools.I18n.tr;
 
 import java.awt.Component;
@@ -20,7 +22,8 @@ import org.openstreetmap.josm.gui.widgets.VerticallyScrollablePanel;
 @SuppressWarnings("serial")
 public class JythonConfigurationPanel extends VerticallyScrollablePanel{
     @SuppressWarnings("unused")
-    private static final Logger logger = Logger.getLogger(JythonConfigurationPanel.class.getName());
+    private static final Logger logger =
+        Logger.getLogger(JythonConfigurationPanel.class.getName());
 
     private SysPathsEditorPanel pnlSysPathEditor;
     private PythonPluginsConfigurationPanel pnlPythonPlugins;
@@ -29,20 +32,27 @@ public class JythonConfigurationPanel extends VerticallyScrollablePanel{
         String text;
         if (isJythonPresent()) {
             text = "<html>" + tr(
-                    "The scripting plugin can load and run plugins written in <strong>Python</strong>. "
-                    + "Below you can configure where it looks for locally deployed plugins and "
+                    "The scripting plugin can load and run plugins written in "
+                    + "<strong>Python</strong>. "
+                    + "Below you can configure where it looks for locally "
+                    + "deployed plugins and "
                     + "which plugins it should load and launch at startup time."
                 )
                 + "</html>";
         } else {
             text = "<html>"
-                + tr("<strong>Support for python plugins is disabled.</strong><br>"
-                    + "The scripting plugin can load and run plugins written in <strong>Python</strong>. "
-                    + "In order to use this feature the Jython interpreter has to be on "
-                    + "the class path when you start JOSM. Currently, it isn''t and "
+                + tr("<strong>Support for python plugins is disabled.</strong>"
+                    +"<br>"
+                    + "The scripting plugin can load and run plugins written "
+                    + "in <strong>Python</strong>. "
+                    + "In order to use this feature the Jython interpreter has "
+                    + "to be on "
+                    + "the class path when you start JOSM. Currently, it "
+                    + "isn''t and "
                     + "python plugin support is therefore disabled.<br><br>"
                     + "Launch JOSM with the following command line: <br>"
-                    + "java -cp \"josm-jar.jar:/path/to/jython.jar\" org.openstreetmap.josm.gui.MainApplication"
+                    + "java -cp \"josm-jar.jar:/path/to/jython.jar\" "
+                    + "org.openstreetmap.josm.gui.MainApplication"
                 )
                 + "</html>";
         }
@@ -57,7 +67,8 @@ public class JythonConfigurationPanel extends VerticallyScrollablePanel{
         Insets insets = new Insets(3,3,3,3);
         pnlSysPathEditor = new SysPathsEditorPanel();
         pnlPythonPlugins = new PythonPluginsConfigurationPanel();
-        add(buildInfoPanel(), gbc().cell(0,0).fillHorizontal().weight(1.0, 0.0).insets(insets).constraints());
+        add(buildInfoPanel(), gbc().cell(0,0).fillHorizontal()
+                .weight(1.0, 0.0).insets(insets).constraints());
         add(pnlSysPathEditor,
                 gbc().cell(0,1).fillboth().weight(1.0, 0.5)
                 .insets(insets).constraints());
