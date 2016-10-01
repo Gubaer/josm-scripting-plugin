@@ -23,6 +23,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
+import javax.validation.constraints.NotNull;
 
 import org.openstreetmap.josm.gui.HelpAwareOptionPane;
 import org.openstreetmap.josm.plugins.scripting.util.Assert;
@@ -162,7 +163,7 @@ public class ScriptEditor extends JPanel implements PropertyChangeListener {
      *
      * @param file the output file. Must not be null.
      */
-    public void save(File file) {
+    public void save(@NotNull File file) {
         Assert.assertArgNotNull(file, "file");
         String script = editor.getText();
         try (PrintWriter writer = new PrintWriter(new FileWriter(file))){
