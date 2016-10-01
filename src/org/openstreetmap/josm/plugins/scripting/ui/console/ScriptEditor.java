@@ -28,8 +28,8 @@ import org.openstreetmap.josm.gui.HelpAwareOptionPane;
 import org.openstreetmap.josm.plugins.scripting.util.Assert;
 
 /**
- * <p>Editor for scripts. Basically a minimal text editor with syntax highlighting for
- * various scripting languages, based on
+ * <p>Editor for scripts. Basically a minimal text editor with syntax
+ * highlighting for various scripting languages, based on
  * <a href="http://code.google.com/p/jsyntaxpane/">jsyntaxpane</a>.</p>
  *
  */
@@ -47,8 +47,10 @@ public class ScriptEditor extends JPanel implements PropertyChangeListener {
 
         // the label where we display the current file name
         pnlScriptFile = new JPanel(new GridBagLayout());
-        pnlScriptFile.add(new JLabel(tr("Current file:") + " "), gbc().cell(0,0).weight(0.0, 1.0).constraints());
-        pnlScriptFile.add(lblScriptFile = new JLabel(""), gbc().cell(1,0).weight(1.0, 1.0).constraints());
+        pnlScriptFile.add(new JLabel(tr("Current file:") + " "),
+                gbc().cell(0,0).weight(0.0, 1.0).constraints());
+        pnlScriptFile.add(lblScriptFile = new JLabel(""),
+                gbc().cell(1,0).weight(1.0, 1.0).constraints());
         lblScriptFile.setFont(Font.decode("DialogInput-PLAIN"));
         pnl.add(pnlScriptFile, gbc().cell(0,1).weight(1.0,0.0).constraints());
         return pnl;
@@ -61,8 +63,10 @@ public class ScriptEditor extends JPanel implements PropertyChangeListener {
 
         editor = new JEditorPane();
         JScrollPane editorScrollPane = new JScrollPane(editor);
-        editorScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        editorScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        editorScrollPane.setVerticalScrollBarPolicy(
+                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        editorScrollPane.setHorizontalScrollBarPolicy(
+                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         add(editorScrollPane, BorderLayout.CENTER);
         editor.setContentType("text/plain");
     }
@@ -134,8 +138,8 @@ public class ScriptEditor extends JPanel implements PropertyChangeListener {
      * @param file the file. Must not be null. A readable file is expected.
      */
     public void open(File file) {
-        Document doc = editor.getDocument();
-        try(BufferedReader reader = new BufferedReader(new FileReader(file))) {
+        final Document doc = editor.getDocument();
+        try(final BufferedReader reader = new BufferedReader(new FileReader(file))) {
             doc.remove(doc.getStartPosition().getOffset(), doc.getLength());
             for(Iterator<String> it = reader.lines().iterator();it.hasNext();) {
                 String line = it.next();
@@ -170,9 +174,9 @@ public class ScriptEditor extends JPanel implements PropertyChangeListener {
         model.setScriptFile(file);
     }
 
-    /* -------------------------------------------------------------------------- */
-    /* interface PropertyChangeListener                                           */
-    /* -------------------------------------------------------------------------- */
+    /* ---------------------------------------------------------------------- */
+    /* interface PropertyChangeListener                                       */
+    /* ---------------------------------------------------------------------- */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals(ScriptEditorModel.PROP_SCRIPT_FILE)) {
