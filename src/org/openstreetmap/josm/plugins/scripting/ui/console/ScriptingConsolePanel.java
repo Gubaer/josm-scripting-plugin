@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 import javax.swing.AbstractAction;
@@ -130,12 +131,15 @@ public class ScriptingConsolePanel extends JPanel {
             editor.changeContentType("text/plain");
             return;
         }
-        desc.getContentMimeTypes().stream()
-            .filter(mt -> MimeTypeToSyntaxKitMap.getInstance().isSupported(mt))
-            .findFirst()
-            .ifPresent(mt -> editor.changeContentType(mt));
-        editor.changeContentType("text/plain");
-        warnMissingSyntaxKit(desc);
+        final Optional<String> mt = desc.getContentMimeTypes().stream()
+            .filter(s -> MimeTypeToSyntaxKitMap.getInstance().isSupported(s))
+            .findFirst();
+        if (mt.isPresent()) {
+            editor.changeContentType(mt.get());
+        } else {
+            editor.changeContentType("text/plain");
+            warnMissingSyntaxKit(desc);
+        }
     }
 
     public ScriptingConsolePanel() {
