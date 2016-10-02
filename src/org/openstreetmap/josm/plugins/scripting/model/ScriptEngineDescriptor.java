@@ -13,6 +13,7 @@ import java.util.Optional;
 import java.util.logging.Logger;
 
 import javax.script.ScriptEngineFactory;
+import javax.validation.constraints.NotNull;
 
 import org.openstreetmap.josm.Main;
 import org.openstreetmap.josm.data.Preferences;
@@ -77,8 +78,8 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
     private final List<String> contentMimeTypes = new ArrayList<>();
 
     /**
-     * The default script engine descriptor. Refers to the embedded script engine based
-     * on Mozilla Rhino.
+     * The default script engine descriptor. Refers to the embedded script
+     * engine based on Mozilla Rhino.
      */
     static public final ScriptEngineDescriptor DEFAULT_SCRIPT_ENGINE =
         new ScriptEngineDescriptor(
@@ -221,8 +222,8 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
      *
      * @param engineId the engine id. Must not be null.
      */
-    public ScriptEngineDescriptor(String engineId){
-        Assert.assertArgNotNull(engineId, "id");
+    public ScriptEngineDescriptor(@NotNull String engineId){
+        Assert.assertArgNotNull(engineId);
         this.engineType = ScriptEngineType.PLUGGED;
         this.engineId = engineId.trim();
         initParametersForJSR223Engine(this.engineId);
@@ -234,9 +235,10 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
      * @param engineType the engine type. Must not be null.
      * @param engineId the engine id. Must not be null.
      */
-    public ScriptEngineDescriptor(ScriptEngineType engineType, String engineId) {
-        Assert.assertArgNotNull(engineType, "type");
-        Assert.assertArgNotNull(engineId, "id");
+    public ScriptEngineDescriptor(@NotNull ScriptEngineType engineType,
+            @NotNull String engineId) {
+        Assert.assertArgNotNull(engineType);
+        Assert.assertArgNotNull(engineId);
         this.engineId = engineId;
         this.engineType= engineType;
         if (this.engineType.equals(ScriptEngineType.PLUGGED)) {
@@ -254,10 +256,11 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
      * @param contentType the content type of the script sources. Ignored
      *   if null.
      */
-    public ScriptEngineDescriptor(ScriptEngineType engineType, String engineId,
+    public ScriptEngineDescriptor(@NotNull ScriptEngineType engineType,
+            @NotNull String engineId,
             String languageName, String engineName, String contentType) {
-        Assert.assertArgNotNull(engineType, "type");
-        Assert.assertArgNotNull(engineId, "id");
+        Assert.assertArgNotNull(engineType);
+        Assert.assertArgNotNull(engineId);
         this.engineId = engineId;
         this.engineType= engineType;
         this.languageName = languageName == null ? null : languageName.trim();
@@ -273,8 +276,8 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
      *
      * @param factory the factory. Must not be null.
      */
-    public ScriptEngineDescriptor(ScriptEngineFactory factory) {
-        Assert.assertArgNotNull(factory, "factory");
+    public ScriptEngineDescriptor(@NotNull ScriptEngineFactory factory) {
+        Assert.assertArgNotNull(factory);
         this.engineType = ScriptEngineType.PLUGGED;
         final List<String> engineNames = factory.getNames();
         if (engineNames == null || engineNames.isEmpty()) {
@@ -331,7 +334,7 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
 
     /**
      * Replies the name of the scripting language supported by this scripting
-     * engine, or null, if the name isn't known.
+     * engine, if it is known.
      *
      * @return the name of the scripting language supported by this scripting
      *  engine.
@@ -341,13 +344,12 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
     }
 
     /**
-     * Replies the name of the scripting engine , or null,
-     * if the name isn't known.
+     * Replies the name of the scripting engine, if it is known.
      *
      * @return the name of the scripting engine
      */
-    public String getEngineName() {
-        return engineName;
+    public Optional<String> getEngineName() {
+        return Optional.ofNullable(engineName);
     }
 
     /**

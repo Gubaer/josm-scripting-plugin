@@ -90,7 +90,8 @@ public class ScriptingConsolePanel extends JPanel {
         StringBuffer sb = new StringBuffer();
         sb.append("<html>");
         sb.append(tr("Didn''t find a suitable syntax kit for the script engine "
-                + "<strong>{0}</strong>.", desc.getEngineName()));
+                + "<strong>{0}</strong>.",
+                desc.getEngineName().orElse(tr("unknown"))));
         sb.append("<p>");
         sb.append(tr("No syntax kit is configured for either of the following "
                 + "content types:"));
