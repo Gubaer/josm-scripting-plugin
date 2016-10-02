@@ -32,7 +32,7 @@ public class PythonPluginManagerFactory {
                  "org.openstreetmap.josm.plugins.scripting.python"
                + ".PythonPluginManager"
             );
-            IPythonPluginManager mgr =
+            final IPythonPluginManager mgr =
                (IPythonPluginManager) mgrClass.newInstance();
             logger.info("Enabled support for Python plugins.");
             return mgr;
