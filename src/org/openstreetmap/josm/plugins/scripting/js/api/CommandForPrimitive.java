@@ -10,7 +10,7 @@ import org.openstreetmap.josm.data.osm.OsmPrimitive;
 import org.openstreetmap.josm.gui.DefaultNameFormatter;
 import org.openstreetmap.josm.tools.ImageProvider;
 
-class CommandForPrimitive extends PseudoCommand {
+class CommandForPrimitive implements PseudoCommand {
 
     private final OsmPrimitive p;
     public CommandForPrimitive(final OsmPrimitive p) {
