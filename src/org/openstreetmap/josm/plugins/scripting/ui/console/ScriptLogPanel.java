@@ -25,7 +25,8 @@ import javax.swing.text.StyleConstants;
 import org.openstreetmap.josm.tools.ImageProvider;
 
 public class ScriptLogPanel extends JPanel implements IScriptLog{
-    static private final Logger logger = Logger.getLogger(ScriptLogPanel.class.getName());
+    static private final Logger logger =
+            Logger.getLogger(ScriptLogPanel.class.getName());
 
     private JTextPane epOutput;
     private Action actClear;
@@ -36,8 +37,10 @@ public class ScriptLogPanel extends JPanel implements IScriptLog{
         epOutput = new JTextPane();
         epOutput.setEditable(false);
         JScrollPane editorScrollPane = new JScrollPane(epOutput);
-        editorScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        editorScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        editorScrollPane.setVerticalScrollBarPolicy(
+                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        editorScrollPane.setHorizontalScrollBarPolicy(
+                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         add(editorScrollPane, BorderLayout.CENTER);
 
         popupMenu = buildPopupMenu();
@@ -98,7 +101,8 @@ public class ScriptLogPanel extends JPanel implements IScriptLog{
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
-                epOutput.getDocument().remove(0, epOutput.getDocument().getLength());
+                epOutput.getDocument().remove(0,
+                        epOutput.getDocument().getLength());
             } catch(BadLocationException ex){
                 // ignore
             }
