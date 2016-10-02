@@ -47,7 +47,7 @@ public class RhinoEngine {
      * The one and only scope for all scripting contexts in JOSM.
      * Currently only used for scripts run on the Swing EDT.
      */
-    private Scriptable scope = null;
+    private Scriptable scope;
 
     private Require require;
 
@@ -85,7 +85,7 @@ public class RhinoEngine {
             }
         } else {
             logger.warning(MessageFormat.format(
-              "Property ''{0}'' exported by module ''{1}'' should be a "
+                "Property ''{0}'' exported by module ''{1}'' should be a "
               + "NativeArray, got {2} instead",
               "mixin", "josm/mixin/Mixins", o
             ));
@@ -133,7 +133,8 @@ public class RhinoEngine {
         }
         scope = ctx.initStandardObjects();
 
-        JOSMModuleScriptProvider provider = JOSMModuleScriptProvider.getInstance();
+        JOSMModuleScriptProvider provider = JOSMModuleScriptProvider
+                .getInstance();
         URL pluginJSURL = buildRepositoryUrlForBuiltinModules();
         if (pluginJSURL != null) {
             provider.addRepository(pluginJSURL);
@@ -195,26 +196,24 @@ public class RhinoEngine {
      * @see #exitSwingThreadContext()
      */
     public void enterSwingThreadContext() {
-        Runnable r = () -> {
+        runOnSwingEDT(() -> {
             Context ctx = Context.getCurrentContext();
             if (ctx == null) {
                 ctx = Context.enter();
                 ctx.setWrapFactory(new MixinWrapFactory());
             }
             initScope();
-        };
-        runOnSwingEDT(r);
+        });
     }
 
     /**
      * Exit the context used on the Swing EDT.
      */
     public void exitSwingThreadContext() {
-        Runnable r = () -> {
+        runOnSwingEDT(() -> {
             if (Context.getCurrentContext() == null) return;
             Context.exit();
-        };
-        runOnSwingEDT(r);
+        });
     }
 
     /**
@@ -234,13 +233,12 @@ public class RhinoEngine {
     public void evaluateOnSwingThread(final String script, String sourceName) {
         if (script == null) return;
         final String sn = sourceName == null ? "inlineScript" : sourceName;
-        Runnable r = () -> {
+        runOnSwingEDT(() -> {
             enterSwingThreadContext();
             Context ctx = Context.getCurrentContext();
             ctx.evaluateString(scope, script, sn, 1,
                     null /* no security domain */);
-        };
-        runOnSwingEDT(r);
+        });
     }
 
     /**
@@ -273,8 +271,13 @@ public class RhinoEngine {
                         Scriptable s = (scope == null) ?
                                 new NativeObject() : scope;
                         s.setParentScope(scope);
-                        Context.getCurrentContext().evaluateReader(s, fr,
-                           file.toString(), 1, null /* no security domain */);
+                        Context.getCurrentContext().evaluateReader(
+                           s,
+                           fr,
+                           file.toString(),
+                           1,
+                           null /* no security domain */
+                        );
                     } catch(IOException e){
                         throw new RuntimeException(e);
                     }
@@ -284,7 +287,8 @@ public class RhinoEngine {
                 runOnSwingEDT(r);
             } catch(RuntimeException e) {
                 // unwrapping IO exception thrown from the runnable
-                if (e.getCause() != null && e.getCause() instanceof IOException) {
+                if (e.getCause() != null
+                        && e.getCause() instanceof IOException) {
                     throw (IOException)e.getCause();
                 }
                 throw e;
@@ -298,11 +302,11 @@ public class RhinoEngine {
 
     public void executeOnSwingEDT(final Function f, Object[] args) {
         final Object[] aargs = args == null ? new Object[]{} : args;
-        Runnable r = () ->
-                f.call(Context.getCurrentContext(), getScope(), null, aargs);
         enterSwingThreadContext();
         try {
-            runOnSwingEDT(r);
+            runOnSwingEDT(() ->
+               f.call(Context.getCurrentContext(), getScope(), null, aargs)
+            );
         } catch(RhinoException e) {
             logger.log(Level.SEVERE,
                     "Caught exception from JavaScript function", e);
@@ -335,9 +339,9 @@ public class RhinoEngine {
             return;
         }
         final Function f = (Function)o;
-        Runnable r = () ->
-                f.call(Context.getCurrentContext(), getScope(),
-                        null, new Object[]{});
-        runOnSwingEDT(r);
+        runOnSwingEDT(() ->
+            f.call(Context.getCurrentContext(), getScope(),
+                        null, new Object[]{})
+        );
     }
 }
