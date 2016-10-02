@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -74,8 +75,8 @@ public class ScriptingPlugin extends Plugin implements PreferenceKeys{
             engine.initScope();
             JOSMModuleScriptProvider provider = JOSMModuleScriptProvider
                     .getInstance();
-            URL url = provider.lookup(START_MODULE_NAME);
-            if (url == null) {
+            Optional<URL> url = provider.lookup(START_MODULE_NAME);
+            if (!url.isPresent()) {
                 logger.info(String.format("No startup module '%s' found.",
                         START_MODULE_NAME));
             } else {
@@ -84,12 +85,12 @@ public class ScriptingPlugin extends Plugin implements PreferenceKeys{
                 } catch (RhinoException e) {
                     logger.log(Level.SEVERE, String.format(
                         "Failed to load start module '%s' from URL '%s'.",
-                        START_MODULE_NAME, url), e);
+                        START_MODULE_NAME, url.get()), e);
                 }
                 if (startModule != null) {
                     logger.info(String.format(
                         "Successfully loaded startup module '%s' from URL '%s'",
-                        START_MODULE_NAME, url));
+                        START_MODULE_NAME, url.get()));
                     jsOnStart();
                 }
             }

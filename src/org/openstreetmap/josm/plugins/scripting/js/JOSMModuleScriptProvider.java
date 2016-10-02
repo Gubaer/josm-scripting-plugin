@@ -284,23 +284,18 @@ public class JOSMModuleScriptProvider implements ModuleScriptProvider,
         return null;
     }
 
-    public URL lookup(String moduleId) {
+    public Optional<URL> lookup(String moduleId) {
         final String mid = normalizeModuleId(moduleId);
         return allRepos.stream()
             .map(base -> {
-                if (base.getProtocol().equals("file")) {
-                    return Optional.ofNullable(
-                            lookupInDirectory(base, moduleId));
-                } else if (base.getProtocol().equals("jar")) {
-                    return Optional.ofNullable(lookupInJar(base, mid));
-                } else {
-                    return Optional.<URL>empty();
+                switch(base.getProtocol()) {
+                    case "file": return lookupInDirectory(base, mid);
+                    case "jar": return lookupInJar(base, mid);
+                    default: return null;
                 }
             })
-            .filter(Optional::isPresent)
-            .map(Optional::get)
-            .findFirst()
-            .orElse(null);
+            .filter(base -> base != null)
+            .findFirst();
     }
 
     public synchronized ModuleScript getModuleScript(Context cx,
@@ -309,9 +304,9 @@ public class JOSMModuleScriptProvider implements ModuleScriptProvider,
         if (cache.containsKey(moduleId)) {
             return cache.get(moduleId);
         }
-        final URL url = lookup(moduleId);
-        if (url == null) return null;
-        final ModuleScript script = load(url,null);
+        final Optional<URL> url = lookup(moduleId);
+        if (! url.isPresent()) return null;
+        final ModuleScript script = load(url.get(),null);
         if (script == null) return null;
         cache.put(moduleId, script);
         return script;
