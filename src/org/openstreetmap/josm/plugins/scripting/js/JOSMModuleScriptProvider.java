@@ -34,31 +34,36 @@ import org.openstreetmap.josm.plugins.scripting.model.PreferenceKeys;
 import org.openstreetmap.josm.plugins.scripting.util.Assert;
 
 /**
- * <p>Simple module script provider. It loads modules only from the local file system, either
- * as file or as jar file entry. It doesn't accept HTTP URLs as repository location. Caching
- * is simple too: modules are loaded exactly once and then served from memory until the JOSM
- * application is terminated.</p>
+ * <p>Simple module script provider. It loads modules only from the local file
+ * system, either as file or as jar file entry. It doesn't accept HTTP URLs as
+ * repository location. Caching is simple too: modules are loaded exactly once
+ * and then served from memory until the JOSM application is terminated.</p>
  *
  */
-public class JOSMModuleScriptProvider implements ModuleScriptProvider, PreferenceChangedListener, PreferenceKeys{
-    static private final Logger logger = Logger.getLogger(JOSMModuleScriptProvider.class.getName());
+public class JOSMModuleScriptProvider implements ModuleScriptProvider,
+        PreferenceChangedListener, PreferenceKeys{
+    static private final Logger logger =
+            Logger.getLogger(JOSMModuleScriptProvider.class.getName());
     private static boolean DO_TRACE = false;
 
-    static private final JOSMModuleScriptProvider instance = new JOSMModuleScriptProvider();
+    static private final JOSMModuleScriptProvider instance =
+            new JOSMModuleScriptProvider();
     static public JOSMModuleScriptProvider getInstance() {
         return instance;
     }
 
     /**
-     * Normalizes a module id. Removes leading and trailing whitespace, replaces \ by /,
-     * cuts trailing / and makes sure there is exactly one leading /
+     * Normalizes a module id. Removes leading and trailing whitespace,
+     * replaces \ by /, cuts trailing / and makes sure there is exactly one
+     * leading /
      *
      * @param moduleId the module id
      * @return the normalized module id
      */
     static public String normalizeModuleId(String moduleId) {
         return moduleId.trim()
-                .replace('\\', '/').replaceAll("^\\/+", "").replaceAll("\\/+$","")
+                .replace('\\', '/').replaceAll("^\\/+", "")
+                .replaceAll("\\/+$","")
                 .replaceAll("\\.[jJ][sS]$", "");
     }
 
@@ -110,23 +115,30 @@ public class JOSMModuleScriptProvider implements ModuleScriptProvider, Preferenc
     }
 
     /**
-     * Adds a repository to the list of repositories where modules are looked up.
+     * Adds a repository to the list of repositories where modules are
+     * looked up.
      *
-     * @param repository the repository. Must not be null. Expects an URL with either file or jar protocol.
+     * @param repository the repository. Must not be null. Expects an URL
+     *          with either file or jar protocol.
      * @throws IllegalArgumentException thrown if repository is null
-     * @throws IllegalArgumentException thrown if repository is neither a jar nor a file URL
+     * @throws IllegalArgumentException thrown if repository is neither a
+     *      jar nor a file URL
      */
     public void addRepository(URL repository) throws IllegalArgumentException {
         Assert.assertArgNotNull(repository, "repository");
         try {
-            CommonJSModuleRepository repo = new CommonJSModuleRepository(repository);
+            CommonJSModuleRepository repo =
+                    new CommonJSModuleRepository(repository);
             synchronized(volatileRepos) {
                 if (! volatileRepos.contains(repo.getURL())) {
                     volatileRepos.add(repo.getURL());
                 }
             }
         } catch(IllegalArgumentException e) {
-            Assert.assertArg(false, "Unexpected url, got {0}. Exception was: {1}", repository, e);
+            Assert.assertArg(
+                false,
+                "Unexpected url, got {0}. Exception was: {1}",
+                repository, e);
         }
         rebuildAllRepos();
     }
@@ -145,16 +157,19 @@ public class JOSMModuleScriptProvider implements ModuleScriptProvider, Preferenc
     }
 
     protected void warning(Throwable t, String msg, Object...args) {
-        logger.log(Level.WARNING, "require: " + MessageFormat.format(msg, args),t);
+        logger.log(Level.WARNING,
+                "require: " + MessageFormat.format(msg, args),t);
     }
 
     protected URL lookupInDirectory(URL fileUrl, String moduleId) {
         if (!fileUrl.getProtocol().equals("file")) return null;
         File dir = new File(fileUrl.getFile());
-        trace("''{0}'': Looking up in directory <{1}>", moduleId, dir.toString());
+        trace("''{0}'': Looking up in directory <{1}>",
+                moduleId, dir.toString());
 
         if (dir == null || !dir.isDirectory()) {
-            trace("''{0}'': <{1}> isn''t a directory. Failed to lookup module.", moduleId, dir.toString());
+            trace("''{0}'': <{1}> isn''t a directory. Failed to lookup module.",
+                    moduleId, dir.toString());
             return null;
         }
         File candidate;
@@ -162,15 +177,19 @@ public class JOSMModuleScriptProvider implements ModuleScriptProvider, Preferenc
         if (! candidate.isFile() || ! candidate.canRead()) {
             candidate = new File(dir, moduleId + ".js");
             if (!candidate.isFile() || !candidate.canRead()) {
-                trace("''{0}'': MISS - didn''t find <{1}> or <{1}.js> in directory <{2}>. Failed to lookup module.", moduleId, moduleId, dir.toString());
+                trace("''{0}'': MISS - didn''t find <{1}> or <{1}.js> "
+                        + "in directory <{2}>. Failed to lookup module.",
+                        moduleId, moduleId, dir.toString());
                 return null;
             }
         }
         try {
-            trace("''{0}'': HIT - found in <{1}>", moduleId, candidate.toString());
+            trace("''{0}'': HIT - found in <{1}>", moduleId,
+                    candidate.toString());
             return candidate.toURI().toURL();
         } catch(MalformedURLException e){
-            warning(e, "''{0}'': Failed to convert file <{1}> to URL.", moduleId, candidate.toString());
+            warning(e, "''{0}'': Failed to convert file <{1}> to URL.",
+                    moduleId, candidate.toString());
             return null;
         }
     }
@@ -182,34 +201,42 @@ public class JOSMModuleScriptProvider implements ModuleScriptProvider, Preferenc
         try {
             fileUrl = new URL(jarUrl.getPath());
         } catch(MalformedURLException e){
-            warning(e, "Failed to create URL for jar URL path ''{0}''. Failed to lookup module ''{1}'' in this jar.", jarUrl.getPath(), moduleId);
+            warning(e, "Failed to create URL for jar URL path ''{0}''. "
+                    + "Failed to lookup module ''{1}'' in this jar.",
+                    jarUrl.getPath(), moduleId);
             return null;
         }
         if (!fileUrl.getProtocol().equals("file")) return null;
         String[] parts = fileUrl.toString().split("!");
         if (parts.length != 2 || !parts[0].toLowerCase().startsWith("file:")) {
-            warning("''{0}'': Unexpected format of jar url, got <{1}>", moduleId, fileUrl);
+            warning("''{0}'': Unexpected format of jar url, got <{1}>",
+                    moduleId, fileUrl);
         }
         parts[0] = parts[0].substring(5).replaceAll("^[\\\\\\/]+", "/");
         File jarFile = new File(parts[0]);
         String jarPath = parts[1];
         if (!jarFile.exists() || !jarFile.canRead()) {
-            trace("''{0}'': jar lookup failed: jar file ''{1}'' doesn''t exist.", moduleId, jarFile.toString());
+            trace("''{0}'': jar lookup failed: jar file ''{1}'' doesn''t exist.",
+                    moduleId, jarFile.toString());
             return null;
         }
 
-        jarPath = jarPath.replace('\\', '/').replaceAll("^\\/+", "").replaceAll("\\/+$", "");
+        jarPath = jarPath.replace('\\', '/').replaceAll("^\\/+", "")
+                .replaceAll("\\/+$", "");
         JarFile jf = null;
         try {
             try {
                 jf = new JarFile(jarFile);
             } catch(IOException e){
-                warning(e, "Failed to create JarFile for file''{0}''. Failed to lookup module ''{1}'' in this jar.", jarFile.getPath(), moduleId);
+                warning(e, "Failed to create JarFile for file''{0}''. "
+                        + "Failed to lookup module ''{1}'' in this jar.",
+                        jarFile.getPath(), moduleId);
                 return null;
             }
             JarEntry eDir = jf.getJarEntry(jarPath + "/" + moduleId + "/");
             JarEntry eNoSuffix = jf.getJarEntry(jarPath + "/" + moduleId);
-            JarEntry eWithSuffix = jf.getJarEntry(jarPath + "/" + moduleId + ".js");
+            JarEntry eWithSuffix = jf.getJarEntry(jarPath + "/" + moduleId
+                    + ".js");
             JarEntry eFound = null;
             if (eWithSuffix != null) {
                 eFound = eWithSuffix;
@@ -217,27 +244,39 @@ public class JOSMModuleScriptProvider implements ModuleScriptProvider, Preferenc
                 eFound = eNoSuffix;
             }
             if (eFound == null) {
-                trace("''{0}'': MISS - didn''t find either <{1}> or <{1}.js> in jar file <{2}>", moduleId, jarPath + "/" + moduleId, jf.getName());
+                trace("''{0}'': MISS - didn''t find either <{1}> or <{1}.js> "
+                        + "in jar file <{2}>",
+                        moduleId, jarPath + "/" + moduleId,
+                        jf.getName());
                 return null;
             } else {
-                trace("''{0}'': HIT - found in entry <{1}> of jar  <{2}>", moduleId, eFound.getName(), jf.getName());
-                String moduleUrl = "jar:" + jarFile.toURI().toString() + "!/" + eFound.getName();
+                trace("''{0}'': HIT - found in entry <{1}> of jar  <{2}>",
+                        moduleId, eFound.getName(), jf.getName());
+                String moduleUrl = "jar:" + jarFile.toURI().toString()
+                        + "!/" + eFound.getName();
                 try {
                     return new URL(moduleUrl);
                 } catch(MalformedURLException e) {
-                    warning(e, "Failed to create URL for ''{0}''. Failed to lookup module ''{1}''.", moduleUrl, moduleId);
+                    warning(e, "Failed to create URL for ''{0}''. "
+                            + "Failed to lookup module ''{1}''.",
+                            moduleUrl, moduleId);
                 }
             }
             return null;
         } finally {
-            if (jf != null) try {jf.close();} catch (IOException e) {/* ignore */}
+            if (jf != null) try {jf.close();} catch (IOException e) {
+                /* ignore */
+            }
         }
     }
 
-    protected ModuleScript load(URL module, URL base) throws IOException, URISyntaxException{
+    protected ModuleScript load(URL module, URL base)
+            throws IOException, URISyntaxException{
         try (Reader reader = new InputStreamReader(module.openStream(),"UTF8")){
-            Script script = Context.getCurrentContext().compileReader(reader, module.toString(),1,null);
-            return new ModuleScript(script, module.toURI(), base == null ? null : base.toURI());
+            Script script = Context.getCurrentContext()
+                    .compileReader(reader, module.toString(),1,null);
+            return new ModuleScript(script,
+                    module.toURI(), base == null ? null : base.toURI());
         } catch(UnsupportedEncodingException e) {
             // should not happen -  just in case
             e.printStackTrace();
@@ -259,7 +298,8 @@ public class JOSMModuleScriptProvider implements ModuleScriptProvider, Preferenc
         return null;
     }
 
-    public synchronized ModuleScript getModuleScript(Context cx, String moduleId) throws Exception {
+    public synchronized ModuleScript getModuleScript(Context cx,
+            String moduleId) throws Exception {
         moduleId = normalizeModuleId(moduleId);
         if (cache.containsKey(moduleId)) return cache.get(moduleId);
         URL url = lookup(moduleId);
@@ -271,7 +311,8 @@ public class JOSMModuleScriptProvider implements ModuleScriptProvider, Preferenc
     }
 
     @Override
-    public  ModuleScript getModuleScript(Context cx, String moduleId, URI moduleUri, URI baseUri, Scriptable paths) throws Exception {
+    public  ModuleScript getModuleScript(Context cx, String moduleId,
+            URI moduleUri, URI baseUri, Scriptable paths) throws Exception {
         // moduleUri, baseUri and paths are ignored
         //
         return getModuleScript(cx, moduleId);
@@ -279,7 +320,8 @@ public class JOSMModuleScriptProvider implements ModuleScriptProvider, Preferenc
 
     @Override
     public void preferenceChanged(PreferenceChangeEvent e) {
-        if (e.getKey().equals(PreferenceKeys.PREF_KEY_COMMONJS_MODULE_REPOSITORIES)) {
+        if (e.getKey().equals(
+                PreferenceKeys.PREF_KEY_COMMONJS_MODULE_REPOSITORIES)) {
             preferenceRepos.clear();
             preferenceRepos.addAll(loadFromPreferences());
             rebuildAllRepos();
