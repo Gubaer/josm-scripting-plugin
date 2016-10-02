@@ -5,14 +5,16 @@ import org.mozilla.javascript.Scriptable;
 public class JSMixinUtil {
 
     /**
-     * <p>Replies true if the mixin property <code>propert</code> is a "static" property.</p>
+     * <p>Replies true if the mixin property <code>property</code> is a
+     * "static" property.</p>
      *
      * @param property  the property as defined in the mixin definition
      * @return true, if this is a static property
      */
     static public boolean isStaticProperty(Scriptable property) {
         Object isStatic = ((Scriptable)property).get("static", (Scriptable)property);
-        return isStatic != Scriptable.NOT_FOUND && isStatic instanceof Boolean && ((Boolean)isStatic);
+        return isStatic != Scriptable.NOT_FOUND
+                && isStatic instanceof Boolean && ((Boolean)isStatic);
     }
 
     /**
@@ -25,7 +27,8 @@ public class JSMixinUtil {
      */
     static public Object getStaticProperty(Scriptable mixin, String name) {
         Object property = mixin.get(name, mixin);
-        if (property != Scriptable.NOT_FOUND && property instanceof Scriptable) {
+        if (property != Scriptable.NOT_FOUND &&
+                property instanceof Scriptable) {
             if (isStaticProperty((Scriptable)property)) {
                 return (Scriptable)property;
             }
@@ -43,7 +46,8 @@ public class JSMixinUtil {
      */
     static public Object getInstanceProperty(Scriptable mixin, String name) {
         Object property = mixin.get(name, mixin);
-        if (property != Scriptable.NOT_FOUND && property instanceof Scriptable) {
+        if (property != Scriptable.NOT_FOUND
+                && property instanceof Scriptable) {
             if (!isStaticProperty((Scriptable)property)) {
                 return (Scriptable)property;
             }
