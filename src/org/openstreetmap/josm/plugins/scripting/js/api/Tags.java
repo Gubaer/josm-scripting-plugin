@@ -13,12 +13,14 @@ import org.openstreetmap.josm.plugins.scripting.js.RhinoEngine;
 
 public class Tags extends ScriptableObject {
     private static final long serialVersionUID = 1L;
-    static private final Logger logger = Logger.getLogger(Tags.class.getName());
+    static private final Logger logger =
+            Logger.getLogger(Tags.class.getName());
 
     private Tagged primitive;
     public Tags(Tagged primitive) {
         this.primitive = primitive;
-        this.setPrototype(TopLevel.getObjectPrototype(RhinoEngine.getInstance().getScope()));
+        this.setPrototype(TopLevel.getObjectPrototype(
+                RhinoEngine.getInstance().getScope()));
     }
 
     @Override
@@ -38,7 +40,8 @@ public class Tags extends ScriptableObject {
             }
         } else {
             String s = value.toString();
-            boolean modified = primitive.get(name) == null || ! s.equals(primitive.get(name));
+            boolean modified = primitive.get(name) == null
+                    || ! s.equals(primitive.get(name));
             primitive.put(name.trim(), s);
             if (primitive instanceof OsmPrimitive) {
                 if (!((OsmPrimitive)primitive).isModified() && modified) {
@@ -53,9 +56,9 @@ public class Tags extends ScriptableObject {
         name = name.trim();
         if (primitive.get(name) != null) {
             primitive.remove(name.trim());
-            // we could simply call primitive.setModified(true), but there's a lot
-            // of event firing going on in JOSM under the hoods - better not to
-            // call this property getters unless realy necessary
+            // we could simply call primitive.setModified(true), but there's
+            // a lot of event firing going on in JOSM under the hoods -
+            // better not to call this property getters unless really necessary
             if (primitive instanceof OsmPrimitive) {
                 if (! ((OsmPrimitive)primitive).isModified()) {
                     ((OsmPrimitive)primitive).setModified(true);
@@ -87,7 +90,8 @@ public class Tags extends ScriptableObject {
 
     @Override
     public Object getDefaultValue(Class<?> typeHint) {
-        if (typeHint == null || typeHint == String.class || typeHint == Scriptable.class) {
+        if (typeHint == null || typeHint == String.class
+                || typeHint == Scriptable.class) {
             return primitive.keySet().stream()
                 .map(key -> key + "=" + primitive.get(key))
                 .collect(Collectors.joining(","));
