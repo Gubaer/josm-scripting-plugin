@@ -30,9 +30,11 @@ import org.openstreetmap.josm.tools.WindowGeometry;
 @SuppressWarnings("serial")
 public class ScriptingConsole extends JFrame {
     @SuppressWarnings("unused")
-    static private final Logger logger = Logger.getLogger(ScriptingConsole.class.getName());
+    static private final Logger logger = Logger.getLogger(
+            ScriptingConsole.class.getName());
 
-    static public final BooleanProperty PREF_ALWAYS_ON_TOP = new BooleanProperty(
+    static public final BooleanProperty PREF_ALWAYS_ON_TOP =
+    new BooleanProperty(
             ScriptingConsole.class.getName() + ".alwaysOnTop",
             true
      );
@@ -45,8 +47,8 @@ public class ScriptingConsole extends JFrame {
     }
 
     /**
-     * Displays the scripting console and puts it to front. Creates a console if
-     * no console exists yet.
+     * Displays the scripting console and puts it to front. Creates a console
+     * if no console exists yet.
      */
     public static void showScriptingConsole() {
         synchronized (ScriptingConsole.class) {
@@ -72,8 +74,10 @@ public class ScriptingConsole extends JFrame {
     public static void hideScriptingConsole() {
         synchronized(ScriptingConsole.class){
             if (instance != null){
-                WindowEvent wev = new WindowEvent(instance, WindowEvent.WINDOW_CLOSING);
-                Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(wev);
+                WindowEvent wev = new WindowEvent(instance,
+                        WindowEvent.WINDOW_CLOSING);
+                Toolkit.getDefaultToolkit().getSystemEventQueue()
+                    .postEvent(wev);
             }
         }
     }
@@ -130,7 +134,8 @@ public class ScriptingConsole extends JFrame {
     protected void build(){
         Container c = getContentPane();
         c.setLayout(new BorderLayout());
-        c.add(pnlScriptingConsole = new ScriptingConsolePanel(), BorderLayout.CENTER);
+        c.add(pnlScriptingConsole = new ScriptingConsolePanel(),
+                BorderLayout.CENTER);
         c.add(buildControlPanel(), BorderLayout.SOUTH);
 
         setJMenuBar(buildMenuBar());
@@ -146,7 +151,8 @@ public class ScriptingConsole extends JFrame {
                     WindowGeometry.centerInWindow(this, new Dimension(500, 800))
             ).applySafe(this);
         } else {
-            new WindowGeometry(this).remember(ScriptingConsole.class.getName()+ ".geometry");
+            new WindowGeometry(this).remember(
+                    ScriptingConsole.class.getName()+ ".geometry");
         }
         super.setVisible(visible);
     }
@@ -158,8 +164,11 @@ public class ScriptingConsole extends JFrame {
      */
     public void open(File file){
         Assert.assertArgNotNull(file, "file");
-        Assert.assertArg(file.isFile(), "Expected a file, got a directory. File is: {0}", file);
-        Assert.assertArg(file.canRead(), "Expected a readable file, but can''t read file. File is: {0}", file);
+        Assert.assertArg(file.isFile(),
+                "Expected a file, got a directory. File is: {0}", file);
+        Assert.assertArg(file.canRead(),
+                "Expected a readable file, but can''t read file. File is: {0}",
+                file);
         pnlScriptingConsole.open(file);
     }
 
@@ -197,18 +206,19 @@ public class ScriptingConsole extends JFrame {
         }
     }
 
-    /* ------------------------------------------------------------------------------- */
-    /* listening to scripting console events                                           */
-    /* ------------------------------------------------------------------------------- */
+    /* --------------------------------------------------------------------- */
+    /* listening to scripting console events                                 */
+    /* --------------------------------------------------------------------- */
     public static interface ScriptingConsoleListener {
         /**
-         * Notifies listeners when the scripting console instance changes. If {@code newValue}
-         * is null, no scripting console is open.
+         * Notifies listeners when the scripting console instance changes.
+         * If {@code newValue} is null, no scripting console is open.
          *
          * @param oldValue
          * @param newValue
          */
-        void scriptingConsoleChanged(ScriptingConsole oldValue, ScriptingConsole newValue);
+        void scriptingConsoleChanged(ScriptingConsole oldValue,
+                ScriptingConsole newValue);
     }
 
     private static final CopyOnWriteArrayList<ScriptingConsoleListener>
@@ -219,12 +229,14 @@ public class ScriptingConsole extends JFrame {
         listeners.addIfAbsent(l);
     }
 
-    public static void removeScriptingConsoleListener(ScriptingConsoleListener l){
+    public static void removeScriptingConsoleListener(
+            ScriptingConsoleListener l){
         if (l == null)return;
         listeners.remove(l);
     }
 
-    protected static void fireScriptingConsoleChanged(ScriptingConsole oldValue, ScriptingConsole newValue){
+    protected static void fireScriptingConsoleChanged(
+            ScriptingConsole oldValue, ScriptingConsole newValue){
         for (ScriptingConsoleListener l: listeners) {
             l.scriptingConsoleChanged(oldValue, newValue);
         }
