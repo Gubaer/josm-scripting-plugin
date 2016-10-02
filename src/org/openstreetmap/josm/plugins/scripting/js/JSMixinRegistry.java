@@ -65,7 +65,7 @@ import org.mozilla.javascript.Wrapper;
 public class JSMixinRegistry {
 
     static private Map<Class<?>, Scriptable> MIXINS =
-            new HashMap<Class<?>, Scriptable>();
+            new HashMap<>();
 
     static private Object unwrap(Object o) {
         if (o instanceof Wrapper) {
