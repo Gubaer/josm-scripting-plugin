@@ -16,13 +16,15 @@ import org.openstreetmap.josm.gui.DefaultNameFormatter;
 import org.openstreetmap.josm.plugins.scripting.util.Assert;
 
 /**
- * <p>Represents a change to one of the "properties" of an {@link OsmPrimitive}. A change
- * consists of a list of {@link PropertyChange}s. It can be applied to a primitive and it
+ * <p>Represents a change to one of the "properties" of an
+ * {@link OsmPrimitive}. A change consists of a list of
+ * {@link PropertyChange}s. It can be applied to a primitive and it
  * can generate an explanation of the applied change.</p>
  *
  */
 public class Change {
-    //private static final Logger logger = Logger.getLogger(Change.class.getName());
+    //private static final Logger logger =
+    //      Logger.getLogger(Change.class.getName());
 
     public static abstract class PropertyChange {
         protected Object newValue;
@@ -48,8 +50,10 @@ public class Change {
 
     public static class LatChange extends PropertyChange{
          protected void ensureApplicable(OsmPrimitive primitive) {
-             Assert.assertArg(primitive instanceof Node, "Expected a node, got {0}", primitive);
-             Assert.assertArg(!primitive.isIncomplete(), "Node must not be incomplete");
+             Assert.assertArg(primitive instanceof Node,
+                     "Expected a node, got {0}", primitive);
+             Assert.assertArg(!primitive.isIncomplete(),
+                     "Node must not be incomplete");
         }
 
         @Override
@@ -58,7 +62,8 @@ public class Change {
             Node node = (Node)primitive;
             double lat = ((Number)newValue).doubleValue();
             LatLon oldpos = node.getCoor();
-            LatLon newpos = oldpos == null ? new LatLon(lat,0) : new LatLon(lat, oldpos.lon());
+            LatLon newpos = oldpos == null ?
+                    new LatLon(lat,0) : new LatLon(lat, oldpos.lon());
             node.setCoor(newpos);
         }
 
@@ -70,10 +75,13 @@ public class Change {
 
         @Override
         protected void ensureValidValue(Object value) {
-            Assert.assertArg(value != null,"lat must not be null");
-            Assert.assertArg(value instanceof Number,"lat must be a number, got {0}", value);
+            Assert.assertArg(value != null
+                    ,"lat must not be null");
+            Assert.assertArg(value instanceof Number,
+                    "lat must be a number, got {0}", value);
             double lat = ((Number)value).doubleValue();
-            Assert.assertArg(LatLon.isValidLat(lat), "Expected a valid lat, got {0}", lat);
+            Assert.assertArg(LatLon.isValidLat(lat),
+                    "Expected a valid lat, got {0}", lat);
         }
 
         public LatChange(Object newValue) {
@@ -84,8 +92,10 @@ public class Change {
 
     public static class LonChange extends PropertyChange{
          protected void ensureApplicable(OsmPrimitive primitive) {
-             Assert.assertArg(primitive instanceof Node, "Expected a node, got {0}", primitive);
-             Assert.assertArg(!primitive.isIncomplete(), "Node must not be incomplete");
+             Assert.assertArg(primitive instanceof Node,
+                     "Expected a node, got {0}", primitive);
+             Assert.assertArg(!primitive.isIncomplete(),
+                     "Node must not be incomplete");
         }
 
         @Override
@@ -94,7 +104,8 @@ public class Change {
             Node node = (Node)primitive;
             double lon = ((Number)newValue).doubleValue();
             LatLon oldpos = node.getCoor();
-            LatLon newpos = oldpos == null ? new LatLon(0,lon) : new LatLon(oldpos.lat(), lon);
+            LatLon newpos = oldpos == null ?
+                    new LatLon(0,lon) : new LatLon(oldpos.lat(), lon);
             node.setCoor(newpos);
         }
 
@@ -107,9 +118,11 @@ public class Change {
         @Override
         protected void ensureValidValue(Object value) {
             Assert.assertArg(value != null,"lon must not be null");
-            Assert.assertArg(value instanceof Number,"lon must be a number, got {0}", value);
+            Assert.assertArg(value instanceof Number,
+                    "lon must be a number, got {0}", value);
             double lon = ((Number)value).doubleValue();
-            Assert.assertArg(LatLon.isValidLon(lon), "Expected a valid lon, got {0}", lon);
+            Assert.assertArg(LatLon.isValidLon(lon),
+                    "Expected a valid lon, got {0}", lon);
         }
 
         public LonChange(Object newValue) {
@@ -120,8 +133,10 @@ public class Change {
 
     public static class PosChange extends PropertyChange {
          protected void ensureApplicable(OsmPrimitive primitive) {
-             Assert.assertArg(primitive instanceof Node, "Expected a node, got {0}", primitive);
-             Assert.assertArg(!primitive.isIncomplete(), "Node must not be incomplete");
+             Assert.assertArg(primitive instanceof Node,
+                     "Expected a node, got {0}", primitive);
+             Assert.assertArg(!primitive.isIncomplete(),
+                     "Node must not be incomplete");
         }
 
         @Override
@@ -135,13 +150,16 @@ public class Change {
         @Override
         public String explain(OsmPrimitive primitive) {
             LatLon pos = (LatLon)newValue;
-            return MessageFormat.format("pos=[{0},{1}]", LatLon.cDdFormatter.format(pos.lat()), LatLon.cDdFormatter.format(pos.lon()));
+            return MessageFormat.format("pos=[{0},{1}]",
+                    LatLon.cDdFormatter.format(pos.lat()),
+                    LatLon.cDdFormatter.format(pos.lon()));
         }
 
         @Override
         protected void ensureValidValue(Object value) {
             Assert.assertArgNotNull(value, "pos");
-            Assert.assertArg(value instanceof LatLon, "Expected a LatLon, got {0}", value);
+            Assert.assertArg(value instanceof LatLon,
+                    "Expected a LatLon, got {0}", value);
         }
 
         public PosChange(Object newValue) {
@@ -152,7 +170,8 @@ public class Change {
 
     public static class TagsChange extends PropertyChange {
         protected void ensureApplicable(OsmPrimitive primitive) {
-             Assert.assertArg(!primitive.isIncomplete(), "Primitive must not be incomplete, got {0}", primitive);
+             Assert.assertArg(!primitive.isIncomplete(),
+                     "Primitive must not be incomplete, got {0}", primitive);
         }
 
         @Override
@@ -195,7 +214,8 @@ public class Change {
         @Override
         protected void ensureValidValue(Object value) {
             if (value != null) {
-                Assert.assertArg(value instanceof Map<?,?>, "Expected a Map of tags, got {0}", value);
+                Assert.assertArg(value instanceof Map<?,?>,
+                        "Expected a Map of tags, got {0}", value);
             }
         }
 
@@ -207,8 +227,10 @@ public class Change {
 
     public static class NodesChange extends PropertyChange {
          protected void ensureApplicable(OsmPrimitive primitive) {
-             Assert.assertArg(primitive instanceof Way, "Expected a way, got {0}", primitive);
-             Assert.assertArg(!primitive.isIncomplete(), "Primitive must not be incomplete, got {0}", primitive);
+             Assert.assertArg(primitive instanceof Way,
+                     "Expected a way, got {0}", primitive);
+             Assert.assertArg(!primitive.isIncomplete(),
+                     "Primitive must not be incomplete, got {0}", primitive);
         }
 
         @Override
@@ -218,7 +240,8 @@ public class Change {
             if (newValue == null) {
                 way.setNodes(null);
             } else {
-                @SuppressWarnings("unchecked") List<Node> nodes = (List<Node>)newValue;
+                @SuppressWarnings("unchecked") List<Node> nodes =
+                        (List<Node>)newValue;
                 way.setNodes(nodes);
             }
         }
@@ -243,7 +266,8 @@ public class Change {
             if (value == null){
                 return;
             } else {
-                Assert.assertArg(value instanceof List<?>, "Expected a list of nodes, got {0}", value);
+                Assert.assertArg(value instanceof List<?>,
+                        "Expected a list of nodes, got {0}", value);
                 try {
                     List<?> nodes = (List<?>)value;
                     for(Object o: nodes) {
@@ -251,7 +275,9 @@ public class Change {
                         Node node = (Node)o; // just try to convert to a node
                     }
                 } catch(ClassCastException e) {
-                    Assert.assertArg(false, "Got an illegal node list or an illegal element in node list, exception is {0}",e);
+                    Assert.assertArg(false,
+                            "Got an illegal node list or an illegal element in "
+                            + "node list, exception is {0}",e);
                 }
             }
         }
@@ -261,7 +287,8 @@ public class Change {
             if (newValue == null){
                 this.newValue = null;
             } else {
-                @SuppressWarnings("unchecked") List<Node> nodes = new ArrayList<>((List<Node>)newValue);
+                @SuppressWarnings("unchecked") List<Node> nodes =
+                        new ArrayList<>((List<Node>)newValue);
                 nodes.remove(null);
                 this.newValue = nodes;
             }
@@ -271,8 +298,10 @@ public class Change {
     public static class MemberChange extends PropertyChange {
 
          protected void ensureApplicable(OsmPrimitive primitive) {
-             Assert.assertArg(primitive instanceof Relation, "Expected a relation, got {0}", primitive);
-             Assert.assertArg(!primitive.isIncomplete(), "Primitive must not be incomplete, got {0}", primitive);
+             Assert.assertArg(primitive instanceof Relation,
+                     "Expected a relation, got {0}", primitive);
+             Assert.assertArg(!primitive.isIncomplete(),
+                     "Primitive must not be incomplete, got {0}", primitive);
         }
 
         @Override
@@ -282,7 +311,8 @@ public class Change {
             if (newValue == null) {
                 relation.setMembers(null);
             } else {
-                @SuppressWarnings("unchecked") List<RelationMember> members = (List<RelationMember>)newValue;
+                @SuppressWarnings("unchecked") List<RelationMember> members =
+                        (List<RelationMember>)newValue;
                 relation.setMembers(members);
             }
         }
@@ -295,7 +325,11 @@ public class Change {
                 @SuppressWarnings("unchecked")
                 List<RelationMember> members = (List<RelationMember>)newValue;
                 sb.append(members.stream()
-                    .map(m -> m.getRole() + "/" + m.getMember().getDisplayName(DefaultNameFormatter.getInstance()))
+                    .map(m -> m.getRole() + "/" +
+                         m.getMember().getDisplayName(
+                                 DefaultNameFormatter.getInstance()
+                         )
+                    )
                     .collect(Collectors.joining(", "))
                 );
             }
@@ -306,22 +340,27 @@ public class Change {
         @Override
         protected void ensureValidValue(Object value) {
             if (value == null) return;
-            Assert.assertArg(value instanceof List<?>, "Expected a list of members, got {0}", value);
+            Assert.assertArg(value instanceof List<?>,
+                    "Expected a list of members, got {0}", value);
             try {
                 List<?> members = (List<?>)value;
                 for(Object o: members) {
                     if (o == null) continue;
-                    RelationMember member = (RelationMember)o; // just try to convert to a member
+                    // just try to convert to a member
+                    RelationMember member = (RelationMember)o;
                 }
             } catch(ClassCastException e) {
-                Assert.assertArg(false, "Got an illegal member list or an illegal member, exception is {0}",e);
+                Assert.assertArg(false,
+                        "Got an illegal member list or an illegal member, "
+                        + "exception is {0}",e);
             }
         }
 
         public MemberChange(Object newValue) {
             ensureValidValue(newValue);
             if (newValue != null) {
-                @SuppressWarnings("unchecked") List<RelationMember> members = new ArrayList<>((List<RelationMember>)newValue);
+                @SuppressWarnings("unchecked") List<RelationMember> members =
+                        new ArrayList<>((List<RelationMember>)newValue);
                 members.remove(null);
                 this.newValue = members;
             }
@@ -386,7 +425,9 @@ public class Change {
     /**
      * Schedules a change for the member list of {@link Relation}
      *
-     * @param members the list of new members. Can be null to remove all members.
+     * @param members the list of new members. Can be null to remove all
+     * members.
+     *
      * @return the change (for method chaining)
      */
     public Change withMemberChange(List<RelationMember> members) {
