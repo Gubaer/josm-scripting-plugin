@@ -16,8 +16,10 @@ import org.mozilla.javascript.Scriptable;
  *
  */
 public class NativeJavaClassWithJSMixin extends NativeJavaClass{
+    @SuppressWarnings("unused")
     static private final Logger logger =
             Logger.getLogger(NativeJavaClassWithJSMixin.class.getName());
+
     private static final long serialVersionUID = 1L;
 
     public NativeJavaClassWithJSMixin(Scriptable scope, Class<?> cls) {
@@ -29,7 +31,7 @@ public class NativeJavaClassWithJSMixin extends NativeJavaClass{
         if (name.startsWith("$")) {
             return super.has(name.substring(1), start);
         }
-        Scriptable mixin = JSMixinRegistry.get((Class<?>)javaObject);
+        final Scriptable mixin = JSMixinRegistry.get((Class<?>)javaObject);
         if (mixin != null) {
             Object property = JSMixinUtil.getStaticProperty(mixin, name);
             if (property != NOT_FOUND) return true;
@@ -42,36 +44,35 @@ public class NativeJavaClassWithJSMixin extends NativeJavaClass{
         if (name.startsWith("$")) {
             return super.get(name.substring(1), start);
         }
-        Scriptable mixin = JSMixinRegistry.get((Class<?>)javaObject);
+        final Scriptable mixin = JSMixinRegistry.get((Class<?>)javaObject);
         if (mixin == null) {
             return super.get(name, start);
         }
-        Object o = mixin.get(name, mixin);
+        final Object o = mixin.get(name, mixin);
         if (o == NOT_FOUND) {
             return super.get(name, start);
         } else if (o instanceof Function) {
-            Function f = (Function)o;
+            final Function f = (Function)o;
             Object isStatic = f.get("static", f);
             if (isStatic != NOT_FOUND && isStatic instanceof Boolean
                     && ((Boolean)isStatic)) {
                 return f;
             }
         } else if (o instanceof Scriptable) {
-            Scriptable p = (Scriptable)o;
-            Object isStatic = p.get("static", p);
+            final Scriptable p = (Scriptable)o;
+            final Object isStatic = p.get("static", p);
             if (isStatic != NOT_FOUND && isStatic instanceof Boolean
                     && ((Boolean)isStatic)) {
-                Object value = ((Scriptable)o).get("value",(Scriptable)o);
+                final Object value = ((Scriptable)o).get("value",(Scriptable)o);
                 if (value != NOT_FOUND) return value;
-                Object getter = ((Scriptable)o).get("get",(Scriptable)o);
+                final Object getter = ((Scriptable)o).get("get",(Scriptable)o);
                 if (getter instanceof Function) {
-                    Object ret = ((Function) getter).call(
+                    return ((Function) getter).call(
                             Context.getCurrentContext(),
                             parent,
                             this,
                             new Object[]{}
                     );
-                    return ret;
                 }
             }
         }
