@@ -43,7 +43,7 @@ public class ScriptingConsolePanel extends JPanel {
     private ScriptEditor editor;
 
     protected JPanel buildControlPanel() {
-        JPanel pnl = new JPanel(new FlowLayout(FlowLayout.CENTER,0,0));
+        final JPanel pnl = new JPanel(new FlowLayout(FlowLayout.CENTER,0,0));
         pnl.setBorder(null);
         pnl.setBorder(BorderFactory.createEmptyBorder(2,2,2,2));
         JButton btn = new SideButton(new RunScriptAction(editor.getModel()));
@@ -52,7 +52,7 @@ public class ScriptingConsolePanel extends JPanel {
     }
 
     protected JPanel buildInputPanel() {
-        JPanel pnl = new JPanel(new BorderLayout());
+        final JPanel pnl = new JPanel(new BorderLayout());
         pnl.add(editor = new ScriptEditor(), BorderLayout.CENTER);
         pnl.add(buildControlPanel(), BorderLayout.SOUTH);
         return pnl;
@@ -78,7 +78,7 @@ public class ScriptingConsolePanel extends JPanel {
                     .equals(ScriptEditorModel.PROP_SCRIPT_ENGINE)) {
                 return;
             }
-            ScriptEngineDescriptor desc =
+            final ScriptEngineDescriptor desc =
                     (ScriptEngineDescriptor)evt.getNewValue();
             updateScriptContentType(desc);
         });
@@ -87,7 +87,7 @@ public class ScriptingConsolePanel extends JPanel {
 
 
     protected void warnMissingSyntaxKit(ScriptEngineDescriptor desc) {
-        StringBuffer sb = new StringBuffer();
+        final StringBuffer sb = new StringBuffer();
         sb.append("<html>");
         sb.append(tr("Didn''t find a suitable syntax kit for the script engine "
                 + "<strong>{0}</strong>.",
@@ -106,7 +106,7 @@ public class ScriptingConsolePanel extends JPanel {
                 + "for specific content types."));
         sb.append("</html>");
 
-        ButtonSpec[] btns = new ButtonSpec[] {
+        final ButtonSpec[] btns = new ButtonSpec[] {
                 new ButtonSpec(
                         tr("OK"),
                         ImageProvider.get("ok"),
@@ -161,7 +161,7 @@ public class ScriptingConsolePanel extends JPanel {
     }
 
     public void save()  {
-        File f = editor.getModel().getScriptFile();
+        final File f = editor.getModel().getScriptFile();
         if (f == null) return;
         editor.save(f);
     }
@@ -181,7 +181,7 @@ public class ScriptingConsolePanel extends JPanel {
 
     class RunScriptAction extends AbstractAction
         implements PropertyChangeListener {
-        private ScriptEditorModel model;
+        final private ScriptEditorModel model;
         public RunScriptAction(ScriptEditorModel model) {
             this.model = model;
             putValue(SMALL_ICON, ImageProvider.get("media-playback-start"));
@@ -193,7 +193,7 @@ public class ScriptingConsolePanel extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            String source = editor.getScript();
+            final String source = editor.getScript();
             switch(model.getScriptEngineDescriptor().getEngineType()) {
             case EMBEDDED:
                 new ScriptExecutor(ScriptingConsolePanel.this)
