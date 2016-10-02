@@ -18,6 +18,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.SwingUtilities;
+import javax.validation.constraints.NotNull;
 
 import org.openstreetmap.josm.gui.HelpAwareOptionPane;
 import org.openstreetmap.josm.gui.HelpAwareOptionPane.ButtonSpec;
@@ -152,11 +153,11 @@ public class ScriptingConsolePanel extends JPanel {
      *
      * @param file the file. Must not be null. A readable file is expected.
      */
-    public void open(File file) {
+    public void open(@NotNull File file) {
         editor.open(file);
     }
 
-    public void save(File file) {
+    public void save(@NotNull File file) {
         editor.save(file);
     }
 
