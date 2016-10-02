@@ -12,7 +12,7 @@ public class JSMixinUtil {
      * @return true, if this is a static property
      */
     static public boolean isStaticProperty(Scriptable property) {
-        Object isStatic = ((Scriptable)property).get("static",
+        final Object isStatic = ((Scriptable)property).get("static",
                 (Scriptable)property);
         return isStatic != Scriptable.NOT_FOUND
                 && isStatic instanceof Boolean && ((Boolean)isStatic);
@@ -27,7 +27,7 @@ public class JSMixinUtil {
      * @return the property or {@link Scriptable#NOT_FOUND}
      */
     static public Object getStaticProperty(Scriptable mixin, String name) {
-        Object property = mixin.get(name, mixin);
+        final Object property = mixin.get(name, mixin);
         if (property != Scriptable.NOT_FOUND &&
                 property instanceof Scriptable) {
             if (isStaticProperty((Scriptable)property)) {
@@ -46,7 +46,7 @@ public class JSMixinUtil {
      * @return the property or {@link Scriptable#NOT_FOUND}
      */
     static public Object getInstanceProperty(Scriptable mixin, String name) {
-        Object property = mixin.get(name, mixin);
+        final Object property = mixin.get(name, mixin);
         if (property != Scriptable.NOT_FOUND
                 && property instanceof Scriptable) {
             if (!isStaticProperty((Scriptable)property)) {
