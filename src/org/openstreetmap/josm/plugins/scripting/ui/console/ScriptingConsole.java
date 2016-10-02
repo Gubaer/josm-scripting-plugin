@@ -21,6 +21,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
+import javax.validation.constraints.NotNull;
 
 import org.openstreetmap.josm.data.preferences.BooleanProperty;
 import org.openstreetmap.josm.plugins.scripting.util.Assert;
@@ -57,7 +58,7 @@ public class ScriptingConsole extends JFrame {
                 instance.addWindowListener(new WindowAdapter() {
                     @Override
                     public void windowClosing(WindowEvent e) {
-                        ScriptingConsole old = instance;
+                        final ScriptingConsole old = instance;
                         instance = null;
                         fireScriptingConsoleChanged(old, instance);
                     }
@@ -93,7 +94,7 @@ public class ScriptingConsole extends JFrame {
         }
     }
 
-    private ScriptingConsolePanel pnlScriptingConsole = null;
+    private ScriptingConsolePanel pnlScriptingConsole;
 
     private ScriptingConsole(){
         super(tr("Scripting Console"));
@@ -103,9 +104,9 @@ public class ScriptingConsole extends JFrame {
     protected JMenuBar buildMenuBar() {
         // create the file menu
         //
-        JMenu mnuFile = new JMenu(tr("File"));
+        final JMenu mnuFile = new JMenu(tr("File"));
         mnuFile.add(new OpenAction());
-        SaveAction act = new SaveAction();
+        final SaveAction act = new SaveAction();
         getScriptEditorModel().addPropertyChangeListener(act);
         mnuFile.add(act);
         mnuFile.add(new SaveAsAction());
@@ -114,17 +115,17 @@ public class ScriptingConsole extends JFrame {
 
         // create the edit menu
         //
-        JMenu mnuEdit = new JMenu(tr("Edit"));
+        final JMenu mnuEdit = new JMenu(tr("Edit"));
         mnuEdit.add(pnlScriptingConsole.getScriptLog().getClearAction());
 
-        JMenuBar bar = new JMenuBar();
+        final JMenuBar bar = new JMenuBar();
         bar.add(mnuFile);
         bar.add(mnuEdit);
         return bar;
     }
 
     protected JPanel buildControlPanel() {
-        JPanel pnl = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        final JPanel pnl = new JPanel(new FlowLayout(FlowLayout.LEFT));
         cbAlwaysOnTop = new JCheckBox(new ToggleAlwaysOnTopAction());
         cbAlwaysOnTop.setFont(UIManager.getFont("Label.font").deriveFont(10));
         pnl.add(cbAlwaysOnTop);
@@ -132,7 +133,7 @@ public class ScriptingConsole extends JFrame {
     }
 
     protected void build(){
-        Container c = getContentPane();
+        final Container c = getContentPane();
         c.setLayout(new BorderLayout());
         c.add(pnlScriptingConsole = new ScriptingConsolePanel(),
                 BorderLayout.CENTER);
@@ -162,8 +163,8 @@ public class ScriptingConsole extends JFrame {
      *
      * @param file the file. Must not be null
      */
-    public void open(File file){
-        Assert.assertArgNotNull(file, "file");
+    public void open(@NotNull File file){
+        Assert.assertArgNotNull(file);
         Assert.assertArg(file.isFile(),
                 "Expected a file, got a directory. File is: {0}", file);
         Assert.assertArg(file.canRead(),
@@ -172,8 +173,13 @@ public class ScriptingConsole extends JFrame {
         pnlScriptingConsole.open(file);
     }
 
-    public void save(File file){
-        Assert.assertArgNotNull(file, "file");
+    /**
+     * <p>Saves the content of the script editor to the file {@code file}.</p>
+     *
+     * @param file the file. Must not be null
+     */
+    public void save(@NotNull File file){
+        Assert.assertArgNotNull(file);
         pnlScriptingConsole.save(file);
     }
 
