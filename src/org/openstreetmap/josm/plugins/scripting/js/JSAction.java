@@ -23,22 +23,26 @@ public class JSAction extends JosmAction {
     private final static AtomicInteger counter = new AtomicInteger();
 
     static protected boolean isNothing(Object value) {
-        return value == Scriptable.NOT_FOUND || value == null || value == Undefined.instance;
+        return value == Scriptable.NOT_FOUND || value == null
+                || value == Undefined.instance;
     }
 
-    static protected String propertyAsString(Scriptable object, String property, String defaultValue) {
+    static protected String propertyAsString(Scriptable object,
+            String property, String defaultValue) {
         Object value = object.get(property, object);
         if (isNothing(value)) return defaultValue;
         return ScriptRuntime.toString(value);
     }
 
-    static protected boolean propertyAsBoolean(Scriptable object, String property, boolean defaultValue) {
+    static protected boolean propertyAsBoolean(Scriptable object,
+            String property, boolean defaultValue) {
         Object value = object.get(property, object);
         if (value == Scriptable.NOT_FOUND) return defaultValue;
         return ScriptRuntime.toBoolean(value);
     }
 
-    static protected Function propertyAsFunction(Scriptable object, String property, Function defaultValue) {
+    static protected Function propertyAsFunction(Scriptable object,
+            String property, Function defaultValue) {
         Object value = object.get(property, object);
         if (isNothing(value)) return defaultValue;
         if (! (value instanceof Function)) return defaultValue;
@@ -46,13 +50,15 @@ public class JSAction extends JosmAction {
     }
 
     public JSAction(Scriptable properties) {
-        String name = propertyAsString(properties, "name", "JSAction" + counter.incrementAndGet());
+        String name = propertyAsString(properties, "name", "JSAction"
+    + counter.incrementAndGet());
         String iconName = propertyAsString(properties, "iconName", null);
         String tooltip = propertyAsString(properties, "tooltip", null);
         String toolbarId = propertyAsString(properties, "toolbarId", null);
         onExecute = propertyAsFunction(properties, "onExecute", null);
         onInitEnabled = propertyAsFunction(properties, "onInitEnabled", null);
-        onUpdateEnabled = propertyAsFunction(properties, "onUpdateEnabled", null);
+        onUpdateEnabled = propertyAsFunction(properties, "onUpdateEnabled",
+                null);
         putValue(NAME, name);
         putValue(SHORT_DESCRIPTION, tooltip);
         Icon icon = ImageProvider.getIfAvailable(iconName);
@@ -68,7 +74,8 @@ public class JSAction extends JosmAction {
         this.putValue("toolbar", toolbarId);
 
         // FIXME should accept shortcut as parameter
-        this.sc = Shortcut.registerShortcut(name, name, KeyEvent.VK_0, Shortcut.NONE);
+        this.sc = Shortcut.registerShortcut(name, name, KeyEvent.VK_0,
+                Shortcut.NONE);
         Main.registerActionShortcut(this, sc);
         initEnabledState();
     }
@@ -106,9 +113,11 @@ public class JSAction extends JosmAction {
         if (onExecute != null) {
             Context ctx = Context.getCurrentContext();
             Scriptable scope = RhinoEngine.getInstance().getScope();
-            onExecute.call(ctx, scope, (Scriptable)Context.javaToJS(this, scope), new Object[]{
-                Context.javaToJS(evt, scope)
-            });
+            onExecute.call(ctx,
+                    scope,
+                    (Scriptable)Context.javaToJS(this, scope),
+                    new Object[]{Context.javaToJS(evt, scope)}
+           );
         }
     }
 
@@ -117,7 +126,11 @@ public class JSAction extends JosmAction {
         if (onInitEnabled != null) {
             Context ctx = Context.getCurrentContext();
             Scriptable scope = RhinoEngine.getInstance().getScope();
-            onInitEnabled.call(ctx, scope, (Scriptable)Context.javaToJS(this, scope), new Object[]{});
+            onInitEnabled.call(ctx,
+                    scope,
+                    (Scriptable)Context.javaToJS(this, scope),
+                    new Object[]{}
+            );
         }
     }
 
@@ -126,17 +139,22 @@ public class JSAction extends JosmAction {
         if (onUpdateEnabled != null) {
             Context ctx = Context.getCurrentContext();
             Scriptable scope = RhinoEngine.getInstance().getScope();
-            onUpdateEnabled.call(ctx, scope, (Scriptable)Context.javaToJS(this, scope), new Object[]{});
+            onUpdateEnabled.call(ctx, scope,
+                    (Scriptable)Context.javaToJS(this, scope),
+                    new Object[]{}
+            );
         }
     }
 
     @Override
-    protected void updateEnabledState(Collection<? extends OsmPrimitive> selection) {
+    protected void updateEnabledState(
+            Collection<? extends OsmPrimitive> selection) {
         if (onUpdateEnabled != null) {
             Context ctx = Context.getCurrentContext();
             Scriptable scope = RhinoEngine.getInstance().getScope();
-            onUpdateEnabled.call(ctx, scope, (Scriptable)Context.javaToJS(this, scope), new Object[]{
-                Context.javaToJS(selection, scope)
+            onUpdateEnabled.call(ctx, scope,
+                    (Scriptable)Context.javaToJS(this, scope),
+                    new Object[]{Context.javaToJS(selection, scope)
             });
         }
     }
