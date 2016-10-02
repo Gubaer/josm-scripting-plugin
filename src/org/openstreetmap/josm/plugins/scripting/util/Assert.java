@@ -4,6 +4,7 @@ import java.text.MessageFormat;
 
 public class Assert {
 
+    @Deprecated
     public static void assertArgNotNull(Object arg, String name){
         if (arg == null){
             throw new IllegalArgumentException(
@@ -13,7 +14,9 @@ public class Assert {
     }
 
     public static void assertArgNotNull(Object arg){
-        assertArgNotNull(arg, arg == null? null: arg.getClass().getSimpleName());
+        if (arg == null){
+            throw new IllegalArgumentException("parameter must not be null");
+        }
     }
 
     public static void assertArg(boolean condition, String message, Object...objs) {
