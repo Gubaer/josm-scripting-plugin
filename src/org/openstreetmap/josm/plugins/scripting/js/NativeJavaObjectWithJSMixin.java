@@ -16,6 +16,7 @@ import org.mozilla.javascript.Scriptable;
  *
  */public class NativeJavaObjectWithJSMixin extends NativeJavaObject {
     private static final long serialVersionUID = 1L;
+    @SuppressWarnings("unused")
     static private final Logger logger =
             Logger.getLogger(NativeJavaObjectWithJSMixin.class.getName());
 
@@ -85,10 +86,11 @@ import org.mozilla.javascript.Scriptable;
             if (setter == NOT_FOUND) {
                 ScriptRuntime.throwError(Context.getCurrentContext(), parent,
                     MessageFormat.format(
-                            "Can''t set property ''{0}''. "
-                            + "Javascript wrapper for class ''{1}'' doesn''t "
-                            + "include a setter function.",
-                            name, javaObject.getClass())
+                        "Can''t set property ''{0}''. "
+                        + "Javascript wrapper for class ''{1}'' doesn''t "
+                        + "include a setter function.",
+                        name, javaObject.getClass()
+                    )
                 );
             } else if (setter instanceof Function) {
                 ((Function) setter).call(
@@ -105,7 +107,8 @@ import org.mozilla.javascript.Scriptable;
                             "Can''t set property ''{0}''. "
                           + "Expected a setter function as value of property "
                           + "''set'', got {1}",
-                          name, setter)
+                          name, setter
+                        )
                 );
             }
         }
@@ -121,10 +124,10 @@ import org.mozilla.javascript.Scriptable;
         Object f = mixin.get("__getByIndex", mixin);
         if (f instanceof Function) {
             return ((Function) f).call(
-                    Context.getCurrentContext(),
-                    parent,
-                    this,
-                    new Object[]{index}
+                Context.getCurrentContext(),
+                parent,
+                this,
+                new Object[]{index}
             );
         }
         return super.get(index, start);
@@ -140,10 +143,10 @@ import org.mozilla.javascript.Scriptable;
         Object f = mixin.get("__putByIndex", mixin);
         if (f instanceof Function) {
             ((Function) f).call(
-                    Context.getCurrentContext(),
-                    parent,
-                    this,
-                    new Object[]{index, value}
+                Context.getCurrentContext(),
+                parent,
+                this,
+                new Object[]{index, value}
             );
         } else {
             super.put(index, start, value);
