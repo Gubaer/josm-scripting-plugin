@@ -10,13 +10,14 @@ import org.mozilla.javascript.ScriptRuntime;
 import org.mozilla.javascript.Scriptable;
 
 /**
- * <p>An extension for {@link NativeJavaClass}. In addition to the properties derived from
- * the static fields and methods of a java class it "mixes in" a set of properties defined
- * in an external javascript mixin module.</p>
+ * <p>An extension for {@link NativeJavaClass}. In addition to the properties
+ * derived from the static fields and methods of a java class it "mixes in"
+ * a set of properties defined in an external javascript mixin module.</p>
  *
  */
 public class NativeJavaClassWithJSMixin extends NativeJavaClass{
-    static private final Logger logger = Logger.getLogger(NativeJavaClassWithJSMixin.class.getName());
+    static private final Logger logger =
+            Logger.getLogger(NativeJavaClassWithJSMixin.class.getName());
     private static final long serialVersionUID = 1L;
 
     public NativeJavaClassWithJSMixin(Scriptable scope, Class<?> cls) {
@@ -51,18 +52,25 @@ public class NativeJavaClassWithJSMixin extends NativeJavaClass{
         } else if (o instanceof Function) {
             Function f = (Function)o;
             Object isStatic = f.get("static", f);
-            if (isStatic != NOT_FOUND && isStatic instanceof Boolean && ((Boolean)isStatic)) {
+            if (isStatic != NOT_FOUND && isStatic instanceof Boolean
+                    && ((Boolean)isStatic)) {
                 return f;
             }
         } else if (o instanceof Scriptable) {
             Scriptable p = (Scriptable)o;
             Object isStatic = p.get("static", p);
-            if (isStatic != NOT_FOUND && isStatic instanceof Boolean && ((Boolean)isStatic)) {
+            if (isStatic != NOT_FOUND && isStatic instanceof Boolean
+                    && ((Boolean)isStatic)) {
                 Object value = ((Scriptable)o).get("value",(Scriptable)o);
                 if (value != NOT_FOUND) return value;
                 Object getter = ((Scriptable)o).get("get",(Scriptable)o);
                 if (getter instanceof Function) {
-                    Object ret = ((Function) getter).call(Context.getCurrentContext(), parent, this, new Object[]{});
+                    Object ret = ((Function) getter).call(
+                            Context.getCurrentContext(),
+                            parent,
+                            this,
+                            new Object[]{}
+                    );
                     return ret;
                 }
             }
@@ -86,14 +94,28 @@ public class NativeJavaClassWithJSMixin extends NativeJavaClass{
             Object setter = ((Scriptable)o).get("set",(Scriptable)o);
             if (setter == NOT_FOUND) {
                 ScriptRuntime.throwError(Context.getCurrentContext(), parent,
-                    MessageFormat.format("Can''t set property ''{0}''. Javascript wrapper for class ''{1}'' doesn''t include a setter function.", name, javaObject.getClass())
+                    MessageFormat.format(
+                            "Can''t set property ''{0}''. "
+                          + "Javascript wrapper for class ''{1}'' doesn''t "
+                          + "include a setter function.",
+                          name, javaObject.getClass())
                 );
             } else if (setter instanceof Function) {
-                ((Function) setter).call(Context.getCurrentContext(), parent, this, new Object[]{value});
+                ((Function) setter).call(Context.getCurrentContext(),
+                        parent,
+                        this,
+                        new Object[]{value}
+                );
                 return;
             } else {
-                ScriptRuntime.throwError(Context.getCurrentContext(), parent,
-                    MessageFormat.format("Can''t set property ''{0}''. Expected a setter function as value of property ''set'', got {1}",name, setter)
+                ScriptRuntime.throwError(
+                    Context.getCurrentContext(),
+                    parent,
+                    MessageFormat.format(
+                        "Can''t set property ''{0}''. "
+                      + "Expected a setter function as value of property ''set'', "
+                      + "got {1}",
+                      name, setter)
                 );
             }
         }
