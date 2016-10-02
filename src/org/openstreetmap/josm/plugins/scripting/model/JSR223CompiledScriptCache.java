@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 import javax.script.Compilable;
 import javax.script.CompiledScript;
 import javax.script.ScriptException;
+import javax.validation.constraints.NotNull;
 
 import org.openstreetmap.josm.plugins.scripting.util.Assert;
 
@@ -19,6 +20,7 @@ import org.openstreetmap.josm.plugins.scripting.util.Assert;
  *
  */
 public class JSR223CompiledScriptCache {
+    @SuppressWarnings("unused")
     static private final Logger logger = Logger.getLogger(
             JSR223CompiledScriptCache.class.getName());
 
@@ -73,10 +75,10 @@ public class JSR223CompiledScriptCache {
      * @throws IllegalArgumentException thrown if {@code compiler} or
      *      {@code scriptFile} is null
      */
-    public CompiledScript compile(Compilable compiler, File scriptFile)
+    public CompiledScript compile(@NotNull Compilable compiler, @NotNull File scriptFile)
             throws ScriptException, IOException, IllegalArgumentException {
-        Assert.assertArgNotNull(scriptFile, "scriptFile");
-        Assert.assertArgNotNull(compiler, "compiler");
+        Assert.assertArgNotNull(scriptFile);
+        Assert.assertArgNotNull(compiler);
         CacheEntry entry = cache.get(scriptFile);
         if (entry != null && entry.getTimestamp() >= scriptFile.lastModified()){
             return entry.getScript();

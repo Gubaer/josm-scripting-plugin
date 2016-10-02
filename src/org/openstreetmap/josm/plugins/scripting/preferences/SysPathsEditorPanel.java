@@ -50,6 +50,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.validation.constraints.NotNull;
 
 import org.openstreetmap.josm.data.Preferences;
 import org.openstreetmap.josm.gui.widgets.HtmlPanel;
@@ -159,6 +160,7 @@ public class SysPathsEditorPanel extends JPanel {
     }
 
     static public class SysPathsModel extends AbstractListModel<File> implements PreferenceKeys {
+        @SuppressWarnings("unused")
         static private final Logger logger = Logger.getLogger(SysPathsModel.class.getName());
 
         private final List<File> paths = new ArrayList<>();
@@ -200,8 +202,8 @@ public class SysPathsEditorPanel extends JPanel {
          * @param prefs the preferences
          * @param key  the preference key
          */
-        public void loadFromPreferences(Preferences prefs, String key) {
-            Assert.assertArgNotNull(prefs, "prefs");
+        public void loadFromPreferences(@NotNull Preferences prefs, String key) {
+            Assert.assertArgNotNull(prefs);
             prefs.getCollection(key).stream()
                 .map(String::trim)
                 .filter(path -> !path.isEmpty())
@@ -274,6 +276,7 @@ public class SysPathsEditorPanel extends JPanel {
 
     static public class SysPathCellRenderer extends JLabel
         implements ListCellRenderer<File> {
+        @SuppressWarnings("unused")
         static private final Logger logger =
                 Logger.getLogger(SysPathCellRenderer.class.getName());
 
@@ -406,6 +409,7 @@ public class SysPathsEditorPanel extends JPanel {
 
     static public class SysPathDialog extends JDialog {
 
+        @SuppressWarnings("unused")
         static private final Logger logger = Logger.getLogger(
                 SysPathDialog.class.getName());
 

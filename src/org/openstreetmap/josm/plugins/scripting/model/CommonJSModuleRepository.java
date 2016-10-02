@@ -6,6 +6,8 @@ import java.net.URL;
 import java.util.jar.JarFile;
 import java.util.logging.Logger;
 
+import javax.validation.constraints.NotNull;
+
 import org.openstreetmap.josm.plugins.scripting.util.Assert;
 
 /**
@@ -16,6 +18,7 @@ import org.openstreetmap.josm.plugins.scripting.util.Assert;
  * load modules from remove location, i.e. from a HTTP server.</p>
  */
 public class CommonJSModuleRepository {
+    @SuppressWarnings("unused")
     static private final Logger logger = Logger.getLogger(
             CommonJSModuleRepository.class.getName());
 
@@ -30,8 +33,8 @@ public class CommonJSModuleRepository {
      * @param dir a directory. Must not be null.
      * @throws IllegalArgumentException thrown if dir is null
      */
-    public CommonJSModuleRepository(File dir) throws IllegalArgumentException {
-        Assert.assertArgNotNull(dir, "dir");
+    public CommonJSModuleRepository(@NotNull File dir) throws IllegalArgumentException {
+        Assert.assertArgNotNull(dir);
         try {
             url = dir.toURI().toURL();
         } catch(MalformedURLException e) {
@@ -71,8 +74,8 @@ public class CommonJSModuleRepository {
      *              Must not be null.
      * @throws IllegalArgumentException thrown if url is null
      */
-    public CommonJSModuleRepository(String url) throws IllegalArgumentException{
-        Assert.assertArgNotNull(url, "url");
+    public CommonJSModuleRepository(@NotNull String url) throws IllegalArgumentException{
+        Assert.assertArgNotNull(url);
         try {
             URL repo = new URL(url);
             ensureValidUrl(repo);
@@ -91,8 +94,8 @@ public class CommonJSModuleRepository {
      * @param url an acceptable URL for a module repository. Must not be null.
      * @throws IllegalArgumentException thrown if url is null
      */
-    public CommonJSModuleRepository(URL url) throws IllegalArgumentException {
-        Assert.assertArgNotNull(url, "url");
+    public CommonJSModuleRepository(@NotNull URL url) throws IllegalArgumentException {
+        Assert.assertArgNotNull(url);
         ensureValidUrl(url);
         this.url = url;
     }
@@ -121,9 +124,9 @@ public class CommonJSModuleRepository {
      * @throws IllegalArgumentException thrown if jar is null or if the jar URL
      *   can't be created
      */
-    public CommonJSModuleRepository(JarFile jar, String jarPath)
+    public CommonJSModuleRepository(@NotNull JarFile jar, String jarPath)
             throws IllegalArgumentException {
-        Assert.assertArgNotNull(jar, "jar");
+        Assert.assertArgNotNull(jar);
         if (jarPath == null) jarPath = "/";
         jarPath = "/" + jarPath.trim().replace("\\", "/")
                 .replaceAll("/+", "/")

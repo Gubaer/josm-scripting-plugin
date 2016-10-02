@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.validation.constraints.NotNull;
+
 import org.openstreetmap.josm.data.coor.LatLon;
 import org.openstreetmap.josm.data.osm.Node;
 import org.openstreetmap.josm.data.osm.OsmPrimitive;
@@ -156,8 +158,8 @@ public class Change {
         }
 
         @Override
-        protected void ensureValidValue(Object value) {
-            Assert.assertArgNotNull(value, "pos");
+        protected void ensureValidValue(@NotNull Object value) {
+            Assert.assertArgNotNull(value);
             Assert.assertArg(value instanceof LatLon,
                     "Expected a LatLon, got {0}", value);
         }

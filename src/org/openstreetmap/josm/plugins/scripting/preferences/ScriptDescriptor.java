@@ -5,6 +5,7 @@ import java.text.MessageFormat;
 import java.util.UUID;
 
 import javax.swing.KeyStroke;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -119,8 +120,8 @@ public class ScriptDescriptor {
      *
      * @throws IllegalArgumentException thrown if id is null or if it consists of white space only
      */
-    public void setId(String id) throws IllegalArgumentException {
-        Assert.assertArgNotNull(id, "id");
+    public void setId(@NotNull String id) throws IllegalArgumentException {
+        Assert.assertArgNotNull(id);
         Assert.assertArg(!id.trim().isEmpty(), "id must not consist of white space only. Got ''{0}''", id);
         this.id = id.trim();
     }
@@ -158,8 +159,8 @@ public class ScriptDescriptor {
      * @throws IllegalArgumentException thrown if <code>scriptFile</code> is null
      * @throws IllegalArgumentException thrown if {@code scriptFile} is a directory
      */
-    public void setScriptFile(File scriptFile) throws IllegalArgumentException {
-        Assert.assertArgNotNull(scriptFile, "scriptFile");
+    public void setScriptFile(@NotNull File scriptFile) throws IllegalArgumentException {
+        Assert.assertArgNotNull(scriptFile);
         Assert.assertArg(scriptFile.isFile(), "Expected a file, got a directory. Got ''{0}''", scriptFile.toString());
         this.scriptFile = scriptFile;
     }

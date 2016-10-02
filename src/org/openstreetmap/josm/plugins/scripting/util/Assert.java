@@ -4,16 +4,6 @@ import java.text.MessageFormat;
 
 public class Assert {
 
-    @Deprecated
-    public static void assertArgNotNull(Object arg, String name){
-        if (arg == null){
-            throw new IllegalArgumentException(
-                    MessageFormat.format("parameter ''{0}'' must not be null",
-                            name)
-            );
-        }
-    }
-
     public static void assertArgNotNull(Object arg){
         if (arg == null){
             throw new IllegalArgumentException("parameter must not be null");

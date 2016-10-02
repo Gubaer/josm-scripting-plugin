@@ -164,7 +164,7 @@ public class ScriptEditor extends JPanel implements PropertyChangeListener {
      * @param file the output file. Must not be null.
      */
     public void save(@NotNull File file) {
-        Assert.assertArgNotNull(file, "file");
+        Assert.assertArgNotNull(file);
         String script = editor.getText();
         try (PrintWriter writer = new PrintWriter(new FileWriter(file))){
             writer.print(script);

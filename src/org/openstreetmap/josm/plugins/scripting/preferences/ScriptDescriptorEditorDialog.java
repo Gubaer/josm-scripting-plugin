@@ -35,6 +35,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.validation.constraints.NotNull;
 
 import org.openstreetmap.josm.gui.SideButton;
 import org.openstreetmap.josm.gui.help.ContextSensitiveHelpAction;
@@ -52,6 +53,7 @@ import org.openstreetmap.josm.tools.WindowGeometry;
  *
  */
 public class ScriptDescriptorEditorDialog extends JDialog {
+    @SuppressWarnings("unused")
     static private final Logger logger = Logger.getLogger(ScriptDescriptorEditorDialog.class.getName());
 
     private JTextField tfId;
@@ -199,8 +201,8 @@ public class ScriptDescriptorEditorDialog extends JDialog {
      * @throws IllegalStateException thrown if the editor content isn't in a state which
      * can be assigned to a script descriptor (example: the id consist of white space only)
      */
-    public void grab(ScriptDescriptor sd) throws IllegalArgumentException, IllegalStateException {
-        Assert.assertArgNotNull(sd, "sd");
+    public void grab(@NotNull ScriptDescriptor sd) throws IllegalArgumentException, IllegalStateException {
+        Assert.assertArgNotNull(sd);
         if (tfId.getText().trim().isEmpty()) {
             throw new IllegalStateException("id must not be empty or consists of white space only");
         }
@@ -355,8 +357,8 @@ public class ScriptDescriptorEditorDialog extends JDialog {
             }
         }
 
-        public void grab(ScriptDescriptor sd) throws IllegalArgumentException{
-            Assert.assertArgNotNull(sd, "sd");
+        public void grab(@NotNull ScriptDescriptor sd) throws IllegalArgumentException{
+            Assert.assertArgNotNull(sd);
             if (rbDeriveFromFileName.isSelected()) {
                 sd.setScriptEngineName(null);
             } else if (cbScriptEngines.getSelectedItem() == null){

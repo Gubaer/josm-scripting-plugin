@@ -33,6 +33,7 @@ import javax.swing.ListCellRenderer;
 import javax.swing.UIManager;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.validation.constraints.NotNull;
 
 import org.openstreetmap.josm.Main;
 import org.openstreetmap.josm.data.Preferences;
@@ -131,8 +132,8 @@ public class RhinoEngineConfigurationPanel extends VerticallyScrollablePanel{
             loadFromPreferences(Main.pref);
         }
 
-        public void loadFromPreferences(Preferences prefs) {
-            Assert.assertArgNotNull(prefs, "prefs");
+        public void loadFromPreferences(@NotNull Preferences prefs) {
+            Assert.assertArgNotNull(prefs);
             Collection<String> entries = prefs.getCollection(PREF_KEY_COMMONJS_MODULE_REPOSITORIES);
             for (Iterator<String> it = entries.iterator(); it.hasNext();) {
                 String entry = it.next().trim();

@@ -17,6 +17,7 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptException;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+import javax.validation.constraints.NotNull;
 
 import org.mozilla.javascript.JavaScriptException;
 import org.mozilla.javascript.RhinoException;
@@ -225,9 +226,10 @@ public class ScriptExecutor {
      * @param desc the script engine descriptor. Must not be null.
      * @param scriptFile the script file. Must not be null. Readable file expected.
      */
-    public void runScriptWithPluggedEngine(final ScriptEngineDescriptor desc, final File scriptFile) throws IllegalArgumentException {
-        Assert.assertArgNotNull(desc, "desc");
-        Assert.assertArgNotNull(scriptFile, "scriptFile");
+    public void runScriptWithPluggedEngine(@NotNull final ScriptEngineDescriptor desc,
+            @NotNull  final File scriptFile) throws IllegalArgumentException {
+        Assert.assertArgNotNull(desc);
+        Assert.assertArgNotNull(scriptFile);
         Assert.assertArg(scriptFile.isFile(), "Expected a file a script file, got ''{0}''", scriptFile);
         Assert.assertArg(scriptFile.canRead(), "Expected a readable script file, got ''{0}''", scriptFile);
 
@@ -264,8 +266,8 @@ public class ScriptExecutor {
      * @param desc the script engine descriptor. Must not be null.
      * @param script the script. Ignored if null.
      */
-    public void runScriptWithPluggedEngine(final ScriptEngineDescriptor desc, final String script) {
-        Assert.assertArgNotNull(desc, "desc");
+    public void runScriptWithPluggedEngine(@NotNull final ScriptEngineDescriptor desc, final String script) {
+        Assert.assertArgNotNull(desc);
         if (script == null) return;
         final ScriptEngine engine = JSR223ScriptEngineProvider.getInstance().getScriptEngine(desc);
         if (engine == null) {
@@ -296,8 +298,8 @@ public class ScriptExecutor {
      *
      * @param scriptFile the script file. Must not be null. Expects a readable file.
      */
-    public void runScriptWithEmbeddedEngine(final File scriptFile) throws IllegalArgumentException {
-        Assert.assertArgNotNull(scriptFile, "scriptFile");
+    public void runScriptWithEmbeddedEngine(@NotNull final File scriptFile) throws IllegalArgumentException {
+        Assert.assertArgNotNull(scriptFile);
         try {
             String script = readFile(scriptFile);
             RhinoEngine engine = RhinoEngine.getInstance();

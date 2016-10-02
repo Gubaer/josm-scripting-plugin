@@ -22,6 +22,7 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineFactory;
 import javax.script.ScriptEngineManager;
 import javax.swing.AbstractListModel;
+import javax.validation.constraints.NotNull;
 
 import org.openstreetmap.josm.Main;
 import org.openstreetmap.josm.plugins.scripting.ScriptingPlugin;
@@ -42,6 +43,7 @@ public class JSR223ScriptEngineProvider extends AbstractListModel<ScriptEngineFa
      */
     static public final String DEFAULT_MIME_TYPES = "/resources/mime.types.default";
 
+    @SuppressWarnings("unused")
     static private final Logger logger = Logger.getLogger(JSR223ScriptEngineProvider.class.getName());
 
     static private JSR223ScriptEngineProvider instance;
@@ -176,8 +178,8 @@ public class JSR223ScriptEngineProvider extends AbstractListModel<ScriptEngineFa
      * @return the script engine
      * @see ScriptEngineManager#getEngineByName(String)
      */
-    public ScriptEngine getEngineByName(String name) {
-        Assert.assertArgNotNull(name, "name");
+    public ScriptEngine getEngineByName(@NotNull String name) {
+        Assert.assertArgNotNull(name);
         return getScriptEngineManager().getEngineByName(name);
     }
 
@@ -189,8 +191,8 @@ public class JSR223ScriptEngineProvider extends AbstractListModel<ScriptEngineFa
      * @return true, if a JSR223-compatible scripting engine with name <code>name</code> is
      * currently available; false, otherwise
      */
-    public boolean hasEngineWithName(String name){
-        Assert.assertArgNotNull(name, "name");
+    public boolean hasEngineWithName(@NotNull String name){
+        Assert.assertArgNotNull(name);
         return getEngineByName(name) != null;
     }
 
@@ -230,8 +232,8 @@ public class JSR223ScriptEngineProvider extends AbstractListModel<ScriptEngineFa
      * @return the content type
      * @throws IllegalArgumentException thrown if <code>scriptFile</code> is null
      */
-    public String getContentTypeForFile(File scriptFile) throws IllegalArgumentException {
-        Assert.assertArgNotNull(scriptFile, "scriptFile");
+    public String getContentTypeForFile(@NotNull File scriptFile) throws IllegalArgumentException {
+        Assert.assertArgNotNull(scriptFile);
         return mimeTypesMap.getContentType(scriptFile);
     }
 
@@ -278,8 +280,8 @@ public class JSR223ScriptEngineProvider extends AbstractListModel<ScriptEngineFa
      * @param desc the descriptor. Must not be null. It's type must be {@link ScriptEngineType#PLUGGED}
      * @return the script engine or null
      */
-    public ScriptEngine getScriptEngine(ScriptEngineDescriptor desc) {
-        Assert.assertArgNotNull(desc, "desc");
+    public ScriptEngine getScriptEngine(@NotNull ScriptEngineDescriptor desc) {
+        Assert.assertArgNotNull(desc);
         Assert.assertArg(desc.getEngineType().equals(ScriptEngineType.PLUGGED), "Expected a descriptor for a plugged script engine, got ''{0}''", desc);
         return factories.stream()
             .filter(factory -> desc.getEngineId().equals(factory.getNames().get(0)))
