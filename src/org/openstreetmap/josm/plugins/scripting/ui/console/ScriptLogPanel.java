@@ -25,18 +25,19 @@ import javax.swing.text.StyleConstants;
 import org.openstreetmap.josm.tools.ImageProvider;
 
 public class ScriptLogPanel extends JPanel implements IScriptLog{
+    @SuppressWarnings("unused")
     static private final Logger logger =
             Logger.getLogger(ScriptLogPanel.class.getName());
 
     private JTextPane epOutput;
-    private Action actClear;
+    private final Action actClear = new ClearAction();
     private JPopupMenu popupMenu;
 
     protected void build() {
         setLayout(new BorderLayout());
         epOutput = new JTextPane();
         epOutput.setEditable(false);
-        JScrollPane editorScrollPane = new JScrollPane(epOutput);
+        final JScrollPane editorScrollPane = new JScrollPane(epOutput);
         editorScrollPane.setVerticalScrollBarPolicy(
                 JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         editorScrollPane.setHorizontalScrollBarPolicy(
@@ -48,7 +49,7 @@ public class ScriptLogPanel extends JPanel implements IScriptLog{
     }
 
     protected JPopupMenu buildPopupMenu() {
-        JPopupMenu mnu = new JPopupMenu();
+        final JPopupMenu mnu = new JPopupMenu();
         mnu.add(getClearAction());
         return mnu;
     }
@@ -64,7 +65,7 @@ public class ScriptLogPanel extends JPanel implements IScriptLog{
      */
     public void dumpException(Throwable t){
         if (t == null) return;
-        StringWriter w = new StringWriter();
+        final StringWriter w = new StringWriter();
         t.printStackTrace(new PrintWriter(w));
         Document doc = epOutput.getDocument();
         try {
@@ -86,7 +87,6 @@ public class ScriptLogPanel extends JPanel implements IScriptLog{
     }
 
     public Action getClearAction() {
-        if (actClear == null) actClear = new ClearAction();
         return actClear;
     }
 
