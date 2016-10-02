@@ -299,7 +299,7 @@ public class JOSMModuleScriptProvider implements ModuleScriptProvider,
     }
 
     public synchronized ModuleScript getModuleScript(Context cx,
-            String moduleId) throws Exception {
+            String moduleId) throws URISyntaxException, IOException {
         moduleId = normalizeModuleId(moduleId);
         if (cache.containsKey(moduleId)) {
             return cache.get(moduleId);
