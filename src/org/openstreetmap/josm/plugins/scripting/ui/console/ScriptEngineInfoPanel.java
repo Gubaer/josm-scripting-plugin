@@ -97,7 +97,7 @@ PropertyChangeListener, HyperlinkListener{
             sb.append(
                     tr("Executing scripts with the built-in scripting engine "
                     +"for <strong>{0}</strong> based on <strong>{1}</strong>.",
-                    desc.getLanguageName(),
+                    desc.getLanguageName().orElse(null),
                     desc.getEngineName()
                     )
             );
@@ -110,8 +110,7 @@ PropertyChangeListener, HyperlinkListener{
             sb.append(tr(
                     "Executing scripts in language <strong>{0}</strong> "
                     + "using engine <strong>{1}</strong>.",
-                    desc.getLanguageName() == null ?
-                            tr("unknown") : desc.getLanguageName(),
+                    desc.getLanguageName().orElse(tr("unknown")),
                     desc.getEngineName() == null ?
                             tr("unknown") : desc.getEngineName()
                 )

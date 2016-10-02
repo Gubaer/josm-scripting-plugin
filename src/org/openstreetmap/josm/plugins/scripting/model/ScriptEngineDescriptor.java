@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 import javax.script.ScriptEngineFactory;
@@ -335,8 +336,8 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
      * @return the name of the scripting language supported by this scripting
      *  engine.
      */
-    public String getLanguageName() {
-        return languageName;
+    public Optional<String> getLanguageName() {
+        return Optional.ofNullable(languageName);
     }
 
     /**
