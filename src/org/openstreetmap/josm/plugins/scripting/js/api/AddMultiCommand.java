@@ -2,22 +2,14 @@ package org.openstreetmap.josm.plugins.scripting.js.api;
 
 import static org.openstreetmap.josm.tools.I18n.trn;
 
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
-
-import javax.swing.Icon;
 
 import org.openstreetmap.josm.command.AddPrimitivesCommand;
-import org.openstreetmap.josm.command.PseudoCommand;
 import org.openstreetmap.josm.data.osm.DataSet;
 import org.openstreetmap.josm.data.osm.OsmPrimitive;
-import org.openstreetmap.josm.gui.DefaultNameFormatter;
 import org.openstreetmap.josm.gui.layer.OsmDataLayer;
 import org.openstreetmap.josm.plugins.scripting.util.Assert;
-import org.openstreetmap.josm.tools.ImageProvider;
 
 /**
  * <p>A command to add a collection of primitives to a layer.</p>
@@ -28,10 +20,6 @@ import org.openstreetmap.josm.tools.ImageProvider;
  * list of child command for the command dialog.</p>
  */
 public class AddMultiCommand extends MultiCommand {
-
-    /** remembers the added objects */
-    private OsmPrimitive[] added;
-
 
     /**
      * Creates a command for adding a collection of objects to a layer.
@@ -50,8 +38,8 @@ public class AddMultiCommand extends MultiCommand {
         super(layer);
         Assert.assertArgNotNull(toAdd);
         List<OsmPrimitive> normalized = normalize(toAdd);
-        added = new OsmPrimitive[normalized.size()];
-        normalized.toArray(added);
+        primitives = new OsmPrimitive[normalized.size()];
+        normalized.toArray(primitives);
     }
 
     @Override
@@ -60,9 +48,9 @@ public class AddMultiCommand extends MultiCommand {
         int i=0;
         try {
             ds.beginUpdate();
-            for (i=0; i< added.length; i++ ){
-                ds.addPrimitive(added[i]);
-                added[i].setModified(true);
+            for (i=0; i< primitives.length; i++ ){
+                ds.addPrimitive(primitives[i]);
+                primitives[i].setModified(true);
             }
         } finally {
             ds.endUpdate();
@@ -75,8 +63,8 @@ public class AddMultiCommand extends MultiCommand {
         DataSet ds = getLayer().data;
         try {
             ds.beginUpdate();
-            for (int i=added.length-1; i>=0; i--) {
-                ds.removePrimitive(added[i]);
+            for (int i=primitives.length-1; i>=0; i--) {
+                ds.removePrimitive(primitives[i]);
             }
         } finally {
             ds.endUpdate();
@@ -92,35 +80,6 @@ public class AddMultiCommand extends MultiCommand {
     @Override
     public String getDescriptionText() {
         return trn("Added {0} primitive", "Added {0} primitives",
-                added.length, added.length);
-    }
-
-    static final private class CommandForPrimitive extends PseudoCommand {
-
-        private final OsmPrimitive p;
-        public CommandForPrimitive(final OsmPrimitive p) {
-            this.p = p;
-        }
-        @Override
-        public Collection<? extends OsmPrimitive> getParticipatingPrimitives() {
-            return Collections.singleton(p);
-        }
-
-        @Override
-        public String getDescriptionText() {
-            return p.getDisplayName(DefaultNameFormatter.getInstance());
-        }
-
-        @Override
-        public Icon getDescriptionIcon() {
-            return ImageProvider.get(p.getType());
-        }
-    }
-
-    @Override
-    public Collection<PseudoCommand> getChildren() {
-        return Arrays.stream(added)
-            .map(CommandForPrimitive::new)
-            .collect(Collectors.toList());
+                primitives.length, primitives.length);
     }
 }

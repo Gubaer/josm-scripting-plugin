@@ -11,6 +11,8 @@ import org.openstreetmap.josm.plugins.scripting.util.Assert;
 
 abstract public class MultiCommand extends Command{
 
+    protected OsmPrimitive[] primitives;
+
     protected static OsmDataLayer checkLayer(OsmDataLayer layer) {
         Assert.assertArgNotNull(layer);
         return layer;

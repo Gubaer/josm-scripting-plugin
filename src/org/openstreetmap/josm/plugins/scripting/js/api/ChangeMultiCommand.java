@@ -2,25 +2,18 @@ package org.openstreetmap.josm.plugins.scripting.js.api;
 
 import static org.openstreetmap.josm.tools.I18n.trn;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
-import javax.swing.Icon;
-
-import org.openstreetmap.josm.command.PseudoCommand;
 import org.openstreetmap.josm.data.osm.DataSet;
 import org.openstreetmap.josm.data.osm.OsmPrimitive;
 import org.openstreetmap.josm.data.osm.PrimitiveData;
 import org.openstreetmap.josm.gui.layer.OsmDataLayer;
 import org.openstreetmap.josm.plugins.scripting.util.Assert;
-import org.openstreetmap.josm.tools.ImageProvider;
 
 public class ChangeMultiCommand extends MultiCommand {
 
     private Change change;
-    private OsmPrimitive[] changed;
     private PrimitiveData[] oldState;
 
     /**
@@ -41,8 +34,8 @@ public class ChangeMultiCommand extends MultiCommand {
         Assert.assertArgNotNull(toChange);
         Assert.assertArgNotNull(change);
         List<OsmPrimitive> normalized = normalize(toChange);
-        changed = new OsmPrimitive[normalized.size()];
-        normalized.toArray(changed);
+        primitives = new OsmPrimitive[normalized.size()];
+        normalized.toArray(primitives);
         this.change = change;
     }
 
@@ -53,17 +46,17 @@ public class ChangeMultiCommand extends MultiCommand {
 
     @Override
     public String getDescriptionText() {
-        return trn("Changed {0} primitive", "Changed {0} primitives", changed.length, changed.length);
+        return trn("Changed {0} primitive", "Changed {0} primitives", primitives.length, primitives.length);
     }
 
     @Override
     public boolean executeCommand() {
         DataSet ds = getLayer().data;
         try {
-            oldState = new PrimitiveData[changed.length];
+            oldState = new PrimitiveData[primitives.length];
             ds.beginUpdate();
-            for (int i=0; i< changed.length; i++) {
-                OsmPrimitive p = changed[i];
+            for (int i=0; i< primitives.length; i++) {
+                OsmPrimitive p = primitives[i];
                 oldState[i] = p.save();
                 change.apply(p);
                 p.setModified(true);
@@ -79,37 +72,12 @@ public class ChangeMultiCommand extends MultiCommand {
         DataSet ds = getLayer().data;
         try {
             ds.beginUpdate();
-            for (int i=changed.length-1; i>=0; i--){
-                OsmPrimitive p = changed[i];
+            for (int i=primitives.length-1; i>=0; i--){
+                OsmPrimitive p = primitives[i];
                 p.load(oldState[i]);
             }
         } finally {
             ds.endUpdate();
         }
-    }
-
-    @Override
-    public Collection<PseudoCommand> getChildren() {
-        List<PseudoCommand> children = new ArrayList<>();
-        for (final OsmPrimitive p: changed) {
-            PseudoCommand cmd = new PseudoCommand() {
-                @Override
-                public Collection<? extends OsmPrimitive> getParticipatingPrimitives() {
-                    return Collections.singleton(p);
-                }
-
-                @Override
-                public String getDescriptionText() {
-                    return change.explain(p);
-                }
-
-                @Override
-                public Icon getDescriptionIcon() {
-                    return ImageProvider.get(p.getType());
-                }
-            };
-            children.add(cmd);
-        }
-        return children;
     }
 }

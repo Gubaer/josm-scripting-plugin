@@ -11,7 +11,6 @@ import org.openstreetmap.josm.plugins.scripting.util.Assert;
 
 public class DeleteMultiCommand extends MultiCommand {
 
-    OsmPrimitive[] deleted;
     boolean[] oldstate;
 
     /**
@@ -30,8 +29,8 @@ public class DeleteMultiCommand extends MultiCommand {
         super(layer);
         Assert.assertArgNotNull(toDelete);
         toDelete = normalize(toDelete);
-        deleted  = new OsmPrimitive[toDelete.size()];
-        toDelete.toArray(deleted);
+        primitives  = new OsmPrimitive[toDelete.size()];
+        toDelete.toArray(primitives);
     }
 
     @Override
@@ -45,10 +44,10 @@ public class DeleteMultiCommand extends MultiCommand {
         DataSet ds = getLayer().data;
         try {
             ds.beginUpdate();
-            oldstate = new boolean[deleted.length];
-            for (int i=0; i<deleted.length; i++) {
-                oldstate[i] = deleted[i].isDeleted();
-                deleted[i].setDeleted(true);
+            oldstate = new boolean[primitives.length];
+            for (int i=0; i<primitives.length; i++) {
+                oldstate[i] = primitives[i].isDeleted();
+                primitives[i].setDeleted(true);
             }
         } finally {
             ds.endUpdate();
@@ -61,8 +60,8 @@ public class DeleteMultiCommand extends MultiCommand {
         DataSet ds = getLayer().data;
         try {
             ds.beginUpdate();
-            for (int i=0; i<deleted.length; i++) {
-                deleted[i].setDeleted(oldstate[i]);
+            for (int i=0; i<primitives.length; i++) {
+                primitives[i].setDeleted(oldstate[i]);
             }
         } finally {
             ds.endUpdate();
@@ -71,6 +70,6 @@ public class DeleteMultiCommand extends MultiCommand {
 
     @Override
     public String getDescriptionText() {
-        return trn("Deleted {0} primitive", "Deleted {0} primitives", deleted.length);
+        return trn("Deleted {0} primitive", "Deleted {0} primitives", primitives.length);
     }
 }
