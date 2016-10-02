@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.logging.Level;
@@ -130,7 +131,7 @@ public class JOSMModuleScriptProvider implements ModuleScriptProvider,
             throws IllegalArgumentException {
         Assert.assertArgNotNull(repository);
         try {
-            CommonJSModuleRepository repo =
+            final CommonJSModuleRepository repo =
                     new CommonJSModuleRepository(repository);
             synchronized(volatileRepos) {
                 if (! volatileRepos.contains(repo.getURL())) {
@@ -149,7 +150,6 @@ public class JOSMModuleScriptProvider implements ModuleScriptProvider,
     /** the cache of compiled modules */
     private final Map<String, ModuleScript> cache = new HashMap<>();
 
-
     protected void trace(String msg, Object...args) {
         if (!DO_TRACE) return;
         System.out.println("require: " + MessageFormat.format(msg, args));
@@ -166,7 +166,7 @@ public class JOSMModuleScriptProvider implements ModuleScriptProvider,
 
     protected URL lookupInDirectory(URL fileUrl, String moduleId) {
         if (!fileUrl.getProtocol().equals("file")) return null;
-        File dir = new File(fileUrl.getFile());
+        final File dir = new File(fileUrl.getFile());
         trace("''{0}'': Looking up in directory <{1}>",
                 moduleId, dir.toString());
 
@@ -175,8 +175,7 @@ public class JOSMModuleScriptProvider implements ModuleScriptProvider,
                     moduleId, dir.toString());
             return null;
         }
-        File candidate;
-        candidate = new File(dir, moduleId);
+        File candidate = new File(dir, moduleId);
         if (! candidate.isFile() || ! candidate.canRead()) {
             candidate = new File(dir, moduleId + ".js");
             if (!candidate.isFile() || !candidate.canRead()) {
@@ -198,7 +197,9 @@ public class JOSMModuleScriptProvider implements ModuleScriptProvider,
     }
 
     protected URL lookupInJar(URL jarUrl, String moduleId) {
-        if (jarUrl == null || ! jarUrl.getProtocol().equals("jar")) return null;
+        if (jarUrl == null || ! jarUrl.getProtocol().equals("jar")) {
+            return null;
+        }
         trace("''{0}'': Looking up in jar ''{1}''", moduleId, jarUrl);
         URL fileUrl;
         try {
@@ -209,14 +210,16 @@ public class JOSMModuleScriptProvider implements ModuleScriptProvider,
                     jarUrl.getPath(), moduleId);
             return null;
         }
-        if (!fileUrl.getProtocol().equals("file")) return null;
-        String[] parts = fileUrl.toString().split("!");
+        if (!fileUrl.getProtocol().equals("file")) {
+            return null;
+        }
+        final String[] parts = fileUrl.toString().split("!");
         if (parts.length != 2 || !parts[0].toLowerCase().startsWith("file:")) {
             warning("''{0}'': Unexpected format of jar url, got <{1}>",
                     moduleId, fileUrl);
         }
         parts[0] = parts[0].substring(5).replaceAll("^[\\\\\\/]+", "/");
-        File jarFile = new File(parts[0]);
+        final File jarFile = new File(parts[0]);
         String jarPath = parts[1];
         if (!jarFile.exists() || !jarFile.canRead()) {
             trace("''{0}'': jar lookup failed: jar file ''{1}'' doesn''t exist.",
@@ -226,19 +229,12 @@ public class JOSMModuleScriptProvider implements ModuleScriptProvider,
 
         jarPath = jarPath.replace('\\', '/').replaceAll("^\\/+", "")
                 .replaceAll("\\/+$", "");
-        JarFile jf = null;
-        try {
-            try {
-                jf = new JarFile(jarFile);
-            } catch(IOException e){
-                warning(e, "Failed to create JarFile for file''{0}''. "
-                        + "Failed to lookup module ''{1}'' in this jar.",
-                        jarFile.getPath(), moduleId);
-                return null;
-            }
-            JarEntry eDir = jf.getJarEntry(jarPath + "/" + moduleId + "/");
-            JarEntry eNoSuffix = jf.getJarEntry(jarPath + "/" + moduleId);
-            JarEntry eWithSuffix = jf.getJarEntry(jarPath + "/" + moduleId
+
+        try (JarFile jf = new JarFile(jarFile)){
+            final JarEntry eDir = jf.getJarEntry(jarPath + "/"
+                    + moduleId + "/");
+            final JarEntry eNoSuffix = jf.getJarEntry(jarPath + "/" + moduleId);
+            final JarEntry eWithSuffix = jf.getJarEntry(jarPath + "/" + moduleId
                     + ".js");
             JarEntry eFound = null;
             if (eWithSuffix != null) {
@@ -255,7 +251,7 @@ public class JOSMModuleScriptProvider implements ModuleScriptProvider,
             } else {
                 trace("''{0}'': HIT - found in entry <{1}> of jar  <{2}>",
                         moduleId, eFound.getName(), jf.getName());
-                String moduleUrl = "jar:" + jarFile.toURI().toString()
+                final String moduleUrl = "jar:" + jarFile.toURI().toString()
                         + "!/" + eFound.getName();
                 try {
                     return new URL(moduleUrl);
@@ -266,10 +262,11 @@ public class JOSMModuleScriptProvider implements ModuleScriptProvider,
                 }
             }
             return null;
-        } finally {
-            if (jf != null) try {jf.close();} catch (IOException e) {
-                /* ignore */
-            }
+        } catch(IOException e){
+            warning(e, "Failed to create JarFile for file''{0}''. "
+                    + "Failed to lookup module ''{1}'' in this jar.",
+                    jarFile.getPath(), moduleId);
+            return null;
         }
     }
 
@@ -288,26 +285,33 @@ public class JOSMModuleScriptProvider implements ModuleScriptProvider,
     }
 
     public URL lookup(String moduleId) {
-        moduleId = normalizeModuleId(moduleId);
-        for(URL base: allRepos) {
-            URL url = null;
-            if (base.getProtocol().equals("file")) {
-                url = lookupInDirectory(base, moduleId);
-            } else if (base.getProtocol().equals("jar")) {
-                url =  lookupInJar(base, moduleId);
-            }
-            if (url != null) return url;
-        }
-        return null;
+        final String mid = normalizeModuleId(moduleId);
+        return allRepos.stream()
+            .map(base -> {
+                if (base.getProtocol().equals("file")) {
+                    return Optional.ofNullable(
+                            lookupInDirectory(base, moduleId));
+                } else if (base.getProtocol().equals("jar")) {
+                    return Optional.ofNullable(lookupInJar(base, mid));
+                } else {
+                    return Optional.<URL>empty();
+                }
+            })
+            .filter(Optional::isPresent)
+            .map(Optional::get)
+            .findFirst()
+            .orElse(null);
     }
 
     public synchronized ModuleScript getModuleScript(Context cx,
             String moduleId) throws Exception {
         moduleId = normalizeModuleId(moduleId);
-        if (cache.containsKey(moduleId)) return cache.get(moduleId);
-        URL url = lookup(moduleId);
+        if (cache.containsKey(moduleId)) {
+            return cache.get(moduleId);
+        }
+        final URL url = lookup(moduleId);
         if (url == null) return null;
-        ModuleScript script = load(url,null);
+        final ModuleScript script = load(url,null);
         if (script == null) return null;
         cache.put(moduleId, script);
         return script;
