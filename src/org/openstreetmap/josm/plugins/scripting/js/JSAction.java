@@ -29,31 +29,31 @@ public class JSAction extends JosmAction {
 
     static protected String propertyAsString(Scriptable object,
             String property, String defaultValue) {
-        Object value = object.get(property, object);
+        final Object value = object.get(property, object);
         if (isNothing(value)) return defaultValue;
         return ScriptRuntime.toString(value);
     }
 
     static protected boolean propertyAsBoolean(Scriptable object,
             String property, boolean defaultValue) {
-        Object value = object.get(property, object);
+        final Object value = object.get(property, object);
         if (value == Scriptable.NOT_FOUND) return defaultValue;
         return ScriptRuntime.toBoolean(value);
     }
 
     static protected Function propertyAsFunction(Scriptable object,
             String property, Function defaultValue) {
-        Object value = object.get(property, object);
+        final Object value = object.get(property, object);
         if (isNothing(value)) return defaultValue;
         if (! (value instanceof Function)) return defaultValue;
         return (Function)value;
     }
 
     public JSAction(Scriptable properties) {
-        String name = propertyAsString(properties, "name", "JSAction"
-    + counter.incrementAndGet());
-        String iconName = propertyAsString(properties, "iconName", null);
-        String tooltip = propertyAsString(properties, "tooltip", null);
+        final String name = propertyAsString(properties, "name", "JSAction"
+                + counter.incrementAndGet());
+        final String iconName = propertyAsString(properties, "iconName", null);
+        final String tooltip = propertyAsString(properties, "tooltip", null);
         String toolbarId = propertyAsString(properties, "toolbarId", null);
         onExecute = propertyAsFunction(properties, "onExecute", null);
         onInitEnabled = propertyAsFunction(properties, "onInitEnabled", null);
@@ -80,40 +80,27 @@ public class JSAction extends JosmAction {
         initEnabledState();
     }
 
-    private Function onExecute;
-    private Function onInitEnabled;
-    private Function onUpdateEnabled;
+    final private Function onExecute;
+    final private Function onInitEnabled;
+    final private Function onUpdateEnabled;
 
     public Function getOnExecute() {
         return onExecute;
-    }
-
-    public void setOnExecute(Function onExecute) {
-        this.onExecute = onExecute;
     }
 
     public Function getOnInitEnabled() {
         return onInitEnabled;
     }
 
-    public void setOnInitEnabled(Function onInitEnabled) {
-        this.onInitEnabled = onInitEnabled;
-    }
-
     public Function getOnUpdateEnabled() {
         return onUpdateEnabled;
-    }
-
-    public void setOnUpdateEnabled(Function onUpdateEnabled) {
-        this.onUpdateEnabled = onUpdateEnabled;
     }
 
     @Override
     public void actionPerformed(ActionEvent evt) {
         if (onExecute != null) {
-            Context ctx = Context.getCurrentContext();
-            Scriptable scope = RhinoEngine.getInstance().getScope();
-            onExecute.call(ctx,
+            final Scriptable scope = RhinoEngine.getInstance().getScope();
+            onExecute.call(Context.getCurrentContext(),
                     scope,
                     (Scriptable)Context.javaToJS(this, scope),
                     new Object[]{Context.javaToJS(evt, scope)}
@@ -124,9 +111,8 @@ public class JSAction extends JosmAction {
     @Override
     protected void initEnabledState() {
         if (onInitEnabled != null) {
-            Context ctx = Context.getCurrentContext();
-            Scriptable scope = RhinoEngine.getInstance().getScope();
-            onInitEnabled.call(ctx,
+            final Scriptable scope = RhinoEngine.getInstance().getScope();
+            onInitEnabled.call(Context.getCurrentContext(),
                     scope,
                     (Scriptable)Context.javaToJS(this, scope),
                     new Object[]{}
@@ -137,9 +123,9 @@ public class JSAction extends JosmAction {
     @Override
     protected void updateEnabledState() {
         if (onUpdateEnabled != null) {
-            Context ctx = Context.getCurrentContext();
-            Scriptable scope = RhinoEngine.getInstance().getScope();
-            onUpdateEnabled.call(ctx, scope,
+            final Scriptable scope = RhinoEngine.getInstance().getScope();
+            onUpdateEnabled.call(Context.getCurrentContext(),
+                    scope,
                     (Scriptable)Context.javaToJS(this, scope),
                     new Object[]{}
             );
@@ -150,9 +136,9 @@ public class JSAction extends JosmAction {
     protected void updateEnabledState(
             Collection<? extends OsmPrimitive> selection) {
         if (onUpdateEnabled != null) {
-            Context ctx = Context.getCurrentContext();
-            Scriptable scope = RhinoEngine.getInstance().getScope();
-            onUpdateEnabled.call(ctx, scope,
+            final Scriptable scope = RhinoEngine.getInstance().getScope();
+            onUpdateEnabled.call(Context.getCurrentContext(),
+                    scope,
                     (Scriptable)Context.javaToJS(this, scope),
                     new Object[]{Context.javaToJS(selection, scope)
             });
