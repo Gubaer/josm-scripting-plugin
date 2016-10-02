@@ -20,6 +20,8 @@ import java.util.jar.JarFile;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.validation.constraints.NotNull;
+
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Script;
 import org.mozilla.javascript.Scriptable;
@@ -84,8 +86,8 @@ public class JOSMModuleScriptProvider implements ModuleScriptProvider,
         }
     }
 
-    static public List<URL> loadFromPreferences(Preferences prefs) {
-        Assert.assertArgNotNull(prefs, "prefs");
+    static public List<URL> loadFromPreferences(@NotNull Preferences prefs) {
+        Assert.assertArgNotNull(prefs);
         List<URL> ret = new ArrayList<>();
         prefs.getCollection(PREF_KEY_COMMONJS_MODULE_REPOSITORIES).stream()
             .map(String::trim)
@@ -124,8 +126,9 @@ public class JOSMModuleScriptProvider implements ModuleScriptProvider,
      * @throws IllegalArgumentException thrown if repository is neither a
      *      jar nor a file URL
      */
-    public void addRepository(URL repository) throws IllegalArgumentException {
-        Assert.assertArgNotNull(repository, "repository");
+    public void addRepository(@NotNull URL repository)
+            throws IllegalArgumentException {
+        Assert.assertArgNotNull(repository);
         try {
             CommonJSModuleRepository repo =
                     new CommonJSModuleRepository(repository);
