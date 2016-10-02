@@ -12,7 +12,8 @@ public class JSMixinUtil {
      * @return true, if this is a static property
      */
     static public boolean isStaticProperty(Scriptable property) {
-        Object isStatic = ((Scriptable)property).get("static", (Scriptable)property);
+        Object isStatic = ((Scriptable)property).get("static",
+                (Scriptable)property);
         return isStatic != Scriptable.NOT_FOUND
                 && isStatic instanceof Boolean && ((Boolean)isStatic);
     }
