@@ -2,10 +2,11 @@ package org.openstreetmap.josm.plugins.scripting.js.api;
 
 import static org.openstreetmap.josm.tools.I18n.trn;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.swing.Icon;
 
@@ -38,7 +39,8 @@ public class AddMultiCommand extends MultiCommand {
      * <ul>
      *   <li>null values are skipped</li>
      *   <li>adds duplicate objects only once</li>
-     *   <li>orders the objects to add according to their type, nodes first, then ways, then relations</li>
+     *   <li>orders the objects to add according to their type, nodes first,
+     *   then ways, then relations</li>
      * </ul>
      *
      * @param layer the layer where the objects are added to
@@ -89,31 +91,36 @@ public class AddMultiCommand extends MultiCommand {
 
     @Override
     public String getDescriptionText() {
-        return trn("Added {0} primitive", "Added {0} primitives", added.length, added.length);
+        return trn("Added {0} primitive", "Added {0} primitives",
+                added.length, added.length);
+    }
+
+    static final private class CommandForPrimitive extends PseudoCommand {
+
+        private final OsmPrimitive p;
+        public CommandForPrimitive(final OsmPrimitive p) {
+            this.p = p;
+        }
+        @Override
+        public Collection<? extends OsmPrimitive> getParticipatingPrimitives() {
+            return Collections.singleton(p);
+        }
+
+        @Override
+        public String getDescriptionText() {
+            return p.getDisplayName(DefaultNameFormatter.getInstance());
+        }
+
+        @Override
+        public Icon getDescriptionIcon() {
+            return ImageProvider.get(p.getType());
+        }
     }
 
     @Override
     public Collection<PseudoCommand> getChildren() {
-        List<PseudoCommand> children = new ArrayList<>();
-        for (final OsmPrimitive p: added) {
-            PseudoCommand cmd = new PseudoCommand() {
-                @Override
-                public Collection<? extends OsmPrimitive> getParticipatingPrimitives() {
-                    return Collections.singleton(p);
-                }
-
-                @Override
-                public String getDescriptionText() {
-                    return p.getDisplayName(DefaultNameFormatter.getInstance());
-                }
-
-                @Override
-                public Icon getDescriptionIcon() {
-                    return ImageProvider.get(p.getType());
-                }
-            };
-            children.add(cmd);
-        }
-        return children;
+        return Arrays.stream(added)
+            .map(CommandForPrimitive::new)
+            .collect(Collectors.toList());
     }
 }
