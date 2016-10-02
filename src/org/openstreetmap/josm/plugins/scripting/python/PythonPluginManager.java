@@ -62,7 +62,7 @@ public class PythonPluginManager implements
 
     private final List<String> originalSysPaths = new ArrayList<>();
     public PythonPluginManager() {
-        PySystemState state = Py.getSystemState();
+        final PySystemState state = Py.getSystemState();
         for (int i = 0; i< state.path.__len__(); i++) {
             PyString path = (PyString)state.path.__getitem__(i);
             originalSysPaths.add(path.toString());
@@ -84,13 +84,12 @@ public class PythonPluginManager implements
         JosmPythonPlugin plugin = plugins.get(pluginClassName);
         if (plugin != null) return plugin;
 
-        PythonInterpreter interpreter = getInterpreter();
-        int idx = pluginClassName.lastIndexOf(".");
-        String className = pluginClassName;
+        final PythonInterpreter interpreter = getInterpreter();
+        final int idx = pluginClassName.lastIndexOf(".");
         if (idx >= 0) {
-            String module = pluginClassName.substring(0, idx);
-            className = pluginClassName.substring(idx + 1);
-            String importStatement = String.format(
+            final String module = pluginClassName.substring(0, idx);
+            final String className = pluginClassName.substring(idx + 1);
+            final String importStatement = String.format(
                     "from %s import %s", module, className);
             try {
                 interpreter.exec(importStatement);
@@ -107,13 +106,13 @@ public class PythonPluginManager implements
         }
 
         try {
-            PyObject pluginClass = interpreter.get(className);
+            final PyObject pluginClass = interpreter.get(pluginClassName);
             if (pluginClass == null) {
                logger.warning(tr("Failed to lookup plugin class ''{0}''.",
-                       className));
+                       pluginClassName));
                return null;
             }
-            PyObject pluginInstance = pluginClass.__call__();
+            final PyObject pluginInstance = pluginClass.__call__();
             logger.info("instantiated plugin: " + pluginInstance);
 
             plugin = (JosmPythonPlugin)
