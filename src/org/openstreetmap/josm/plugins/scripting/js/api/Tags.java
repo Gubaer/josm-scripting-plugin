@@ -13,10 +13,11 @@ import org.openstreetmap.josm.plugins.scripting.js.RhinoEngine;
 
 public class Tags extends ScriptableObject {
     private static final long serialVersionUID = 1L;
+    @SuppressWarnings("unused")
     static private final Logger logger =
             Logger.getLogger(Tags.class.getName());
 
-    private Tagged primitive;
+    final private Tagged primitive;
     public Tags(Tagged primitive) {
         this.primitive = primitive;
         this.setPrototype(TopLevel.getObjectPrototype(
@@ -25,7 +26,7 @@ public class Tags extends ScriptableObject {
 
     @Override
     public Object get(String name, Scriptable start) {
-        String value = primitive.get(name.trim());
+        final String value = primitive.get(name.trim());
         return value == null ? super.get(name, start) : value;
     }
 
