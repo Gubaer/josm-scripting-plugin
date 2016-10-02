@@ -19,13 +19,15 @@ public class DeleteMultiCommand extends MultiCommand {
      * <ul>
      *   <li>null values are skipped</li>
      *   <li>removes duplicate objects only once</li>
-     *   <li>orders the objects to remove according to their type, relations first, then ways, then nodes</li>
+     *   <li>orders the objects to remove according to their type, relations
+     *   first, then ways, then nodes</li>
      * </ul>
      *
      * @param layer the layer where the objects are added to
      * @param toAdd the collection of objects to add
      */
-    public DeleteMultiCommand(OsmDataLayer layer, Collection<OsmPrimitive> toDelete) {
+    public DeleteMultiCommand(OsmDataLayer layer,
+            Collection<OsmPrimitive> toDelete) {
         super(layer);
         Assert.assertArgNotNull(toDelete);
         toDelete = normalize(toDelete);
@@ -70,6 +72,7 @@ public class DeleteMultiCommand extends MultiCommand {
 
     @Override
     public String getDescriptionText() {
-        return trn("Deleted {0} primitive", "Deleted {0} primitives", primitives.length);
+        return trn("Deleted {0} primitive",
+                "Deleted {0} primitives", primitives.length);
     }
 }

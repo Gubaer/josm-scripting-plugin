@@ -29,7 +29,8 @@ public class ChangeMultiCommand extends MultiCommand {
      * @param change the change to apply. Must not be null
      * @throws IllegalArgumentException thrown if one of the parameters is null
      */
-    public ChangeMultiCommand(OsmDataLayer layer, Collection<OsmPrimitive> toChange, Change change){
+    public ChangeMultiCommand(OsmDataLayer layer,
+            Collection<OsmPrimitive> toChange, Change change){
         super(layer);
         Assert.assertArgNotNull(toChange);
         Assert.assertArgNotNull(change);
@@ -40,13 +41,15 @@ public class ChangeMultiCommand extends MultiCommand {
     }
 
     @Override
-    public void fillModifiedData(Collection<OsmPrimitive> modified, Collection<OsmPrimitive> deleted, Collection<OsmPrimitive> added) {
+    public void fillModifiedData(Collection<OsmPrimitive> modified,
+            Collection<OsmPrimitive> deleted, Collection<OsmPrimitive> added) {
         // empty - we have our own undo implementation
     }
 
     @Override
     public String getDescriptionText() {
-        return trn("Changed {0} primitive", "Changed {0} primitives", primitives.length, primitives.length);
+        return trn("Changed {0} primitive", "Changed {0} primitives",
+                primitives.length, primitives.length);
     }
 
     @Override
