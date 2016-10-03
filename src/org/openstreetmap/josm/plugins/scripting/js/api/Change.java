@@ -4,6 +4,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import javax.validation.constraints.NotNull;
@@ -25,11 +26,12 @@ import org.openstreetmap.josm.plugins.scripting.util.Assert;
  *
  */
 public class Change {
-    //private static final Logger logger =
-    //      Logger.getLogger(Change.class.getName());
+    @SuppressWarnings("unused")
+    private static final Logger logger =
+            Logger.getLogger(Change.class.getName());
 
-    public static abstract class PropertyChange {
-        protected Object newValue;
+    public static abstract class PropertyChange<T> {
+        protected T newValue;
         public  boolean appliesTo(OsmPrimitive primitive) {
             try {
                 ensureApplicable(primitive);
@@ -41,16 +43,16 @@ public class Change {
         public abstract void apply(OsmPrimitive primitive);
         public abstract String explain(OsmPrimitive primitive);
 
-        protected abstract void ensureValidValue(Object value);
+        protected abstract void ensureValidValue(T value);
         protected abstract void ensureApplicable(OsmPrimitive primitive);
 
 
-        public Object getNewValue() {
+        public T getNewValue() {
             return newValue;
         }
     }
 
-    public static class LatChange extends PropertyChange{
+    public static class LatChange extends PropertyChange<Number>{
          protected void ensureApplicable(OsmPrimitive primitive) {
              Assert.assertArg(primitive instanceof Node,
                      "Expected a node, got {0}", primitive);
@@ -62,7 +64,7 @@ public class Change {
         public void apply(OsmPrimitive primitive) {
             ensureApplicable(primitive);
             Node node = (Node)primitive;
-            double lat = ((Number)newValue).doubleValue();
+            double lat = newValue.doubleValue();
             LatLon oldpos = node.getCoor();
             LatLon newpos = oldpos == null ?
                     new LatLon(lat,0) : new LatLon(lat, oldpos.lon());
@@ -71,12 +73,12 @@ public class Change {
 
         @Override
         public String explain(OsmPrimitive primitive) {
-            double lat = ((Number)newValue).doubleValue();
+            double lat = newValue.doubleValue();
             return "lat=" + LatLon.cDdFormatter.format(lat);
         }
 
         @Override
-        protected void ensureValidValue(Object value) {
+        protected void ensureValidValue(Number value) {
             Assert.assertArg(value != null
                     ,"lat must not be null");
             Assert.assertArg(value instanceof Number,
@@ -86,13 +88,13 @@ public class Change {
                     "Expected a valid lat, got {0}", lat);
         }
 
-        public LatChange(Object newValue) {
+        public LatChange(Number newValue) {
             ensureValidValue(newValue);
             this.newValue = newValue;
         }
     }
 
-    public static class LonChange extends PropertyChange{
+    public static class LonChange extends PropertyChange<Number>{
          protected void ensureApplicable(OsmPrimitive primitive) {
              Assert.assertArg(primitive instanceof Node,
                      "Expected a node, got {0}", primitive);
@@ -104,7 +106,7 @@ public class Change {
         public void apply(OsmPrimitive primitive) {
             ensureApplicable(primitive);
             Node node = (Node)primitive;
-            double lon = ((Number)newValue).doubleValue();
+            double lon = newValue.doubleValue();
             LatLon oldpos = node.getCoor();
             LatLon newpos = oldpos == null ?
                     new LatLon(0,lon) : new LatLon(oldpos.lat(), lon);
@@ -113,27 +115,27 @@ public class Change {
 
         @Override
         public String explain(OsmPrimitive primitive) {
-            double lon = ((Number)newValue).doubleValue();
+            double lon = newValue.doubleValue();
             return "lon=" + LatLon.cDdFormatter.format(lon);
         }
 
         @Override
-        protected void ensureValidValue(Object value) {
+        protected void ensureValidValue(Number value) {
             Assert.assertArg(value != null,"lon must not be null");
             Assert.assertArg(value instanceof Number,
                     "lon must be a number, got {0}", value);
-            double lon = ((Number)value).doubleValue();
+            double lon = value.doubleValue();
             Assert.assertArg(LatLon.isValidLon(lon),
                     "Expected a valid lon, got {0}", lon);
         }
 
-        public LonChange(Object newValue) {
+        public LonChange(Number newValue) {
             ensureValidValue(newValue);
             this.newValue = newValue;
         }
     }
 
-    public static class PosChange extends PropertyChange {
+    public static class PosChange extends PropertyChange<LatLon> {
          protected void ensureApplicable(OsmPrimitive primitive) {
              Assert.assertArg(primitive instanceof Node,
                      "Expected a node, got {0}", primitive);
@@ -145,32 +147,30 @@ public class Change {
         public void apply(OsmPrimitive primitive) {
             ensureApplicable(primitive);
             Node node = (Node)primitive;
-            LatLon pos = (LatLon)newValue;
-            node.setCoor(pos);
+            node.setCoor(newValue);
         }
 
         @Override
         public String explain(OsmPrimitive primitive) {
-            LatLon pos = (LatLon)newValue;
             return MessageFormat.format("pos=[{0},{1}]",
-                    LatLon.cDdFormatter.format(pos.lat()),
-                    LatLon.cDdFormatter.format(pos.lon()));
+                    LatLon.cDdFormatter.format(newValue.lat()),
+                    LatLon.cDdFormatter.format(newValue.lon()));
         }
 
         @Override
-        protected void ensureValidValue(@NotNull Object value) {
+        protected void ensureValidValue(@NotNull LatLon value) {
             Assert.assertArgNotNull(value);
             Assert.assertArg(value instanceof LatLon,
                     "Expected a LatLon, got {0}", value);
         }
 
-        public PosChange(Object newValue) {
+        public PosChange(LatLon newValue) {
             ensureValidValue(newValue);
             this.newValue = newValue;
         }
     }
 
-    public static class TagsChange extends PropertyChange {
+    public static class TagsChange extends PropertyChange<Map<String,String>> {
         protected void ensureApplicable(OsmPrimitive primitive) {
              Assert.assertArg(!primitive.isIncomplete(),
                      "Primitive must not be incomplete, got {0}", primitive);
@@ -182,14 +182,10 @@ public class Change {
             if (newValue == null){
                 primitive.removeAll();
             } else {
-                Map<String, String> tags = (Map<String,String>)newValue;
-                for(String key: tags.keySet()) {
-                    if (key == null) continue;
-                    key = key.trim();
-                    String value = tags.get(key);
-                    // this will remove the tag, if value is null
-                    primitive.put(key, value);
-                }
+                newValue.entrySet().stream()
+                    .filter(entry -> entry.getKey() != null)
+                    .forEach(entry ->
+                        primitive.put(entry.getKey(), entry.getValue()));
             }
         }
 
@@ -198,36 +194,32 @@ public class Change {
             if (newValue == null){
                 return "tags=[]";
             } else {
-                Map<String,String> tags = (Map<String, String>)newValue;
-                StringBuilder sb = new StringBuilder();
-                for (String key: tags.keySet()) {
-                    if (sb.length() > 0) sb.append(", ");
-                    String value = tags.get(key);
-                    if (value == null){
-                        sb.append("[x]").append(key);
-                    } else {
-                        sb.append(key).append("=").append(value);
-                    }
-                }
-                return "tags=[" + sb.toString() + "]";
+                final String formattedTags = newValue.keySet().stream()
+                    .map(key -> {
+                        String value = newValue.get(key);
+                        if (value == null){
+                            return "[x]" + key;
+                        } else {
+                            return key + "=" + "value";
+                        }
+                    })
+                    .collect(Collectors.joining(","));
+                return "tags=[" + formattedTags + "]";
             }
         }
 
-        @Override
-        protected void ensureValidValue(Object value) {
-            if (value != null) {
-                Assert.assertArg(value instanceof Map<?,?>,
-                        "Expected a Map of tags, got {0}", value);
-            }
-        }
-
-        public TagsChange(Object newValue) {
+        public TagsChange(Map<String,String> newValue) {
             ensureValidValue(newValue);
             this.newValue = newValue;
         }
+
+        @Override
+        protected void ensureValidValue(Map<String, String> value) {
+            /* do nothing */
+        }
     }
 
-    public static class NodesChange extends PropertyChange {
+    public static class NodesChange extends PropertyChange<List<Node>> {
          protected void ensureApplicable(OsmPrimitive primitive) {
              Assert.assertArg(primitive instanceof Way,
                      "Expected a way, got {0}", primitive);
@@ -239,13 +231,7 @@ public class Change {
         public void apply(OsmPrimitive primitive) {
             ensureApplicable(primitive);
             Way way = (Way)primitive;
-            if (newValue == null) {
-                way.setNodes(null);
-            } else {
-                @SuppressWarnings("unchecked") List<Node> nodes =
-                        (List<Node>)newValue;
-                way.setNodes(nodes);
-            }
+            way.setNodes(newValue);
         }
 
         @Override
@@ -253,8 +239,7 @@ public class Change {
             StringBuffer sb = new StringBuffer();
             sb.append("nodes=[");
             if (newValue != null) {
-                List<Node> nodes = (List<Node>)newValue;
-                sb.append(nodes.stream()
+                sb.append(newValue.stream()
                    .map(n -> n.getDisplayName(DefaultNameFormatter.getInstance()))
                    .collect(Collectors.joining(", "))
                 );
@@ -264,15 +249,14 @@ public class Change {
         }
 
         @Override
-        protected void ensureValidValue(Object value) {
+        protected void ensureValidValue(List<Node> value) {
             if (value == null){
                 return;
             } else {
                 Assert.assertArg(value instanceof List<?>,
                         "Expected a list of nodes, got {0}", value);
                 try {
-                    List<?> nodes = (List<?>)value;
-                    for(Object o: nodes) {
+                    for(Object o: value) {
                         if (o == null) continue;
                         Node node = (Node)o; // just try to convert to a node
                     }
@@ -284,20 +268,18 @@ public class Change {
             }
         }
 
-        public NodesChange(Object newValue) {
+        public NodesChange(List<Node> newValue) {
             ensureValidValue(newValue);
             if (newValue == null){
                 this.newValue = null;
             } else {
-                @SuppressWarnings("unchecked") List<Node> nodes =
-                        new ArrayList<>((List<Node>)newValue);
-                nodes.remove(null);
-                this.newValue = nodes;
+                newValue.remove(null);
+                this.newValue = newValue;
             }
         }
     }
 
-    public static class MemberChange extends PropertyChange {
+    public static class MemberChange extends PropertyChange<List<RelationMember>> {
 
          protected void ensureApplicable(OsmPrimitive primitive) {
              Assert.assertArg(primitive instanceof Relation,
@@ -310,13 +292,7 @@ public class Change {
         public void apply(OsmPrimitive primitive) {
             ensureApplicable(primitive);
             Relation relation = (Relation)primitive;
-            if (newValue == null) {
-                relation.setMembers(null);
-            } else {
-                @SuppressWarnings("unchecked") List<RelationMember> members =
-                        (List<RelationMember>)newValue;
-                relation.setMembers(members);
-            }
+            relation.setMembers(newValue);
         }
 
         @Override
@@ -324,9 +300,7 @@ public class Change {
             StringBuffer sb = new StringBuffer();
             sb.append("members=[");
             if (newValue != null) {
-                @SuppressWarnings("unchecked")
-                List<RelationMember> members = (List<RelationMember>)newValue;
-                sb.append(members.stream()
+                sb.append(newValue.stream()
                     .map(m -> m.getRole() + "/" +
                          m.getMember().getDisplayName(
                                  DefaultNameFormatter.getInstance()
@@ -340,13 +314,12 @@ public class Change {
         }
 
         @Override
-        protected void ensureValidValue(Object value) {
+        protected void ensureValidValue(List<RelationMember> value) {
             if (value == null) return;
             Assert.assertArg(value instanceof List<?>,
                     "Expected a list of members, got {0}", value);
             try {
-                List<?> members = (List<?>)value;
-                for(Object o: members) {
+                for(Object o: newValue) {
                     if (o == null) continue;
                     // just try to convert to a member
                     RelationMember member = (RelationMember)o;
@@ -358,18 +331,16 @@ public class Change {
             }
         }
 
-        public MemberChange(Object newValue) {
+        public MemberChange(List<RelationMember> newValue) {
             ensureValidValue(newValue);
             if (newValue != null) {
-                @SuppressWarnings("unchecked") List<RelationMember> members =
-                        new ArrayList<>((List<RelationMember>)newValue);
-                members.remove(null);
-                this.newValue = members;
+                newValue.remove(null);
+                this.newValue = newValue;
             }
         }
     }
 
-    private final List<PropertyChange> changes = new ArrayList<>();
+    private final List<PropertyChange<?>> changes = new ArrayList<>();
 
     /**
      * Schedules a property change for the latitude of a {@link Node}
@@ -443,7 +414,7 @@ public class Change {
      * @param primitive the primitive.
      */
     public void apply(OsmPrimitive primitive) {
-        for (PropertyChange change: changes) {
+        for (PropertyChange<?> change: changes) {
             if (change.appliesTo(primitive)) {
                 change.apply(primitive);
             }
