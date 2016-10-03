@@ -1,6 +1,7 @@
 package org.openstreetmap.josm.plugins.scripting.ui;
 
-import static org.openstreetmap.josm.plugins.scripting.ui.GridBagConstraintBuilder.gbc;
+import static org.openstreetmap.josm.plugins.scripting.ui
+    .GridBagConstraintBuilder.gbc;
 import static org.openstreetmap.josm.tools.I18n.tr;
 
 import java.awt.BorderLayout;
@@ -38,14 +39,16 @@ import org.openstreetmap.josm.gui.SideButton;
 import org.openstreetmap.josm.gui.help.ContextSensitiveHelpAction;
 import org.openstreetmap.josm.gui.help.HelpUtil;
 import org.openstreetmap.josm.gui.widgets.HtmlPanel;
-import org.openstreetmap.josm.plugins.scripting.model.JSR223ScriptEngineProvider;
+import org.openstreetmap.josm.plugins.scripting.model
+    .JSR223ScriptEngineProvider;
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
 import org.openstreetmap.josm.tools.ImageProvider;
 import org.openstreetmap.josm.tools.WindowGeometry;
 
 /**
- * <strong>ScriptEngineSelectionDialog</strong> allows to select one of the plugable
- * JSR-223 compatible script engines or one of the embedded script engines.
+ * <strong>ScriptEngineSelectionDialog</strong> allows to select one of the
+ *  plugable JSR-223 compatible script engines or one of the embedded script
+ *  engines.
  *
  */
 public class ScriptEngineSelectionDialog extends JDialog {
@@ -54,35 +57,40 @@ public class ScriptEngineSelectionDialog extends JDialog {
     /**
      * <p>Launches a modal dialog for selecting a script engine.</p>
      *
-     * @param parent the parent component for the dialog. Assumes {@code Main.parent} if
-     * null
+     * @param parent the parent component for the dialog. Assumes
+     * {@code Main.parent} if null
      *
-     * @return  descriptor for the selected script engine, or null, if the user didn't select an engine
+     * @return  descriptor for the selected script engine, or null,
+     *  if the user didn't select an engine
      */
     static public ScriptEngineDescriptor select(Component parent){
         return select(parent, null);
     }
 
     /**
-     * <p>Launches a modal dialog for selecting a script engine. The dialog is opened
-     * with {@code Main.parent} as owner.</p>
+     * <p>Launches a modal dialog for selecting a script engine. The dialog
+     * is opened with {@code Main.parent} as owner.</p>
      *
-     * @return descriptor for the selected script engine, or null, if the user didn't select an engine
+     * @return descriptor for the selected script engine, or null, if the user
+     *  didn't select an engine
      */
     static public ScriptEngineDescriptor select(){
         return select(Main.parent, null);
     }
 
     /**
-     * <p>Launches a modal dialog for selecting a script engine. The dialog is opened
-     * with {@code parent} as owner. If available, the factory {@code currentFactory}
-     * is selected in the list.</p>
+     * <p>Launches a modal dialog for selecting a script engine. The dialog is
+     * opened with {@code parent} as owner. If available, the factory
+     * {@code currentFactory} is selected in the list.</p>
      *
-     * @return the selected script engine, or null, if the user didn't select an engine
+     * @return the selected script engine, or null, if the user didn't select
+     *  an engine
      */
-    static public ScriptEngineDescriptor select(Component parent, ScriptEngineDescriptor current){
+    static public ScriptEngineDescriptor select(Component parent,
+            ScriptEngineDescriptor current){
         if (parent == null) parent = Main.parent;
-        ScriptEngineSelectionDialog dialog = new ScriptEngineSelectionDialog(parent);
+        ScriptEngineSelectionDialog dialog =
+                new ScriptEngineSelectionDialog(parent);
         dialog.setSelectedScriptEngine(current);
         dialog.setVisible(true);
         return dialog.selectedEngine;
@@ -100,13 +108,16 @@ public class ScriptEngineSelectionDialog extends JDialog {
     /**
      * <p>Creates a new dialog.</p>
      *
-     * @param parent the parent. Uses {@link JOptionPane#getFrameForComponent(Component)} to
-     * determine the owner frame.
+     * @param parent the parent. Uses
+     *  {@link JOptionPane#getFrameForComponent(Component)} to determine the
+     *   owner frame.
      */
     public ScriptEngineSelectionDialog(Component parent) {
-        super(JOptionPane.getFrameForComponent(parent), ModalityType.APPLICATION_MODAL);
+        super(JOptionPane.getFrameForComponent(parent),
+                ModalityType.APPLICATION_MODAL);
         build();
-        HelpUtil.setHelpContext(getRootPane(), HelpUtil.ht("/Plugin/Scripting"));
+        HelpUtil.setHelpContext(getRootPane(),
+                HelpUtil.ht("/Plugin/Scripting"));
 
     }
 
@@ -127,7 +138,9 @@ public class ScriptEngineSelectionDialog extends JDialog {
         gc = gbc(gc).cell(1, 0).weight(1.0, 1.0).fillboth().constraints();
         HtmlPanel ht = new HtmlPanel();
         ht.setText("<html>"
-                + "Use the embedded scripting engine for <strong>JavaScript</strong> (ECMAScript 5.0) based on <strong>Mozilla Rhino</strong>."
+                + "Use the embedded scripting engine for "
+                + "<strong>JavaScript</strong> (ECMAScript 5.0) based on "
+                + "<strong>Mozilla Rhino</strong>."
                 + " </html>"
         );
         pnl.add(ht, gc);
@@ -142,7 +155,8 @@ public class ScriptEngineSelectionDialog extends JDialog {
         CancelAction actCancel;
         pnl.add(btn = new SideButton(actCancel = new CancelAction()));
         btn.setFocusable(true);
-        pnl.add(btn = new SideButton(new ContextSensitiveHelpAction(HelpUtil.ht("/Plugin/Scripting"))));
+        pnl.add(btn = new SideButton(new ContextSensitiveHelpAction(
+                HelpUtil.ht("/Plugin/Scripting"))));
         btn.setFocusable(true);
 
         // Ctrl-Enter triggers OK
@@ -162,26 +176,30 @@ public class ScriptEngineSelectionDialog extends JDialog {
     }
 
     /**
-     * Prepares the dialog for the script engine described by <code>selected</code>.
-     * If <code>selected</code> is <code>null</code>, assumes the the default
-     * scripting engine.
+     * Prepares the dialog for the script engine described by
+     * <code>selected</code>. If <code>selected</code> is <code>null</code>,
+     * assumes the the default scripting engine.
      *
      * @param selected the descriptor for the selected scripting engine
      * @see ScriptEngineDescriptor#DEFAULT_SCRIPT_ENGINE
      */
     public void setSelectedScriptEngine(ScriptEngineDescriptor selected) {
-        if (selected == null) selected= ScriptEngineDescriptor.DEFAULT_SCRIPT_ENGINE;
+        if (selected == null) {
+            selected= ScriptEngineDescriptor.DEFAULT_SCRIPT_ENGINE;
+        }
         switch(selected.getEngineType()){
             case EMBEDDED:
                 rbEmbeddedScriptingEngine.setSelected(true);
                 break;
             case PLUGGED:
                 rbPluggableScriptingEngine.setSelected(true);
-                ScriptEngineFactory factory = model.getScriptFactoryByName(selected.getEngineId());
+                ScriptEngineFactory factory =
+                        model.getScriptFactoryByName(selected.getEngineId());
                 if (factory == null){
                     lstEngines.setSelectedIndex(0);
                 } else {
-                    lstEngines.setSelectedValue(factory, true /* scroll to selected */);
+                    lstEngines.setSelectedValue(factory,
+                            true /* scroll to selected */);
                 }
                 break;
         }
@@ -205,7 +223,8 @@ public class ScriptEngineSelectionDialog extends JDialog {
         gc = gbc(gc).cell(1,0).weight(1.0,0.0).fillboth().constraints();
         HtmlPanel ht = new HtmlPanel();
         ht.setText("<html>"
-                + "Use one of the available pluggable scripting engines (see <i>Preferences</i> to configure additional engines)."
+                + "Use one of the available pluggable scripting engines "
+                + "(see <i>Preferences</i> to configure additional engines)."
                 + " </html>"
         );
         pnl.add(ht, gc);
@@ -214,8 +233,10 @@ public class ScriptEngineSelectionDialog extends JDialog {
 
         gc = gbc(gc).cell(1,1).weight(1.0,1.0).fillboth().constraints();
         JScrollPane scrollPane = new JScrollPane(lstEngines);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setVerticalScrollBarPolicy(
+                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setHorizontalScrollBarPolicy(
+                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         pnl.add(scrollPane, gc);
         lstEngines.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         lstEngines.setSelectedIndex(0);
@@ -236,7 +257,8 @@ public class ScriptEngineSelectionDialog extends JDialog {
 
     protected void build() {
 
-        lstEngines = new JList<>(model = JSR223ScriptEngineProvider.getInstance());
+        lstEngines = new JList<>(
+                model = JSR223ScriptEngineProvider.getInstance());
 
         Container c = getContentPane();
         c.setLayout(new BorderLayout());
@@ -244,7 +266,8 @@ public class ScriptEngineSelectionDialog extends JDialog {
         c.add(buildScriptEngineListPanel(), BorderLayout.CENTER);
         c.add(buildControlButtonPanel(), BorderLayout.SOUTH);
 
-        lstEngines.getSelectionModel().addListSelectionListener((OKAction)btnOK.getAction());
+        lstEngines.getSelectionModel()
+            .addListSelectionListener((OKAction)btnOK.getAction());
 
         // Respond to 'Enter' in the list
         lstEngines.registerKeyboardAction(
@@ -255,10 +278,12 @@ public class ScriptEngineSelectionDialog extends JDialog {
     }
 
     private final OKAction actOK = new OKAction();
-    private class OKAction extends AbstractAction implements ListSelectionListener, ChangeListener {
+    private class OKAction extends AbstractAction
+            implements ListSelectionListener, ChangeListener {
         public OKAction() {
             putValue(NAME, tr("OK"));
-            putValue(SHORT_DESCRIPTION, tr("Accept the selected scripting engine"));
+            putValue(SHORT_DESCRIPTION,
+                    tr("Accept the selected scripting engine"));
             putValue(SMALL_ICON, ImageProvider.get("ok"));
         }
 
@@ -268,7 +293,8 @@ public class ScriptEngineSelectionDialog extends JDialog {
             } else if (rbPluggableScriptingEngine.isSelected()) {
                 int selIndex = lstEngines.getSelectedIndex();
                 selectedEngine = new ScriptEngineDescriptor(
-                        model.getScriptEngineFactories().get(selIndex).getNames().get(0)
+                        model.getScriptEngineFactories()
+                              .get(selIndex).getNames().get(0)
                 );
             }
             setVisible(false);

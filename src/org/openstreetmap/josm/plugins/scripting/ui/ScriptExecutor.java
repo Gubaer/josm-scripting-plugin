@@ -34,12 +34,14 @@ import org.openstreetmap.josm.plugins.scripting.util.ExceptionUtil;
 import org.openstreetmap.josm.plugins.scripting.util.IOUtil;
 
 /**
- * A utility class providing methods for executing a script (as string or as file) with either an embedded
- * or a plugged script engine, including error handling.
+ * A utility class providing methods for executing a script (as string or
+ * as file) with either an embeddedor a plugged script engine, including
+ * error handling.
  *
  */
 public class ScriptExecutor {
-    static private final  Logger logger = Logger.getLogger(ScriptExecutor.class.getName());
+    static private final  Logger logger =
+         Logger.getLogger(ScriptExecutor.class.getName());
 
     private Component parent = null;
 
@@ -49,7 +51,8 @@ public class ScriptExecutor {
     /**
      * Creates a new script executor
      *
-     * @param parent the parent AWT component. Used to lookup the parent window for error messages.
+     * @param parent the parent AWT component. Used to lookup the parent
+     *      window for error messages.
      */
     public ScriptExecutor(Component parent) {
         this.parent = parent;
@@ -60,8 +63,10 @@ public class ScriptExecutor {
                 this.parent,
                 "<html>"
                 + tr(
-                    "<p>The script can''t be executed, because a scripting engine with name ''{0}'' isn''t configured.</p>"
-                    + "<p>Refer to the online help for information about how to install/configure a scripting engine for JOSM.</p>"
+                    "<p>The script can''t be executed, because a scripting "
+                    + "engine with name ''{0}'' isn''t configured.</p>"
+                    + "<p>Refer to the online help for information about how "
+                    + "to install/configure a scripting engine for JOSM.</p>"
                 )
                 + "</html>"
                 ,
@@ -84,8 +89,8 @@ public class ScriptExecutor {
     }
 
     protected void warnJavaScriptExceptionCaught(JavaScriptException e){
-        // extract detail information from the property 'description' of the original
-        // JavaScript error object
+        // extract detail information from the property 'description' of
+        // the original JavaScript error object
         //
         String details = "";
         Object value = e.getValue();
@@ -100,7 +105,8 @@ public class ScriptExecutor {
         HelpAwareOptionPane.showOptionDialog(
             this.parent,
             tr("An error occured in the script.")
-            + (details.isEmpty() ? "" : ("<br><br><strong>Details:</strong> " + details)),
+            + (details.isEmpty() ? ""
+                    : ("<br><br><strong>Details:</strong> " + details)),
             tr("Script Error"),
             JOptionPane.ERROR_MESSAGE,
             HelpUtil.ht("/Plugin/Scripting")
@@ -117,7 +123,8 @@ public class ScriptExecutor {
             JOptionPane.ERROR_MESSAGE,
             HelpUtil.ht("/Plugin/Scripting")
         );
-        System.out.println(tr("Failed to read the script from file ''{0}''.", f.toString()));
+        System.out.println(tr("Failed to read the script from file ''{0}''.",
+                f.toString()));
         e.printStackTrace();
     }
 
@@ -211,7 +218,9 @@ public class ScriptExecutor {
                     throw (RuntimeException) throwable;
                 }
                 // no other checked exceptions expected - log a warning
-                logger.warning("Unexpected exception wrapped in InvocationTargetException: " + throwable.toString());
+                logger.warning(
+                    "Unexpected exception wrapped in "
+                  + "InvocationTargetException: " + throwable.toString());
                 logger.warning(ExceptionUtil.stackTraceAsString(throwable));
             } catch(InterruptedException e){
                 Thread.currentThread().interrupt();
@@ -220,20 +229,25 @@ public class ScriptExecutor {
     }
 
     /**
-     * <p>Runs the script in the file <tt>scriptFile</tt> using the script engine described in <tt>desc</tt>
-     * on the Swing EDT.</p>
+     * <p>Runs the script in the file <tt>scriptFile</tt> using the script
+     * engine described in <tt>desc</tt> on the Swing EDT.</p>
      *
      * @param desc the script engine descriptor. Must not be null.
-     * @param scriptFile the script file. Must not be null. Readable file expected.
+     * @param scriptFile the script file. Must not be null. Readable file
+     *      expected.
      */
-    public void runScriptWithPluggedEngine(@NotNull final ScriptEngineDescriptor desc,
+    public void runScriptWithPluggedEngine(
+            @NotNull final ScriptEngineDescriptor desc,
             @NotNull  final File scriptFile) throws IllegalArgumentException {
         Assert.assertArgNotNull(desc);
         Assert.assertArgNotNull(scriptFile);
-        Assert.assertArg(scriptFile.isFile(), "Expected a file a script file, got ''{0}''", scriptFile);
-        Assert.assertArg(scriptFile.canRead(), "Expected a readable script file, got ''{0}''", scriptFile);
+        Assert.assertArg(scriptFile.isFile(),
+                "Expected a file a script file, got ''{0}''", scriptFile);
+        Assert.assertArg(scriptFile.canRead(),
+                "Expected a readable script file, got ''{0}''", scriptFile);
 
-        final ScriptEngine engine = JSR223ScriptEngineProvider.getInstance().getScriptEngine(desc);
+        final ScriptEngine engine = JSR223ScriptEngineProvider
+                .getInstance().getScriptEngine(desc);
         if (engine == null) {
             warnScriptingEngineNotFound(desc);
             return;
@@ -242,7 +256,9 @@ public class ScriptExecutor {
             FileReader reader = null;
             try {
                 if (engine instanceof Compilable) {
-                    CompiledScript script = JSR223CompiledScriptCache.getInstance().compile((Compilable)engine,scriptFile);
+                    CompiledScript script = JSR223CompiledScriptCache
+                            .getInstance()
+                            .compile((Compilable)engine,scriptFile);
                     script.eval();
                 } else {
                     reader = new FileReader(scriptFile);
@@ -260,16 +276,19 @@ public class ScriptExecutor {
     }
 
     /**
-     * <p>Runs the script <tt>script</tt> using the script engine described in <tt>desc</tt>
-     * on the Swing EDT.</p>
+     * <p>Runs the script <tt>script</tt> using the script engine described
+     * in <tt>desc</tt> on the Swing EDT.</p>
      *
      * @param desc the script engine descriptor. Must not be null.
      * @param script the script. Ignored if null.
      */
-    public void runScriptWithPluggedEngine(@NotNull final ScriptEngineDescriptor desc, final String script) {
+    public void runScriptWithPluggedEngine(
+            @NotNull final ScriptEngineDescriptor desc,
+            final String script) {
         Assert.assertArgNotNull(desc);
         if (script == null) return;
-        final ScriptEngine engine = JSR223ScriptEngineProvider.getInstance().getScriptEngine(desc);
+        final ScriptEngine engine = JSR223ScriptEngineProvider.getInstance()
+                .getScriptEngine(desc);
         if (engine == null) {
             warnScriptingEngineNotFound(desc);
             return;
@@ -285,7 +304,8 @@ public class ScriptExecutor {
     }
 
     protected String readFile(File scriptFile) throws IOException {
-        try (BufferedReader reader = new BufferedReader(new FileReader(scriptFile))) {
+        try (BufferedReader reader =
+                new BufferedReader(new FileReader(scriptFile))) {
             String ret = reader.lines()
                 .collect(Collectors.joining("\n"));
             return ret;
@@ -293,12 +313,14 @@ public class ScriptExecutor {
     }
 
     /**
-     * <p>Runs the script in the script file <tt>scriptFile</tt> using the embedded scripting engine
-     * on the Swing EDT.</p>
+     * <p>Runs the script in the script file <tt>scriptFile</tt> using the
+     * embedded scripting engine on the Swing EDT.</p>
      *
-     * @param scriptFile the script file. Must not be null. Expects a readable file.
+     * @param scriptFile the script file. Must not be null. Expects a
+     *      readable file.
      */
-    public void runScriptWithEmbeddedEngine(@NotNull final File scriptFile) throws IllegalArgumentException {
+    public void runScriptWithEmbeddedEngine(@NotNull final File scriptFile)
+                throws IllegalArgumentException {
         Assert.assertArgNotNull(scriptFile);
         try {
             String script = readFile(scriptFile);
@@ -324,7 +346,8 @@ public class ScriptExecutor {
     }
 
     /**
-     * <p>Runs the script <tt>script</tt> using the embedded scripting engine on the Swing EDT.</p>
+     * <p>Runs the script <tt>script</tt> using the embedded scripting engine
+     * on the Swing EDT.</p>
      *
      * @param script the script. Ignored if null.
      */

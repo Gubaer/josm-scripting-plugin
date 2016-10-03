@@ -12,7 +12,8 @@ import org.openstreetmap.josm.tools.ImageProvider;
 @SuppressWarnings("serial")
 public class CloseAction extends AbstractAction {
     @SuppressWarnings("unused")
-    static private final Logger logger = Logger.getLogger(CloseAction.class.getName());
+    static private final Logger logger =
+        Logger.getLogger(CloseAction.class.getName());
 
     public CloseAction() {
         putValue(NAME, tr("Close"));

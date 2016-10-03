@@ -131,7 +131,8 @@ public class GridBagConstraintBuilder {
         return this;
     }
 
-    public GridBagConstraintBuilder insets(int top, int right, int bottom, int left) {
+    public GridBagConstraintBuilder insets(int top, int right, int bottom,
+            int left) {
         gbc.insets = new Insets(top, right, bottom, left);
         return this;
     }

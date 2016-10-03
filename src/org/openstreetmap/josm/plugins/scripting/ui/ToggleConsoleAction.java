@@ -12,9 +12,12 @@ import org.openstreetmap.josm.plugins.scripting.ui.console.ScriptingConsole.Scri
 import org.openstreetmap.josm.tools.Shortcut;
 
 @SuppressWarnings("serial")
-public class ToggleConsoleAction extends JosmAction implements ScriptingConsoleListener {
+public class ToggleConsoleAction extends JosmAction
+    implements ScriptingConsoleListener {
+
     @SuppressWarnings("unused")
-    static private final Logger logger = Logger.getLogger(ToggleConsoleAction.class.getName());
+    static private final Logger logger =
+        Logger.getLogger(ToggleConsoleAction.class.getName());
 
     public ToggleConsoleAction(){
         super(
@@ -41,7 +44,8 @@ public class ToggleConsoleAction extends JosmAction implements ScriptingConsoleL
     }
 
     @Override
-    public void scriptingConsoleChanged(ScriptingConsole oldValue, ScriptingConsole newValue) {
+    public void scriptingConsoleChanged(ScriptingConsole oldValue,
+            ScriptingConsole newValue) {
         putValue(SELECTED_KEY, newValue != null);
     }
 }

@@ -57,15 +57,19 @@ public class RunScriptService {
         );
     }
 
-    protected void warnOpenScriptFileFailed(File f, Exception e, Component parent){
+    protected void warnOpenScriptFileFailed(File f, Exception e,
+            Component parent){
         HelpAwareOptionPane.showOptionDialog(
                 parent,
-                tr("Failed to read the script from the file ''{0}''.", f.toString()),
+                tr("Failed to read the script from the file ''{0}''.",
+                        f.toString()),
                 tr("IO error"),
                 JOptionPane.ERROR_MESSAGE,
                 HelpUtil.ht("/Plugin/Scripting")
         );
-        System.out.println(tr("Failed to read the script from the file ''{0}''.", f.toString()));
+        System.out.println(
+                tr("Failed to read the script from the file ''{0}''.",
+                        f.toString()));
         e.printStackTrace();
     }
 
@@ -154,19 +158,22 @@ public class RunScriptService {
      * @throws IllegalArgumentException thrown if fileName is null
      * @throws IllegalArgumentException thrown if engine is null
      */
-    public void runScript(String fileName, ScriptEngineDescriptor engine, Component parent) {
+    public void runScript(String fileName, ScriptEngineDescriptor engine,
+            Component parent) {
         Assert.assertArgNotNull(fileName);
         Assert.assertArgNotNull(engine);
         File f  = new File(fileName);
 
-        MostRecentlyRunScriptsModel model = MostRecentlyRunScriptsModel.getInstance();
+        MostRecentlyRunScriptsModel model = MostRecentlyRunScriptsModel
+                .getInstance();
         model.remember(f.getAbsolutePath());
         model.saveToPreferences(Main.pref);
 
         switch(engine.getEngineType()){
         case EMBEDDED:
             if (logger.isLoggable(Level.FINE)) {
-                logger.log(Level.FINE, "executing script with embedded engine ...");
+                logger.log(Level.FINE,
+                        "executing script with embedded engine ...");
             }
             new ScriptExecutor(parent).runScriptWithEmbeddedEngine(f);
             break;

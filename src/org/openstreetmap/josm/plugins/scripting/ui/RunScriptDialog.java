@@ -1,6 +1,7 @@
 package org.openstreetmap.josm.plugins.scripting.ui;
 
-import static org.openstreetmap.josm.plugins.scripting.ui.GridBagConstraintBuilder.gbc;
+import static org.openstreetmap.josm.plugins.scripting.ui
+    .GridBagConstraintBuilder.gbc;
 import static org.openstreetmap.josm.tools.I18n.tr;
 
 import java.awt.BorderLayout;
@@ -44,7 +45,8 @@ import org.openstreetmap.josm.tools.WindowGeometry;
 @SuppressWarnings("serial")
 public class RunScriptDialog extends JDialog implements PreferenceKeys{
     @SuppressWarnings("unused")
-    static private final Logger logger = Logger.getLogger(RunScriptDialog.class.getName());
+    static private final Logger logger =
+        Logger.getLogger(RunScriptDialog.class.getName());
 
     /** the input field for the script file name */
     private MostRecentlyRunScriptsComboBox cbScriptFile;
@@ -56,18 +58,20 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys{
      * @param owner the dialog owner
      */
     public RunScriptDialog(Component parent) {
-        super(JOptionPane.getFrameForComponent(parent), ModalityType.DOCUMENT_MODAL);
+        super(JOptionPane.getFrameForComponent(parent),
+                ModalityType.DOCUMENT_MODAL);
         build();
-        HelpUtil.setHelpContext(this.getRootPane(), HelpUtil.ht("/Plugin/Scripting"));
+        HelpUtil.setHelpContext(this.getRootPane(),
+                HelpUtil.ht("/Plugin/Scripting"));
     }
 
     protected JPanel buildInfoPanel() {
         JPanel pnl = new JPanel(new BorderLayout());
         HtmlPanel info = new HtmlPanel();
         info.setText(
-                "<html>"
-            +      tr("Select a script file and click on <strong>Run</strong>.")
-            +    "</html>"
+              "<html>"
+            +    tr("Select a script file and click on <strong>Run</strong>.")
+            + "</html>"
         );
         pnl.add(info, BorderLayout.CENTER);
         return pnl;
@@ -79,21 +83,25 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys{
 
         pnl.add(btn = new SideButton(actRun = new RunAction()));
         btn.setFocusable(true);
-        btn.registerKeyboardAction(actRun, KeyStroke.getKeyStroke("ENTER"), JComponent.WHEN_FOCUSED);
+        btn.registerKeyboardAction(actRun, KeyStroke.getKeyStroke("ENTER"),
+                JComponent.WHEN_FOCUSED);
         pnl.add(new SideButton(new CancelAction()));
-        pnl.add(new SideButton(new ContextSensitiveHelpAction(HelpUtil.ht("/Plugin/Scripting#Run"))));
+        pnl.add(new SideButton(new ContextSensitiveHelpAction(
+                HelpUtil.ht("/Plugin/Scripting#Run"))));
         return pnl;
     }
 
     protected JPanel buildMacroFileInputPanel() {
         JPanel pnl = new JPanel(new GridBagLayout());
-        GridBagConstraints gc  = gbc().cell(0,0).weight(0, 0).fillboth().insets(3,3,3,3).constraints();
+        GridBagConstraints gc  = gbc().cell(0,0).weight(0, 0).fillboth()
+                .insets(3,3,3,3).constraints();
         pnl.add(new JLabel(tr("File:")), gc);
 
         cbScriptFile = new MostRecentlyRunScriptsComboBox(
                 MostRecentlyRunScriptsModel.getInstance()
         );
-        SelectAllOnFocusGainedDecorator.decorate((JTextField)cbScriptFile.getEditor().getEditorComponent());
+        SelectAllOnFocusGainedDecorator.decorate((JTextField)cbScriptFile
+                .getEditor().getEditorComponent());
         cbScriptFile.setToolTipText(tr("Enter the name of a script file"));
         gc = gbc(gc).cell(1,0).weightx(1.0).spacingright(0).constraints();
         pnl.add(cbScriptFile, gc);
@@ -123,7 +131,10 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys{
         getContentPane().setLayout(new BorderLayout());
         getContentPane().add(buildContentPanel(), BorderLayout.CENTER);
 
-        getRootPane().registerKeyboardAction(actRun, KeyStroke.getKeyStroke("ctrl ENTER"), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        getRootPane().registerKeyboardAction(actRun,
+                KeyStroke.getKeyStroke("ctrl ENTER"),
+                JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT
+        );
         setTitle(tr("Run a script"));
         setSize(600, 150);
 
@@ -142,7 +153,8 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys{
             if (lastFile != null && !lastFile.trim().isEmpty()){
                 cbScriptFile.setText(lastFile.trim());
             }
-            WindowGeometry.centerInWindow(getParent(),new Dimension(600,150)).applySafe(this);
+            WindowGeometry.centerInWindow(getParent(),new Dimension(600,150))
+                .applySafe(this);
         } else {
             /*
              * Persist the file history script file name
