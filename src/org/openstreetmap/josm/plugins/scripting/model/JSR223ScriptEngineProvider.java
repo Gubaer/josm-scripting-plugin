@@ -12,7 +12,6 @@ import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -239,8 +238,7 @@ public class JSR223ScriptEngineProvider
         return getScriptEngineManager().getEngineFactories().stream()
             .filter(factory -> factory.getMimeTypes().contains(mimeType))
             .findFirst()
-            .flatMap(factory ->
-                Optional.of(new ScriptEngineDescriptor(factory)))
+            .map(ScriptEngineDescriptor::new)
             .orElse(null);
 }
 
@@ -314,7 +312,7 @@ public class JSR223ScriptEngineProvider
             .filter(factory ->
                 desc.getEngineId().equals(factory.getNames().get(0)))
             .findFirst()
-            .flatMap(factory -> Optional.of(factory.getScriptEngine()))
+            .map(factory -> factory.getScriptEngine())
             .orElse(null);
     }
 
