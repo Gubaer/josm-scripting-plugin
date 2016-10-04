@@ -4,6 +4,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -159,7 +160,7 @@ public class Change {
 
         @Override
         protected void ensureValidValue(@NotNull LatLon value) {
-            Assert.assertArgNotNull(value);
+            Objects.requireNonNull(value);
             Assert.assertArg(value instanceof LatLon,
                     "Expected a LatLon, got {0}", value);
         }

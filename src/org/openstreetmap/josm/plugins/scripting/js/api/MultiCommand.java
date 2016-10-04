@@ -3,20 +3,22 @@ package org.openstreetmap.josm.plugins.scripting.js.api;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
+
+import javax.validation.constraints.NotNull;
 
 import org.openstreetmap.josm.command.Command;
 import org.openstreetmap.josm.command.PseudoCommand;
 import org.openstreetmap.josm.data.osm.OsmPrimitive;
 import org.openstreetmap.josm.gui.layer.OsmDataLayer;
-import org.openstreetmap.josm.plugins.scripting.util.Assert;
 
 abstract public class MultiCommand extends Command{
 
     protected OsmPrimitive[] primitives;
 
-    protected static OsmDataLayer checkLayer(OsmDataLayer layer) {
-        Assert.assertArgNotNull(layer);
+    protected static OsmDataLayer checkLayer(@NotNull OsmDataLayer layer) {
+        Objects.requireNonNull(layer);
         return layer;
     }
 

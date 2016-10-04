@@ -4,12 +4,14 @@ import static org.openstreetmap.josm.tools.I18n.trn;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
+
+import javax.validation.constraints.NotNull;
 
 import org.openstreetmap.josm.data.osm.DataSet;
 import org.openstreetmap.josm.data.osm.OsmPrimitive;
 import org.openstreetmap.josm.data.osm.PrimitiveData;
 import org.openstreetmap.josm.gui.layer.OsmDataLayer;
-import org.openstreetmap.josm.plugins.scripting.util.Assert;
 
 public class ChangeMultiCommand extends MultiCommand {
 
@@ -30,10 +32,10 @@ public class ChangeMultiCommand extends MultiCommand {
      * @throws IllegalArgumentException thrown if one of the parameters is null
      */
     public ChangeMultiCommand(OsmDataLayer layer,
-            Collection<OsmPrimitive> toChange, Change change){
+            @NotNull Collection<OsmPrimitive> toChange, @NotNull Change change){
         super(layer);
-        Assert.assertArgNotNull(toChange);
-        Assert.assertArgNotNull(change);
+        Objects.requireNonNull(toChange);
+        Objects.requireNonNull(change);
         List<OsmPrimitive> normalized = normalize(toChange);
         primitives = new OsmPrimitive[normalized.size()];
         normalized.toArray(primitives);

@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.util.Objects;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.logging.Logger;
 
@@ -164,7 +165,7 @@ public class ScriptingConsole extends JFrame {
      * @param file the file. Must not be null
      */
     public void open(@NotNull File file){
-        Assert.assertArgNotNull(file);
+        Objects.requireNonNull(file);
         Assert.assertArg(file.isFile(),
                 "Expected a file, got a directory. File is: {0}", file);
         Assert.assertArg(file.canRead(),
@@ -179,7 +180,7 @@ public class ScriptingConsole extends JFrame {
      * @param file the file. Must not be null
      */
     public void save(@NotNull File file){
-        Assert.assertArgNotNull(file);
+        Objects.requireNonNull(file);
         pnlScriptingConsole.save(file);
     }
 

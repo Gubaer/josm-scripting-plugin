@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.jar.JarFile;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -55,7 +56,6 @@ import javax.validation.constraints.NotNull;
 import org.openstreetmap.josm.data.Preferences;
 import org.openstreetmap.josm.gui.widgets.HtmlPanel;
 import org.openstreetmap.josm.plugins.scripting.model.PreferenceKeys;
-import org.openstreetmap.josm.plugins.scripting.util.Assert;
 import org.openstreetmap.josm.tools.ImageProvider;
 import org.openstreetmap.josm.tools.WindowGeometry;
 
@@ -202,8 +202,9 @@ public class SysPathsEditorPanel extends JPanel {
          * @param prefs the preferences
          * @param key  the preference key
          */
-        public void loadFromPreferences(@NotNull Preferences prefs, String key) {
-            Assert.assertArgNotNull(prefs);
+        public void loadFromPreferences(@NotNull Preferences prefs,
+                String key) {
+            Objects.requireNonNull(prefs);
             prefs.getCollection(key).stream()
                 .map(String::trim)
                 .filter(path -> !path.isEmpty())

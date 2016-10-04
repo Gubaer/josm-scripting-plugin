@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -153,7 +154,7 @@ public class RhinoEngineConfigurationPanel extends VerticallyScrollablePanel{
         }
 
         public void loadFromPreferences(@NotNull Preferences prefs) {
-            Assert.assertArgNotNull(prefs);
+            Objects.requireNonNull(prefs);
             Collection<String> entries =
                     prefs.getCollection(PREF_KEY_COMMONJS_MODULE_REPOSITORIES);
             for (Iterator<String> it = entries.iterator(); it.hasNext();) {

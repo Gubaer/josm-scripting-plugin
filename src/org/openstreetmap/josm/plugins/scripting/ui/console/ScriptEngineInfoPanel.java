@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.MessageFormat;
+import java.util.Objects;
 import java.util.logging.Logger;
 
 import javax.swing.JEditorPane;
@@ -20,7 +21,6 @@ import javax.validation.constraints.NotNull;
 
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
 import org.openstreetmap.josm.plugins.scripting.ui.ScriptEngineSelectionDialog;
-import org.openstreetmap.josm.plugins.scripting.util.Assert;
 
 /**
  * Displays summary information about the currently selected scripting engine.
@@ -40,7 +40,7 @@ PropertyChangeListener, HyperlinkListener{
      * @param model the model to listen too for updated script engines
      */
     public ScriptEngineInfoPanel(@NotNull ScriptEditorModel model){
-        Assert.assertArgNotNull(model);
+        Objects.requireNonNull(model);
         model.addPropertyChangeListener(this);
         this.model = model;
         build();

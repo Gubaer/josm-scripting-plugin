@@ -2,6 +2,7 @@ package org.openstreetmap.josm.plugins.scripting.preferences;
 
 import java.io.File;
 import java.text.MessageFormat;
+import java.util.Objects;
 import java.util.UUID;
 
 import javax.swing.KeyStroke;
@@ -121,7 +122,7 @@ public class ScriptDescriptor {
      * @throws IllegalArgumentException thrown if id is null or if it consists of white space only
      */
     public void setId(@NotNull String id) throws IllegalArgumentException {
-        Assert.assertArgNotNull(id);
+        Objects.requireNonNull(id);
         Assert.assertArg(!id.trim().isEmpty(), "id must not consist of white space only. Got ''{0}''", id);
         this.id = id.trim();
     }
@@ -160,7 +161,7 @@ public class ScriptDescriptor {
      * @throws IllegalArgumentException thrown if {@code scriptFile} is a directory
      */
     public void setScriptFile(@NotNull File scriptFile) throws IllegalArgumentException {
-        Assert.assertArgNotNull(scriptFile);
+        Objects.requireNonNull(scriptFile);
         Assert.assertArg(scriptFile.isFile(), "Expected a file, got a directory. Got ''{0}''", scriptFile.toString());
         this.scriptFile = scriptFile;
     }

@@ -3,6 +3,7 @@ package org.openstreetmap.josm.plugins.scripting.model;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.jar.JarFile;
 import java.util.logging.Logger;
 
@@ -33,8 +34,9 @@ public class CommonJSModuleRepository {
      * @param dir a directory. Must not be null.
      * @throws IllegalArgumentException thrown if dir is null
      */
-    public CommonJSModuleRepository(@NotNull File dir) throws IllegalArgumentException {
-        Assert.assertArgNotNull(dir);
+    public CommonJSModuleRepository(@NotNull File dir)
+            throws IllegalArgumentException {
+        Objects.requireNonNull(dir);
         try {
             url = dir.toURI().toURL();
         } catch(MalformedURLException e) {
@@ -72,10 +74,10 @@ public class CommonJSModuleRepository {
      *
      * @param url an acceptable URL for a module repository as string.
      *              Must not be null.
-     * @throws IllegalArgumentException thrown if url is null
+     * @throws NullPointerException thrown if url is null
      */
-    public CommonJSModuleRepository(@NotNull String url) throws IllegalArgumentException{
-        Assert.assertArgNotNull(url);
+    public CommonJSModuleRepository(@NotNull String url) {
+        Objects.requireNonNull(url);
         try {
             URL repo = new URL(url);
             ensureValidUrl(repo);
@@ -92,10 +94,9 @@ public class CommonJSModuleRepository {
      * <p><code>url</code> must be a valid file or jar URL.</p>
      *
      * @param url an acceptable URL for a module repository. Must not be null.
-     * @throws IllegalArgumentException thrown if url is null
      */
-    public CommonJSModuleRepository(@NotNull URL url) throws IllegalArgumentException {
-        Assert.assertArgNotNull(url);
+    public CommonJSModuleRepository(@NotNull URL url) {
+        Objects.requireNonNull(url);
         ensureValidUrl(url);
         this.url = url;
     }
@@ -126,7 +127,7 @@ public class CommonJSModuleRepository {
      */
     public CommonJSModuleRepository(@NotNull JarFile jar, String jarPath)
             throws IllegalArgumentException {
-        Assert.assertArgNotNull(jar);
+        Objects.requireNonNull(jar);
         if (jarPath == null) jarPath = "/";
         jarPath = "/" + jarPath.trim().replace("\\", "/")
                 .replaceAll("/+", "/")

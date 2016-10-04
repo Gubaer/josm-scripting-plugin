@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Objects;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -241,8 +242,8 @@ public class ScriptExecutor {
     public void runScriptWithPluggedEngine(
             @NotNull final ScriptEngineDescriptor desc,
             @NotNull  final File scriptFile) throws IllegalArgumentException {
-        Assert.assertArgNotNull(desc);
-        Assert.assertArgNotNull(scriptFile);
+        Objects.requireNonNull(desc);
+        Objects.requireNonNull(scriptFile);
         Assert.assertArg(scriptFile.isFile(),
                 "Expected a file a script file, got ''{0}''", scriptFile);
         Assert.assertArg(scriptFile.canRead(),
@@ -287,7 +288,7 @@ public class ScriptExecutor {
     public void runScriptWithPluggedEngine(
             @NotNull final ScriptEngineDescriptor desc,
             final String script) {
-        Assert.assertArgNotNull(desc);
+        Objects.requireNonNull(desc);
         if (script == null) return;
         final ScriptEngine engine = JSR223ScriptEngineProvider.getInstance()
                 .getScriptEngine(desc);
@@ -323,7 +324,7 @@ public class ScriptExecutor {
      */
     public void runScriptWithEmbeddedEngine(@NotNull final File scriptFile)
                 throws IllegalArgumentException {
-        Assert.assertArgNotNull(scriptFile);
+        Objects.requireNonNull(scriptFile);
         try {
             String script = readFile(scriptFile);
             RhinoEngine engine = RhinoEngine.getInstance();

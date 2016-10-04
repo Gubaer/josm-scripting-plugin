@@ -3,11 +3,13 @@ package org.openstreetmap.josm.plugins.scripting.js.api;
 import static org.openstreetmap.josm.tools.I18n.trn;
 
 import java.util.Collection;
+import java.util.Objects;
+
+import javax.validation.constraints.NotNull;
 
 import org.openstreetmap.josm.data.osm.DataSet;
 import org.openstreetmap.josm.data.osm.OsmPrimitive;
 import org.openstreetmap.josm.gui.layer.OsmDataLayer;
-import org.openstreetmap.josm.plugins.scripting.util.Assert;
 
 public class DeleteMultiCommand extends MultiCommand {
 
@@ -27,9 +29,9 @@ public class DeleteMultiCommand extends MultiCommand {
      * @param toAdd the collection of objects to add
      */
     public DeleteMultiCommand(OsmDataLayer layer,
-            Collection<OsmPrimitive> toDelete) {
+            @NotNull Collection<OsmPrimitive> toDelete) {
         super(layer);
-        Assert.assertArgNotNull(toDelete);
+        Objects.requireNonNull(toDelete);
         toDelete = normalize(toDelete);
         primitives  = new OsmPrimitive[toDelete.size()];
         toDelete.toArray(primitives);

@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.logging.Logger;
 
@@ -17,7 +18,6 @@ import javax.validation.constraints.NotNull;
 
 import org.openstreetmap.josm.Main;
 import org.openstreetmap.josm.data.Preferences;
-import org.openstreetmap.josm.plugins.scripting.util.Assert;
 
 /**
  * Describes a scripting engine used in the scripting plugin.
@@ -223,7 +223,7 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
      * @param engineId the engine id. Must not be null.
      */
     public ScriptEngineDescriptor(@NotNull String engineId){
-        Assert.assertArgNotNull(engineId);
+        Objects.requireNonNull(engineId);
         this.engineType = ScriptEngineType.PLUGGED;
         this.engineId = engineId.trim();
         initParametersForJSR223Engine(this.engineId);
@@ -237,8 +237,8 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
      */
     public ScriptEngineDescriptor(@NotNull ScriptEngineType engineType,
             @NotNull String engineId) {
-        Assert.assertArgNotNull(engineType);
-        Assert.assertArgNotNull(engineId);
+        Objects.requireNonNull(engineType);
+        Objects.requireNonNull(engineId);
         this.engineId = engineId;
         this.engineType= engineType;
         if (this.engineType.equals(ScriptEngineType.PLUGGED)) {
@@ -259,8 +259,8 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
     public ScriptEngineDescriptor(@NotNull ScriptEngineType engineType,
             @NotNull String engineId,
             String languageName, String engineName, String contentType) {
-        Assert.assertArgNotNull(engineType);
-        Assert.assertArgNotNull(engineId);
+        Objects.requireNonNull(engineType);
+        Objects.requireNonNull(engineId);
         this.engineId = engineId;
         this.engineType= engineType;
         this.languageName = languageName == null ? null : languageName.trim();
@@ -277,7 +277,7 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
      * @param factory the factory. Must not be null.
      */
     public ScriptEngineDescriptor(@NotNull ScriptEngineFactory factory) {
-        Assert.assertArgNotNull(factory);
+        Objects.requireNonNull(factory);
         this.engineType = ScriptEngineType.PLUGGED;
         final List<String> engineNames = factory.getNames();
         if (engineNames == null || engineNames.isEmpty()) {

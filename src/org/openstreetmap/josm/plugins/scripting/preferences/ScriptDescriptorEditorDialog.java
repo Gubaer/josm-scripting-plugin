@@ -17,6 +17,7 @@ import java.awt.event.ItemListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.logging.Logger;
 
@@ -44,7 +45,6 @@ import org.openstreetmap.josm.gui.widgets.HtmlPanel;
 import org.openstreetmap.josm.gui.widgets.SelectAllOnFocusGainedDecorator;
 import org.openstreetmap.josm.plugins.scripting.model.JSR223ScriptEngineProvider;
 import org.openstreetmap.josm.plugins.scripting.ui.ScriptEngineCellRenderer;
-import org.openstreetmap.josm.plugins.scripting.util.Assert;
 import org.openstreetmap.josm.tools.ImageProvider;
 import org.openstreetmap.josm.tools.WindowGeometry;
 
@@ -197,12 +197,12 @@ public class ScriptDescriptorEditorDialog extends JDialog {
      * it to the script descriptor {@code sd}.
      *
      * @param sd the script descriptor. Must not be null.
-     * @throws IllegalArgumentException thrown if {@code sd} is null
      * @throws IllegalStateException thrown if the editor content isn't in a state which
      * can be assigned to a script descriptor (example: the id consist of white space only)
      */
-    public void grab(@NotNull ScriptDescriptor sd) throws IllegalArgumentException, IllegalStateException {
-        Assert.assertArgNotNull(sd);
+    public void grab(@NotNull ScriptDescriptor sd)
+            throws IllegalStateException {
+        Objects.requireNonNull(sd);
         if (tfId.getText().trim().isEmpty()) {
             throw new IllegalStateException("id must not be empty or consists of white space only");
         }
@@ -357,8 +357,8 @@ public class ScriptDescriptorEditorDialog extends JDialog {
             }
         }
 
-        public void grab(@NotNull ScriptDescriptor sd) throws IllegalArgumentException{
-            Assert.assertArgNotNull(sd);
+        public void grab(@NotNull ScriptDescriptor sd) {
+            Objects.requireNonNull(sd);
             if (rbDeriveFromFileName.isSelected()) {
                 sd.setScriptEngineName(null);
             } else if (cbScriptEngines.getSelectedItem() == null){

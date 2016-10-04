@@ -5,14 +5,13 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.logging.Logger;
 
 import javax.script.Compilable;
 import javax.script.CompiledScript;
 import javax.script.ScriptException;
 import javax.validation.constraints.NotNull;
-
-import org.openstreetmap.josm.plugins.scripting.util.Assert;
 
 /**
  * <p><strong>CompiledScriptCache</strong> maintains a cache of compiled
@@ -72,14 +71,12 @@ public class JSR223CompiledScriptCache {
      * @return the compiled script
      * @throws ScriptException thrown if compiling fails
      * @throws IOException thrown if IO with the script file fails
-     * @throws IllegalArgumentException thrown if {@code compiler} or
-     *      {@code scriptFile} is null
      */
     public CompiledScript compile(@NotNull Compilable compiler,
             @NotNull File scriptFile)
-            throws ScriptException, IOException, IllegalArgumentException {
-        Assert.assertArgNotNull(scriptFile);
-        Assert.assertArgNotNull(compiler);
+            throws ScriptException, IOException {
+        Objects.requireNonNull(scriptFile);
+        Objects.requireNonNull(compiler);
         CacheEntry entry = cache.get(scriptFile);
         if (entry != null && entry.getTimestamp() >= scriptFile.lastModified()){
             return entry.getScript();

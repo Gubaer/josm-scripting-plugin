@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
@@ -88,7 +89,7 @@ public class JOSMModuleScriptProvider implements ModuleScriptProvider,
     }
 
     static public List<URL> loadFromPreferences(@NotNull Preferences prefs) {
-        Assert.assertArgNotNull(prefs);
+        Objects.requireNonNull(prefs);
         List<URL> ret = new ArrayList<>();
         prefs.getCollection(PREF_KEY_COMMONJS_MODULE_REPOSITORIES).stream()
             .map(String::trim)
@@ -129,7 +130,7 @@ public class JOSMModuleScriptProvider implements ModuleScriptProvider,
      */
     public void addRepository(@NotNull URL repository)
             throws IllegalArgumentException {
-        Assert.assertArgNotNull(repository);
+        Objects.requireNonNull(repository);
         try {
             final CommonJSModuleRepository repo =
                     new CommonJSModuleRepository(repository);

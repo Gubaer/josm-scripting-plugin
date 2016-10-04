@@ -15,6 +15,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Iterator;
+import java.util.Objects;
 import java.util.Optional;
 
 import javax.swing.JEditorPane;
@@ -27,7 +28,6 @@ import javax.swing.text.Document;
 import javax.validation.constraints.NotNull;
 
 import org.openstreetmap.josm.gui.HelpAwareOptionPane;
-import org.openstreetmap.josm.plugins.scripting.util.Assert;
 
 /**
  * <p>Editor for scripts. Basically a minimal text editor with syntax
@@ -166,7 +166,7 @@ public class ScriptEditor extends JPanel implements PropertyChangeListener {
      * @param file the output file. Must not be null.
      */
     public void save(@NotNull File file) {
-        Assert.assertArgNotNull(file);
+        Objects.requireNonNull(file);
         String script = editor.getText();
         try (PrintWriter writer = new PrintWriter(new FileWriter(file))){
             writer.print(script);

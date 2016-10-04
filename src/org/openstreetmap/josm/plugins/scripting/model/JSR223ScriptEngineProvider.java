@@ -12,6 +12,7 @@ import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -157,7 +158,7 @@ public class JSR223ScriptEngineProvider
     }
 
     protected void loadScriptEngineFactories() {
-        Assert.assertNotNull(scriptClassLoader,
+        Objects.requireNonNull(scriptClassLoader,
                 "expected scriptClassLoader != null");
         factories.clear();
         ScriptEngineManager manager =
@@ -195,7 +196,7 @@ public class JSR223ScriptEngineProvider
      * @see ScriptEngineManager#getEngineByName(String)
      */
     public ScriptEngine getEngineByName(@NotNull String name) {
-        Assert.assertArgNotNull(name);
+        Objects.requireNonNull(name);
         return getScriptEngineManager().getEngineByName(name);
     }
 
@@ -208,7 +209,7 @@ public class JSR223ScriptEngineProvider
      *      <code>name</code> is currently available; false, otherwise
      */
     public boolean hasEngineWithName(@NotNull String name){
-        Assert.assertArgNotNull(name);
+        Objects.requireNonNull(name);
         return getEngineByName(name) != null;
     }
 
@@ -248,12 +249,9 @@ public class JSR223ScriptEngineProvider
      *
      * @param scriptFile the file. Must not be null.
      * @return the content type
-     * @throws IllegalArgumentException thrown if <code>scriptFile</code> is
-     * null
      */
-    public String getContentTypeForFile(@NotNull File scriptFile)
-            throws IllegalArgumentException {
-        Assert.assertArgNotNull(scriptFile);
+    public String getContentTypeForFile(@NotNull File scriptFile){
+        Objects.requireNonNull(scriptFile);
         return mimeTypesMap.getContentType(scriptFile);
     }
 
@@ -304,7 +302,7 @@ public class JSR223ScriptEngineProvider
      * @return the script engine or null
      */
     public ScriptEngine getScriptEngine(@NotNull ScriptEngineDescriptor desc) {
-        Assert.assertArgNotNull(desc);
+        Objects.requireNonNull(desc);
         Assert.assertArg(desc.getEngineType().equals(ScriptEngineType.PLUGGED),
                 "Expected a descriptor for a plugged script engine, "
                 + "got ''{0}''", desc);

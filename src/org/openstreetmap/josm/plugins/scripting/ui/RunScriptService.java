@@ -6,17 +6,18 @@ import java.awt.Component;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.JOptionPane;
+import javax.validation.constraints.NotNull;
 
 import org.openstreetmap.josm.Main;
 import org.openstreetmap.josm.gui.HelpAwareOptionPane;
 import org.openstreetmap.josm.gui.help.HelpUtil;
 import org.openstreetmap.josm.plugins.scripting.model.JSR223ScriptEngineProvider;
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
-import org.openstreetmap.josm.plugins.scripting.util.Assert;
 
 /**
  * Behaviour to run a script file, factored out into a service class.
@@ -154,14 +155,12 @@ public class RunScriptService {
      * @param fileName the script file name. Must not be null.
      * @param engine the script engine descriptor. Must not be null.
      * @param parent the parent component. May be null
-     *
-     * @throws IllegalArgumentException thrown if fileName is null
-     * @throws IllegalArgumentException thrown if engine is null
      */
-    public void runScript(String fileName, ScriptEngineDescriptor engine,
+    public void runScript(@NotNull String fileName,
+            @NotNull ScriptEngineDescriptor engine,
             Component parent) {
-        Assert.assertArgNotNull(fileName);
-        Assert.assertArgNotNull(engine);
+        Objects.requireNonNull(fileName);
+        Objects.requireNonNull(engine);
         File f  = new File(fileName);
 
         MostRecentlyRunScriptsModel model = MostRecentlyRunScriptsModel

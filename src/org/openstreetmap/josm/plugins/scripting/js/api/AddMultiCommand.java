@@ -4,12 +4,14 @@ import static org.openstreetmap.josm.tools.I18n.trn;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
+
+import javax.validation.constraints.NotNull;
 
 import org.openstreetmap.josm.command.AddPrimitivesCommand;
 import org.openstreetmap.josm.data.osm.DataSet;
 import org.openstreetmap.josm.data.osm.OsmPrimitive;
 import org.openstreetmap.josm.gui.layer.OsmDataLayer;
-import org.openstreetmap.josm.plugins.scripting.util.Assert;
 
 /**
  * <p>A command to add a collection of primitives to a layer.</p>
@@ -34,9 +36,10 @@ public class AddMultiCommand extends MultiCommand {
      * @param layer the layer where the objects are added to
      * @param toAdd the collection of objects to add
      */
-    public AddMultiCommand(OsmDataLayer layer, Collection<OsmPrimitive> toAdd){
+    public AddMultiCommand(OsmDataLayer layer,
+            @NotNull Collection<OsmPrimitive> toAdd){
         super(layer);
-        Assert.assertArgNotNull(toAdd);
+        Objects.requireNonNull(toAdd);
         List<OsmPrimitive> normalized = normalize(toAdd);
         primitives = new OsmPrimitive[normalized.size()];
         normalized.toArray(primitives);
