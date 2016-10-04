@@ -40,8 +40,8 @@ import org.openstreetmap.josm.plugins.scripting.ui.RunScriptAction;
 import org.openstreetmap.josm.plugins.scripting.ui.ToggleConsoleAction;
 
 public class ScriptingPlugin extends Plugin implements PreferenceKeys{
-    static private final Logger logger = Logger.getLogger(ScriptingPlugin.class
-            .getName());
+    static private final Logger logger =
+            Logger.getLogger(ScriptingPlugin.class.getName());
     static public final String START_MODULE_NAME = "ScriptingPlugin_Start";
 
     private static ScriptingPlugin instance;

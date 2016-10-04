@@ -35,7 +35,7 @@ import org.openstreetmap.josm.plugins.scripting.util.IOUtil;
 
 /**
  * A utility class providing methods for executing a script (as string or
- * as file) with either an embeddedor a plugged script engine, including
+ * as file) with either an embedded or a plugged script engine, including
  * error handling.
  *
  */

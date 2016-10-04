@@ -1,6 +1,7 @@
 package org.openstreetmap.josm.plugins.scripting.preferences;
 
-import static org.openstreetmap.josm.plugins.scripting.ui.GridBagConstraintBuilder.gbc;
+import static org.openstreetmap.josm.plugins.scripting.ui
+    .GridBagConstraintBuilder.gbc;
 import static org.openstreetmap.josm.tools.I18n.tr;
 
 import java.awt.BorderLayout;
@@ -59,8 +60,10 @@ public class PythonPluginsConfigurationPanel extends JPanel {
         mdlPlugins = new PythonPluginsModel();
         tblPlugins = new PythonPluginsTable(mdlPlugins);
         JScrollPane pane = new JScrollPane(tblPlugins);
-        pane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        pane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        pane.setHorizontalScrollBarPolicy(
+                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        pane.setVerticalScrollBarPolicy(
+                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         pnl.add(pane, BorderLayout.CENTER);
         return pnl;
     }
@@ -244,7 +247,8 @@ public class PythonPluginsConfigurationPanel extends JPanel {
         public DeleteAction() {
             putValue(NAME, tr("Remove"));
             putValue(SHORT_DESCRIPTION, tr("Remove selected plugins"));
-            putValue(SMALL_ICON, ImageProvider.getIfAvailable("dialogs", "delete"));
+            putValue(SMALL_ICON,
+                    ImageProvider.getIfAvailable("dialogs", "delete"));
         }
 
         public void updateEnabledState() {

@@ -3,6 +3,7 @@ package org.openstreetmap.josm.plugins.scripting.preferences;
 import static org.openstreetmap.josm.tools.I18n.tr;
 
 import java.awt.BorderLayout;
+import java.util.logging.Logger;
 
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
@@ -14,7 +15,9 @@ import org.openstreetmap.josm.plugins.scripting.ui.GridBagConstraintBuilder;
 
 public class PreferenceEditor extends DefaultTabPreferenceSetting {
     static public final String ICON_NAME = "script-engine";
-    //static private final Logger logger = Logger.getLogger(PreferenceEditor.class.getName());
+    @SuppressWarnings("unused")
+    static private final Logger logger =
+            Logger.getLogger(PreferenceEditor.class.getName());
 
     private JTabbedPane tpPreferenceTabs;
     private ScriptEnginesConfigurationPanel pnlScriptEngineConfiguration;
@@ -35,9 +38,11 @@ public class PreferenceEditor extends DefaultTabPreferenceSetting {
         JPanel pnl = new JPanel(new BorderLayout());
         tpPreferenceTabs = new JTabbedPane();
         tpPreferenceTabs.add(tr("Script engines"),
-             pnlScriptEngineConfiguration = new ScriptEnginesConfigurationPanel());
+             pnlScriptEngineConfiguration =
+             new ScriptEnginesConfigurationPanel());
         tpPreferenceTabs.add(tr("Embedded Rhino engine"),
-                pnlRhinoEngineConfiguration = new RhinoEngineConfigurationPanel());
+                pnlRhinoEngineConfiguration =
+                new RhinoEngineConfigurationPanel());
         tpPreferenceTabs.add(tr("Jython engine"),
                 pnlJythonConfiguration = new JythonConfigurationPanel());
         pnl.add(tpPreferenceTabs, BorderLayout.CENTER);
