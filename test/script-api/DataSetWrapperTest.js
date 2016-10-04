@@ -114,7 +114,7 @@ var suite = tu.suite(
 		n.setCoor(new LatLon(0,0));
 		var ds = new DataSet();
 		ds.add(n);
-		var nn = ds.get(OsmPrimitiveType.NODE, 1);
+		var nn = ds.get(1, OsmPrimitiveType.NODE);
 		util.assert(util.isDef(nn), "Should have found the node");
 	}),
 	test("get - get by type name and id", function() {
@@ -122,7 +122,7 @@ var suite = tu.suite(
 		n.setCoor(new LatLon(0,0));
 		var ds = new DataSet();
 		ds.add(n);
-		var nn = ds.get("node", 1);
+		var nn = ds.get(1, "node");
 		util.assert(util.isDef(nn), "Should have found the node");
 	}),
 	test("get - non existing primitive", function() {
@@ -130,7 +130,7 @@ var suite = tu.suite(
 		n.setCoor(new LatLon(0,0));
 		var ds = new DataSet();
 		ds.add(n);
-		var nn = ds.get("node", 1234);
+		var nn = ds.get(1234, "node");
 		util.assert(nn == undefined, "Node shouldn't be defined");
 	}),
 	
