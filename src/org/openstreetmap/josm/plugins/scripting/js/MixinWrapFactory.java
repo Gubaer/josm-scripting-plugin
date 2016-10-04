@@ -16,7 +16,7 @@ import org.mozilla.javascript.WrapFactory;
 public class MixinWrapFactory extends WrapFactory{
     @SuppressWarnings("unused")
     static private final Logger logger =
-    Logger.getLogger(MixinWrapFactory.class.getName());
+        Logger.getLogger(MixinWrapFactory.class.getName());
 
     @Override
     public Scriptable wrapAsJavaObject(Context cx, Scriptable scope,
