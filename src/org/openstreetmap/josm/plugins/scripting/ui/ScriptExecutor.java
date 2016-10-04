@@ -77,6 +77,8 @@ public class ScriptExecutor {
     }
 
     protected void warnExecutingScriptFailed(ScriptException e){
+        System.out.println(tr("Script execution has failed."));
+        e.printStackTrace();
         HelpAwareOptionPane.showOptionDialog(
                 this.parent,
                 tr("Script execution has failed."),
@@ -84,8 +86,6 @@ public class ScriptExecutor {
                 JOptionPane.ERROR_MESSAGE,
                 HelpUtil.ht("/Plugin/Scripting")
         );
-        System.out.println(tr("Script execution has failed."));
-        e.printStackTrace();
     }
 
     protected void warnJavaScriptExceptionCaught(JavaScriptException e){
@@ -102,6 +102,9 @@ public class ScriptExecutor {
             }
         }
 
+        System.out.println(tr("Script execution has failed."));
+        e.printStackTrace();
+
         HelpAwareOptionPane.showOptionDialog(
             this.parent,
             tr("An error occured in the script.")
@@ -111,11 +114,13 @@ public class ScriptExecutor {
             JOptionPane.ERROR_MESSAGE,
             HelpUtil.ht("/Plugin/Scripting")
         );
-        System.out.println(tr("Script execution has failed."));
-        e.printStackTrace();
     }
 
     protected void warnOpenScriptFileFailed(File f, Exception e){
+        System.out.println(tr("Failed to read the script from file ''{0}''.",
+                f.toString()));
+        e.printStackTrace();
+
         HelpAwareOptionPane.showOptionDialog(
             this.parent,
             tr("Failed to read the script from file ''{0}''.", f.toString()),
@@ -123,9 +128,6 @@ public class ScriptExecutor {
             JOptionPane.ERROR_MESSAGE,
             HelpUtil.ht("/Plugin/Scripting")
         );
-        System.out.println(tr("Failed to read the script from file ''{0}''.",
-                f.toString()));
-        e.printStackTrace();
     }
 
     protected void notifyRhinoException(File scriptFile, RhinoException e) {
@@ -334,9 +336,9 @@ public class ScriptExecutor {
             e.printStackTrace();
             notifyRhinoException(scriptFile, e);
         } catch(IOException e){
-            notifyIOExeption(scriptFile, e);
             System.err.println(e);
             e.printStackTrace();
+            notifyIOExeption(scriptFile, e);
         } catch(RuntimeException e){
             System.err.println(e);
             e.printStackTrace();
