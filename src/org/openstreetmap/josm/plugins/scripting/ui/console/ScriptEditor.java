@@ -15,6 +15,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Iterator;
+import java.util.Optional;
 
 import javax.swing.JEditorPane;
 import javax.swing.JLabel;
@@ -79,9 +80,10 @@ public class ScriptEditor extends JPanel implements PropertyChangeListener {
     }
 
     protected void refreshScriptFile() {
-        File f = model.getScriptFile();
-        lblScriptFile.setText(f == null ? "" : f.getAbsolutePath());
-        pnlScriptFile.setVisible(f != null);
+        final  Optional<File> file = model.getScriptFile();
+        lblScriptFile.setText(
+           file.map(f -> f.getAbsolutePath()).orElse(""));
+        pnlScriptFile.setVisible(file.isPresent());
     }
 
     public ScriptEditor() {

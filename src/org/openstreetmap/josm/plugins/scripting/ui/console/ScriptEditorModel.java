@@ -3,6 +3,7 @@ package org.openstreetmap.josm.plugins.scripting.ui.console;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.File;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
@@ -75,12 +76,12 @@ public class ScriptEditorModel {
     }
 
     /**
-     * Replies the current script file, or null.
+     * Replies the current script file, if present
      *
-     * @return the current script file, or null
+     * @return the current script file
      */
-    public File getScriptFile() {
-        return scriptFile;
+    public Optional<File> getScriptFile() {
+        return Optional.ofNullable(scriptFile);
     }
 
     /**

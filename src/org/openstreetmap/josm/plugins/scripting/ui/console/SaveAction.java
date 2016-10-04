@@ -34,7 +34,7 @@ public class SaveAction extends AbstractAction implements
             setEnabled(false);
             return;
         }
-        setEnabled(console.getScriptEditorModel().getScriptFile() != null);
+        setEnabled(console.getScriptEditorModel().getScriptFile().isPresent());
     }
 
     /* --------------------------------------------------------------------- */

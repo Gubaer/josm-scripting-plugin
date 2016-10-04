@@ -162,9 +162,9 @@ public class ScriptingConsolePanel extends JPanel {
     }
 
     public void save()  {
-        final File f = editor.getModel().getScriptFile();
-        if (f == null) return;
-        editor.save(f);
+        editor.getModel()
+            .getScriptFile()
+            .ifPresent(f-> editor.save(f));
     }
 
     public ScriptEditorModel getScriptEditorModel() {
