@@ -187,7 +187,7 @@ var suite = tu.suite(
 	test("nodeBuilder - create it", function() {
 		var ds = new DataSet();
 		var nb = ds.nodeBuilder;
-		nb.local();
+		nb.create();
 		util.assert(ds.getNodes().size() == 1, "Expected 1 node in dataset, got {0}", ds.getNodes().size());		
 	}),
 	
