@@ -3,7 +3,6 @@ package org.openstreetmap.josm.plugins.scripting.ui;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -43,7 +42,7 @@ public class MostRecentlyRunScriptsModel extends Observable
         return instance;
     }
 
-    final private List<String> scripts = new ArrayList<>();
+    private List<String> scripts = new ArrayList<>();
 
     /**
      * Remembers a script in the list of most recently run scripts
@@ -64,10 +63,7 @@ public class MostRecentlyRunScriptsModel extends Observable
             scripts.remove(script);
             scripts.add(0, script);
         }
-        int s;
-        while((s = scripts.size()) > 10) {
-            scripts.remove(s-1);
-        }
+        scripts = scripts.stream().limit(10).collect(Collectors.toList());
         setChanged();
         notifyObservers();
         comboBoxModel.fireContentChanged();
@@ -83,7 +79,7 @@ public class MostRecentlyRunScriptsModel extends Observable
     }
 
     protected boolean canRun(String script) {
-        File f = new File(script);
+        final File f = new File(script);
         return f.exists() && f.isFile() && f.canRead();
     }
 
@@ -94,15 +90,11 @@ public class MostRecentlyRunScriptsModel extends Observable
      * @param prefs the preferences
      */
     public void loadFromPreferences(Preferences prefs) {
-        Collection<String> entries = prefs.getCollection(
-                PREF_KEY_FILE_HISTORY
-        );
-        scripts.clear();
-        entries.stream()
+        prefs.getCollection(PREF_KEY_FILE_HISTORY).stream()
             .filter(s->canRun(s))
             .distinct()
             .limit(10)
-            .collect(Collectors.toCollection(() -> scripts));
+            .collect(Collectors.toList());
         setChanged();
         notifyObservers();
         comboBoxModel.fireContentChanged();
