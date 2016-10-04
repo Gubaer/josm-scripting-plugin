@@ -264,24 +264,22 @@ public class RhinoEngine {
              + "Got file ''{0}''", file);
         try (Reader fr = new FileReader(file)){
             enterSwingThreadContext();
-            Runnable r = new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        Scriptable s = (scope == null) ?
-                                new NativeObject() : scope;
-                        s.setParentScope(scope);
-                        Context.getCurrentContext().evaluateReader(
-                           s,
-                           fr,
-                           file.toString(),
-                           1,
-                           null /* no security domain */
-                        );
-                    } catch(IOException e){
-                        throw new RuntimeException(e);
-                    }
+            Runnable r = () -> {
+                try {
+                    Scriptable s = (scope == null) ?
+                            new NativeObject() : scope;
+                    s.setParentScope(scope);
+                    Context.getCurrentContext().evaluateReader(
+                       s,
+                       fr,
+                       file.toString(),
+                       1,
+                       null /* no security domain */
+                    );
+                } catch(IOException e){
+                    throw new RuntimeException(e);
                 }
+
             };
             try {
                 runOnSwingEDT(r);
