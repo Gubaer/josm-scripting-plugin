@@ -59,13 +59,6 @@ PropertyChangeListener, HyperlinkListener{
                 + "font-style: {3}";
         String rule = MessageFormat
                 .format(cssRuleFontFamily,
-                        f.getName(), f.getSize(),
-                        f.isBold() ? "bold" : "normal",
-                        f.isItalic() ? "italic" : "normal");
-        rule = "body {" + rule + "}";
-        ss.addRule(rule);
-        rule = MessageFormat
-                .format(cssRuleFontFamily,
                         f.getName(),
                         f.getSize(),
                         "bold",
@@ -73,7 +66,7 @@ PropertyChangeListener, HyperlinkListener{
         rule = "strong {" + rule + "}";
         ss.addRule(rule);
         ss.addRule("a {text-decoration: underline; color: blue}");
-        HTMLEditorKit kit = new HTMLEditorKit();
+        final HTMLEditorKit kit = new HTMLEditorKit();
         kit.setStyleSheet(ss);
         jepInfo.setEditorKit(kit);
         setLayout(new BorderLayout());
