@@ -46,7 +46,8 @@ import org.openstreetmap.josm.tools.ImageProvider;
 
 
 public class RhinoEngineConfigurationPanel extends VerticallyScrollablePanel{
-    private static final Logger logger = Logger.getLogger(RhinoEngineConfigurationPanel.class.getName());
+    private static final Logger logger =
+            Logger.getLogger(RhinoEngineConfigurationPanel.class.getName());
 
     private RepositoriesListModel mdlRepositories;
     private JList<URL> lstRepositories;
@@ -58,11 +59,14 @@ public class RhinoEngineConfigurationPanel extends VerticallyScrollablePanel{
         HtmlPanel info = new HtmlPanel();
         info.setText(
                 "<html>"
-                + tr("The scripting plugin includes an embedded scripting engine for JavaScript based on Mozilla Rhino. "
-                    + "It can load CommonJS modules either from the local filesystem or from jar/zip "
-                    + "files.<br><br>"
-                    + "Per default, it loads CommonJS modules from the directory <strong>/js</strong> in the plugin jar, "
-                    + "but you can add additional directories and jar files.<br><br>"
+                + tr("The scripting plugin includes an embedded scripting "
+                    + "engine for JavaScript based on Mozilla Rhino. "
+                    + "It can load CommonJS modules either from the local "
+                    + "filesystem or from jar/zip files.<br><br>"
+                    + "Per default, it loads CommonJS modules from the "
+                    + "directory <strong>/js</strong> in the plugin jar, "
+                    + "but you can add additional directories and jar files."
+                    + "<br><br>"
                     + "Configure them in the list below."
                 )
                 + "</html>"
@@ -72,25 +76,35 @@ public class RhinoEngineConfigurationPanel extends VerticallyScrollablePanel{
 
     protected JPanel buildTablePanel() {
         JPanel panel = new JPanel(new BorderLayout());
-        DefaultListSelectionModel selectionModel = new DefaultListSelectionModel();
-        lstRepositories = new JList<>(mdlRepositories = new RepositoriesListModel(selectionModel));
+        DefaultListSelectionModel selectionModel =
+                new DefaultListSelectionModel();
+        lstRepositories = new JList<>(mdlRepositories =
+                new RepositoriesListModel(selectionModel));
         lstRepositories.setCellRenderer(new RepositoryCellRenderer());
         lstRepositories.setSelectionModel(selectionModel);
         JScrollPane sp = new JScrollPane(lstRepositories);
-        sp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        sp.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        sp.setVerticalScrollBarPolicy(
+                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        sp.setHorizontalScrollBarPolicy(
+                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         panel.add(sp, BorderLayout.CENTER);
         return panel;
     }
 
     protected JPanel buildActionPanel() {
         JPanel panel = new JPanel(new GridBagLayout());
-        GridBagConstraints gc = gbc().fillHorizontal().weight(1.0, 0.0).constraints();
-        panel.add(new JButton(new AddAction()), gbc(gc).cell(0, 0).constraints());
-        panel.add(new JButton(actRemove = new RemoveAction()), gbc(gc).cell(0, 1).constraints());
-        panel.add(new JButton(actUp = new UpAction()), gbc(gc).cell(0,2).constraints());
-        panel.add(new JButton(actDown  =new DownAction()), gbc(gc).cell(0,3).constraints());
-        panel.add(new JPanel(), gbc().cell(0, 4).fillboth().weight(1.0, 1.0).constraints());
+        GridBagConstraints gc = gbc().fillHorizontal().weight(1.0, 0.0)
+                .constraints();
+        panel.add(new JButton(
+                new AddAction()), gbc(gc).cell(0, 0).constraints());
+        panel.add(new JButton(actRemove = new RemoveAction()),
+                gbc(gc).cell(0, 1).constraints());
+        panel.add(new JButton(actUp = new UpAction()),
+                gbc(gc).cell(0,2).constraints());
+        panel.add(new JButton(actDown  =new DownAction()),
+                gbc(gc).cell(0,3).constraints());
+        panel.add(new JPanel(),
+                gbc().cell(0, 4).fillboth().weight(1.0, 1.0).constraints());
 
         lstRepositories.addListSelectionListener(actRemove);
         lstRepositories.addListSelectionListener(actUp);
@@ -104,9 +118,12 @@ public class RhinoEngineConfigurationPanel extends VerticallyScrollablePanel{
         Insets insets = new Insets(3,3,3,3);
         JPanel p1 = buildTablePanel();
         JPanel p2 = buildActionPanel();
-        add(buildInfoPanel(), gbc().cell(0,0,2,1).fillHorizontal().weight(1.0, 0.0).insets(insets).constraints());
-        add(p2, gbc().cell(0,1).fillVertical().weight(0.0,1.0).insets(insets).constraints());
-        add(p1, gbc().cell(1,1).fillboth().weight(1.0,1.0).insets(insets).constraints());
+        add(buildInfoPanel(), gbc().cell(0,0,2,1).fillHorizontal()
+                .weight(1.0, 0.0).insets(insets).constraints());
+        add(p2, gbc().cell(0,1).fillVertical()
+                .weight(0.0,1.0).insets(insets).constraints());
+        add(p1, gbc().cell(1,1).fillboth()
+                .weight(1.0,1.0).insets(insets).constraints());
     }
 
     public RhinoEngineConfigurationPanel() {
@@ -117,7 +134,8 @@ public class RhinoEngineConfigurationPanel extends VerticallyScrollablePanel{
         mdlRepositories.saveToPreferences();
     }
 
-    static public class RepositoriesListModel extends AbstractListModel<URL> implements PreferenceKeys {
+    static public class RepositoriesListModel extends AbstractListModel<URL>
+        implements PreferenceKeys {
 
         private final List<URL> repositories = new ArrayList<>();
         private DefaultListSelectionModel selectionModel;
@@ -128,19 +146,25 @@ public class RhinoEngineConfigurationPanel extends VerticallyScrollablePanel{
         }
 
         public void loadFromPreferences() {
-            Assert.assertState(Main.pref != null, "Main.pref is not initialized. Can''t load preferences."); // do not translate
+            // do not translate
+            Assert.assertState(Main.pref != null,
+                    "Main.pref is not initialized. Can''t load preferences.");
             loadFromPreferences(Main.pref);
         }
 
         public void loadFromPreferences(@NotNull Preferences prefs) {
             Assert.assertArgNotNull(prefs);
-            Collection<String> entries = prefs.getCollection(PREF_KEY_COMMONJS_MODULE_REPOSITORIES);
+            Collection<String> entries =
+                    prefs.getCollection(PREF_KEY_COMMONJS_MODULE_REPOSITORIES);
             for (Iterator<String> it = entries.iterator(); it.hasNext();) {
                 String entry = it.next().trim();
                 try {
-                    repositories.add(new CommonJSModuleRepository(entry).getURL());
+                    repositories.add(
+                            new CommonJSModuleRepository(entry).getURL());
                 } catch(IllegalArgumentException e) {
-                    logger.log(Level.WARNING, MessageFormat.format("Failed to create a module repository from preferences value <{0}>. Skipping it.", entry),e);
+                    logger.log(Level.WARNING, MessageFormat.format(
+                         "Failed to create a module repository from "
+                       + "preferences value <{0}>. Skipping it.", entry),e);
                     continue;
                 }
             }
@@ -154,7 +178,9 @@ public class RhinoEngineConfigurationPanel extends VerticallyScrollablePanel{
         }
 
         public void saveToPreferences() {
-            Assert.assertState(Main.pref != null, "Main.pref is not initialized. Can''t save preferences."); // do not translate
+            // do not translate
+            Assert.assertState(Main.pref != null,
+                    "Main.pref is not initialized. Can''t save preferences.");
             saveToPreferences(Main.pref);
         }
 
@@ -195,7 +221,8 @@ public class RhinoEngineConfigurationPanel extends VerticallyScrollablePanel{
         }
     }
 
-    static public class RepositoryCellRenderer extends JLabel implements ListCellRenderer<URL> {
+    static public class RepositoryCellRenderer extends JLabel
+        implements ListCellRenderer<URL> {
 
         private Icon jarIcon;
         private Icon dirIcon;
@@ -205,7 +232,9 @@ public class RhinoEngineConfigurationPanel extends VerticallyScrollablePanel{
             dirIcon = ImageProvider.get("directory");
         }
         @Override
-        public Component getListCellRendererComponent(JList<? extends URL> list, URL url, int index, boolean isSelected, boolean hasFocus) {
+        public Component getListCellRendererComponent(
+                JList<? extends URL> list, URL url, int index,
+                boolean isSelected, boolean hasFocus) {
             setText(url.toString());
             if (isSelected) {
                 setForeground(UIManager.getColor("List.selectionForeground"));
@@ -227,12 +256,15 @@ public class RhinoEngineConfigurationPanel extends VerticallyScrollablePanel{
 
         public AddAction() {
             //putValue(Action.NAME, tr("Add"));
-            putValue(Action.SHORT_DESCRIPTION, tr("Add an additional repository"));
+            putValue(Action.SHORT_DESCRIPTION,
+                    tr("Add an additional repository"));
             putValue(Action.SMALL_ICON, ImageProvider.get("dialogs", "add"));
         }
         @Override
         public void actionPerformed(ActionEvent arg0) {
-            ModuleRepositoryDialog dialog = new ModuleRepositoryDialog(RhinoEngineConfigurationPanel.this);
+            ModuleRepositoryDialog dialog =
+                    new ModuleRepositoryDialog(
+                            RhinoEngineConfigurationPanel.this);
             dialog.setVisible(true);
             CommonJSModuleRepository repository = dialog.getRepository();
             if (repository != null) {
@@ -241,7 +273,8 @@ public class RhinoEngineConfigurationPanel extends VerticallyScrollablePanel{
         }
     }
 
-    private class RemoveAction extends AbstractAction implements ListSelectionListener {
+    private class RemoveAction extends AbstractAction
+        implements ListSelectionListener {
 
         public RemoveAction() {
             //putValue(Action.NAME, tr("Remove"));
@@ -267,12 +300,15 @@ public class RhinoEngineConfigurationPanel extends VerticallyScrollablePanel{
         }
     }
 
-    private class UpAction extends AbstractAction implements ListSelectionListener {
+    private class UpAction extends AbstractAction
+        implements ListSelectionListener {
 
         public UpAction() {
             //putValue(Action.NAME, tr("Up"));
-            putValue(Action.SHORT_DESCRIPTION, tr("Move the selected repository up by one position"));
-            putValue(Action.SMALL_ICON, ImageProvider.get("dialogs", "moveup"));
+            putValue(Action.SHORT_DESCRIPTION,
+                    tr("Move the selected repository up by one position"));
+            putValue(Action.SMALL_ICON,
+                    ImageProvider.get("dialogs", "moveup"));
             updateEnabledState();
         }
 
@@ -294,12 +330,15 @@ public class RhinoEngineConfigurationPanel extends VerticallyScrollablePanel{
         }
     }
 
-    private class DownAction extends AbstractAction implements ListSelectionListener {
+    private class DownAction extends AbstractAction
+        implements ListSelectionListener {
 
         public DownAction() {
             //putValue(Action.NAME, tr("Down"));
-            putValue(Action.SHORT_DESCRIPTION, tr("Move the selected repository down by one position"));
-            putValue(Action.SMALL_ICON, ImageProvider.get("dialogs", "movedown"));
+            putValue(Action.SHORT_DESCRIPTION,
+                    tr("Move the selected repository down by one position"));
+            putValue(Action.SMALL_ICON,
+                    ImageProvider.get("dialogs", "movedown"));
             updateEnabledState();
         }
         @Override
@@ -310,7 +349,8 @@ public class RhinoEngineConfigurationPanel extends VerticallyScrollablePanel{
 
         protected void updateEnabledState() {
             int selIdx = lstRepositories.getSelectedIndex();
-            setEnabled(selIdx != -1 && selIdx != lstRepositories.getModel().getSize() - 1);
+            setEnabled(selIdx != -1
+                    && selIdx != lstRepositories.getModel().getSize() - 1);
         }
 
         @Override
