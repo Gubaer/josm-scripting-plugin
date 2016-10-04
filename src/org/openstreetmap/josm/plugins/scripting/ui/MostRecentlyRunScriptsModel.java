@@ -31,7 +31,8 @@ import org.openstreetmap.josm.tools.ImageProvider;
 public class MostRecentlyRunScriptsModel extends Observable
     implements PreferenceKeys{
 
-    static private MostRecentlyRunScriptsModel instance;
+    static final private MostRecentlyRunScriptsModel instance =
+            new MostRecentlyRunScriptsModel();
     /**
      * Unique instance of the model for the list of most recently
      * run scripts.
@@ -39,9 +40,6 @@ public class MostRecentlyRunScriptsModel extends Observable
      * @return the unique instance
      */
     static public MostRecentlyRunScriptsModel getInstance() {
-        if (instance == null) {
-            instance = new MostRecentlyRunScriptsModel();
-        }
         return instance;
     }
 
