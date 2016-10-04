@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
@@ -150,12 +151,10 @@ public class PythonPluginsConfigurationPanel extends JPanel {
          * @return the list of plugin names
          */
         public List<String> getPlugins() {
-            List<String> ret = new ArrayList<String>();
-            for(String plugin: plugins) {
-                plugin = plugin.trim();
-                if (!plugin.isEmpty()) ret.add(plugin);
-            }
-            return ret;
+            return plugins.stream()
+                .map(String::trim)
+                .filter(plugin -> !plugin.isEmpty())
+                .collect(Collectors.toList());
         }
 
         /**
