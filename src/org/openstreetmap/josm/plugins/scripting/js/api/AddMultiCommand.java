@@ -2,6 +2,7 @@ package org.openstreetmap.josm.plugins.scripting.js.api;
 
 import static org.openstreetmap.josm.tools.I18n.trn;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -47,14 +48,15 @@ public class AddMultiCommand extends MultiCommand {
 
     @Override
     public boolean executeCommand() {
-        DataSet ds = getLayer().data;
-        int i=0;
+        final DataSet ds = getLayer().data;
         try {
             ds.beginUpdate();
-            for (i=0; i< primitives.length; i++ ){
-                ds.addPrimitive(primitives[i]);
-                primitives[i].setModified(true);
-            }
+            Arrays.stream(primitives)
+                .filter(p -> ds.getPrimitiveById(p) == null)
+                .forEach(p -> {
+                    ds.addPrimitive(p);
+                    p.setModified(true);
+                });
         } finally {
             ds.endUpdate();
         }
