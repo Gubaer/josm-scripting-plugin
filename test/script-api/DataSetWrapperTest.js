@@ -209,26 +209,47 @@ var suite = tu.suite(
 	/* ------------------------------------------------------------------------------------ */
 	/* selection  */
 	/* ------------------------------------------------------------------------------------ */
-	test("selection - get the selection accessor", function() {
+	test("selection - get the selection wrapper", function() {
 		var ds = new DataSet();
 		util.assert(util.isSomething(ds.selection), "selection object not found");		
 	}),
+	test("selection - select a single primitive", function() {
+		var ds = new DataSet();
+		var builder = ds.nodeBuilder;
+		var node = builder.create(1);
+		ds.selection.add(node);
+		util.assert(ds.selection.isSelected(node));
+	}),	
+	test("selection - select an array of primitives", function() {
+		var ds = new DataSet();
+		var builder = ds.nodeBuilder;
+		var nodes = new Array();
+		for (var i = 0; i < 10; i++) {
+			nodes[i] = builder.create(i+1);
+		}
+		ds.selection.add(nodes);
+		var allSelected = true;
+		for (var i = 0; i < 10; i++) {
+			allSelected = allSelected && ds.selection.isSelected(nodes[i]);
+		}
+		util.assert(allSelected, "at least one node isn't selected");
+	}),	
 	test("selection - sequence of add, remove, set, toggle, and clear", function() {
 		var ds = new DataSet();
 		var n1 = newNode();
 		ds.add(n1);
 		ds.selection.add(n1);
 		util.assert(ds.selection.isSelected(n1), "node should be selected");
-		ds.selection.remove(n1);
-		util.assert(!ds.selection.isSelected(n1), "node should not be selected");
+		ds.selection.clear(n1);
+		util.assert(!ds.selection.isSelected(n1), "node should not be selected (1)");
 		ds.selection.set(n1);
 		util.assert(ds.selection.isSelected(n1), "node should be selected");
 		ds.selection.toggle(n1);
-		util.assert(!ds.selection.isSelected(n1), "node should not be selected");
+		util.assert(!ds.selection.isSelected(n1), "node should not be selected (2)");
 		ds.selection.toggle(n1);
 		util.assert(ds.selection.isSelected(n1), "node should be selected");
-		ds.selection.clear();
-		util.assert(!ds.selection.isSelected(n1), "node should not be selected");
+		ds.selection.clear(n1);
+		util.assert(!ds.selection.isSelected(n1), "node should not be selected (3)");
 	}),
 	test("selection - access the list of selected nodes", function() {
 		var ds = new DataSet();

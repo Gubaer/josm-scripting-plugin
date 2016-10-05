@@ -169,8 +169,8 @@ function normalizeType(type) {
 };
 
 function primitiveIdFromObject(obj) {
-	util.assert(util.isDef(obj.id), "missing mandatory property ''{0}'' in {1}", "id", obj);
-	util.assert(util.isDef(obj.type), "missing mandatory property ''{0}'' in {1}", "type", obj);
+	util.assert(util.isDef(obj.id), 
+		"missing mandatory property ''{0}'' in {1}", "id", obj);
 	var id = normalizeId(obj.id);
 	var type = normalizeType(obj.type);
 	return new SimplePrimitiveId(id, type);
@@ -345,7 +345,9 @@ function normalizeIds(ids) {
 		} else if (typeof ids === "object") {
 			set.add(primitiveIdFromObject(ids));
 		} else {
-			util.assert(false, "Can''t select an object described with the id {0}", ids);
+			util.assert(false, 
+				"Can''t derive a OSM primitive id from object {0}", 
+			ids);
 		}
 	}
 	var set = new HashSet();
@@ -903,13 +905,18 @@ function DataSetSelectionFacade(ds) {
  * 
 * <strong>Signatures</strong>
  * <dl> 
- *   <dt><code class="signature">set(id,id, ...)</code></dt>
- *   <dd>Selects a variable number of objects given by their ids.</dd>
+ *   <dt><code class="signature">set(p1,p2, ...)</code></dt>
+ *   <dd>Selects a variable number of primitives.</dd>
  *   
  *   <dt><code class="signature">set(array|collection)</code></dt>
- *   <dd>Select a variable number of objects given by an array or a java collection of ids.</dd>
+ *   <dd>Select a variable number of primitives given by an array or a 
+ *   java collection of primitives.</dd>
  * </dl>
  * 
+ * Each primitive {@code p} is either an instance of aa node, a way, or
+ * a relation, or an instance of 
+ * {@class org.openstreetmap.josm.data.osm.PrimitiveId}.
+
  * @memberOf DataSetSelectionFacade
  * @method
  * @instance
@@ -917,15 +924,12 @@ function DataSetSelectionFacade(ds) {
  * @summary Set the selected objects as selected.
  */
 DataSetSelectionFacade.prototype.set = function() {
-	if (arguments.length == 2 && util.isNumber(arguments[0])) {
-		this._ds.setSelected(Collections.singleton(normalizeObjId.apply(null, arguments)));
+	var ids = normalizeIds(arguments);
+	if (ids.length == 0) return;
+	if (ids.length == 0){
+		this._ds.clearSelection();
 	} else {
-		var ids = normalizeIds(arguments);
-		if (ids.length == 0){
-			this._ds.clearSelection();
-		} else {
-			this._ds.setSelected(ids);
-		}
+		this._ds.setSelected(ids);
 	}
 };
 
@@ -934,12 +938,17 @@ DataSetSelectionFacade.prototype.set = function() {
  * 
  * <strong>Signatures</strong>
  * <dl> 
- *   <dt><code class="signature">add(id,id, ...)</code></dt>
- *   <dd>Selects a variable number of objects given by their ids.</dd>
+ *   <dt><code class="signature">add(p1,p2,...)</code></dt>
+ *   <dd>Selects a variable number of primitives. </dd>
  *   
  *   <dt><code class="signature">add(array|collection)</code></dt>
- *   <dd>Select a variable number of objects given by an array or a java collection of ids.</dd>
+ *   <dd>Select a variable number of primitives given by an array or a 
+ *   java collection of primitives.</dd>
  * </dl>
+ * 
+ * Each primitive {@code p} is either an instance of aa node, a way, or
+ * a relation, or an instance of 
+ * {@class org.openstreetmap.josm.data.osm.PrimitiveId}.
  * 
  * @memberOf DataSetSelectionFacade
  * @method
@@ -948,11 +957,9 @@ DataSetSelectionFacade.prototype.set = function() {
  * @summary Adds selected objects
  */
 DataSetSelectionFacade.prototype.add = function() {
-	if (arguments.length == 2 && util.isNumber(arguments[0])) {
-		this._ds.addSelected(Collections.singleton(normalizeObjId.apply(null, arguments)));
-	} else {
-		this._ds.addSelected(normalizeIds(arguments));	
-	}
+	var ids = normalizeIds(arguments);
+	if (ids.length == 0) return;
+	this._ds.addSelected(ids);
 };
 
 /**
@@ -960,12 +967,17 @@ DataSetSelectionFacade.prototype.add = function() {
  * 
  * <strong>Signatures</strong>
  * <dl> 
- *   <dt><code class="signature">clear(id,id, ...)</code></dt>
- *   <dd>Unselect a variable number of objects given by their ids.</dd>
+ *   <dt><code class="signature">clear(p1,p2, ...)</code></dt>
+ *   <dd>Unselect a variable number primitives.</dd>
  *   
  *   <dt><code class="signature">clear(array|collection)</code></dt>
- *   <dd>Unselect a variable number of objects given by an array or a java collection of ids.</dd>
+ *   <dd>Unselect a variable number of primitives given by an array or a 
+ *   java collection of primitives.</dd>
  * </dl>
+ * 
+ * Each primitive {@code p} is either an instance of aa node, a way, or
+ * a relation, or an instance of 
+ * {@class org.openstreetmap.josm.data.osm.PrimitiveId}.
  * 
  * @memberOf DataSetSelectionFacade
  * @method
@@ -974,13 +986,9 @@ DataSetSelectionFacade.prototype.add = function() {
  * @summary Unselects a collection of objects
  */
 DataSetSelectionFacade.prototype.clear = function() {
-	if (arguments.length == 2 && util.isNumber(arguments[0])) {
-		this._ds.clearSelection(Collections.singleton(normalizeObjId.apply(null, arguments)));
-	} else {
-		var ids = normalizeIds(arguments);
-		if (ids.length == 0) return;
-		this._ds.clearSelection(ids);	
-	}
+	var ids = normalizeIds(arguments);
+	if (ids.length == 0) return;
+	this._ds.clearSelection(ids);
 };
 
 /**
@@ -1003,12 +1011,18 @@ DataSetSelectionFacade.prototype.clearAll = function() {
  * 
  * <strong>Signatures</strong>
  * <dl> 
- *   <dt><code class="signature">toggle(id,id, ...)</code></dt>
- *   <dd>Toggle the selection state of a variable number of objects given by their ids.</dd>
+ *   <dt><code class="signature">toggle(p1,p2, ...)</code></dt>
+ *   <dd>Toggle the selection state of a variable number of primitives.</dd>
  *   
  *   <dt><code class="signature">toggle(array|collection)</code></dt>
- *   <dd>Toggle the selection state of  variable number of objects given by an array or a java collection of ids.</dd>
+ *   <dd>Toggle the selection state of variable number of primitives given by 
+ *   an array or a java collection of ids.</dd>
  * </dl>
+ * 
+ * Each primitive {@code p} is either an instance of aa node, a way, or
+ * a relation, or an instance of 
+ * {@class org.openstreetmap.josm.data.osm.PrimitiveId}.
+ * 
  * 
  * @memberOf DataSetSelectionFacade
  * @method
@@ -1017,11 +1031,9 @@ DataSetSelectionFacade.prototype.clearAll = function() {
  * @summary Toggle the selection state of a collection of objects
  */
 DataSetSelectionFacade.prototype.toggle = function() {
-	if (arguments.length == 2 && util.isNumber(arguments[0])) {
-		this._ds.toggleSelected(Collections.singleton(normalizeObjId.apply(null, arguments)));
-	} else {
-		this._ds.toggleSelected(normalizeIds(arguments));	
-	}
+	var ids = normalizeIds(arguments);
+	if (ids.length == 0) return;
+	this._ds.toggleSelected(ids);
 };
 
 /**
@@ -1030,15 +1042,19 @@ DataSetSelectionFacade.prototype.toggle = function() {
  * <strong>Signatures</strong>
  * <dl> 
  *   <dt><code class="signature">isSelected(id, type)</code></dt>
- *   <dd>Replies true, if the object with numeric id <code>id</code> and type <code>type</code> is selected.</dd>
+ *   <dd>Replies true, if the object with numeric id <code>id</code> and 
+ *   type <code>type</code> is selected.</dd>
  *
  *   <dt><code class="signature">isSelected(id)</code></dt>
- *   <dd>Replies true, if the object with id <code>id</code> is selected. <code>id</code> is either an instance of 
+ *   <dd>Replies true, if the object with id <code>id</code> is selected. 
+ *   <code>id</code> is either an instance of 
  *   {@class org/openstreetmap/josm/data/osm/PrimitiveId} or an object with 
- *   the properties <code>id</code> and <code>type</code>, i.e. <code>{id: 1234, type: "node"}</code></dd>
+ *   the properties <code>id</code> and <code>type</code>, 
+ *   i.e. <code>{id: 1234, type: "node"}</code></dd>
  *
  *   <dt><code class="signature">isSelected(obj)</code></dt>
- *   <dd>Replies true, if the object <code>obj</code> is selected. obj is either a 
+ *   <dd>Replies true, if the object <code>obj</code> is selected. obj is
+ *     either a 
  *   {@class org/openstreetmap/josm/data/osm/Node}, 
  *   a {@class org/openstreetmap/josm/data/osm/Way}, or a 
  *   {@class org/openstreetmap/josm/data/osm/Relation}.</dd>
@@ -1083,10 +1099,12 @@ DataSetSelectionFacade.prototype.isSelected = function() {
 	case 0:  util.assert(false, "Expected 1 or 2 arguments, got none");
 	case 1:  return isSelected_1(this._ds);
 	case 2:  return isSelected_2(this._ds);
-	default: util.assert(false, "Expected 1 or 2 arguments, got {0}", args.length);
+	default: util.assert(false, "Expected 1 or 2 arguments, got {0}", 
+		args.length);
 	}	
 };
-DataSetSelectionFacade.prototype.has = DataSetSelectionFacade.prototype.isSelected;
+DataSetSelectionFacade.prototype.has = 
+	    DataSetSelectionFacade.prototype.isSelected;
 
 /**
  * Replies an array with the selected nodes.
