@@ -24,10 +24,10 @@ var OsmServerBackreferenceReader =
 var util = require("josm/util");
 
 /**
- * <p>Provides methods to open, close, get, update, etc. changesets on the OSM 
+ * <p>Provides methods to open, close, get, update, etc. changesets on the OSM
  * API server.</p>
  * 
- * <p><strong>Note:</strong> this class doesn't provide a constructor. Methods 
+ * <p><strong>Note:</strong> this class doesn't provide a constructor. Methods
  * and properties
  * are "static".</p>
  * 
@@ -282,11 +282,6 @@ exports.ChangesetApi.get = function() {
 	cs = reader.readChangeset(cs.id, NullProgressMonitor.INSTANCE);
 	return cs;
 };
-
-}());
-
-
-(function () {
 	
 var undefined; 
 	
