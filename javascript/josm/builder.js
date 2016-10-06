@@ -91,8 +91,8 @@ function rememberPosFromObject(builder, args) {
         util.assert(! (args.hasOwnProperty("lat")
                 || args.hasOwnProperty("lon")),
             "Can''t process both properties ''pos'' and ''lat''/''lon''");
-        var o = args["pos"];
-        util.assert(util.isSomething(o),
+        var pos = args["pos"];
+        util.assert(util.isSomething(pos),
             "''{0}'': must not be null or undefined", "pos");
         if (pos instanceof LatLon) {
             builder.lat = pos.lat();
