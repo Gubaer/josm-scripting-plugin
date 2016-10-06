@@ -255,7 +255,7 @@ mixin.tags = {
         if (ntags && ! this.modified) this.modified = true;
         if (util.isNothing(tags)) {
             // skip
-        } else if (tags instanceof Map) {
+        } else if (tags instanceof java.util.Map) {
             applyTagMap(this, tags);
         } else if (typeof tags === "object") {
             applyTagObject(this, tags);
