@@ -3,6 +3,7 @@
  *
  * @module josm/builder
  */
+(function() {
 
 // -- imports
 var Node              = org.openstreetmap.josm.data.osm.Node;
@@ -158,7 +159,6 @@ function rememberTagsFromObject(builder, args) {
 // ----------------------------------------------------------------------------
 // NodeBuilder
 //-----------------------------------------------------------------------------
-(function() {
 
 /**
  * <p>NodeBuilder helps to create OSM nodes.</p>
@@ -501,13 +501,11 @@ function withId(id, version) {
 };
 exports.NodeBuilder.prototype.withId = withId;
 exports.NodeBuilder.withId = withId;
-}());
 
 
 //-----------------------------------------------------------------------------
 // WayBuilder
 //-----------------------------------------------------------------------------
-(function() {
 
 var receiver = function(that) {
     return typeof that === "object" ? that : new exports.WayBuilder();
@@ -895,14 +893,10 @@ function create() {
 exports.WayBuilder.create = create;
 exports.WayBuilder.prototype.create = create;
 
-}());
-
 
 //-----------------------------------------------------------------------------
 // RelationBuilder
 //-----------------------------------------------------------------------------
-
-(function() {
 
 var receiver = function(that) {
     return typeof that === "object" ? that : new exports.RelationBuilder();
