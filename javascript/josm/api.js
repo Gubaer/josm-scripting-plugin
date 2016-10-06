@@ -4,6 +4,8 @@
  * 
  * @module josm/api
  */
+(function() { 
+
 var URL = java.net.URL;
 var OsmApi = org.openstreetmap.josm.io.OsmApi;
 var Changeset = org.openstreetmap.josm.data.osm.Changeset;
@@ -20,8 +22,6 @@ var OsmServerBackreferenceReader =
 	org.openstreetmap.josm.io.OsmServerBackreferenceReader;
 
 var util = require("josm/util");
-
-(function() { 
 
 /**
  * <p>Provides methods to open, close, get, update, etc. changesets on the OSM 
