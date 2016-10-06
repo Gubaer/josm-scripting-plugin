@@ -368,7 +368,7 @@ function optionVersion(options) {
     var o = options.version;
     util.assert(util.isNumber(o),
         "Expected a number for option 'version', got {0}", o);
-    util.assert(version > 0,
+    util.assert(o > 0,
         "Expected a number > 0 for option 'version', got {0}", o);
     return o;
 }
@@ -377,7 +377,7 @@ function downloadObject_2() {
     var id;
     var options = {full: undefined, version: undefined};
     if (util.isNumber(arguments[0])) {
-        var id = normalizeId(arguments[0]);
+        id = normalizeId(arguments[0]);
         var type = normalizeType(arguments[1]);
         id = new SimplePrimitiveId(id, type);
     } else if (arguments[0] instanceof PrimitiveId) {
@@ -396,7 +396,8 @@ function downloadObject_2() {
     }
     var reader;
     if (util.isDef(options.version)) {
-        reader = new OsmServerObjectReader(id, !!options.full, version);
+        reader = new OsmServerObjectReader(id, !!options.full, 
+        	options.version);
     } else {
         reader = new OsmServerObjectReader(id, !!options.full);
     }
@@ -405,11 +406,10 @@ function downloadObject_2() {
 }
 
 function downloadObject_3() {
-    var id;
     var options = {full: undefined, version: undefined};
     var n = normalizeId(arguments[0]);
     var type = normalizeType(arguments[1]);
-    id = new SimplePrimitiveId(n, type);
+    var id = new SimplePrimitiveId(n, type);
 
     util.assert(typeof arguments[2] === "object",
         "Expected an object with named parameters, got {0}", arguments[2]);
@@ -417,7 +417,8 @@ function downloadObject_3() {
     options.version = optionVersion(arguments[2]);
     var reader;
     if (util.isDef(options.version)) {
-        reader = new OsmServerObjectReader(id, !!options.full, version);
+        reader = new OsmServerObjectReader(id, !!options.full, 
+        	options.version);
     } else {
         reader = new OsmServerObjectReader(id, !!options.full);
     }
@@ -440,7 +441,7 @@ function downloadObject_3() {
  *   OsmPrimitiveType.WAY, or OsmPrimitiveType.RELATION
  *   </dd>
  *
- *   <dt><code class="signaure">downloadObject(id, ?options)</code></dt>
+ *   <dt><code class="signature">downloadObject(id, ?options)</code></dt>
  *   <dd><code>id</code> is a <code>PrimitiveId</code> or an object
  *   with the (mandatory) properties <code>id</code> and <code>type</code>,
  *   i.e. an object <code>{id: ..., type: ...}</code>.
@@ -491,8 +492,6 @@ function downloadObject_3() {
  * @summary Downloads an object from the server.
  */
 exports.Api.downloadObject = function() {
-    var id;
-    var options = {full: undefined,version: undefined};
 
     switch(arguments.length) {
     case 0:
@@ -500,13 +499,10 @@ exports.Api.downloadObject = function() {
             arguments.length);
     case 1:
         return downloadObject_1.apply(this, arguments);
-        break;
     case 2:
         return downloadObject_2.apply(this, arguments);
-        break;
     case 3:
         return downloadObject_3.apply(this, arguments);
-        break;
     default:
         util.assert(false, "Unexpected number of arguments, got {0}",
             arguments.length);
@@ -534,10 +530,11 @@ function downloadReferrer_1()  {
 
 function downloadReferrer_2() {
     var id;
+    var type;
     var options = {full: undefined};
     if (util.isNumber(arguments[0])) {
-        var id = normalizeId(arguments[0]);
-        var type = normalizeType(arguments[1]);
+        id = normalizeId(arguments[0]);
+        type = normalizeType(arguments[1]);
         id = new SimplePrimitiveId(id, type);
     } else if (arguments[0] instanceof PrimitiveId) {
         id = arguments[0];
@@ -568,17 +565,17 @@ function downloadReferrer_2() {
 };
 
 function downloadReferrer_3() {
-    var id;
     var options = {full: undefined};
     var n = normalizeId(arguments[0]);
     var type = normalizeType(arguments[1]);
-    id = new SimplePrimitiveId(n, type);
+    var id = new SimplePrimitiveId(n, type);
 
     util.assert(typeof arguments[2] === "object",
         "Expected an object with named parameters, got {0}", arguments[2]);
     options.full = optionFull(arguments[2]);
-    var reader;
-    var reader = new OsmServerBackreferenceReader(id.getUniqueId(), id.getType());
+
+    var reader = new OsmServerBackreferenceReader(id.getUniqueId(), 
+    	id.getType());
     if (options.full){
         reader.setReadFull(true);
     }
@@ -667,20 +664,16 @@ function downloadReferrer_3() {
  *     the server.
  */
 exports.Api.downloadReferrer = function() {
-    var id;
     switch(arguments.length) {
     case 0:
         util.assert(false, "Unexpected number of arguments, got {0}",
             arguments.length);
     case 1:
         return downloadReferrer_1.apply(this, arguments);
-        break;
     case 2:
         return downloadReferrer_2.apply(this, arguments);
-        break;
     case 3:
         return downloadReferrer_3.apply(this, arguments);
-        break;
     default:
         util.assert(false, "Unexpected number of arguments, got {0}",
             arguments.length);
