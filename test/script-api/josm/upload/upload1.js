@@ -1,7 +1,7 @@
 (function() {
 /** 
- * Functional test - uploads a small test data set to the test API server, downloads it
- * again, modifies one node and uploads again. 
+ * Functional test - uploads a small test data set to the test API server, 
+ * downloads it again, modifies one node and uploads again. 
  */
 
 var tu = require("josm/unittest");
