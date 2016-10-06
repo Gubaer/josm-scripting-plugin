@@ -157,7 +157,7 @@ exports.ChangesetApi.close = function() {
 			cs = o;
 		} else if (util.isNumber(o)) {
 			util.assert(o > 0, "Expected a positive changeset id, got {0}", o);
-			cs = new Changeset(id);
+			cs = new Changeset(o);
 		} else {
 			util.assert(false, 
 				"Unexpected type of argument, expected Changeset or number, "
