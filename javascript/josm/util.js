@@ -96,29 +96,28 @@ exports.trim = function(s){
  * @name assert
  */
 exports.assert = function() {
+    var error = new Error();
     switch(arguments.length) {
     case 0:
         return;
     case 1:
         if (arguments[0]) return;
-        var error = new Error();
         error.name = "AssertionError";
         error.description = "An assertion failed";
         throw error;
 
     case 2:
         if (arguments[0]) return;
-        var error = new Error();
         error.name = "AssertionError";
         error.description = arguments[1];
         throw error;
 
     default:
         if (arguments[0]) return;
-        var error = new Error();
         error.name = "AssertionError";
-        var args = Array.prototype.slice.call(arguments,0)
-        error.description = MessageFormat.format(arguments[1], args.slice(2));
+        var args = Array.prototype.slice.call(arguments,0);
+        error.description = MessageFormat.format(arguments[1], 
+        	arguments.slice(2));
         throw error;
     }
 };
