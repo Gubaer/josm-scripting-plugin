@@ -267,7 +267,6 @@ public class RhinoEngineConfigurationPanel extends VerticallyScrollablePanel{
             dialog.setVisible(true);
             CommonJSModuleRepository repository = dialog.getRepository();
             if (repository != null) {
-                logger.info("add repository: " + repository);
                 mdlRepositories.add(repository);
             }
         }
