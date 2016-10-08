@@ -8,7 +8,9 @@ var wb = require("josm/builder").WayBuilder;
 var OsmDataLayer = org.openstreetmap.josm.gui.layer.OsmDataLayer;
 var DataSet = org.openstreetmap.josm.data.osm.DataSet;
 
-tu.suite("AddCommand",
+var suites = [];
+
+suites.push(tu.suite("AddCommand",
 	test("constructor - with array", function() {		
 		var n1 = nb.create();
 		var n2 = nb.create();
@@ -31,9 +33,9 @@ tu.suite("AddCommand",
 			var cmd = new command.AddCommand(undefined);
 		});
 	})
-).run();	
+));	
 
-tu.suite("add",
+suites.push(tu.suite("add",
 	test("add - one node", function() {		
 		var n1 = nb.create();
 		var cmd = command.add(n1);
@@ -95,4 +97,10 @@ tu.suite("add",
 		var jcmd = cmd.createJOSMCommand(layer);
 		util.assert(jcmd, "should exist");
 	})
-).run();
+));
+
+exports.run = function() {
+	for(var i=0; i < suites.length; i++) {
+		suites[i].run();
+	}
+};
