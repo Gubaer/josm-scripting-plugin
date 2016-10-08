@@ -9,7 +9,9 @@ var Way     = org.openstreetmap.josm.data.osm.Way;
 var LatLon     = org.openstreetmap.josm.data.coor.LatLon;
 var ArrayList = java.util.ArrayList;
 
-tu.suite("properties access",
+var suites = [];
+
+suites.push(tu.suite("properties access",
 	test("id - read", function() {
 		var n = nb.create(1234);		
 		util.assert(n.id === 1234, "unexpected id");
@@ -201,11 +203,9 @@ tu.suite("properties access",
 			n.north = 1;
 		});
 	})
-).run();
+));
 	
-
-
-tu.suite("setting modified flag as side effect",
+suites.push(tu.suite("setting modified flag as side effect",
 	test("lat", function() {
 		var n = nb.create(1234);		
 		n.lat = 1;
@@ -236,4 +236,10 @@ tu.suite("setting modified flag as side effect",
 		n.pos = {lat: 3, lon: 4};
 		util.assert(n.modified, "3 - should  be modified");
 	})
-).run();
+));
+
+exports.run = function() {
+    for (var i=0; i<suites.length; i++) {
+        suites[i].run();
+    }
+};
