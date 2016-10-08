@@ -100,25 +100,29 @@ exports.assert = function() {
     switch(arguments.length) {
     case 0:
         return;
-    case 1:
+    case 1: 
         if (arguments[0]) return;
         error.name = "AssertionError";
         error.description = "An assertion failed";
         throw error;
-
-    case 2:
+        
+    case 2: 
         if (arguments[0]) return;
         error.name = "AssertionError";
         error.description = arguments[1];
         throw error;
-
+        
     default:
+    	
         if (arguments[0]) return;
         error.name = "AssertionError";
         var args = Array.prototype.slice.call(arguments,0);
-        error.description = MessageFormat.format(arguments[1], 
-        	arguments.slice(2));
+        error.description = MessageFormat.format(
+        	args[1], 
+        	args.slice(2)
+        );
         throw error;
+    	
     }
 };
 
@@ -436,7 +440,7 @@ exports.each = function(collection, delegate) {
     } else if (collection instanceof java.util.Collection) {
         for (var it = collection.iterator(); it.hasNext();) delegate(it.next());
     } else {
-        util.assert(false, "collection: unexpected type of value, got {0}",
+        exports.assert(false, "collection: unexpected type of value, got {0}",
             collection);
     }
 };
