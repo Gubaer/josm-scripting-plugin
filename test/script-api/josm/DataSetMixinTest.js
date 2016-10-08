@@ -11,7 +11,9 @@ var SimplePrimitiveId = org.openstreetmap.josm.data.osm.SimplePrimitiveId;
 var HashSet = java.util.HashSet;
 var ArrayList = java.util.ArrayList;
 
-tu.suite("adding objects",
+var suites = [];
+
+suites.push(tu.suite("adding objects",
 	test("add a node", function() {
 		var ds = new DataSet();
 		var n = nb.create();
@@ -96,9 +98,9 @@ tu.suite("adding objects",
 		util.assert(ds.has(r), "3 - should be in ds");
 	})
 	
-).run();
+));
 
-tu.suite("getting objects",
+suites.push(tu.suite("getting objects",
 		
 	// --- nodes
 	test("get a node - id, 'node'", function() {
@@ -282,10 +284,10 @@ tu.suite("getting objects",
 			ds.get({id: 1234, type: OsmPrimitiveType.CLOSEDWAY});
 		});
 	})
-).run();
+));
 
 
-tu.suite("removing objects",	
+suites.push(tu.suite("removing objects",	
 	// --- nodes
 	test("remove a node - id, 'node'", function() {
 		var ds = new DataSet();
@@ -343,10 +345,10 @@ tu.suite("removing objects",
 		var ds = new DataSet();
 		ds.remove([null, undefined]);
 	})
-).run();
+));
 
 
-tu.suite("selection",	
+suites.push(tu.suite("selection",	
 	test("get selection object", function() {
 		var ds = new DataSet();
 		var sel = ds.selection;
@@ -559,10 +561,10 @@ tu.suite("selection",
 		util.assert(!ds.selection.isSelected(w1), "3 - should  not be selected");
 	})
 
-).run();
+));
 
 
-tu.suite("node, way, relation - object accessors",	
+suites.push(tu.suite("node, way, relation - object accessors",	
 	test("node", function() {
 		var ds = new DataSet();
 		ds.nodeBuilder.create(1);
@@ -634,10 +636,10 @@ tu.suite("node, way, relation - object accessors",
 			ds.relation(new SimplePrimitiveId(1, OsmPrimitiveType.RELATION));
 		});
 	})
-).run();
+));
 
 
-tu.suite("query",	
+suites.push(tu.suite("query",	
 	test("query - josm expression - simple", function() {
 			var ds = new DataSet();
 			var nb = ds.nodeBuilder;
@@ -723,10 +725,10 @@ tu.suite("query",
 		util.assert(objs.length == 1, "should have found two node, found {0}", objs.length);
 		util.assert(objs[0].isNode, "1 - should be a node");
 	})
-).run();
+));
 
 
-tu.suite("each",	
+suites.push(tu.suite("each",	
 	test("each - loop over a simple data set", function() {
 		var ds = new DataSet();
 		var nb = ds.nodeBuilder;
@@ -829,4 +831,10 @@ tu.suite("each",
 			}, "all");
 		});
 	})
-).run();
+));
+
+exports.run = function() {
+	for (var i=0; i < suites.length; i++) {
+		suites[i].run();
+	}
+};
