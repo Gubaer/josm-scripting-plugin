@@ -1,7 +1,9 @@
+
 var tu = require("josm/unittest");
 var util = require("josm/util");
 
-tu.suite("josm/util - each",
+var suites = [];
+suites.push(tu.suite("josm/util - each",
 	tu.test("each - array", function() {
 		var a = [1,2,3];
 		var sum = 0;
@@ -40,9 +42,9 @@ tu.suite("josm/util - each",
 			util.each("1, 2, 3", function() {});
 		});
 	})	
-).run();
+));
 
-tu.suite("josm/util - isCollection",
+suites.push(tu.suite("josm/util - isCollection",
 	tu.test("isCollection - array", function() {
 		util.assert(util.isCollection([]), "array should be a collection");
 	}),
@@ -58,4 +60,10 @@ tu.suite("josm/util - isCollection",
 		util.assert(!util.isCollection({}), "an object isn't a collection");
 		util.assert(!util.isCollection("foobar"), "an string isn't a collection");
 	})
-).run();
+));
+
+exports.run = function() {
+	for(var i=0; i<suites.length; i++) {
+		suites[i].run();
+	}
+};
