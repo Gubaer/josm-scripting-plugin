@@ -15,6 +15,7 @@ import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.jar.JarFile;
 import java.util.logging.Logger;
 
@@ -131,54 +132,84 @@ public class ModuleRepositoryDialog extends JDialog {
         }
     }
 
+    static private final Color BG_COLOR_ERROR = new Color(255, 199, 210);
+    static private final Color BG_COLOR_VALID = UIManager.getColor(
+            "TextField.background");
+
     protected void validateRepository() {
         boolean valid = true;
-        String s = tfRepositoryUrl.getText().trim();
+        final String repository = tfRepositoryUrl.getText().trim();
         String msg = "";
-        if (!s.isEmpty()) {
-            if (!s.matches("^[a-zA-Z]+:.*")) {
-                File f = new File(s);
-                if (f.isFile()) {
+        if (repository.isEmpty()) {
+            tfRepositoryUrl.setBackground(BG_COLOR_VALID);
+            actOK.setEnabled(false);
+            return;
+        }
+        URL url;
+        try {
+            url = new URL(repository);
+        } catch(MalformedURLException e) {
+            actOK.setEnabled(false);
+            tfRepositoryUrl.setBackground(BG_COLOR_ERROR);
+            tfRepositoryUrl.setToolTipText(
+                tr("''{0}'' isn''t a valid URL", repository)
+            );
+            return;
+        }
+
+        switch(url.getProtocol()) {
+        case "jar":
+            try {
+                final CommonJSModuleRepository repo =
+                        new CommonJSModuleRepository(repository);
+                final File f = repo.getFile();
+                if (f.isDirectory()) {
+                    valid = true;
+                } else if (f.isFile()) {
                     valid = isExistingJarFile(f);
                     if (!valid) {
-                        msg = tr("''{0}'' isn''t an existing jar file", s);
+                        msg = tr("URL ''{0}'' doesn''t refer to an "
+                                + "existing local jar file",repository);
                     }
-                } else if (f.isDirectory()) {
-                    valid =  true;
                 } else {
-                    msg = tr("''{0}'' is neither an existing directory nor an "
-                            + "existing jar file",s);
                     valid = false;
+                    msg = tr("URL ''{0}'' doesn''t refer to an existing "
+                            + "local directory or jar file",repository);
                 }
-            } else {
-                try {
-                    CommonJSModuleRepository repo = new CommonJSModuleRepository(s);
-                    File f = repo.getFile();
-                    if (f.isDirectory()) {
-                        valid = true;
-                    } else if (f.isFile()) {
-                        valid = isExistingJarFile(f);
-                        if (!valid) {
-                            msg = tr("URL ''{0}'' doesn''t refer to an "
-                                    + "existing local jar file",s);
-                        }
-                    } else {
-                        valid = false;
-                        msg = tr("URL ''{0}'' doesn''t refer to an existing "
-                                + "local directory or jar file",s);
-                    }
-                } catch(IllegalArgumentException e){
-                    e.printStackTrace();
-                    valid = false;
-                }
+            } catch(MalformedURLException e){
+                e.printStackTrace();
+                msg = tr("''{0}}' isn''t a valid URL");
+                valid = false;
             }
+            break;
+
+        case "file":
+            final File f = new File(url.getFile());
+            if (f.isFile()) {
+                valid = isExistingJarFile(f);
+                if (!valid) {
+                    msg = tr("''{0}'' isn''t an existing jar file", repository);
+                }
+            } else if (f.isDirectory()) {
+                valid =  true;
+            } else {
+                msg = tr("''{0}'' is neither an existing directory nor an "
+                        + "existing jar file",repository);
+                valid = false;
+            }
+            break;
+
+          default:
+              msg = tr("''{0}'' is neither a ''jar'' nor a ''file'' URL",
+                      repository);
+              valid = false;
         }
+
         if (valid){
-            tfRepositoryUrl.setBackground(UIManager.
-                    getColor("TextField.background"));
-            actOK.setEnabled(!s.isEmpty());
+            tfRepositoryUrl.setBackground(BG_COLOR_VALID);
+            actOK.setEnabled(!repository.isEmpty());
         } else {
-            tfRepositoryUrl.setBackground(new Color(255, 199, 210));
+            tfRepositoryUrl.setBackground(BG_COLOR_ERROR);
             actOK.setEnabled(false);
         }
         tfRepositoryUrl.setToolTipText(msg);
@@ -241,10 +272,10 @@ public class ModuleRepositoryDialog extends JDialog {
                 if (f.isDirectory()) return f;
                 if (f.isFile()) return f.getParentFile();
                 return new File(".");
-            } catch(IllegalArgumentException e) {
+            } catch(MalformedURLException e) {
                 // fall through
             }
-            if (!s.matches("^[a-zA-Z]+/")) {
+            if (!s.matches("^[a-zA-Z]+:/")) {
                 File f= new File(s);
                 if (f.isDirectory()) return f;
                 if (f.isFile()) return f.getParentFile();
@@ -275,7 +306,8 @@ public class ModuleRepositoryDialog extends JDialog {
             String s = tfRepositoryUrl.getText().trim();
             try {
                 repository = new CommonJSModuleRepository(s);
-            } catch(IllegalArgumentException e){
+            } catch(MalformedURLException e){
+                e.printStackTrace();
                 // should not happen, because input is already validated
                 repository = null;
             }

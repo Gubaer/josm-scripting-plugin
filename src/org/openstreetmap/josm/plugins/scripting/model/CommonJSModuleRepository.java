@@ -75,17 +75,14 @@ public class CommonJSModuleRepository {
      * @param url an acceptable URL for a module repository as string.
      *              Must not be null.
      * @throws NullPointerException thrown if url is null
+     * @throws MalformedURLException thrown if url isn't a valid URL
      */
-    public CommonJSModuleRepository(@NotNull String url) {
+    public CommonJSModuleRepository(@NotNull String url)
+            throws MalformedURLException {
         Objects.requireNonNull(url);
-        try {
-            URL repo = new URL(url);
-            ensureValidUrl(repo);
-            this.url = repo;
-        } catch(MalformedURLException e){
-            Assert.assertArg(false, "Invalid URL, got {0}. Expection is: {1}",
-                    url, e);
-        }
+        URL repo = new URL(url);
+        ensureValidUrl(repo);
+        this.url = repo;
     }
 
     /**

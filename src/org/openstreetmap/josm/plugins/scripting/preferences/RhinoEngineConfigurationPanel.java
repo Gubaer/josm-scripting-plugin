@@ -9,11 +9,10 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.logging.Level;
@@ -155,20 +154,20 @@ public class RhinoEngineConfigurationPanel extends VerticallyScrollablePanel{
 
         public void loadFromPreferences(@NotNull Preferences prefs) {
             Objects.requireNonNull(prefs);
-            Collection<String> entries =
-                    prefs.getCollection(PREF_KEY_COMMONJS_MODULE_REPOSITORIES);
-            for (Iterator<String> it = entries.iterator(); it.hasNext();) {
-                String entry = it.next().trim();
-                try {
-                    repositories.add(
-                            new CommonJSModuleRepository(entry).getURL());
-                } catch(IllegalArgumentException e) {
-                    logger.log(Level.WARNING, MessageFormat.format(
-                         "Failed to create a module repository from "
-                       + "preferences value <{0}>. Skipping it.", entry),e);
-                    continue;
-                }
-            }
+            prefs.getCollection(PREF_KEY_COMMONJS_MODULE_REPOSITORIES).stream()
+                .map(String::trim)
+                .forEach(entry -> {
+                    try {
+                        repositories.add(
+                            new CommonJSModuleRepository(entry).getURL()
+                        );
+                    } catch(MalformedURLException e) {
+                        logger.log(Level.WARNING, MessageFormat.format(
+                             "Failed to create a module repository from "
+                           + "preferences value <{0}>. Skipping it.", entry),
+                                e);
+                    }
+                });
         }
 
         public void saveToPreferences(Preferences pref) {
@@ -189,7 +188,6 @@ public class RhinoEngineConfigurationPanel extends VerticallyScrollablePanel{
             repositories.remove(i);
             fireIntervalRemoved(this,i,i);
         }
-
 
         public void up(int i) {
             URL tomove = repositories.remove(i);
@@ -269,6 +267,7 @@ public class RhinoEngineConfigurationPanel extends VerticallyScrollablePanel{
             dialog.setVisible(true);
             CommonJSModuleRepository repository = dialog.getRepository();
             if (repository != null) {
+                logger.info("add repository: " + repository);
                 mdlRepositories.add(repository);
             }
         }

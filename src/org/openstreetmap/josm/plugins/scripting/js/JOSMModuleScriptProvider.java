@@ -96,7 +96,7 @@ public class JOSMModuleScriptProvider implements ModuleScriptProvider,
             .forEach(entry -> {
                 try {
                     ret.add(new CommonJSModuleRepository(entry).getURL());
-                } catch(IllegalArgumentException e) {
+                } catch(MalformedURLException e) {
                    logger.log(
                        Level.WARNING, MessageFormat.format(
                        "Failed to create a module repository from "
