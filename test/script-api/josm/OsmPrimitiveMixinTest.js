@@ -11,7 +11,9 @@ var LatLon     = org.openstreetmap.josm.data.coor.LatLon;
 var ArrayList = java.util.ArrayList;
 var HashMap = java.util.HashMap;
 
-tu.suite("properties access",
+var suites = [];
+
+suites.push(tu.suite("properties access",
 	tu.test("property 'id'", function() {
 		var n = nb.create(1234);		
 		util.assert(n.id === 1234, "unexpected id");
@@ -155,10 +157,10 @@ tu.suite("properties access",
 			n.deleted = "true";
 		});
 	})	
-).run();
+));
 
 
-tu.suite("setting and getting tags",
+suites.push(tu.suite("setting and getting tags",
 	tu.test("set/get a tag", function() {
 		var n = nb.create(1234);		
 		util.assert(!n.has("name"), "should not have name tag");
@@ -362,4 +364,10 @@ tu.suite("setting and getting tags",
 		util.assert(n.has(/^level/i), "5 - should  match");
 		util.assert(n.has(/^level\.\d+$/i), "6 - should  match");
 	})
-).run();
+));
+
+exports.run = function() {
+    for (var i=0; i<suites.length; i++) {
+        suites[i].run();
+    }
+};
