@@ -159,7 +159,7 @@ function rememberTagsFromObject(builder, args) {
 // ----------------------------------------------------------------------------
 // NodeBuilder
 //-----------------------------------------------------------------------------
-
+(function() {    // start submodul NodeBuilder
 /**
  * <p>NodeBuilder helps to create OSM nodes.</p>
  *
@@ -501,15 +501,16 @@ function withId(id, version) {
 };
 exports.NodeBuilder.prototype.withId = withId;
 exports.NodeBuilder.withId = withId;
-
+}());  // end submodul NodeBuilder
 
 //-----------------------------------------------------------------------------
 // WayBuilder
 //-----------------------------------------------------------------------------
+(function(){    // start submodul WayBuilder
 
 var receiver = function(that) {
     return typeof that === "object" ? that : new exports.WayBuilder();
-}
+};
 
 /**
 * <p>WayBuilder helps to create OSM
@@ -892,15 +893,16 @@ function create() {
 }
 exports.WayBuilder.create = create;
 exports.WayBuilder.prototype.create = create;
-
+}()); // end submodul WayBuilder
 
 //-----------------------------------------------------------------------------
 // RelationBuilder
 //-----------------------------------------------------------------------------
+(function() { // start submodul Relation Builde
 
 var receiver = function(that) {
     return typeof that === "object" ? that : new exports.RelationBuilder();
-}
+};
 
 
 /**
@@ -1183,7 +1185,7 @@ function withMembers() {
         if (obj instanceof OsmPrimitive) {
             members.push(new RelationMember(null, obj));
         } else if (obj instanceof RelationMember)  {
-            members.push(obj)
+            members.push(obj);
         } else if (util.isArray(obj)) {
             for(var i=0; i < obj.length; i++) remember(obj[i]);
          } else if (obj instanceof List) {
@@ -1324,5 +1326,6 @@ function create() {
 }
 exports.RelationBuilder.create = create;
 exports.RelationBuilder.prototype.create = create;
+}());  // end submodul Relation Builder
 
 }());
