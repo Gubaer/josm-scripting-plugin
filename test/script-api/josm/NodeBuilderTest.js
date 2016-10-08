@@ -5,7 +5,9 @@ var test = tu.test;
 var nb = require("josm/builder").NodeBuilder;
 var DataSet = org.openstreetmap.josm.data.osm.DataSet;
 
-tu.suite("NodeBuilder test cases",
+var suites = [];
+
+suites.push(tu.suite("NodeBuilder test cases",
 	test("local node - most simple node", function() {
 		var node = nb.create();
 		util.assert(util.isSomething(node));		
@@ -230,4 +232,11 @@ tu.suite("NodeBuilder test cases",
 			var n = nb.create({id: 1, version: "not a number"});
 		});			
 	})
-).run();
+));
+
+exports.run = function() {
+    for (var i=0; i<suites.length; i++) {
+        suites[i].run();
+    }
+};
+
