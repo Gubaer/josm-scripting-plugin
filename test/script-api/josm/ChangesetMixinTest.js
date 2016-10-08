@@ -1,4 +1,3 @@
-(function() {
 var tu = require("josm/unittest");
 var util = require("josm/util");
 var test = tu.test;
@@ -11,7 +10,10 @@ var LatLon     = org.openstreetmap.josm.data.coor.LatLon;
 var ArrayList = java.util.ArrayList;
 var Changeset = org.openstreetmap.josm.data.osm.Changeset;
 
-exports.suite = tu.suite("properties access",
+
+var suites = [];
+
+suites.push(suite = tu.suite("properties access",
 	test("id - read", function() {
 		var cs = new Changeset(1234);
 		util.assert(cs.id === 1234, "unexpected id");
@@ -83,6 +85,11 @@ exports.suite = tu.suite("properties access",
 		cs.tags.comment = "my comment";
 		util.assert(cs.tags.comment == "my comment", "unexpected tag");
 	})
-);
+));
 
-}());
+exports.run = function() {
+	for (var i=0; i< suites.length; i++) {
+		suites[i].run();
+	}
+};
+
