@@ -4,7 +4,9 @@ var test = tu.test;
 
 var LatLon    = org.openstreetmap.josm.data.coor.LatLon;
 
-tu.suite("properties acess",
+var suites = [];
+
+suites.push(tu.suite("properties acess",
 	test("lat", function() {
 		var pos = new LatLon(1,2);
 		util.assert(pos.lat == 1, "1- unexpected lat");		
@@ -26,9 +28,9 @@ tu.suite("properties acess",
 			});
 		});
 	})
-).run();
+));
 
-tu.suite("make",
+suites.push(tu.suite("make",
 	test("make - valid object", function() {
 		var pos = LatLon.make({lat: 1, lon: 2});
 		util.assert(pos.lat == 1, "1- unexpected lat");		
@@ -77,6 +79,13 @@ tu.suite("make",
 			var pos = LatLon.make({lat: 1, lon: 200});
 		});
 	})
-).run();
+));
+
+exports.run = function() {
+	for (var i=0; i<suites.length; i++) {
+		suites[i].run();
+	}
 	
+};
+
 		
