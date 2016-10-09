@@ -316,24 +316,10 @@ public class Change {
 
         @Override
         protected void ensureValidValue(List<RelationMember> value) {
-            if (value == null) return;
-            Assert.assertArg(value instanceof List<?>,
-                    "Expected a list of members, got {0}", value);
-            try {
-                for(Object o: newValue) {
-                    if (o == null) continue;
-                    // just try to convert to a member
-                    RelationMember member = (RelationMember)o;
-                }
-            } catch(ClassCastException e) {
-                Assert.assertArg(false,
-                        "Got an illegal member list or an illegal member, "
-                        + "exception is {0}",e);
-            }
+            // do nothing
         }
 
         public MemberChange(List<RelationMember> newValue) {
-            ensureValidValue(newValue);
             if (newValue != null) {
                 newValue.remove(null);
                 this.newValue = newValue;
