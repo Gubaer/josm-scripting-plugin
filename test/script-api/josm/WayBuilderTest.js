@@ -170,7 +170,7 @@ suites.push(tu.suite(
 ));
 
 suites.push(tu.suite("forDataSet test cases",
-    test("create with defined dataset", function() {
+    test("forDataSet - static scope", function() {
         var ds = new org.openstreetmap.josm.data.osm.DataSet();
         var wb = require("josm/builder").WayBuilder.forDataSet(ds);
         var w = wb.create();
@@ -179,7 +179,17 @@ suites.push(tu.suite("forDataSet test cases",
             ds,
             w.getDataSet()
         );
+    }),
+    test("forDataSet - instance scope", function() {
+        var ds = new org.openstreetmap.josm.data.osm.DataSet();
+        var w = wb.withId(1).forDataSet(ds).create();
+        util.assert(w.getDataSet() === ds,
+            "way should belong to the dataset {0}, actually is {1}",
+            ds,
+            w.getDataSet()
+        );
     })
+
 ));
 
 exports.run = function() {

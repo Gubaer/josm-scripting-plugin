@@ -569,11 +569,17 @@ exports.WayBuilder = function(ds) {
  * <p>Creates a new WayBuilder with an underlying dataset.</p>
  *
  * @example
+ * var WayBuilder = require("josm/builder").WayBuilder;
  * var ds = new org.openstreetmap.josm.data.osm.DataSet();
- * var wbuilder = require("josm/builder").WayBuilder.forDataSet(ds);
+ * 
+ * var wbuilder = WayBuilder.forDataSet(ds);
  *
  * // creates a new local way and assigns it to the dataset 'ds'
  * var w = wbuilder.create();
+ * 
+ * // creates a new way with id '1234' in a dataset 
+ * var ds = new org.openstreetmap.josm.data.osm.DataSet();
+ * var wbuilder = WayBuilder.withId(1234).forDataSet(ds).create();
  *
  * @memberOf WayBuilder
  * @method
@@ -582,12 +588,17 @@ exports.WayBuilder = function(ds) {
  * @type WayBuilder
  * @summary Creates a new WayBuilder with an underlying dataset.
  */
-exports.WayBuilder.forDataSet = function(ds) {
+function forDataSet(ds) {
+	var builder = receiver(this);
     util.assert(util.isSomething(ds),
         "Expected a non-null defined object, got {0}", ds);
     util.assert(ds instanceof DataSet, "Expected a JOSM dataset, got {0}", ds);
-    return new exports.WayBuilder(ds);
+    builder.ds = ds;
+    return builder;
 };
+exports.WayBuilder.prototype.forDataSet = forDataSet;
+exports.WayBuilder.forDataSet = forDataSet;
+
 
 /**
  * <p>Declares the global way id and the global way version.</p>
