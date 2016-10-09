@@ -6,7 +6,9 @@ var wb = require("josm/builder").WayBuilder;
 var nb = require("josm/builder").NodeBuilder;
 var DataSet = org.openstreetmap.josm.data.osm.DataSet;
 
-var suite = tu.suite(
+var suites = [];
+
+suites.push(tu.suite(
 	test("way - property 'id' - read", function() {
 		var w = wb.create(1234);
 		util.assert(w.id === 1234, "unexpected id");
@@ -113,6 +115,10 @@ var suite = tu.suite(
 		util.assert(w.length == 1, "7 - lenght should be 1");
 		util.assert(w[0].id == n2.id, "8 - wrong id");
 	})		
-);
+));
 
-suite.run();
+exports.run = function() {
+    for (var i=0; i<suites.length; i++) {
+        suites[i].run();
+    }
+};
