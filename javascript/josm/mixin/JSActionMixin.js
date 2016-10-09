@@ -309,10 +309,10 @@ function afterFromOptions(options) {
  * var JSAction = require("josm/ui/menu").JSAction;
  * var action = new JSAction({name: "My Action", toolbarId: "myaction"});
  *
- * // at the action after the "open" action in the toolbar
+ * // add the action after the "open" action in the toolbar
  * action.addToToolbar({after: "open"});
  *
- * // at the action at the end of the toolbar
+ * // add the action at the end of the toolbar
  * action.addToToolbar({at: "end"});
  *
  * @method
@@ -333,7 +333,7 @@ mixin.addToToolbar = function(options) {
     }
 
     Main.toolbar.register(this);
-    toolbarId = this.getValue("toolbar");
+    var toolbarId = this.getValue("toolbarId");
     var toolbarPrefs = new ArrayList(
         Main.pref.getCollection("toolbar",new ArrayList()));
 
