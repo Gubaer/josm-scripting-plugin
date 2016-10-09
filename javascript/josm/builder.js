@@ -888,7 +888,17 @@ function create() {
     if (builder.nodes && builder.nodes.length > 0) {
         way.setNodes(builder.nodes);
     }
-    if (builder.ds) builder.ds.addPrimitive(way);
+    if (builder.ds) {
+        if (builder.ds.getPrimitiveById(way) == null) {
+            builder.ds.addPrimitive(way);
+        } else {
+            throw new Error(
+                "Failed to add primitive, primitive already included "
+                    + "in dataset. \n"
+                    + "primitive=" + way
+            );
+        }
+    }
     return way;
 }
 exports.WayBuilder.create = create;
@@ -1321,7 +1331,9 @@ function create() {
     if (builder.members && builder.members.length > 0) {
         relation.setMembers(builder.members);
     }
-    if (builder.ds) builder.ds.addPrimitive(relation);
+    if (builder.ds.getPrimitiveById(relation) == null) {
+        builder.ds.addPrimitive(relation);
+    }
     return relation;
 }
 exports.RelationBuilder.create = create;

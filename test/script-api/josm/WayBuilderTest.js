@@ -169,6 +169,19 @@ suites.push(tu.suite(
     })
 ));
 
+suites.push(tu.suite("forDataSet test cases",
+    test("create with defined dataset", function() {
+        var ds = new org.openstreetmap.josm.data.osm.DataSet();
+        var wb = require("josm/builder").WayBuilder.forDataSet(ds);
+        var w = wb.create();
+        util.assert(w.getDataSet() === ds,
+            "way should belong to the dataset {0}, actually is {1}",
+            ds,
+            w.getDataSet()
+        );
+    })
+));
+
 exports.run = function() {
     for (var i=0; i<suites.length; i++) {
         suites[i].run();
