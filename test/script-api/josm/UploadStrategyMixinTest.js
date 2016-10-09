@@ -2,7 +2,9 @@ var tu = require("josm/unittest");
 var util = require("josm/util");
 var UploadStrategy = org.openstreetmap.josm.gui.io.UploadStrategy; 
 
-tu.suite("from()",
+var suites = [];
+
+suites.push(tu.suite("from()",
 	tu.test("with valid enumeration value", function() {
 		var strategy = UploadStrategy.from(UploadStrategy.INDIVIDUAL_OBJECTS_STRATEGY);
 		util.assert(strategy == UploadStrategy.INDIVIDUAL_OBJECTS_STRATEGY, "unexpected result");
@@ -64,9 +66,9 @@ tu.suite("from()",
 			strategy = UploadStrategy.from({});
 		});
 	})
-).run();
+));
 
-tu.suite("is()",
+suites.push(tu.suite("is()",
 	tu.test("test  enumeration value", function() {
 		var strategy = UploadStrategy.INDIVIDUAL_OBJECTS_STRATEGY;			
 		util.assert(strategy.is(UploadStrategy.INDIVIDUAL_OBJECTS_STRATEGY), "should be true");
@@ -87,6 +89,11 @@ tu.suite("is()",
 		util.assert(!strategy.is(undefined), "2 - should be false");
 		util.assert(!strategy.is({}),        "3 - should be false");
 	})
-).run();
-	
+));
+
+exports.run = function() {
+    for (var i=0; i<suites.length; i++) {
+        suites[i].run();
+    }
+};
 	
