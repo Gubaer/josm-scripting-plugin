@@ -226,8 +226,8 @@ suites.push(tu.suite(
     /* ---------------------------------------------------------------------- */
     test("selection - get the selection wrapper", function() {
         var ds = new DataSet();
-        util.assert(util.isSomething(ds.selection), "
-            selection object not found");
+        util.assert(util.isSomething(ds.selection), 
+        	"selection object not found");
     }),
     test("selection - select a single primitive", function() {
         var ds = new DataSet();
