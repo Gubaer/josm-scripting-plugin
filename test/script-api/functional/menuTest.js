@@ -101,6 +101,7 @@ action.onUpdateEnabled = onUpdateEnabled;
 
 //--------------- tests for adding the action to a menu  -----------------
 // add the action to the menu
+action.name = "My Action";
 action.addToMenu(josm.menu.get("edit"));
 
 //--------------- tests for adding the action to the toolbar --------------
