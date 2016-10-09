@@ -151,8 +151,8 @@ suites.push(tu.suite("NodeBuilder test cases",
         util.assert(node.id == 5, "Expected id {0}, got {1}", 5, node.id);
         util.assert(node.version == undefined,
             "Expected undefined version, got {0}", node.version);
-        util.assert(node.isIncomplete, 
-        	"Expected node is incomplete, got {0}", node.isIncomplete);
+        util.assert(node.isIncomplete,
+            "Expected node is incomplete, got {0}", node.isIncomplete);
     }),
 
     test("proxy node - no id", function() {
@@ -236,6 +236,19 @@ suites.push(tu.suite("NodeBuilder test cases",
         tu.expectAssertionError("create - version - not a number", function() {
             var n = nb.create({id: 1, version: "not a number"});
         });
+    })
+));
+
+suites.push(tu.suite("forDataSet test cases",
+    test("create with defined dataset", function() {
+        var ds = new org.openstreetmap.josm.data.osm.DataSet();
+        var nb = require("josm/builder").NodeBuilder.forDataSet(ds);
+        var n = nb.create();
+        util.assert(n.getDataSet() === ds,
+            "node should belong to the dataset {0}, actually is {1}",
+            ds,
+            n.getDataSet()
+        );
     })
 ));
 
