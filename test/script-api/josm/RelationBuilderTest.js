@@ -11,8 +11,9 @@ var Node     = org.openstreetmap.josm.data.osm.Node;
 var ArrayList = java.util.ArrayList;
 var out = java.lang.System.out;
 
+var suites = [];
 
-tu.suite("builder method 'member'",
+suites.push(tu.suite("builder method 'member'",
 		
 	test("member - with a node, a way or a relation ", function() {
 		var node = nb.create();
@@ -76,11 +77,10 @@ tu.suite("builder method 'member'",
 			var rm = rb.member("role", nb.create(), "a string");
 		});
 	})
-).run();
+));
 
 
-
-tu.suite("simple local, global and proxy relation ",
+suites.push(tu.suite("simple local, global and proxy relation ",
 	test("local relation - most simple relation", function() {
 		var relation = rb.create();
 		util.assert(relation instanceof Relation, "expected a relation");
@@ -98,11 +98,11 @@ tu.suite("simple local, global and proxy relation ",
 		var relation = rb.createProxy(12345);
 		util.assert(util.isSomething(relation), "expected a relation object");		
 		util.assert(relation.getUniqueId() == 12345, "id should be 12345");
-		util.assert(relation.isIncomplete(), "should be incomplete");
+		util.assert(relation.isIncomplete, "should be incomplete");
 	})
-).run();
+));
 
-tu.suite("using withId(...) to create a relation",
+suites.push(tu.suite("using withId(...) to create a relation",
 	test("withId(id)", function() {
 		var relation = rb.withId(12345).create();
 		util.assert(util.isSomething(relation), "expected a relation object");		
@@ -151,9 +151,9 @@ tu.suite("using withId(...) to create a relation",
 			rb.withId(12345, "1").create();
 		});
 	})
-).run();
+));
 
-tu.suite("using withTags()",
+suites.push(tu.suite("using withTags()",
 	test("tage type=route", function() {
 		var r = rb.withTags({type:'route'}).create();
 		util.assert(r.getUniqueId() < 0, "unexpected id");
@@ -192,9 +192,9 @@ tu.suite("using withTags()",
 		var r = rb.withTags({'type':2}).create();
 		util.assert(r.get('type') == "2", "tag should be converted to a string, value is <{0}>, type is {1}", r.get('type'), typeof r.get('type'));
 	})
-).run();
+));
 
-tu.suite("using withMembers ",
+suites.push(tu.suite("using withMembers ",
 	test("one member - explicit member object", function() {	
 		var node = nb.create();
 		var r = rb.withMembers(rb.member('myrole', node)).create();
@@ -289,10 +289,10 @@ tu.suite("using withMembers ",
 		util.assert(r.getMembersCount() == 0, "3 - unexpected number of members");
 	})
 
-).run();
+));
 
 
-tu.suite("using create(...) with optional arguments",
+suites.push(tu.suite("using create(...) with optional arguments",
 	test("setting {version: ..}", function() {	
 		var r = rb.create(12345, {version: 9});
 		util.assert(r instanceof Relation, "expected a relation");
@@ -356,5 +356,11 @@ tu.suite("using create(...) with optional arguments",
 		r = rb.create(12345, undefined);
 		util.assert(r instanceof Relation, "2 - expected a relation");		
 	})
-).run();		
+));
+
+exports.run = function() {
+    for (var i=0; i<suites.length; i++) {
+        suites[i].run();
+    }
+};
 	
