@@ -1,5 +1,7 @@
 (function() {
 
+var util = require("josm/util");
+
 /**
  * <p>Provides a collection of namespaces, classes and functions to work with
  * JOSMs menu system.</p>
