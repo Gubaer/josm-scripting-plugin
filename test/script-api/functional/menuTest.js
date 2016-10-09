@@ -79,10 +79,12 @@ action.onInitEnabled = onInitEnabled;
 //--------------- tests for property 'onUpdateEnabled' -----------------
 function onUpdateEnabled(selection) {
 	if (selection) {
-		util.println("Action ''{0}'': Update enabled state - selection has changed", this.name);
+		util.println("Action ''{0}'': Update enabled state - "
+			+ "selection has changed", this.name);
 		this.enabled = !selection.isEmpty();
 	} else {
-		util.println("Action ''{0}'': Update enabled state - layers have changed", this.name);
+		util.println("Action ''{0}'': Update enabled state - "
+			+ "layers have changed", this.name);
 		this.enabled = true;
 	}
 };
