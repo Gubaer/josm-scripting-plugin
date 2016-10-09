@@ -32,7 +32,8 @@ suites.push(tu.suite("builder method 'member'",
 		util.assert(rm.getMember() == relation, "unexpected member (relation)");
 	}),
 
-	test("member - with a node - null or undefined not supported ", function() {
+	test("member - with a node - null or undefined not supported ", 
+		function() {
 		tu.expectAssertionError(function() {
 			var rm = rb.member(null);
 		});
@@ -51,11 +52,13 @@ suites.push(tu.suite("builder method 'member'",
 	test("member - with a role and a node", function() {
 		var node = nb.create();
 		var rm = rb.member("myrole", node);		
-		util.assert(rm.getRole() == "myrole", "unexpected role, got {0}", rm.getRole());		
+		util.assert(rm.getRole() == "myrole", 
+			"unexpected role, got {0}", rm.getRole());		
 		util.assert(rm.getMember() == node, "unexpected member");
 	}),
 
-	test("member - with a role and a node - role can be null or undefined", function() {
+	test("member - with a role and a node - role can be null or undefined", 
+		function() {
 		var node = nb.create();
 		var rm = rb.member(null, node);		
 		util.assert(rm.getRole() == "", "unexpected role");		
@@ -175,7 +178,9 @@ suites.push(tu.suite("using withTags()",
 	test("tag key is normalized, tag value is not not normalized", function() {
 		var r = rb.withTags({' type ':' route '}).create();
 		util.assert(r.hasKey('type'), "should have normalized tag key 'type'");
-		util.assert(r.get('type') == ' route ', "tag value should not be normalized, value is <{0}>", r.get('type'));
+		util.assert(r.get('type') == ' route ', 
+			"tag value should not be normalized, value is <{0}>", 
+			r.get('type'));
 	}),
 	
 	test("null tags are ignored", function() {
@@ -190,7 +195,9 @@ suites.push(tu.suite("using withTags()",
 
 	test("tag values are converted to a string", function() {
 		var r = rb.withTags({'type':2}).create();
-		util.assert(r.get('type') == "2", "tag should be converted to a string, value is <{0}>, type is {1}", r.get('type'), typeof r.get('type'));
+		util.assert(r.get('type') == "2", 
+			"tag should be converted to a string, value is <{0}>, type is {1}", 
+			r.get('type'), typeof r.get('type'));
 	})
 ));
 
@@ -218,7 +225,8 @@ suites.push(tu.suite("using withMembers ",
 		var w = wb.create();
 		var r = rb.create();
 		var relation = rb.withMembers(n, rb.member("role.1", w), r).create();
-		util.assert(relation.getMembersCount() == 3, "unexpected number of members");
+		util.assert(relation.getMembersCount() == 3, 
+			"unexpected number of members");
 		var rm = relation.getMember(0);
 		util.assert(rm.getRole() == "", "unexpected role for node");
 		util.assert(rm.getMember() == n, "unexpected member node");
@@ -238,7 +246,8 @@ suites.push(tu.suite("using withMembers ",
 		var w = wb.create();
 		var r = rb.create();
 		var relation = rb.withMembers([n, rb.member("role.1", w), r]).create();
-		util.assert(relation.getMembersCount() == 3, "unexpected number of members");
+		util.assert(relation.getMembersCount() == 3, 
+			"unexpected number of members");
 		var rm = relation.getMember(0);
 		util.assert(rm.getRole() == "", "unexpected role for node");
 		util.assert(rm.getMember() == n, "unexpected member node");
@@ -262,7 +271,8 @@ suites.push(tu.suite("using withMembers ",
 		list.add(rb.member("role.1",w));
 		list.add(r);
 		var relation = rb.withMembers(list).create();
-		util.assert(relation.getMembersCount() == 3, "unexpected number of members");
+		util.assert(relation.getMembersCount() == 3, 
+			"unexpected number of members");
 		var rm = relation.getMember(0);
 		util.assert(rm.getRole() == "", "unexpected role for node");
 		util.assert(rm.getMember() == n, "unexpected member node");
@@ -280,13 +290,16 @@ suites.push(tu.suite("using withMembers ",
 	test("null and undefined members should be ignored", function() {	
 
 		var r = rb.withMembers(null).create();
-		util.assert(r.getMembersCount() == 0, "1 - unexpected number of members");
+		util.assert(r.getMembersCount() == 0, 
+			"1 - unexpected number of members");
 		
 		r = rb.withMembers(undefined).create();
-		util.assert(r.getMembersCount() == 0, "2 - unexpected number of members");
+		util.assert(r.getMembersCount() == 0, 
+			"2 - unexpected number of members");
 		
 		r = rb.withMembers([null, undefined]).create();
-		util.assert(r.getMembersCount() == 0, "3 - unexpected number of members");
+		util.assert(r.getMembersCount() == 0, 
+			"3 - unexpected number of members");
 	})
 
 ));
@@ -296,7 +309,8 @@ suites.push(tu.suite("using create(...) with optional arguments",
 	test("setting {version: ..}", function() {	
 		var r = rb.create(12345, {version: 9});
 		util.assert(r instanceof Relation, "expected a relation");
-		util.assert(r.getVersion() == 9, "expected version 9, got {0}", r.getVersion());
+		util.assert(r.getVersion() == 9, 
+			"expected version 9, got {0}", r.getVersion());
 		
 		tu.expectAssertionError("version must not be null", function() {
 				var r = rb.create(12345, {version: null});
@@ -330,7 +344,8 @@ suites.push(tu.suite("using create(...) with optional arguments",
 		
 		r = rb.create(12345, {tags: {' type ': ' route '}});		
 		util.assert(r.hasKey('type'), "should have normalized key 'type'");
-		util.assert(r.get('type') == ' route ', "value should not be normalized, got {0}", r.get('type'));		
+		util.assert(r.get('type') == ' route ', 
+			"value should not be normalized, got {0}", r.get('type'));		
 	}),
 	
 	test("setting {members: ..}", function() {	
@@ -340,13 +355,16 @@ suites.push(tu.suite("using create(...) with optional arguments",
 		util.assert(r instanceof Relation, "expected a relation");
 		util.assert(r.getMembersCount() == 1, "1- unexpected number of members");
 		util.assert(r.getMember(0).getRole() == 'role.1', "unexpected role");
-		util.assert(r.getMember(0).getMember() instanceof Node, "unexpected type of member object");
+		util.assert(r.getMember(0).getMember() instanceof Node, 
+			"unexpected type of member object");
 		
 		// null and undefined are OK 
 		r = rb.create(12345, {members: null});
-		util.assert(r.getMembersCount() == 0, "2 - unexpected number of members");
+		util.assert(r.getMembersCount() == 0, 
+			"2 - unexpected number of members");
 		r = rb.create(12345, {members: undefined});
-		util.assert(r.getMembersCount() == 0, "3 - unexpected number of members");	
+		util.assert(r.getMembersCount() == 0, 
+			"3 - unexpected number of members");	
 	}),
 	
 	test("optional arguments may be null or undefined", function() {	
