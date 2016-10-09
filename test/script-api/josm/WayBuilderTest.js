@@ -7,7 +7,9 @@ var nb = require("josm/builder").NodeBuilder;
 var DataSet = org.openstreetmap.josm.data.osm.DataSet;
 var ArrayList = java.util.ArrayList;
 
-tu.suite(
+var suites = [];
+
+suites.push(tu.suite(
 	// -- with nodes 
 	test("local way - most simple way", function() {
 		var way = wb.create();
@@ -161,4 +163,10 @@ tu.suite(
 			var way = wb.create(1, {nodes: "node 1"});  
 		})		  
 	})
-).run();
+));
+
+exports.run = function() {
+    for (var i=0; i<suites.length; i++) {
+        suites[i].run();
+    }
+};
