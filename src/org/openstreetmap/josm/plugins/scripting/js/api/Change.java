@@ -44,9 +44,7 @@ public class Change {
         public abstract void apply(OsmPrimitive primitive);
         public abstract String explain(OsmPrimitive primitive);
 
-        protected abstract void ensureValidValue(T value);
         protected abstract void ensureApplicable(OsmPrimitive primitive);
-
 
         public T getNewValue() {
             return newValue;
@@ -78,19 +76,10 @@ public class Change {
             return "lat=" + LatLon.cDdFormatter.format(lat);
         }
 
-        @Override
-        protected void ensureValidValue(Number value) {
-            Assert.assertArg(value != null
-                    ,"lat must not be null");
-            Assert.assertArg(value instanceof Number,
-                    "lat must be a number, got {0}", value);
-            double lat = ((Number)value).doubleValue();
-            Assert.assertArg(LatLon.isValidLat(lat),
-                    "Expected a valid lat, got {0}", lat);
-        }
-
-        public LatChange(Number newValue) {
-            ensureValidValue(newValue);
+        public LatChange(@NotNull Number newValue) {
+            Objects.requireNonNull(newValue);
+            Assert.assertArg(LatLon.isValidLat(newValue.doubleValue()),
+                    "Expected a valid lat, got {0}", newValue);
             this.newValue = newValue;
         }
     }
@@ -120,18 +109,10 @@ public class Change {
             return "lon=" + LatLon.cDdFormatter.format(lon);
         }
 
-        @Override
-        protected void ensureValidValue(Number value) {
-            Assert.assertArg(value != null,"lon must not be null");
-            Assert.assertArg(value instanceof Number,
-                    "lon must be a number, got {0}", value);
-            double lon = value.doubleValue();
-            Assert.assertArg(LatLon.isValidLon(lon),
-                    "Expected a valid lon, got {0}", lon);
-        }
-
-        public LonChange(Number newValue) {
-            ensureValidValue(newValue);
+        public LonChange(@NotNull Number newValue) {
+            Objects.requireNonNull(newValue);
+            Assert.assertArg(LatLon.isValidLon(newValue.doubleValue()),
+                    "Expected a valid lat, got {0}", newValue);
             this.newValue = newValue;
         }
     }
@@ -158,15 +139,8 @@ public class Change {
                     LatLon.cDdFormatter.format(newValue.lon()));
         }
 
-        @Override
-        protected void ensureValidValue(@NotNull LatLon value) {
-            Objects.requireNonNull(value);
-            Assert.assertArg(value instanceof LatLon,
-                    "Expected a LatLon, got {0}", value);
-        }
-
-        public PosChange(LatLon newValue) {
-            ensureValidValue(newValue);
+        public PosChange(@NotNull LatLon newValue) {
+            Objects.requireNonNull(newValue);
             this.newValue = newValue;
         }
     }
@@ -210,13 +184,7 @@ public class Change {
         }
 
         public TagsChange(Map<String,String> newValue) {
-            ensureValidValue(newValue);
             this.newValue = newValue;
-        }
-
-        @Override
-        protected void ensureValidValue(Map<String, String> value) {
-            /* do nothing */
         }
     }
 
@@ -249,28 +217,7 @@ public class Change {
             return sb.toString();
         }
 
-        @Override
-        protected void ensureValidValue(List<Node> value) {
-            if (value == null){
-                return;
-            } else {
-                Assert.assertArg(value instanceof List<?>,
-                        "Expected a list of nodes, got {0}", value);
-                try {
-                    for(Object o: value) {
-                        if (o == null) continue;
-                        Node node = (Node)o; // just try to convert to a node
-                    }
-                } catch(ClassCastException e) {
-                    Assert.assertArg(false,
-                            "Got an illegal node list or an illegal element in "
-                            + "node list, exception is {0}",e);
-                }
-            }
-        }
-
         public NodesChange(List<Node> newValue) {
-            ensureValidValue(newValue);
             if (newValue == null){
                 this.newValue = null;
             } else {
@@ -312,11 +259,6 @@ public class Change {
             }
             sb.append("]");
             return sb.toString();
-        }
-
-        @Override
-        protected void ensureValidValue(List<RelationMember> value) {
-            // do nothing
         }
 
         public MemberChange(List<RelationMember> newValue) {
