@@ -40,29 +40,35 @@ var suites = [];
 
 suites.push(tu.suite(
 		
-	/* ------------------------------------------------------------------------------------ */
+	/* ---------------------------------------------------------------------- */
 	/* add */
-	/* ------------------------------------------------------------------------------------ */
+	/* ---------------------------------------------------------------------- */
 		
 	test("add - add a node", function() {
 		var n = newNode();
 		var ds = new DataSet();
 		ds.add(n);
-		util.assert(ds.getNodes().size() == 1, "Expected exactly one node in dataset, got {0}", ds.getNodes().size());		
+		util.assert(ds.getNodes().size() == 1, 
+			"Expected exactly one node in dataset, got {0}", 
+			ds.getNodes().size());		
 	}),
 	test("add - add two nodes", function() {
 		var n1 = newNode();
 		var n2 = newNode();
 		var ds = new DataSet();
 		ds.add(n1,n2);
-		util.assert(ds.getNodes().size() == 2, "Expected exactly two nodes in dataset, got {0}", ds.getNodes().size());		
+		util.assert(ds.getNodes().size() == 2, 
+			"Expected exactly two nodes in dataset, got {0}", 
+			ds.getNodes().size());		
 	}),
 	test("add - add an array of nodes", function() {
 		var n1 = newNode();
 		var n2 = newNode();
 		var ds = new DataSet();
 		ds.add([n1,n2]);
-		util.assert(ds.getNodes().size() == 2, "Expected exactly two nodes in dataset, got {0}", ds.getNodes().size());		
+		util.assert(ds.getNodes().size() == 2, 
+			"Expected exactly two nodes in dataset, got {0}", 
+			ds.getNodes().size());		
 	}),
 	test("add - add a list of nodes", function() {
 		var n1 = newNode();
@@ -71,17 +77,23 @@ suites.push(tu.suite(
 		l.add(n1); l.add(n2);
 		var ds = new DataSet();
 		ds.add(l);
-		util.assert(ds.getNodes().size() == 2, "Expected exactly two nodes in dataset, got {0}", ds.getNodes().size());		
+		util.assert(ds.getNodes().size() == 2, 
+			"Expected exactly two nodes in dataset, got {0}", 
+			ds.getNodes().size());		
 	}),
 	test("add - add null (should be skipped)", function() {
 		var ds = new DataSet();
 		ds.add(null);
-		util.assert(ds.getNodes().size() == 0, "Expected no nodes in dataset, got {0}", ds.getNodes().size());		
+		util.assert(ds.getNodes().size() == 0, 
+			"Expected no nodes in dataset, got {0}", 
+			ds.getNodes().size());		
 	}),
 	test("add - add undefined (should be skipped)", function() {
 		var ds = new DataSet();
 		ds.add(undefined);
-		util.assert(ds.getNodes().size() == 0, "Expected no nodes in dataset, got {0}", ds.getNodes().size());		
+		util.assert(ds.getNodes().size() == 0, 
+			"Expected no nodes in dataset, got {0}", 
+			ds.getNodes().size());		
 	}),
 	test("add - add undefined (should be skipped)", function() {
 		var ds = new DataSet();
@@ -90,9 +102,9 @@ suites.push(tu.suite(
 		});
 	}),
 	
-	/* ------------------------------------------------------------------------------------ */
+	/* ---------------------------------------------------------------------- */
 	/* get */
-	/* ------------------------------------------------------------------------------------ */
+	/* ---------------------------------------------------------------------- */
 
 	test("get - get a node by id", function() {
 		var n = new Node(1);
@@ -136,9 +148,9 @@ suites.push(tu.suite(
 		util.assert(nn == undefined, "Node shouldn't be defined");
 	}),
 	
-	/* ------------------------------------------------------------------------------------ */
+	/* ---------------------------------------------------------------------- */
 	/* remove  */
-	/* ------------------------------------------------------------------------------------ */
+	/* ---------------------------------------------------------------------- */
 	test("remove - remove a node by id", function() {
 		var n = new Node(1);
 		n.setCoor(new LatLon(0,0));
@@ -183,19 +195,20 @@ suites.push(tu.suite(
 		util.assert(ds.getNodes().size() == 0, "dataset should be empty");		
 	}),
 	
-	/* ------------------------------------------------------------------------------------ */
+	/* ---------------------------------------------------------------------- */
 	/* nodeBuilder  */
-	/* ------------------------------------------------------------------------------------ */
+	/* ---------------------------------------------------------------------- */
 	test("nodeBuilder - create it", function() {
 		var ds = new DataSet();
 		var nb = ds.nodeBuilder;
 		nb.create();
-		util.assert(ds.getNodes().size() == 1, "Expected 1 node in dataset, got {0}", ds.getNodes().size());		
+		util.assert(ds.getNodes().size() == 1, 
+			"Expected 1 node in dataset, got {0}", ds.getNodes().size());		
 	}),
 	
-	/* ------------------------------------------------------------------------------------ */
+	/* ---------------------------------------------------------------------- */
 	/* each  */
-	/* ------------------------------------------------------------------------------------ */
+	/* ---------------------------------------------------------------------- */
 	test("each - counting primitives", function() {
 		var n1 = newNode();
 		var n2 = newNode();
@@ -208,12 +221,13 @@ suites.push(tu.suite(
 		util.assert(count == 2);		
 	}),
 	
-	/* ------------------------------------------------------------------------------------ */
+	/* ---------------------------------------------------------------------- */
 	/* selection  */
-	/* ------------------------------------------------------------------------------------ */
+	/* ---------------------------------------------------------------------- */
 	test("selection - get the selection wrapper", function() {
 		var ds = new DataSet();
-		util.assert(util.isSomething(ds.selection), "selection object not found");		
+		util.assert(util.isSomething(ds.selection), "
+			selection object not found");		
 	}),
 	test("selection - select a single primitive", function() {
 		var ds = new DataSet();
@@ -236,30 +250,36 @@ suites.push(tu.suite(
 		}
 		util.assert(allSelected, "at least one node isn't selected");
 	}),	
-	test("selection - sequence of add, remove, set, toggle, and clear", function() {
+	test("selection - sequence of add, remove, set, toggle, and clear", 
+		function() {
 		var ds = new DataSet();
 		var n1 = newNode();
 		ds.add(n1);
 		ds.selection.add(n1);
 		util.assert(ds.selection.isSelected(n1), "node should be selected");
 		ds.selection.clear(n1);
-		util.assert(!ds.selection.isSelected(n1), "node should not be selected (1)");
+		util.assert(!ds.selection.isSelected(n1), 
+			"node should not be selected (1)");
 		ds.selection.set(n1);
 		util.assert(ds.selection.isSelected(n1), "node should be selected");
 		ds.selection.toggle(n1);
-		util.assert(!ds.selection.isSelected(n1), "node should not be selected (2)");
+		util.assert(!ds.selection.isSelected(n1), 
+			"node should not be selected (2)");
 		ds.selection.toggle(n1);
 		util.assert(ds.selection.isSelected(n1), "node should be selected");
 		ds.selection.clear(n1);
-		util.assert(!ds.selection.isSelected(n1), "node should not be selected (3)");
+		util.assert(!ds.selection.isSelected(n1), 
+			"node should not be selected (3)");
 	}),
 	test("selection - access the list of selected nodes", function() {
 		var ds = new DataSet();
 		var n1 = newNode();
 		ds.add(n1);	
-		util.assert(ds.selection.nodes.length == 0, "expecting no selected node");
+		util.assert(ds.selection.nodes.length == 0, 
+			"expecting no selected node");
 		ds.selection.set(n1);
-		util.assert(ds.selection.nodes.length == 1, "expecting one selected node");
+		util.assert(ds.selection.nodes.length == 1, 
+			"expecting one selected node");
 		util.assert(ds.selection.nodes[0] == n1, "expected n1, got {0}", n1);
 	})
 ));
