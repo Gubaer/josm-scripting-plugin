@@ -6,34 +6,43 @@ var suites = [];
 
 suites.push(tu.suite("from()",
 	tu.test("with valid enumeration value", function() {
-		var strategy = UploadStrategy.from(UploadStrategy.INDIVIDUAL_OBJECTS_STRATEGY);
-		util.assert(strategy == UploadStrategy.INDIVIDUAL_OBJECTS_STRATEGY, "unexpected result");
+		var strategy = UploadStrategy.from(
+			UploadStrategy.INDIVIDUAL_OBJECTS_STRATEGY);
+		util.assert(strategy == UploadStrategy.INDIVIDUAL_OBJECTS_STRATEGY, 
+			"unexpected result");
 	}),
 	
 	tu.test("with a valid string", function() {
 		var strategy;
 		strategy = UploadStrategy.from("individualobjects");
-		util.assert(strategy == UploadStrategy.INDIVIDUAL_OBJECTS_STRATEGY, "1 - unexpected result");
+		util.assert(strategy == UploadStrategy.INDIVIDUAL_OBJECTS_STRATEGY, 
+			"1 - unexpected result");
 		
 		strategy = UploadStrategy.from("chunked");
-		util.assert(strategy == UploadStrategy.CHUNKED_DATASET_STRATEGY, "2 - unexpected result");
+		util.assert(strategy == UploadStrategy.CHUNKED_DATASET_STRATEGY, 
+			"2 - unexpected result");
 		
 		strategy = UploadStrategy.from("singlerequest");
-		util.assert(strategy == UploadStrategy.SINGLE_REQUEST_STRATEGY, "3 - unexpected result");
+		util.assert(strategy == UploadStrategy.SINGLE_REQUEST_STRATEGY, 
+			"3 - unexpected result");
 		
 		// leading, trailing whitespace - case insensitive 
 		strategy = UploadStrategy.from("  IndiviDualobjects  ");
-		util.assert(strategy == UploadStrategy.INDIVIDUAL_OBJECTS_STRATEGY, "4 - unexpected result");
+		util.assert(strategy == UploadStrategy.INDIVIDUAL_OBJECTS_STRATEGY, 
+			"4 - unexpected result");
 		
 		// prefix
 		strategy = UploadStrategy.from("indiv");
-		util.assert(strategy == UploadStrategy.INDIVIDUAL_OBJECTS_STRATEGY, "5 - unexpected result");
+		util.assert(strategy == UploadStrategy.INDIVIDUAL_OBJECTS_STRATEGY, 
+			"5 - unexpected result");
 		
 		strategy = UploadStrategy.from("c");
-		util.assert(strategy == UploadStrategy.CHUNKED_DATASET_STRATEGY, "6 - unexpected result");
+		util.assert(strategy == UploadStrategy.CHUNKED_DATASET_STRATEGY, 
+			"6 - unexpected result");
 		
 		strategy = UploadStrategy.from("single");
-		util.assert(strategy == UploadStrategy.SINGLE_REQUEST_STRATEGY, "7 - unexpected result");
+		util.assert(strategy == UploadStrategy.SINGLE_REQUEST_STRATEGY, 
+			"7 - unexpected result");
 	}),
 	
 	tu.test("with null or undefined", function() {
@@ -71,8 +80,10 @@ suites.push(tu.suite("from()",
 suites.push(tu.suite("is()",
 	tu.test("test  enumeration value", function() {
 		var strategy = UploadStrategy.INDIVIDUAL_OBJECTS_STRATEGY;			
-		util.assert(strategy.is(UploadStrategy.INDIVIDUAL_OBJECTS_STRATEGY), "should be true");
-		util.assert(!strategy.is(UploadStrategy.CHUNKED_DATASET_STRATEGY), "should be false");
+		util.assert(strategy.is(UploadStrategy.INDIVIDUAL_OBJECTS_STRATEGY), 
+			"should be true");
+		util.assert(!strategy.is(UploadStrategy.CHUNKED_DATASET_STRATEGY), 
+			"should be false");
 		
 	}),
 	
