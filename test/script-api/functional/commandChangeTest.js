@@ -1,7 +1,7 @@
 /*
  * Functional test for chaning objects with a undoable/reduable command
  * to a data layer.
- * 
+ *
  * Load in the JOSM scripting console and run.
  */
 var command = require("josm/command");
@@ -28,22 +28,22 @@ util.assert(n.lat == 33.33, "3 - unexpected lat");
 util.assert(n.lon == 44.44, "4 - unexpected on");
 
 command.change(n, {
-	lat: 55.55,
-	tags: {
-		name: "myname"
-	}
+    lat: 55.55,
+    tags: {
+        name: "myname"
+    }
 }).applyTo(layer);
 
-// -------------------- changing node list 
+// -------------------- changing node list
 // create and add a new way
 var w = wb.withNodes(nb.create(),nb.create()).create(1234);
 command.add(w.nodes, w).applyTo(layer);
 
-// create and add three nodes 
+// create and add three nodes
 var newnodes =  [nb.create(),nb.create(),nb.create()]
 command.add(newnodes).applyTo(layer);
 
-// change the ways node list 
+// change the ways node list
 command.change(w, {nodes: newnodes}).applyTo(layer);
 
 // -------------------- changing relation members
@@ -56,6 +56,4 @@ command.add(relation).applyTo(layer);
 
 command.change(relation, {members: [member("role.1", n)]}).applyTo(layer);
 util.assert(relation.length == 1, "unexpected number of members");
-
-
 
