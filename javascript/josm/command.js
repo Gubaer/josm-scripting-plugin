@@ -248,8 +248,15 @@ function schedulePosChangeFromPara(para, change) {
 };
 
 function scheduleNodeChangeFromPara(para, change) {
-    if (!para || ! util.isDef(para.nodes)) return;
-    change.withNodeChange(para.nodes);
+    var out = java.lang.System.out;
+	if (!para || ! util.isDef(para.nodes)) return;
+    // convert to a Java List ...
+    var l = new java.util.ArrayList();
+    for (var i=0; i<para.nodes.length; i++) {
+    	l.add(para.nodes[i]);
+    }
+    /// ... and pass it to the change command
+    change.withNodeChange(l);
 };
 
 function scheduleMemberChangeFromPara(para, change) {
