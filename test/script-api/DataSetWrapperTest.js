@@ -36,7 +36,9 @@ function newNode() {
 	return n;
 };
 
-var suite = tu.suite(
+var suites = [];
+
+suites.push(tu.suite(
 		
 	/* ------------------------------------------------------------------------------------ */
 	/* add */
@@ -260,6 +262,11 @@ var suite = tu.suite(
 		util.assert(ds.selection.nodes.length == 1, "expecting one selected node");
 		util.assert(ds.selection.nodes[0] == n1, "expected n1, got {0}", n1);
 	})
-);
+));
 
-suite.run();
+exports.run = function() {
+    for (var i=0; i<suites.length; i++) {
+        suites[i].run();
+    }
+};
+
