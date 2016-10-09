@@ -80,16 +80,47 @@ public class JSAction extends JosmAction {
         initEnabledState();
     }
 
-    final private Function onExecute;
-    final private Function onInitEnabled;
-    final private Function onUpdateEnabled;
+    private Function onExecute;
+    private Function onInitEnabled;
+    private Function onUpdateEnabled;
 
     public Function getOnExecute() {
         return onExecute;
     }
 
+    /**
+     * Sets the JavaScript function to be invoked when the action is
+     * triggered.
+     *
+     * @param onExecute the JavaScript function to be invoked
+     */
+    public void setOnExecute(Function onExecute) {
+        this.onExecute = onExecute;
+    }
+
+    /**
+     * Sets the JavaScript function which is invoked to initialize
+     * the state (enabled/disabled) of this action
+     *
+     * @param onInitEnabled the JavaScript function
+     */
+    public void setOnInitEnabled(Function onInitEnabled) {
+        this.onInitEnabled = onInitEnabled;
+    }
+
     public Function getOnInitEnabled() {
         return onInitEnabled;
+    }
+
+    /**
+     * Sets the JavaScript function which is invoked to update
+     * the state (enabled/disabled) of this action
+     *
+     * @param onInitEnabled the JavaScript function
+     */
+
+    public void setOnUpdateEnabled(Function onUpdateEnabled) {
+        this.onUpdateEnabled = onUpdateEnabled;
     }
 
     public Function getOnUpdateEnabled() {
