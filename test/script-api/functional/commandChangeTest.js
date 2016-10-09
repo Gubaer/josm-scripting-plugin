@@ -13,6 +13,10 @@ var member = require("josm/builder").RelationBuilder.member;
 var util = require("josm/util");
 var layer = josm.layers.addDataLayer();
 
+nb = nb.forDataSet(layer.data);
+wb = wb.forDataSet(layer.data);
+rb = rb.forDataSet(layer.data);
+
 var n = nb.create();
 // add a node to a layer
 command.add(n).applyTo(layer);
