@@ -10,7 +10,9 @@ var Node    = org.openstreetmap.josm.data.osm.Node;
 var Way     = org.openstreetmap.josm.data.osm.Way;
 var ArrayList = java.util.ArrayList;
 
-tu.suite("properties access",
+var suites = [];
+
+suites.push(tu.suite("properties access",
 	test("id - read", function() {
 		var r = rb.create(1234);		
 		util.assert(r.id === 1234, "unexpected id");
@@ -68,9 +70,9 @@ tu.suite("properties access",
 		r.members = [null, nb.create(), rb.member('role.1', nb.create()), undefined, wb.create(12345)];
 		util.assert(r.length == 3, "3  - unexpected number of members");
 	})
-).run();
+));
 
-tu.suite("get and set relation members using [...]",
+suites.push(tu.suite("get and set relation members using [...]",
 	test("get with [..]", function() {
 		var members = [nb.create(), rb.member('role.1', nb.create()), wb.create(12345)];
 		var r = rb.withMembers(members).create(12345);
@@ -113,9 +115,9 @@ tu.suite("get and set relation members using [...]",
 			r[5] = nb.create();
 		});
 	})
-).run();	
+));	
 
-tu.suite("modified flag",
+suites.push(tu.suite("modified flag",
 	test("modify the members list", function() {
 		var members = [nb.create(), rb.member('role.1', nb.create()), wb.create(12345)];		
 		var r = rb.withMembers(members).create(12345);
@@ -133,4 +135,10 @@ tu.suite("modified flag",
 		r.members = [members[0]];	
 		util.assert(r.modified, "5 - should be modified");
 	})
-).run();
+));
+
+exports.run = function() {
+    for (var i=0; i<suites.length; i++) {
+        suites[i].run();
+    }
+};
