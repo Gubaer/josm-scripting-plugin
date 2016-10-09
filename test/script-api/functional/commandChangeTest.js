@@ -57,6 +57,6 @@ command.add(n,w).applyTo(layer);
 var relation = rb.withMembers(n,w).create();
 command.add(relation).applyTo(layer);
 
-//command.change(relation, {members: [member("role.1", n)]}).applyTo(layer);
-//util.assert(relation.length == 1, "unexpected number of members");
+command.change(relation, {members: [member("role.1", n)]}).applyTo(layer);
+util.assert(relation.length == 1, "unexpected number of members");
 

@@ -249,11 +249,11 @@ function schedulePosChangeFromPara(para, change) {
 
 function scheduleNodeChangeFromPara(para, change) {
     var out = java.lang.System.out;
-	if (!para || ! util.isDef(para.nodes)) return;
+    if (!para || ! util.isDef(para.nodes)) return;
     // convert to a Java List ...
     var l = new java.util.ArrayList();
     for (var i=0; i<para.nodes.length; i++) {
-    	l.add(para.nodes[i]);
+        l.add(para.nodes[i]);
     }
     /// ... and pass it to the change command
     change.withNodeChange(l);
@@ -261,7 +261,22 @@ function scheduleNodeChangeFromPara(para, change) {
 
 function scheduleMemberChangeFromPara(para, change) {
     if (!para || ! util.isDef(para.members)) return;
-    change.withMemberChange(para.members);
+    var ArrayList = java.util.ArrayList;
+    var RelationMember  = org.openstreetmap.josm.data.osm.RelationMember;
+    var l = new ArrayList();
+    if (para.members instanceof RelationMember) {
+        l.add(para.members);
+    } else if (para.members instanceof java.util.Collection) {
+        l.addAll(para.members);
+    } else if (util.isArray(para.members)) {
+        for (var i=0; i<para.members.length; i++) {
+            l.add(para.members[i]);
+        }
+    } else {
+        util.assert(false, "Expected RelationMember, array or collection "
+            + "of RelationMembers, got {0}", para.members);
+    }
+    change.withMemberChange(l);
 };
 
 function scheduleTagsChangeFromPara(para, change) {
