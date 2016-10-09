@@ -12,7 +12,8 @@ var ds = layer.data;
 var n1 = ds.nodeBuilder.create(1234);
 var n2 = ds.nodeBuilder.withPosition(3,4).create();
 
-var w1 = ds.wayBuilder.withTags({highway: "residential"}).withNodes(n1,n2).create(777);
+var w1 = ds.wayBuilder.withTags({highway: "residential"}).withNodes(n1,n2)
+    .create(777);
 var r1 = ds.relationBuilder.withMembers(n1,w1).create();
 
 // delete three objects in the layer 
