@@ -60,7 +60,8 @@ suites.push(tu.suite(
 	}),
 	test("local way - with nodes - illegal types of nodes", function() {
 		tu.expectAssertionError(function() {
-			var way = wb.withNodes([nb.create(), "string not allowed"]).create();
+			var way = wb.withNodes([nb.create(), "string not allowed"])
+			        .create();
 		});
 	}),
 	
@@ -87,14 +88,17 @@ suites.push(tu.suite(
 		util.assert(way.id < 0, "id should be negative");
 		util.assert(way.version == undefined, "version should be unknown");
 		util.assert(way.length == 0, "0 nodes expected");
-		util.assert(way.tags.highway == "residential", "highway=residential expected");
+		util.assert(way.tags.highway == "residential", 
+			"highway=residential expected");
 	}),
 	test("create - global id, tags and nodes", function() {
-		var way = wb.create(1234, {nodes: [nb.create(), nb.create()], tags: {highway: "residential"}});
+		var way = wb.create(1234, {nodes: [nb.create(), nb.create()], 
+			tags: {highway: "residential"}});
 		util.assert(way.id == 1234, "id = 1234 expected");
 		util.assert(way.version == 1, "version =1 expected");
 		util.assert(way.length == 2, "2 nodes expected");
-		util.assert(way.tags.highway == "residential", "highway=residential expected");
+		util.assert(way.tags.highway == "residential", 
+			"highway=residential expected");
 	}),
 	test("create - id 0 - not allowed", function() {
 		tu.expectAssertionError(function() {
