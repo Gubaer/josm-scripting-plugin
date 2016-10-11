@@ -11,9 +11,11 @@
         
 <div class="apidoc">
 <h1 class="title">Mixin JSActionMixin</h1>
-<p>This mixin is auto-loaded by the scripting plugin and mixed into the 
-native java class <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/plugins/scripting/js/JSAction.html' alt='org.openstreetmap.josm.plugins.scripting.js.JSAction' target='javadoc'>JSAction</a>. It
-provides additional properties and methods which you can invoke on an instance of
+<p>This mixin is auto-loaded by the scripting plugin and mixed into the
+native java class
+<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/plugins/scripting/js/JSAction.html' alt='org.openstreetmap.josm.plugins.scripting.js.JSAction' target='javadoc'>JSAction</a>. It
+provides additional properties and methods which you can invoke on an
+instance of
 <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/plugins/scripting/js/JSAction.html' alt='org.openstreetmap.josm.plugins.scripting.js.JSAction' target='javadoc'>JSAction</a>.</p> 
 
 
@@ -44,14 +46,14 @@ provides additional properties and methods which you can invoke on an instance o
 
     <tr> 
         <td><a href='#onInitEnabled'>onInitEnabled</a></td>
-        <td>Set or get the function to be called when the <em>enabled</em> state of the
-action should be reevaluated.</td>
+        <td>Set or get the function to be called when the <em>enabled</em>
+state of the action should be reevaluated.</td>
     </tr>
 
     <tr> 
         <td><a href='#onUpdateEnabled'>onUpdateEnabled</a></td>
-        <td>Set or get the function to be called when the <em>enabled</em> state of the
-action should be reevaluated.</td>
+        <td>Set or get the function to be called when the <em>enabled</em>
+state of the action should be reevaluated.</td>
     </tr>
 
     <tr> 
@@ -107,7 +109,8 @@ then prefix the native name with <code>$</code>.</p>
   <dt>get</dt>
   <dd>Replies the name as string, or undefined, if no name is set. </dd>
   <dt>set</dt>
-  <dd>Set null or undefined, to clear the name. Any other value is converted to a string.</dd>
+  <dd>Set null or undefined, to clear the name. Any other value is converted
+  to a string.</dd>
 </dl></p>   
    
 
@@ -120,7 +123,8 @@ then prefix the native name with <code>$</code>.</p>
 
 <dl>
   <dt>get</dt>
-  <dd>Replies the function or undefined, if no function has been assigned. </dd>
+  <dd>Replies the function or undefined, if no function has been assigned.
+  </dd>
   <dt>set</dt>
   <dd>Set the function, or null or undefined to remove the function.</dd>
 </dl></p>   
@@ -131,12 +135,13 @@ then prefix the native name with <code>$</code>.</p>
      onInitEnabled:function
           
    </p>
-   <p><p>Set or get the function to be called when the <em>enabled</em> state should
-be initialized.</p>
+   <p><p>Set or get the function to be called when the <em>enabled</em> state
+should be initialized.</p>
 
 <dl>
   <dt>get</dt>
-  <dd>Replies the function or undefined, if no function has been assigned. </dd>
+  <dd>Replies the function or undefined, if no function has been assigned.
+  </dd>
   <dt>set</dt>
   <dd>Set the function, or null or undefined to remove the function.</dd>
 </dl></p>   
@@ -147,12 +152,13 @@ be initialized.</p>
      onUpdateEnabled:function
           
    </p>
-   <p><p>Set or get the function to be called when the <em>enabled</em> state of the
-action should be reevaluated.</p>
+   <p><p>Set or get the function to be called when the <em>enabled</em> state of
+the action should be reevaluated.</p>
 
 <dl>
   <dt>get</dt>
-  <dd>Replies the function or undefined, if no function has been assigned. </dd>
+  <dd>Replies the function or undefined, if no function has been assigned.
+  </dd>
   <dt>set</dt>
   <dd>Set the function, or null or undefined to remove the function.</dd>
 </dl></p>   
@@ -167,9 +173,11 @@ action should be reevaluated.</p>
 
 <dl>
   <dt>get</dt>
-  <dd>Replies the tooltip as string, or undefined, if no tooltip is set. </dd>
+  <dd>Replies the tooltip as string, or undefined, if no tooltip is set.
+  </dd>
   <dt>set</dt>
-  <dd>Set null or undefined, to clear the tooltip. Any other value is converted to a string.</dd>
+  <dd>Set null or undefined, to clear the tooltip. Any other value is
+  converted to a string.</dd>
 </dl></p>   
    
 
@@ -198,14 +206,16 @@ action should be reevaluated.</p>
 <tr>
      <td>menu</td>    
      <td><a href='http://docs.oracle.com/javase/6/docs/api/java/swing/JMenu.html' alt='java.swing.JMenu' target='javadoc'>JMenu</a></td>
-     <td>the menu. This should be one of the global JOSM menus.</td>
+     <td>the menu. This should be one of the global
+    JOSM menus.</td>
 </tr>
 
 
 <tr>
      <td>index</td>    
      <td>number</td>
-     <td>(optional) the index where to add the menu. Default if missing: adds the menu at the end</td>
+     <td>(optional) the index where to add the menu.
+    Default if missing: adds the menu at the end</td>
 </tr>
 
 </table>
@@ -215,12 +225,11 @@ action should be reevaluated.</p>
 
 
 {% highlight javascript %}
-
 var JSAction = require("josm/ui/menu").JSAction;
 
-// adds a new action to the JOSM edit menu 
+// adds a new action to the JOSM edit menu
 new JSAction({name: "My Action"})
-  .addTo(josm.menu.get("edit"));
+   .addTo(josm.menu.get("edit"));
 {% endhighlight %}
 
 
@@ -231,27 +240,33 @@ new JSAction({name: "My Action"})
    </p>
    <p><p>Adds an action to the toolbar.</p>
 
-<p>If no parameters are passed in, the action is registered with its toolbar id (see property tooblarId)
-for being displayed in the toolbar. It isn't displayed, however, unless the toolbar id is already included
-in the toolbar preferences. If not, the user first have to configure it manually in the preference dialog.</p>
+<p>If no parameters are passed in, the action is registered with its
+toolbar id (see property tooblarId) for being displayed in the toolbar.
+It isn't displayed, however, unless the toolbar id is already included
+in the toolbar preferences. If not, the user first have to configure it
+manually in the preference dialog.</p>
 
-<p>Use one of the named options described below, if you want to enforce, that the action is displayed at a
-a specific position in the toolbar. If you use one of these options, the toolbar configuration is saved 
+<p>Use one of the named options described below, if you want to enforce,
+that the action is displayed at a a specific position in the toolbar.
+If you use one of these options, the toolbar configuration is saved
 to the preferences.</p>
 
 <code>options</code> supports the following named parameters:
 <dl>
   <dt><code class="signature">toolbarId: string</code> </dt>
   <dd>Optional toolbar id, overriding an already assigned toolbar id.</dd>
-  
+
   <dt><code class="signature">at: number, "start", "end"</code> </dt>
-  <dd>Display the toolbar entry at a specific position, at the start or at the end of the toolbar.</dd>
-  
+  <dd>Display the toolbar entry at a specific position, at the start or at
+  the end of the toolbar.</dd>
+
   <dt><code class="signature">after: string</code> </dt>
-  <dd>Display the toolbar entry after the entry with toolbar id <code>after</code>.</dd>
+  <dd>Display the toolbar entry after the entry with toolbar
+  id <code>after</code>.</dd>
 
   <dt><code class="signature">before: string</code> </dt>
-  <dd>Display the toolbar entry before the entry with toolbar id <code>before</code>.</dd>
+  <dd>Display the toolbar entry before the entry with toolbar
+  id <code>before</code>.</dd>
 </dl></p>    
 
 
@@ -277,14 +292,13 @@ to the preferences.</p>
 
 
 {% highlight javascript %}
-
 var JSAction = require("josm/ui/menu").JSAction;
 var action = new JSAction({name: "My Action", toolbarId: "myaction"});
 
-// at the action after the "open" action in the toolbar 
+// add the action after the "open" action in the toolbar
 action.addToToolbar({after: "open"});
 
-// at the action at the end of the toolbar 
+// add the action at the end of the toolbar
 action.addToToolbar({at: "end"});
 {% endhighlight %}
 

@@ -11,9 +11,10 @@
         
 <div class="apidoc">
 <h1 class="title">Mixin NodeMixin</h1>
-<p>This mixin is auto-loaded by the scripting plugin and mixed into the 
+<p>This mixin is auto-loaded by the scripting plugin and mixed into the
 native java class <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html' alt='org.openstreetmap.josm.data.osm.Node' target='javadoc'>Node</a>. It
-provides additional properties and methods which you can invoke on an instance of
+provides additional properties and methods which you can invoke on an
+instance of
 <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html' alt='org.openstreetmap.josm.data.osm.Node' target='javadoc'>Node</a>.</p> 
 
 
@@ -85,15 +86,16 @@ then prefix the native name with <code>$</code>.</p>
      east:number
           
    </p>
-   <p><p>Get the projected east coordinate, or undefined, if the projected east coordinate isn't known.</p></p>   
+   <p><p>Get the projected east coordinate, or undefined, if the projected east
+coordinate isn't known.</p></p>   
    
 
 {% highlight javascript %}
 var nb = require("josm/builder").NodeBuilder;
 
-// set members 
+// set members
 var n = nb.create();
-n.east;  
+n.east;
 {% endhighlight %}
 
    
@@ -105,18 +107,19 @@ n.east;
 
 <dl>
   <dt>get</dt>
-  <dd>Replies the current latitude, or undefined, if the latitude isn't known.</dd>
-  
+  <dd>Replies the current latitude, or undefined, if the latitude isn't
+  known.</dd>
+
   <dt>set</dt>
-  <dd>Assign the latitude. Expects a number in the range [-90,90]. Raises an error,
-   if the node is a proxy node.</dd>
+  <dd>Assign the latitude. Expects a number in the range [-90,90].
+  Raises an error, if the node is a proxy node.</dd>
 </dl></p>   
    
 
 {% highlight javascript %}
 var nb = require("josm/builder").NodeBuilder;
 
-// set members 
+// set members
 var n = nb.create();
 n.lat = 23.245;
 n.lat;  // -> 23.245
@@ -131,18 +134,19 @@ n.lat;  // -> 23.245
 
 <dl>
   <dt>get</dt>
-  <dd>Replies the current longitude, or undefined, if the longitude isn't known.</dd>
+  <dd>Replies the current longitude, or undefined, if the longitude isn't
+  known.</dd>
 
   <dt>set</dt>
-  <dd>Assign the longitude. Expects a number in the range [-180,180]. Raises an error,
-   if the node is a proxy node.</dd>
+  <dd>Assign the longitude. Expects a number in the range [-180,180].
+  Raises an error, if the node is a proxy node.</dd>
 </dl></p>   
    
 
 {% highlight javascript %}
 var nb = require("josm/builder").NodeBuilder;
 
-// set members 
+// set members
 var n = nb.create();
 n.lon = -120.78;
 n.lon;  // -> -120.78;
@@ -153,15 +157,16 @@ n.lon;  // -> -120.78;
      north:number
           
    </p>
-   <p><p>Get the projected north coordinate, or undefined, if the projected north coordinate isn't known.</p></p>   
+   <p><p>Get the projected north coordinate, or undefined, if the projected
+north coordinate isn't known.</p></p>   
    
 
 {% highlight javascript %}
 var nb = require("josm/builder").NodeBuilder;
 
-// set members 
+// set members
 var n = nb.create();
-n.north;  
+n.north;
 {% endhighlight %}
 
    
@@ -173,12 +178,13 @@ n.north;
 
 <dl>
  <dt>get</dt>
- <dd>replies an instance of 
+ <dd>replies an instance of
   <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/coor/LatLon.html' alt='org.openstreetmap.josm.data.coor.LatLon' target='javadoc'>LatLon</a> or
   undefined, if the position isn't known.</dd>
-  
+
  <dt>set</dt>
- <dd>Assign the position. Either an instance of  <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/coor/LatLon.html' alt='org.openstreetmap.josm.data.coor.LatLon' target='javadoc'>LatLon</a>
+ <dd>Assign the position. Either an instance of
+ <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/coor/LatLon.html' alt='org.openstreetmap.josm.data.coor.LatLon' target='javadoc'>LatLon</a>
   or an object with the properties <code>{lat: ..., lon: ...}</code></dd>
 </dl></p>   
    
@@ -187,14 +193,14 @@ n.north;
 var LatLon = org.openstreetmap.josm.data.coor.LatLon;
 var nb = require("josm/builder").NodeBuilder;
 
-// assign a LatLon as position  
+// assign a LatLon as position
 n.pos = new LatLon(23, 32.33);
 
-// assign an object as position 
+// assign an object as position
 n.pos = {lat: 23, lon: 32.33};
 
 // get the position
-n.pos;  // -> a LatLon with the position 
+n.pos;  // -> a LatLon with the position
 {% endhighlight %}
 
     

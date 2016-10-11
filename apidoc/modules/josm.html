@@ -12,8 +12,8 @@
 <div class="apidoc">
 <h1 class="title">Module josm</h1>
 
-<p><p>This module is auto-loaded by the scripting plugin. It provides the implementation
-of the global <code>josm</code> object.</p></p>
+<p><p>This module is auto-loaded by the scripting plugin. It provides the
+implementation of the global <code>josm</code> object.</p></p>
 
 
 
@@ -94,11 +94,12 @@ of the global <code>josm</code> object.</p></p>
    </p>
    <p><p>Replies the global command history.</p>
 
-<p>Use this object to undo/redo commands, or to clear the command history.</p></p>   
+<p>Use this object to undo/redo commands, or to clear the command
+ history.</p></p>   
    
 
 {% highlight javascript %}
-// undoes the last command 
+// undoes the last command
 josm.commands.undo();
 
 // redoes two commands
@@ -116,7 +117,7 @@ josm.commands.redo(2);
 {% highlight javascript %}
 josm.alert("num layers: " + josm.layers.length);
 
-// name of first layer 
+// name of first layer
 josm.alert("num layers: " + josm.layers.get(0).name);
 {% endhighlight %}
 
@@ -127,8 +128,8 @@ josm.alert("num layers: " + josm.layers.get(0).name);
    </p>
    <p><p>Replies an accessor for JOSMs menu bar.</p>
 
-<p>Use this object to inspect or modify the menu bar, i.e. to add additional menu
-items.</p></p>   
+<p>Use this object to inspect or modify the menu bar, i.e. to add additional
+menu items.</p></p>   
    
 
    
@@ -159,24 +160,31 @@ josm.alert(josm.version);
 <dl>
   <dt><code class="signature">alert(message)</code><dt>
   <dd>Displays an information message with an OK button.</dd>
-  
+
   <dt><code class="signature">alert(message, ?options)</code><dt>
-  <dd>Displays a message. The look and feel of the alert window depends on the <var>options</var>. The
-  following options are supported:
+  <dd>Displays a message. The look and feel of the alert window depends on
+  the <var>options</var>. The following options are supported:
   <dl>
      <dt><code>title</code>:string</dt>
-     <dd>(optional) the window title. A string is expected. Empty string if missing.</dt>
-     
+     <dd>(optional) the window title. A string is expected. Empty string
+     if missing.</dt>
+
      <dd><code>messageType</code></dt>
-     <dd>(optional) the message type. Use one of the following values: 
+     <dd>(optional) the message type. Use one of the following values:
         <ul>
-           <li><a href='http://docs.oracle.com/javase/6/docs/api/javax/swing/JOptionPane.html' alt='javax.swing.JOptionPane' target='javadoc'>JOptionPane</a>.INFORMATION_MESSAGE, "info","information"</li>
-           <li><a href='http://docs.oracle.com/javase/6/docs/api/javax/swing/JOptionPane.html' alt='javax.swing.JOptionPane' target='javadoc'>JOptionPane</a>.ERROR_MESSAGE, "error"</li>
-           <li><a href='http://docs.oracle.com/javase/6/docs/api/javax/swing/JOptionPane.html' alt='javax.swing.JOptionPane' target='javadoc'>JOptionPane</a>.WARNING_MESSAGE, "warning", "warn"</li>
-           <li><a href='http://docs.oracle.com/javase/6/docs/api/javax/swing/JOptionPane.html' alt='javax.swing.JOptionPane' target='javadoc'>JOptionPane</a>.QUESTION_MESSAGE, "question"</li>
-           <li><a href='http://docs.oracle.com/javase/6/docs/api/javax/swing/JOptionPane.html' alt='javax.swing.JOptionPane' target='javadoc'>JOptionPane</a>.PLAIN_MESSAGE, "plain"</li>
+           <li><a href='http://docs.oracle.com/javase/6/docs/api/javax/swing/JOptionPane.html' alt='javax.swing.JOptionPane' target='javadoc'>JOptionPane</a>.INFORMATION_MESSAGE,
+           "info","information"</li>
+           <li><a href='http://docs.oracle.com/javase/6/docs/api/javax/swing/JOptionPane.html' alt='javax.swing.JOptionPane' target='javadoc'>JOptionPane</a>.ERROR_MESSAGE,
+                    "error"</li>
+           <li><a href='http://docs.oracle.com/javase/6/docs/api/javax/swing/JOptionPane.html' alt='javax.swing.JOptionPane' target='javadoc'>JOptionPane</a>.WARNING_MESSAGE,
+                   "warning", "warn"</li>
+           <li><a href='http://docs.oracle.com/javase/6/docs/api/javax/swing/JOptionPane.html' alt='javax.swing.JOptionPane' target='javadoc'>JOptionPane</a>.QUESTION_MESSAGE,
+                   "question"</li>
+           <li><a href='http://docs.oracle.com/javase/6/docs/api/javax/swing/JOptionPane.html' alt='javax.swing.JOptionPane' target='javadoc'>JOptionPane</a>.PLAIN_MESSAGE,
+                   "plain"</li>
         </ul>
-        Default value is <a href='http://docs.oracle.com/javase/6/docs/api/javax/swing/JOptionPane.html' alt='javax.swing.JOptionPane' target='javadoc'>JOptionPane</a>.INFORMATION_MESSAGE.
+        Default value is
+        <a href='http://docs.oracle.com/javase/6/docs/api/javax/swing/JOptionPane.html' alt='javax.swing.JOptionPane' target='javadoc'>JOptionPane</a>.INFORMATION_MESSAGE.
         String values are not case sensitive and leading and
         trailing white space is removed.
      </dd>
@@ -193,10 +201,10 @@ josm.alert(josm.version);
 // display an information alert
 josm.alert("Hello World!");
 
-// display an error alert 
+// display an error alert
 josm.alert("Got an error", {
    title: "Error Alert",
-   messageType: "error"    
+   messageType: "error"
 });
 {% endhighlight %}
 
@@ -207,11 +215,12 @@ josm.alert("Got an error", {
       open   
    </p>
    <p><p>Opens one or more files in JOSM.</p>
- 
-<p>Accepts a variable number of files. Each argument is either a string (a file name) or 
-a java.io.File.</p>
 
-<p>Creates and opens layers in JOSM, depending on the kind of file opened:</p>
+<p>Accepts a variable number of files. Each argument is either a string
+   (a file name) or a java.io.File.</p>
+
+<p>Creates and opens layers in JOSM, depending on the kind of file opened:
+</p>
 <ul>
   <li>creates a data layer for data files</li>
   <li>creates a gpx layer for gpx files</li>
@@ -220,7 +229,7 @@ a java.io.File.</p>
 </ul>
 
 * @example
-// open a data file in a new data layer 
+// open a data file in a new data layer
 josm.open("/my/data/file.osm");</p>    
 
 

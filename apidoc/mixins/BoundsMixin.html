@@ -11,7 +11,7 @@
         
 <div class="apidoc">
 <h1 class="title">Mixin BoundsMixin</h1>
-<p>This mixin is auto-loaded by the scripting plugin and mixed into the 
+<p>This mixin is auto-loaded by the scripting plugin and mixed into the
 native java class <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/Bounds.html' alt='org.openstreetmap.josm.data.Bounds' target='javadoc'>Bounds</a>.</p> 
 
 
@@ -89,10 +89,11 @@ then prefix the native name with <code>$</code>.</p>
 
 
 {% highlight javascript %}
-var bounds1 = Bounds.make({minlat: 46.9479186, minlon: 7.4619484, maxlat: 46.9497642, maxlon: 7.4660683});
+var bounds1 = Bounds.make({minlat: 46.9479186, minlon: 7.4619484,
+        maxlat: 46.9497642, maxlon: 7.4660683});
 
 var bounds2 = Bounds.make({
-   min: {lat: 46.9479186, lon: 7.4619484}, 
+   min: {lat: 46.9479186, lon: 7.4619484},
    max: {lat: 46.9497642, lon: 7.4660683}
 });
 {% endhighlight %}

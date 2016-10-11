@@ -118,7 +118,8 @@ Facade to access and manipulate the selected objects in a dataset.
 <tr>
      <td>ds</td>    
      <td><a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/DataSet.html' alt='org.openstreetmap.josm.data.osm.DataSet' target='javadoc'>DataSet</a></td>
-     <td>the dataset. Must not be null or undefined.</td>
+     <td>the dataset.
+    Must not be null or undefined.</td>
 </tr>
 
 </table>
@@ -173,13 +174,18 @@ Facade to access and manipulate the selected objects in a dataset.
    <p><p>Adds selected objects.</p>
 
 <strong>Signatures</strong>
-<dl> 
-  <dt><code class="signature">add(id,id, ...)</code></dt>
-  <dd>Selects a variable number of objects given by their ids.</dd>
-  
+<dl>
+  <dt><code class="signature">add(p1,p2,...)</code></dt>
+  <dd>Selects a variable number of primitives. </dd>
+
   <dt><code class="signature">add(array|collection)</code></dt>
-  <dd>Select a variable number of objects given by an array or a java collection of ids.</dd>
-</dl></p>    
+  <dd>Select a variable number of primitives given by an array or a
+  java collection of primitives.</dd>
+</dl>
+
+Each primitive {@code p} is either an instance of aa node, a way, or
+a relation, or an instance of
+<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/PrimitiveId.html' alt='org.openstreetmap.josm.data.osm.PrimitiveId' target='javadoc'>PrimitiveId</a>.</p>    
 
 
 
@@ -191,13 +197,18 @@ Facade to access and manipulate the selected objects in a dataset.
    <p><p>Unselects a collection of objects.</p>
 
 <strong>Signatures</strong>
-<dl> 
-  <dt><code class="signature">clear(id,id, ...)</code></dt>
-  <dd>Unselect a variable number of objects given by their ids.</dd>
-  
+<dl>
+  <dt><code class="signature">clear(p1,p2, ...)</code></dt>
+  <dd>Unselect a variable number primitives.</dd>
+
   <dt><code class="signature">clear(array|collection)</code></dt>
-  <dd>Unselect a variable number of objects given by an array or a java collection of ids.</dd>
-</dl></p>    
+  <dd>Unselect a variable number of primitives given by an array or a
+  java collection of primitives.</dd>
+</dl>
+
+Each primitive {@code p} is either an instance of aa node, a way, or
+a relation, or an instance of
+<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/PrimitiveId.html' alt='org.openstreetmap.josm.data.osm.PrimitiveId' target='javadoc'>PrimitiveId</a>.</p>    
 
 
 
@@ -218,19 +229,23 @@ Facade to access and manipulate the selected objects in a dataset.
    <p><p>Replies true, if an object is currently selected.</p>
 
 <strong>Signatures</strong>
-<dl> 
+<dl>
   <dt><code class="signature">isSelected(id, type)</code></dt>
-  <dd>Replies true, if the object with numeric id <code>id</code> and type <code>type</code> is selected.</dd>
+  <dd>Replies true, if the object with numeric id <code>id</code> and
+  type <code>type</code> is selected.</dd>
 
   <dt><code class="signature">isSelected(id)</code></dt>
-  <dd>Replies true, if the object with id <code>id</code> is selected. <code>id</code> is either an instance of 
-  <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/PrimitiveId.html' alt='org.openstreetmap.josm.data.osm.PrimitiveId' target='javadoc'>PrimitiveId</a> or an object with 
-  the properties <code>id</code> and <code>type</code>, i.e. <code>{id: 1234, type: "node"}</code></dd>
+  <dd>Replies true, if the object with id <code>id</code> is selected.
+  <code>id</code> is either an instance of
+  <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/PrimitiveId.html' alt='org.openstreetmap.josm.data.osm.PrimitiveId' target='javadoc'>PrimitiveId</a> or an object with
+  the properties <code>id</code> and <code>type</code>,
+  i.e. <code>{id: 1234, type: "node"}</code></dd>
 
   <dt><code class="signature">isSelected(obj)</code></dt>
-  <dd>Replies true, if the object <code>obj</code> is selected. obj is either a 
-  <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html' alt='org.openstreetmap.josm.data.osm.Node' target='javadoc'>Node</a>, 
-  a <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Way.html' alt='org.openstreetmap.josm.data.osm.Way' target='javadoc'>Way</a>, or a 
+  <dd>Replies true, if the object <code>obj</code> is selected. obj is
+    either a
+  <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html' alt='org.openstreetmap.josm.data.osm.Node' target='javadoc'>Node</a>,
+  a <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Way.html' alt='org.openstreetmap.josm.data.osm.Way' target='javadoc'>Way</a>, or a
   <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Relation.html' alt='org.openstreetmap.josm.data.osm.Relation' target='javadoc'>Relation</a>.</dd>
 </dl></p>    
 
@@ -244,13 +259,18 @@ Facade to access and manipulate the selected objects in a dataset.
    <p><p>Set the selected objects as selected.</p>
 
 <strong>Signatures</strong>
-<dl> 
-  <dt><code class="signature">set(id,id, ...)</code></dt>
-  <dd>Selects a variable number of objects given by their ids.</dd>
-  
+<dl>
+  <dt><code class="signature">set(p1,p2, ...)</code></dt>
+  <dd>Selects a variable number of primitives.</dd>
+
   <dt><code class="signature">set(array|collection)</code></dt>
-  <dd>Select a variable number of objects given by an array or a java collection of ids.</dd>
-</dl></p>    
+  <dd>Select a variable number of primitives given by an array or a
+  java collection of primitives.</dd>
+</dl>
+
+Each primitive {@code p} is either an instance of aa node, a way, or
+a relation, or an instance of
+<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/PrimitiveId.html' alt='org.openstreetmap.josm.data.osm.PrimitiveId' target='javadoc'>PrimitiveId</a>.</p>    
 
 
 
@@ -262,13 +282,18 @@ Facade to access and manipulate the selected objects in a dataset.
    <p><p>Toggle the selection state of a collection of objects.</p>
 
 <strong>Signatures</strong>
-<dl> 
-  <dt><code class="signature">toggle(id,id, ...)</code></dt>
-  <dd>Toggle the selection state of a variable number of objects given by their ids.</dd>
-  
+<dl>
+  <dt><code class="signature">toggle(p1,p2, ...)</code></dt>
+  <dd>Toggle the selection state of a variable number of primitives.</dd>
+
   <dt><code class="signature">toggle(array|collection)</code></dt>
-  <dd>Toggle the selection state of  variable number of objects given by an array or a java collection of ids.</dd>
-</dl></p>    
+  <dd>Toggle the selection state of variable number of primitives given by
+  an array or a java collection of ids.</dd>
+</dl>
+
+Each primitive {@code p} is either an instance of aa node, a way, or
+a relation, or an instance of
+<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/PrimitiveId.html' alt='org.openstreetmap.josm.data.osm.PrimitiveId' target='javadoc'>PrimitiveId</a>.</p>    
 
 
 

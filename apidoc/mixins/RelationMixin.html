@@ -11,30 +11,30 @@
         
 <div class="apidoc">
 <h1 class="title">Mixin RelationMixin</h1>
-<p>This mixin  provides additional properties and methods which you can invoke on an instance of
+<p>This mixin  provides additional properties and methods which you can
+invoke on an instance of
 <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Relation.html' alt='org.openstreetmap.josm.data.osm.Relation' target='javadoc'>Relation</a>.</p>
- 
-<p>You can access relation members using 
-<pre>relation[i]</pre>, 
+
+<p>You can access relation members using
+<pre>relation[i]</pre>,
 see examples below. 
 
 
 
 {% highlight javascript %}
-
 var Relation = org.openstreetmap.josm.data.osm.Relation;
 var out = java.lang.System.out;
 var relation = new Relation(12345);
 
-// use the mixin property 'id' to access the relation id ... 
+// use the mixin property 'id' to access the relation id ...
 var id = relation.id;
 
 // ... or the native method getUniqueId()
 id = relation.getUniqueId();
 
-// loop over relation members and print out the roles 
+// loop over relation members and print out the roles
 for (var i=0; i < relation.length; i++) {
-  out.println(relation[i].role);
+   out.println(relation[i].role);
 }
 {% endhighlight %}
 
@@ -140,14 +140,16 @@ then prefix the native name with <code>$</code>.</p>
 <dl>
   <dt>get</dt>
   <dd>replies the current list of relation members as javascript array.</dd>
-  
+
   <dt>set</dt>
-  <dd>Assign the list of relation members. Assign null or undefined to remove all members.
-   Assign an array or a java.util.List of members. Members can be instances of 
+  <dd>Assign the list of relation members. Assign null or undefined to
+   remove all members.
+   Assign an array or a java.util.List of members. Members can be instances
+   of
    <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/RelationMember.html' alt='org.openstreetmap.josm.data.osm.RelationMember' target='javadoc'>RelationMember</a>,
    <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html' alt='org.openstreetmap.josm.data.osm.Node' target='javadoc'>Node</a>,
    <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Way.html' alt='org.openstreetmap.josm.data.osm.Way' target='javadoc'>Way</a>, or
-   <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Relation.html' alt='org.openstreetmap.josm.data.osm.Relation' target='javadoc'>Relation</a>. 
+   <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Relation.html' alt='org.openstreetmap.josm.data.osm.Relation' target='javadoc'>Relation</a>.
    null or undefined are ignored.<br/>
    <strong>Note:</strong> you can't assign members to a proxy relation.
   </dd>
@@ -159,11 +161,11 @@ var rb = require("josm/builder").RelationBuilder;
 var nb = require("josm/builder").NodeBuilder;
 var relation = rb.create();
 
-// set members 
+// set members
 relation.members = [nb.create(), rb.member('role.1', rb.create(12345))];
 
-// get members 
-var members = relation.members; 
+// get members
+var members = relation.members;
 {% endhighlight %}
 
     
@@ -179,21 +181,26 @@ var members = relation.members;
    <p><p>Adds additional members at the end of the relation members list.</p>
 
 <strong>Signatures</strong>
-<dl> 
+<dl>
   <dt><code class="signature">add(m1, m2, ...)</code></dt>
-  <dd>Adds a variable number of members. null or undefined are ignored. A member is either an
-  instance of <code><a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/RelationMember.html' alt='org.openstreetmap.josm.data.osm.RelationMember' target='javadoc'>RelationMember</a></code> or a 
-  <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html' alt='org.openstreetmap.josm.data.osm.Node' target='javadoc'>Node</a>, <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Way.html' alt='org.openstreetmap.josm.data.osm.Way' target='javadoc'>Way</a>,
+  <dd>Adds a variable number of members. null or undefined are ignored.
+  A member is either an instance of
+  <code><a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/RelationMember.html' alt='org.openstreetmap.josm.data.osm.RelationMember' target='javadoc'>RelationMember</a></code> or a
+  <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html' alt='org.openstreetmap.josm.data.osm.Node' target='javadoc'>Node</a>,
+  <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Way.html' alt='org.openstreetmap.josm.data.osm.Way' target='javadoc'>Way</a>,
   or <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Relation.html' alt='org.openstreetmap.josm.data.osm.Relation' target='javadoc'>Relation</a>. If an OSM primitive
   is passed in, a relation member with an empty role is created.</dd>
   <dt><code class="signature">add(array|list)</code></dt>
-  <dd>Adds an array or list of members. null or undefined are ignored. A list is either a javascript
-  array or an instance of a java List (<code>java.util.List</code>). A list element is either an
-  instance of <code><a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/RelationMember.html' alt='org.openstreetmap.josm.data.osm.RelationMember' target='javadoc'>RelationMember</a></code>,
-  or  or a  <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html' alt='org.openstreetmap.josm.data.osm.Node' target='javadoc'>Node</a>, <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Way.html' alt='org.openstreetmap.josm.data.osm.Way' target='javadoc'>Way</a>,
+  <dd>Adds an array or list of members. null or undefined are ignored.
+  A list is either a javascript array or an instance of a java List
+  (<code>java.util.List</code>). A list element is either an
+  instance of
+  <code><a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/RelationMember.html' alt='org.openstreetmap.josm.data.osm.RelationMember' target='javadoc'>RelationMember</a></code>,
+  or  or a  <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html' alt='org.openstreetmap.josm.data.osm.Node' target='javadoc'>Node</a>,
+  <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Way.html' alt='org.openstreetmap.josm.data.osm.Way' target='javadoc'>Way</a>,
   or <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Relation.html' alt='org.openstreetmap.josm.data.osm.Relation' target='javadoc'>Relation</a>. If an OSM primitive
-  is passed in, a relation member with an empty role is created. null and undefined are
-  ignored.</dd>
+  is passed in, a relation member with an empty role is created. null and
+  undefined are ignored.</dd>
 </dl></p>    
 
 
@@ -206,13 +213,14 @@ var rbuilder = require("josm/builder").RelationBuilder;
 var nbuilder = require("josm/builder").NodeBuilder;
 var relation = rb.create();
 
-// add a member using a RelationMember instance (created with the utility method rbuilder.member(...)
+// add a member using a RelationMember instance (created with the utility
+// method rbuilder.member(...)
 relation.add(rbuilder.member('myrole', nbuilder.create()));
 
 // add three nodes as members, each with the empty role
 relation.add(nb.create(), nb.create(), nb.create());
 
-// add an array of members 
+// add an array of members
 var m = [nb.create(), rb.member("role.1", nb.create())];
 relation.add(m);
 {% endhighlight %}
@@ -223,7 +231,8 @@ relation.add(m);
    <p  id="getIdAt" class="member-header">
       getIdAt:number   
    </p>
-   <p><p>Replies the unique object id for the member object at position <var>idx</var>.</p></p>    
+   <p><p>Replies the unique object id for the member object at position
+<var>idx</var>.</p></p>    
 
 
 <h3>Parameters</h3>
@@ -238,7 +247,8 @@ relation.add(m);
 <tr>
      <td>idx</td>    
      <td>number</td>
-     <td>the index. a number &gt;= 0 and &lt; the current number of members</td>
+     <td>the index. a number &gt;= 0 and &lt; the current
+        number of members</td>
 </tr>
 
 </table>
@@ -252,10 +262,9 @@ var rb = require("josm/builder").RelationBuilder;
 var nb = require("josm/builder").NodeBuilder;
 var wb = require("josm/builder").WayBuilder;
 
-// relation has two members 
+// relation has two members
 var relation = rb.withMembers(nb.create(), nb.create()).create();
 var id = relation.getIdAt(0);
-  
 {% endhighlight %}
 
 
@@ -264,7 +273,8 @@ var id = relation.getIdAt(0);
    <p  id="getObjectAt" class="member-header">
       getObjectAt:object   
    </p>
-   <p><p>Replies the object represented by the member at position <code>idx</code>.</p></p>    
+   <p><p>Replies the object represented by the member at position
+<code>idx</code>.</p></p>    
 
 
 <h3>Parameters</h3>
@@ -279,7 +289,8 @@ var id = relation.getIdAt(0);
 <tr>
      <td>idx</td>    
      <td>number</td>
-     <td>the index. a number &gt;= 0 and &lt; the current number of members</td>
+     <td>the index. a number &gt;= 0 and &lt; the current
+        number of members</td>
 </tr>
 
 </table>
@@ -293,11 +304,10 @@ var rb = require("josm/builder").RelationBuilder;
 var nb = require("josm/builder").NodeBuilder;
 var wb = require("josm/builder").WayBuilder;
 
-// relation has two members 
+// relation has two members
 var n1 = nb.create();
 var relation = rb.withMembers(n1, nb.create()).create();
 var node = relation.getObjectAt(0)  // ==> n1
-  
 {% endhighlight %}
 
 
@@ -321,7 +331,8 @@ var node = relation.getObjectAt(0)  // ==> n1
 <tr>
      <td>idx</td>    
      <td>number</td>
-     <td>the index. a number &gt;= 0 and &lt; the current number of members</td>
+     <td>the index. a number &gt;= 0 and &lt; the current
+        number of members</td>
 </tr>
 
 </table>
@@ -335,10 +346,9 @@ var rb = require("josm/builder").RelationBuilder;
 var nb = require("josm/builder").NodeBuilder;
 var wb = require("josm/builder").WayBuilder;
 
-// relation has two members 
+// relation has two members
 var relation = rb.withMembers(nb.create(), nb.create()).create();
 var role = relation.getRoleAt(0)  // ==> "", the empty role ;
-  
 {% endhighlight %}
 
 
@@ -362,14 +372,16 @@ var role = relation.getRoleAt(0)  // ==> "", the empty role ;
 <tr>
      <td>idx</td>    
      <td>number</td>
-     <td>the index. a number &gt;= 0 and &lt;= the current number of members</td>
+     <td>the index. a number &gt;= 0 and &lt;= the current
+        number of members</td>
 </tr>
 
 
 <tr>
      <td>the</td>    
      <td>object</td>
-     <td>object  either a RelationMember, or a Node, a Way, or a Relation. Must not be null or undefined.</td>
+     <td>object  either a RelationMember, or a Node, a Way, or a
+        Relation. Must not be null or undefined.</td>
 </tr>
 
 </table>
@@ -383,7 +395,7 @@ var rb = require("josm/builder").RelationBuilder;
 var nb = require("josm/builder").NodeBuilder;
 var wb = require("josm/builder").WayBuilder;
 
-// create a relation with two members 
+// create a relation with two members
 var relation = rb.withMembers(nb.create(), nb.create()).create();
 
 // insert another member for a another node at position 0
@@ -391,7 +403,6 @@ relation.insertAt(0, nb.create());
 
 // insert a way with role 'role.1' at position 1
 relation.insertAt(1, rb.member('role.1', wb.create()));
-  
 {% endhighlight %}
 
 
@@ -415,14 +426,16 @@ relation.insertAt(1, rb.member('role.1', wb.create()));
 <tr>
      <td>idx</td>    
      <td>number</td>
-     <td>the index. a number &gt;= 0 and &lt; the current number of members</td>
+     <td>the index. a number &gt;= 0 and &lt; the current
+        number of members</td>
 </tr>
 
 
 <tr>
      <td>the</td>    
      <td>object</td>
-     <td>object  either a RelationMember, or a Node, a Way, or a Relation. Must not be null or undefined.</td>
+     <td>object  either a RelationMember, or a Node, a Way,
+        or a Relation. Must not be null or undefined.</td>
 </tr>
 
 </table>
@@ -436,7 +449,7 @@ var rb = require("josm/builder").RelationBuilder;
 var nb = require("josm/builder").NodeBuilder;
 var wb = require("josm/builder").WayBuilder;
 
-// relation has two members 
+// relation has two members
 var relation = rb.withMembers(nb.create(), nb.create()).create();
 
 // set  another member for a another node at position 0
@@ -444,7 +457,6 @@ relation.setAt(0, nb.create());
 
 // set a way with role 'role.1' at position 1
 relation.setAt(1, rb.member('role.1', wb.create()));
-  
 {% endhighlight %}
 
 

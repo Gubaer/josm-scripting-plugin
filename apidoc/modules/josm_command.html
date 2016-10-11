@@ -12,7 +12,8 @@
 <div class="apidoc">
 <h1 class="title">Module josm/command</h1>
 
-<p><p>A collection of functions to create commands which can be applied, undone and redone on
+<p><p>A collection of functions to create commands which can be applied, undone
+and redone on
 org.opoenstreetmap.josm.gui.layer.OsmDataLayers.</p></p>
 
 
@@ -116,10 +117,10 @@ var cmd = require("josm/command");
 var layers = require("josm/layer");
 var layer  = layers.get("Data Layer 1");
 
-// add two nodes 
+// add two nodes
 cmd.add(n1,n1).applyTo(layer);
 
-// add an array of two nodes and a way  
+// add an array of two nodes and a way
 layer.apply(
    cmd.add([n1,n2,w2])
 );
@@ -142,27 +143,30 @@ layer.apply(
   or Java collections thereof.</dd>
 </dl>
 
-The mandatory last argument is an object with named parameters. It accepts the following
-named parameters:
+The mandatory last argument is an object with named parameters. It accepts t
+he following named parameters:
 <dl>
   <dt><code class="signature">lat:number</code></dt>
   <dd>Changes the latitude of the target nodes to <code>lat</code>.</dd>
-  
+
   <dt><code class="signature">lon:number</code></dt>
   <dd>Changes the longitude of the target nodes to <code>lon</code>.</dd>
-  
-  <dt><code class="signature">pos:<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/coor/LatLon.html' alt='org.openstreetmap.josm.data.coor.LatLon' target='javadoc'>LatLon</a>|object</code></dt>
-  <dd>Changes the position of the target nodes to <code>pos</code>. pos is either a
-  <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/coor/LatLon.html' alt='org.openstreetmap.josm.data.coor.LatLon' target='javadoc'>LatLon</a> or an object <code>{lat:..., lon:...}</code> 
+
+  <dt><code class="signature">pos:
+      <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/coor/LatLon.html' alt='org.openstreetmap.josm.data.coor.LatLon' target='javadoc'>LatLon</a>|object</code></dt>
+  <dd>Changes the position of the target nodes to <code>pos</code>.
+  pos is either a <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/coor/LatLon.html' alt='org.openstreetmap.josm.data.coor.LatLon' target='javadoc'>LatLon</a> or an
+  object <code>{lat:..., lon:...}</code>
   </dd>
-  
+
   <dt><code class="signature">tags:<a href='http://docs.oracle.com/javase/6/docs/api/java/util/Map.html' alt='java.util.Map' target='javadoc'>Map</a>|object</code></dt>
   <dd>Changes the tags of the target objects to <code>tags</code>.</dd>
-  
+
   <dt><code class="signature">nodes:<a href='http://docs.oracle.com/javase/6/docs/api/java/util/List.html' alt='java.util.List' target='javadoc'>List</a>|array</code></dt>
   <dd>Changes the nodes of the target way sto <code>nodes</code>.</dd>
-  
-  <dt><code class="signature">members:<a href='http://docs.oracle.com/javase/6/docs/api/java/util/List.html' alt='java.util.List' target='javadoc'>List</a>|array</code></dt>
+
+  <dt><code class="signature">members:<a href='http://docs.oracle.com/javase/6/docs/api/java/util/List.html' alt='java.util.List' target='javadoc'>List</a>|array</code>
+  </dt>
   <dd>Changes the nodes of the target relations to <code>members</code>.</dd>
 </dl></p>    
 
@@ -176,10 +180,10 @@ var cmd = require("josm/command");
 var layers = require("josm/layer");
 var layer = layers.get("Data Layer 1");
 
-// change the position of a node  
+// change the position of a node
 cmd.change(n1,n1, {lat: 123.45, lon: 44.234}).applyTo(layer);
 
-// change the nodes of a way 
+// change the nodes of a way
 layer.apply(
    cmd.change(w2, {nodes: [n1,n2,3]})
 );
@@ -196,7 +200,7 @@ cmd.change(n1,n3, w1,r1, {
    <p  id="combineSelectedWays" class="member-header">
       combineSelectedWays   
    </p>
-   <p>Combines the currently selected ways in the active layer into one resulting 
+   <p>Combines the currently selected ways in the active layer into one resulting
 way.
 
 Returns without effect if
@@ -208,7 +212,7 @@ Returns without effect if
 
 Reuses the logic behind the JOSM standard menu entry Tools-&gt;Combine Ways.
 If invoked from a script, this may trigger modal dialogs which are presented
-to the user, in particular if the direction of the ways has to be reversed 
+to the user, in particular if the direction of the ways has to be reversed
 because otherwise they could not be combined.</p>    
 
 
@@ -219,7 +223,7 @@ because otherwise they could not be combined.</p>
 {% highlight javascript %}
 var cmd = require("josm/command");
 var layers = require("josm/layer");
-var ds = layers.activeLayer.data; 
+var ds = layers.activeLayer.data;
 var ways  = [ds.way(1), ds.way(2), ds.way(3)];
 cmd.combineWays(ways);
 {% endhighlight %}
@@ -230,11 +234,11 @@ cmd.combineWays(ways);
    <p  id="combineWays" class="member-header">
       combineWays   
    </p>
-   <p>Combines two or more ways into one resulting way. 
+   <p>Combines two or more ways into one resulting way.
 
 Reuses the logic behind the JOSM standard menu entry Tools-&gt;Combine Ways.
 If invoked from a script, this may trigger modal dialogs which are presented
-to the user, in particular if the direction of the ways has to be reversed 
+to the user, in particular if the direction of the ways has to be reversed
 because otherwise they could not be combined.</p>    
 
 
@@ -262,14 +266,14 @@ because otherwise they could not be combined.</p>
 {% highlight javascript %}
 var cmd = require("josm/command");
 var layers = require("josm/layer");
-var ds = layers.activeLayer.data; 
+var ds = layers.activeLayer.data;
 var ways  = [ds.way(1), ds.way(2), ds.way(3)];
 
 // pass in an array ...
 cmd.combineWays(ways);
 // ... or the individual ways ...
 cmd.combineWays(ds.way(1), ds.way(2), ds.way(3));
-// ... or any combination thereof. 
+// ... or any combination thereof.
 {% endhighlight %}
 
 
@@ -299,10 +303,10 @@ var cmd = require("josm/command");
 var layers= require("josm/layer");
 var layer = layers.get("Data Layer 1");
 
-// delete two nodes 
+// delete two nodes
 cmd.delete(n1,n1).applyTo(layer);
 
-// delete an array of two nodes and a way  
+// delete an array of two nodes and a way
 layer.apply(
    cmd.delete([n1,n2,w2])
 );

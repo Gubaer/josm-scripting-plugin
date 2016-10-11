@@ -96,14 +96,15 @@
      activeLayer:<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/layer/Layer.html' alt='org.openstreetmap.josm.layer.Layer' target='javadoc'>Layer</a>
           
    </p>
-   <p><p>Set or get the active layer.</p> 
+   <p><p>Set or get the active layer.</p>
 
 <dl>
   <dt>get</dt>
   <dd>Replies the active layer or undefined.</dd>
-  
+
   <dt>set</dt>
-  <dd>Assign either an existing <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/layer/Layer.html' alt='org.openstreetmap.josm.layer.Layer' target='javadoc'>Layer</a> , the name of a layer as string, 
+  <dd>Assign either an existing <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/layer/Layer.html' alt='org.openstreetmap.josm.layer.Layer' target='javadoc'>Layer</a>,
+  the name of a layer as string,
   or a layer index as number.</dd>
 </dl></p>   
    
@@ -128,7 +129,7 @@
    </p>
    <p><p>Adds a layer.</p>
 
-<p>Either pass in a layer object or a data set. In the later case, an 
+<p>Either pass in a layer object or a data set. In the later case, an
 <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/gui/layer/OsmDataLayer.html' alt='org.openstreetmap.josm.gui.layer.OsmDataLayer' target='javadoc'>OsmDataLayer</a> is
 automatically created.</p></p>    
 
@@ -145,8 +146,8 @@ automatically created.</p></p>
 <tr>
      <td>obj</td>    
      <td><a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/gui/layer/Layer.html' alt='org.openstreetmap.josm.gui.layer.Layer' target='javadoc'>Layer</a>|<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/DataSet.html' alt='org.openstreetmap.josm.data.osm.DataSet' target='javadoc'>Layer</a></td>
-     <td>a layer to add, or a dataset. 
- Ignored if null or undefined.</td>
+     <td>a layer to add,
+ or a dataset.  Ignored if null or undefined.</td>
 </tr>
 
 </table>
@@ -157,7 +158,7 @@ automatically created.</p></p>
 
 {% highlight javascript %}
 var layers = require("josm/layers");
-var OsmDataLayer = org.openstreetmap.josm.gui.layer.OsmDataLayer;	
+var OsmDataLayer = org.openstreetmap.josm.gui.layer.OsmDataLayer;
 var DataSet = org.openstreetmap.josm.data.osm.DataSet;
 
 var dataLayer = new OsmDataLayer(new DataSet(), null, null);
@@ -166,7 +167,7 @@ layers.add(dataLayer);
 
 // or add a dataset, which will create a data layer
 var ds = new DataSet();
-layer.add(ds); 
+layer.add(ds);
 {% endhighlight %}
 
 
@@ -175,7 +176,8 @@ layer.add(ds);
    <p  id="addDataLayer" class="member-header">
       addDataLayer:<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/gui/layer/OsmDataLayer.html' alt='org.openstreetmap.josm.gui.layer.OsmDataLayer' target='javadoc'>OsmDataLayer</a>   
    </p>
-   <p><p>Creates and adds a new data layer. The new layer becomes the new edit layer.</p>
+   <p><p>Creates and adds a new data layer. The new layer becomes the new edit
+layer.</p>
 
 <string>Signatures</string>
 <dl>
@@ -195,7 +197,7 @@ layer.add(ds);
 
 
 {% highlight javascript %}
-// creates a new data layer 
+// creates a new data layer
 var layer = josm.layers.addDataLayer();
 
 // creates a new data layer with name 'test'
@@ -216,8 +218,9 @@ layer = josm.layers.addDataLayer(ds);
 <ul>
   <li>If <code>key</code> is a number, replies the layer with index key, or
   undefined, if no layer for this index exists.</li>
-   <li>If <code>key</code> is a string, replies the first layer whose name is identical to key (
-   case insensitive, without leading/trailing whitespace), or undefined, if no layer with such a name exists.</li>
+   <li>If <code>key</code> is a string, replies the first layer whose name
+   is identical to key (case insensitive, without leading/trailing
+   whitespace), or undefined, if no layer with such a name exists.</li>
 </ul></p>    
 
 
@@ -245,11 +248,11 @@ layer = josm.layers.addDataLayer(ds);
 {% highlight javascript %}
 var layers = require("josm/layers");
 
-// get the first layer  
+// get the first layer
 var layer1  = layers.get(0);
 
 // get the first layer with name "data layer"
-var layer2 = layers.get("data layer"); 
+var layer2 = layers.get("data layer");
 {% endhighlight %}
 
 
@@ -273,7 +276,8 @@ var layer2 = layers.get("data layer");
 <tr>
      <td>layer</td>    
      <td>string</td>
-     <td>a layer, a layer name, or a layer index</td>
+     <td>a layer,
+    a layer name, or a layer index</td>
 </tr>
 
 </table>
@@ -285,14 +289,14 @@ var layer2 = layers.get("data layer");
 {% highlight javascript %}
 var layers = require("josm/layers");
 
-// is there a layer with name "my layer"? 
+// is there a layer with name "my layer"?
 var b = layers.has("my layer");
 
 // is there a layer at index position 2
 b = layers.has(2);
 
-// is there a specific layer? 
-var l = layers.get(0); 
+// is there a specific layer?
+var l = layers.get(0);
 b = layers.has(l);
 {% endhighlight %}
 
@@ -304,10 +308,12 @@ b = layers.has(l);
    </p>
    <p><p>Removes a layer with the given key.</p>
 <ul>
-  <li>If <code>key</code> is a <code>Number</code>, removes the layer with the index key. If the index doesn't
-  isn't a valid layer index, nothing is removed.</li>
-  <li>If <code>key</code> is a <code>string</code>, removes the layer with the name <code>key</code>. Leading 
-  and trailing white space is removed, matching is a case-insensitive sub-string match.</li>
+  <li>If <code>key</code> is a <code>Number</code>, removes the layer with
+  the index key. If the index doesn't isn't a valid layer index, nothing
+  is removed.</li>
+  <li>If <code>key</code> is a <code>string</code>, removes the layer with
+  the name <code>key</code>. Leading and trailing white space is removed,
+  matching is a case-insensitive sub-string match.</li>
 </ul></p>    
 
 
@@ -335,11 +341,11 @@ b = layers.has(l);
 {% highlight javascript %}
 var layers = require("josm/layers");
 
-// remove the first layer 
+// remove the first layer
 layers.remove(0);
 
 // remove the first layer matching with the supplied name
-layers.remove("myLayerName");   
+layers.remove("myLayerName");
 {% endhighlight %}
 
 

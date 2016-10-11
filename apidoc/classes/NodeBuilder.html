@@ -14,7 +14,7 @@
 <p>NodeBuilder helps to create OSM nodes.</p>
 
 <p>Methods of NodeBuilder can be used in a static and in an instance context.
-It isn't necessary to create an instance of NodeBuilder, unless it is 
+It isn't necessary to create an instance of NodeBuilder, unless it is
 configured with a <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/DataSet.html' alt='org.openstreetmap.josm.data.osm.DataSet' target='javadoc'>DataSet</a>,
 which created nodes are added to.</p> 
 
@@ -30,15 +30,16 @@ var nbuilder = new NodeBuilder();
 // ... with an underlying dataset ....
 nbuilder =  new NodeBuilder(ds);
 // ... or using this factory method
-nbuilder = NodeBuilder.forDataSet(ds); 
+nbuilder = NodeBuilder.forDataSet(ds);
 
 // create a new local node at position (0,0) without tags
 var n1 = nbuilder.create();
 
-// create a new global node at a specific position with tags 
+// create a new global node at a specific position with tags
 var n2 = nbuilder.withPosition(1,1).withTags({name: 'test'}).create(123456);
 
-// create a new proxy for a global node (an "incomplete" node in JOSM terminology)
+// create a new proxy for a global node
+// (an "incomplete" node in JOSM terminology)
 var n3 = nbuilder.createProxy(123456);
 {% endhighlight %}
 
@@ -67,12 +68,14 @@ var n3 = nbuilder.createProxy(123456);
 
     <tr> 
         <td><a href='#createProxy'>createProxy</a></td>
-        <td>Creates a new <em>proxy</em> <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html' alt='org.openstreetmap.josm.data.osm.Node' target='javadoc'>Node</a></td>
+        <td>Creates a new <em>proxy</em>
+        <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html' alt='org.openstreetmap.josm.data.osm.Node' target='javadoc'>Node</a></td>
     </tr>
 
     <tr> 
         <td><a href='#forDataSet'>forDataSet</a></td>
-        <td>Creates a new NodeBuilder for a specific <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/DataSet.html' alt='org.openstreetmap.josm.data.osm.DataSet' target='javadoc'>DataSet</a>.</td>
+        <td>Creates a new NodeBuilder for a specific
+        <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/DataSet.html' alt='org.openstreetmap.josm.data.osm.DataSet' target='javadoc'>DataSet</a>.</td>
     </tr>
 
     <tr> 
@@ -120,7 +123,8 @@ var n3 = nbuilder.createProxy(123456);
 <tr>
      <td>ds</td>    
      <td><a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/DataSet.html' alt='org.openstreetmap.josm.data.osm.DataSet' target='javadoc'>DataSet</a></td>
-     <td>(optional) the dataset which created objects are added to</td>
+     <td>(optional) the dataset
+     which created objects are added to</td>
 </tr>
 
 </table>
@@ -141,15 +145,20 @@ var n3 = nbuilder.createProxy(123456);
 
 <p>Can be used in an instance or in a static context.</p>.
 
-<strong>Optional named arguments in the parameters <code>args</code> </strong>
+<strong>Optional named arguments in the parameters <code>args</code>
+</strong>
 <ul>
   <li><code>version</code> - the version of a global node (number > 0)</li>
-  <li><code>lat</code> - a valide latitude (number in the range [-90,90])</li>
-  <li><code>lon</code> - a valide longitude (number in the range [-180,180])</li>
-  <li><code>pos</code> - either an array <code>[lat,lon]</code>, an object <code>{lat: ..., lon: ...}</code>,
+  <li><code>lat</code> - a valide latitude (number in the range
+      [-90,90])</li>
+  <li><code>lon</code> - a valide longitude (number in the range
+      [-180,180])</li>
+  <li><code>pos</code> - either an array <code>[lat,lon]</code>,
+      an object <code>{lat: ..., lon: ...}</code>,
   or an instance of <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/coor/LatLon.html' alt='org.openstreetmap.josm.data.coor.LatLon' target='javadoc'>LatLon</a></li>
-  <li><code>tags</code> - an object with tags. Null values and undefined values are ignored. Any other value
-  is converted to a string. Leading and trailing white space in keys is removed.</li>
+  <li><code>tags</code> - an object with tags. Null values and undefined
+      values are ignored. Any other value is converted to a string.
+      Leading and trailing white space in keys is removed.</li>
 </ul></p>    
 
 
@@ -165,7 +174,8 @@ var n3 = nbuilder.createProxy(123456);
 <tr>
      <td>id</td>    
      <td>number</td>
-     <td>(optional) a global node id. Optional. If missing and not set before using
+     <td>(optional) a global node id. Optional. If missing and
+    not set before using
    <code>withId(..)</code>, creates a new local id.</td>
 </tr>
 
@@ -190,8 +200,11 @@ var n1 = nb.create();
 // create a new global node at position [0,0]
 var n2 = nb.create(12345);
 
-// create a new global way with version 3 at a specific position and with some tags
-var n3 = nb.create(12345, {version: 3, lat: 23.45, lon: 87.23, tags: {amenity: "restaurant"}});
+// create a new global way with version 3 at a specific position
+// and with some tags
+var n3 = nb.create(12345, {version: 3, lat: 23.45,
+    lon: 87.23, tags: {amenity: "restaurant"}
+});
 {% endhighlight %}
 
 
@@ -200,9 +213,11 @@ var n3 = nb.create(12345, {version: 3, lat: 23.45, lon: 87.23, tags: {amenity: "
    <p  id="createProxy" class="member-header">
       createProxy:<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html' alt='org.openstreetmap.josm.data.osm.Node' target='javadoc'>Node</a>   
    </p>
-   <p><p>Creates a new <em>proxy</em> <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html' alt='org.openstreetmap.josm.data.osm.Node' target='javadoc'>Node</a>. A proxy node is a node, for which we only know
-its global id. In order to know more details (position, tags, etc.), we would have to
-download it from the OSM server.</p>
+   <p><p>Creates a new <em>proxy</em>
+<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html' alt='org.openstreetmap.josm.data.osm.Node' target='javadoc'>Node</a>. A proxy node is a node,
+for which we only know its global id. In order to know more details
+(position, tags, etc.), we would have to download it from the OSM server.
+</p>
 
 <p>The method can be used in a static and in an instance context.</p></p>    
 
@@ -232,7 +247,7 @@ download it from the OSM server.</p>
 var nbuilder = require("josm/builder").NodeBuilder;
 
 // a new proxy node for the global node with id 12345
-var n1 = nbuilder.createProxy(12345);  
+var n1 = nbuilder.createProxy(12345);
 {% endhighlight %}
 
 
@@ -241,7 +256,8 @@ var n1 = nbuilder.createProxy(12345);
    <p  id="forDataSet" class="member-header">
       forDataSet:<a href='../classes/NodeBuilder.html' alt='NodeBuilder'>NodeBuilder</a>   
    </p>
-   <p><p>Creates a new NodeBuilder which will add created nodes to the dataset <code>ds</code>.</p></p>    
+   <p><p>Creates or configures a NodeBuilder which will add created nodes
+to the dataset <code>ds</code>.</p></p>    
 
 
 <h3>Parameters</h3>
@@ -256,7 +272,8 @@ var n1 = nbuilder.createProxy(12345);
 <tr>
      <td>ds</td>    
      <td><a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/DataSet.html' alt='org.openstreetmap.josm.data.osm.DataSet' target='javadoc'>DataSet</a></td>
-     <td>the dataset which created objects are added to</td>
+     <td>the dataset which
+        created objects are added to</td>
 </tr>
 
 </table>
@@ -266,8 +283,15 @@ var n1 = nbuilder.createProxy(12345);
 
 
 {% highlight javascript %}
+var builder = require("josm/builder");
+
+// create a new node builder building to a data set
 var ds = new org.openstreetmap.josm.data.osm.DataSet();
-var nb = require("josm/builder").NodeBuilder.forDataSet(ds);
+var nb = builder.NodeBuilder.forDataSet(ds);
+
+// configure an existing node builder
+var nb = new builder.NodeBuilder();
+nb = nb.forDataSet(ds);
 {% endhighlight %}
 
 
@@ -300,7 +324,8 @@ var nb = require("josm/builder").NodeBuilder.forDataSet(ds);
 <tr>
      <td>version</td>    
      <td>number</td>
-     <td>(optional) the global node version. If present, a number > 0. If missing,
+     <td>(optional) the global node version. If present,
+    a number > 0. If missing,
 the version 1 is assumed.</td>
 </tr>
 
@@ -329,14 +354,16 @@ the version 1 is assumed.</td>
 <tr>
      <td>lat</td>    
      <td>Number</td>
-     <td>(mandatory) the latitude. A number in the range [-90..90].</td>
+     <td>(mandatory) the latitude.
+    A number in the range [-90..90].</td>
 </tr>
 
 
 <tr>
      <td>lon</td>    
      <td>Number</td>
-     <td>(mandatory) the longitude.  A number in the range [-180..180].</td>
+     <td>(mandatory) the longitude.
+    A number in the range [-180..180].</td>
 </tr>
 
 </table>
@@ -348,8 +375,8 @@ the version 1 is assumed.</td>
 {% highlight javascript %}
 var nbuilder = require("josm/builder").NodeBuilder;
 
-// a new global  node with the global id 12345 at position (34,45) 
-var n1 = nbuilder.withPosition(34,45).create(12345);  
+// a new global  node with the global id 12345 at position (34,45)
+var n1 = nbuilder.withPosition(34,45).create(12345);
 
 // a new local node at position (23.2, 87.33)
 var n2 = nbuilder.withPosition(23.3,87.33).create();
@@ -389,14 +416,15 @@ var n2 = nbuilder.withPosition(23.3,87.33).create();
 
 {% highlight javascript %}
 var nbuilder = require("josm/builder").NodeBuilder;
-// a new global  node with the global id 12345 and tags name=test and highway=road
-var n1 = nbuilder.withTags({"name":"test", "highway":"road"}).global(12345);  
+// a new global  node with the global id 12345 and tags name=test and
+// highway=road
+var n1 = nbuilder.withTags({"name":"test", "highway":"road"}).global(12345);
 
 // a new local node tags name=test and highway=road
 var tags = {
-     "name"    : "test", 
+     "name"    : "test",
      "highway" : "road"
-};     
+};
 var n2 = nbuilder.withTags(tags).local();
 {% endhighlight %}
 

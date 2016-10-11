@@ -164,17 +164,21 @@
 <dl>
   <dt><code>assert()</code></dt>
   <dd>Does nothing</dd>
-  
+
    <dt><code>assert(cond)</code></dt>
-   <dd>Checks the condition <code>cond</code>. If it is false, throws an Error.</dd>
-   
+   <dd>Checks the condition <code>cond</code>. If it is false, throws an
+   Error.</dd>
+
    <dt><code>assert(cond, msg)</code></dt>
-   <dd>Checks the condition <code>cond</code>. If it is false, throws an Error, whose <code>description</code> property
+   <dd>Checks the condition <code>cond</code>. If it is false, throws an
+   Error, whose <code>description</code> property
    is set to <code>msg</code>.</dd>
 
-	  <dt><code>assert(cond, msg, objs...)</code></dt>
-   <dd>Checks the condition <code>cond</code>. If it is false, throws an Error, whose <code>description</code> property
-   is set to the formatted message <code>msg</code>. Internally uses <code>java.text.MessageFormat</code> to format the message.</dd>
+     <dt><code>assert(cond, msg, objs...)</code></dt>
+   <dd>Checks the condition <code>cond</code>. If it is false, throws an
+   Error, whose <code>description</code> property
+   is set to the formatted message <code>msg</code>. Internally uses
+   <code>java.text.MessageFormat</code> to format the message.</dd>
 
 </dl></p>    
 
@@ -186,13 +190,13 @@
 {% highlight javascript %}
 var util = require("josm/util");
 // throws an Error
-util.assert(false);                  
+util.assert(false);
 
 // throws an Error e, with e.description == "My message"
-util.assert(false, "My message");    
+util.assert(false, "My message");
 
 // throws an Error e, with e.description == "My message: test"
-util.assert(false, "My message: {0}", "test");    
+util.assert(false, "My message: {0}", "test");
 {% endhighlight %}
 
 
@@ -230,7 +234,8 @@ util.assert(false, "My message: {0}", "test");
 <tr>
      <td>values</td>    
      <td></td>
-     <td>(optional) additional values used in <code>msg</code> placeholders</td>
+     <td>(optional) additional values used in <code>msg</code>
+placeholders</td>
 </tr>
 
 </table>
@@ -270,7 +275,8 @@ util.assert(false, "My message: {0}", "test");
 <tr>
      <td>values</td>    
      <td></td>
-     <td>(optional) additional values used in <code>msg</code> placeholders</td>
+     <td>(optional) additional values used in <code>msg</code>
+placeholders</td>
 </tr>
 
 </table>
@@ -284,8 +290,8 @@ var util = require("josm/util");
 util.assertSomething(null);    // -> throws an exception
 util.assertSomething(void 0);  // -> throws an exception
 
-util.assertSomting("test");    // -> OK 
-util.assertSomething(5);       // -> OK 
+util.assertSomting("test");    // -> OK
+util.assertSomething(5);       // -> OK
 {% endhighlight %}
 
 
@@ -327,7 +333,7 @@ o = {};
 c = util.countProperties(o);       // ->  0
 
 o = undefined;
-c = util.countProperties(o);       // ->  undefined 
+c = util.countProperties(o);       // ->  undefined
 {% endhighlight %}
 
 
@@ -336,7 +342,7 @@ c = util.countProperties(o);       // ->  undefined
    <p  id="each" class="member-header">
       each   
    </p>
-   <p><p>Iterates over the elements in <code>collection</code> and invokes 
+   <p><p>Iterates over the elements in <code>collection</code> and invokes
 <code>delegate()</code> on each element.</p></p>    
 
 
@@ -352,7 +358,8 @@ c = util.countProperties(o);       // ->  undefined
 <tr>
      <td>collection</td>    
      <td>array</td>
-     <td>the collection of elements</td>
+     <td>the collection of
+  elements</td>
 </tr>
 
 
@@ -403,7 +410,7 @@ o = {};
 c = util.hasProperties(o);       // ->  false
 
 o = undefined;
-c = util.hasProperties(o);       // ->  false 
+c = util.hasProperties(o);       // ->  false
 {% endhighlight %}
 
 
@@ -464,7 +471,8 @@ c = util.hasProperties(o);       // ->  false
    <p  id="isCollection" class="member-header">
       isCollection   
    </p>
-   <p><p>Replies true, if a value is an array, an arguments list or a Java collection.</p>    
+   <p><p>Replies true, if a value is an array, an arguments list or a Java
+    collection.</p>    
 
 
 <h3>Parameters</h3>
@@ -700,7 +708,6 @@ o1.equals(o2).</p></p>
 
 {% highlight javascript %}
 util.print("Hello world! My name is {0}", myname);
- 
 {% endhighlight %}
 
 
@@ -728,10 +735,10 @@ util.println("Hello world! My name is {0}", myname);
    <p  id="trim" class="member-header">
       trim:string   
    </p>
-   <p><p>Trims leading and trailing whitespace from <code>s</code>.</p> 
+   <p><p>Trims leading and trailing whitespace from <code>s</code>.</p>
 
-<p>Replies s, if s is null or undefined. Any other value is converted to a string, then leading and trailing white
-space is removed.</p></p>    
+<p>Replies s, if s is null or undefined. Any other value is converted to a
+string, then leading and trailing white space is removed.</p></p>    
 
 
 <h3>Parameters</h3>

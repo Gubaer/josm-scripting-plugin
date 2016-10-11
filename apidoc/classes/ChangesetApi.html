@@ -11,9 +11,11 @@
         
 <div class="apidoc">
 <h1 class="title">Class ChangesetApi</h1>
-<p>Provides methods to open, close, get, update, etc. changesets on the OSM API server.</p>
+<p>Provides methods to open, close, get, update, etc. changesets on the OSM
+API server.</p>
 
-<p><strong>Note:</strong> this class doesn't provide a constructor. Methods and properties
+<p><strong>Note:</strong> this class doesn't provide a constructor. Methods
+and properties
 are "static".</p> 
 
 
@@ -22,7 +24,7 @@ are "static".</p>
 // load the changeset api
 var api = require("josm/api").ChangesetApi;
 
-// create a new changeset on the server 
+// create a new changeset on the server
 var cs = api.open();
 {% endhighlight %}
 
@@ -89,7 +91,7 @@ var cs = api.open();
 <dl>
   <dt><code class="signature">close(id)</code></dt>
   <dd>closes the changeset with the given id</dd>
-  
+
   <dt><code class="signature">close(aChangeset)</code><dt>
   <dd>Xloses the changeset given by <code>aChangeset</code></dd>
 </dl></p>    
@@ -121,13 +123,13 @@ var api = require("josm/api").ChangesetApi;
 var util = require("josm/util");
 var Changeset = org.openstreetmap.josm.data.osm.Changeset;
 
-// closs the changeset 12345 
+// closs the changeset 12345
 api.close(12345);
 
 // open a new changeset with the tags given by the supplied changeset
 var cs2 = new Changeset(12345);
-cs2 = api.close(cs2); 
-util.assert(cs2.closed);  // the changeset is now closed  
+cs2 = api.close(cs2);
+util.assert(cs2.closed);  // the changeset is now closed
 {% endhighlight %}
 
 
@@ -140,11 +142,12 @@ util.assert(cs2.closed);  // the changeset is now closed
 
 <dl>
   <dt><code class="signature>get(aChangeset)</code></dt>
-  <dd>Gets the changeset specified by <code>aChangeset</code>. aChangset must be 
-    an instance of <code>Changeset</code>. aChangeset.id &gt; 0 expected.</dd>
-    
+  <dd>Gets the changeset specified by <code>aChangeset</code>. aChangset
+  must be an instance of <code>Changeset</code>.
+  aChangeset.id &gt; 0 expected.</dd>
+
   <dt><code class="signature">get(id)</code></dt>
-  <dd>gets the changeset for the id. id must be a number &gt; 0.</dd> 
+  <dd>gets the changeset for the id. id must be a number &gt; 0.</dd>
 </dl></p>    
 
 
@@ -173,12 +176,12 @@ util.assert(cs2.closed);  // the changeset is now closed
 var api = require("josm/api").ChangesetApi;
 var Changeset = org.openstreetmap.josm.data.osm.Changeset;
 
-// get the changeset with id 12345 
+// get the changeset with id 12345
 var cs1 = api.get(12345);
 
 // get the changeset with id 12345
 var cs2 = new Changeset(12345);
-cs2 = api.get(cs2);   
+cs2 = api.get(cs2);
 {% endhighlight %}
 
 
@@ -191,8 +194,10 @@ cs2 = api.get(cs2);
 
 <ul>
   <li><code>open()</code>  - open a new changeset with no tags</li>
-  <li><code>open(aChangeset)</code>  - open a new changeset with the tags from <code>aChangeset</code></li>
-  <li><code>open(anObject)</code>  - open a new changeset with the tags given by the properties of <code>anObject</code></li>
+  <li><code>open(aChangeset)</code>  - open a new changeset with the tags
+  from <code>aChangeset</code></li>
+  <li><code>open(anObject)</code>  - open a new changeset with the tags
+  given by the properties of <code>anObject</code></li>
 </ul></p>    
 
 
@@ -204,7 +209,7 @@ cs2 = api.get(cs2);
 var api = require("josm/api").ChangesetApi;
 var Changeset = org.openstreetmap.josm.data.osm.Changeset;
 
-// open a new changeset with no tags 
+// open a new changeset with no tags
 var cs1 = api.open();
 
 // open a new changeset with the tags given by the supplied changeset
@@ -257,8 +262,8 @@ var Changeset = org.openstreetmap.josm.data.osm.Changeset;
 
 // update the comment of a changeset
 var cs2 = new Changeset(12345);
-cs2.put("comment", "an updated comment");  
-cs2 = api.update(cs2); 
+cs2.put("comment", "an updated comment");
+cs2 = api.update(cs2);
 {% endhighlight %}
 
 

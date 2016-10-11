@@ -11,12 +11,11 @@
         
 <div class="apidoc">
 <h1 class="title">Mixin WayMixin</h1>
-<p>This mixin 
-provides additional properties and methods which you can invoke on an instance of
-<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Way.html' alt='org.openstreetmap.josm.data.osm.Way' target='javadoc'>Way</a>.</p>
- 
-<p>You can access nodes using indexed properties, i.e. 
-<pre>way[i]</pre>, 
+<p>This mixin  provides additional properties and methods which you can
+invoke on an instance of <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Way.html' alt='org.openstreetmap.josm.data.osm.Way' target='javadoc'>Way</a>.</p>
+
+<p>You can access nodes using indexed properties, i.e.
+<pre>way[i]</pre>,
 see example below. 
 
 
@@ -100,7 +99,7 @@ then prefix the native name with <code>$</code>.</p>
      first:<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html' alt='org.openstreetmap.josm.data.osm.Node' target='javadoc'>Node</a>
           
    </p>
-   <p><p>The first node or undefined, if this way doesn't have nodes 
+   <p><p>The first node or undefined, if this way doesn't have nodes
 (i.e. because it is a proxy way).</p></p>   
    
 
@@ -109,7 +108,7 @@ then prefix the native name with <code>$</code>.</p>
      last:<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html' alt='org.openstreetmap.josm.data.osm.Node' target='javadoc'>Node</a>
           
    </p>
-   <p><p>The last node or undefined, if this way doesn't have nodes 
+   <p><p>The last node or undefined, if this way doesn't have nodes
 (i.e. because it is a proxy way).</p></p>   
    
 
@@ -132,13 +131,14 @@ then prefix the native name with <code>$</code>.</p>
   <dt>get</dt>
   <dd>Replies the nodes as array.</dd>
   <dt>set</dt>
-  <dd>Set the an array or <a href='http://docs.oracle.com/javase/6/docs/api/java/util/List.html' alt='java.util.List' target='javadoc'>List</a> of <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html' alt='org.openstreetmap.josm.data.osm.Node' target='javadoc'>Node</a>s.</dd>
+  <dd>Set the an array or <a href='http://docs.oracle.com/javase/6/docs/api/java/util/List.html' alt='java.util.List' target='javadoc'>List</a> of
+      <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html' alt='org.openstreetmap.josm.data.osm.Node' target='javadoc'>Node</a>s.</dd>
 </dl></p>   
    
 
 {% highlight javascript %}
 var way = ...       // create the way;
-var n1,n2,n3 = ...; // create the nodes 
+var n1,n2,n3 = ...; // create the nodes
 way.nodes = [n1,n2,n3];
 way.nodes;  // -> [n1,n2,n3]
 {% endhighlight %}
@@ -184,11 +184,14 @@ way.nodes;  // -> [n1,n2,n3]
 <strong>Signatures</strong>
 <dl>
   <dt><code class="signature">remove(n1,n2, ...)</code></dt>
-  <dd>Removes the nodes. <code>n</code><em>i</em> are instances of <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html' alt='org.openstreetmap.josm.data.osm.Node' target='javadoc'>Node</a>.</dd>
+  <dd>Removes the nodes. <code>n</code><em>i</em> are instances of
+      <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html' alt='org.openstreetmap.josm.data.osm.Node' target='javadoc'>Node</a>.</dd>
 
    <dt><code class="signature">remove(array|collection)</code></dt>
-  <dd>Removes the nodes. <code>array</code> is a javascript array of <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html' alt='org.openstreetmap.josm.data.osm.Node' target='javadoc'>Node</a>s,
-  <code>collection</code> is a java collection of <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html' alt='org.openstreetmap.josm.data.osm.Node' target='javadoc'>Node</a>s.</dd>
+  <dd>Removes the nodes. <code>array</code> is a javascript array of
+  <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html' alt='org.openstreetmap.josm.data.osm.Node' target='javadoc'>Node</a>s,
+  <code>collection</code> is a java collection of
+  <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html' alt='org.openstreetmap.josm.data.osm.Node' target='javadoc'>Node</a>s.</dd>
 </dl></p>    
 
 
