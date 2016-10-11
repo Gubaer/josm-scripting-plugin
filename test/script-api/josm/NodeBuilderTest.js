@@ -240,12 +240,25 @@ suites.push(tu.suite("NodeBuilder test cases",
 ));
 
 suites.push(tu.suite("forDataSet test cases",
-    test("create with defined dataset", function() {
+    test("instance context - create with defined dataset", function() {
         var ds = new org.openstreetmap.josm.data.osm.DataSet();
-        var nb = require("josm/builder").NodeBuilder.forDataSet(ds);
+        var builder = require("josm/builder");
+        var nb = new builder.NodeBuilder();
+        nb = nb.forDataSet(ds);
         var n = nb.create();
         util.assert(n.getDataSet() === ds,
-            "node should belong to the dataset {0}, actually is {1}",
+            "1 - node should belong to the dataset {0}, actually is {1}",
+            ds,
+            n.getDataSet()
+        );
+    }),
+    test("static context - create with defined dataset", function() {
+        var ds = new org.openstreetmap.josm.data.osm.DataSet();
+        var builder = require("josm/builder");
+        var nb = builder.NodeBuilder.forDataSet(ds);
+        var n = nb.create();
+        util.assert(n.getDataSet() === ds,
+            "2 - node should belong to the dataset {0}, actually is {1}",
             ds,
             n.getDataSet()
         );

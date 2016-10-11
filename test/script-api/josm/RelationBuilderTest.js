@@ -376,6 +376,33 @@ suites.push(tu.suite("using create(...) with optional arguments",
     })
 ));
 
+suites.push(tu.suite("forDataSet test cases",
+    test("instance context - create with defined dataset", function() {
+        var ds = new org.openstreetmap.josm.data.osm.DataSet();
+        var builder = require("josm/builder");
+        var nb = new builder.RelationBuilder();
+        nb = nb.forDataSet(ds);
+        var n = nb.create();
+        util.assert(n.getDataSet() === ds,
+            "1 - node should belong to the dataset {0}, actually is {1}",
+            ds,
+            n.getDataSet()
+        );
+    }),
+    test("static context - create with defined dataset", function() {
+        var ds = new org.openstreetmap.josm.data.osm.DataSet();
+        var builder = require("josm/builder");
+        var nb = builder.RelationBuilder.forDataSet(ds);
+        var n = nb.create();
+        util.assert(n.getDataSet() === ds,
+            "2 - node should belong to the dataset {0}, actually is {1}",
+            ds,
+            n.getDataSet()
+        );
+    })
+));
+
+
 exports.run = function() {
     for (var i=0; i<suites.length; i++) {
         suites[i].run();
