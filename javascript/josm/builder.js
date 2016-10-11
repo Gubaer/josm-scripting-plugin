@@ -213,12 +213,19 @@ exports.NodeBuilder = function(ds) {
 };
 
 /**
- * <p>Creates a new NodeBuilder which will add created nodes to the dataset
- * <code>ds</code>.</p>
+ * <p>Creates or configures a NodeBuilder which will add created nodes
+ * to the dataset <code>ds</code>.</p>
  *
  * @example
+ * var builder = require("josm/builder");
+ *
+ * // create a new node builder building to a data set
  * var ds = new org.openstreetmap.josm.data.osm.DataSet();
- * var nb = require("josm/builder").NodeBuilder.forDataSet(ds);
+ * var nb = builder.NodeBuilder.forDataSet(ds);
+ *
+ * // configure an existing node builder
+ * var nb = new builder.NodeBuilder();
+ * nb = nb.forDataSet(ds);
  *
  * @memberOf NodeBuilder
  * @method
@@ -230,13 +237,16 @@ exports.NodeBuilder = function(ds) {
  * @summary Creates a new NodeBuilder for a specific
  *         {@class org.openstreetmap.josm.data.osm.DataSet}.
  */
-exports.NodeBuilder.forDataSet = function(ds) {
+function forDataSet(ds) {
+    var builder = receiver(this);
     util.assert(util.isSomething(ds),
         "Expected a non-null defined object, got {0}", ds);
-    util.assert(ds instanceof DataSet,
-        "Expected a JOSM dataset, got {0}", ds);
-    return new exports.NodeBuilder(ds);
+    util.assert(ds instanceof DataSet, "Expected a JOSM dataset, got {0}", ds);
+    builder.ds = ds;
+    return builder;
 };
+exports.NodeBuilder.prototype.forDataSet = forDataSet;
+exports.NodeBuilder.forDataSet = forDataSet;
 
 function receiver(that) {
     return typeof that === "object" ? that : new exports.NodeBuilder();
@@ -566,20 +576,19 @@ exports.WayBuilder = function(ds) {
 };
 
 /**
- * <p>Creates a new WayBuilder with an underlying dataset.</p>
+ * <p>Creates or configures a WayBuilder which will add created nodes
+ * to the dataset <code>ds</code>.</p>
  *
  * @example
- * var WayBuilder = require("josm/builder").WayBuilder;
- * var ds = new org.openstreetmap.josm.data.osm.DataSet();
- * 
- * var wbuilder = WayBuilder.forDataSet(ds);
+ * var builder = require("josm/builder");
  *
- * // creates a new local way and assigns it to the dataset 'ds'
- * var w = wbuilder.create();
- * 
- * // creates a new way with id '1234' in a dataset 
+ * // create a new way builder building to a data set
  * var ds = new org.openstreetmap.josm.data.osm.DataSet();
- * var wbuilder = WayBuilder.withId(1234).forDataSet(ds).create();
+ * var wb = builder.WayBuilder.forDataSet(ds);
+ *
+ * // configure an existing way builder
+ * var wb = new builder.WayBuilder();
+ * nb = wb.forDataSet(ds);
  *
  * @memberOf WayBuilder
  * @method
@@ -589,7 +598,7 @@ exports.WayBuilder = function(ds) {
  * @summary Creates a new WayBuilder with an underlying dataset.
  */
 function forDataSet(ds) {
-	var builder = receiver(this);
+    var builder = receiver(this);
     util.assert(util.isSomething(ds),
         "Expected a non-null defined object, got {0}", ds);
     util.assert(ds instanceof DataSet, "Expected a JOSM dataset, got {0}", ds);
@@ -598,7 +607,6 @@ function forDataSet(ds) {
 };
 exports.WayBuilder.prototype.forDataSet = forDataSet;
 exports.WayBuilder.forDataSet = forDataSet;
-
 
 /**
  * <p>Declares the global way id and the global way version.</p>
@@ -980,12 +988,19 @@ exports.RelationBuilder = function(ds) {
 };
 
 /**
- * <p>Creates a new RelationBuilder which will add created relations to the
- * dataset.</p>
+ * <p>Creates or configures a RelationBuilder which will add created nodes
+ * to the dataset <code>ds</code>.</p>
  *
  * @example
+ * var builder = require("josm/builder");
+ *
+ * // create a new relation builder building to a data set
  * var ds = new org.openstreetmap.josm.data.osm.DataSet();
- * var rb = require("josm/builder").RelationBuilder.forDataSet(ds);
+ * var rb = builder.RelationBuilder.forDataSet(ds);
+ *
+ * // configure an existing relation builder
+ * var wb = new builder.RelationBuilder();
+ * nb = wb.forDataSet(ds);
  *
  * @memberOf RelationBuilder
  * @method
@@ -995,14 +1010,16 @@ exports.RelationBuilder = function(ds) {
  * @summary Creates a new RelationBuilder which adds created relations to a
  *     dataset
  */
-exports.RelationBuilder.forDataSet = function(ds) {
+function forDataSet(ds) {
+    var builder = receiver(this);
     util.assert(util.isSomething(ds),
         "Expected a non-null defined object, got {0}", ds);
-    util.assert(ds instanceof DataSet,
-        "Expected a JOSM dataset, got {0}", ds);
-    return new exports.RelationBuilder(ds);
+    util.assert(ds instanceof DataSet, "Expected a JOSM dataset, got {0}", ds);
+    builder.ds = ds;
+    return builder;
 };
-
+exports.RelationBuilder.prototype.forDataSet = forDataSet;
+exports.RelationBuilder.forDataSet = forDataSet;
 /**
  * <p>Create a RelationMember</p>
  *
