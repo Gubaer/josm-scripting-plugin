@@ -320,36 +320,38 @@ function initFromObject(builder, args) {
  */
 function create() {
     var builder = receiver(this);
+    var arg;
+    
     switch(arguments.length){
     case 0:
         break;
     case 1:
-        var o = arguments[0];
-        util.assert(util.isSomething(o),
+        arg = arguments[0];
+        util.assert(util.isSomething(arg),
             "Argument 0: must not be null or undefined");
-        if (util.isNumber(o)) {
-            util.assert(o > 0,
-                "Argument 0: expected an id > 0, got {0}", o);
-            builder.id = o;
-        } else if (typeof o == "object") {
-            initFromObject(builder, o);
+        if (util.isNumber(arg)) {
+            util.assert(arg > 0,
+                "Argument 0: expected an id > 0, got {0}", arg);
+            builder.id = arg;
+        } else if (typeof arg == "object") {
+            initFromObject(builder, arg);
         } else {
-            util.assert(false, "Argument 0: unexpected type, got ''{0}''", o);
+            util.assert(false, "Argument 0: unexpected type, got ''{0}''", arg);
         }
         break;
 
     case 2:
-        var o = arguments[0];
-        util.assert(util.isSomething(o),
+        arg = arguments[0];
+        util.assert(util.isSomething(arg),
             "Argument 0: must not be null or undefined");
-        util.assert(util.isNumber(o), "Argument 0: must be a number");
-        util.assert(o > 0, "Expected an id > 0, got {0}", o);
-        builder.id = o;
+        util.assert(util.isNumber(arg), "Argument 0: must be a number");
+        util.assert(arg > 0, "Expected an id > 0, got {0}", arg);
+        builder.id = arg;
 
-        o = arguments[1];
-        if (util.isSomething(o)) {
-            util.assert(typeof o === "object", "Argument 1: must be an object");
-            initFromObject(builder, o);
+        arg = arguments[1];
+        if (util.isSomething(arg)) {
+            util.assert(typeof arg === "object", "Argument 1: must be an object");
+            initFromObject(builder, arg);
         }
         break;
     default:
@@ -370,9 +372,20 @@ function create() {
         node = new Node(new LatLon(builder.lat || 0, builder.lon || 0));
     }
     assignTags(node, builder.tags || {});
-    if (builder.ds) builder.ds.addPrimitive(node);
+    if (builder.ds) {
+        if (builder.ds.getPrimitiveById(node) == null) {
+            builder.ds.addPrimitive(node);
+        } else {
+            throw new Error(
+                "Failed to add primitive, primitive already included "
+                    + "in dataset. \n"
+                    + "primitive=" + node
+            );
+        }
+    }
     return node;
 }
+
 exports.NodeBuilder.create = create;
 exports.NodeBuilder.prototype.create = create;
 
@@ -854,38 +867,39 @@ function initFromObject(builder, args) {
  */
 function create() {
     var builder = receiver(this);
+    var arg;
     switch(arguments.length){
     case 0:
         break;
     case 1:
-        var o = arguments[0];
-        util.assert(util.isSomething(o),
+        arg = arguments[0];
+        util.assert(util.isSomething(arg),
             "Argument 0: must not be null or undefined");
-        if (util.isNumber(o)) {
-            util.assert(o > 0,
-                "Argument 0: expected an id > 0, got {0}", o);
-            builder.id = o;
-        } else if (typeof o == "object") {
-            initFromObject(builder, o);
+        if (util.isNumber(arg)) {
+            util.assert(arg > 0,
+                "Argument 0: expected an id > 0, got {0}", arg);
+            builder.id = arg;
+        } else if (typeof arg == "object") {
+            initFromObject(builder, arg);
         } else {
             util.assert(false,
-                "Argument 0: unexpected type, got ''{0}''", o);
+                "Argument 0: unexpected type, got ''{0}''", arg);
         }
         break;
 
     case 2:
-        var o = arguments[0];
-        util.assert(util.isSomething(o),
+        arg = arguments[0];
+        util.assert(util.isSomething(arg),
             "Argument 0: must not be null or undefined");
-        util.assert(util.isNumber(o), "Argument 0: must be a number");
-        util.assert(o > 0, "Expected an id > 0, got {0}", o);
-        builder.id = o;
+        util.assert(util.isNumber(arg), "Argument 0: must be a number");
+        util.assert(arg > 0, "Expected an id > 0, got {0}", arg);
+        builder.id = arg;
 
-        o = arguments[1];
-        if (util.isSomething(o)) {
-            util.assert(typeof o === "object",
+        arg = arguments[1];
+        if (util.isSomething(arg)) {
+            util.assert(typeof arg === "object",
                 "Argument 1: must be an object");
-            initFromObject(builder, o);
+            initFromObject(builder, arg);
         }
         break;
     default:
@@ -983,7 +997,7 @@ exports.RelationBuilder = function(ds) {
     if (util.isSomething(ds)) {
         util.assert(ds instanceof DataSet, "Expected a DataSet, got {0}", ds);
         this.ds = ds;
-    }
+    }  
     this.members = [];
 };
 
@@ -1308,36 +1322,37 @@ function initFromObject(builder, args) {
  */
 function create() {
     var builder = receiver(this);
+    var arg;
     switch(arguments.length){
     case 0:
         break;
     case 1:
-        var o = arguments[0];
-        util.assert(util.isSomething(o),
+        arg = arguments[0];
+        util.assert(util.isSomething(arg),
             "Argument 0: must not be null or undefined");
-        if (util.isNumber(o)) {
-            util.assert(o > 0, "Argument 0: expected an id > 0, got {0}", o);
-            builder.id = o;
-        } else if (typeof o == "object") {
-            initFromObject(builder, o);
+        if (util.isNumber(arg)) {
+            util.assert(arg > 0, "Argument 0: expected an id > 0, got {0}", arg);
+            builder.id = arg;
+        } else if (typeof arg == "object") {
+            initFromObject(builder, arg);
         } else {
-            util.assert(false, "Argument 0: unexpected type, got ''{0}''", o);
+            util.assert(false, "Argument 0: unexpected type, got ''{0}''", arg);
         }
         break;
 
     case 2:
-        var o = arguments[0];
-        util.assert(util.isSomething(o),
+        arg = arguments[0];
+        util.assert(util.isSomething(arg),
             "Argument 0: must not be null or undefined");
-        util.assert(util.isNumber(o), "Argument 0: must be a number");
-        util.assert(o > 0,
-            "Expected an id > 0, got {0}", o);
-        builder.id = o;
+        util.assert(util.isNumber(arg), "Argument 0: must be a number");
+        util.assert(arg > 0,
+            "Expected an id > 0, got {0}", arg);
+        builder.id = arg;
 
-        o = arguments[1];
-        if (util.isSomething(o)) {
-            util.assert(typeof o === "object", "Argument 1: must be an object");
-            initFromObject(builder, o);
+        arg = arguments[1];
+        if (util.isSomething(arg)) {
+            util.assert(typeof arg === "object", "Argument 1: must be an object");
+            initFromObject(builder, arg);
         }
         break;
     default:
@@ -1359,8 +1374,16 @@ function create() {
     if (builder.members && builder.members.length > 0) {
         relation.setMembers(builder.members);
     }
-    if (builder.ds.getPrimitiveById(relation) == null) {
-        builder.ds.addPrimitive(relation);
+    if (builder.ds) {
+        if (builder.ds.getPrimitiveById(relation) == null) {
+            builder.ds.addPrimitive(relation);
+        } else {
+            throw new Error(
+                "Failed to add primitive, primitive already included "
+                    + "in dataset. \n"
+                    + "primitive=" + relation
+            );
+        }
     }
     return relation;
 }
