@@ -28,25 +28,27 @@ repositories {
 configurations {
 	rhino
 	jsyntaxpane
+	javaxvalidation
 }
 
 dependencies {
     rhino group: "org.mozilla", name: "rhino", version: "1.7.7.1"
     jsyntaxpane group: "de.sciss", name: "jsyntaxpane", version: "1.0.0"
+    javaxvalidation group: 'javax.validation', name: 'validation-api', version: '1.0.0.GA'
     
     compile configurations.rhino.dependencies
     compile configurations.jsyntaxpane.dependencies
+    compile configurations.javaxvalidation.dependencies
     
     compile group: "org.python", name: "jython", version: "2.7.0"
     compile files("libs/josm.jar")
-    compile group: 'javax.validation', name: 'validation-api', version: '1.0.0.GA'
+     
     
     testCompile configurations.rhino.dependencies
     testCompile configurations.jsyntaxpane.dependencies
+    testCompile configurations.javaxvalidation.dependencies
     testCompile group: "org.python", name: "jython", version: "2.7.0"
     testCompile group: 'junit', name: 'junit', version: '4.12'
-    testCompile group: 'javax.validation', name: 'validation-api', version: '1.0.0.GA'
-
 }
 
 
@@ -81,6 +83,7 @@ jar {
     }
     from zipTree(configurations.rhino.asPath)
     from zipTree(configurations.jsyntaxpane.asPath)
+    from zipTree(configurations.javaxvalidation.asPath)
     
     from("src") {
       include("**/*.dtd")      
