@@ -29,7 +29,6 @@ import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 
 import org.openstreetmap.josm.Main;
-import org.openstreetmap.josm.gui.SideButton;
 import org.openstreetmap.josm.gui.help.ContextSensitiveHelpAction;
 import org.openstreetmap.josm.gui.help.HelpUtil;
 import org.openstreetmap.josm.gui.widgets.HtmlPanel;
@@ -81,12 +80,12 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys{
         JPanel pnl = new JPanel(new FlowLayout(FlowLayout.CENTER));
         JButton btn;
 
-        pnl.add(btn = new SideButton(actRun = new RunAction()));
+        pnl.add(btn = new JButton(actRun = new RunAction()));
         btn.setFocusable(true);
         btn.registerKeyboardAction(actRun, KeyStroke.getKeyStroke("ENTER"),
                 JComponent.WHEN_FOCUSED);
-        pnl.add(new SideButton(new CancelAction()));
-        pnl.add(new SideButton(new ContextSensitiveHelpAction(
+        pnl.add(new JButton(new CancelAction()));
+        pnl.add(new JButton(new ContextSensitiveHelpAction(
                 HelpUtil.ht("/Plugin/Scripting#Run"))));
         return pnl;
     }

@@ -35,7 +35,6 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import org.openstreetmap.josm.Main;
-import org.openstreetmap.josm.gui.SideButton;
 import org.openstreetmap.josm.gui.help.ContextSensitiveHelpAction;
 import org.openstreetmap.josm.gui.help.HelpUtil;
 import org.openstreetmap.josm.gui.widgets.HtmlPanel;
@@ -149,13 +148,13 @@ public class ScriptEngineSelectionDialog extends JDialog {
 
     protected JPanel buildControlButtonPanel() {
         JPanel pnl = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        SideButton btn;
-        pnl.add(btnOK = new SideButton(actOK));
+        JButton btn;
+        pnl.add(btnOK = new JButton(actOK));
         btnOK.setFocusable(true);
         CancelAction actCancel;
-        pnl.add(btn = new SideButton(actCancel = new CancelAction()));
+        pnl.add(btn = new JButton(actCancel = new CancelAction()));
         btn.setFocusable(true);
-        pnl.add(btn = new SideButton(new ContextSensitiveHelpAction(
+        pnl.add(btn = new JButton(new ContextSensitiveHelpAction(
                 HelpUtil.ht("/Plugin/Scripting"))));
         btn.setFocusable(true);
 
