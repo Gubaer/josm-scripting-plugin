@@ -22,7 +22,6 @@ import javax.validation.constraints.NotNull;
 
 import org.openstreetmap.josm.gui.HelpAwareOptionPane;
 import org.openstreetmap.josm.gui.HelpAwareOptionPane.ButtonSpec;
-import org.openstreetmap.josm.gui.SideButton;
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
 import org.openstreetmap.josm.plugins.scripting.ui.ScriptExecutor;
 import org.openstreetmap.josm.tools.ImageProvider;
@@ -47,7 +46,7 @@ public class ScriptingConsolePanel extends JPanel {
         final JPanel pnl = new JPanel(new FlowLayout(FlowLayout.CENTER,0,0));
         pnl.setBorder(null);
         pnl.setBorder(BorderFactory.createEmptyBorder(2,2,2,2));
-        JButton btn = new SideButton(new RunScriptAction(editor.getModel()));
+        JButton btn = new JButton(new RunScriptAction(editor.getModel()));
         pnl.add(btn);
         return pnl;
     }

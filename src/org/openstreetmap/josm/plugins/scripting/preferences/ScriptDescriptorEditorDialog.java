@@ -38,7 +38,6 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.validation.constraints.NotNull;
 
-import org.openstreetmap.josm.gui.SideButton;
 import org.openstreetmap.josm.gui.help.ContextSensitiveHelpAction;
 import org.openstreetmap.josm.gui.help.HelpUtil;
 import org.openstreetmap.josm.gui.widgets.HtmlPanel;
@@ -128,10 +127,10 @@ public class ScriptDescriptorEditorDialog extends JDialog {
 
     protected JPanel buildControlButtonPanel() {
         JPanel pnl = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        pnl.add(new SideButton(actOK = new OKAction()));
-        pnl.add(new SideButton(new CancelAction()));
+        pnl.add(new JButton(actOK = new OKAction()));
+        pnl.add(new JButton(new CancelAction()));
         // FIXME: adjust help topic
-        pnl.add(new SideButton(new ContextSensitiveHelpAction(HelpUtil.ht("/Plugins/Scripting"))));
+        pnl.add(new JButton(new ContextSensitiveHelpAction(HelpUtil.ht("/Plugins/Scripting"))));
         return pnl;
     }
 
