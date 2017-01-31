@@ -190,7 +190,7 @@ exports.has = function(layer) {
  * @name add
  */
 exports.add = function(obj) {
-    util.println("obj: " + obj);
+    //util.println("obj: " + obj);
     if (util.isNothing(obj)) return;
     var layerManager = Main.getLayerManager();
     if (obj instanceof Layer) {
