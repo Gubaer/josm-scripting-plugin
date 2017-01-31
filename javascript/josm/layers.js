@@ -25,7 +25,7 @@ var util = require("josm/util");
  */
 Object.defineProperty(exports, "length", {
     get: function() {
-        Main.getLayerManager().getLayers().size();
+        return Main.getLayerManager().getLayers().size();
     }
 });
 
