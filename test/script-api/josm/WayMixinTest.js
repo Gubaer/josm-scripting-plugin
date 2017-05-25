@@ -114,6 +114,24 @@ suites.push(tu.suite(
         w.remove(n1,n3);
         util.assert(w.length == 1, "7 - lenght should be 1");
         util.assert(w[0].id == n2.id, "8 - wrong id");
+    }),
+    
+    test("removing a tag using removeTag(name)", function() {
+    	var n1 = nb.create();
+        var n2 = nb.create();
+        var n3 = nb.create();
+        var w = wb.withNodes(n1,n2,n3).create(12345);
+        w.set("name", "aname");
+        util.assert(w.has("name"), "should have name tag");
+        util.assert(w.get("name") == "aname", "1 - tag should be aname");
+        util.assert(w.tags.name == "aname", "2 - tag should be aname");
+    
+        w.removeTag("name");
+        util.assert(!w.has("name"), "should not have name tag");
+        util.assert(w.get("name") == undefined, 
+            "1 -name tag should not be defined");
+        util.assert(w.tags.name == undefined, 
+            "2 - name tag should not be defined");
     })
 ));
 

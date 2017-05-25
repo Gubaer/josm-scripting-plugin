@@ -206,14 +206,14 @@ suites.push(tu.suite("setting and getting tags",
         util.assert(n.tags.name == undefined, 
             "2 - name tag should not be defined");
     }),
-    tu.test("removing a tag using remove(name)", function() {
+    tu.test("removing a tag using removeTag(name)", function() {
         var n = nb.create(1234);
         n.set("name", "aname");
         util.assert(n.has("name"), "should have name tag");
         util.assert(n.get("name") == "aname", "1 - tag should be aname");
         util.assert(n.tags.name == "aname", "2 - tag should be aname");
 
-        n.remove("name");
+        n.removeTag("name");
         util.assert(!n.has("name"), "should not have name tag");
         util.assert(n.get("name") == undefined, 
             "1 -name tag should not be defined");
