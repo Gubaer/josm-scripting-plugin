@@ -640,13 +640,13 @@ mixin.has = function(key) {
  * @param {string} name the tag name. Must not be null or undefined.
  *   Non-string values are converted to a string. Leading and trailing
  *   whitespace is removed.
- * @name remove
+ * @name removeTag
  * @method
  * @instance
  * @type {boolean}
  * @summary Removes a tag.
  */
-mixin.remove = function(key){
+mixin.removeTag = function(key){
     if (util.isNothing(key)) return;
     key = util.trim(key + "");
     if (this.has(key)) {
@@ -654,6 +654,33 @@ mixin.remove = function(key){
         if (! this.modified) this.modified = true;
     }
 };
+
+/**
+ *  * <p><strong>Deprecated</strong>. There is a name conflict with the 
+ * <code>remove()</code> method for removing a node in <code>WayMixin</code>. 
+ * Use <code>removeTag()</code> instead.</p>
+ *
+ * <p>Removes a tag.</p>
+ *
+ * @example
+ * var node = .... // create a node
+ *
+ * // set the tags using a javascript object
+ * node.tags = {amenity:"restaurant", name:"Obstberg"};
+ * node.remove("amenity");
+ * node.has("amenity"); // -> false
+ *
+ * @memberOf OsmPrimitiveMixin
+ * @param {string} name the tag name. Must not be null or undefined.
+ *   Non-string values are converted to a string. Leading and trailing
+ *   whitespace is removed.
+ * @name remove
+ * @method
+ * @instance
+ * @type {boolean}
+ * @summary Removes a tag.
+ */
+mixin.remove = mixin.removeTag;
 
 /**
 * <p>Replies true if this object is a node</p>
