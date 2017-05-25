@@ -131,6 +131,11 @@ can invoke on an instance of
     </tr>
 
     <tr> 
+        <td><a href='#removeTag'>removeTag</a></td>
+        <td>Removes a tag.</td>
+    </tr>
+
+    <tr> 
         <td><a href='#set'>set</a></td>
         <td>Set a tag or a collection of tags.</td>
     </tr>
@@ -544,6 +549,51 @@ node.has(/^name(:.*)?$/i);    // -> false
  
    <p  id="remove" class="member-header">
       remove:boolean   
+   </p>
+   <p>* <p><strong>Deprecated</strong>. There is a name conflict with the 
+<code>remove()</code> method for removing a node in <code>WayMixin</code>. 
+Use <code>removeTag()</code> instead.</p>
+
+<p>Removes a tag.</p></p>    
+
+
+<h3>Parameters</h3>
+<table class="parameters">
+<tr>
+   <th>Name</th>
+   <th>Type</th>
+   <th>Description</th>
+</tr>
+
+
+<tr>
+     <td>name</td>    
+     <td>string</td>
+     <td>the tag name. Must not be null or undefined.
+  Non-string values are converted to a string. Leading and trailing
+  whitespace is removed.</td>
+</tr>
+
+</table>
+
+
+   <h3>Examples</h3>
+
+
+{% highlight javascript %}
+var node = .... // create a node
+
+// set the tags using a javascript object
+node.tags = {amenity:"restaurant", name:"Obstberg"};
+node.remove("amenity");
+node.has("amenity"); // -> false
+{% endhighlight %}
+
+
+
+ 
+   <p  id="removeTag" class="member-header">
+      removeTag:boolean   
    </p>
    <p><p>Removes a tag.</p></p>    
 
