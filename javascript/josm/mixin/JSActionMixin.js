@@ -329,7 +329,7 @@ mixin.addToToolbar = function(options) {
     util.assert(typeof options === "object",
         "options: expected an object, got {0}", options);
     if (util.isSomething(options.toolbarId)) {
-        this.putValue("toolbar", String(toolbarId));
+        this.putValue("toolbarId", String(options.toolbarId));
     }
 
     Main.toolbar.register(this);
@@ -352,7 +352,7 @@ mixin.addToToolbar = function(options) {
         } else {
             toolbarPrefs.remove(toolbarId);
             toolbarPrefs.add(Math.min(toolbarPrefs.size(), at), toolbarId);
-        }
+        }       
         Main.pref.putCollection("toolbar", toolbarPrefs);
     } else if (util.isDef(after)) {
         // if we got the parameter 'after', we try to insert it after the
