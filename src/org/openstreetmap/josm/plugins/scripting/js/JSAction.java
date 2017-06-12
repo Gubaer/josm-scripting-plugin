@@ -71,7 +71,7 @@ public class JSAction extends JosmAction {
         }
         // just remember the id. It will be used later, when the action is added
         // to the toolbar
-        this.putValue("toolbar", toolbarId);
+        this.putValue("toolbarId", toolbarId);
 
         // FIXME should accept shortcut as parameter
         this.sc = Shortcut.registerShortcut(name, name, KeyEvent.VK_0,
