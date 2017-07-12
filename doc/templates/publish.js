@@ -3,44 +3,16 @@
  * 
  */
 
-var fs       = require("fs"),
+var fs   = require("fs-extra"),
+    path = require("path"),
     template = require('jsdoc/template'),
-    helper = require('jsdoc/util/templateHelper');
-
-var out = java.lang.System.out;
-	
-var path = function(components){
-	var File = java.io.File;
-	switch(arguments.length) {
-	case 0: return undefined;
-	case 1: return arguments[0];
-	default: 
-		var file = new File(arguments[0]);
-		for (var i=1; i< arguments.length; i++) file = new File(file, arguments[i]);
-		return file.toString();
-	}
-};
+    helper = require('jsdoc/util/templateHelper'),
+    ViewHelper = require("viewhelper").ViewHelper,
+    safeHtmlFilename = require("viewhelper").safeHtmlFilename;
 
 function isString(value) {
 	return typeof value === "string" || value instanceof String;
 }
-
-function mkdirs(file, parent) {
-	var File = java.io.File;
-	var f;
-	if (isString(file)) {
-		f = new File(file);
-	} else if (file instanceof File) {
-		f = file; 
-	} else {
-		f = new File(String(file));
-	}
-	if (!!parent) {
-		f = f.getParentFile();
-	}
-	f.mkdirs();
-};
- 
 
 /**
  * 
@@ -54,11 +26,16 @@ exports.publish = function(data, opts, tutorials) {
 	var safeHtmlFilename = require("viewhelper").safeHtmlFilename;
 
 	function publishDoclet(doclet, config) {
-		var filepath = path(opts.destination, config.path, safeHtmlFilename(doclet.name));
-		mkdirs(filepath, true /* for parent */);
+		var dir = path.join(
+		        opts.destination, 
+		        config.path 
+		);
+		fs.ensureDirSync(dir);
+		var file = path.join(dir, safeHtmlFilename(doclet.name));
 		var fragment = view.render(config.template, {
 			doclet: doclet,
-		    data: data
+		    data: data,
+		    ViewHelper: ViewHelper
 		});
 		var html = view.render('page.tmpl', {
 			title: config.title + " " + doclet.name,
@@ -69,17 +46,18 @@ exports.publish = function(data, opts, tutorials) {
 			body: fragment,
 			showHeader: false
 		});
-		out.println(config.title + " <" + doclet.name + ">: writing to <" + filepath + ">");
-		fs.writeFileSync(filepath, html, "utf8");
+		console.log(config.title + " <" + doclet.name + ">: writing to <" + file + ">");
+		fs.writeFileSync(file, html, "utf8");
 	};
 
 	function publishTOC() {
-		var filepath = path(opts.destination, "apitoc.html");
-		mkdirs(filepath, true /* for parent */);
+		var filepath = path.join(opts.destination, "apitoc.html");
+		fs.ensureDirSync(opts.destination);
 		var fragment = view.render("toc.tmpl", {
-		    data: data
+		    data: data,
+		    safeHtmlFilename: safeHtmlFilename 
 		});
-		out.println("TOC: writing to <" + filepath + ">");
+		console.log("TOC: writing to <" + filepath + ">");
 		fs.writeFileSync(filepath, fragment, "utf8");
 	};
 

@@ -4,9 +4,9 @@
  * 
  * See https://github.com/jsdoc3/jsdoc/tree/master/plugins
  */
-java.lang.System.out.println("CustomTagsPlugin: loading ...");
+console.log("CustomTagsPlugin: loading ...");
 exports.defineTags = function(dictionary) {
-	java.lang.System.out.println("CustomTagsPlugin: defining tag 'forclass' ...");
+	console.log("CustomTagsPlugin: defining tag 'forclass' ...");
 	dictionary.defineTag('forclass', {
 		mustHaveValue: true,
 	    onTagged: function(doclet, tag) {
@@ -14,7 +14,7 @@ exports.defineTags = function(dictionary) {
 	        doclet.forclass = tag.value; 
 	    }
 	});
-	java.lang.System.out.println("CustomTagsPlugin: defining tag 'alias' ...");
+	console.log("CustomTagsPlugin: defining tag 'alias' ...");
 	dictionary.defineTag('alias', {
 		mustHaveValue: true,
 	    onTagged: function(doclet, tag) {

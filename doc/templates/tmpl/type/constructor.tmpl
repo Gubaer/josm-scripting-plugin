@@ -2,13 +2,12 @@
 /*
  * Renders information about constructors of a type.
  */
- var doclet = obj.doclet;  // the doclet for the type 
- var data = obj.data;    // the taffy DB with the doclets 
+var doclet = obj.doclet;          // the doclet for the type 
+var data = obj.data;              // the taffy DB with the doclets 
+var ViewHelper = obj.ViewHelper; 
 
- var self = this;
-
- var ViewHelper = require("viewhelper").ViewHelper;
- var vh = new ViewHelper(data);
+var self = this;
+var vh = new ViewHelper(data);
 
 ?>
 <?js

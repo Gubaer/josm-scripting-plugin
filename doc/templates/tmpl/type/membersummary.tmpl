@@ -1,30 +1,29 @@
  <?js
-    /*
-     * Renders the summary table with the members (properties and methods)
-     * of a type.
-     */ 
-    var self = this;
-    var data = obj.data;
-    var type = obj.doclet;
+/*
+ * Renders the summary table with the members (properties and methods)
+ * of a type.
+ */ 
+var self = this;
+var data = obj.data;
+var type = obj.doclet;
+var ViewHelper = obj.ViewHelper;
 
-    var properties = data({kind: "member", memberof: type.name}).order("name");
-    var methods = data({kind: "function", memberof: type.name}).order("name");
-    var ViewHelper = require("viewhelper").ViewHelper;
-    var vh = new ViewHelper(data);
+var properties = data({kind: "member", memberof: type.name}).order("name");
+var methods = data({kind: "function", memberof: type.name}).order("name");
+var vh = new ViewHelper(data);
 
-    function hasMembers() {
-        return properties.count() + methods.count() > 0;
-    }
+function hasMembers() {
+    return properties.count() + methods.count() > 0;
+}
+?> 
 
- ?> 
- <?js if (hasMembers()) {  ?>
- <table class="member-summary">
- <tr>
+<?js if (hasMembers()) {                                     ?>
+<table class="member-summary">
+<tr>
     <th>Name</th>
     <th>Description</th>
- </tr>
- 
- 
+</tr>
+
 <?js if (properties.count() > 0) {   ?>                                                                      
 <tr>
    <td colspan="2" class="section-header">Properties</td>
@@ -51,4 +50,4 @@
 <?js }); /* end each method */ ?>
 
 </table>
-<?js }  /* end has methods */  ?>
+<?js }  /* end has members */  ?>

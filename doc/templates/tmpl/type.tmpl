@@ -2,10 +2,12 @@
   /*
   *    doclet     -  the doclet for which the type page is generated 
   *    data       - the complete doclet data
-  */
-  var self = this;
-  var ViewHelper = require("viewhelper").ViewHelper;
-  var vh = new ViewHelper(data);
+  *    ViewHelper  - the loaded ViewHelper module
+*/
+var ViewHelper = obj.ViewHelper;
+
+var self = this;
+var vh = new ViewHelper(data);
   
 ?>  
 <div class="apidoc">
@@ -13,9 +15,7 @@
 <?js= vh.resolveClassReferences(doclet.description) ?> 
 
 <?js= self.partial("type/examples.tmpl", doclet.examples) ?>
-<?js= self.partial("type/membersummary.tmpl", {
-    "data": data, "doclet": doclet
-}) ?>
+<?js= self.partial("type/membersummary.tmpl",obj) ?>
 
 <?js if (doclet.augments)  {   ?>
 <p>This mixin extends the mixin <?js= vh.resolveTypes(doclet.augments) ?>. 
@@ -29,7 +29,7 @@ for scripting, too. If a native method name is hidden by a property name in the 
 then prefix the native name with <code>$</code>.</p>
 <?js }  /* END if doclet.forclass */ ?>
 
-<?js= self.partial("type/constructor.tmpl", {"data": data, "doclet": doclet}) ?>
-<?js= self.partial("type/properties.tmpl", {"data": data, "doclet": doclet}) ?>
-<?js= self.partial("type/methods.tmpl", {"data": data, "doclet": doclet}) ?>
+<?js= self.partial("type/constructor.tmpl", obj) ?>
+<?js= self.partial("type/properties.tmpl", obj) ?>
+<?js= self.partial("type/methods.tmpl", obj) ?>
 </div>

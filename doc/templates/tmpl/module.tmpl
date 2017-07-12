@@ -4,11 +4,10 @@
    */
   var doclet = obj.doclet;  // the module doclet
   var data   = obj.data;    // the TAFFY db with the doclets
+  var ViewHelper = obj.ViewHelper; 
 
   var self = this;
-  var ViewHelper = require("viewhelper").ViewHelper;
   var vh = new ViewHelper(data);
-  var out = java.lang.System.out;
 ?>
 <div class="apidoc">
 <h1 class="title">Module <?js= doclet.name ?></h1>
@@ -57,8 +56,11 @@ This module provides the following namespaces:
 They are similar to utility java classes, which provide static methods and fields only.</p>
 <?js } /* end if */ ?>
 
-<?js= self.partial("type/membersummary.tmpl", {"doclet": doclet, "data": data}) ?>
-<?js= self.partial("type/properties.tmpl", {"doclet": doclet, "data": data}) ?>
-<?js= self.partial("type/methods.tmpl", {"doclet": doclet, "data": data}) ?>
+<?js= self.partial("type/membersummary.tmpl", 
+	{"doclet": doclet, "data": data, "ViewHelper": ViewHelper}) ?>
+<?js= self.partial("type/properties.tmpl", 
+	{"doclet": doclet, "data": data, "ViewHelper": ViewHelper}) ?>
+<?js= self.partial("type/methods.tmpl", 
+	{"doclet": doclet, "data": data, "ViewHelper": ViewHelper}) ?>
 
 </div>

@@ -3,11 +3,10 @@
   * Renders the detail information for properties of a type 
   */
 
-var doclet = obj.doclet;     // the doclet representing the type
-var data   = obj.data;     // the TAFFY DB with the doclets
+var doclet = obj.doclet;         // the doclet representing the type
+var data   = obj.data;           // the TAFFY DB with the doclets
+var ViewHelper = obj.ViewHelper; 
 
-
-var ViewHelper = require("viewhelper").ViewHelper;
 var vh = new ViewHelper(data);
 var self = this;
 

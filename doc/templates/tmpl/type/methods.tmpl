@@ -1,12 +1,12 @@
 <?js
 /*
- * Renders the method list of a type
- */
- var doclet = obj.doclet;     //  the type doclet
- var data = obj.data;       //  the TAFFY DB with the doclets
+* Renders the method list of a type
+*/
+var doclet = obj.doclet;         //  the type doclet
+var data = obj.data;             //  the TAFFY DB with the doclets
+var ViewHelper = obj.ViewHelper; 
 
  var self = this;
- var ViewHelper = require("viewhelper").ViewHelper;
  var vh = new ViewHelper(data);
  var methods = data({kind: "function", memberof: doclet.name}).order("name");
 ?>

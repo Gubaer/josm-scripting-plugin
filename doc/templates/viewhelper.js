@@ -21,7 +21,6 @@ function docPrefix(type) {
 function resolveClassReferences(str) {
 	var self = this;
 	if (str == null || str === void 0) return "";
-    var MessageFormat = java.text.MessageFormat;
  	str = str.replace(/(?:\[(.+?)\])?\{@class +(.+?)\}/gi,
 	    function(match, content, longname) {
 			  var fqclassname = longname.replace(/\//g, ".");  
@@ -34,7 +33,8 @@ function resolveClassReferences(str) {
 };
 
 function resolveTypes(type, content) {	
-	 var MessageFormat = java.text.MessageFormat;
+	 //var MessageFormat = java.text.MessageFormat;
+    var util = require("util");
 	 if (type == null || type == undefined) return type;
 	 var types = String(type).split(",");
 	 var resolved = [];
@@ -46,19 +46,24 @@ function resolveTypes(type, content) {
 			 var classname = type.replace(/.*\.([^\.]+)$/, "$1"); 
 			 var url = prefix + type.replace(/\./g, "/") + ".html";
 			 content = content || classname;
-			 type = MessageFormat.format("<a href=''{0}'' alt=''{1}'' target=''javadoc''>{2}</a>", url, type, content)
+			 //type = MessageFormat.format("<a href=''{0}'' alt=''{1}'' target=''javadoc''>{2}</a>", url, type, content)
+			type = util.format("<a href='%s' alt='%s' target='javadoc'>%s</a>", url, type, content)
 		 } else {
 			 var res = this.data({name: type});
 			 if (res.count() < 1) return type;
 			 content  = content || type;
 			 if (res.first().kind == "class") {
-				 return MessageFormat.format("<a href=''../classes/{0}'' alt=''{1}''>{2}</a>", safeHtmlFilename(type), type, content);
+				 //return MessageFormat.format("<a href=''../classes/{0}'' alt=''{1}''>{2}</a>", safeHtmlFilename(type), type, content);
+				 return util.format("<a href='../classes/%s' alt='%s'>%s</a>", safeHtmlFilename(type), type, content);
 			 } else if (res.first().kind == "mixin") {
-				 return MessageFormat.format("<a href=''../mixins/{0}'' alt=''{1}''>{2}</a>", safeHtmlFilename(type), type, content);
+				 //return MessageFormat.format("<a href=''../mixins/{0}'' alt=''{1}''>{2}</a>", safeHtmlFilename(type), type, content);
+				 return util.format("<a href='../mixins/%s' alt='%s'>%s</a>", safeHtmlFilename(type), type, content);
 			 } else if (res.first().kind == "module") {
-				 return MessageFormat.format("<a href=''../modules/{0}'' alt=''{1}''>{2}</a>", safeHtmlFilename(type), type, content);
+				 //return MessageFormat.format("<a href=''../modules/{0}'' alt=''{1}''>{2}</a>", safeHtmlFilename(type), type, content);
+				 return util.format("<a href='../modules/%s' alt='%s'>%s</a>", safeHtmlFilename(type), type, content);
 			 } else if (res.first().kind == "namespace") {
-				 return MessageFormat.format("<a href=''../namespaces/{0}'' alt=''{1}''>{2}</a>", safeHtmlFilename(type), type, content);
+				 //return MessageFormat.format("<a href=''../namespaces/{0}'' alt=''{1}''>{2}</a>", safeHtmlFilename(type), type, content);
+				 return util.format("<a href='../namespaces/%s' alt='%s'>%s</a>", safeHtmlFilename(type), type, content);
 			 }  else {
 				 return type;
 			 }

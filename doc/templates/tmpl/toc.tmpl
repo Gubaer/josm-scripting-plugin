@@ -1,9 +1,10 @@
 <?js
 /*
- * Renders the table of contenst 
- */
-  var data = obj.data;
-  var self = this;
+ * Renders the table of contents 
+*/
+var data = obj.data;
+var self = this;
+var safeHtmlFilename = obj.safeHtmlFilename;
 
 function filterClasses(classes) {
    var ret =[];
@@ -13,8 +14,6 @@ function filterClasses(classes) {
    }
    return ret;
 };
-
-var safeHtmlFilename = require("viewhelper").safeHtmlFilename;
 
 ?>
 <div class="toc">
