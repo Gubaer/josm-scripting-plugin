@@ -2,13 +2,12 @@
 /*
  * Renders information about constructors of a type.
  */
- var doclet = obj.doclet;  // the doclet for the type 
- var data = obj.data;    // the taffy DB with the doclets 
+var doclet = obj.doclet;          // the doclet for the type
+var data = obj.data;              // the taffy DB with the doclets
+var ViewHelper = obj.ViewHelper;
 
- var self = this;
-
- var ViewHelper = require("viewhelper").ViewHelper;
- var vh = new ViewHelper(data);
+var self = this;
+var vh = new ViewHelper(data);
 
 ?>
 <?js
@@ -17,7 +16,7 @@ if (constructors.count() > 0) { ?>
 <h2>Constructor</h2>
 <?js
      var constructor = constructors.first();
-   ?>   
+   ?>
    <p id="<?js= constructor.name ?>" class="member-header">new <?js= constructor.name ?>()</p>
    <p><?js= vh.resolveClassReferences(constructor.description) ?></p>
    <?js= self.partial("type/examples.tmpl", constructor.examples) ?>
@@ -36,12 +35,12 @@ if (constructors.count() > 0) { ?>
 <?js   for(var j=0; j<params.length; j++) { ?>
 <?js      var para = params[j];  ?>
 <tr>
-     <td><?js= para.name ?></td>    
+     <td><?js= para.name ?></td>
      <td><?js= para.type && para.type.names ? vh.resolveTypes(para.type.names) : "" ?></td>
      <td><?js= para.description ? vh.resolveClassReferences(para.description) : "" ?></td>
 </tr>
 <?js   }  /* end for */ ?>
 </table>
 <?js } /* end if */ ?>
-     
+
 <?js }  ?>

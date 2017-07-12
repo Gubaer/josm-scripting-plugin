@@ -374,30 +374,35 @@ function optionVersion(options) {
 }
 
 function downloadObject_2() {
+    function parseOptions(arg) {
+    	var options = {full: undefined, version: undefined};
+    	if (! (typeof arg === "object")) {
+    		return options;
+    	}
+        options.full = optionFull(arg);
+        options.version = optionVersion(arg);
+        return options
+    }
+
     var id;
     var options = {full: undefined, version: undefined};
+
     if (util.isNumber(arguments[0])) {
         id = normalizeId(arguments[0]);
         var type = normalizeType(arguments[1]);
         id = new SimplePrimitiveId(id, type);
     } else if (arguments[0] instanceof PrimitiveId) {
         id = arguments[0];
-        var o = arguments[1];
-        if (util.isSomething(o)) {
-            util.assert(typeof o === "object",
-                "Expected an object with named parameters, got {0}", o);
-            options.full = optionFull(o);
-            options.version = optionVersion(o);
-        }
+        options = parseOptions(arguments[1])
     } else if (typeof arguments[0] === "object") {
         id = primitiveIdFromObject(arguments[0]);
+        options = parseOptions(arguments[1])
     } else {
         util.assert(false, "Unsupported types of arguments");
     }
     var reader;
     if (util.isDef(options.version)) {
-        reader = new OsmServerObjectReader(id, !!options.full, 
-        	options.version);
+        reader = new OsmServerObjectReader(id, options.version);
     } else {
         reader = new OsmServerObjectReader(id, !!options.full);
     }
@@ -417,8 +422,7 @@ function downloadObject_3() {
     options.version = optionVersion(arguments[2]);
     var reader;
     if (util.isDef(options.version)) {
-        reader = new OsmServerObjectReader(id, !!options.full, 
-        	options.version);
+        reader = new OsmServerObjectReader(id, options.version);
     } else {
         reader = new OsmServerObjectReader(id, !!options.full);
     }
@@ -462,7 +466,8 @@ function downloadObject_3() {
  *
  *   <dt><code class="signature">version</code>: number</dt>
  *   <dd>If present, the specified version of the object is downloaded.
- *   If missing, the current version is downloaded.</dd>
+ *   If missing, the current version is downloaded. If present, the
+ *   option <code>full</code> is ignored.</dd>
  * </dl>
  *
  * @example
@@ -481,8 +486,8 @@ function downloadObject_3() {
  * var ds3 = api.downloadObject(id, {full: true});
  *
  * // download version 5 of the full way 12345 (including its nodes)
- * var ds4 = api.downloadObject(12345,
- *         OsmPrimitiveType.WAY, {full: true, version: 5});
+ * var ds4 = api.downloadObject(12345, OsmPrimitiveType.WAY, 
+ *         {version: 5});
  *
  * @method
  * @static
