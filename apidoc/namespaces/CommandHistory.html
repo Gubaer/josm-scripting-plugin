@@ -8,44 +8,44 @@
      {% include apitoc.html %}
     </div>
     <div class="span9">
-        
+      
 <div class="apidoc">
 <h1 class="title">Namespace CommandHistory</h1>
 <p>Accessor to the global command history.</p>
 
-<p>Provides static methods to redo and undo commands.</p> 
+<p>Provides static methods to redo and undo commands.</p>
 
 
 
-  
  
- <table class="member-summary">
- <tr>
+
+
+<table class="member-summary">
+<tr>
     <th>Name</th>
     <th>Description</th>
- </tr>
- 
- 
+</tr>
+
 
  
- 
- 
-                                                                      
+
+
+
 <tr>
    <td colspan="2" class="section-header">Methods</td>
 </tr>
 
-    <tr> 
+    <tr>
         <td><a href='#clear'>clear</a></td>
         <td>Removes commands in the command history</td>
     </tr>
 
-    <tr> 
+    <tr>
         <td><a href='#redo'>redo</a></td>
         <td>Redoes the last <code>depth</code> commands.</td>
     </tr>
 
-    <tr> 
+    <tr>
         <td><a href='#undo'>undo</a></td>
         <td>Undoes the last <code>depth</code> commands.</td>
     </tr>
@@ -61,17 +61,17 @@
 
 
 
-                                                                   
+
   
 
 
 <h2>Functions</h2>
    
    <p  id="clear" class="member-header">
-      clear   
+      clear
    </p>
    <p>Removes commands in the command history, either all commands, or only the
-commands  applied to a specific layer.</p>    
+commands  applied to a specific layer.</p>
 
 
 <h3>Parameters</h3>
@@ -84,7 +84,7 @@ commands  applied to a specific layer.</p>
 
 
 <tr>
-     <td>layer</td>    
+     <td>layer</td>
      <td><a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/gui/layer/Layer.html' alt='org.openstreetmap.josm.gui.layer.Layer' target='javadoc'>Layer</a></td>
      <td>(optional) the
 reference layer. Only commands applied to this layer are remove. Default
@@ -97,9 +97,9 @@ if missing: <strong>all</strong> commands are removed.</td>
 
  
    <p  id="redo" class="member-header">
-      redo   
+      redo
    </p>
-   <p>Redoes the last <code>depth</code> commands.</p>    
+   <p>Redoes the last <code>depth</code> commands.</p>
 
 
 <h3>Parameters</h3>
@@ -112,7 +112,7 @@ if missing: <strong>all</strong> commands are removed.</td>
 
 
 <tr>
-     <td>depth</td>    
+     <td>depth</td>
      <td>number</td>
      <td>(optional) the number of commands to be redone.
         Default if missing: 1</td>
@@ -124,9 +124,9 @@ if missing: <strong>all</strong> commands are removed.</td>
 
  
    <p  id="undo" class="member-header">
-      undo   
+      undo
    </p>
-   <p>Undoes the last <code>depth</code> commands.</p>    
+   <p>Undoes the last <code>depth</code> commands.</p>
 
 
 <h3>Parameters</h3>
@@ -139,7 +139,7 @@ if missing: <strong>all</strong> commands are removed.</td>
 
 
 <tr>
-     <td>depth</td>    
+     <td>depth</td>
      <td>number</td>
      <td>(optional) the number of commands to be undone.
         Default if missing: 1</td>
@@ -153,7 +153,7 @@ if missing: <strong>all</strong> commands are removed.</td>
 
  
 </div>
- 
+
     </div>
   </div>
 </div>

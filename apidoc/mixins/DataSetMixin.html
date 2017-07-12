@@ -8,66 +8,66 @@
      {% include apitoc.html %}
     </div>
     <div class="span9">
-        
+      
 <div class="apidoc">
 <h1 class="title">Mixin DataSetMixin</h1>
 <p>This mixin provides additional properties and methods which you can
 invoke on an instance of<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/DataSet.html' alt='org.openstreetmap.josm.data.osm.DataSet' target='javadoc'>DataSet</a>.
-</p> 
+</p>
 
 
 
 {% highlight javascript %}
 var ds = new org.openstreetmap.josm.data.osm.DataSet();
 
-// create objects
-var n1 = ds.nodeBuilder.create();
-var n2 = ds.nodeBuilder.create();
-var w1 = ds.wbuilder.create(1234, {nodes: [n1,n2]});
+ // create objects
+ var n1 = ds.nodeBuilder.create();
+ var n2 = ds.nodeBuilder.create();
+ var w1 = ds.wbuilder.create(1234, {nodes: [n1,n2]});
 
-// access and manipulate the objects in the dataset
-ds.add(w1);
-ds.has(w1);   // -> true
-ds.has(n1);   // -> true
+ // access and manipulate the objects in the dataset
+ ds.add(w1);
+ ds.has(w1);   // -> true
+ ds.has(n1);   // -> true
 
-// access and manipulate the selected objects
-ds.selection.add(n2);
-ds.selection.isSelected(n2);  // -> true
-ds.selection.toogle(n2);
+ // access and manipulate the selected objects
+ ds.selection.add(n2);
+ ds.selection.isSelected(n2);  // -> true
+ ds.selection.toogle(n2);
 {% endhighlight %}
 
-  
  
- <table class="member-summary">
- <tr>
+
+
+<table class="member-summary">
+<tr>
     <th>Name</th>
     <th>Description</th>
- </tr>
- 
- 
-                                                                      
+</tr>
+
+
 <tr>
    <td colspan="2" class="section-header">Properties</td>
 </tr>
 
-    <tr> 
+    <tr>
         <td><a href='#nodeBuilder'>nodeBuilder</a></td>
         <td>the builder for creating
         <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html' alt='org.openstreetmap.josm.data.osm.Node' target='javadoc'>Node</a>s</td>
     </tr>
 
-    <tr> 
+    <tr>
         <td><a href='#relationBuilder'>relationBuilder</a></td>
         <td>the builder for creating
         <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Relation.html' alt='org.openstreetmap.josm.data.osm.Relation' target='javadoc'>Relation</a>s</td>
     </tr>
 
-    <tr> 
+    <tr>
         <td><a href='#selection'>selection</a></td>
         <td>to manipulate the selected objects in the dataset</td>
     </tr>
 
-    <tr> 
+    <tr>
         <td><a href='#wayBuilder'>wayBuilder</a></td>
         <td>the builder for creating
         <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Way.html' alt='org.openstreetmap.josm.data.osm.Way' target='javadoc'>Way</a>s</td>
@@ -75,71 +75,71 @@ ds.selection.toogle(n2);
 
 
  
- 
- 
-                                                                      
+
+
+
 <tr>
    <td colspan="2" class="section-header">Methods</td>
 </tr>
 
-    <tr> 
+    <tr>
         <td><a href='#add'>add</a></td>
         <td>Adds one or more objects to the dataset.</td>
     </tr>
 
-    <tr> 
+    <tr>
         <td><a href='#batch'>batch</a></td>
         <td>Run a sequence of command without notifying listeners.</td>
     </tr>
 
-    <tr> 
+    <tr>
         <td><a href='#each'>each</a></td>
         <td>Iterates over the dataset.</td>
     </tr>
 
-    <tr> 
+    <tr>
         <td><a href='#get'>get</a></td>
         <td>Get an object from the dataset.</td>
     </tr>
 
-    <tr> 
+    <tr>
         <td><a href='#has'>has</a></td>
         <td>Check whether an object is in the dataset.</td>
     </tr>
 
-    <tr> 
+    <tr>
         <td><a href='#load'>load</a></td>
         <td>Loads a dataset from a file.</td>
     </tr>
 
-    <tr> 
+    <tr>
         <td><a href='#node'>node</a></td>
         <td>Get a specific <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html' alt='org.openstreetmap.josm.data.osm.Node' target='javadoc'>Node</a>
     from the dataset.</td>
     </tr>
 
-    <tr> 
+    <tr>
         <td><a href='#query'>query</a></td>
         <td>Queries the dataset.</td>
     </tr>
 
-    <tr> 
+    <tr>
         <td><a href='#relation'>relation</a></td>
         <td>Get a specific <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Relation.html' alt='org.openstreetmap.josm.data.osm.Relation' target='javadoc'>Relation</a>
     from the dataset.</td>
     </tr>
 
-    <tr> 
+    <tr>
         <td><a href='#remove'>remove</a></td>
         <td>Remove one or more objects from the dataset.</td>
     </tr>
 
-    <tr> 
+    <tr>
         <td><a href='#save'>save</a></td>
         <td>Saves a dataset to a file.</td>
     </tr>
 
-    <tr> 
+    <tr>
         <td><a href='#way'>way</a></td>
         <td>Get a specific <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Way.html' alt='org.openstreetmap.josm.data.osm.Way' target='javadoc'>Way</a>
     from the dataset.</td>
@@ -152,10 +152,11 @@ ds.selection.toogle(n2);
 
 
 
-<p>This mixin provides additional properties and methods for the native Java class 
-<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/DataSet.html' alt='org.openstreetmap.josm.data.osm.DataSet' target='javadoc'>DataSet</a>, whose native public methods are available
-for scripting, too. If a native method name is hidden by a property name in the mixin,
-then prefix the native name with <code>$</code>.</p>
+<p>This mixin provides additional properties and methods for the native Java
+class  <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/DataSet.html' alt='org.openstreetmap.josm.data.osm.DataSet' target='javadoc'>DataSet</a>, whose native public methods
+are available for scripting, too. If a native method name is hidden by a
+property name in the mixin, then prefix the native name with <code>$</code>.
+</p>
 
 
 
@@ -163,12 +164,12 @@ then prefix the native name with <code>$</code>.</p>
 
 
 <h2>Properties</h2>
-   
+
    <p id="nodeBuilder" class="member-header">
      nodeBuilder:<a href='../classes/NodeBuilder.html' alt='NodeBuilder'>NodeBuilder</a>
-          
+     
    </p>
-   <p>Replies a node builder to create nodes in this dataset.</p>   
+   <p>Replies a node builder to create nodes in this dataset.</p>
    
 
 {% highlight javascript %}
@@ -178,12 +179,12 @@ var n = ds.nodeBuilder.withId(1234).withTags({amenity: "restaurant"})
 ds.has(n);  // --> true
 {% endhighlight %}
 
-   
+
    <p id="relationBuilder" class="member-header">
      relationBuilder:<a href='../classes/RelationBuilder.html' alt='RelationBuilder'>RelationBuilder</a>
-          
+     
    </p>
-   <p>Replies a relation builder to create relations in this dataset.</p>   
+   <p>Replies a relation builder to create relations in this dataset.</p>
    
 
 {% highlight javascript %}
@@ -192,20 +193,20 @@ var r = ds.relationBuilder.withId(8765).create({tags: {type: "network"}});
 ds.has(r);  // --> true
 {% endhighlight %}
 
-   
+
    <p id="selection" class="member-header">
      selection:<a href='../classes/DataSetSelectionFacade.html' alt='DataSetSelectionFacade'>DataSetSelectionFacade</a>
-          
+     
    </p>
-   <p>Replies the dataset selection object.</p>   
+   <p>Replies the dataset selection object.</p>
    
 
-   
+
    <p id="wayBuilder" class="member-header">
      wayBuilder:<a href='../classes/WayBuilder.html' alt='WayBuilder'>WayBuilder</a>
-          
+     
    </p>
-   <p>Replies a way builder to create ways in this dataset.</p>   
+   <p>Replies a way builder to create ways in this dataset.</p>
    
 
 {% highlight javascript %}
@@ -214,15 +215,15 @@ var w = ds.wayBuilder.create(1234, {tags: {highway: "residential"}});
 ds.has(w);  // --> true
 {% endhighlight %}
 
-    
-                                                                   
+
+
   
 
 
 <h2>Functions</h2>
    
    <p  id="add" class="member-header">
-      add   
+      add
    </p>
    <p><p>Adds one or more primitives to the dataset.</p>
 
@@ -242,7 +243,7 @@ ds.has(w);  // --> true
   a <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Way.html' alt='org.openstreetmap.josm.data.osm.Way' target='javadoc'>Way</a>,
   or <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Relation.html' alt='org.openstreetmap.josm.data.osm.Relation' target='javadoc'>Relation</a>.
   null and undefined are ignored.</dd>
-</dl></p>    
+</dl></p>
 
 
 
@@ -271,10 +272,10 @@ relation.add(l);
 
  
    <p  id="batch" class="member-header">
-      batch   
+      batch
    </p>
    <p><p>Run a sequence of operations against the dataset in "batch mode".
-Listeners to data set events are only notified at the end of the batch.</p></p>    
+Listeners to data set events are only notified at the end of the batch.</p></p>
 
 
 <h3>Parameters</h3>
@@ -287,7 +288,7 @@ Listeners to data set events are only notified at the end of the batch.</p></p>
 
 
 <tr>
-     <td>delegate</td>    
+     <td>delegate</td>
      <td>function</td>
      <td>the function implementing the batch processes.
     Ignored if null or undefined.</td>
@@ -313,7 +314,7 @@ ds.batch(function() {
 
  
    <p  id="each" class="member-header">
-      each   
+      each
    </p>
    <p><p>Iterates over the objects in the dataset.</p>
 
@@ -338,7 +339,7 @@ named parameters:
   <dd>If true, searches <em>all</em> objects in the dataset. If false,
   ignores incomplete or deleted
   objects. Default: false.</dd>
-</dl></p>    
+</dl></p>
 
 
 <h3>Parameters</h3>
@@ -351,14 +352,14 @@ named parameters:
 
 
 <tr>
-     <td>delegate</td>    
+     <td>delegate</td>
      <td>function</td>
      <td>the function invoked on every element</td>
 </tr>
 
 
 <tr>
-     <td>options</td>    
+     <td>options</td>
      <td>object</td>
      <td>(optional) additional named parameters</td>
 </tr>
@@ -369,7 +370,7 @@ named parameters:
 
  
    <p  id="get" class="member-header">
-      get   
+      get
    </p>
    <p><p>Replies an OSM object from the dataset, or undefined, if no such object
 exists.</p>
@@ -390,7 +391,7 @@ exists.</p>
   <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/PrimitiveId.html' alt='org.openstreetmap.josm.data.osm.PrimitiveId' target='javadoc'>PrimitiveId</a> or an object with
   the properties <code>id</code> and <code>type</code>, i.e.
   <code>{id: 1234, type: "node"}</code>.</dd>
-</dl></p>    
+</dl></p>
 
 
 
@@ -427,7 +428,7 @@ var o5 = ds.get(way);
 
  
    <p  id="has" class="member-header">
-      has   
+      has
    </p>
    <p><p>Replies true, if the dataset contains an object.</p>
 
@@ -447,7 +448,7 @@ var o5 = ds.get(way);
   an instance of <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/PrimitiveId.html' alt='org.openstreetmap.josm.data.osm.PrimitiveId' target='javadoc'>PrimitiveId</a> or
   an object with the properties <code>id</code> and <code>type</code>,
   i.e. <code>{id: 1234, type: "node"}</code>.</dd>
-</dl></p>    
+</dl></p>
 
 
 
@@ -484,7 +485,7 @@ ret = ds.has(way);
 
  
    <p  id="load" class="member-header">
-      load   
+      load
    </p>
    <p><p>Loads a dataset from a file.</p>
 
@@ -499,7 +500,7 @@ option <code>options.format</code> is set.</p>
   compressed with bzip2), or "osm.gz" (Open Street Map XML data,
   compressed with gzip).  Value is normalized by removing leading and
   trailing whitespace and conversion to lower case.</dd>
-</dl></p>    
+</dl></p>
 
 
 <h3>Parameters</h3>
@@ -512,7 +513,7 @@ option <code>options.format</code> is set.</p>
 
 
 <tr>
-     <td>source</td>    
+     <td>source</td>
      <td>string</td>
      <td>the data source. Either a file
         name as string or a java.io.File</td>
@@ -520,7 +521,7 @@ option <code>options.format</code> is set.</p>
 
 
 <tr>
-     <td>options</td>    
+     <td>options</td>
      <td>object</td>
      <td>(optional) optional named parameters</td>
 </tr>
@@ -543,9 +544,9 @@ var ds2 = DataSet.load("/tmp/my-data.ogz", {format: "osm.gz"});
 
  
    <p  id="node" class="member-header">
-      node   
+      node
    </p>
-   <p><p>Replies the node with id <code>id</code>.</p></p>    
+   <p><p>Replies the node with id <code>id</code>.</p></p>
 
 
 <h3>Parameters</h3>
@@ -558,7 +559,7 @@ var ds2 = DataSet.load("/tmp/my-data.ogz", {format: "osm.gz"});
 
 
 <tr>
-     <td>id</td>    
+     <td>id</td>
      <td>number</td>
      <td>the unique numeric id. Must not be 0.</td>
 </tr>
@@ -569,7 +570,7 @@ var ds2 = DataSet.load("/tmp/my-data.ogz", {format: "osm.gz"});
 
  
    <p  id="query" class="member-header">
-      query   
+      query
    </p>
    <p><p>Queries the dataset</p>
 
@@ -620,7 +621,7 @@ named parameters:
   <dd><strong>Only applies for searches with a JOSM search
   expression</strong>.
    Default: false.</dd>
-</dl></p>    
+</dl></p>
 
 
 <h3>Parameters</h3>
@@ -633,14 +634,14 @@ named parameters:
 
 
 <tr>
-     <td>expression</td>    
+     <td>expression</td>
      <td>string</td>
      <td>the match expression</td>
 </tr>
 
 
 <tr>
-     <td>options</td>    
+     <td>options</td>
      <td>object</td>
      <td>(optional) additional named parameters</td>
 </tr>
@@ -651,9 +652,9 @@ named parameters:
 
  
    <p  id="relation" class="member-header">
-      relation   
+      relation
    </p>
-   <p><p>Replies the relation with id <code>id</code>.</p></p>    
+   <p><p>Replies the relation with id <code>id</code>.</p></p>
 
 
 <h3>Parameters</h3>
@@ -666,7 +667,7 @@ named parameters:
 
 
 <tr>
-     <td>id</td>    
+     <td>id</td>
      <td>number</td>
      <td>the unique numeric id. Must not be 0.</td>
 </tr>
@@ -677,7 +678,7 @@ named parameters:
 
  
    <p  id="remove" class="member-header">
-      remove   
+      remove
    </p>
    <p><p>Removes objects from the dataset.</p>
 
@@ -708,7 +709,7 @@ named parameters:
   <code>{id: 1234, type: "node"}</code>.
   null or undefined elements are ignored.
   </dd>
-</dl></p>    
+</dl></p>
 
 
 
@@ -747,7 +748,7 @@ ds.remove(ids);
 
  
    <p  id="save" class="member-header">
-      save   
+      save
    </p>
    <p><p>Saves the dataset to a file (in OSM XML format).</p>
 
@@ -762,7 +763,7 @@ ds.remove(ids);
   <code>changeset</code> on every OSM object. If undefined, includes the
   individual <code>changeset</code> attribute of the OSM object.
   Default: undefined</dd>
-</dl></p>    
+</dl></p>
 
 
 <h3>Parameters</h3>
@@ -775,7 +776,7 @@ ds.remove(ids);
 
 
 <tr>
-     <td>target</td>    
+     <td>target</td>
      <td>string</td>
      <td>the target file. Either a file
         name as string or a java.io.File</td>
@@ -783,7 +784,7 @@ ds.remove(ids);
 
 
 <tr>
-     <td>options</td>    
+     <td>options</td>
      <td>object</td>
      <td>(optional) optional named parameters</td>
 </tr>
@@ -804,9 +805,9 @@ ds.save("/tmp/data.osm");
 
  
    <p  id="way" class="member-header">
-      way   
+      way
    </p>
-   <p><p>Replies the way with id <code>id</code>.</p></p>    
+   <p><p>Replies the way with id <code>id</code>.</p></p>
 
 
 <h3>Parameters</h3>
@@ -819,7 +820,7 @@ ds.save("/tmp/data.osm");
 
 
 <tr>
-     <td>id</td>    
+     <td>id</td>
      <td>number</td>
      <td>the unique numeric id. Must not be 0.</td>
 </tr>
@@ -832,7 +833,7 @@ ds.save("/tmp/data.osm");
 
  
 </div>
- 
+
     </div>
   </div>
 </div>

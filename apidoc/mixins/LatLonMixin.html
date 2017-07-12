@@ -8,49 +8,49 @@
      {% include apitoc.html %}
     </div>
     <div class="span9">
-        
+      
 <div class="apidoc">
 <h1 class="title">Mixin LatLonMixin</h1>
 <p>This mixin provides additional properties and methods which you can 
 invoke on an instance of
-<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/coor/LatLon.html' alt='org.openstreetmap.josm.data.coor.LatLon' target='javadoc'>LatLon</a>.</p> 
+<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/coor/LatLon.html' alt='org.openstreetmap.josm.data.coor.LatLon' target='javadoc'>LatLon</a>.</p>
 
 
 
-  
  
- <table class="member-summary">
- <tr>
+
+
+<table class="member-summary">
+<tr>
     <th>Name</th>
     <th>Description</th>
- </tr>
- 
- 
-                                                                      
+</tr>
+
+
 <tr>
    <td colspan="2" class="section-header">Properties</td>
 </tr>
 
-    <tr> 
+    <tr>
         <td><a href='#lat'>lat</a></td>
         <td>Get the latitude.</td>
     </tr>
 
-    <tr> 
+    <tr>
         <td><a href='#lon'>lon</a></td>
         <td>Get the longitude.</td>
     </tr>
 
 
  
- 
- 
-                                                                      
+
+
+
 <tr>
    <td colspan="2" class="section-header">Methods</td>
 </tr>
 
-    <tr> 
+    <tr>
         <td><a href='#make'>make</a></td>
         <td>Create a <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/coor/LatLon.html' alt='org.openstreetmap.josm.data.coor.LatLon' target='javadoc'>LatLon</a> 
 from a javascript object.</td>
@@ -63,10 +63,11 @@ from a javascript object.</td>
 
 
 
-<p>This mixin provides additional properties and methods for the native Java class 
-<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/coor/LatLon.html' alt='org.openstreetmap.josm.data.coor.LatLon' target='javadoc'>LatLon</a>, whose native public methods are available
-for scripting, too. If a native method name is hidden by a property name in the mixin,
-then prefix the native name with <code>$</code>.</p>
+<p>This mixin provides additional properties and methods for the native Java
+class  <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/coor/LatLon.html' alt='org.openstreetmap.josm.data.coor.LatLon' target='javadoc'>LatLon</a>, whose native public methods
+are available for scripting, too. If a native method name is hidden by a
+property name in the mixin, then prefix the native name with <code>$</code>.
+</p>
 
 
 
@@ -74,12 +75,12 @@ then prefix the native name with <code>$</code>.</p>
 
 
 <h2>Properties</h2>
-   
+
    <p id="lat" class="member-header">
      lat:number
-          
+     
    </p>
-   <p><p>Get the latitude.</p></p>   
+   <p><p>Get the latitude.</p></p>
    
 
 {% highlight javascript %}
@@ -94,12 +95,12 @@ pos.lat;     // -> 1
 pos.$lat();  // -> 1
 {% endhighlight %}
 
-   
+
    <p id="lon" class="member-header">
      lon:number
-          
+     
    </p>
-   <p><p>Get the longitude.</p></p>   
+   <p><p>Get the longitude.</p></p>
    
 
 {% highlight javascript %}
@@ -114,18 +115,18 @@ pos.lon;     // -> 2
 pos.$lon();  // -> 1
 {% endhighlight %}
 
-    
-                                                                   
+
+
   
 
 
 <h2>Functions</h2>
    
    <p  id="make" class="member-header">
-      make:<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/coor/LatLon.html' alt='org.openstreetmap.josm.data.coor.LatLon' target='javadoc'>LatLon</a>   
+      make:<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/coor/LatLon.html' alt='org.openstreetmap.josm.data.coor.LatLon' target='javadoc'>LatLon</a>
    </p>
    <p><p>Creates a <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/coor/LatLon.html' alt='org.openstreetmap.josm.data.coor.LatLon' target='javadoc'>LatLon</a> from a 
-javascript object.</p></p>    
+javascript object.</p></p>
 
 
 <h3>Parameters</h3>
@@ -138,7 +139,7 @@ javascript object.</p></p>
 
 
 <tr>
-     <td>obj</td>    
+     <td>obj</td>
      <td>object</td>
      <td>a javascript object with two number properties 
 <code>lat:</code> and 
@@ -161,7 +162,7 @@ var pos = LatLon.make({lat: 1, lon: 2});
 
  
 </div>
- 
+
     </div>
   </div>
 </div>

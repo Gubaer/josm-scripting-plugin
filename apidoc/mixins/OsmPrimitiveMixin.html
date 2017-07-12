@@ -8,134 +8,134 @@
      {% include apitoc.html %}
     </div>
     <div class="span9">
-        
+      
 <div class="apidoc">
 <h1 class="title">Mixin OsmPrimitiveMixin</h1>
 <p>OsmPrimitiveMixin provides additional properties and methods which you
 can invoke on an instance of
-<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/OsmPrimitive.html' alt='org.openstreetmap.josm.data.osm.OsmPrimitive' target='javadoc'>OsmPrimitive</a>. 
+<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/OsmPrimitive.html' alt='org.openstreetmap.josm.data.osm.OsmPrimitive' target='javadoc'>OsmPrimitive</a>.
 
 
 
-  
  
- <table class="member-summary">
- <tr>
+
+
+<table class="member-summary">
+<tr>
     <th>Name</th>
     <th>Description</th>
- </tr>
- 
- 
-                                                                      
+</tr>
+
+
 <tr>
    <td colspan="2" class="section-header">Properties</td>
 </tr>
 
-    <tr> 
+    <tr>
         <td><a href='#changesetId'>changesetId</a></td>
         <td>et or get the changeset id this primitive was last modified in.</td>
     </tr>
 
-    <tr> 
+    <tr>
         <td><a href='#dataSet'>dataSet</a></td>
         <td>Replies the parent dataset.</td>
     </tr>
 
-    <tr> 
+    <tr>
         <td><a href='#id'>id</a></td>
         <td>The unique numeric id</td>
     </tr>
 
-    <tr> 
+    <tr>
         <td><a href='#isDeleted'>isDeleted</a>, <a href='#isDeleted'>deleted</a></td>
         <td>Set or get wheter this primitive is deleted.</td>
     </tr>
 
-    <tr> 
+    <tr>
         <td><a href='#isGlobal'>isGlobal</a>, <a href='#isGlobal'>global</a></td>
         <td>Replies true, if this is a global primitive</td>
     </tr>
 
-    <tr> 
+    <tr>
         <td><a href='#isIncomplete'>isIncomplete</a>, <a href='#isIncomplete'>isProxy</a>, <a href='#isIncomplete'>incomplete</a>, <a href='#isIncomplete'>proxy</a></td>
         <td>Replies true if this is a proxy object</td>
     </tr>
 
-    <tr> 
+    <tr>
         <td><a href='#isLocal'>isLocal</a>, <a href='#isLocal'>local</a>, <a href='#isLocal'>isNew</a></td>
         <td>Replies true, if this is a local primitive.</td>
     </tr>
 
-    <tr> 
+    <tr>
         <td><a href='#isNode'>isNode</a></td>
         <td>Replies true if this object is a node</td>
     </tr>
 
-    <tr> 
+    <tr>
         <td><a href='#isRelation'>isRelation</a></td>
         <td>Replies true if this object is a relation</td>
     </tr>
 
-    <tr> 
+    <tr>
         <td><a href='#isWay'>isWay</a></td>
         <td>Replies true if this object is a way</td>
     </tr>
 
-    <tr> 
+    <tr>
         <td><a href='#keys'>keys</a></td>
         <td>Replies an array with the tag keys.</td>
     </tr>
 
-    <tr> 
+    <tr>
         <td><a href='#tags'>tags</a></td>
         <td>Get or set the tags of the object.</td>
     </tr>
 
-    <tr> 
+    <tr>
         <td><a href='#timestamp'>timestamp</a></td>
         <td>Get the timestamp this primitive was last modified on the server.</td>
     </tr>
 
-    <tr> 
+    <tr>
         <td><a href='#user'>user</a></td>
         <td>Set or get the user.</td>
     </tr>
 
-    <tr> 
+    <tr>
         <td><a href='#version'>version</a></td>
         <td>The version of the object.</td>
     </tr>
 
 
  
- 
- 
-                                                                      
+
+
+
 <tr>
    <td colspan="2" class="section-header">Methods</td>
 </tr>
 
-    <tr> 
+    <tr>
         <td><a href='#get'>get</a></td>
         <td>Replies the value of a tag.</td>
     </tr>
 
-    <tr> 
+    <tr>
         <td><a href='#has'>has</a></td>
         <td>Checks whether a primitive has a tag.</td>
     </tr>
 
-    <tr> 
+    <tr>
         <td><a href='#remove'>remove</a></td>
         <td>Removes a tag.</td>
     </tr>
 
-    <tr> 
+    <tr>
         <td><a href='#removeTag'>removeTag</a></td>
         <td>Removes a tag.</td>
     </tr>
 
-    <tr> 
+    <tr>
         <td><a href='#set'>set</a></td>
         <td>Set a tag or a collection of tags.</td>
     </tr>
@@ -147,10 +147,11 @@ can invoke on an instance of
 
 
 
-<p>This mixin provides additional properties and methods for the native Java class 
-<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/OsmPrimitive.html' alt='org.openstreetmap.josm.data.osm.OsmPrimitive' target='javadoc'>OsmPrimitive</a>, whose native public methods are available
-for scripting, too. If a native method name is hidden by a property name in the mixin,
-then prefix the native name with <code>$</code>.</p>
+<p>This mixin provides additional properties and methods for the native Java
+class  <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/OsmPrimitive.html' alt='org.openstreetmap.josm.data.osm.OsmPrimitive' target='javadoc'>OsmPrimitive</a>, whose native public methods
+are available for scripting, too. If a native method name is hidden by a
+property name in the mixin, then prefix the native name with <code>$</code>.
+</p>
 
 
 
@@ -158,17 +159,17 @@ then prefix the native name with <code>$</code>.</p>
 
 
 <h2>Properties</h2>
-   
+
    <p id="changesetId" class="member-header">
      changesetId:number
-          
+     
    </p>
    <p><p>Set or get the changeset id this primitive was last modified in.</p>
 
 <p><strong>get:</strong> - replies the changeset id or undefined, if no
 changeset id is known (i.e.  for local primitives or proxy primitives).</p>
 
-<p><strong>set:</strong> - assign a changset id, a number &gt, 0.</p></p>   
+<p><strong>set:</strong> - assign a changset id, a number &gt, 0.</p></p>
    
 
 {% highlight javascript %}
@@ -179,13 +180,13 @@ var n1 = nb.create(12345);
 n1.changesetId = 6;
 {% endhighlight %}
 
-   
+
    <p id="dataSet" class="member-header">
      dataSet:<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/DataSet.html' alt='org.openstreetmap.josm.data.osm.DataSet' target='javadoc'>DataSet</a>
-          
+     
    </p>
    <p><p>Replies the parent dataset or undefined, if this primitive is not
-attached to a dataset.</p></p>   
+attached to a dataset.</p></p>
    
 
 {% highlight javascript %}
@@ -201,13 +202,13 @@ var n2 = nb.create();
 n2.dataSet;   // -> undefined
 {% endhighlight %}
 
-   
+
    <p id="id" class="member-header">
      id:number
-          
+     
    </p>
    <p><p>The unique numeric id, positive for global primitives, negative for local
-primitives.</p></p>   
+primitives.</p></p>
    
 
 {% highlight javascript %}
@@ -218,12 +219,12 @@ var node = nb.create();
 var id = node.id;   // -> a negative value
 {% endhighlight %}
 
-   
+
    <p id="isDeleted" class="member-header">
      isDeleted:boolean
      
      <strong> | Aliases: </strong>deleted
-     
+
    </p>
    <p><p>Set or get wheter this primitive is deleted.</p>
 
@@ -232,17 +233,17 @@ prefix the name with $, i.e.
 <pre>
    node.$isDeleted(); // -> same as node.isDeleted  without parantheses
 </pre>
-</p></p>   
+</p></p>
    
 
-   
+
    <p id="isGlobal" class="member-header">
      isGlobal:boolean
      
      <strong> | Aliases: </strong>global
-     
+
    </p>
-   <p><p>Replies true, if this is a global primitive</p></p>   
+   <p><p>Replies true, if this is a global primitive</p></p>
    
 
 {% highlight javascript %}
@@ -256,25 +257,25 @@ node = nb.create(1234);
 node.isGlobal;   // -> true
 {% endhighlight %}
 
-   
+
    <p id="isIncomplete" class="member-header">
      isIncomplete:boolean
      
      <strong> | Aliases: </strong>isProxy, incomplete, proxy
-     
+
    </p>
    <p><p>Replies true if this a proxy object, in JOSM terminology called an
-incomplete object.</p></p>   
+incomplete object.</p></p>
    
 
-   
+
    <p id="isLocal" class="member-header">
      isLocal:boolean
      
      <strong> | Aliases: </strong>local, isNew
-     
+
    </p>
-   <p><p>Replies true, if this is a local primitive.</p></p>   
+   <p><p>Replies true, if this is a local primitive.</p></p>
    
 
 {% highlight javascript %}
@@ -288,36 +289,36 @@ node = nb.create(1234);
 node.isLocal;   // -> false
 {% endhighlight %}
 
-   
+
    <p id="isNode" class="member-header">
      isNode:boolean
-          
+     
    </p>
-   <p><p>Replies true if this object is a node</p></p>   
+   <p><p>Replies true if this object is a node</p></p>
    
 
-   
+
    <p id="isRelation" class="member-header">
      isRelation:boolean
-          
+     
    </p>
-   <p><p>Replies true if this object is a relation</p></p>   
+   <p><p>Replies true if this object is a relation</p></p>
    
 
-   
+
    <p id="isWay" class="member-header">
      isWay:boolean
-          
+     
    </p>
-   <p><p>Replies true if this object is a way</p></p>   
+   <p><p>Replies true if this object is a way</p></p>
    
 
-   
+
    <p id="keys" class="member-header">
      keys:array
-          
+     
    </p>
-   <p><p>Replies an array with the tag keys.</p></p>   
+   <p><p>Replies an array with the tag keys.</p></p>
    
 
 {% highlight javascript %}
@@ -327,10 +328,10 @@ var node = .... // create a node
 var keys = node.keys;
 {% endhighlight %}
 
-   
+
    <p id="tags" class="member-header">
      tags:object
-          
+     
    </p>
    <p><p>Get or set the tags of the object.</p>
 
@@ -346,7 +347,7 @@ var keys = node.keys;
 
  <p>null values and undefined tag values aren't assigned. tag keys are
  normalized, i.e. leading and trailing white space is removed. Both, tag
- keys and tag values, are converted to strings.</p></p>   
+ keys and tag values, are converted to strings.</p></p>
    
 
 {% highlight javascript %}
@@ -367,14 +368,14 @@ tags.put("name", "Obstberg");
 node.tags = tags;
 {% endhighlight %}
 
-   
+
    <p id="timestamp" class="member-header">
      timestamp:<a href='http://docs.oracle.com/javase/6/docs/api/java/util/Date.html' alt='java.util.Date' target='javadoc'>Date</a>
-          
+     
    </p>
    <p><p>Get the timestamp this primitive was last modified on the server.
 Undefined, if this timestamp isn't known, i.e. for local primitives or
-for proxy primitives.</p></p>   
+for proxy primitives.</p></p>
    
 
 {% highlight javascript %}
@@ -384,10 +385,10 @@ var n1 = ... // assume n1 was downloaded from the server
 n1.timestamp;  // the timestamp of last modification
 {% endhighlight %}
 
-   
+
    <p id="user" class="member-header">
      user:<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/DataSet.html' alt='org.openstreetmap.josm.data.osm.DataSet' target='javadoc'>DataSet</a>
-          
+     
    </p>
    <p><p>Set or get the user.</p>
 
@@ -396,7 +397,7 @@ user is set.</p>
 
 <p><strong>set:</strong> - assign a user, either as instance of User,
 supplying a user name or the unique global user id as number. Assign null
-or undefined to assign no user.</p></p>   
+or undefined to assign no user.</p></p>
    
 
 {% highlight javascript %}
@@ -413,15 +414,15 @@ n1.user = "foobar";
 n1.user = 12345;
 {% endhighlight %}
 
-   
+
    <p id="version" class="member-header">
      version:number
-          
+     
    </p>
    <p><p>The version of the object.</p>
 
 <p>Only global objects have a version. The version for local and proxy
-objects is <var>undefined</var>.</p></p>   
+objects is <var>undefined</var>.</p></p>
    
 
 {% highlight javascript %}
@@ -440,17 +441,17 @@ var node = nb.createProxy(12345);
 node.version;  // -&gt; undefined
 {% endhighlight %}
 
-    
-                                                                   
+
+
   
 
 
 <h2>Functions</h2>
    
    <p  id="get" class="member-header">
-      get:string   
+      get:string
    </p>
-   <p><p>Replies the value of a tag, or undefined, if the tag isn't set.</p></p>    
+   <p><p>Replies the value of a tag, or undefined, if the tag isn't set.</p></p>
 
 
 <h3>Parameters</h3>
@@ -463,7 +464,7 @@ node.version;  // -&gt; undefined
 
 
 <tr>
-     <td>name</td>    
+     <td>name</td>
      <td>string</td>
      <td>the tag name. Must not be null or undefined.
   Non-string values are converted to a string. Leading and trailing
@@ -489,7 +490,7 @@ node.get("name");     // -> Obstberg
 
  
    <p  id="has" class="member-header">
-      has:boolean   
+      has:boolean
    </p>
    <p><p>Replies true, if the object has a tag with key <var>key</var>.</p>
 
@@ -503,7 +504,7 @@ node.get("name");     // -> Obstberg
   <dt><strong>has(regexp)</strong></dt>
   <dd><var>regexp</var> is a regular expression. Replies true, if the
   object has at least one tag whose key matches with <var>regexp</var>.</dd>
-</dl></p>    
+</dl></p>
 
 
 <h3>Parameters</h3>
@@ -516,7 +517,7 @@ node.get("name");     // -> Obstberg
 
 
 <tr>
-     <td>key</td>    
+     <td>key</td>
      <td>string</td>
      <td>the tag key. Must not be null or undefined.
 Non-string values are converted to a string. Leading and trailing
@@ -548,13 +549,13 @@ node.has(/^name(:.*)?$/i);    // -> false
 
  
    <p  id="remove" class="member-header">
-      remove:boolean   
+      remove:boolean
    </p>
    <p>* <p><strong>Deprecated</strong>. There is a name conflict with the 
 <code>remove()</code> method for removing a node in <code>WayMixin</code>. 
 Use <code>removeTag()</code> instead.</p>
 
-<p>Removes a tag.</p></p>    
+<p>Removes a tag.</p></p>
 
 
 <h3>Parameters</h3>
@@ -567,7 +568,7 @@ Use <code>removeTag()</code> instead.</p>
 
 
 <tr>
-     <td>name</td>    
+     <td>name</td>
      <td>string</td>
      <td>the tag name. Must not be null or undefined.
   Non-string values are converted to a string. Leading and trailing
@@ -593,9 +594,9 @@ node.has("amenity"); // -> false
 
  
    <p  id="removeTag" class="member-header">
-      removeTag:boolean   
+      removeTag:boolean
    </p>
-   <p><p>Removes a tag.</p></p>    
+   <p><p>Removes a tag.</p></p>
 
 
 <h3>Parameters</h3>
@@ -608,7 +609,7 @@ node.has("amenity"); // -> false
 
 
 <tr>
-     <td>name</td>    
+     <td>name</td>
      <td>string</td>
      <td>the tag name. Must not be null or undefined.
   Non-string values are converted to a string. Leading and trailing
@@ -634,7 +635,7 @@ node.has("amenity"); // -> false
 
  
    <p  id="set" class="member-header">
-      set:string   
+      set:string
    </p>
    <p><p>Set a tag or a collection of tags.</p>
 
@@ -651,7 +652,7 @@ node.has("amenity"); // -> false
   <dt><strong>set(tags)</strong></dt>
   <dd><var>tags</var> is either a java object whose properties are set as
   tags, or a java.util.Map.</dd>
-</dl></p>    
+</dl></p>
 
 
 
@@ -679,7 +680,7 @@ node.get("name");     // -> Obstberg
 
  
 </div>
- 
+
     </div>
   </div>
 </div>

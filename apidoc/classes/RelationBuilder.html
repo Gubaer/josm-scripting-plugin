@@ -8,7 +8,7 @@
      {% include apitoc.html %}
     </div>
     <div class="span9">
-        
+      
 <div class="apidoc">
 <h1 class="title">Class RelationBuilder</h1>
 <p>RelationBuilder helps to create OSM
@@ -18,7 +18,7 @@
 context.
 It isn't necessary to create an instance of RelationBuilder, unless it is
 configured with a <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/DataSet.html' alt='org.openstreetmap.josm.data.osm.DataSet' target='javadoc'>DataSet</a>,
-which created ways are added to.</p> 
+which created ways are added to.</p>
 
 
 
@@ -45,51 +45,51 @@ var r2 = rbuilder.withTags({route: 'bicycle'}).create(123456);
 var r3 = rbuilder.createProxy(123456);
 {% endhighlight %}
 
-  
- 
- <table class="member-summary">
- <tr>
-    <th>Name</th>
-    <th>Description</th>
- </tr>
- 
  
 
+
+<table class="member-summary">
+<tr>
+    <th>Name</th>
+    <th>Description</th>
+</tr>
+
+
  
- 
- 
-                                                                      
+
+
+
 <tr>
    <td colspan="2" class="section-header">Methods</td>
 </tr>
 
-    <tr> 
+    <tr>
         <td><a href='#create'>create</a></td>
         <td>Creates a new relation.</td>
     </tr>
 
-    <tr> 
+    <tr>
         <td><a href='#createProxy'>createProxy</a></td>
         <td>Creates a new <em>proxy</em> relation.</td>
     </tr>
 
-    <tr> 
+    <tr>
         <td><a href='#forDataSet'>forDataSet</a></td>
         <td>Creates a new RelationBuilder which adds created relations to a
     dataset</td>
     </tr>
 
-    <tr> 
+    <tr>
         <td><a href='#withId'>withId</a></td>
         <td>Declares the relation id and version.</td>
     </tr>
 
-    <tr> 
+    <tr>
         <td><a href='#withMembers'>withMembers</a></td>
         <td>Declares the members of a relation.</td>
     </tr>
 
-    <tr> 
+    <tr>
         <td><a href='#withTags'>withTags</a></td>
         <td>Declares the tags to be assigned to the new relation.</td>
     </tr>
@@ -105,7 +105,7 @@ var r3 = rbuilder.createProxy(123456);
 
 
 <h2>Constructor</h2>
-   
+
    <p id="RelationBuilder" class="member-header">new RelationBuilder()</p>
    <p><p>Creates a new builder for OSM relations</p></p>
    
@@ -122,7 +122,7 @@ var r3 = rbuilder.createProxy(123456);
 
 
 <tr>
-     <td>ds</td>    
+     <td>ds</td>
      <td><a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/DataSet.html' alt='org.openstreetmap.josm.data.osm.DataSet' target='javadoc'>DataSet</a></td>
      <td>(optional) a JOSM
     dataset which created ways are added to. If missing, the created ways
@@ -131,17 +131,17 @@ var r3 = rbuilder.createProxy(123456);
 
 </table>
 
-     
 
 
-                                                                   
+
+
   
 
 
 <h2>Functions</h2>
    
    <p  id="create" class="member-header">
-      create:<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Relation.html' alt='org.openstreetmap.josm.data.osm.Relation' target='javadoc'>Relation</a>   
+      create:<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Relation.html' alt='org.openstreetmap.josm.data.osm.Relation' target='javadoc'>Relation</a>
    </p>
    <p><p>Creates a new relation.</p>
 
@@ -159,7 +159,7 @@ var r3 = rbuilder.createProxy(123456);
   values are ignored. Any other value
   is converted to a string. Leading and trailing white space in keys is
   removed.</li>
-</ul></p>    
+</ul></p>
 
 
 <h3>Parameters</h3>
@@ -172,7 +172,7 @@ var r3 = rbuilder.createProxy(123456);
 
 
 <tr>
-     <td>id</td>    
+     <td>id</td>
      <td>number</td>
      <td>(optional) a global way id. If missing and not set
     before using <code>withId(..)</code>, creates a new local id.</td>
@@ -180,7 +180,7 @@ var r3 = rbuilder.createProxy(123456);
 
 
 <tr>
-     <td>args</td>    
+     <td>args</td>
      <td>object</td>
      <td>(optional) additional parameters for creating the way</td>
 </tr>
@@ -214,14 +214,14 @@ var r3 = rb.create(12345, {
 
  
    <p  id="createProxy" class="member-header">
-      createProxy:<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Relation.html' alt='org.openstreetmap.josm.data.osm.Relation' target='javadoc'>Relation</a>   
+      createProxy:<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Relation.html' alt='org.openstreetmap.josm.data.osm.Relation' target='javadoc'>Relation</a>
    </p>
    <p><p>Creates a new <em>proxy</em> relation. A proxy relation is a relation,
 for which we only know its global id. In order to know more details
 (members, tags, etc.), we would have to download it from the OSM server.
 </p>
 
-<p>The method can be used in a static and in an instance context.</p></p>    
+<p>The method can be used in a static and in an instance context.</p></p>
 
 
 
@@ -239,10 +239,10 @@ var r1 = rbuilder.createProxy(12345);
 
  
    <p  id="forDataSet" class="member-header">
-      forDataSet:<a href='../classes/RelationBuilder.html' alt='RelationBuilder'>RelationBuilder</a>   
+      forDataSet:<a href='../classes/RelationBuilder.html' alt='RelationBuilder'>RelationBuilder</a>
    </p>
    <p><p>Creates or configures a RelationBuilder which will add created nodes
-to the dataset <code>ds</code>.</p></p>    
+to the dataset <code>ds</code>.</p></p>
 
 
 
@@ -265,11 +265,11 @@ nb = wb.forDataSet(ds);
 
  
    <p  id="withId" class="member-header">
-      withId:<a href='../classes/RelationBuilder.html' alt='RelationBuilder'>RelationBuilder</a>   
+      withId:<a href='../classes/RelationBuilder.html' alt='RelationBuilder'>RelationBuilder</a>
    </p>
    <p><p>Declares the global relation id and the global relation version.</p>
 
-<p>The method can be used in a static and in an instance context.</p></p>    
+<p>The method can be used in a static and in an instance context.</p></p>
 
 
 <h3>Parameters</h3>
@@ -282,14 +282,14 @@ nb = wb.forDataSet(ds);
 
 
 <tr>
-     <td>id</td>    
+     <td>id</td>
      <td>number</td>
      <td>(mandatory) the global relation id. A number > 0.</td>
 </tr>
 
 
 <tr>
-     <td>version</td>    
+     <td>version</td>
      <td>number</td>
      <td>(optional) the global relation version. If present,
    a number > 0. If missing, the version 1 is assumed.</td>
@@ -303,15 +303,15 @@ nb = wb.forDataSet(ds);
 
 {% highlight javascript %}
 var rbuilder = require("josm/builder").RelationBuilder;
-// creates a global relation with id 12345 an version 12
-var r = rbuilder.withId(12345, 12).create();
+ // creates a global relation with id 12345 an version 12
+ var r = rbuilder.withId(12345, 12).create();
 {% endhighlight %}
 
 
 
  
    <p  id="withMembers" class="member-header">
-      withMembers:<a href='../classes/RelationBuilder.html' alt='RelationBuilder'>RelationBuilder</a>   
+      withMembers:<a href='../classes/RelationBuilder.html' alt='RelationBuilder'>RelationBuilder</a>
    </p>
    <p><p>Declares the members of a relation.</p>
 
@@ -320,7 +320,7 @@ relations, an array of relation members, nodes ways or relations, or a
 Java list of members, nodes, ways or relation.
 </p>
 
-<p>The method can be used in a static and in an instance context.</p></p>    
+<p>The method can be used in a static and in an instance context.</p></p>
 
 
 <h3>Parameters</h3>
@@ -333,7 +333,7 @@ Java list of members, nodes, ways or relation.
 
 
 <tr>
-     <td>nodes</td>    
+     <td>nodes</td>
      <td></td>
      <td>the list of members. See description and examples.</td>
 </tr>
@@ -361,11 +361,11 @@ var r1 = rbuilder.withMembers(
 
  
    <p  id="withTags" class="member-header">
-      withTags:<a href='../classes/RelationBuilder.html' alt='RelationBuilder'>RelationBuilder</a>   
+      withTags:<a href='../classes/RelationBuilder.html' alt='RelationBuilder'>RelationBuilder</a>
    </p>
    <p><p>Declares the tags to be assigned to the new relation.</p>
 
-<p>The method can be used in a static and in an instance context.</p></p>    
+<p>The method can be used in a static and in an instance context.</p></p>
 
 
 <h3>Parameters</h3>
@@ -378,7 +378,7 @@ var r1 = rbuilder.withMembers(
 
 
 <tr>
-     <td>tags</td>    
+     <td>tags</td>
      <td>object</td>
      <td>(optional) the tags</td>
 </tr>
@@ -409,7 +409,7 @@ var r2 = rbuilder.withTags(tags).create();
 
  
 </div>
- 
+
     </div>
   </div>
 </div>

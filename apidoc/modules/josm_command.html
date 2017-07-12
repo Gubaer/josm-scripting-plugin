@@ -31,7 +31,7 @@ org.opoenstreetmap.josm.gui.layer.OsmDataLayers.</p></p>
 
       <li><a href="../classes/DeleteCommand.html">DeleteCommand</a></li>
 
-</ul>   
+</ul>
 
 
 
@@ -40,45 +40,45 @@ org.opoenstreetmap.josm.gui.layer.OsmDataLayers.</p></p>
 
 
 
-  
  
- <table class="member-summary">
- <tr>
+
+
+<table class="member-summary">
+<tr>
     <th>Name</th>
     <th>Description</th>
- </tr>
- 
- 
+</tr>
+
 
  
- 
- 
-                                                                      
+
+
+
 <tr>
    <td colspan="2" class="section-header">Methods</td>
 </tr>
 
-    <tr> 
+    <tr>
         <td><a href='#add'>add</a></td>
         <td>Creates a command to add a collection of objects</td>
     </tr>
 
-    <tr> 
+    <tr>
         <td><a href='#change'>change</a></td>
         <td>Creates a command to change a collection of objects</td>
     </tr>
 
-    <tr> 
+    <tr>
         <td><a href='#combineSelectedWays'>combineSelectedWays</a></td>
         <td>Combines the currently selected ways.</td>
     </tr>
 
-    <tr> 
+    <tr>
         <td><a href='#combineWays'>combineWays</a></td>
         <td>Combines two or more ways into one resulting way.</td>
     </tr>
 
-    <tr> 
+    <tr>
         <td><a href='#delete'>delete</a></td>
         <td>Creates a command to delete a collection of objects</td>
     </tr>
@@ -87,14 +87,14 @@ org.opoenstreetmap.josm.gui.layer.OsmDataLayers.</p></p>
 </table>
 
 
-                                                                   
+
   
 
 
 <h2>Functions</h2>
    
    <p  id="add" class="member-header">
-      add   
+      add
    </p>
    <p><p>Creates a command to add a collection of objects to a data layer.</p>
 
@@ -105,7 +105,7 @@ org.opoenstreetmap.josm.gui.layer.OsmDataLayers.</p></p>
   <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Way.html' alt='org.openstreetmap.josm.data.osm.Way' target='javadoc'>Way</a>s, or
   <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Relations.html' alt='org.openstreetmap.josm.data.osm.Relations' target='javadoc'>Relations</a>s. Or javascript array
   or Java collections thereof.</dd>
-</dl></p>    
+</dl></p>
 
 
 
@@ -130,7 +130,7 @@ layer.apply(
 
  
    <p  id="change" class="member-header">
-      change   
+      change
    </p>
    <p><p>Creates a command to change a collection of objects in  a data layer.</p>
 
@@ -168,7 +168,7 @@ he following named parameters:
   <dt><code class="signature">members:<a href='http://docs.oracle.com/javase/6/docs/api/java/util/List.html' alt='java.util.List' target='javadoc'>List</a>|array</code>
   </dt>
   <dd>Changes the nodes of the target relations to <code>members</code>.</dd>
-</dl></p>    
+</dl></p>
 
 
 
@@ -198,7 +198,7 @@ cmd.change(n1,n3, w1,r1, {
 
  
    <p  id="combineSelectedWays" class="member-header">
-      combineSelectedWays   
+      combineSelectedWays
    </p>
    <p>Combines the currently selected ways in the active layer into one resulting
 way.
@@ -213,7 +213,7 @@ Returns without effect if
 Reuses the logic behind the JOSM standard menu entry Tools-&gt;Combine Ways.
 If invoked from a script, this may trigger modal dialogs which are presented
 to the user, in particular if the direction of the ways has to be reversed
-because otherwise they could not be combined.</p>    
+because otherwise they could not be combined.</p>
 
 
 
@@ -232,14 +232,14 @@ cmd.combineWays(ways);
 
  
    <p  id="combineWays" class="member-header">
-      combineWays   
+      combineWays
    </p>
    <p>Combines two or more ways into one resulting way.
 
 Reuses the logic behind the JOSM standard menu entry Tools-&gt;Combine Ways.
 If invoked from a script, this may trigger modal dialogs which are presented
 to the user, in particular if the direction of the ways has to be reversed
-because otherwise they could not be combined.</p>    
+because otherwise they could not be combined.</p>
 
 
 <h3>Parameters</h3>
@@ -252,7 +252,7 @@ because otherwise they could not be combined.</p>
 
 
 <tr>
-     <td>ways</td>    
+     <td>ways</td>
      <td></td>
      <td>the ways to be combined</td>
 </tr>
@@ -280,7 +280,7 @@ cmd.combineWays(ds.way(1), ds.way(2), ds.way(3));
 
  
    <p  id="delete" class="member-header">
-      delete   
+      delete
    </p>
    <p><p>Creates a command to delete a collection of objects in  a data layer.</p>
 
@@ -291,7 +291,7 @@ cmd.combineWays(ds.way(1), ds.way(2), ds.way(3));
   <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Way.html' alt='org.openstreetmap.josm.data.osm.Way' target='javadoc'>Way</a>s, or
   <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Relations.html' alt='org.openstreetmap.josm.data.osm.Relations' target='javadoc'>Relations</a>s. Or javascript array
   or Java collections thereof.</dd>
-</dl></p>    
+</dl></p>
 
 
 
@@ -317,8 +317,7 @@ layer.apply(
  
 
  
-
-</div> 
+</div>
     </div>
   </div>
 </div>

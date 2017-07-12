@@ -8,7 +8,7 @@
      {% include apitoc.html %}
     </div>
     <div class="span9">
-        
+      
 <div class="apidoc">
 <h1 class="title">Mixin RelationMixin</h1>
 <p>This mixin  provides additional properties and methods which you can
@@ -17,7 +17,7 @@ invoke on an instance of
 
 <p>You can access relation members using
 <pre>relation[i]</pre>,
-see examples below. 
+see examples below.
 
 
 
@@ -38,65 +38,65 @@ for (var i=0; i < relation.length; i++) {
 }
 {% endhighlight %}
 
-  
  
- <table class="member-summary">
- <tr>
+
+
+<table class="member-summary">
+<tr>
     <th>Name</th>
     <th>Description</th>
- </tr>
- 
- 
-                                                                      
+</tr>
+
+
 <tr>
    <td colspan="2" class="section-header">Properties</td>
 </tr>
 
-    <tr> 
+    <tr>
         <td><a href='#length'>length</a></td>
         <td>Replies the number of relation members.</td>
     </tr>
 
-    <tr> 
+    <tr>
         <td><a href='#members'>members</a></td>
         <td>Set or get the relation members</td>
     </tr>
 
 
  
- 
- 
-                                                                      
+
+
+
 <tr>
    <td colspan="2" class="section-header">Methods</td>
 </tr>
 
-    <tr> 
+    <tr>
         <td><a href='#add'>add</a></td>
         <td></td>
     </tr>
 
-    <tr> 
+    <tr>
         <td><a href='#getIdAt'>getIdAt</a></td>
         <td>Replies the object id of a member.</td>
     </tr>
 
-    <tr> 
+    <tr>
         <td><a href='#getObjectAt'>getObjectAt</a></td>
         <td>Replies the object of a member.</td>
     </tr>
 
-    <tr> 
+    <tr>
         <td><a href='#getRoleAt'>getRoleAt</a></td>
         <td>Replies the role of a member.</td>
     </tr>
 
-    <tr> 
+    <tr>
         <td><a href='#insertAt'>insertAt</a></td>
         <td>Inserts one or more members at a position.</td>
     </tr>
 
-    <tr> 
+    <tr>
         <td><a href='#setAt'>setAt</a></td>
         <td>Sets one or more members at a position.</td>
     </tr>
@@ -106,15 +106,16 @@ for (var i=0; i < relation.length; i++) {
 
 
 
-<p>This mixin extends the mixin <a href='../mixins/OsmPrimitiveMixin.html' alt='OsmPrimitiveMixin'>OsmPrimitiveMixin</a>. 
+<p>This mixin extends the mixin <a href='../mixins/OsmPrimitiveMixin.html' alt='OsmPrimitiveMixin'>OsmPrimitiveMixin</a>.
 Properties and methods of the parent mixin are available for scripting, too.</p>
 
 
 
-<p>This mixin provides additional properties and methods for the native Java class 
-<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Relation.html' alt='org.openstreetmap.josm.data.osm.Relation' target='javadoc'>Relation</a>, whose native public methods are available
-for scripting, too. If a native method name is hidden by a property name in the mixin,
-then prefix the native name with <code>$</code>.</p>
+<p>This mixin provides additional properties and methods for the native Java
+class  <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Relation.html' alt='org.openstreetmap.josm.data.osm.Relation' target='javadoc'>Relation</a>, whose native public methods
+are available for scripting, too. If a native method name is hidden by a
+property name in the mixin, then prefix the native name with <code>$</code>.
+</p>
 
 
 
@@ -122,18 +123,18 @@ then prefix the native name with <code>$</code>.</p>
 
 
 <h2>Properties</h2>
-   
+
    <p id="length" class="member-header">
      length:number
-          
+     
    </p>
-   <p>Replies the number of relation members.</p>   
+   <p>Replies the number of relation members.</p>
    
 
-   
+
    <p id="members" class="member-header">
      members:array
-          
+     
    </p>
    <p><p>The relation members</p>
 
@@ -153,7 +154,7 @@ then prefix the native name with <code>$</code>.</p>
    null or undefined are ignored.<br/>
    <strong>Note:</strong> you can't assign members to a proxy relation.
   </dd>
-</dl></p>   
+</dl></p>
    
 
 {% highlight javascript %}
@@ -168,15 +169,15 @@ relation.members = [nb.create(), rb.member('role.1', rb.create(12345))];
 var members = relation.members;
 {% endhighlight %}
 
-    
-                                                                   
+
+
   
 
 
 <h2>Functions</h2>
    
    <p  id="add" class="member-header">
-      add   
+      add
    </p>
    <p><p>Adds additional members at the end of the relation members list.</p>
 
@@ -201,7 +202,7 @@ var members = relation.members;
   or <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Relation.html' alt='org.openstreetmap.josm.data.osm.Relation' target='javadoc'>Relation</a>. If an OSM primitive
   is passed in, a relation member with an empty role is created. null and
   undefined are ignored.</dd>
-</dl></p>    
+</dl></p>
 
 
 
@@ -229,10 +230,10 @@ relation.add(m);
 
  
    <p  id="getIdAt" class="member-header">
-      getIdAt:number   
+      getIdAt:number
    </p>
    <p><p>Replies the unique object id for the member object at position
-<var>idx</var>.</p></p>    
+<var>idx</var>.</p></p>
 
 
 <h3>Parameters</h3>
@@ -245,7 +246,7 @@ relation.add(m);
 
 
 <tr>
-     <td>idx</td>    
+     <td>idx</td>
      <td>number</td>
      <td>the index. a number &gt;= 0 and &lt; the current
         number of members</td>
@@ -271,10 +272,10 @@ var id = relation.getIdAt(0);
 
  
    <p  id="getObjectAt" class="member-header">
-      getObjectAt:object   
+      getObjectAt:object
    </p>
    <p><p>Replies the object represented by the member at position
-<code>idx</code>.</p></p>    
+<code>idx</code>.</p></p>
 
 
 <h3>Parameters</h3>
@@ -287,7 +288,7 @@ var id = relation.getIdAt(0);
 
 
 <tr>
-     <td>idx</td>    
+     <td>idx</td>
      <td>number</td>
      <td>the index. a number &gt;= 0 and &lt; the current
         number of members</td>
@@ -314,9 +315,9 @@ var node = relation.getObjectAt(0)  // ==> n1
 
  
    <p  id="getRoleAt" class="member-header">
-      getRoleAt:string   
+      getRoleAt:string
    </p>
-   <p><p>Replies the member role for the member at position <code>idx</code>.</p></p>    
+   <p><p>Replies the member role for the member at position <code>idx</code>.</p></p>
 
 
 <h3>Parameters</h3>
@@ -329,7 +330,7 @@ var node = relation.getObjectAt(0)  // ==> n1
 
 
 <tr>
-     <td>idx</td>    
+     <td>idx</td>
      <td>number</td>
      <td>the index. a number &gt;= 0 and &lt; the current
         number of members</td>
@@ -355,9 +356,9 @@ var role = relation.getRoleAt(0)  // ==> "", the empty role ;
 
  
    <p  id="insertAt" class="member-header">
-      insertAt   
+      insertAt
    </p>
-   <p><p>Inserts a member at position <code>idx</code>.</p></p>    
+   <p><p>Inserts a member at position <code>idx</code>.</p></p>
 
 
 <h3>Parameters</h3>
@@ -370,7 +371,7 @@ var role = relation.getRoleAt(0)  // ==> "", the empty role ;
 
 
 <tr>
-     <td>idx</td>    
+     <td>idx</td>
      <td>number</td>
      <td>the index. a number &gt;= 0 and &lt;= the current
         number of members</td>
@@ -378,7 +379,7 @@ var role = relation.getRoleAt(0)  // ==> "", the empty role ;
 
 
 <tr>
-     <td>the</td>    
+     <td>the</td>
      <td>object</td>
      <td>object  either a RelationMember, or a Node, a Way, or a
         Relation. Must not be null or undefined.</td>
@@ -409,9 +410,9 @@ relation.insertAt(1, rb.member('role.1', wb.create()));
 
  
    <p  id="setAt" class="member-header">
-      setAt   
+      setAt
    </p>
-   <p><p>Sets a member at position <code>idx</code>.</p></p>    
+   <p><p>Sets a member at position <code>idx</code>.</p></p>
 
 
 <h3>Parameters</h3>
@@ -424,7 +425,7 @@ relation.insertAt(1, rb.member('role.1', wb.create()));
 
 
 <tr>
-     <td>idx</td>    
+     <td>idx</td>
      <td>number</td>
      <td>the index. a number &gt;= 0 and &lt; the current
         number of members</td>
@@ -432,7 +433,7 @@ relation.insertAt(1, rb.member('role.1', wb.create()));
 
 
 <tr>
-     <td>the</td>    
+     <td>the</td>
      <td>object</td>
      <td>object  either a RelationMember, or a Node, a Way,
         or a Relation. Must not be null or undefined.</td>
@@ -465,7 +466,7 @@ relation.setAt(1, rb.member('role.1', wb.create()));
 
  
 </div>
- 
+
     </div>
   </div>
 </div>

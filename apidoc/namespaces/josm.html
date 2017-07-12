@@ -8,63 +8,63 @@
      {% include apitoc.html %}
     </div>
     <div class="span9">
-        
+      
 <div class="apidoc">
 <h1 class="title">Namespace josm</h1>
 <p>This is the global JOSM API object. It represents a running JOSM
-instance.</p> 
+instance.</p>
 
 
 
-  
  
- <table class="member-summary">
- <tr>
+
+
+<table class="member-summary">
+<tr>
     <th>Name</th>
     <th>Description</th>
- </tr>
- 
- 
-                                                                      
+</tr>
+
+
 <tr>
    <td colspan="2" class="section-header">Properties</td>
 </tr>
 
-    <tr> 
+    <tr>
         <td><a href='#commands'>commands</a></td>
         <td>Replies the global command history.</td>
     </tr>
 
-    <tr> 
+    <tr>
         <td><a href='#layers'>layers</a></td>
         <td>accessor for JOSM layers</td>
     </tr>
 
-    <tr> 
+    <tr>
         <td><a href='#menu'>menu</a></td>
         <td>Replies an accessor for JOSMs menu bar.</td>
     </tr>
 
-    <tr> 
+    <tr>
         <td><a href='#version'>version</a></td>
         <td>JOSM version string</td>
     </tr>
 
 
  
- 
- 
-                                                                      
+
+
+
 <tr>
    <td colspan="2" class="section-header">Methods</td>
 </tr>
 
-    <tr> 
+    <tr>
         <td><a href='#alert'>alert</a></td>
         <td>display a message</td>
     </tr>
 
-    <tr> 
+    <tr>
         <td><a href='#open'>open</a></td>
         <td>Opens one or more files in JOSM</td>
     </tr>
@@ -82,15 +82,15 @@ instance.</p>
 
 
 <h2>Properties</h2>
-   
+
    <p id="commands" class="member-header">
      commands:<a href='../namespaces/CommandHistory.html' alt='CommandHistory'>CommandHistory</a>
-          
+     
    </p>
    <p><p>Replies the global command history.</p>
 
 <p>Use this object to undo/redo commands, or to clear the command
- history.</p></p>   
+ history.</p></p>
    
 
 {% highlight javascript %}
@@ -101,12 +101,12 @@ josm.commands.undo();
 josm.commands.redo(2);
 {% endhighlight %}
 
-   
+
    <p id="layers" class="member-header">
      layers:object
-          
+     
    </p>
-   <p><p>Replies the layers object.</p></p>   
+   <p><p>Replies the layers object.</p></p>
    
 
 {% highlight javascript %}
@@ -116,38 +116,38 @@ josm.alert("num layers: " + josm.layers.length);
 josm.alert("num layers: " + josm.layers.get(0).name);
 {% endhighlight %}
 
-   
+
    <p id="menu" class="member-header">
      menu:<a href='../namespaces/MenuBar.html' alt='MenuBar'>MenuBar</a>
-          
+     
    </p>
    <p><p>Replies an accessor for JOSMs menu bar.</p>
 
 <p>Use this object to inspect or modify the menu bar, i.e. to add additional
-menu items.</p></p>   
+menu items.</p></p>
    
 
-   
+
    <p id="version" class="member-header">
      version:string
-          
+     
    </p>
-   <p><p>Replies the current JOSM version string.</p></p>   
+   <p><p>Replies the current JOSM version string.</p></p>
    
 
 {% highlight javascript %}
 josm.alert(josm.version);
 {% endhighlight %}
 
-    
-                                                                   
+
+
   
 
 
 <h2>Functions</h2>
    
    <p  id="alert" class="member-header">
-      alert   
+      alert
    </p>
    <p><p>Displays an alert window with a message</p>
 
@@ -185,7 +185,7 @@ josm.alert(josm.version);
      </dd>
   </dl>
   </dd>
-</dl></p>    
+</dl></p>
 
 
 
@@ -207,7 +207,7 @@ josm.alert("Got an error", {
 
  
    <p  id="open" class="member-header">
-      open   
+      open
    </p>
    <p><p>Opens one or more files in JOSM.</p>
 
@@ -225,7 +225,7 @@ josm.alert("Got an error", {
 
 * @example
 // open a data file in a new data layer
-josm.open("/my/data/file.osm");</p>    
+josm.open("/my/data/file.osm");</p>
 
 
 
@@ -234,7 +234,7 @@ josm.open("/my/data/file.osm");</p>
 
  
 </div>
- 
+
     </div>
   </div>
 </div>

@@ -8,14 +8,14 @@
      {% include apitoc.html %}
     </div>
     <div class="span9">
-        
+      
 <div class="apidoc">
 <h1 class="title">Class Api</h1>
 <p>Collection of static methods to download objects from and upload objects
 to the OSM server.</p>
 
 <p><strong>Note:</strong> this class doesn't provide a constructor.
-Methods and properties are "static".</p> 
+Methods and properties are "static".</p>
 
 
 
@@ -27,41 +27,41 @@ var api = require("josm/api").Api;
 var ds = api.downloadObject(12345, "node");
 {% endhighlight %}
 
-  
- 
- <table class="member-summary">
- <tr>
-    <th>Name</th>
-    <th>Description</th>
- </tr>
- 
  
 
+
+<table class="member-summary">
+<tr>
+    <th>Name</th>
+    <th>Description</th>
+</tr>
+
+
  
- 
- 
-                                                                      
+
+
+
 <tr>
    <td colspan="2" class="section-header">Methods</td>
 </tr>
 
-    <tr> 
+    <tr>
         <td><a href='#downloadArea'>downloadArea</a></td>
         <td>Downloads the objects within a bounding box</td>
     </tr>
 
-    <tr> 
+    <tr>
         <td><a href='#downloadObject'>downloadObject</a></td>
         <td>Downloads an object from the server.</td>
     </tr>
 
-    <tr> 
+    <tr>
         <td><a href='#downloadReferrer'>downloadReferrer</a></td>
         <td>Downloads the objects <em>referring</em> to another object from
     the server.</td>
     </tr>
 
-    <tr> 
+    <tr>
         <td><a href='#upload'>upload</a></td>
         <td>Uploads objects</td>
     </tr>
@@ -77,16 +77,16 @@ var ds = api.downloadObject(12345, "node");
 
 
 
-                                                                   
+
   
 
 
 <h2>Functions</h2>
    
    <p  id="downloadArea" class="member-header">
-      downloadArea:<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/DataSet.html' alt='org.openstreetmap.josm.data.osm.DataSet' target='javadoc'>DataSet</a>   
+      downloadArea:<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/DataSet.html' alt='org.openstreetmap.josm.data.osm.DataSet' target='javadoc'>DataSet</a>
    </p>
-   <p><p>Downloads the objects within a bounding box.</p></p>    
+   <p><p>Downloads the objects within a bounding box.</p></p>
 
 
 
@@ -110,7 +110,7 @@ var ds1 = api.downloadArea({
 
  
    <p  id="downloadObject" class="member-header">
-      downloadObject:<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/DataSet.html' alt='org.openstreetmap.josm.data.osm.DataSet' target='javadoc'>DataSet</a>   
+      downloadObject:<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/DataSet.html' alt='org.openstreetmap.josm.data.osm.DataSet' target='javadoc'>DataSet</a>
    </p>
    <p><p>Downloads an object from the server.</p>
 
@@ -147,8 +147,9 @@ following two (optional) properties:
 
   <dt><code class="signature">version</code>: number</dt>
   <dd>If present, the specified version of the object is downloaded.
-  If missing, the current version is downloaded.</dd>
-</dl></p>    
+  If missing, the current version is downloaded. If present, the
+  option <code>full</code> is ignored.</dd>
+</dl></p>
 
 
 
@@ -171,15 +172,15 @@ var id = new SimplePrimitiveId(12345, OsmPrimitiveType.RELATION);
 var ds3 = api.downloadObject(id, {full: true});
 
 // download version 5 of the full way 12345 (including its nodes)
-var ds4 = api.downloadObject(12345,
-        OsmPrimitiveType.WAY, {full: true, version: 5});
+var ds4 = api.downloadObject(12345, OsmPrimitiveType.WAY, 
+        {version: 5});
 {% endhighlight %}
 
 
 
  
    <p  id="downloadReferrer" class="member-header">
-      downloadReferrer:<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/DataSet.html' alt='org.openstreetmap.josm.data.osm.DataSet' target='javadoc'>DataSet</a>   
+      downloadReferrer:<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/DataSet.html' alt='org.openstreetmap.josm.data.osm.DataSet' target='javadoc'>DataSet</a>
    </p>
    <p><p>Downloads the objects <em>referring</em> to another object from
 the server.</p>
@@ -228,7 +229,7 @@ following  (optional) property:
   <dd>If <code>true</code>, the the <strong>full</strong> objects are
   retrieved using multi-gets. If missing or <code>false</code>,
   only proxy objects are downloaded. Default: false</dd>
-</dl></p>    
+</dl></p>
 
 
 
@@ -262,7 +263,7 @@ var ds3 = api.downloadReferrer(id, {full: true});
 
  
    <p  id="upload" class="member-header">
-      upload:<a href='http://docs.oracle.com/javase/6/docs/api/java/util/Collection.html' alt='java.util.Collection' target='javadoc'>Collection</a>   
+      upload:<a href='http://docs.oracle.com/javase/6/docs/api/java/util/Collection.html' alt='java.util.Collection' target='javadoc'>Collection</a>
    </p>
    <p><p>Uploads objects to the server.</p>
 
@@ -320,7 +321,7 @@ collection of the successfully uploaded objects.</p>
 
    <dt><code class="signature">closeChangeset: boolean</code></dt>
    <dd>If true, closes the changeset after the upload. Default: true</dd>
-</dl></p>    
+</dl></p>
 
 
 <h3>Parameters</h3>
@@ -333,21 +334,21 @@ collection of the successfully uploaded objects.</p>
 
 
 <tr>
-     <td>data</td>    
+     <td>data</td>
      <td>array</td>
      <td>the data to upload</td>
 </tr>
 
 
 <tr>
-     <td>comment</td>    
+     <td>comment</td>
      <td>string</td>
      <td>the upload comment</td>
 </tr>
 
 
 <tr>
-     <td>options</td>    
+     <td>options</td>
      <td>object</td>
      <td>(optional) various options (see above)</td>
 </tr>
@@ -376,7 +377,7 @@ var processed = api.upload(ds, "just testing");
 
  
 </div>
- 
+
     </div>
   </div>
 </div>
