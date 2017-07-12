@@ -4,7 +4,7 @@
 */
 var doclet = obj.doclet;         //  the type doclet
 var data = obj.data;             //  the TAFFY DB with the doclets
-var ViewHelper = obj.ViewHelper; 
+var ViewHelper = obj.ViewHelper;
 
  var self = this;
  var vh = new ViewHelper(data);
@@ -15,9 +15,9 @@ if (methods.count() > 0) { ?>
 <h2>Functions</h2>
    <?js methods.each(function(method) { ?>
    <p  id="<?js= method.name ?>" class="member-header">
-      <?js= method.name ?><?js= method.type && method.type.names ? ":" + vh.resolveTypes(method.type.names) : "" ?>   
+      <?js= method.name ?><?js= method.type && method.type.names ? ":" + vh.resolveTypes(method.type.names) : "" ?>
    </p>
-   <p><?js= vh.resolveClassReferences(method.description) ?></p>    
+   <p><?js= vh.resolveClassReferences(method.description) ?></p>
 
 <?js
      var params = method.params;
@@ -33,7 +33,7 @@ if (methods.count() > 0) { ?>
 <?js   for(var j=0; j<params.length; j++) { ?>
 <?js      var para = params[j];  ?>
 <tr>
-     <td><?js= para.name ?></td>    
+     <td><?js= para.name ?></td>
      <td><?js= para.type && para.type.names ? vh.resolveTypes(para.type.names) : "" ?></td>
      <td><?js= para.description ? vh.resolveClassReferences(para.description) : "" ?></td>
 </tr>
