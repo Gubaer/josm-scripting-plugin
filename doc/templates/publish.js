@@ -1,9 +1,10 @@
+'use strict';
 /**
  * publish
  *
  */
 
-var fs   = require("fs-extra"),
+const fs   = require("fs-extra"),
     path = require("path"),
     template = require('jsdoc/template'),
     helper = require('jsdoc/util/templateHelper'),
@@ -12,7 +13,6 @@ var fs   = require("fs-extra"),
 
 /**
  *
- * @global
  * @param {TAFFY} data - A TaffyDB collection representing
  *                       all the symbols documented in your code.
  * @param {object} opts - An object with options information.
@@ -20,18 +20,18 @@ var fs   = require("fs-extra"),
 exports.publish = function(data, opts, tutorials) {
 
     function publishDoclet(doclet, config) {
-        var dir = path.join(
+        let dir = path.join(
                 opts.destination,
                 config.path
         );
         fs.ensureDirSync(dir);
-        var file = path.join(dir, safeHtmlFilename(doclet.name));
-        var fragment = view.render(config.template, {
+        let file = path.join(dir, safeHtmlFilename(doclet.name));
+        let fragment = view.render(config.template, {
             doclet: doclet,
             data: data,
             ViewHelper: ViewHelper
         });
-        var html = view.render('page.tmpl', {
+        let html = view.render('page.tmpl', {
             title: config.title + " " + doclet.name,
             paths: {
                 stylesheets: "../../stylesheets/",
@@ -40,23 +40,22 @@ exports.publish = function(data, opts, tutorials) {
             body: fragment,
             showHeader: false
         });
-        console.log(config.title + " <" + doclet.name + ">: writing to <" 
-                + file + ">");
+        console.log("%s <%s>: writing to <%s>", config.title, doclet.name, file);
         fs.writeFileSync(file, html, "utf8");
     };
 
     function publishTOC() {
-        var filepath = path.join(opts.destination, "apitoc.html");
+        let filepath = path.join(opts.destination, "apitoc.html");
         fs.ensureDirSync(opts.destination);
-        var fragment = view.render("toc.tmpl", {
+        let fragment = view.render("toc.tmpl", {
             data: data,
             safeHtmlFilename: safeHtmlFilename
         });
-        console.log("TOC: writing to <" + filepath + ">");
+        console.log("TOC: writing to <%s>", filepath);
         fs.writeFileSync(filepath, fragment, "utf8");
     };
 
-    var view = new template.Template(opts.template + "/tmpl");
+    let view = new template.Template(opts.template + "/tmpl");
 
     data({kind: "mixin"}).each(function(mixin) {
         publishDoclet(mixin, {
@@ -92,5 +91,4 @@ exports.publish = function(data, opts, tutorials) {
     });
 
     publishTOC();
-
 };

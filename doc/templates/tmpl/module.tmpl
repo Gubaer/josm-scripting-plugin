@@ -1,13 +1,14 @@
 <?js
-  /*
-   * Renders the page for a module
-   */
-  var doclet = obj.doclet;  // the module doclet
-  var data   = obj.data;    // the TAFFY db with the doclets
-  var ViewHelper = obj.ViewHelper;
+'use strict';
+/*
+ * Renders the page for a module
+*/
+const doclet = obj.doclet;          // the module doclet
+const data   = obj.data;            // the TAFFY db with the doclets
+const ViewHelper = obj.ViewHelper;
 
-  var self = this;
-  var vh = new ViewHelper(data);
+const self = this;
+const vh = new ViewHelper(data);
 ?>
 <div class="apidoc">
 <h1 class="title">Module <?js= doclet.name ?></h1>
@@ -16,18 +17,17 @@
 ?></p>
 <?js= self.partial("type/examples.tmpl", doclet.examples) ?>
 
-<?js
-
-var classes = data({kind: "class", memberof: doclet.name}).order("name");
-var mixins = data({kind: "mixin", memberof: doclet.name}).order("name");
-var namespaces = data({kind: "namespace", memberof: doclet.name}).order("name");
+<?js 
+const classes = data({kind: "class", memberof: doclet.name}).order("name");
+const mixins = data({kind: "mixin", memberof: doclet.name}).order("name");
+const namespaces = data({kind: "namespace", memberof: doclet.name}).order("name");
  ?>
 
 <?js /* --------------------------- list of classes in the module ------- */ ?>
 <?js if (classes.count() > 0) { ?>
 <p>This module provides the following classes:</p>
 <ul>
-<?js     classes.each(function(c) {  ?>
+<?js  classes.each(function(c) {  ?>
       <li><a href="../classes/<?js= c.name ?>.html"><?js= c.name ?></a></li>
 <?js     });  /* end for */  ?>
 </ul>
@@ -54,14 +54,11 @@ This module provides the following namespaces:
 <?js     });  /* end for */  ?>
 </ul>
 <p>Namespaces are plain javascript objects. In contrast to classes, they can't 
-be instantiated. They are similar to utility java classes, which provide 
+be instantiated. They are similar to utility classes in java, which provide 
 static methods and fields only.</p>
 <?js } /* end if */ ?>
 
-<?js= self.partial("type/membersummary.tmpl",
-    {"doclet": doclet, "data": data, "ViewHelper": ViewHelper}) ?>
-<?js= self.partial("type/properties.tmpl",
-    {"doclet": doclet, "data": data, "ViewHelper": ViewHelper}) ?>
-<?js= self.partial("type/methods.tmpl",
-    {"doclet": doclet, "data": data, "ViewHelper": ViewHelper}) ?>
+<?js= self.partial("type/membersummary.tmpl", obj) ?>
+<?js= self.partial("type/properties.tmpl", obj) ?>
+<?js= self.partial("type/methods.tmpl", obj) ?>
 </div>

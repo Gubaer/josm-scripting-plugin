@@ -3,25 +3,24 @@
   * Renders the detail information for properties of a type
   */
 
-var doclet = obj.doclet;         // the doclet representing the type
-var data   = obj.data;           // the TAFFY DB with the doclets
-var ViewHelper = obj.ViewHelper;
+const doclet = obj.doclet;         // the doclet representing the type
+const data   = obj.data;           // the TAFFY DB with the doclets
+const ViewHelper = obj.ViewHelper;
 
-var vh = new ViewHelper(data);
-var self = this;
+const vh = new ViewHelper(data);
+const self = this;
 
 function buildPropertyType(property) {
-    var ret = property.type && property.type.names
+    return property.type && property.type.names
           ? ":" + vh.resolveTypes(property.type.names)
           : "";
-    return ret;
 }
 
 function buildAliases(property) {
     return property.alias ? property.alias.join(", ") : "";
 }
 
-var properties = data({kind: "member", memberof: doclet.name}).order("name");
+const properties = data({kind: "member", memberof: doclet.name}).order("name");
 ?>
 <?js if (properties.count() > 0) {  ?>
 <h2>Properties</h2>
