@@ -17,9 +17,9 @@ class ScriptEngineDescriptorTest {
         assert sd.getEngineType() == ScriptEngineType.PLUGGED
         assert sd.getLanguageName() != null
         assert sd.getEngineName() != null
-        assert sd.getContentMimeTypes() == ["application/javascript", "application/ecmascript", "text/javascript", "text/ecmascript"]
+        assert sd.getContentMimeTypes() == []
 
-        shouldFail(IllegalArgumentException) {
+        shouldFail(NullPointerException) {
             sd = new ScriptEngineDescriptor(null);
         }
 
@@ -29,7 +29,7 @@ class ScriptEngineDescriptorTest {
         assert sd.getLanguageName() != null
         assert sd.getEngineName() != null
 
-        shouldFail(IllegalArgumentException) {
+        shouldFail(NullPointerException) {
             sd = new ScriptEngineDescriptor(null, "rhino");
         }
     }
@@ -39,15 +39,15 @@ class ScriptEngineDescriptorTest {
         def sd = new ScriptEngineDescriptor(ScriptEngineType.EMBEDDED, "rhino")
         assert sd.getEngineId() == "rhino"
         assert sd.getEngineType() == ScriptEngineType.EMBEDDED
-        assert sd.getLanguageName() == null
-        assert sd.getEngineName() == null
+        assert sd.getLanguageName().empty()
+        assert sd.getEngineName().empty()
         assert sd.getContentMimeTypes() == []
 
         sd = new ScriptEngineDescriptor(ScriptEngineType.EMBEDDED, "rhino", "JavaScript", "Mozilla Rhino", "text/javascript")
         assert sd.getEngineId() == "rhino"
         assert sd.getEngineType() == ScriptEngineType.EMBEDDED
-        assert sd.getLanguageName() == "JavaScript"
-        assert sd.getEngineName() == "Mozilla Rhino"
+        assert sd.getLanguageName().get() == "JavaScript"
+        assert sd.getEngineName().get() == "Mozilla Rhino"
         assert sd.getContentMimeTypes() == ["text/javascript"]
     }
 
