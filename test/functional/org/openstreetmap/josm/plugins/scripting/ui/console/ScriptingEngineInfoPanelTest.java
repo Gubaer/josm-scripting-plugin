@@ -9,29 +9,29 @@ import org.openstreetmap.josm.plugins.scripting.fixtures.JOSMFixture;
 
 public class ScriptingEngineInfoPanelTest extends JFrame {
 
-	private ScriptEngineInfoPanel infoPanel;
-	private ScriptEditorModel model;
-	private JOSMFixture fixture;
-	
-	public ScriptingEngineInfoPanelTest() {
+    private ScriptEngineInfoPanel infoPanel;
+    private ScriptEditorModel model;
+    private JOSMFixture fixture;
 
-		fixture = JOSMFixture.createUnitTestFixture();
-		fixture.init();	
-		
-		build(); 
-	}
-	
-	protected void build() {
-		Container c = getContentPane();
-		c.setLayout(new BorderLayout());
-		model = new ScriptEditorModel();
-		infoPanel = new ScriptEngineInfoPanel(model);
-		c.add(infoPanel, BorderLayout.CENTER);		
-		setSize(600, 50);
-	}
-	
-	static public void main(String args[]) {
-		ScriptingEngineInfoPanelTest app = new ScriptingEngineInfoPanelTest();
-		app.setVisible(true);
-	}
+    public ScriptingEngineInfoPanelTest() {
+
+        fixture = JOSMFixture.createUnitTestFixture();
+        fixture.init();
+
+        build();
+    }
+
+    protected void build() {
+        Container c = getContentPane();
+        c.setLayout(new BorderLayout());
+        model = new ScriptEditorModel();
+        infoPanel = new ScriptEngineInfoPanel(model);
+        c.add(infoPanel, BorderLayout.CENTER);
+        setSize(600, 50);
+    }
+
+    static public void main(String args[]) {
+        ScriptingEngineInfoPanelTest app = new ScriptingEngineInfoPanelTest();
+        app.setVisible(true);
+    }
 }

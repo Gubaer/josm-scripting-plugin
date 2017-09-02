@@ -12,28 +12,28 @@ import org.openstreetmap.josm.plugins.scripting.ui.ScriptEngineSelectionDialog;
 
 
 public class ScriptEngineSelectionDialogTest extends JFrame {
-	
-	private JOSMFixture fixture;
-	
-	public ScriptEngineSelectionDialogTest() {
-		getContentPane().setLayout(new FlowLayout());
-		setSize(100,100);
-		JButton btn = new JButton("Launch");
-		getContentPane().add(btn);
-		btn.addActionListener(new ActionListener() {			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				ScriptEngineDescriptor desc = ScriptEngineSelectionDialog.select(ScriptEngineSelectionDialogTest.this,null);
-				System.out.println(desc);
-			}
-		});
-		
-		fixture = JOSMFixture.createUnitTestFixture();
-		fixture.init();				
-	}
-		
-	static public void main(String args[]) {
-		ScriptEngineSelectionDialogTest app = new ScriptEngineSelectionDialogTest();
-		app.setVisible(true);
-	}
+
+    private JOSMFixture fixture;
+
+    public ScriptEngineSelectionDialogTest() {
+        getContentPane().setLayout(new FlowLayout());
+        setSize(100,100);
+        JButton btn = new JButton("Launch");
+        getContentPane().add(btn);
+        btn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ScriptEngineDescriptor desc = ScriptEngineSelectionDialog.select(ScriptEngineSelectionDialogTest.this,null);
+                System.out.println(desc);
+            }
+        });
+
+        fixture = JOSMFixture.createUnitTestFixture();
+        fixture.init();
+    }
+
+    static public void main(String args[]) {
+        ScriptEngineSelectionDialogTest app = new ScriptEngineSelectionDialogTest();
+        app.setVisible(true);
+    }
 }
