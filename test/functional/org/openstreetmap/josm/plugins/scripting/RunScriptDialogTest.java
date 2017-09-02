@@ -14,9 +14,8 @@ public class RunScriptDialogTest extends JFrame {
 
     private JOSMFixture fixture;
 
-    public RunScriptDialogTest() {
-        fixture = JOSMFixture.createUnitTestFixture();
-        fixture.init();
+    public RunScriptDialogTest() throws Exception {
+        fixture = new JOSMFixture();
 
         getContentPane().setLayout(new FlowLayout());
         setSize(100,100);
@@ -31,7 +30,7 @@ public class RunScriptDialogTest extends JFrame {
         });
     }
 
-    static public void main(String args[]) {
+    static public void main(String args[]) throws Exception {
         RunScriptDialogTest app = new RunScriptDialogTest();
         app.setVisible(true);
     }

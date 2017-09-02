@@ -14,7 +14,7 @@ public class ModuleRepositoryDialogTest extends JFrame {
 
     private JOSMFixture fixture;
 
-    public ModuleRepositoryDialogTest() {
+    public ModuleRepositoryDialogTest() throws Exception {
         getContentPane().setLayout(new FlowLayout());
         setSize(100,100);
         JButton btn = new JButton("Launch");
@@ -27,11 +27,10 @@ public class ModuleRepositoryDialogTest extends JFrame {
             }
         });
 
-        fixture = JOSMFixture.createUnitTestFixture();
-        fixture.init();
+        fixture = new JOSMFixture();
     }
 
-    static public void main(String args[]) {
+    static public void main(String args[]) throws Exception {
         ModuleRepositoryDialogTest app = new ModuleRepositoryDialogTest();
         app.setVisible(true);
     }

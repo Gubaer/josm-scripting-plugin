@@ -13,7 +13,7 @@ public class ScriptDescriptorEditorTest extends JFrame {
 
     private JOSMFixture fixture;
 
-    public ScriptDescriptorEditorTest() {
+    public ScriptDescriptorEditorTest() throws Exception {
         getContentPane().setLayout(new FlowLayout());
         setSize(100,100);
         JButton btn = new JButton("Launch");
@@ -26,11 +26,10 @@ public class ScriptDescriptorEditorTest extends JFrame {
             }
         });
 
-        fixture = JOSMFixture.createUnitTestFixture();
-        fixture.init();
+        fixture = new JOSMFixture();
     }
 
-    static public void main(String args[]) {
+    static public void main(String args[]) throws Exception {
         ScriptDescriptorEditorTest app = new ScriptDescriptorEditorTest();
         app.setVisible(true);
     }

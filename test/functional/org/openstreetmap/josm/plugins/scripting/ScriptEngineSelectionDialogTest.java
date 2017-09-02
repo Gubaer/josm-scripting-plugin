@@ -15,7 +15,7 @@ public class ScriptEngineSelectionDialogTest extends JFrame {
 
     private JOSMFixture fixture;
 
-    public ScriptEngineSelectionDialogTest() {
+    public ScriptEngineSelectionDialogTest() throws Exception {
         getContentPane().setLayout(new FlowLayout());
         setSize(100,100);
         JButton btn = new JButton("Launch");
@@ -28,11 +28,10 @@ public class ScriptEngineSelectionDialogTest extends JFrame {
             }
         });
 
-        fixture = JOSMFixture.createUnitTestFixture();
-        fixture.init();
+        fixture = new JOSMFixture();
     }
 
-    static public void main(String args[]) {
+    static public void main(String args[]) throws Exception {
         ScriptEngineSelectionDialogTest app = new ScriptEngineSelectionDialogTest();
         app.setVisible(true);
     }

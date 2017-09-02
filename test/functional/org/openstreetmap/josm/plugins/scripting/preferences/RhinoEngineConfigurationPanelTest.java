@@ -11,9 +11,8 @@ public class RhinoEngineConfigurationPanelTest extends JFrame {
 
     private JOSMFixture fixture;
 
-    public RhinoEngineConfigurationPanelTest() {
-        fixture = JOSMFixture.createUnitTestFixture();
-        fixture.init();
+    public RhinoEngineConfigurationPanelTest() throws Exception {
+        fixture = new JOSMFixture();
         build();
     }
 
@@ -24,7 +23,7 @@ public class RhinoEngineConfigurationPanelTest extends JFrame {
         setSize(400, 600);
     }
 
-    static public void main(String args[]) {
+    static public void main(String args[]) throws Exception {
         RhinoEngineConfigurationPanelTest app = new RhinoEngineConfigurationPanelTest();
         app.setVisible(true);
     }

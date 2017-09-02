@@ -11,9 +11,8 @@ public class ScriptEnginesConfigurationPanelTest extends JFrame {
 
     private JOSMFixture fixture;
 
-    public ScriptEnginesConfigurationPanelTest() {
-        fixture = JOSMFixture.createUnitTestFixture();
-        fixture.init();
+    public ScriptEnginesConfigurationPanelTest() throws Exception {
+        fixture = new JOSMFixture();
         build();
     }
 
@@ -24,7 +23,7 @@ public class ScriptEnginesConfigurationPanelTest extends JFrame {
         setSize(400, 600);
     }
 
-    static public void main(String args[]) {
+    static public void main(String args[]) throws Exception {
         ScriptEnginesConfigurationPanelTest app = new ScriptEnginesConfigurationPanelTest();
         app.setVisible(true);
     }

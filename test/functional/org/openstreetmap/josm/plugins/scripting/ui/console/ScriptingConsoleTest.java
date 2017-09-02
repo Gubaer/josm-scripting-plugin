@@ -15,10 +15,9 @@ public class ScriptingConsoleTest extends JFrame {
 
     private final JOSMFixture fixture;
 
-    public ScriptingConsoleTest() {
+    public ScriptingConsoleTest() throws Exception {
 
-        fixture = JOSMFixture.createUnitTestFixture();
-        fixture.init();
+        fixture = new JOSMFixture();
 
         Container c = getContentPane();
         c.setLayout(new FlowLayout());
@@ -35,7 +34,7 @@ public class ScriptingConsoleTest extends JFrame {
         setSize(200,200);
     }
 
-    static public void main(String args[]) {
+    static public void main(String args[]) throws Exception {
         ScriptingConsoleTest app = new ScriptingConsoleTest();
         app.setVisible(true);
     }

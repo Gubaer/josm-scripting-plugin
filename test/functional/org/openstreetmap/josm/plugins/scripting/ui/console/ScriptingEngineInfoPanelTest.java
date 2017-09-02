@@ -13,11 +13,8 @@ public class ScriptingEngineInfoPanelTest extends JFrame {
     private ScriptEditorModel model;
     private JOSMFixture fixture;
 
-    public ScriptingEngineInfoPanelTest() {
-
-        fixture = JOSMFixture.createUnitTestFixture();
-        fixture.init();
-
+    public ScriptingEngineInfoPanelTest() throws Exception {
+        fixture = new JOSMFixture();
         build();
     }
 
@@ -30,7 +27,7 @@ public class ScriptingEngineInfoPanelTest extends JFrame {
         setSize(600, 50);
     }
 
-    static public void main(String args[]) {
+    static public void main(String args[]) throws Exception {
         ScriptingEngineInfoPanelTest app = new ScriptingEngineInfoPanelTest();
         app.setVisible(true);
     }
