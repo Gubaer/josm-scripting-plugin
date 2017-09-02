@@ -42,15 +42,15 @@ dependencies {
     
     compile group: "org.python", name: "jython", version: "2.7.0"
     compile files("libs/josm.jar")
-     
+    compile group: 'junit', name: 'junit', version: '4.12'
+    compile group: 'org.codehaus.groovy', name: 'groovy-all', version: '2.4.12'
     
     testCompile configurations.rhino.dependencies
     testCompile configurations.jsyntaxpane.dependencies
     testCompile configurations.javaxvalidation.dependencies
     testCompile group: "org.python", name: "jython", version: "2.7.0"
-    testCompile group: 'junit', name: 'junit', version: '4.12'
-    testCompile group: 'org.codehaus.groovy', name: 'groovy-all', version: '2.4.12'
     
+    testRuntime files("test")    
 }
 
 
@@ -103,6 +103,16 @@ compileJava {
   options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
 }
 
+test {
+    useJUnit()
+    environment "JOSM_SCRIPTING_PLUGIN_HOME", project.projectDir
+    scanForTestClasses = false
+    include "**/AllUnitTests.class"
+    beforeTest { descriptor ->
+        logger.lifecycle("Running test: " + descriptor)
+    }
+}
+
 task  getJosm {
     description = "Download a JOSM jar from the JOSM website"
     doLast {
@@ -123,7 +133,8 @@ compileJava.dependsOn "getJosm"
 
 sourceSets {
     main {
-        java.srcDirs = ["src"]   
+        java.srcDirs = ["src", "test/common"]
+        groovy.srcDirs = ["test/unit"]
         resources {
             srcDirs(file("."))
             include("LICENSE")
@@ -138,6 +149,10 @@ sourceSets {
             include("resources/*.default")
             include("resources/script-engine-jars.properties")
         }     
+    }
+    test {
+        java.srcDirs = ["test/common"]
+        groovy.srcDirs = ["test/unit"]
     }
 }
 
