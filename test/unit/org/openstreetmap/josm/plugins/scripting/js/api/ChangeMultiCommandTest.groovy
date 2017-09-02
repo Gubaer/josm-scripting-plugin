@@ -36,14 +36,14 @@ class ChangeMultiCommandTest {
         def cmd = new ChangeMultiCommand(newLayer(), [n1,n2], change);
         assert cmd
 
-        shouldFail(IllegalArgumentException) {
+        shouldFail(NullPointerException) {
             cmd = new ChangeMultiCommand(null, [n1,n2], change);
         }
 
-        shouldFail(IllegalArgumentException) {
+        shouldFail(NullPointerException) {
             cmd = new ChangeMultiCommand(newLayer(), null, change);
         }
-        shouldFail(IllegalArgumentException) {
+        shouldFail(NullPointerException) {
             cmd = new ChangeMultiCommand(newLayer(), [n1,n2], null);
         }
 
