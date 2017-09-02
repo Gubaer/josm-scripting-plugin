@@ -42,7 +42,7 @@ import org.openstreetmap.josm.plugins.scripting.model
     .JSR223ScriptEngineProvider;
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
 import org.openstreetmap.josm.tools.ImageProvider;
-import org.openstreetmap.josm.tools.WindowGeometry;
+import org.openstreetmap.josm.gui.util.WindowGeometry;
 
 /**
  * <strong>ScriptEngineSelectionDialog</strong> allows to select one of the

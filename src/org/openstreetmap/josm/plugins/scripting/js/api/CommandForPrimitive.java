@@ -7,7 +7,7 @@ import javax.swing.Icon;
 
 import org.openstreetmap.josm.command.PseudoCommand;
 import org.openstreetmap.josm.data.osm.OsmPrimitive;
-import org.openstreetmap.josm.gui.DefaultNameFormatter;
+import org.openstreetmap.josm.data.osm.DefaultNameFormatter;
 import org.openstreetmap.josm.tools.ImageProvider;
 
 class CommandForPrimitive implements PseudoCommand {

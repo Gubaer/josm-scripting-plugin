@@ -27,7 +27,7 @@ import javax.validation.constraints.NotNull;
 import org.openstreetmap.josm.data.preferences.BooleanProperty;
 import org.openstreetmap.josm.plugins.scripting.util.Assert;
 import org.openstreetmap.josm.tools.ImageProvider;
-import org.openstreetmap.josm.tools.WindowGeometry;
+import org.openstreetmap.josm.gui.util.WindowGeometry;
 
 @SuppressWarnings("serial")
 public class ScriptingConsole extends JFrame {

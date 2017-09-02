@@ -2,16 +2,16 @@
 /*
  * Renders information about constructors of a type.
  */
-var doclet = obj.doclet;          // the doclet for the type
-var data = obj.data;              // the taffy DB with the doclets
-var ViewHelper = obj.ViewHelper;
+const doclet = obj.doclet;          // the doclet for the type
+const data = obj.data;              // the taffy DB with the doclets
+const ViewHelper = obj.ViewHelper;
 
-var self = this;
-var vh = new ViewHelper(data);
+const self = this;
+const vh = new ViewHelper(data);
 
 ?>
 <?js
-var constructors =  data({memberof: doclet.name, kind: "class", name: doclet.name});
+const constructors =  data({memberof: doclet.name, kind: "class", name: doclet.name});
 if (constructors.count() > 0) { ?>
 <h2>Constructor</h2>
 <?js
@@ -22,7 +22,7 @@ if (constructors.count() > 0) { ?>
    <?js= self.partial("type/examples.tmpl", constructor.examples) ?>
 
 <?js
-     var params = constructor.params;
+     const params = constructor.params;
      if (params && params.length > 0) {
 ?>
 <h3>Parameters</h3>
@@ -32,14 +32,13 @@ if (constructors.count() > 0) { ?>
    <th>Type</th>
    <th>Description</th>
 </tr>
-<?js   for(var j=0; j<params.length; j++) { ?>
-<?js      var para = params[j];  ?>
+<?js   params.forEach(function(para) { ?>
 <tr>
      <td><?js= para.name ?></td>
      <td><?js= para.type && para.type.names ? vh.resolveTypes(para.type.names) : "" ?></td>
      <td><?js= para.description ? vh.resolveClassReferences(para.description) : "" ?></td>
 </tr>
-<?js   }  /* end for */ ?>
+<?js   });  /* end forEach */ ?>
 </table>
 <?js } /* end if */ ?>
 

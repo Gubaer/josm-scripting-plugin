@@ -1,27 +1,25 @@
 <?js
+'use strict';
 /*
  * Renders the table of contents
 */
-var data = obj.data;
-var self = this;
-var safeHtmlFilename = obj.safeHtmlFilename;
+const data = obj.data;
+const self = this;
+const safeHtmlFilename = obj.safeHtmlFilename;
 
 function filterClasses(classes) {
-   var ret =[];
-   for (var i=0; i<classes.length;i++) {
-      var cls = classes[i];
-      if (cls.name != cls.memberof) ret.push(cls);
-   }
-   return ret;
+   	return classes.filter(function(cls) {
+   		cls.name != cls.memberof
+   	});
 };
 
 ?>
 <div class="toc">
 <?js /* ------------------ list of classes ------------------- */ ?>
 <?js
-var classes = data({kind: "class"}).order("name");
+const classes = data({kind: "class"}).order("name");
+if (classes.count() > 0) {           
 ?>
-<?js if (classes.count() > 0) {           ?>
 <h2 class="section-header">Classes</h2>
 <ul class="section-header">
 <?js     classes.each(function(cls) {
@@ -35,9 +33,8 @@ var classes = data({kind: "class"}).order("name");
 
 <?js /* ------------------ list of namespaces ------------------- */ ?>
 <?js
-var namespaces = data({kind: "namespace"}).order("name");
-?>
-<?js if (namespaces.count() > 0) {  ?>
+const namespaces = data({kind: "namespace"}).order("name");
+if (namespaces.count() > 0) {  ?>
 <h2 class="section-header">Namespaces</h2>
 <ul>
 <?js     namespaces.each(function(ns) { ?>
@@ -48,9 +45,8 @@ var namespaces = data({kind: "namespace"}).order("name");
 
 <?js /* ------------------ list of mixins ------------------- */ ?>
 <?js
-var mixins = data({kind: "mixin"}).order("name");
-?>
-<?js if (mixins.count() > 0) {  ?>
+const mixins = data({kind: "mixin"}).order("name");
+if (mixins.count() > 0) {  ?>
 <h2 class="section-header">Mixins</h2>
 <ul>
 <?js    mixins.each(function(mixin) {  ?>
@@ -61,9 +57,8 @@ var mixins = data({kind: "mixin"}).order("name");
 
 <?js /* ------------------ list of modules ------------------- */ ?>
 <?js
-var modules = data({kind: "module"}).order("name");
-?>
-<?js if (modules.count() > 0) {  ?>
+const modules = data({kind: "module"}).order("name");
+if (modules.count() > 0) {  ?>
 <h2 class="section-header">Modules</h2>
 <ul>
 <?js     modules.each(function(module) {  ?>

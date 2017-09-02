@@ -24,6 +24,8 @@ import org.mozilla.javascript.JavaScriptException;
 import org.mozilla.javascript.RhinoException;
 import org.mozilla.javascript.Scriptable;
 import org.openstreetmap.josm.Main;
+import org.openstreetmap.josm.gui.MainApplication;
+import org.openstreetmap.josm.gui.MainMenu;
 import org.openstreetmap.josm.gui.MapFrame;
 import org.openstreetmap.josm.gui.preferences.PreferenceSetting;
 import org.openstreetmap.josm.plugins.Plugin;
@@ -160,9 +162,10 @@ public class ScriptingPlugin extends Plugin implements PreferenceKeys{
     private final Action configureAction = new ConfigureAction();
 
     protected void installScriptsMenu() {
-        final JMenu scriptingMenu = Main.main.menu.addMenu(
+        final MainMenu mainMenu = MainApplication.getMenu();
+        final JMenu scriptingMenu = mainMenu.addMenu(
                 "Scripting", tr("Scripting"), -1 /* no mnemonic key */ ,
-                Main.main.menu.getDefaultMenuPos(), ht("/Plugin/Scripting")
+                MainApplication.getMenu().getDefaultMenuPos(), ht("/Plugin/Scripting")
         );
         scriptingMenu.setMnemonic('S');
         MostRecentlyRunScriptsModel.getInstance().loadFromPreferences(Main.pref);

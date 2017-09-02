@@ -12,9 +12,9 @@ import org.mozilla.javascript.Function;
 import org.mozilla.javascript.ScriptRuntime;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.Undefined;
-import org.openstreetmap.josm.Main;
 import org.openstreetmap.josm.actions.JosmAction;
 import org.openstreetmap.josm.data.osm.OsmPrimitive;
+import org.openstreetmap.josm.gui.MainApplication;
 import org.openstreetmap.josm.tools.ImageProvider;
 import org.openstreetmap.josm.tools.Shortcut;
 
@@ -76,7 +76,7 @@ public class JSAction extends JosmAction {
         // FIXME should accept shortcut as parameter
         this.sc = Shortcut.registerShortcut(name, name, KeyEvent.VK_0,
                 Shortcut.NONE);
-        Main.registerActionShortcut(this, sc);
+        MainApplication.registerActionShortcut(this, sc);
         initEnabledState();
     }
 

@@ -48,7 +48,7 @@ Add a new entry to [releases.conf](releases.conf) then run:
 
 ## Build status
 
-[![Build Status](https://drone.io/github.com/Gubaer/josm-scripting-plugin/status.png)](https://drone.io/github.com/Gubaer/josm-scripting-plugin/latest)
+[![Build Status](https://travis-ci.org/Gubaer/josm-scripting-plugin.svg?branch=master)](https://travis-ci.org/Gubaer/josm-scripting-plugin.svg?branch=master)
 
 ## Credits
 The JOSM scripting plugin uses: 

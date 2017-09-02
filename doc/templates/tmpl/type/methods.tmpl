@@ -2,42 +2,41 @@
 /*
 * Renders the method list of a type
 */
-var doclet = obj.doclet;         //  the type doclet
-var data = obj.data;             //  the TAFFY DB with the doclets
-var ViewHelper = obj.ViewHelper;
+const doclet = obj.doclet;         //  the type doclet
+const data = obj.data;             //  the TAFFY DB with the doclets
+const ViewHelper = obj.ViewHelper;
 
- var self = this;
- var vh = new ViewHelper(data);
- var methods = data({kind: "function", memberof: doclet.name}).order("name");
+const self = this;
+const vh = new ViewHelper(data);
+const methods = data({kind: "function", memberof: doclet.name}).order("name");
 ?>
 <?js
 if (methods.count() > 0) { ?>
 <h2>Functions</h2>
-   <?js methods.each(function(method) { ?>
-   <p  id="<?js= method.name ?>" class="member-header">
-      <?js= method.name ?><?js= method.type && method.type.names ? ":" + vh.resolveTypes(method.type.names) : "" ?>
-   </p>
-   <p><?js= vh.resolveClassReferences(method.description) ?></p>
+    <?js methods.each(function(method) { ?>
+    <p  id="<?js= method.name ?>" class="member-header">
+        <?js= method.name ?><?js= method.type && method.type.names ? ":" + vh.resolveTypes(method.type.names) : "" ?>
+    </p>
+    <p><?js= vh.resolveClassReferences(method.description) ?></p>
 
 <?js
-     var params = method.params;
-     if (params && params.length > 0) {
+    const params = method.params;
+    if (params && params.length > 0) {
 ?>
 <h3>Parameters</h3>
 <table class="parameters">
 <tr>
-   <th>Name</th>
-   <th>Type</th>
-   <th>Description</th>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
 </tr>
-<?js   for(var j=0; j<params.length; j++) { ?>
-<?js      var para = params[j];  ?>
+<?js    params.forEach(function(para) { ?>
 <tr>
-     <td><?js= para.name ?></td>
-     <td><?js= para.type && para.type.names ? vh.resolveTypes(para.type.names) : "" ?></td>
-     <td><?js= para.description ? vh.resolveClassReferences(para.description) : "" ?></td>
+    <td><?js= para.name ?></td>
+    <td><?js= para.type && para.type.names ? vh.resolveTypes(para.type.names) : "" ?></td>
+    <td><?js= para.description ? vh.resolveClassReferences(para.description) : "" ?></td>
 </tr>
-<?js   }  /* end for */ ?>
+<?js   });  /* end forEach */ ?>
 </table>
 <?js } /* end if */ ?>
 <?js if (method.examples) {   ?>

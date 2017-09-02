@@ -3,14 +3,14 @@
  * Renders the summary table with the members (properties and methods)
  * of a type.
  */
-var self = this;
-var data = obj.data;
-var type = obj.doclet;
-var ViewHelper = obj.ViewHelper;
+const self = this;
+const data = obj.data;
+const type = obj.doclet;
+const ViewHelper = obj.ViewHelper;
 
-var properties = data({kind: "member", memberof: type.name}).order("name");
-var methods = data({kind: "function", memberof: type.name}).order("name");
-var vh = new ViewHelper(data);
+const properties = data({kind: "member", memberof: type.name}).order("name");
+const methods = data({kind: "function", memberof: type.name}).order("name");
+const vh = new ViewHelper(data);
 
 function hasMembers() {
     return properties.count() + methods.count() > 0;
@@ -35,7 +35,7 @@ function hasMembers() {
     </tr>
 <?js }); /* end for */ ?>
 <?js } /* if has properties */  ?>
- <?js  } /* has members */ ?>
+<?js } /* has members */ ?>
 
 
 <?js  if (methods.count() > 0) {  ?>

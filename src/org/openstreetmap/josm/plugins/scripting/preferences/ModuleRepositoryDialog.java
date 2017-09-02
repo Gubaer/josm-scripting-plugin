@@ -36,7 +36,7 @@ import javax.swing.event.DocumentListener;
 import org.openstreetmap.josm.gui.widgets.HtmlPanel;
 import org.openstreetmap.josm.plugins.scripting.model.CommonJSModuleRepository;
 import org.openstreetmap.josm.tools.ImageProvider;
-import org.openstreetmap.josm.tools.WindowGeometry;
+import org.openstreetmap.josm.gui.util.WindowGeometry;
 
 @SuppressWarnings("serial")
 public class ModuleRepositoryDialog extends JDialog {
