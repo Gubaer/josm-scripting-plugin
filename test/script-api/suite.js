@@ -33,8 +33,19 @@ var tests = [
     "josm/WayMixinTest",
 ];
 
-exports.run = function() {
+function run() {
     for (var i=0; i<tests.length; i++) {
     	require(tests[i]).run();
     }
 };
+
+if (typeof exports === "undefined") {
+    // not loaded as module. Run the tests immediately.
+    run();
+} else {
+    // loaded as module. Export the run function but don't
+    // execute it here. 
+    exports.run = run;
+}
+
+

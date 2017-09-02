@@ -44,6 +44,10 @@ public class AddMultiCommand extends MultiCommand {
         List<OsmPrimitive> normalized = normalize(toAdd);
         primitives = new OsmPrimitive[normalized.size()];
         normalized.toArray(primitives);
+        // make sure nodes will be added before ways, nodes and ways before relations
+        Arrays.sort(primitives, 
+            (p1, p2) -> p1.getPrimitiveId().getType().compareTo(p2.getPrimitiveId().getType())
+        );
     }
 
     @Override

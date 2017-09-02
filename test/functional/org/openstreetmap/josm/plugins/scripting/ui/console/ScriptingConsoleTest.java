@@ -13,30 +13,29 @@ import org.openstreetmap.josm.plugins.scripting.fixtures.JOSMFixture;
 
 public class ScriptingConsoleTest extends JFrame {
 
-	private final JOSMFixture fixture;
+    private final JOSMFixture fixture;
 
-	public ScriptingConsoleTest() {
+    public ScriptingConsoleTest() throws Exception {
 
-		fixture = JOSMFixture.createUnitTestFixture();
-		fixture.init();
+        fixture = new JOSMFixture();
 
-		Container c = getContentPane();
-		c.setLayout(new FlowLayout());
-		JButton btn = new JButton();
-		btn.setAction(new AbstractAction() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				ScriptingConsole.showScriptingConsole();
-			}
-		});
-		btn.setText("Launch");
-		c.add(btn);
+        Container c = getContentPane();
+        c.setLayout(new FlowLayout());
+        JButton btn = new JButton();
+        btn.setAction(new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ScriptingConsole.showScriptingConsole();
+            }
+        });
+        btn.setText("Launch");
+        c.add(btn);
 
-		setSize(200,200);
-	}
+        setSize(200,200);
+    }
 
-	static public void main(String args[]) {
-		ScriptingConsoleTest app = new ScriptingConsoleTest();
-		app.setVisible(true);
-	}
+    static public void main(String args[]) throws Exception {
+        ScriptingConsoleTest app = new ScriptingConsoleTest();
+        app.setVisible(true);
+    }
 }

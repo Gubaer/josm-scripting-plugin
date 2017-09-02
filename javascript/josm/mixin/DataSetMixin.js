@@ -24,7 +24,7 @@ var Collection   = java.util.Collection;
 var HashMap   = java.util.HashMap;
 var HashSet   = java.util.HashSet;
 var Collections   = java.util.Collections;
-var SearchCompiler = org.openstreetmap.josm.actions.search.SearchCompiler;
+
 
 /**
  * <p>This mixin provides additional properties and methods which you can
@@ -673,7 +673,8 @@ mixin.selection = {
 mixin.query = function(expression, options) {
     var collection;
     var SearchAction =  org.openstreetmap.josm.actions.search.SearchAction;
-    var SearchSetting = SearchAction.SearchSetting;
+    var SearchSetting = org.openstreetmap.josm.data.osm.search.SearchSetting;
+    var SearchCompiler = org.openstreetmap.josm.data.osm.search.SearchCompiler;
     options = options || {};
 
     switch(arguments.length){

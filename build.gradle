@@ -16,7 +16,7 @@ def currentPluginMainVersion(config) {
 
 def bestPluginVersion(config, josmVersion) {
     return config.releases
-        .findAll{it.josmVersion == josmVersion}   
+        .findAll{it.josmVersion == josmVersion}
         .collect{it.pluginVersion}
         .max()
 }
@@ -26,40 +26,41 @@ repositories {
 }
 
 configurations {
-	rhino
-	jsyntaxpane
-	javaxvalidation
+    rhino
+    jsyntaxpane
+    javaxvalidation
 }
 
 dependencies {
     rhino group: "org.mozilla", name: "rhino", version: "1.7.7.1"
     jsyntaxpane group: "de.sciss", name: "jsyntaxpane", version: "1.0.0"
     javaxvalidation group: 'javax.validation', name: 'validation-api', version: '1.0.0.GA'
-    
+
     compile configurations.rhino.dependencies
     compile configurations.jsyntaxpane.dependencies
     compile configurations.javaxvalidation.dependencies
-    
+
     compile group: "org.python", name: "jython", version: "2.7.0"
     compile files("libs/josm.jar")
-     
-    
+    compile group: 'junit', name: 'junit', version: '4.12'
+    compile group: 'org.codehaus.groovy', name: 'groovy-all', version: '2.4.12'
+
     testCompile configurations.rhino.dependencies
     testCompile configurations.jsyntaxpane.dependencies
     testCompile configurations.javaxvalidation.dependencies
     testCompile group: "org.python", name: "jython", version: "2.7.0"
-    testCompile group: 'junit', name: 'junit', version: '4.12'
-}
 
+    testRuntime files("test")
+}
 
 jar.baseName = "scripting"
 
 jar {
     metaInf {
-	    from("resources") {
-	        include "mime.types"
-	    }
-	}
+        from("resources") {
+            include "mime.types"
+        }
+    }
     manifest {
         def config = new ConfigSlurper().parse(file("releases.conf").text)
         attributes(
@@ -74,24 +75,24 @@ jar {
             "Plugin-Link" : "http://gubaer.github.com/josm-scripting-plugin",
             "Plugin-Canloadatruntime" : "true"
         )
-        config.releases.collect{it.josmVersion}.unique().sort().each {jv -> 
+        config.releases.collect{it.josmVersion}.unique().sort().each {jv ->
             def dv = bestPluginVersion(config, jv)
             def key = "${jv}_Plugin-Url".toString()
             def value = "${dv};https://raw.github.com/Gubaer/josm-scripting-plugin/for-josm-${jv}/dist/scripting.jar".toString()
-            attributes([(key):value]) 
-        }        
+            attributes([(key):value])
+        }
     }
     from zipTree(configurations.rhino.asPath)
     from zipTree(configurations.jsyntaxpane.asPath)
     from zipTree(configurations.javaxvalidation.asPath)
-    
+
     from("src") {
-      include("**/*.dtd")      
+      include("**/*.dtd")
     }
 
     from("javascript") {
       into("js")
-      include("**/*.js")      
+      include("**/*.js")
     }
 }
 
@@ -101,14 +102,24 @@ compileJava {
   options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
 }
 
+test {
+    useJUnit()
+    environment "JOSM_SCRIPTING_PLUGIN_HOME", project.projectDir
+    scanForTestClasses = false
+    include "**/AllUnitTests.class"
+    beforeTest { descriptor ->
+        logger.lifecycle("Running test: " + descriptor)
+    }
+}
+
 task  getJosm {
     description = "Download a JOSM jar from the JOSM website"
     doLast {
         if (! file("libs").exists()) {
             file("libs").mkdir()
         }
-        if (!file("libs/josm.jar").exists()) {    
-            println "Downloading JOSM from <${josmDownloadUrl}> ..."    
+        if (!file("libs/josm.jar").exists()) {
+            println "Downloading JOSM from <${josmDownloadUrl}> ..."
             download {
                 src josmDownloadUrl
                 dest "libs/josm.jar"
@@ -121,7 +132,8 @@ compileJava.dependsOn "getJosm"
 
 sourceSets {
     main {
-        java.srcDirs = ["src"]   
+        java.srcDirs = ["src", "test/common"]
+        groovy.srcDirs = ["test/unit"]
         resources {
             srcDirs(file("."))
             include("LICENSE")
@@ -132,10 +144,14 @@ sourceSets {
             include("scripts/*.groovy")
             include("scripts/*.py")
             include("scripts/*.jy")
-            include("scripts/*.js")            
+            include("scripts/*.js")
             include("resources/*.default")
             include("resources/script-engine-jars.properties")
-        }     
+        }
+    }
+    test {
+        java.srcDirs = ["test/common"]
+        groovy.srcDirs = ["test/unit"]
     }
 }
 
@@ -156,7 +172,7 @@ task deploy {
         }
         Git.ensureOnBranch(deployBranch)
         Git.add(jar)
-        Git.commit(jar, "commited plugin build ${currentPluginVersion(config)}") 
+        Git.commit(jar, "commited plugin build ${currentPluginVersion(config)}")
         def tag = "for-josm-${currentPluginMainVersion(config)}"
         Git.tagHead(tag)
         Git.push("origin", deployBranch)
@@ -182,7 +198,7 @@ class Git {
     }
 
     static def ensureOnBranch(branch) {
-        def proc = "git rev-parse --abbrev-ref HEAD".execute()  
+        def proc = "git rev-parse --abbrev-ref HEAD".execute()
         def ret = proc.in.text.trim()
         if (ret != branch) {
             throw new Error("currently on branch '$ret', but expected branch '$branch'")
@@ -206,7 +222,7 @@ class Git {
     }
 
     static def pushTags() {
-        executeAndLog("git push --tags -f") 
+        executeAndLog("git push --tags -f")
     }
 }
 

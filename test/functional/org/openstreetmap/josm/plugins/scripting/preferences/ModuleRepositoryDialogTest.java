@@ -11,28 +11,27 @@ import org.openstreetmap.josm.plugins.scripting.ui.RunScriptDialog;
 
 
 public class ModuleRepositoryDialogTest extends JFrame {
-	
-	private JOSMFixture fixture;
-	
-	public ModuleRepositoryDialogTest() {
-		getContentPane().setLayout(new FlowLayout());
-		setSize(100,100);
-		JButton btn = new JButton("Launch");
-		getContentPane().add(btn);
-		btn.addActionListener(new ActionListener() {			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				ModuleRepositoryDialog dialog = new ModuleRepositoryDialog(ModuleRepositoryDialogTest.this);
-				dialog.setVisible(true);
-			}
-		});
-		
-		fixture = JOSMFixture.createUnitTestFixture();
-		fixture.init();				
-	}
-		
-	static public void main(String args[]) {
-		ModuleRepositoryDialogTest app = new ModuleRepositoryDialogTest();
-		app.setVisible(true);
-	}
+
+    private JOSMFixture fixture;
+
+    public ModuleRepositoryDialogTest() throws Exception {
+        getContentPane().setLayout(new FlowLayout());
+        setSize(100,100);
+        JButton btn = new JButton("Launch");
+        getContentPane().add(btn);
+        btn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ModuleRepositoryDialog dialog = new ModuleRepositoryDialog(ModuleRepositoryDialogTest.this);
+                dialog.setVisible(true);
+            }
+        });
+
+        fixture = new JOSMFixture();
+    }
+
+    static public void main(String args[]) throws Exception {
+        ModuleRepositoryDialogTest app = new ModuleRepositoryDialogTest();
+        app.setVisible(true);
+    }
 }
