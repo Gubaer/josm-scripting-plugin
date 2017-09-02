@@ -36,13 +36,8 @@ class ChangeTest {
         assert change
 
         // can be null
-        shouldFail(IllegalArgumentException) {
+        shouldFail(NullPointerException) {
             change = new LatChange(null);
-        }
-
-        // string are not accepted
-        shouldFail(IllegalArgumentException) {
-            change = new LatChange("123.45");
         }
 
         // illegal lat
@@ -72,13 +67,8 @@ class ChangeTest {
         assert change
 
         // can be null
-        shouldFail(IllegalArgumentException) {
+        shouldFail(NullPointerException) {
             change = new LonChange(null);
-        }
-
-        // string are not accepted
-        shouldFail(IllegalArgumentException) {
-            change = new LonChange("123.45");
         }
 
         // illegal lat
@@ -108,13 +98,8 @@ class ChangeTest {
         assert change
 
         // can be null
-        shouldFail(IllegalArgumentException) {
+        shouldFail(NullPointerException) {
             change = new PosChange(null);
-        }
-
-        // string are not accepted
-        shouldFail(IllegalArgumentException) {
-            change = new PosChange("123.45,12.22");
         }
 
         change = new PosChange(new LatLon(3,4));
@@ -133,7 +118,6 @@ class ChangeTest {
         println "PosChange: explanation: ${explanation}"
     }
 
-
     @Test
     public void testTagsChange() {
 
@@ -141,11 +125,6 @@ class ChangeTest {
         assert change
         change = new TagsChange(null); // to remove all tags
         assert change
-
-        // string are not accepted
-        shouldFail(IllegalArgumentException) {
-            change = new TagsChange("name=test");
-        }
 
         change = new TagsChange([name: "test"]);
         assert change.appliesTo( new Node(new LatLon(0,0))), "applies to complete nodes"
@@ -186,17 +165,6 @@ class ChangeTest {
         change = new NodesChange(null); // to remove all nodes
         assert change
 
-
-        // string are not accepted
-        shouldFail(IllegalArgumentException) {
-            change = new NodesChange("name=test");
-        }
-
-        // can't add a set of nodes
-        shouldFail(IllegalArgumentException) {
-            change = new NodesChange([n1,n2] as Set);
-        }
-
         change = new NodesChange([n1,n2])
         assert !change.appliesTo( new Node(new LatLon(0,0))), "doesn't apply to nodes"
         assert change.appliesTo( new Way(1,1)), "aplies to ways"
@@ -236,17 +204,6 @@ class ChangeTest {
         assert change
         change = new MemberChange(null); // to remove all nodes
         assert change
-
-
-        // string are not accepted
-        shouldFail(IllegalArgumentException) {
-            change = new MemberChange("name=test");
-        }
-
-        // can't add a set of nodes
-        shouldFail(IllegalArgumentException) {
-            change = new MemberChange([member("role.1", n1), member("role.2", n2)] as Set);
-        }
 
         change = new MemberChange([member("role.1", n1), member("role.2", n2)])
         assert !change.appliesTo( new Node(new LatLon(0,0))), "doesn't apply to nodes"
@@ -348,7 +305,7 @@ class ChangeTest {
         def change = new Change();
         def n1 = new Node(new LatLon(1,1));
         def n2 = new Node(new LatLon(2,2));
-        change.WithNodeChange([n1,n2,null]);
+        change.withNodeChange([n1,n2,null]);
 
         def way = new Way(1,1);
         way.setNodes([new Node(1,1), new Node(2,1)]);
