@@ -33,11 +33,11 @@ class AddMultiCommandTest {
         def cmd = new AddMultiCommand(newLayer(), [n1,n2]);
         assert cmd
 
-        shouldFail(IllegalArgumentException) {
+        shouldFail(NullPointerException) {
             cmd = new AddMultiCommand(null, [n1,n2]);
         }
 
-        shouldFail(IllegalArgumentException) {
+        shouldFail(NullPointerException) {
             cmd = new AddMultiCommand(newLayer(), null);
         }
     }
