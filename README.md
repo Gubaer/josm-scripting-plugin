@@ -58,10 +58,10 @@ There are two suites of unit tests
 
    How to run:
    - Add the path `$JOSM_SCRIPTING_PLUGIN_ROOT/test/script-api` to the list of module repositories
-         - launch JOSM
-         - Scripting -> Configure ...
-         - Select Tab 'Embedded Rhino Engine'
-         - Add the module repository for unit tests
+        - launch JOSM
+        - Scripting -> Configure ...
+        - Select Tab 'Embedded Rhino Engine'
+        - Add the module repository for unit tests
    - Launch JOSM, open the scripting console and enter
        ```JavaScript
        require("suite").run();
