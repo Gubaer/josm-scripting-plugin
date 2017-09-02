@@ -5,8 +5,6 @@ import java.awt.Container;
 
 import javax.swing.JFrame;
 
-import org.openstreetmap.josm.Main;
-import org.openstreetmap.josm.data.Preferences;
 import org.openstreetmap.josm.gui.preferences.projection.ProjectionPreference;
 
 public class ScriptingConsolePanelTest extends JFrame {
@@ -26,8 +24,7 @@ public class ScriptingConsolePanelTest extends JFrame {
     }
 
     static public void main(String args[]) {
-        Main.pref = new Preferences();
-        ProjectionPreference.setProjection("core:meractor", null);
+        ProjectionPreference.setProjection("core:meractor", null /* no prefs */, true /* default projection */);
         ScriptingConsolePanelTest app = new ScriptingConsolePanelTest();
         app.setVisible(true);
     }
