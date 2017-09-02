@@ -11,3 +11,4 @@ build
 jsdoc.local.sh
 libs
 out
+test/test-env.properties
