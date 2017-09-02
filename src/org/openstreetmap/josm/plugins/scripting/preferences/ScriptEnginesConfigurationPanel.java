@@ -51,6 +51,7 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
 import org.openstreetmap.josm.Main;
+import org.openstreetmap.josm.gui.MainApplication;
 import org.openstreetmap.josm.gui.io.DownloadFileTask;
 import org.openstreetmap.josm.gui.util.CellEditorSupport;
 import org.openstreetmap.josm.gui.widgets.HtmlPanel;
@@ -514,8 +515,8 @@ public class ScriptEnginesConfigurationPanel extends VerticallyScrollablePanel{
                     true  /* mkdir */,
                     false /* unzip */
             );
-            final Future<?> future = Main.worker.submit(downloadFileTask);
-            Main.worker.submit(() -> {
+            final Future<?> future = MainApplication.worker.submit(downloadFileTask);
+            MainApplication.worker.submit(() -> {
                     try {
                         future.get();
                     } catch(InterruptedException | ExecutionException ex) {
