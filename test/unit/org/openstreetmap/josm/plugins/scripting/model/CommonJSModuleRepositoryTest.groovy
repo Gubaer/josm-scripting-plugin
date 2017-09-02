@@ -13,7 +13,7 @@ class CommonJSModuleRepositoryTest {
         def repo = new CommonJSModuleRepository(new File(path));
         assert repo.getFile() == new File(path);
 
-        shouldFail(IllegalArgumentException) {
+        shouldFail(NullPointerException) {
             repo = new CommonJSModuleRepository((File)null);
         }
     }
@@ -36,7 +36,7 @@ class CommonJSModuleRepositoryTest {
         assert repo.getFile() == new File(path);
         assert repo.getJarEntry() == "/my/module/directory";
 
-        shouldFail(IllegalArgumentException) {
+        shouldFail(NullPointerException) {
             repo = new CommonJSModuleRepository((URL)null);
         }
     }
@@ -58,7 +58,7 @@ class CommonJSModuleRepositoryTest {
         assert repo.getFile() == new File(path);
         assert repo.getJarEntry() == "/my/module/directory";
 
-        shouldFail(IllegalArgumentException) {
+        shouldFail(NullPointerException) {
             repo = new CommonJSModuleRepository((String)null);
         }
 
