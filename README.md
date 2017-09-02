@@ -46,6 +46,29 @@ Add a new entry to [releases.conf](releases.conf) then run:
                                # plugin installer
 ```
 
+## How to test
+There are two suites of unit tests
+1. a suite of unit tests implemented in java and groovy which can be executed with a JUnit 4 test runner
+   
+   How to run:
+   ```bash
+   $ ./gradlew test
+   ```
+2. a suite of unit tests implemented in JavaScript which provide test cases for the JavaScript API.
+
+   How to run:
+   - Add the path `$JOSM_SCRIPTING_PLUGIN_ROOT/test/script-api` to the list of module repositories
+         - launch JOSM
+         - Scripting -> Configure ...
+         - Select Tab 'Embedded Rhino Engine'
+         - Add the module repository for unit tests
+   - Launch JOSM, open the scripting console and enter
+       ```JavaScript
+       require("suite").run();
+       ```
+   - Click on Run. Results are logged to the console.
+    
+
 ## Build status
 
 [![Build Status](https://travis-ci.org/Gubaer/josm-scripting-plugin.svg?branch=master)](https://travis-ci.org/Gubaer/josm-scripting-plugin.svg?branch=master)
