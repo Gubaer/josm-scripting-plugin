@@ -26,8 +26,7 @@ class ChangeTest {
 
     @BeforeClass
     public static void init() {
-        fixture = JOSMFixture.createUnitTestFixture();
-        fixture.init();
+        fixture = new JOSMFixture()
     }
 
     @Test
