@@ -1,6 +1,6 @@
 var tu = require("josm/unittest");
 var util = require("josm/util");
-var UploadStrategy = org.openstreetmap.josm.gui.io.UploadStrategy;
+var UploadStrategy = org.openstreetmap.josm.io.UploadStrategy;
 
 var suites = [];
 
