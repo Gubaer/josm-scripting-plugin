@@ -36,15 +36,14 @@ class DeleteMultiCommandTest {
         def cmd = new DeleteMultiCommand(newLayer(), [n1,n2]);
         assert cmd
 
-        shouldFail(IllegalArgumentException) {
+        shouldFail(NullPointerException) {
             cmd = new DeleteMultiCommand(null, [n1,n2]);
         }
 
-        shouldFail(IllegalArgumentException) {
+        shouldFail(NullPointerException) {
             cmd = new DeleteMultiCommand(newLayer(), null);
         }
     }
-
 
     @Test
     public void testExecuteAndUndo() {
@@ -91,5 +90,4 @@ class DeleteMultiCommandTest {
         assert ds.getPrimitiveById(w1).isDeleted()
         assert ds.getPrimitiveById(r1).isDeleted()
     }
-
 }
