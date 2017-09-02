@@ -53,7 +53,6 @@ public class JOSMFixture {
             }
         }
         System.setProperty("josm.home", josmHome);
-        Main.pref = new Preferences();
         I18n.init();
         // initialize the plaform hook, and
         Main.determinePlatformHook();
@@ -63,7 +62,7 @@ public class JOSMFixture {
         Main.pref.init(false);
 
         // init projection
-        ProjectionPreference.setProjection("core:mercator", null);
+        ProjectionPreference.setProjection("core:mercator", null, true /* default */);
 
         // make sure we don't upload to or test against production
         //
