@@ -37,7 +37,7 @@
 </tr>
 
 
- 
+
 
 
 
@@ -154,11 +154,11 @@
 
 
 <h2>Functions</h2>
-   
-   <p  id="assert" class="member-header">
-      assert
-   </p>
-   <p><p>Assert a condition and throw an Error if the condition isn't met.</p>
+    
+    <p  id="assert" class="member-header">
+        assert
+    </p>
+    <p><p>Assert a condition and throw an Error if the condition isn't met.</p>
 
 <p><strong>Usage:</strong>
 <dl>
@@ -202,39 +202,36 @@ util.assert(false, "My message: {0}", "test");
 
 
  
-   <p  id="assertNumber" class="member-header">
-      assertNumber
-   </p>
-   <p>Asserts that <code>val</code> is a number.</p>
+    <p  id="assertNumber" class="member-header">
+        assertNumber
+    </p>
+    <p>Asserts that <code>val</code> is a number.</p>
 
 
 <h3>Parameters</h3>
 <table class="parameters">
 <tr>
-   <th>Name</th>
-   <th>Type</th>
-   <th>Description</th>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
 </tr>
 
-
 <tr>
-     <td>val</td>
-     <td>Anything</td>
-     <td>the value to check</td>
+    <td>val</td>
+    <td>Anything</td>
+    <td>the value to check</td>
 </tr>
 
-
 <tr>
-     <td>msg</td>
-     <td>String</td>
-     <td>(optional) message if the assertion fails</td>
+    <td>msg</td>
+    <td>String</td>
+    <td>(optional) message if the assertion fails</td>
 </tr>
 
-
 <tr>
-     <td>values</td>
-     <td></td>
-     <td>(optional) additional values used in <code>msg</code>
+    <td>values</td>
+    <td></td>
+    <td>(optional) additional values used in <code>msg</code>
 placeholders</td>
 </tr>
 
@@ -243,39 +240,36 @@ placeholders</td>
 
 
  
-   <p  id="assertSomething" class="member-header">
-      assertSomething
-   </p>
-   <p>Asserts that <code>val</code> is defined and non-null.</p>
+    <p  id="assertSomething" class="member-header">
+        assertSomething
+    </p>
+    <p>Asserts that <code>val</code> is defined and non-null.</p>
 
 
 <h3>Parameters</h3>
 <table class="parameters">
 <tr>
-   <th>Name</th>
-   <th>Type</th>
-   <th>Description</th>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
 </tr>
 
-
 <tr>
-     <td>val</td>
-     <td>any</td>
-     <td>the value to check</td>
+    <td>val</td>
+    <td>any</td>
+    <td>the value to check</td>
 </tr>
 
-
 <tr>
-     <td>msg</td>
-     <td>string</td>
-     <td>(optional) message if the assertion fails</td>
+    <td>msg</td>
+    <td>string</td>
+    <td>(optional) message if the assertion fails</td>
 </tr>
 
-
 <tr>
-     <td>values</td>
-     <td></td>
-     <td>(optional) additional values used in <code>msg</code>
+    <td>values</td>
+    <td></td>
+    <td>(optional) additional values used in <code>msg</code>
 placeholders</td>
 </tr>
 
@@ -297,25 +291,24 @@ util.assertSomething(5);       // -> OK
 
 
  
-   <p  id="countProperties" class="member-header">
-      countProperties:number
-   </p>
-   <p>Replies the number of properties owned by <code>o</code>.</p>
+    <p  id="countProperties" class="member-header">
+        countProperties:number
+    </p>
+    <p>Replies the number of properties owned by <code>o</code>.</p>
 
 
 <h3>Parameters</h3>
 <table class="parameters">
 <tr>
-   <th>Name</th>
-   <th>Type</th>
-   <th>Description</th>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
 </tr>
 
-
 <tr>
-     <td>o</td>
-     <td>any</td>
-     <td>the object</td>
+    <td>o</td>
+    <td>any</td>
+    <td>the object</td>
 </tr>
 
 </table>
@@ -339,34 +332,32 @@ c = util.countProperties(o);       // ->  undefined
 
 
  
-   <p  id="each" class="member-header">
-      each
-   </p>
-   <p><p>Iterates over the elements in <code>collection</code> and invokes
+    <p  id="each" class="member-header">
+        each
+    </p>
+    <p><p>Iterates over the elements in <code>collection</code> and invokes
 <code>delegate()</code> on each element.</p></p>
 
 
 <h3>Parameters</h3>
 <table class="parameters">
 <tr>
-   <th>Name</th>
-   <th>Type</th>
-   <th>Description</th>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
 </tr>
 
-
 <tr>
-     <td>collection</td>
-     <td>array</td>
-     <td>the collection of
+    <td>collection</td>
+    <td>array | arguments | <a href='http://docs.oracle.com/javase/6/docs/api/java/util/Collection.html' alt='java.util.Collection' target='javadoc'>Collection</a></td>
+    <td>the collection of
   elements</td>
 </tr>
 
-
 <tr>
-     <td>delegate</td>
-     <td>function</td>
-     <td>the function to call on each elemennt</td>
+    <td>delegate</td>
+    <td>function</td>
+    <td>the function to call on each elemennt</td>
 </tr>
 
 </table>
@@ -374,25 +365,24 @@ c = util.countProperties(o);       // ->  undefined
 
 
  
-   <p  id="hasProperties" class="member-header">
-      hasProperties:boolean
-   </p>
-   <p>Replies true, if <code>o</code> owns at least one property.</p>
+    <p  id="hasProperties" class="member-header">
+        hasProperties:boolean
+    </p>
+    <p>Replies true, if <code>o</code> owns at least one property.</p>
 
 
 <h3>Parameters</h3>
 <table class="parameters">
 <tr>
-   <th>Name</th>
-   <th>Type</th>
-   <th>Description</th>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
 </tr>
 
-
 <tr>
-     <td>o</td>
-     <td>any</td>
-     <td>the object</td>
+    <td>o</td>
+    <td>any</td>
+    <td>the object</td>
 </tr>
 
 </table>
@@ -416,25 +406,24 @@ c = util.hasProperties(o);       // ->  false
 
 
  
-   <p  id="isArguments" class="member-header">
-      isArguments:boolean
-   </p>
-   <p>Replies true if <code>val</code> is a list of arguments.</p>
+    <p  id="isArguments" class="member-header">
+        isArguments:boolean
+    </p>
+    <p>Replies true if <code>val</code> is a list of arguments.</p>
 
 
 <h3>Parameters</h3>
 <table class="parameters">
 <tr>
-   <th>Name</th>
-   <th>Type</th>
-   <th>Description</th>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
 </tr>
 
-
 <tr>
-     <td>val</td>
-     <td>anything</td>
-     <td>the value to check</td>
+    <td>val</td>
+    <td>anything</td>
+    <td>the value to check</td>
 </tr>
 
 </table>
@@ -442,25 +431,24 @@ c = util.hasProperties(o);       // ->  false
 
 
  
-   <p  id="isArray" class="member-header">
-      isArray:boolean
-   </p>
-   <p>Replies true if <code>val</code> is an array.</p>
+    <p  id="isArray" class="member-header">
+        isArray:boolean
+    </p>
+    <p>Replies true if <code>val</code> is an array.</p>
 
 
 <h3>Parameters</h3>
 <table class="parameters">
 <tr>
-   <th>Name</th>
-   <th>Type</th>
-   <th>Description</th>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
 </tr>
 
-
 <tr>
-     <td>val</td>
-     <td>anything</td>
-     <td>the value to check</td>
+    <td>val</td>
+    <td>anything</td>
+    <td>the value to check</td>
 </tr>
 
 </table>
@@ -468,26 +456,25 @@ c = util.hasProperties(o);       // ->  false
 
 
  
-   <p  id="isCollection" class="member-header">
-      isCollection
-   </p>
-   <p><p>Replies true, if a value is an array, an arguments list or a Java
+    <p  id="isCollection" class="member-header">
+        isCollection
+    </p>
+    <p><p>Replies true, if a value is an array, an arguments list or a Java
     collection.</p>
 
 
 <h3>Parameters</h3>
 <table class="parameters">
 <tr>
-   <th>Name</th>
-   <th>Type</th>
-   <th>Description</th>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
 </tr>
 
-
 <tr>
-     <td>value</td>
-     <td>object</td>
-     <td>the value to check</td>
+    <td>value</td>
+    <td>object</td>
+    <td>the value to check</td>
 </tr>
 
 </table>
@@ -495,25 +482,24 @@ c = util.hasProperties(o);       // ->  false
 
 
  
-   <p  id="isDef" class="member-header">
-      isDef:boolean
-   </p>
-   <p>Returns true if  <code>val</code> is defined.</p>
+    <p  id="isDef" class="member-header">
+        isDef:boolean
+    </p>
+    <p>Returns true if  <code>val</code> is defined.</p>
 
 
 <h3>Parameters</h3>
 <table class="parameters">
 <tr>
-   <th>Name</th>
-   <th>Type</th>
-   <th>Description</th>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
 </tr>
 
-
 <tr>
-     <td>val</td>
-     <td>any</td>
-     <td>the value to check</td>
+    <td>val</td>
+    <td>any</td>
+    <td>the value to check</td>
 </tr>
 
 </table>
@@ -521,25 +507,24 @@ c = util.hasProperties(o);       // ->  false
 
 
  
-   <p  id="isFunction" class="member-header">
-      isFunction:boolean
-   </p>
-   <p>Replies true, if f is a function.</p>
+    <p  id="isFunction" class="member-header">
+        isFunction:boolean
+    </p>
+    <p>Replies true, if f is a function.</p>
 
 
 <h3>Parameters</h3>
 <table class="parameters">
 <tr>
-   <th>Name</th>
-   <th>Type</th>
-   <th>Description</th>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
 </tr>
 
-
 <tr>
-     <td>f</td>
-     <td>any</td>
-     <td>the object</td>
+    <td>f</td>
+    <td>any</td>
+    <td>the object</td>
 </tr>
 
 </table>
@@ -547,25 +532,24 @@ c = util.hasProperties(o);       // ->  false
 
 
  
-   <p  id="isNothing" class="member-header">
-      isNothing:boolean
-   </p>
-   <p>Checks whether a value is null or undefined.</p>
+    <p  id="isNothing" class="member-header">
+        isNothing:boolean
+    </p>
+    <p>Checks whether a value is null or undefined.</p>
 
 
 <h3>Parameters</h3>
 <table class="parameters">
 <tr>
-   <th>Name</th>
-   <th>Type</th>
-   <th>Description</th>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
 </tr>
 
-
 <tr>
-     <td>value</td>
-     <td>object</td>
-     <td>the value to check</td>
+    <td>value</td>
+    <td>object</td>
+    <td>the value to check</td>
 </tr>
 
 </table>
@@ -573,25 +557,24 @@ c = util.hasProperties(o);       // ->  false
 
 
  
-   <p  id="isNumber" class="member-header">
-      isNumber:boolean
-   </p>
-   <p>Returns true if  <code>val</code> is a number.</p>
+    <p  id="isNumber" class="member-header">
+        isNumber:boolean
+    </p>
+    <p>Returns true if  <code>val</code> is a number.</p>
 
 
 <h3>Parameters</h3>
 <table class="parameters">
 <tr>
-   <th>Name</th>
-   <th>Type</th>
-   <th>Description</th>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
 </tr>
 
-
 <tr>
-     <td>val</td>
-     <td>any</td>
-     <td>the value to check</td>
+    <td>val</td>
+    <td>any</td>
+    <td>the value to check</td>
 </tr>
 
 </table>
@@ -599,25 +582,24 @@ c = util.hasProperties(o);       // ->  false
 
 
  
-   <p  id="isSomething" class="member-header">
-      isSomething:boolean
-   </p>
-   <p>Checks whether a value is neither null nor undefined.</p>
+    <p  id="isSomething" class="member-header">
+        isSomething:boolean
+    </p>
+    <p>Checks whether a value is neither null nor undefined.</p>
 
 
 <h3>Parameters</h3>
 <table class="parameters">
 <tr>
-   <th>Name</th>
-   <th>Type</th>
-   <th>Description</th>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
 </tr>
 
-
 <tr>
-     <td>value</td>
-     <td>object</td>
-     <td>the value to check</td>
+    <td>value</td>
+    <td>object</td>
+    <td>the value to check</td>
 </tr>
 
 </table>
@@ -625,25 +607,24 @@ c = util.hasProperties(o);       // ->  false
 
 
  
-   <p  id="isString" class="member-header">
-      isString:boolean
-   </p>
-   <p>Returns true if  <code>val</code> is a string.</p>
+    <p  id="isString" class="member-header">
+        isString:boolean
+    </p>
+    <p>Returns true if  <code>val</code> is a string.</p>
 
 
 <h3>Parameters</h3>
 <table class="parameters">
 <tr>
-   <th>Name</th>
-   <th>Type</th>
-   <th>Description</th>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
 </tr>
 
-
 <tr>
-     <td>val</td>
-     <td>any</td>
-     <td>the value to check</td>
+    <td>val</td>
+    <td>any</td>
+    <td>the value to check</td>
 </tr>
 
 </table>
@@ -651,33 +632,31 @@ c = util.hasProperties(o);       // ->  false
 
 
  
-   <p  id="javaEquals" class="member-header">
-      javaEquals:boolean
-   </p>
-   <p><p>Checks whether two java objects are either both null or equal by calling
+    <p  id="javaEquals" class="member-header">
+        javaEquals:boolean
+    </p>
+    <p><p>Checks whether two java objects are either both null or equal by calling
 o1.equals(o2).</p></p>
 
 
 <h3>Parameters</h3>
 <table class="parameters">
 <tr>
-   <th>Name</th>
-   <th>Type</th>
-   <th>Description</th>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
 </tr>
 
-
 <tr>
-     <td>o1</td>
-     <td>object</td>
-     <td>a java object or null</td>
+    <td>o1</td>
+    <td>object</td>
+    <td>a java object or null</td>
 </tr>
 
-
 <tr>
-     <td>o2</td>
-     <td>object</td>
-     <td>a java object or null</td>
+    <td>o2</td>
+    <td>object</td>
+    <td>a java object or null</td>
 </tr>
 
 </table>
@@ -685,19 +664,19 @@ o1.equals(o2).</p></p>
 
 
  
-   <p  id="mix" class="member-header">
-      mix:object
-   </p>
-   <p>Mixes the properties of a list of objects into one object.</p>
+    <p  id="mix" class="member-header">
+        mix:object
+    </p>
+    <p>Mixes the properties of a list of objects into one object.</p>
 
 
 
 
  
-   <p  id="print" class="member-header">
-      print
-   </p>
-   <p><p>Prints a message to stdout (without newline).</p>
+    <p  id="print" class="member-header">
+        print
+    </p>
+    <p><p>Prints a message to stdout (without newline).</p>
 
 <p>Supports string templates à la java.text.MessageFormat.</p></p>
 
@@ -713,10 +692,10 @@ util.print("Hello world! My name is {0}", myname);
 
 
  
-   <p  id="println" class="member-header">
-      println
-   </p>
-   <p><p>Prints a message to stdout (including newline).</p>
+    <p  id="println" class="member-header">
+        println
+    </p>
+    <p><p>Prints a message to stdout (including newline).</p>
 
 <p>Supports string templates à la java.text.MessageFormat.</p></p>
 
@@ -732,10 +711,10 @@ util.println("Hello world! My name is {0}", myname);
 
 
  
-   <p  id="trim" class="member-header">
-      trim:string
-   </p>
-   <p><p>Trims leading and trailing whitespace from <code>s</code>.</p>
+    <p  id="trim" class="member-header">
+        trim:string
+    </p>
+    <p><p>Trims leading and trailing whitespace from <code>s</code>.</p>
 
 <p>Replies s, if s is null or undefined. Any other value is converted to a
 string, then leading and trailing white space is removed.</p></p>
@@ -744,16 +723,15 @@ string, then leading and trailing white space is removed.</p></p>
 <h3>Parameters</h3>
 <table class="parameters">
 <tr>
-   <th>Name</th>
-   <th>Type</th>
-   <th>Description</th>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
 </tr>
 
-
 <tr>
-     <td>s</td>
-     <td>string</td>
-     <td>the string to be trimmed</td>
+    <td>s</td>
+    <td>string</td>
+    <td>the string to be trimmed</td>
 </tr>
 
 </table>

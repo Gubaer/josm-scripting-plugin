@@ -63,7 +63,7 @@ for (var i=0; i < relation.length; i++) {
     </tr>
 
 
- 
+
 
 
 
@@ -175,11 +175,11 @@ var members = relation.members;
 
 
 <h2>Functions</h2>
-   
-   <p  id="add" class="member-header">
-      add
-   </p>
-   <p><p>Adds additional members at the end of the relation members list.</p>
+    
+    <p  id="add" class="member-header">
+        add
+    </p>
+    <p><p>Adds additional members at the end of the relation members list.</p>
 
 <strong>Signatures</strong>
 <dl>
@@ -229,26 +229,25 @@ relation.add(m);
 
 
  
-   <p  id="getIdAt" class="member-header">
-      getIdAt:number
-   </p>
-   <p><p>Replies the unique object id for the member object at position
+    <p  id="getIdAt" class="member-header">
+        getIdAt:number
+    </p>
+    <p><p>Replies the unique object id for the member object at position
 <var>idx</var>.</p></p>
 
 
 <h3>Parameters</h3>
 <table class="parameters">
 <tr>
-   <th>Name</th>
-   <th>Type</th>
-   <th>Description</th>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
 </tr>
 
-
 <tr>
-     <td>idx</td>
-     <td>number</td>
-     <td>the index. a number &gt;= 0 and &lt; the current
+    <td>idx</td>
+    <td>number</td>
+    <td>the index. a number &gt;= 0 and &lt; the current
         number of members</td>
 </tr>
 
@@ -271,26 +270,25 @@ var id = relation.getIdAt(0);
 
 
  
-   <p  id="getObjectAt" class="member-header">
-      getObjectAt:object
-   </p>
-   <p><p>Replies the object represented by the member at position
+    <p  id="getObjectAt" class="member-header">
+        getObjectAt:object
+    </p>
+    <p><p>Replies the object represented by the member at position
 <code>idx</code>.</p></p>
 
 
 <h3>Parameters</h3>
 <table class="parameters">
 <tr>
-   <th>Name</th>
-   <th>Type</th>
-   <th>Description</th>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
 </tr>
 
-
 <tr>
-     <td>idx</td>
-     <td>number</td>
-     <td>the index. a number &gt;= 0 and &lt; the current
+    <td>idx</td>
+    <td>number</td>
+    <td>the index. a number &gt;= 0 and &lt; the current
         number of members</td>
 </tr>
 
@@ -314,25 +312,24 @@ var node = relation.getObjectAt(0)  // ==> n1
 
 
  
-   <p  id="getRoleAt" class="member-header">
-      getRoleAt:string
-   </p>
-   <p><p>Replies the member role for the member at position <code>idx</code>.</p></p>
+    <p  id="getRoleAt" class="member-header">
+        getRoleAt:string
+    </p>
+    <p><p>Replies the member role for the member at position <code>idx</code>.</p></p>
 
 
 <h3>Parameters</h3>
 <table class="parameters">
 <tr>
-   <th>Name</th>
-   <th>Type</th>
-   <th>Description</th>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
 </tr>
 
-
 <tr>
-     <td>idx</td>
-     <td>number</td>
-     <td>the index. a number &gt;= 0 and &lt; the current
+    <td>idx</td>
+    <td>number</td>
+    <td>the index. a number &gt;= 0 and &lt; the current
         number of members</td>
 </tr>
 
@@ -355,33 +352,31 @@ var role = relation.getRoleAt(0)  // ==> "", the empty role ;
 
 
  
-   <p  id="insertAt" class="member-header">
-      insertAt
-   </p>
-   <p><p>Inserts a member at position <code>idx</code>.</p></p>
+    <p  id="insertAt" class="member-header">
+        insertAt
+    </p>
+    <p><p>Inserts a member at position <code>idx</code>.</p></p>
 
 
 <h3>Parameters</h3>
 <table class="parameters">
 <tr>
-   <th>Name</th>
-   <th>Type</th>
-   <th>Description</th>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
 </tr>
 
-
 <tr>
-     <td>idx</td>
-     <td>number</td>
-     <td>the index. a number &gt;= 0 and &lt;= the current
+    <td>idx</td>
+    <td>number</td>
+    <td>the index. a number &gt;= 0 and &lt;= the current
         number of members</td>
 </tr>
 
-
 <tr>
-     <td>the</td>
-     <td>object</td>
-     <td>object  either a RelationMember, or a Node, a Way, or a
+    <td>the</td>
+    <td>object</td>
+    <td>object  either a RelationMember, or a Node, a Way, or a
         Relation. Must not be null or undefined.</td>
 </tr>
 
@@ -409,33 +404,31 @@ relation.insertAt(1, rb.member('role.1', wb.create()));
 
 
  
-   <p  id="setAt" class="member-header">
-      setAt
-   </p>
-   <p><p>Sets a member at position <code>idx</code>.</p></p>
+    <p  id="setAt" class="member-header">
+        setAt
+    </p>
+    <p><p>Sets a member at position <code>idx</code>.</p></p>
 
 
 <h3>Parameters</h3>
 <table class="parameters">
 <tr>
-   <th>Name</th>
-   <th>Type</th>
-   <th>Description</th>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
 </tr>
 
-
 <tr>
-     <td>idx</td>
-     <td>number</td>
-     <td>the index. a number &gt;= 0 and &lt; the current
+    <td>idx</td>
+    <td>number</td>
+    <td>the index. a number &gt;= 0 and &lt; the current
         number of members</td>
 </tr>
 
-
 <tr>
-     <td>the</td>
-     <td>object</td>
-     <td>object  either a RelationMember, or a Node, a Way,
+    <td>the</td>
+    <td>object</td>
+    <td>object  either a RelationMember, or a Node, a Way,
         or a Relation. Must not be null or undefined.</td>
 </tr>
 

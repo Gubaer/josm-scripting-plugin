@@ -46,7 +46,7 @@
     </tr>
 
 
- 
+
 
 
 
@@ -148,11 +148,11 @@ conf.serverUrl = "http://api06.dev.openstreetmap.org";
 
 
 <h2>Functions</h2>
-   
-   <p  id="getCredentials" class="member-header">
-      getCredentials:object
-   </p>
-   <p><p>Gets the credentials, i.e. username and password for the basic
+    
+    <p  id="getCredentials" class="member-header">
+        getCredentials:object
+    </p>
+    <p><p>Gets the credentials, i.e. username and password for the basic
 authentication method.</p>
 
 <strong>Named options</strong>
@@ -167,24 +167,22 @@ authentication method.</p>
 <h3>Parameters</h3>
 <table class="parameters">
 <tr>
-   <th>Name</th>
-   <th>Type</th>
-   <th>Description</th>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
 </tr>
 
-
 <tr>
-     <td>authMethod</td>
-     <td>string</td>
-     <td>the authentication method. Either "basic" or
+    <td>authMethod</td>
+    <td>string</td>
+    <td>the authentication method. Either "basic" or
         "oauth".</td>
 </tr>
 
-
 <tr>
-     <td>options</td>
-     <td>object</td>
-     <td>(optional) additional options (see above)</td>
+    <td>options</td>
+    <td>object</td>
+    <td>(optional) additional options (see above)</td>
 </tr>
 
 </table>
@@ -203,10 +201,10 @@ var credentials = conf.getCredentials("basic");
 
 
  
-   <p  id="setCredentials" class="member-header">
-      setCredentials:object
-   </p>
-   <p><p>Set the credentials, i.e. username and password for the basic
+    <p  id="setCredentials" class="member-header">
+        setCredentials:object
+    </p>
+    <p><p>Set the credentials, i.e. username and password for the basic
 authentication method.</p>
 
 <p>Basic authentication credentials are either an instance of
@@ -228,31 +226,28 @@ an object <code>{key: string, secret: string}</code>.</p>
 <h3>Parameters</h3>
 <table class="parameters">
 <tr>
-   <th>Name</th>
-   <th>Type</th>
-   <th>Description</th>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
 </tr>
 
-
 <tr>
-     <td>authMethod</td>
-     <td>string</td>
-     <td>the authentication method. Either "basic" or
+    <td>authMethod</td>
+    <td>string</td>
+    <td>the authentication method. Either "basic" or
         "oauth".</td>
 </tr>
 
-
 <tr>
-     <td>credentials</td>
-     <td>object</td>
-     <td>the credentials.</td>
+    <td>credentials</td>
+    <td>object | <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/oauth/OAuthToken.html' alt='org.openstreetmap.josm.data.oauth.OAuthToken' target='javadoc'>OAuthToken</a> | <a href='http://docs.oracle.com/javase/6/docs/api/java/net/PasswordAuthentication.html' alt='java.net.PasswordAuthentication' target='javadoc'>PasswordAuthentication</a></td>
+    <td>the credentials.</td>
 </tr>
 
-
 <tr>
-     <td>options</td>
-     <td>object</td>
-     <td>(optional) additional options (see above)</td>
+    <td>options</td>
+    <td>object</td>
+    <td>(optional) additional options (see above)</td>
 </tr>
 
 </table>

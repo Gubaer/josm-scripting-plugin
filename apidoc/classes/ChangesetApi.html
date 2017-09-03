@@ -38,7 +38,7 @@ var cs = api.open();
 </tr>
 
 
- 
+
 
 
 
@@ -82,11 +82,11 @@ var cs = api.open();
 
 
 <h2>Functions</h2>
-   
-   <p  id="close" class="member-header">
-      close:<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Changeset.html' alt='org.openstreetmap.josm.data.osm.Changeset' target='javadoc'>Changeset</a>
-   </p>
-   <p><p>Closes a changeset</p>
+    
+    <p  id="close" class="member-header">
+        close:<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Changeset.html' alt='org.openstreetmap.josm.data.osm.Changeset' target='javadoc'>Changeset</a>
+    </p>
+    <p><p>Closes a changeset</p>
 
 <dl>
   <dt><code class="signature">close(id)</code></dt>
@@ -100,16 +100,15 @@ var cs = api.open();
 <h3>Parameters</h3>
 <table class="parameters">
 <tr>
-   <th>Name</th>
-   <th>Type</th>
-   <th>Description</th>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
 </tr>
 
-
 <tr>
-     <td>changeset</td>
-     <td>number</td>
-     <td>the changeset to close</td>
+    <td>changeset</td>
+    <td>number | <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Changeset.html' alt='org.openstreetmap.josm.data.osm.Changeset' target='javadoc'>Changeset</a></td>
+    <td>the changeset to close</td>
 </tr>
 
 </table>
@@ -135,10 +134,10 @@ util.assert(cs2.closed);  // the changeset is now closed
 
 
  
-   <p  id="get" class="member-header">
-      get:<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Changeset.html' alt='org.openstreetmap.josm.data.osm.Changeset' target='javadoc'>Changeset</a>
-   </p>
-   <p><p>Get a changeset from the server</p>
+    <p  id="get" class="member-header">
+        get:<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Changeset.html' alt='org.openstreetmap.josm.data.osm.Changeset' target='javadoc'>Changeset</a>
+    </p>
+    <p><p>Get a changeset from the server</p>
 
 <dl>
   <dt><code class="signature>get(aChangeset)</code></dt>
@@ -154,16 +153,15 @@ util.assert(cs2.closed);  // the changeset is now closed
 <h3>Parameters</h3>
 <table class="parameters">
 <tr>
-   <th>Name</th>
-   <th>Type</th>
-   <th>Description</th>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
 </tr>
 
-
 <tr>
-     <td>changeset</td>
-     <td>number</td>
-     <td>the changeset to close</td>
+    <td>changeset</td>
+    <td>number | <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Changeset.html' alt='org.openstreetmap.josm.data.osm.Changeset' target='javadoc'>Changeset</a></td>
+    <td>the changeset to close</td>
 </tr>
 
 </table>
@@ -187,10 +185,10 @@ cs2 = api.get(cs2);
 
 
  
-   <p  id="open" class="member-header">
-      open:<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Changeset.html' alt='org.openstreetmap.josm.data.osm.Changeset' target='javadoc'>Changeset</a>
-   </p>
-   <p><p>Creates and opens a changeset</p>
+    <p  id="open" class="member-header">
+        open:<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Changeset.html' alt='org.openstreetmap.josm.data.osm.Changeset' target='javadoc'>Changeset</a>
+    </p>
+    <p><p>Creates and opens a changeset</p>
 
 <ul>
   <li><code>open()</code>  - open a new changeset with no tags</li>
@@ -224,10 +222,10 @@ var cs3 = api.open({comment: "a test comment"});
 
 
  
-   <p  id="update" class="member-header">
-      update:<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Changeset.html' alt='org.openstreetmap.josm.data.osm.Changeset' target='javadoc'>Changeset</a>
-   </p>
-   <p><p>Updates a changeset</p>
+    <p  id="update" class="member-header">
+        update:<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Changeset.html' alt='org.openstreetmap.josm.data.osm.Changeset' target='javadoc'>Changeset</a>
+    </p>
+    <p><p>Updates a changeset</p>
 
 <dl>
   <dt><code class="signature">update(aChangeset)</code></dt>
@@ -238,16 +236,15 @@ var cs3 = api.open({comment: "a test comment"});
 <h3>Parameters</h3>
 <table class="parameters">
 <tr>
-   <th>Name</th>
-   <th>Type</th>
-   <th>Description</th>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
 </tr>
 
-
 <tr>
-     <td>changeset</td>
-     <td><a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Changeset.html' alt='org.openstreetmap.josm.data.osm.Changeset' target='javadoc'>Changeset</a></td>
-     <td>the changeset to update</td>
+    <td>changeset</td>
+    <td><a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Changeset.html' alt='org.openstreetmap.josm.data.osm.Changeset' target='javadoc'>Changeset</a></td>
+    <td>the changeset to update</td>
 </tr>
 
 </table>

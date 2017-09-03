@@ -37,7 +37,7 @@ var ds = api.downloadObject(12345, "node");
 </tr>
 
 
- 
+
 
 
 
@@ -82,11 +82,11 @@ var ds = api.downloadObject(12345, "node");
 
 
 <h2>Functions</h2>
-   
-   <p  id="downloadArea" class="member-header">
-      downloadArea:<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/DataSet.html' alt='org.openstreetmap.josm.data.osm.DataSet' target='javadoc'>DataSet</a>
-   </p>
-   <p><p>Downloads the objects within a bounding box.</p></p>
+    
+    <p  id="downloadArea" class="member-header">
+        downloadArea:<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/DataSet.html' alt='org.openstreetmap.josm.data.osm.DataSet' target='javadoc'>DataSet</a>
+    </p>
+    <p><p>Downloads the objects within a bounding box.</p></p>
 
 
 
@@ -109,10 +109,10 @@ var ds1 = api.downloadArea({
 
 
  
-   <p  id="downloadObject" class="member-header">
-      downloadObject:<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/DataSet.html' alt='org.openstreetmap.josm.data.osm.DataSet' target='javadoc'>DataSet</a>
-   </p>
-   <p><p>Downloads an object from the server.</p>
+    <p  id="downloadObject" class="member-header">
+        downloadObject:<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/DataSet.html' alt='org.openstreetmap.josm.data.osm.DataSet' target='javadoc'>DataSet</a>
+    </p>
+    <p><p>Downloads an object from the server.</p>
 
 <p>There are multiple options to specify what object to download.
 In addition, the function accepts a set of optional named parameters
@@ -179,10 +179,10 @@ var ds4 = api.downloadObject(12345, OsmPrimitiveType.WAY,
 
 
  
-   <p  id="downloadReferrer" class="member-header">
-      downloadReferrer:<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/DataSet.html' alt='org.openstreetmap.josm.data.osm.DataSet' target='javadoc'>DataSet</a>
-   </p>
-   <p><p>Downloads the objects <em>referring</em> to another object from
+    <p  id="downloadReferrer" class="member-header">
+        downloadReferrer:<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/DataSet.html' alt='org.openstreetmap.josm.data.osm.DataSet' target='javadoc'>DataSet</a>
+    </p>
+    <p><p>Downloads the objects <em>referring</em> to another object from
 the server.</p>
 
 <p>Downloads primitives from the OSM server which
@@ -262,10 +262,10 @@ var ds3 = api.downloadReferrer(id, {full: true});
 
 
  
-   <p  id="upload" class="member-header">
-      upload:<a href='http://docs.oracle.com/javase/6/docs/api/java/util/Collection.html' alt='java.util.Collection' target='javadoc'>Collection</a>
-   </p>
-   <p><p>Uploads objects to the server.</p>
+    <p  id="upload" class="member-header">
+        upload:<a href='http://docs.oracle.com/javase/6/docs/api/java/util/Collection.html' alt='java.util.Collection' target='javadoc'>Collection</a>
+    </p>
+    <p><p>Uploads objects to the server.</p>
 
 <p>You can submit data either as
 <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/DataSet.html' alt='org.openstreetmap.josm.data.osm.DataSet' target='javadoc'>DataSet</a>,
@@ -295,7 +295,7 @@ collection of the successfully uploaded objects.</p>
 <p>Named options</p>
 <dl>
   <dt><code class="signature">strategy: string|
-  <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/gui/io/UploadStrategy.html' alt='org.openstreetmap.josm.gui.io.UploadStrategy' target='javadoc'>UploadStrategy</a></code></dt>
+  <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/io/UploadStrategy.html' alt='org.openstreetmap.josm.io.UploadStrategy' target='javadoc'>UploadStrategy</a></code></dt>
   <dd>Indicates how the data is uploaded. Either one of the strings
     <ul>
          <li>individualobjects</li>
@@ -303,7 +303,7 @@ collection of the successfully uploaded objects.</p>
          <li>singlerequest</li>
       </ul>
      or one of the enumeration values in
-     <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/gui/io/UploadStrategy.html' alt='org.openstreetmap.josm.gui.io.UploadStrategy' target='javadoc'>UploadStrategy</a>.
+     <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/io/UploadStrategy.html' alt='org.openstreetmap.josm.io.UploadStrategy' target='javadoc'>UploadStrategy</a>.
      Default falue: UploadStrategy.DEFAULT_UPLOAD_STRATEGY
   </dd>
 
@@ -317,7 +317,7 @@ collection of the successfully uploaded objects.</p>
    <dt><code class="signature">chunkSize: number</code></dt>
    <dd>The size of an upload chunk, if the data is uploaded with the
    upload strategy
-   <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/gui/io/UploadStrategy.html' alt='org.openstreetmap.josm.gui.io.UploadStrategy' target='javadoc'>UploadStrategy</a>.CHUNKED_DATASET_STRATEGY.</dd>
+   <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/io/UploadStrategy.html' alt='org.openstreetmap.josm.io.UploadStrategy' target='javadoc'>UploadStrategy</a>.CHUNKED_DATASET_STRATEGY.</dd>
 
    <dt><code class="signature">closeChangeset: boolean</code></dt>
    <dd>If true, closes the changeset after the upload. Default: true</dd>
@@ -327,30 +327,27 @@ collection of the successfully uploaded objects.</p>
 <h3>Parameters</h3>
 <table class="parameters">
 <tr>
-   <th>Name</th>
-   <th>Type</th>
-   <th>Description</th>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
 </tr>
 
-
 <tr>
-     <td>data</td>
-     <td>array</td>
-     <td>the data to upload</td>
+    <td>data</td>
+    <td><a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/DataSet.html' alt='org.openstreetmap.josm.data.osm.DataSet' target='javadoc'>DataSet</a> | <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/APIDataSet.html' alt='org.openstreetmap.josm.data.APIDataSet' target='javadoc'>APIDataSet</a> | array | <a href='http://docs.oracle.com/javase/6/docs/api/java/util/Collection.html' alt='java.util.Collection' target='javadoc'>Collection</a></td>
+    <td>the data to upload</td>
 </tr>
 
-
 <tr>
-     <td>comment</td>
-     <td>string</td>
-     <td>the upload comment</td>
+    <td>comment</td>
+    <td>string</td>
+    <td>the upload comment</td>
 </tr>
 
-
 <tr>
-     <td>options</td>
-     <td>object</td>
-     <td>(optional) various options (see above)</td>
+    <td>options</td>
+    <td>object</td>
+    <td>(optional) various options (see above)</td>
 </tr>
 
 </table>

@@ -52,7 +52,7 @@
     </tr>
 
 
- 
+
 
 
 
@@ -123,11 +123,11 @@
 
 
 <h2>Functions</h2>
-   
-   <p  id="add" class="member-header">
-      add:<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/gui/layer/Layer.html' alt='org.openstreetmap.josm.gui.layer.Layer' target='javadoc'>Layer</a>
-   </p>
-   <p><p>Adds a layer.</p>
+    
+    <p  id="add" class="member-header">
+        add:<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/gui/layer/Layer.html' alt='org.openstreetmap.josm.gui.layer.Layer' target='javadoc'>Layer</a>
+    </p>
+    <p><p>Adds a layer.</p>
 
 <p>Either pass in a layer object or a data set. In the later case, an
 <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/gui/layer/OsmDataLayer.html' alt='org.openstreetmap.josm.gui.layer.OsmDataLayer' target='javadoc'>OsmDataLayer</a> is
@@ -137,16 +137,15 @@ automatically created.</p></p>
 <h3>Parameters</h3>
 <table class="parameters">
 <tr>
-   <th>Name</th>
-   <th>Type</th>
-   <th>Description</th>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
 </tr>
 
-
 <tr>
-     <td>obj</td>
-     <td><a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/gui/layer/Layer.html' alt='org.openstreetmap.josm.gui.layer.Layer' target='javadoc'>Layer</a>|<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/DataSet.html' alt='org.openstreetmap.josm.data.osm.DataSet' target='javadoc'>Layer</a></td>
-     <td>a layer to add,
+    <td>obj</td>
+    <td><a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/gui/layer/Layer.html' alt='org.openstreetmap.josm.gui.layer.Layer' target='javadoc'>Layer</a> | <a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/DataSet.html' alt='org.openstreetmap.josm.data.osm.DataSet' target='javadoc'>DataSet</a></td>
+    <td>a layer to add,
  or a dataset.  Ignored if null or undefined.</td>
 </tr>
 
@@ -173,10 +172,10 @@ layer.add(ds);
 
 
  
-   <p  id="addDataLayer" class="member-header">
-      addDataLayer:<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/gui/layer/OsmDataLayer.html' alt='org.openstreetmap.josm.gui.layer.OsmDataLayer' target='javadoc'>OsmDataLayer</a>
-   </p>
-   <p><p>Creates and adds a new data layer. The new layer becomes the new edit
+    <p  id="addDataLayer" class="member-header">
+        addDataLayer:<a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/gui/layer/OsmDataLayer.html' alt='org.openstreetmap.josm.gui.layer.OsmDataLayer' target='javadoc'>OsmDataLayer</a>
+    </p>
+    <p><p>Creates and adds a new data layer. The new layer becomes the new edit
 layer.</p>
 
 <string>Signatures</string>
@@ -211,10 +210,10 @@ layer = josm.layers.addDataLayer(ds);
 
 
  
-   <p  id="get" class="member-header">
-      get
-   </p>
-   <p><p>Replies one of the layers given a key.</p>
+    <p  id="get" class="member-header">
+        get
+    </p>
+    <p><p>Replies one of the layers given a key.</p>
 <ul>
   <li>If <code>key</code> is a number, replies the layer with index key, or
   undefined, if no layer for this index exists.</li>
@@ -227,16 +226,15 @@ layer = josm.layers.addDataLayer(ds);
 <h3>Parameters</h3>
 <table class="parameters">
 <tr>
-   <th>Name</th>
-   <th>Type</th>
-   <th>Description</th>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
 </tr>
 
-
 <tr>
-     <td>key</td>
-     <td>number</td>
-     <td>the key to retrieve the layer</td>
+    <td>key</td>
+    <td>number | string</td>
+    <td>the key to retrieve the layer</td>
 </tr>
 
 </table>
@@ -258,25 +256,24 @@ var layer2 = layers.get("data layer");
 
 
  
-   <p  id="has" class="member-header">
-      has:boolean
-   </p>
-   <p><p>Checks whether <code>layer</code> is a currently registered layer.</p></p>
+    <p  id="has" class="member-header">
+        has:boolean
+    </p>
+    <p><p>Checks whether <code>layer</code> is a currently registered layer.</p></p>
 
 
 <h3>Parameters</h3>
 <table class="parameters">
 <tr>
-   <th>Name</th>
-   <th>Type</th>
-   <th>Description</th>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
 </tr>
 
-
 <tr>
-     <td>layer</td>
-     <td>string</td>
-     <td>a layer,
+    <td>layer</td>
+    <td><a href='http://josm.openstreetmap.de/doc/org/openstreetmap/josm/gui/layer/Layer.html' alt='org.openstreetmap.josm.gui.layer.Layer' target='javadoc'>Layer</a> | string | number</td>
+    <td>a layer,
     a layer name, or a layer index</td>
 </tr>
 
@@ -303,10 +300,10 @@ b = layers.has(l);
 
 
  
-   <p  id="remove" class="member-header">
-      remove
-   </p>
-   <p><p>Removes a layer with the given key.</p>
+    <p  id="remove" class="member-header">
+        remove
+    </p>
+    <p><p>Removes a layer with the given key.</p>
 <ul>
   <li>If <code>key</code> is a <code>Number</code>, removes the layer with
   the index key. If the index doesn't isn't a valid layer index, nothing
@@ -320,16 +317,15 @@ b = layers.has(l);
 <h3>Parameters</h3>
 <table class="parameters">
 <tr>
-   <th>Name</th>
-   <th>Type</th>
-   <th>Description</th>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
 </tr>
 
-
 <tr>
-     <td>key</td>
-     <td>number</td>
-     <td>indicates the layer to remove</td>
+    <td>key</td>
+    <td>number | string</td>
+    <td>indicates the layer to remove</td>
 </tr>
 
 </table>

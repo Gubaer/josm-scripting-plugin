@@ -74,7 +74,7 @@ var ds = new org.openstreetmap.josm.data.osm.DataSet();
     </tr>
 
 
- 
+
 
 
 
@@ -166,7 +166,7 @@ property name in the mixin, then prefix the native name with <code>$</code>.
 <h2>Properties</h2>
 
    <p id="nodeBuilder" class="member-header">
-     nodeBuilder:<a href='../classes/NodeBuilder.html' alt='NodeBuilder'>NodeBuilder</a>
+     nodeBuilder:<a href='../classs/NodeBuilder.html' alt='NodeBuilder'>NodeBuilder</a>
      
    </p>
    <p>Replies a node builder to create nodes in this dataset.</p>
@@ -181,7 +181,7 @@ ds.has(n);  // --> true
 
 
    <p id="relationBuilder" class="member-header">
-     relationBuilder:<a href='../classes/RelationBuilder.html' alt='RelationBuilder'>RelationBuilder</a>
+     relationBuilder:<a href='../classs/RelationBuilder.html' alt='RelationBuilder'>RelationBuilder</a>
      
    </p>
    <p>Replies a relation builder to create relations in this dataset.</p>
@@ -195,7 +195,7 @@ ds.has(r);  // --> true
 
 
    <p id="selection" class="member-header">
-     selection:<a href='../classes/DataSetSelectionFacade.html' alt='DataSetSelectionFacade'>DataSetSelectionFacade</a>
+     selection:<a href='../classs/DataSetSelectionFacade.html' alt='DataSetSelectionFacade'>DataSetSelectionFacade</a>
      
    </p>
    <p>Replies the dataset selection object.</p>
@@ -203,7 +203,7 @@ ds.has(r);  // --> true
 
 
    <p id="wayBuilder" class="member-header">
-     wayBuilder:<a href='../classes/WayBuilder.html' alt='WayBuilder'>WayBuilder</a>
+     wayBuilder:<a href='../classs/WayBuilder.html' alt='WayBuilder'>WayBuilder</a>
      
    </p>
    <p>Replies a way builder to create ways in this dataset.</p>
@@ -221,11 +221,11 @@ ds.has(w);  // --> true
 
 
 <h2>Functions</h2>
-   
-   <p  id="add" class="member-header">
-      add
-   </p>
-   <p><p>Adds one or more primitives to the dataset.</p>
+    
+    <p  id="add" class="member-header">
+        add
+    </p>
+    <p><p>Adds one or more primitives to the dataset.</p>
 
 <strong>Signatures</strong>
 <dl>
@@ -271,26 +271,25 @@ relation.add(l);
 
 
  
-   <p  id="batch" class="member-header">
-      batch
-   </p>
-   <p><p>Run a sequence of operations against the dataset in "batch mode".
+    <p  id="batch" class="member-header">
+        batch
+    </p>
+    <p><p>Run a sequence of operations against the dataset in "batch mode".
 Listeners to data set events are only notified at the end of the batch.</p></p>
 
 
 <h3>Parameters</h3>
 <table class="parameters">
 <tr>
-   <th>Name</th>
-   <th>Type</th>
-   <th>Description</th>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
 </tr>
 
-
 <tr>
-     <td>delegate</td>
-     <td>function</td>
-     <td>the function implementing the batch processes.
+    <td>delegate</td>
+    <td>function</td>
+    <td>the function implementing the batch processes.
     Ignored if null or undefined.</td>
 </tr>
 
@@ -313,10 +312,10 @@ ds.batch(function() {
 
 
  
-   <p  id="each" class="member-header">
-      each
-   </p>
-   <p><p>Iterates over the objects in the dataset.</p>
+    <p  id="each" class="member-header">
+        each
+    </p>
+    <p><p>Iterates over the objects in the dataset.</p>
 
 <strong>Signatures</strong>
 <dl>
@@ -345,23 +344,21 @@ named parameters:
 <h3>Parameters</h3>
 <table class="parameters">
 <tr>
-   <th>Name</th>
-   <th>Type</th>
-   <th>Description</th>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
 </tr>
 
-
 <tr>
-     <td>delegate</td>
-     <td>function</td>
-     <td>the function invoked on every element</td>
+    <td>delegate</td>
+    <td>function</td>
+    <td>the function invoked on every element</td>
 </tr>
 
-
 <tr>
-     <td>options</td>
-     <td>object</td>
-     <td>(optional) additional named parameters</td>
+    <td>options</td>
+    <td>object</td>
+    <td>(optional) additional named parameters</td>
 </tr>
 
 </table>
@@ -369,10 +366,10 @@ named parameters:
 
 
  
-   <p  id="get" class="member-header">
-      get
-   </p>
-   <p><p>Replies an OSM object from the dataset, or undefined, if no such object
+    <p  id="get" class="member-header">
+        get
+    </p>
+    <p><p>Replies an OSM object from the dataset, or undefined, if no such object
 exists.</p>
 
 <strong>Signatures</strong>
@@ -427,10 +424,10 @@ var o5 = ds.get(way);
 
 
  
-   <p  id="has" class="member-header">
-      has
-   </p>
-   <p><p>Replies true, if the dataset contains an object.</p>
+    <p  id="has" class="member-header">
+        has
+    </p>
+    <p><p>Replies true, if the dataset contains an object.</p>
 
 <strong>Signatures</strong>
 <dl>
@@ -484,10 +481,10 @@ ret = ds.has(way);
 
 
  
-   <p  id="load" class="member-header">
-      load
-   </p>
-   <p><p>Loads a dataset from a file.</p>
+    <p  id="load" class="member-header">
+        load
+    </p>
+    <p><p>Loads a dataset from a file.</p>
 
 <p>Derives the format of the file from the file suffix, unless the named
 option <code>options.format</code> is set.</p>
@@ -506,24 +503,22 @@ option <code>options.format</code> is set.</p>
 <h3>Parameters</h3>
 <table class="parameters">
 <tr>
-   <th>Name</th>
-   <th>Type</th>
-   <th>Description</th>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
 </tr>
 
-
 <tr>
-     <td>source</td>
-     <td>string</td>
-     <td>the data source. Either a file
+    <td>source</td>
+    <td>string | <a href='http://docs.oracle.com/javase/6/docs/api/java/io/File.html' alt='java.io.File' target='javadoc'>File</a></td>
+    <td>the data source. Either a file
         name as string or a java.io.File</td>
 </tr>
 
-
 <tr>
-     <td>options</td>
-     <td>object</td>
-     <td>(optional) optional named parameters</td>
+    <td>options</td>
+    <td>object</td>
+    <td>(optional) optional named parameters</td>
 </tr>
 
 </table>
@@ -543,25 +538,24 @@ var ds2 = DataSet.load("/tmp/my-data.ogz", {format: "osm.gz"});
 
 
  
-   <p  id="node" class="member-header">
-      node
-   </p>
-   <p><p>Replies the node with id <code>id</code>.</p></p>
+    <p  id="node" class="member-header">
+        node
+    </p>
+    <p><p>Replies the node with id <code>id</code>.</p></p>
 
 
 <h3>Parameters</h3>
 <table class="parameters">
 <tr>
-   <th>Name</th>
-   <th>Type</th>
-   <th>Description</th>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
 </tr>
 
-
 <tr>
-     <td>id</td>
-     <td>number</td>
-     <td>the unique numeric id. Must not be 0.</td>
+    <td>id</td>
+    <td>number</td>
+    <td>the unique numeric id. Must not be 0.</td>
 </tr>
 
 </table>
@@ -569,10 +563,10 @@ var ds2 = DataSet.load("/tmp/my-data.ogz", {format: "osm.gz"});
 
 
  
-   <p  id="query" class="member-header">
-      query
-   </p>
-   <p><p>Queries the dataset</p>
+    <p  id="query" class="member-header">
+        query
+    </p>
+    <p><p>Queries the dataset</p>
 
 <strong>Signatures</strong>
 <dl>
@@ -627,23 +621,21 @@ named parameters:
 <h3>Parameters</h3>
 <table class="parameters">
 <tr>
-   <th>Name</th>
-   <th>Type</th>
-   <th>Description</th>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
 </tr>
 
-
 <tr>
-     <td>expression</td>
-     <td>string</td>
-     <td>the match expression</td>
+    <td>expression</td>
+    <td>string | function</td>
+    <td>the match expression</td>
 </tr>
 
-
 <tr>
-     <td>options</td>
-     <td>object</td>
-     <td>(optional) additional named parameters</td>
+    <td>options</td>
+    <td>object</td>
+    <td>(optional) additional named parameters</td>
 </tr>
 
 </table>
@@ -651,25 +643,24 @@ named parameters:
 
 
  
-   <p  id="relation" class="member-header">
-      relation
-   </p>
-   <p><p>Replies the relation with id <code>id</code>.</p></p>
+    <p  id="relation" class="member-header">
+        relation
+    </p>
+    <p><p>Replies the relation with id <code>id</code>.</p></p>
 
 
 <h3>Parameters</h3>
 <table class="parameters">
 <tr>
-   <th>Name</th>
-   <th>Type</th>
-   <th>Description</th>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
 </tr>
 
-
 <tr>
-     <td>id</td>
-     <td>number</td>
-     <td>the unique numeric id. Must not be 0.</td>
+    <td>id</td>
+    <td>number</td>
+    <td>the unique numeric id. Must not be 0.</td>
 </tr>
 
 </table>
@@ -677,10 +668,10 @@ named parameters:
 
 
  
-   <p  id="remove" class="member-header">
-      remove
-   </p>
-   <p><p>Removes objects from the dataset.</p>
+    <p  id="remove" class="member-header">
+        remove
+    </p>
+    <p><p>Removes objects from the dataset.</p>
 
 <strong>Signatures</strong>
 <dl>
@@ -747,10 +738,10 @@ ds.remove(ids);
 
 
  
-   <p  id="save" class="member-header">
-      save
-   </p>
-   <p><p>Saves the dataset to a file (in OSM XML format).</p>
+    <p  id="save" class="member-header">
+        save
+    </p>
+    <p><p>Saves the dataset to a file (in OSM XML format).</p>
 
 <p><code>options</code> can contain the following named options:</p>
 <dl>
@@ -769,24 +760,22 @@ ds.remove(ids);
 <h3>Parameters</h3>
 <table class="parameters">
 <tr>
-   <th>Name</th>
-   <th>Type</th>
-   <th>Description</th>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
 </tr>
 
-
 <tr>
-     <td>target</td>
-     <td>string</td>
-     <td>the target file. Either a file
+    <td>target</td>
+    <td>string | <a href='http://docs.oracle.com/javase/6/docs/api/java/io/File.html' alt='java.io.File' target='javadoc'>File</a></td>
+    <td>the target file. Either a file
         name as string or a java.io.File</td>
 </tr>
 
-
 <tr>
-     <td>options</td>
-     <td>object</td>
-     <td>(optional) optional named parameters</td>
+    <td>options</td>
+    <td>object</td>
+    <td>(optional) optional named parameters</td>
 </tr>
 
 </table>
@@ -804,25 +793,24 @@ ds.save("/tmp/data.osm");
 
 
  
-   <p  id="way" class="member-header">
-      way
-   </p>
-   <p><p>Replies the way with id <code>id</code>.</p></p>
+    <p  id="way" class="member-header">
+        way
+    </p>
+    <p><p>Replies the way with id <code>id</code>.</p></p>
 
 
 <h3>Parameters</h3>
 <table class="parameters">
 <tr>
-   <th>Name</th>
-   <th>Type</th>
-   <th>Description</th>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
 </tr>
 
-
 <tr>
-     <td>id</td>
-     <td>number</td>
-     <td>the unique numeric id. Must not be 0.</td>
+    <td>id</td>
+    <td>number</td>
+    <td>the unique numeric id. Must not be 0.</td>
 </tr>
 
 </table>
