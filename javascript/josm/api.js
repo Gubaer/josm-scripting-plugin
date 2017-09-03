@@ -764,7 +764,7 @@ exports.Api.downloadArea = function() {
  * <p>Named options</p>
  * <dl>
  *   <dt><code class="signature">strategy: string|
- *   {@class org.openstreetmap.josm.gui.io.UploadStrategy}</code></dt>
+ *   {@class org.openstreetmap.josm.io.UploadStrategy}</code></dt>
  *   <dd>Indicates how the data is uploaded. Either one of the strings
  *     <ul>
  *          <li>individualobjects</li>
@@ -772,7 +772,7 @@ exports.Api.downloadArea = function() {
  *          <li>singlerequest</li>
  *       </ul>
  *      or one of the enumeration values in
- *      {@class org.openstreetmap.josm.gui.io.UploadStrategy}.
+ *      {@class org.openstreetmap.josm.io.UploadStrategy}.
  *      Default falue: UploadStrategy.DEFAULT_UPLOAD_STRATEGY
  *   </dd>
  *
@@ -786,7 +786,7 @@ exports.Api.downloadArea = function() {
  *    <dt><code class="signature">chunkSize: number</code></dt>
  *    <dd>The size of an upload chunk, if the data is uploaded with the
  *    upload strategy
- *    {@class org.openstreetmap.josm.gui.io.UploadStrategy}.CHUNKED_DATASET_STRATEGY.</dd>
+ *    {@class org.openstreetmap.josm.io.UploadStrategy}.CHUNKED_DATASET_STRATEGY.</dd>
  *
  *    <dt><code class="signature">closeChangeset: boolean</code></dt>
  *    <dd>If true, closes the changeset after the upload. Default: true</dd>
@@ -816,12 +816,12 @@ exports.Api.downloadArea = function() {
  * @summary Uploads objects
  */
 exports.Api.upload = function(data, comment, options) {
-    var UploadStrategy = org.openstreetmap.josm.gui.io.UploadStrategy;
+    var UploadStrategy = org.openstreetmap.josm.io.UploadStrategy;
     var Changeset = org.openstreetmap.josm.data.osm.Changeset;
     var APIDataSet = org.openstreetmap.josm.data.APIDataSet;
     var DataSet = org.openstreetmap.josm.data.osm.DataSet;
     var UploadStrategySpecification =
-        org.openstreetmap.josm.gui.io.UploadStrategySpecification;
+        org.openstreetmap.josm.io.UploadStrategySpecification;
     var Collection = java.util.Collection;
     var OsmServerWriter = org.openstreetmap.josm.io.OsmServerWriter;
 
