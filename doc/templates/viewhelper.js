@@ -13,9 +13,10 @@ function safeHtmlFilename(fn) {
 }
 
 function matchingUrlPrefixForType(type) {
-    return URL_PREFIXES.find(function(urlPrefix) {
-        type.indexOf(urlPrefix.prefix) == 0
+    let entry = URL_PREFIXES.find(function(urlPrefix) {
+        return type.indexOf(urlPrefix.prefix) == 0
     });
+    return entry ? entry.url : undefined
 }
 
 function resolveClassReferences(str) {
@@ -25,50 +26,41 @@ function resolveClassReferences(str) {
         function(match, content, longname) {
             let fqclassname = longname.replace(/\//g, ".");
             let classname = fqclassname.replace(/.*\.([^\.]+)$/, "$1");
-            content = content || classname;
-            return self.resolveTypes(fqclassname, content);
+            return self.resolveTypes(fqclassname, classname);
         }
     );
 }
 
 function resolveTypes(type, content) {
     let self = this;
-    let util = require("util");
     if (type == null || type == undefined) return type;
-    let types = String(type).split(",");
-    let resolved = [];
-    types.forEach(function(type) {
+    return String(type).split(",")
+    .map(function(type) {
         type = type.trim();
         let urlPrefix = matchingUrlPrefixForType(type);
         if (urlPrefix) {
             let classname = type.replace(/.*\.([^\.]+)$/, "$1");
-            content = content || classname;
+            let url = urlPrefix + type.replace(/\./g, "/") + ".html";
             type = util.format("<a href='%s' alt='%s' target='javadoc'>%s</a>",
-                    url, type, content)
+                    url, type, classname)
         } else {
             let res = self.data({name: type});
             if (res.count() < 1) return type;
-            content  = content || type;
-            switch(res.first().kind) {
-                case "class":                
-                    return util.format("<a href='../classes/%s' alt='%s'>%s</a>",
-                         safeHtmlFilename(type), type, content);
+            let kind = res.first().kind;
+            switch(kind) {
+                case "class":
                 case "mixin":
-                    return util.format("<a href='../mixins/%s' alt='%s'>%s</a>",
-                         safeHtmlFilename(type), type, content);
                 case "module":
-                    return util.format("<a href='../modules/%s' alt='%s'>%s</a>",
-                         safeHtmlFilename(type), type, content);
                 case "namespace":
-                    return util.format("<a href='../namespaces/%s' alt='%s'>%s</a>",
-                         safeHtmlFilename(type), type, content);
+                    return util.format("<a href='../%ss/%s' alt='%s'>%s</a>",
+                         kind, safeHtmlFilename(type), type, type);
                 default:
                     return type;
             }
         }
-        resolved.push(type);
-    });
-    return resolved.join("|");
+        return type;
+    })
+    .join(" | ");
 }
 
 /**
@@ -113,7 +105,7 @@ function buildTitleForType(doclet) {
         case "mixin": return "Mixin " + doclet.name;
         case "namespace": return "Namespace " + doclet.name;
         case "module": return "Module " + doclet.name;
-        default: return "";        
+        default: return "";
     }
 }
 
