@@ -38,7 +38,7 @@ exports.publish = function(data, opts, tutorials) {
                 javascripts: "../../javascript/"
             },
             body: fragment,
-            showHeader: false
+            showHeader: false,
         });
         console.log("%s <%s>: writing to <%s>", config.title, doclet.name, file);
         fs.writeFileSync(file, html, "utf8");
@@ -61,7 +61,7 @@ exports.publish = function(data, opts, tutorials) {
         publishDoclet(mixin, {
             title: "Mixin",
             path: "mixins",
-            template: "type.tmpl"
+            template: "type.tmpl",
         });
     });
 
