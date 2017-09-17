@@ -524,10 +524,10 @@ public class ScriptEnginesConfigurationPanel extends VerticallyScrollablePanel{
                         return;
                     }
                     ArrayList<String> jars = new ArrayList<>(Main.pref
-                            .getCollection(PREF_KEY_SCRIPTING_ENGINE_JARS));
+                            .getList(PREF_KEY_SCRIPTING_ENGINE_JARS));
                     if (!jars.contains(desc.getLocalJarFile().toString())){
                         jars.add(desc.getLocalJarFile().toString());
-                        Main.pref.putCollection(PREF_KEY_SCRIPTING_ENGINE_JARS,
+                        Main.pref.putList(PREF_KEY_SCRIPTING_ENGINE_JARS,
                                 jars);
                     }
                     //refresh on the UI thread

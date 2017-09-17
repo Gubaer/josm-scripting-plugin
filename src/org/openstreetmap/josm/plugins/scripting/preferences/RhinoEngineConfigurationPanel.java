@@ -154,7 +154,7 @@ public class RhinoEngineConfigurationPanel extends VerticallyScrollablePanel{
 
         public void loadFromPreferences(@NotNull Preferences prefs) {
             Objects.requireNonNull(prefs);
-            prefs.getCollection(PREF_KEY_COMMONJS_MODULE_REPOSITORIES).stream()
+            prefs.getList(PREF_KEY_COMMONJS_MODULE_REPOSITORIES).stream()
                 .map(String::trim)
                 .forEach(entry -> {
                     try {
@@ -174,7 +174,7 @@ public class RhinoEngineConfigurationPanel extends VerticallyScrollablePanel{
             List<String> entries = repositories.stream()
                     .map(url -> url.toString())
                     .collect(Collectors.toList());
-            pref.putCollection(PREF_KEY_COMMONJS_MODULE_REPOSITORIES,entries);
+            pref.putList(PREF_KEY_COMMONJS_MODULE_REPOSITORIES,entries);
         }
 
         public void saveToPreferences() {

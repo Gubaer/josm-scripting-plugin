@@ -205,7 +205,7 @@ public class SysPathsEditorPanel extends JPanel {
         public void loadFromPreferences(@NotNull Preferences prefs,
                 String key) {
             Objects.requireNonNull(prefs);
-            prefs.getCollection(key).stream()
+            prefs.getList(key).stream()
                 .map(String::trim)
                 .filter(path -> !path.isEmpty())
                 .map(File::new)
@@ -226,7 +226,7 @@ public class SysPathsEditorPanel extends JPanel {
             List<String> entries = paths.stream()
                     .map(File::getAbsolutePath)
                     .collect(Collectors.toList());
-            prefs.putCollection(key, entries);
+            prefs.putList(key, entries);
         }
 
         /**

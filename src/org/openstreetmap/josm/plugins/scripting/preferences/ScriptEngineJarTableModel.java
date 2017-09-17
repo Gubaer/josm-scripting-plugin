@@ -90,7 +90,7 @@ public class ScriptEngineJarTableModel extends AbstractTableModel implements Pre
      */
     public void restoreFromPreferences() {
         jars.clear();
-        Collection<String> paths = Main.pref.getCollection(PREF_KEY_SCRIPTING_ENGINE_JARS);
+        Collection<String> paths = Main.pref.getList(PREF_KEY_SCRIPTING_ENGINE_JARS);
         if (paths != null) {
             paths.stream()
                 .map(String::trim)
@@ -110,7 +110,7 @@ public class ScriptEngineJarTableModel extends AbstractTableModel implements Pre
                 .map(info -> info.getJarFilePath().trim())
                 .filter(path -> ! path.isEmpty())
                 .collect(Collectors.toList());
-        Main.pref.putCollection(PREF_KEY_SCRIPTING_ENGINE_JARS, paths);
+        Main.pref.putList(PREF_KEY_SCRIPTING_ENGINE_JARS, paths);
     }
 
     public void deleteSelected(){

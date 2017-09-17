@@ -114,10 +114,10 @@ public class ScriptingPlugin extends Plugin implements PreferenceKeys{
         if (pythonPluginManager == null) return;
 
         pythonPluginManager.updatePluginSpecificSysPaths(
-            Main.pref.getCollection(PREF_KEY_JYTHON_SYS_PATHS)
+            Main.pref.getList(PREF_KEY_JYTHON_SYS_PATHS)
         );
 
-        Main.pref.getCollection(PREF_KEY_JYTHON_PLUGINS)
+        Main.pref.getList(PREF_KEY_JYTHON_PLUGINS)
             .stream()
             .filter(plugin -> ! plugin.trim().isEmpty())
             .forEach(plugin -> pythonPluginManager.loadPlugin(plugin));

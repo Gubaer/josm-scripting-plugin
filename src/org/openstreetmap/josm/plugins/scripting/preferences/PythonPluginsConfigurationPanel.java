@@ -172,7 +172,7 @@ public class PythonPluginsConfigurationPanel extends JPanel {
         }
 
         public void loadFromPreferences(Preferences pref) {
-            Collection<String> c = pref.getCollection(
+            Collection<String> c = pref.getList(
                PREF_KEY_JYTHON_PLUGINS,
                null
             );
@@ -182,7 +182,7 @@ public class PythonPluginsConfigurationPanel extends JPanel {
 
         public void persistToPreferences(Preferences pref) {
             List<String> plugins = getPlugins();
-            pref.putCollection(
+            pref.putList(
               PREF_KEY_JYTHON_PLUGINS,
               plugins
             );

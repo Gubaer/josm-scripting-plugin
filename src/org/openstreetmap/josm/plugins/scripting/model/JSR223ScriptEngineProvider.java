@@ -119,7 +119,7 @@ public class JSR223ScriptEngineProvider
     protected void restoreScriptEngineUrlsFromPreferences() {
         scriptEngineJars.clear();
         if (Main.pref != null) {
-            Main.pref.getCollection(PREF_KEY_SCRIPTING_ENGINE_JARS).stream()
+            Main.pref.getList(PREF_KEY_SCRIPTING_ENGINE_JARS).stream()
                 .map(String::trim)
                 .filter(s -> !s.isEmpty())
                 .map(ScriptEngineJarInfo::new)

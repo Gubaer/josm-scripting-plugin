@@ -91,7 +91,7 @@ public class JOSMModuleScriptProvider implements ModuleScriptProvider,
     static public List<URL> loadFromPreferences(@NotNull Preferences prefs) {
         Objects.requireNonNull(prefs);
         List<URL> ret = new ArrayList<>();
-        prefs.getCollection(PREF_KEY_COMMONJS_MODULE_REPOSITORIES).stream()
+        prefs.getList(PREF_KEY_COMMONJS_MODULE_REPOSITORIES).stream()
             .map(String::trim)
             .forEach(entry -> {
                 try {

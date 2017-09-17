@@ -75,7 +75,7 @@ public class MostRecentlyRunScriptsModel extends Observable
      * @param prefs the preferences
      */
     public void saveToPreferences(Preferences prefs) {
-        prefs.putCollection(PREF_KEY_FILE_HISTORY, scripts);
+        prefs.getList(PREF_KEY_FILE_HISTORY, scripts);
     }
 
     protected boolean canRun(String script) {
@@ -90,7 +90,7 @@ public class MostRecentlyRunScriptsModel extends Observable
      * @param prefs the preferences
      */
     public void loadFromPreferences(Preferences prefs) {
-        scripts = prefs.getCollection(PREF_KEY_FILE_HISTORY).stream()
+        scripts = prefs.getList(PREF_KEY_FILE_HISTORY).stream()
             .filter(s->canRun(s))
             .distinct()
             .limit(10)
