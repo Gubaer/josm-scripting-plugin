@@ -10,6 +10,7 @@ import javax.validation.constraints.NotNull;
 
 import org.openstreetmap.josm.command.Command;
 import org.openstreetmap.josm.command.PseudoCommand;
+import org.openstreetmap.josm.data.osm.DataSet;
 import org.openstreetmap.josm.data.osm.OsmPrimitive;
 import org.openstreetmap.josm.gui.layer.OsmDataLayer;
 
@@ -17,13 +18,13 @@ abstract public class MultiCommand extends Command{
 
     protected OsmPrimitive[] primitives;
 
-    protected static OsmDataLayer checkLayer(@NotNull OsmDataLayer layer) {
+    protected static DataSet getDataSet(@NotNull OsmDataLayer layer) {
         Objects.requireNonNull(layer);
-        return layer;
+        return layer.data;
     }
 
-    public MultiCommand(OsmDataLayer layer) {
-        super(checkLayer(layer));
+    public MultiCommand(@NotNull OsmDataLayer layer) {
+        super(getDataSet(layer));
     }
 
     protected List<OsmPrimitive> normalize(Collection<OsmPrimitive> toAdd) {

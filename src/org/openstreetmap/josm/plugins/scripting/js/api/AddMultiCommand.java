@@ -52,7 +52,7 @@ public class AddMultiCommand extends MultiCommand {
 
     @Override
     public boolean executeCommand() {
-        final DataSet ds = getLayer().data;
+        final DataSet ds = getAffectedDataSet();
         try {
             ds.beginUpdate();
             Arrays.stream(primitives)
@@ -69,7 +69,7 @@ public class AddMultiCommand extends MultiCommand {
 
     @Override
     public void undoCommand() {
-        DataSet ds = getLayer().data;
+        DataSet ds = getAffectedDataSet();
         try {
             ds.beginUpdate();
             for (int i=primitives.length-1; i>=0; i--) {

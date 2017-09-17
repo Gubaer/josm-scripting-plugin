@@ -56,7 +56,7 @@ public class ChangeMultiCommand extends MultiCommand {
 
     @Override
     public boolean executeCommand() {
-        DataSet ds = getLayer().data;
+        DataSet ds = getAffectedDataSet();
         try {
             oldState = new PrimitiveData[primitives.length];
             ds.beginUpdate();
@@ -74,7 +74,7 @@ public class ChangeMultiCommand extends MultiCommand {
 
     @Override
     public void undoCommand() {
-        DataSet ds = getLayer().data;
+        DataSet ds = getAffectedDataSet();
         try {
             ds.beginUpdate();
             for (int i=primitives.length-1; i>=0; i--){

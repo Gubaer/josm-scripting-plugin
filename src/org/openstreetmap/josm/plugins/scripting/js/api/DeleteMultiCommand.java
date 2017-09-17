@@ -45,7 +45,7 @@ public class DeleteMultiCommand extends MultiCommand {
 
     @Override
     public boolean executeCommand() {
-        DataSet ds = getLayer().data;
+        DataSet ds = getAffectedDataSet();
         try {
             ds.beginUpdate();
             oldstate = new boolean[primitives.length];
@@ -61,7 +61,7 @@ public class DeleteMultiCommand extends MultiCommand {
 
     @Override
     public void undoCommand() {
-        DataSet ds = getLayer().data;
+        DataSet ds = getAffectedDataSet();
         try {
             ds.beginUpdate();
             for (int i=0; i<primitives.length; i++) {
