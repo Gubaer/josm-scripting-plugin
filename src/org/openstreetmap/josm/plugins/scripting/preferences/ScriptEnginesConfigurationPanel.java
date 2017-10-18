@@ -97,7 +97,7 @@ public class ScriptEnginesConfigurationPanel extends VerticallyScrollablePanel{
             if (downloadUrl == null) return null;
             if (downloadUrl.lastIndexOf("/") < 0) return null;
             File engineFile = new File(
-             ScriptingPlugin.getInstance().getPluginDir(),
+                ScriptingPlugin.getInstance().getPluginDirs().getUserDataDirectory(false),
                 downloadUrl.substring(downloadUrl.lastIndexOf("/"))
             );
             return engineFile;
