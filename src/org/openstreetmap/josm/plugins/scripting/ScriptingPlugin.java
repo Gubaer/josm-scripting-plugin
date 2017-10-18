@@ -52,7 +52,7 @@ public class ScriptingPlugin extends Plugin implements PreferenceKeys{
     private IPythonPluginManager pythonPluginManager;
 
     protected void initLocalInstallation() {
-        final File f = new File(getPluginDir(), "modules");
+        final File f = new File(getPluginDirs().getUserDataDirectory(false), "modules");
         if (!f.exists()) {
             if (!f.mkdirs()) {
                 logger.warning(String.format("Failed to create directory '%s'",
@@ -216,7 +216,7 @@ public class ScriptingPlugin extends Plugin implements PreferenceKeys{
      * <tt>/resources/mime.types.default</tt> in the plugin directory.
      */
     protected void installResourceFiles() {
-        final File mimeTypesTarget = new File(getPluginDir(), "mime.types");
+        final File mimeTypesTarget = new File(getPluginDirs().getUserDataDirectory(false), "mime.types");
         if (mimeTypesTarget.exists()) return; // don't have to install it
         final String res = "/resources/mime.types.default";
         try(InputStream is = getClass().getResourceAsStream(res)){
@@ -242,7 +242,7 @@ public class ScriptingPlugin extends Plugin implements PreferenceKeys{
             logger.warning(String.format(
                     "Failed to install default mime types "
                   + "in the plugin directory '%s'. Exception is: %s",
-                  getPluginDir(),
+                  getPluginDirs().getUserDataDirectory(false).toString(),
                   e.toString()
             ));
             e.printStackTrace();

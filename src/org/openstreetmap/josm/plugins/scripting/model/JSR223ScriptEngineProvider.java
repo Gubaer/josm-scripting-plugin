@@ -79,14 +79,8 @@ public class JSR223ScriptEngineProvider
         // skip loading mime types if we aren't running in the context of a
         // plugin instance
         if (ScriptingPlugin.getInstance() != null)  {
-            String dir = ScriptingPlugin.getInstance().getPluginDir();
-            if (dir == null){
-                System.err.println(
-                        tr("Warning: no plugin directory is configured."));
-                return;
-            }
-            File f = new File(ScriptingPlugin.getInstance().getPluginDir(),
-                    "mime.types");
+            File f = ScriptingPlugin.getInstance().getPluginDirs().getUserDataDirectory(false);
+            f = new File(f,"mime.types");
             if (f.isFile() && f.canRead()){
                 try {
                     mimeTypesMap = new MimetypesFileTypeMap(

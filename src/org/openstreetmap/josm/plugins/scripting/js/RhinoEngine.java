@@ -142,8 +142,8 @@ public class RhinoEngine {
 
         // add the $PLUGIN_HOME/modules to the list of module repositories
         //
-        String dir = ScriptingPlugin.getInstance().getPluginDir();
-        File f = new File(new File(dir), "modules");
+        File dir = ScriptingPlugin.getInstance().getPluginDirs().getUserDataDirectory(false);
+        File f = new File(dir, "modules");
         try {
             provider.addRepository(f.toURI().toURL());
         } catch(MalformedURLException e) {

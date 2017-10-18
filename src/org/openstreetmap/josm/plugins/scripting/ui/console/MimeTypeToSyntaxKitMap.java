@@ -92,8 +92,7 @@ public class MimeTypeToSyntaxKitMap {
     protected void loadLocalMappings() {
         final ScriptingPlugin plugin = ScriptingPlugin.getInstance();
         if (plugin == null) return;
-        final String dir = plugin.getPluginDir();
-        if (dir == null) return;
+        final File dir = plugin.getPluginDirs().getUserDataDirectory(false);
         final File f = new File(dir, "syntax-kit-map");
         if (! f.exists() || !f.isFile() || !f.canRead()) return;
         try (BufferedReader br = new BufferedReader(
