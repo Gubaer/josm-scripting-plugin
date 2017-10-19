@@ -42,6 +42,8 @@ public class JOSMFixture {
         // call the really early hook before we anything else
         Main.platform.preStartupHook();
 
+        Main.pref.resetToInitialState();
+        Config.setPreferencesInstance(Main.pref);
         Main.pref.init(false);
         Config.setPreferencesInstance(Main.pref);
         
