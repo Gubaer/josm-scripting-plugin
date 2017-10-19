@@ -114,7 +114,7 @@ mixin.lon = {
         var oldlon = this.lon;
         var coor = this.getCoor();
         if (coor == null) coor = new LatLon(0,0);
-        coor = new LatLon(coor.$lon(), lon);
+        coor = new LatLon(coor.$lat(), lon);
         this.setCoor(coor);
         if (oldlon != this.lon && !this.modified) this.modified = true;
     }
