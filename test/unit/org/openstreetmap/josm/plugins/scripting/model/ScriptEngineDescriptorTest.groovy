@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 import org.junit.*;
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor.ScriptEngineType;
 import org.openstreetmap.josm.data.Preferences
+import org.openstreetmap.josm.Main
 
 class ScriptEngineDescriptorTest {
 
@@ -60,7 +61,7 @@ class ScriptEngineDescriptorTest {
 
     @Test
     public void buildFromPreferencs_EmbeddedScriptingEngine() {
-        def pref = new Preferences();
+        def pref = new Preferences(Main.pref);
         pref.put(PreferenceKeys.PREF_KEY_SCRIPTING_ENGINE, "embedded/rhino");
         def sd = ScriptEngineDescriptor.buildFromPreferences(pref);
         assert sd != null
@@ -69,7 +70,7 @@ class ScriptEngineDescriptorTest {
 
     @Test
     public void buildFromPreferencs_UnknownEmbeddedScriptingEngine() {
-        def pref = new Preferences();
+        def pref = new Preferences(Main.pref);
         pref.put(PreferenceKeys.PREF_KEY_SCRIPTING_ENGINE, "embedded/noSuchEmbeddedEngine");
         def sd = ScriptEngineDescriptor.buildFromPreferences(pref);
         assert sd != null
@@ -78,7 +79,7 @@ class ScriptEngineDescriptorTest {
 
     @Test
     public void buildFromPreferencs_PluggedScriptingEngine() {
-        def pref = new Preferences();
+        def pref = new Preferences(Main.pref);
         pref.put(PreferenceKeys.PREF_KEY_SCRIPTING_ENGINE, "plugged/javascript");
         def sd = ScriptEngineDescriptor.buildFromPreferences(pref);
         assert sd != null
@@ -89,7 +90,7 @@ class ScriptEngineDescriptorTest {
 
     @Test
     public void buildFromPreferencs_UnknownPluggedScriptingEngine() {
-        def pref = new Preferences();
+        def pref = new Preferences(Main.pref);
         pref.put(PreferenceKeys.PREF_KEY_SCRIPTING_ENGINE, "plugged/noSuchPluggedEngine");
         def sd = ScriptEngineDescriptor.buildFromPreferences(pref);
         assert sd != null
