@@ -36,7 +36,12 @@ suites.push(tu.suite("properties access",
         // a local node
         n = nb.create({lat: 12.34});
         util.assert(n.lat == 12.34, "3 - unexpected lat");
-
+        
+        // make sure lon is *not* changed, only lat
+        n = nb.create({lat: 0, lon: 56.78});
+        n.lat = 12.34;
+        util.assert(n.lat == 12.34, "4 - unexpected lat");
+        util.assert(n.lon == 56.78, "4 - unexpected lon");
 
         tu.expectAssertionError("can't assign null", function() {
             n.lat = null;
@@ -71,6 +76,12 @@ suites.push(tu.suite("properties access",
         // a local node with initialized lon
         n = nb.create({lon: 12.34});
         util.assert(n.lon == 12.34, "3 - unexpected lat");
+        
+        // make sure lat is *not* changed, only lon
+        n = nb.create({lat: 12.34, lon: 0.0});
+        n.lon = 56.78;
+        util.assert(n.lat == 12.34, "4 - unexpected lat");
+        util.assert(n.lon == 56.78, "4 - unexpected lon");
 
         tu.expectAssertionError("can't assign null", function() {
             n.lon = null;
