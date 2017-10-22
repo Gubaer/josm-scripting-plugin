@@ -678,7 +678,7 @@ o1.equals(o2).</p></p>
     </p>
     <p><p>Prints a message to stdout (without newline).</p>
 
-<p>Supports string templates à la java.text.MessageFormat.</p></p>
+<p>Supports the same string templates as <a href='http://docs.oracle.com/javase/6/docs/api/java/text/MessageFormat.html' alt='java.text.MessageFormat' target='javadoc'>MessageFormat</a></p></p>
 
 
 
@@ -686,7 +686,10 @@ o1.equals(o2).</p></p>
 
 
 {% highlight javascript %}
+var myname = "...";
 util.print("Hello world! My name is {0}", myname);
+// escape meta characters like {, } or ' with a leading apostrophe
+util.print(" a pair of curly braces '{'}");
 {% endhighlight %}
 
 
@@ -697,7 +700,7 @@ util.print("Hello world! My name is {0}", myname);
     </p>
     <p><p>Prints a message to stdout (including newline).</p>
 
-<p>Supports string templates à la java.text.MessageFormat.</p></p>
+<p>Supports the same string templates as <a href='http://docs.oracle.com/javase/6/docs/api/java/text/MessageFormat.html' alt='java.text.MessageFormat' target='javadoc'>MessageFormat</a>.</p></p>
 
 
 
@@ -705,7 +708,10 @@ util.print("Hello world! My name is {0}", myname);
 
 
 {% highlight javascript %}
+var myname = "...";
 util.println("Hello world! My name is {0}", myname);
+// escape meta characters like {, } or ' with a leading apostrophe
+util.println(" a pair of curly braces '{'}");
 {% endhighlight %}
 
 
