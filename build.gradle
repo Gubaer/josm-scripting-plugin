@@ -1,10 +1,9 @@
 plugins {
-    id "de.undercouch.download" version "3.1.1"
+    id 'org.openstreetmap.josm' version '0.2.1'
+    id 'java'
+    id 'groovy'
+    id 'eclipse'
 }
-
-apply plugin: "java"
-apply plugin: "groovy"
-apply plugin: "eclipse"
 
 def currentPluginVersion(config) {
     return config.releases.collect {it.pluginVersion}.max()
@@ -25,35 +24,38 @@ repositories {
     mavenCentral()
 }
 
-configurations {
-    rhino
-    jsyntaxpane
-    javaxvalidation
-}
-
 dependencies {
-    rhino group: "org.mozilla", name: "rhino", version: "1.7.7.1"
-    jsyntaxpane group: "de.sciss", name: "jsyntaxpane", version: "1.0.0"
-    javaxvalidation group: 'javax.validation', name: 'validation-api', version: '1.0.0.GA'
+    packIntoJar group: "org.mozilla", name: "rhino", version: "1.7.7.1"
+    packIntoJar group: "de.sciss", name: "jsyntaxpane", version: "1.0.0"
+    packIntoJar group: 'javax.validation', name: 'validation-api', version: '1.0.0.GA'
 
-    compile configurations.rhino.dependencies
-    compile configurations.jsyntaxpane.dependencies
-    compile configurations.javaxvalidation.dependencies
+    implementation group: "org.python", name: "jython", version: "2.7.0"
 
-    compile group: "org.python", name: "jython", version: "2.7.0"
-    compile files("libs/josm.jar")
-    compile group: 'junit', name: 'junit', version: '4.12'
-    compile group: 'org.codehaus.groovy', name: 'groovy-all', version: '2.4.12'
-
-    testCompile configurations.rhino.dependencies
-    testCompile configurations.jsyntaxpane.dependencies
-    testCompile configurations.javaxvalidation.dependencies
-    testCompile group: "org.python", name: "jython", version: "2.7.0"
-
-    testRuntime files("test")
+    testImplementation group: 'junit', name: 'junit', version: '4.12'
+    testImplementation group: 'org.codehaus.groovy', name: 'groovy-all', version: '2.4.12'
 }
 
-jar.baseName = "scripting"
+def ConfigObject releaseHistory = new ConfigSlurper().parse(file("releases.conf").text)
+
+version = currentPluginVersion(releaseHistory)
+archivesBaseName = "scripting"
+
+josm {
+    josmCompileVersion = 13170
+    manifest {
+        description = 'Runs scripts in JOSM'
+        minJosmVersion = currentPluginMainVersion(releaseHistory)
+        mainClass = 'org.openstreetmap.josm.plugins.scripting.ScriptingPlugin'
+        iconPath = 'images/script-engine.png'
+        website = new URL("https://gubaer.github.io/josm-scripting-plugin")
+        canLoadAtRuntime = true
+
+        releaseHistory.releases.collect{it.josmVersion}.unique().sort().each {jv ->
+            def String dv = bestPluginVersion(releaseHistory, jv)
+            oldVersionDownloadLink jv, dv, new URL("https://raw.github.com/Gubaer/josm-scripting-plugin/for-josm-${jv}/dist/scripting.jar")
+        }
+    }
+}
 
 jar {
     metaInf {
@@ -61,30 +63,6 @@ jar {
             include "mime.types"
         }
     }
-    manifest {
-        def config = new ConfigSlurper().parse(file("releases.conf").text)
-        attributes(
-            "Plugin-Date": new Date().format("yyyy-MM-dd HH:mm"),
-            "Plugin-Version": currentPluginVersion(config),
-            "Plugin-Mainversion": currentPluginMainVersion(config),
-            "Created-By": System.getProperty('java.version') + ' (' + System.getProperty('java.vendor') + ')',
-            "Built-With": "gradle-${project.getGradle().getGradleVersion()}, groovy-${GroovySystem.getVersion()}",
-            "Plugin-Class" : "org.openstreetmap.josm.plugins.scripting.ScriptingPlugin",
-            "Plugin-Description": "Runs scripts in JOSM",
-            "Plugin-Icon" : "images/script-engine.png",
-            "Plugin-Link" : "http://gubaer.github.com/josm-scripting-plugin",
-            "Plugin-Canloadatruntime" : "true"
-        )
-        config.releases.collect{it.josmVersion}.unique().sort().each {jv ->
-            def dv = bestPluginVersion(config, jv)
-            def key = "${jv}_Plugin-Url".toString()
-            def value = "${dv};https://raw.github.com/Gubaer/josm-scripting-plugin/for-josm-${jv}/dist/scripting.jar".toString()
-            attributes([(key):value])
-        }
-    }
-    from zipTree(configurations.rhino.asPath)
-    from zipTree(configurations.jsyntaxpane.asPath)
-    from zipTree(configurations.javaxvalidation.asPath)
 
     from("src") {
       include("**/*.dtd")
@@ -112,28 +90,9 @@ test {
     }
 }
 
-task  getJosm {
-    description = "Download a JOSM jar from the JOSM website"
-    doLast {
-        if (! file("libs").exists()) {
-            file("libs").mkdir()
-        }
-        if (!file("libs/josm.jar").exists()) {
-            println "Downloading JOSM from <${josmDownloadUrl}> ..."
-            download {
-                src josmDownloadUrl
-                dest "libs/josm.jar"
-            }
-        }
-    }
-}
-
-compileJava.dependsOn "getJosm"
-
 sourceSets {
     main {
-        java.srcDirs = ["src", "test/common"]
-        groovy.srcDirs = ["test/unit"]
+        java.srcDirs = ["src"]
         resources {
             srcDirs(file("."))
             include("LICENSE")
@@ -152,24 +111,17 @@ sourceSets {
     test {
         java.srcDirs = ["test/common"]
         groovy.srcDirs = ["test/unit"]
+        resources.srcDirs = ["test"]
     }
 }
 
-clean.doFirst {
-    delete "libs/josm.jar"
-}
-
+tasks.dist.into("$projectDir/dist")
 task deploy {
+    dependsOn dist
     doLast {
         def config = new ConfigSlurper().parse(file("releases.conf").text)
         def deployBranch = "deploy"
-        def jar = "dist/scripting.jar";
-        file("dist").mkdirs()
-        ant.copy(todir: "dist") {
-            fileset(dir : "build/libs") {
-                  include(name:"scripting.jar")
-            }
-        }
+        def jar = "$projectDir/dist/${archivesBaseName}.jar";
         Git.ensureOnBranch(deployBranch)
         Git.add(jar)
         Git.commit(jar, "commited plugin build ${currentPluginVersion(config)}")
@@ -178,10 +130,6 @@ task deploy {
         Git.push("origin", deployBranch)
         Git.pushTags()
     }
-}
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '4.2'
 }
 
 class Git {
@@ -225,4 +173,3 @@ class Git {
         executeAndLog("git push --tags -f")
     }
 }
-
