@@ -227,6 +227,7 @@ public class ScriptingPlugin extends Plugin implements PreferenceKeys{
                        res));
                 return;
             }
+            mimeTypesTarget.getParentFile().mkdirs();
             try(FileOutputStream fout = new FileOutputStream(mimeTypesTarget)) {
                 byte [] buf = new byte[1024];
                 int read;
