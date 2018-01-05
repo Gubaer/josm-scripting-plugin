@@ -173,8 +173,7 @@ exports.DeleteCommand.prototype.createJOSMCommand = function(layer) {
         "layer: must not be null or undefined");
     util.assert(layer instanceof OsmDataLayer,
         "layer: expected OsmDataLayer, got {0}", layer);
-    return new DeleteCommand.delete(layer, this._objs,
-        true /* alsoDeleteNodesInWay */, true /* silent */);
+    return new DeleteCommand.delete(this._objs, true /* alsoDeleteNodesInWay */, true /* silent */);
 };
 
 /**
