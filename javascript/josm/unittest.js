@@ -83,6 +83,7 @@ exports.Suite.prototype.run = function() {
 	out.println("----------------------------------------------------------------------");
 	out.println(" # tests: " + numtests + " # PASS : " + numok + "  # FAIL : " + numfail);
 	out.println("----------------------------------------------------------------------");
+	return numfail;
 };
 
 exports.expectError = function(f) {
