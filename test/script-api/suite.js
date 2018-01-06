@@ -34,9 +34,9 @@ var tests = [
 ];
 
 function run() {
-    for (var i=0; i<tests.length; i++) {
-    	require(tests[i]).run();
-    }
+    return tests
+        .map(function(a) { return require(a).run() })
+        .reduce(function(a, b) { return a + b; });
 };
 
 if (typeof exports === "undefined") {
@@ -46,6 +46,12 @@ if (typeof exports === "undefined") {
     // loaded as module. Export the run function but don't
     // execute it here. 
     exports.run = run;
+    exports.fragileRun = function() {
+        var numfail = run();
+        if (numfail > 0) {
+            throw java.lang.Exception("There are " + numfail + " failing tests");
+        } else {
+            java.lang.System.out.println("All tests ran successfully! ");
+        }
+    }
 }
-
-

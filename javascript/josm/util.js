@@ -361,11 +361,13 @@ exports.mix = function(){
 /**
  * <p>Prints a message to stdout (including newline).</p>
  *
- * <p>Supports string templates à la java.text.MessageFormat.</p>
+ * <p>Supports the same string templates as {@class java.text.MessageFormat}.</p>
  *
  * @example
- *
+ * var myname = "...";
  * util.println("Hello world! My name is {0}", myname);
+ * // escape meta characters like {, } or ' with a leading apostrophe
+ * util.println(" a pair of curly braces '{'}");
  *
  * @memberof josm/util
  * @method
@@ -382,11 +384,14 @@ exports.println = function() {
 /**
  * <p>Prints a message to stdout (without newline).</p>
  *
- * <p>Supports string templates à la java.text.MessageFormat.</p>
+ * <p>Supports the same string templates as {@class java.text.MessageFormat}</p>
  *
  * @example
  *
+ * var myname = "...";
  * util.print("Hello world! My name is {0}", myname);
+ * // escape meta characters like {, } or ' with a leading apostrophe
+ * util.print(" a pair of curly braces '{'}");
  *
  * @memberof josm/util
  * @method

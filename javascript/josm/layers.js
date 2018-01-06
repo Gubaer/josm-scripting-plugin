@@ -7,7 +7,7 @@
  */
 
 //-- imports
-var Main = org.openstreetmap.josm.Main;
+var MainApplication = org.openstreetmap.josm.gui.MainApplication;
 var OsmDataLayer = org.openstreetmap.josm.gui.layer.OsmDataLayer;
 var DataSet = org.openstreetmap.josm.data.osm.DataSet;
 var Layer = org.openstreetmap.josm.gui.layer.Layer;
@@ -25,7 +25,7 @@ var util = require("josm/util");
  */
 Object.defineProperty(exports, "length", {
     get: function() {
-        return Main.getLayerManager().getLayers().size();
+        return MainApplication.getLayerManager().getLayers().size();
     }
 });
 
@@ -50,7 +50,7 @@ Object.defineProperty(exports, "length", {
  */
 Object.defineProperty(exports, "activeLayer", {
     get: function() {
-        return Main.getLayerManager().getActiveLayer();
+        return MainApplication.getLayerManager().getActiveLayer();
     },
     set: function(value) {
         util.assert(util.isSomething(value),
@@ -66,14 +66,14 @@ Object.defineProperty(exports, "activeLayer", {
         util.assert(util.isSomething(layer),
             "Layer ''{0}'' doesn''t exist. It can''t be set as active layer.",
             value);
-        Main.getLayerManager().setActiveLayer(layer);
+        MainApplication.getLayerManager().setActiveLayer(layer);
     }
 });
 
 function getLayerByName(key) {
     key = util.trim(key).toLowerCase();
     if (exports.length == 0) return undefined;
-    var layers = Main.getLayerManager().getLayers();
+    var layers = MainApplication.getLayerManager().getLayers();
     for(var it=layers.iterator(); it.hasNext();) {
         var l = it.next();
         if (l.getName().trim().toLowerCase().equals(key)) return l;
@@ -83,7 +83,7 @@ function getLayerByName(key) {
 
 function getLayerByIndex(idx) {
     if (idx < 0 || idx >= exports.length) return undefined;
-    var layers = Main.getLayerManager().getLayers();
+    var layers = MainApplication.getLayerManager().getLayers();
     return layers.get(idx);
 }
 
@@ -148,7 +148,7 @@ exports.get = function(key) {
  */
 exports.has = function(layer) {
     if (util.isNothing(layer)) return false;
-    var layerManager = Main.getLayerManager();
+    var layerManager = MainApplication.getLayerManager();
     if (layer instanceof Layer) {
         return layerManager.getLayers().contains(layer);
     } else if (util.isString(layer)) {
@@ -192,7 +192,7 @@ exports.has = function(layer) {
 exports.add = function(obj) {
     //util.println("obj: " + obj);
     if (util.isNothing(obj)) return;
-    var layerManager = Main.getLayerManager();
+    var layerManager = MainApplication.getLayerManager();
     if (obj instanceof Layer) {
         layerManager.addLayer(obj);
     } else if (obj instanceof DataSet){
@@ -207,13 +207,13 @@ exports.add = function(obj) {
 var removeLayerByIndex = function(idx) {
     var layer = exports.get(idx);
     if (util.isNothing(layer)) return;
-    Main.getLayerManager().removeLayer(layer);
+    MainApplication.getLayerManager().removeLayer(layer);
 };
 
 var removeLayerByName = function(name) {
     var layer = exports.get(name);
     if (util.isNothing(layer)) return;
-    Main.getLayerManager().removeLayer(layer);
+    MainApplication.getLayerManager().removeLayer(layer);
 };
 
 /**

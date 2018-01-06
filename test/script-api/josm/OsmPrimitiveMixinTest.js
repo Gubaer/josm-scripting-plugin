@@ -381,7 +381,7 @@ suites.push(tu.suite("setting and getting tags",
 ));
 
 exports.run = function() {
-    for (var i=0; i<suites.length; i++) {
-        suites[i].run();
-    }
+    return suites
+        .map(function(a) { return a.run(); })
+        .reduce(function(a, b) { return a + b; });
 };
