@@ -1,5 +1,5 @@
 plugins {
-    id 'org.openstreetmap.josm' version '0.2.1'
+    id 'org.openstreetmap.josm' version '0.3.0'
     id 'java'
     id 'groovy'
     id 'eclipse'
@@ -32,6 +32,7 @@ dependencies {
     packIntoJar group: "de.sciss", name: "jsyntaxpane", version: "1.0.0"
     packIntoJar group: 'javax.validation', name: 'validation-api', version: '1.0.0.GA'
 
+    testImplementation('org.openstreetmap.josm:josm-unittest:latest'){changing=true}
     testImplementation group: 'junit', name: 'junit', version: '4.12'
     testImplementation group: 'org.codehaus.groovy', name: 'groovy-all', version: '2.4.12'
 }
@@ -81,15 +82,28 @@ compileJava {
   options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation" << "-Werror"
 }
 
+import org.gradle.api.tasks.testing.logging.TestLogEvent
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+
 test {
     useJUnit()
     environment "JOSM_SCRIPTING_PLUGIN_HOME", project.projectDir
     scanForTestClasses = false
     include "**/AllUnitTests.class"
-    beforeTest { descriptor ->
-        logger.lifecycle("Running test: " + descriptor)
+    testLogging.events TestLogEvent.FAILED, TestLogEvent.PASSED
+}
+
+task testScriptApi (type: Test) {
+    useJUnit()
+    environment "JOSM_SCRIPTING_PLUGIN_HOME", project.projectDir
+    scanForTestClasses = false
+    include "ScriptApiTest.class"
+    testLogging {
+        events TestLogEvent.FAILED, TestLogEvent.PASSED
+        exceptionFormat = TestExceptionFormat.FULL
     }
 }
+tasks.check.dependsOn(tasks.testScriptApi)
 
 sourceSets {
     main {
@@ -110,7 +124,7 @@ sourceSets {
         }
     }
     test {
-        java.srcDirs = ["test/common"]
+        java.srcDirs = ["test/common", "test/script-api"]
         groovy.srcDirs = ["test/unit"]
         resources.srcDirs = ["test"]
     }
