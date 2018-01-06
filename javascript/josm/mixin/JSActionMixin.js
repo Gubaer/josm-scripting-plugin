@@ -324,6 +324,7 @@ function afterFromOptions(options) {
  */
 mixin.addToToolbar = function(options) {
     var Main = org.openstreetmap.josm.Main;
+    var MainApplication = org.openstreetmap.josm.gui.MainApplication;
     var ArrayList = java.util.ArrayList;
     options = options || {};
     util.assert(typeof options === "object",
@@ -332,10 +333,10 @@ mixin.addToToolbar = function(options) {
         this.putValue("toolbarId", String(options.toolbarId));
     }
 
-    Main.toolbar.register(this);
+    MainApplication.getToolbar().register(this);
     var toolbarId = this.getValue("toolbarId");
     var toolbarPrefs = new ArrayList(
-        Main.pref.getCollection("toolbar",new ArrayList()));
+        Main.pref.getList("toolbar",new ArrayList()));
 
     // The following is clumsy. We have to fiddle with preference settings
     // in order to display a toolbar entry at a specific position
@@ -353,7 +354,7 @@ mixin.addToToolbar = function(options) {
             toolbarPrefs.remove(toolbarId);
             toolbarPrefs.add(Math.min(toolbarPrefs.size(), at), toolbarId);
         }       
-        Main.pref.putCollection("toolbar", toolbarPrefs);
+        Main.pref.putList("toolbar", toolbarPrefs);
     } else if (util.isDef(after)) {
         // if we got the parameter 'after', we try to insert it after the
         // entry given as value for 'after'
@@ -363,7 +364,7 @@ mixin.addToToolbar = function(options) {
             toolbarPrefs.remove(toolbarId);
             toolbarPrefs.add(at + 1, toolbarId);
         }
-        Main.pref.putCollection("toolbar", toolbarPrefs);
+        Main.pref.putList("toolbar", toolbarPrefs);
     } else if (util.isDef(before)) {
         // if we got the parameter 'before', we try to insert it before the
         // entry given as value for 'before'
@@ -373,9 +374,9 @@ mixin.addToToolbar = function(options) {
             toolbarPrefs.remove(toolbarId);
             toolbarPrefs.add(at, toolbarId);
         }
-        Main.pref.putCollection("toolbar", toolbarPrefs);
+        Main.pref.putList("toolbar", toolbarPrefs);
     }
-    Main.toolbar.refreshToolbarControl();
+    MainApplication.getToolbar().refreshToolbarControl();
 };
 
 exports.forClass = org.openstreetmap.josm.plugins.scripting.js.JSAction;
