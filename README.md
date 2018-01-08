@@ -56,7 +56,7 @@ How to run:
 # build the plugin and run the tests
 $ ./gradlew check
 # ... or run the checks only, without building
-$ ./gradlew check --rerun-tasks
+$ ./gradlew cleanTest cleanTestScriptApi check
 ```
 
 ## Build status
