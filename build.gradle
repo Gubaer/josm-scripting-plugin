@@ -106,28 +106,15 @@ task testScriptApi (type: Test) {
 tasks.check.dependsOn(tasks.testScriptApi)
 
 sourceSets {
-    main {
-        java.srcDirs = ["src"]
-        resources {
-            srcDirs(file("."))
-            include("LICENSE")
-            include("README.md")
-            include("contrib/LICENSE.*")
-            include("contrib/README.*")
-            include("images/**/*.png")
-            include("scripts/*.groovy")
-            include("scripts/*.py")
-            include("scripts/*.jy")
-            include("scripts/*.js")
-            include("resources/*.default")
-            include("resources/script-engine-jars.properties")
-        }
-    }
     test {
         java.srcDirs = ["test/common", "test/script-api"]
         groovy.srcDirs = ["test/unit"]
         resources.srcDirs = ["test"]
     }
+}
+processResources {
+  from "$projectDir/README.md"
+  from "$projectDir/LICENSE"
 }
 
 tasks.dist.into("$projectDir/dist")
