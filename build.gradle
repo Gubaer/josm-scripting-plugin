@@ -1,5 +1,5 @@
 plugins {
-    id 'org.openstreetmap.josm' version '0.3.0'
+    id 'org.openstreetmap.josm' version '0.3.1'
     id 'java'
     id 'groovy'
     id 'eclipse'
@@ -56,6 +56,9 @@ josm {
             def String dv = bestPluginVersion(releaseHistory, jv)
             oldVersionDownloadLink jv, dv, new URL("https://raw.github.com/Gubaer/josm-scripting-plugin/for-josm-${jv}/dist/scripting.jar")
         }
+    }
+    i18n {
+        pathTransformer = getGithubPathTransformer('Gubaer/josm-scripting-plugin')
     }
 }
 
