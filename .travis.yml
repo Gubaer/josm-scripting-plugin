@@ -18,4 +18,6 @@ jobs:
 stages:
   - test
   - name: i18n
-    if: type = push AND branch = master
+    # if: type = push AND branch = master
+    # temporary: for testing the Transifex stuff
+    if: type = push AND branch = floscher-i18n
