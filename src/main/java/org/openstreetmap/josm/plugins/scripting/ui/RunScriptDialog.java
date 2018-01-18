@@ -204,7 +204,7 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys{
 
     private class SelectScriptFileAction extends AbstractAction {
         public SelectScriptFileAction() {
-            putValue(NAME, tr("..."));
+            putValue(NAME, "..."); // don't translate
             putValue(SHORT_DESCRIPTION, tr("Launch file selection dialog"));
         }
 
