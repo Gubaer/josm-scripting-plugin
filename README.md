@@ -1,11 +1,10 @@
 # JOSM Scripting Plugin
 
 The JOSM scripting plugin executes scripts in the [Open Street Map](http://www.openstreetmap.org) editor
-[JOSM](http://josm.openstreetmap.de/). 
+[JOSM](http://josm.openstreetmap.de/).
 
 Scripts can be defined in any scripting language for which a 
-[JSR-223](http://www.jcp.org/aboutJava/communityprocess/pr/jsr223/) compatible script engine is available, in 
-particular in 
+[JSR-223](http://www.jcp.org/aboutJava/communityprocess/pr/jsr223/) compatible script engine is available, in  particular in
 * [JavaScript](http://en.wikipedia.org/wiki/JavaScript)
 * [Groovy](http://groovy.codehaus.org/)
 * [Ruby](http://www.ruby-lang.org/en/)
@@ -15,7 +14,7 @@ particular in
 The scripting plugin can be installed and kept up to date using JOSMs plugin manager:
 
 1. Select Preferences -> Plugins
-2. Search for the plugin "Scripting" and install it 
+2. Search for the plugin "Scripting" and install it
 
 ## For developers
 The scripting plugin includes an embedded scripting engine for JavaScript based on 
@@ -26,7 +25,7 @@ the [API documentation](http://gubaer.github.com/josm-scripting-plugin/).
 Furthermore, it can 
 * load and execute [plugins written in Python](http://gubaer.github.com/josm-scripting-plugin/doc/python.html).
 * execute scripts written in Ruby, Groovy, and other languages, refer to 
-[these examples](https://github.com/Gubaer/josm-scripting-plugin/tree/master/scripts). 
+[these examples](https://github.com/Gubaer/josm-scripting-plugin/tree/master/scripts).
 
 If you want to contribute to the scripting plugin itself, please fork this repository and
 submit your pull requests.
@@ -36,38 +35,50 @@ submit your pull requests.
 Add a new entry to [releases.conf](releases.conf) then run:
 
 ```bash
-% git checkout deploy          # switch to deploy branch
-% git merge master             # make sure the latest changes are merged to 'deploy'
-% git push origin deploy       # push the 'deploy' branch
+$ git checkout deploy          # switch to deploy branch
+$ git merge master             # make sure the latest changes are merged to 'deploy'
+$ git push origin deploy       # push the 'deploy' branch
 
-% ./gradlew clean build        # build the plugin
-% ./gradlew deploy             # deploys the plugin jar to github,
+$ ./gradlew clean build        # build the plugin
+$ ./gradlew deploy             # deploys the plugin jar to github,
                                # where it is picked up by the JOSM
                                # plugin installer
 ```
 
 ## How to test
-There are two suites of unit tests
-1. a suite of unit tests implemented in java and groovy which can be executed with a JUnit 4 test runner
-   
-   How to run:
-   ```bash
-   $ ./gradlew test
-   ```
-2. a suite of unit tests implemented in JavaScript which provide test cases for the JavaScript API.
 
-   How to run:
-   - Add the path `$JOSM_SCRIPTING_PLUGIN_ROOT/test/script-api` to the list of module repositories
-        - launch JOSM
-        - Scripting -> Configure ...
-        - Select Tab 'Embedded Rhino Engine'
-        - Add the module repository for unit tests
-   - Launch JOSM, open the scripting console and enter
-       ```JavaScript
-       require("suite").run();
-       ```
-   - Click on Run. Results are logged to the console.
-    
+There are two suites of unit tests:
+1. a suite of unit tests implemented in Java and Groovy
+2. a suite of unit tests implemented in JavaScript which provide test cases for the JavaScript API
+
+How to run:
+```bash
+# build the plugin and run the tests
+$ ./gradlew check
+# ... or run the checks only, without building
+$ ./gradlew cleanTest cleanTestScriptApi check
+```
+
+## How to update the i18n resources
+Localized strings are uploaded to [Transifex](https://www.transifex.com/). This step is 
+executed automatically when the scripting plugin is built on the master branch by [travis](https://travis-ci.org/).
+
+Translated resources can be downloaded periodically from Transifex and then commited to the github repository.
+
+```bash 
+# install the transifex client
+# see transifex documentation: https://docs.transifex.com/client/installing-the-client
+$ sudo easy_install pip
+$ sudo pip install transifex-client
+
+# downloads the german translations into src/main/po/de.po
+$ tx pull -l de
+# commits the german translations
+$ git commit src/main/po/de.po
+
+# build the plugin
+$ ./gradlew build
+```
 
 ## Build status
 

@@ -1,3 +1,21 @@
-language: java
-jdk:
-  - oraclejdk8
+jobs:
+  include:
+    - language: java
+      jdk: oraclejdk8
+      script: ./gradlew build
+    - stage: i18n
+      language: python
+      python: "3.5"
+      install: pip install git+https://github.com/transifex/transifex-client.git@a706ba0cb910e66e852010bcd742221363c7e8be#egg=transifex-client
+      script: ./gradlew generatePot
+      after_success: |
+        if [ ! -z "$TRANSIFEX_TOKEN" ]; then
+          tx --token="$TRANSIFEX_TOKEN" --force-save --no-interactive init
+          git checkout HEAD .tx/config
+          tx push -s --no-interactive
+        fi
+
+stages:
+  - test
+  - name: i18n
+    if: type = push AND branch = master

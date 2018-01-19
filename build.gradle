@@ -1,5 +1,5 @@
 plugins {
-    id 'org.openstreetmap.josm' version '0.3.0'
+    id 'org.openstreetmap.josm' version '0.3.1'
     id 'java'
     id 'groovy'
     id 'eclipse'
@@ -57,6 +57,9 @@ josm {
             oldVersionDownloadLink jv, dv, new URL("https://raw.github.com/Gubaer/josm-scripting-plugin/for-josm-${jv}/dist/scripting.jar")
         }
     }
+    i18n {
+        pathTransformer = getGithubPathTransformer('Gubaer/josm-scripting-plugin')
+    }
 }
 
 jar {
@@ -106,28 +109,15 @@ task testScriptApi (type: Test) {
 tasks.check.dependsOn(tasks.testScriptApi)
 
 sourceSets {
-    main {
-        java.srcDirs = ["src"]
-        resources {
-            srcDirs(file("."))
-            include("LICENSE")
-            include("README.md")
-            include("contrib/LICENSE.*")
-            include("contrib/README.*")
-            include("images/**/*.png")
-            include("scripts/*.groovy")
-            include("scripts/*.py")
-            include("scripts/*.jy")
-            include("scripts/*.js")
-            include("resources/*.default")
-            include("resources/script-engine-jars.properties")
-        }
-    }
     test {
         java.srcDirs = ["test/common", "test/script-api"]
         groovy.srcDirs = ["test/unit"]
         resources.srcDirs = ["test"]
     }
+}
+processResources {
+  from "$projectDir/README.md"
+  from "$projectDir/LICENSE"
 }
 
 tasks.dist.into("$projectDir/dist")

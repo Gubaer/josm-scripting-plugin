@@ -1,0 +1,8 @@
+[main]
+host = https://www.transifex.com
+
+[josm.josm-plugin_scripting]
+file_filter = src/main/po/<lang>.po
+source_file = build/i18n/josm-plugin_scripting.pot
+source_lang = en
+type = PO
