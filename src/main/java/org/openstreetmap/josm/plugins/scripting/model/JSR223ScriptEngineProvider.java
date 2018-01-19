@@ -89,7 +89,7 @@ public class JSR223ScriptEngineProvider
                 } catch(IOException e) {
                     System.err.println(
                             tr("Warning: failed to load mime types from "
-                                    + "file ''0''.", f));
+                                    + "file ''{0}''.", f));
                     e.printStackTrace();
                 }
             }
@@ -99,13 +99,13 @@ public class JSR223ScriptEngineProvider
                 .getResourceAsStream(DEFAULT_MIME_TYPES)){
             if (is == null){
                 System.err.println(tr("Warning: failed to load default mime "
-                        + "types from  resource ''0''.", DEFAULT_MIME_TYPES));
+                        + "types from  resource ''{0}''.", DEFAULT_MIME_TYPES));
                 return;
             }
             mimeTypesMap = new MimetypesFileTypeMap(is);
         } catch(IOException e) {
             System.err.println(tr("Warning: failed to load default mime "
-                    + "types from  resource ''0''.", DEFAULT_MIME_TYPES));
+                    + "types from  resource ''{0}''.", DEFAULT_MIME_TYPES));
             e.printStackTrace();
         }
     }
