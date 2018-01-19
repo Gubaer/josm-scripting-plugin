@@ -59,6 +59,27 @@ $ ./gradlew check
 $ ./gradlew cleanTest cleanTestScriptApi check
 ```
 
+## How to update the i18n resources
+Localized strings are uploaded to [Transifex](https://www.transifex.com/). This step is 
+executed automatically when the scripting plugin is built on the master branch by [travis](https://travis-ci.org/).
+
+Translated resources can be downloaded periodically from Transifex and then commited to the github repository.
+
+```bash 
+# install the transifex client
+# see transifex documentation: https://docs.transifex.com/client/installing-the-client
+$ sudo easy_install pip
+$ sudo pip install transifex-client
+
+# downloads the german translations into src/main/po/de.po
+$ tx pull -l de
+# commits the german translations
+$ git commit src/main/po/de.po
+
+# build the plugin
+$ ./gradlew build
+```
+
 ## Build status
 
 [![Build Status](https://travis-ci.org/Gubaer/josm-scripting-plugin.svg?branch=master)](https://travis-ci.org/Gubaer/josm-scripting-plugin.svg?branch=master)
