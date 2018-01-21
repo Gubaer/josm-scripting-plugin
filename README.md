@@ -3,7 +3,7 @@
 The JOSM scripting plugin executes scripts in the [Open Street Map](http://www.openstreetmap.org) editor
 [JOSM](http://josm.openstreetmap.de/).
 
-Scripts can be defined in any scripting language for which a 
+Scripts can be defined in any scripting language for which a
 [JSR-223](http://www.jcp.org/aboutJava/communityprocess/pr/jsr223/) compatible script engine is available, in  particular in
 * [JavaScript](http://en.wikipedia.org/wiki/JavaScript)
 * [Groovy](http://groovy.codehaus.org/)
@@ -17,14 +17,14 @@ The scripting plugin can be installed and kept up to date using JOSMs plugin man
 2. Search for the plugin "Scripting" and install it
 
 ## For developers
-The scripting plugin includes an embedded scripting engine for JavaScript based on 
+The scripting plugin includes an embedded scripting engine for JavaScript based on
 [Mozilla Rhino](http://www.mozilla.org/rhino/).
-It provides a custom JavaScript API to write scripts for the JOSM editor,refer to 
+It provides a custom JavaScript API to write scripts for the JOSM editor,refer to
 the [API documentation](http://gubaer.github.com/josm-scripting-plugin/).
 
-Furthermore, it can 
+Furthermore, it can
 * load and execute [plugins written in Python](http://gubaer.github.com/josm-scripting-plugin/doc/python.html).
-* execute scripts written in Ruby, Groovy, and other languages, refer to 
+* execute scripts written in Ruby, Groovy, and other languages, refer to
 [these examples](https://github.com/Gubaer/josm-scripting-plugin/tree/master/scripts).
 
 If you want to contribute to the scripting plugin itself, please fork this repository and
@@ -60,21 +60,31 @@ $ ./gradlew cleanTest cleanTestScriptApi check
 ```
 
 ## How to update the i18n resources
-Localized strings are uploaded to [Transifex](https://www.transifex.com/). This step is 
+Localized strings are uploaded to [Transifex](https://www.transifex.com/). This step is
 executed automatically when the scripting plugin is built on the master branch by [travis](https://travis-ci.org/).
 
 Translated resources can be downloaded periodically from Transifex and then commited to the github repository.
 
-```bash 
+```bash
 # install the transifex client
 # see transifex documentation: https://docs.transifex.com/client/installing-the-client
 $ sudo easy_install pip
 $ sudo pip install transifex-client
 
-# downloads the german translations into src/main/po/de.po
+# For new languages, or when updating only certain languages:
+# Download the german translations into src/main/po/de.po
+# Shorten the de.po file, removes unnecessary parts
+# Then commit it to git
 $ tx pull -l de
-# commits the german translations
-$ git commit src/main/po/de.po
+$ ./gradlew shortenPoFiles
+$ git stage src/main/po
+$ git commit
+
+# For existing languages:
+# Downloads translations for all existing languages into src/main/po/
+$ ./gradlew transifexDownload
+$ git stage src/main/po
+$ git commit
 
 # build the plugin
 $ ./gradlew build
@@ -85,7 +95,7 @@ $ ./gradlew build
 [![Build Status](https://travis-ci.org/Gubaer/josm-scripting-plugin.svg?branch=master)](https://travis-ci.org/Gubaer/josm-scripting-plugin.svg?branch=master)
 
 ## Credits
-The JOSM scripting plugin uses: 
+The JOSM scripting plugin uses:
 
 * jsyntaxpane by Ayman Al-Sairafi
 * [Rhino](http://www.mozilla.org/rhino/) scripting engine by Mozilla Foundation
