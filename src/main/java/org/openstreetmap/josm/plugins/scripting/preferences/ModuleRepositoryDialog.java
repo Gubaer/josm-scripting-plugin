@@ -178,7 +178,7 @@ public class ModuleRepositoryDialog extends JDialog {
                 }
             } catch(MalformedURLException e){
                 e.printStackTrace();
-                msg = tr("''{0}}' isn''t a valid URL");
+                msg = tr("''{0}'' isn''t a valid URL");
                 valid = false;
             }
             break;
