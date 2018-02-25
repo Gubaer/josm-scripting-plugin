@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: josm-plugin/josm-plugin_scripting 30781\n"
+"Project-Id-Version: josm-plugin_scripting 30782\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-20 09:54+0000\n"
+"POT-Creation-Date: 2018-01-21 16:50+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Ettore Atalan <atalanttore@googlemail.com>, 2018\n"
 "Language-Team: German (https://www.transifex.com/josm/teams/2544/de/)\n"
@@ -18,39 +18,6 @@ msgstr ""
 "Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-msgid "FATAL: Failed to initialize scripting plugin.\n"
-msgstr ""
-"SCHWERWIEGEND: Das Scripting Plugin konnte nicht initialisiert werden.\n"
-
-msgid "Scripting"
-msgstr "Skripting"
-
-#, java-format
-msgid "Warning: failed to load mime types from file ''{0}''."
-msgstr "Warnung: Konnte keine MIME-Typen aus der Datei ''{0}'' laden."
-
-#, java-format
-msgid "Warning: failed to load default mime types from  resource ''{0}''."
-msgstr ""
-"Warnung: Konnte die Standard-MIME-Typen nicht aus der internen Ressource "
-"''{0}'' laden."
-
-#, java-format
-msgid ""
-"Failed to load python module ''{0}''. \n"
-"Make sure the preferences with key ''{1}'' include the path to the module."
-msgstr ""
-"Das Python-Modul ''{0}'' konnte nicht geladen werden. Stellen Sie sicher, "
-"dass die Einstellung mit dem Namen ''{1}'' den Pfad für das Modul enthält."
-
-#, java-format
-msgid "Failed to lookup plugin class ''{0}''."
-msgstr "Nachschlagen der Plugin-Klasse ''{0}'' fehlgeschlagen."
-
-#, java-format
-msgid "Failed to instantiate plugin ''{0}''."
-msgstr "Das Plugin ''{0}'' konnte nicht instanziiert werden."
-
 #, java-format
 msgid ""
 "''onLoad()'' for plugin ''{0}'' failed. Plugin isn''t properly initialized."
@@ -58,54 +25,47 @@ msgstr ""
 "''onLoad()'' für das Plugin ''{0}'' schlug fehl. Das Plugin ist nicht "
 "richtig initialisiert."
 
-msgid ""
-"Jython interpreter isn''t on the class path. Support for Python plugins is "
-"disabled."
+#, java-format
+msgid "''{0}'' doesn''t exist."
+msgstr "''{0}'' existiert nicht."
+
+#, java-format
+msgid "''{0}'' is a directory. Expecting a jar file instead."
+msgstr "''{0}'' ist ein Verzeichnis. Erwarte stattdessen eine jar-Datei."
+
+#, java-format
+msgid "''{0}'' is neither a ''jar'' nor a ''file'' URL"
 msgstr ""
-"Der Interpreter Jython ist nicht im Klassenpfad enthalten. Die Unterstützung"
-" für Python-Plugins ist deaktiviert."
+"Der URL ''{0}'' verwendet weder das Schema ''jar://'' noch das Schema "
+"''file://''"
+
+#, java-format
+msgid "''{0}'' is neither an existing directory nor an existing jar file"
+msgstr ""
+"''{0}'' ist weder ein existierendes Verzeichnis noch eine existierende jar-"
+"Datei"
+
+#, java-format
+msgid "''{0}'' isn''t a valid URL"
+msgstr "''{0}'' ist keine gültige URL"
+
+#, java-format
+msgid "''{0}'' isn''t an existing jar file"
+msgstr "''{0'}'' ist keine existierende jar-Datei"
+
+#, java-format
+msgid "''{0}'' isn''t readable. Can''t load a script engine from this file."
+msgstr ""
+"''{0}'' kann nicht gelesen werden. Die Ausführungsumgebung kann nicht aus "
+"dieser Datei geladen werden."
 
 #, java-format
 msgid ""
-"<p>The script can''t be executed, because a scripting engine with name "
-"''{0}'' isn''t configured.</p><p>Refer to the online help for information "
-"about how to install/configure a scripting engine for JOSM.</p>"
+"<p>Failed to execute a script.</p><p/><p><strong>Error "
+"message:</strong>{0}</p>"
 msgstr ""
-"<p>Das Skript kann nicht ausgeführt werden, weil keine Ausführungsumgebung "
-"mit dem Namen ''{0}'' konfiguriert ist.</p><p>Ziehe die Onlinehilfe zu Rate "
-"für Informationen, wie eine Ausführungsumgebung für JOSM "
-"installiert/konfiguriert werden kann.</p>"
-
-msgid "Script engine not found"
-msgstr "Ausführungsumgebung für Skripts nicht gefunden"
-
-msgid "Script execution has failed."
-msgstr "Das Ausführen des Skripts ist fehlgeschlagen."
-
-msgid "Script Error"
-msgstr "Skript-Fehler"
-
-msgid "An error occured in the script."
-msgstr "In dem Skript ist ein Fehler aufgetreten."
-
-#, java-format
-msgid "Failed to read the script from file ''{0}''."
-msgstr "Konnte das Skript nicht aus der Datei ''{0}'' lesen."
-
-msgid "IO error"
-msgstr "Ein-/Ausgabefehler"
-
-#, java-format
-msgid ""
-"<p>Failed to execute the script file ''{0}''.</p><p/><p><strong>Error "
-"message:</strong>{1}</p><p><strong>At:</strong>line {2}, column {3}</p>"
-msgstr ""
-"<p>Konnte die Skriptdatei ''{0}'' nicht "
-"ausführen.</p><p/><p><strong>Fehlermeldung:</strong>{1}</p><p><strong>In:</strong>"
-" Zeile {2}, Spalte {3}</p>"
-
-msgid "Script execution failed"
-msgstr "Das Ausführen des Skripts schlug fehl"
+"<p>Beim Ausführen des Skripts ist ein Fehler "
+"aufgetreten.</p><p/><p><strong>Fehlermeldung:</strong>{0}</p>"
 
 #, java-format
 msgid ""
@@ -126,144 +86,113 @@ msgstr ""
 
 #, java-format
 msgid ""
-"<p>Failed to execute a script.</p><p/><p><strong>Error "
-"message:</strong>{0}</p>"
+"<p>Failed to execute the script file ''{0}''.</p><p/><p><strong>Error "
+"message:</strong>{1}</p><p><strong>At:</strong>line {2}, column {3}</p>"
 msgstr ""
-"<p>Beim Ausführen des Skripts ist ein Fehler "
-"aufgetreten.</p><p/><p><strong>Fehlermeldung:</strong>{0}</p>"
+"<p>Konnte die Skriptdatei ''{0}'' nicht "
+"ausführen.</p><p/><p><strong>Fehlermeldung:</strong>{1}</p><p><strong>In:</strong>"
+" Zeile {2}, Spalte {3}</p>"
 
 #, java-format
-msgid "The script file ''{0}'' doesn''t exist."
-msgstr "Die Skript-Datei ''{0}'' existiert nicht."
+msgid ""
+"<p>The script can''t be executed, because a scripting engine with name "
+"''{0}'' isn''t configured.</p><p>Refer to the online help for information "
+"about how to install/configure a scripting engine for JOSM.</p>"
+msgstr ""
+"<p>Das Skript kann nicht ausgeführt werden, weil keine Ausführungsumgebung "
+"mit dem Namen ''{0}'' konfiguriert ist.</p><p>Ziehe die Onlinehilfe zu Rate "
+"für Informationen, wie eine Ausführungsumgebung für JOSM "
+"installiert/konfiguriert werden kann.</p>"
 
-msgid "File not found"
-msgstr "Datei nicht gefunden"
-
-msgid "Please enter a file name first."
-msgstr "Bitte zuerst einen Dateinamen eingeben."
-
-msgid "Empty file name"
-msgstr "Leerer Dateiname"
-
-#, java-format
-msgid "The script file ''{0}'' isn''t readable."
-msgstr "Die Skript-Datei ''{0}'' kann nicht gelesen werden."
-
-msgid "File not readable"
-msgstr "Datei nicht lesbar"
-
-#, java-format
-msgid "Failed to read the script from the file ''{0}''."
-msgstr "Konnte das Skript nicht aus der Datei ''{0}'' lesen."
-
-msgid "Run..."
-msgstr "Ausführen…"
-
-msgid "Run a script"
-msgstr "Ein Skript ausführen"
-
-msgid "Scripting: Run a Script"
-msgstr "Skripting: Ein Skript ausführen"
-
-msgid "Select an engine"
-msgstr "Eine Ausführungsumgebung wählen"
-
-#, java-format
-msgid "{1} (with engine {0})"
-msgstr "{1} (mit Ausführungsumgebung {0})"
-
-msgid "Name:"
-msgstr "Name:"
-
-msgid "Version:"
-msgstr "Version:"
-
-msgid "Language:"
-msgstr "Sprache:"
-
-msgid "Language version:"
-msgstr "Sprachversion:"
-
-msgid "MIME-Types:"
-msgstr "MIME-Typen:"
-
-msgid "OK"
-msgstr "OK"
+msgid ""
+"<strong>Support for python plugins is disabled.</strong><br>The scripting "
+"plugin can load and run plugins written in <strong>Python</strong>. In order"
+" to use this feature the Jython interpreter has to be on the class path when"
+" you start JOSM. Currently, it isn''t and python plugin support is therefore"
+" disabled.<br><br>Launch JOSM with the following command line: <br>java -cp "
+"\"josm-jar.jar:/path/to/jython.jar\" "
+"org.openstreetmap.josm.gui.MainApplication"
+msgstr ""
+"<strong>Python Plugins werden nicht unterstützt</strong><br>Das Scripting "
+"Plugin kann Plugins ausführen, die in <strong>Python</strong> implementiert "
+"sind. Dafür muss der Jython-Interpreter über den Klassen-Pfad auffindbar "
+"sein, wenn JOSM startet. Zurzeit ist das nicht der Fall und Python Plugins "
+"werden deshalb nicht unterstützt. <br><br>Starte JOSM mit folgendem Befehl "
+"auf der Kommandozeile: <br>java -cp \"josm-jar.jar:/path/to/jython.jar\" "
+"org.openstreetmap.josm.gui.MainApplication"
 
 msgid "Accept the selected scripting engine"
 msgstr "Die ausgewählte Ausführungsumgebung übernehmen"
 
+msgid "Add"
+msgstr "Hinzufügen"
+
+msgid "Add a jar file providing a script engine"
+msgstr "Eine jar-Datei hinzufügen, die eine Ausführungsumgebung bereitstellt"
+
+msgid ""
+"Add a list of fully qualified names of Python plugin classes the scripting "
+"plugin shall load and install at startup time. <br>Example: "
+"''my_module.MyPlugin'' or ''my_package.my_module.MyPlugin''"
+msgstr ""
+"Füge eine Liste mit vollqualifizierten Namen von Python-Klassen hinzu, die "
+"das Scripting Plugin laden und als Python-Plugins starten soll. "
+"<br>Beispiel: ''my_module.MyPlugin'' or ''my_package.my_module.MyPlugin''"
+
+msgid "Add a path or jar file"
+msgstr "Füge ein Verzeichnis oder eine jar-Datei hinzu"
+
+msgid "Add a plugin"
+msgstr "Ein Plugin hinzufügen"
+
+msgid "Add an additional repository"
+msgstr "Füge eine Ablage hinzu"
+
+msgid ""
+"Add directories and/or jar files where the Jython engine shall look for "
+"Python packages or modules."
+msgstr ""
+"Füge Verzeichnisse oder jar-Dateien hinzu, in denen die Ausführungsumgebung "
+"Jython nach Python-Paketen und -Modulen suchen soll."
+
+#, java-format
+msgid "Added {0} primitive"
+msgid_plural "Added {0} primitives"
+msgstr[0] "{0} Objekte hinzugefügt"
+msgstr[1] "{0} Objekte hinzugefügt"
+
+msgid "Always on top"
+msgstr "Immer im Vordergrund"
+
+msgid "An error occured in the script."
+msgstr "In dem Skript ist ein Fehler aufgetreten."
+
+msgid "Automatically derive a script engine from the file name."
+msgstr "Wähle eine Ausführungsumgebung, die zu diesem Dateinamen passt."
+
+msgid "Available engines:"
+msgstr "Verfügbare Ausführungsumgebungen:"
+
+msgid "Available script engines"
+msgstr "Verfügbare Ausführungsumgebungen"
+
 msgid "Cancel"
 msgstr "Abbrechen"
 
-msgid "cancel"
-msgstr "abbrechen"
-
-msgid "Show scripting console"
-msgstr "Skripting-Konsole anzeigen"
-
-msgid "Show/hide the scripting console"
-msgstr "Die Skripting-Konsole anzeigen/verstecken"
-
-msgid "Scripting: Show/hide scripting console"
-msgstr "Skripting: Skripting-Konsole anzeigen/verstecken"
-
-msgid "Select a script"
-msgstr "Ein Skript auswählen"
-
-msgid "Open"
-msgstr "Öffnen"
-
-msgid "Open a script file"
-msgstr "Eine Skript-Datei öffnen"
-
-msgid "Current file:"
-msgstr "Aktuelle Datei:"
-
-#, java-format
-msgid "Failed to load file ''{0}''."
-msgstr "Die Datei ''{0}'' konnte nicht geladen werden."
-
-msgid "IO exception"
-msgstr "Ein-/Ausgabefehler"
-
-#, java-format
-msgid "Failed to save file ''{0}''."
-msgstr "Die Datei ''{0}'' konnte nicht gespeichert werden."
-
-msgid "No script engine selected."
-msgstr "Keine Ausführungsumgebung ausgewählt."
-
-msgid "Select..."
-msgstr "Auswählen…"
-
-msgid "unknown"
-msgstr "unbekannt"
-
-#, java-format
-msgid ""
-"Executing scripts with the built-in scripting engine for language "
-"<strong>{0}</strong> based on <strong>{1}</strong>."
-msgstr ""
-"Skripts werden mit der eingebauten Ausführungsumgebung <strong>{0}</strong> "
-"in der Sprache <strong>{1}</strong> ausgeführt."
+msgid "Cancel and close dialog"
+msgstr "Abbrechen und Dialog schließen"
 
 msgid "Change..."
 msgstr "Ändern…"
 
 #, java-format
-msgid ""
-"Executing scripts in language <strong>{0}</strong> using engine "
-"<strong>{1}</strong>."
-msgstr ""
-"Skripts werden in der Sprache <strong>{0}</strong> mit der "
-"Ausführungsumgebung <strong>{1}</strong> ausgeführt."
+msgid "Changed {0} primitive"
+msgid_plural "Changed {0} primitives"
+msgstr[0] "{0} Objekte hinzugefügt"
+msgstr[1] "{0} Objekte geändert"
 
-msgid "Save as ..."
-msgstr "Speichern als…"
-
-msgid "Save to a script file"
-msgstr "In eine Skriptdatei speichern"
+msgid "Choose a script engine"
+msgstr "Wähle eine Ausführungsumgebung"
 
 msgid "Clear log"
 msgstr "Protokoll leeren"
@@ -271,41 +200,41 @@ msgstr "Protokoll leeren"
 msgid "Clear the log content"
 msgstr "Leere den Inhalt des Protokolls"
 
-msgid "Save"
-msgstr "Speichern"
-
-msgid "Save script to current file"
-msgstr "Speichere das Skript in der aktuellen Datei"
-
-msgid "Scripting Console"
-msgstr "Skripting-Konsole"
-
-msgid "File"
-msgstr "Datei"
-
-msgid "Edit"
-msgstr "Bearbeiten"
-
-msgid "Always on top"
-msgstr "Immer im Vordergrund"
-
-#, java-format
-msgid ""
-"Warning: syntax kit ''{0}'' can''t be loaded. Ignoring mapping for mime type"
-" ''{1}''."
-msgstr ""
-"Warnung: Der Syntax-Kit ''{0}'' kann nicht geladen werden. Die konfigurierte"
-" Sprachunterstützung für den MIME-Type ''{1}'' wird ignoriert."
-
-#, java-format
-msgid "Warning: failed to open resource file ''{0}''"
-msgstr "Warnung: Konnte die interne Ressourcendatei ''{0}'' nicht öffnen"
-
 msgid "Close"
 msgstr "Schließen"
 
 msgid "Close the scripting console"
 msgstr "Die Skripting-Konsole schließen"
+
+#. title
+msgid "Configure script engines and scripts"
+msgstr "Ausführungsumgebungen und Skripte konfigurieren"
+
+#. title
+#. icon name
+msgid "Configure scripting preferences"
+msgstr "Einstellungen für Skripting konfigurieren"
+
+msgid "Configure..."
+msgstr "Konfigurieren …"
+
+msgid "Create or edit a CommonJS module repository"
+msgstr "Eine CommonJS-Modul-Ablage anlegen oder editieren"
+
+msgid "Create or edit a path"
+msgstr "Einen Pfad anlegen oder editieren"
+
+msgid "Current file:"
+msgstr "Aktuelle Datei:"
+
+msgid "Define a new script"
+msgstr "Ein neues Skript definieren"
+
+#, java-format
+msgid "Deleted {0} primitive"
+msgid_plural "Deleted {0} primitives"
+msgstr[0] "{0} Objekte gelöscht"
+msgstr[1] "{0} Objekte gelöscht"
 
 #, java-format
 msgid ""
@@ -315,35 +244,381 @@ msgstr ""
 "Konnte keinen passenden Syntax-Kit für die Ausführungsumgebung "
 "<strong>{0}</strong> finden"
 
-msgid "No syntax kit is configured for either of the following content types:"
-msgstr "Für die folgenden MIME-Types ist kein Syntax-Kit konfiguriert:"
+msgid "Display name:"
+msgstr "Anzeigename:"
 
-msgid "Syntax highlighting is going to be disabled."
-msgstr "Syntaxhervorhebung wird deaktiviert."
+msgid "Down"
+msgstr "Runter"
 
-msgid "Execute the script"
-msgstr "Skript ausführen"
+msgid "Download and install scripting engine"
+msgstr "Ausführungsumgebung herunterladen und installieren"
 
-msgid "Run"
-msgstr "Ausführen"
+#. create the edit menu
+msgid "Edit"
+msgstr "Bearbeiten"
 
-msgid "Select a script file and click on <strong>Run</strong>."
-msgstr "Wähle eine Skript-Datei und klicke Ausführen."
+msgid "Edit a script"
+msgstr "Ein Skript bearbeiten"
 
-msgid "File:"
-msgstr "Datei:"
+msgid "Embedded Rhino engine"
+msgstr "Eingebettete Ausführungsumgebung Rhino"
+
+msgid "Empty file name"
+msgstr "Leerer Dateiname"
+
+msgid "Enter additional JAR files which provide script engines."
+msgstr ""
+"Zusätzliche JAR-Dateien eingeben, die Ausführungsumgebungen bereitstellen."
 
 msgid "Enter the name of a script file"
 msgstr "Geben Sie den Namen der Skript-Datei ein."
 
-msgid "Run the script"
-msgstr "Das Skript ausführen"
+#, java-format
+msgid "Error: failed to load resource file ''{0}''"
+msgstr "Fehler: Konnte die Ressourcendatei ''{0}'' nicht laden"
 
+#, java-format
+msgid "Error: resource file ''{0}'' not found"
+msgstr "Fehler: Ressourcendatei ''{0}'' nicht gefunden"
+
+msgid "Execute the script"
+msgstr "Skript ausführen"
+
+#, java-format
+msgid ""
+"Executing scripts in language <strong>{0}</strong> using engine "
+"<strong>{1}</strong>."
+msgstr ""
+"Skripts werden in der Sprache <strong>{0}</strong> mit der "
+"Ausführungsumgebung <strong>{1}</strong> ausgeführt."
+
+#, java-format
+msgid ""
+"Executing scripts with the built-in scripting engine for language "
+"<strong>{0}</strong> based on <strong>{1}</strong>."
+msgstr ""
+"Skripts werden mit der eingebauten Ausführungsumgebung <strong>{0}</strong> "
+"in der Sprache <strong>{1}</strong> ausgeführt."
+
+msgid "FATAL: Failed to initialize scripting plugin.\n"
+msgstr ""
+"SCHWERWIEGEND: Das Scripting Plugin konnte nicht initialisiert werden.\n"
+
+#, java-format
+msgid "Failed to create URL referring to the module repository ''{0}''"
+msgstr "Auf Modul-Ablage ''{0}'' verweisende URL konnte nicht erstellt werden"
+
+#, java-format
+msgid "Failed to instantiate plugin ''{0}''."
+msgstr "Das Plugin ''{0}'' konnte nicht instanziiert werden."
+
+#, java-format
+msgid "Failed to load file ''{0}''."
+msgstr "Die Datei ''{0}'' konnte nicht geladen werden."
+
+#, java-format
+msgid "Failed to load icon ''{0}''"
+msgstr "Konnte das Symbol ''{0}'' nicht laden"
+
+#, java-format
+msgid "Failed to load icon ''{0}/{1}''"
+msgstr "Das Symbol ''{0}/{1}'' konnte nicht geladen werden"
+
+#, java-format
+msgid ""
+"Failed to load python module ''{0}''. \n"
+"Make sure the preferences with key ''{1}'' include the path to the module."
+msgstr ""
+"Das Python-Modul ''{0}'' konnte nicht geladen werden. Stellen Sie sicher, "
+"dass die Einstellung mit dem Namen ''{1}'' den Pfad für das Modul enthält."
+
+#, java-format
+msgid "Failed to lookup plugin class ''{0}''."
+msgstr "Nachschlagen der Plugin-Klasse ''{0}'' fehlgeschlagen."
+
+#, java-format
+msgid ""
+"Failed to open file ''{0}'' as jar file. Can''t load a script engine from "
+"this file."
+msgstr ""
+"Datei ''{0}'' konnte nicht als jar-Datei geöffnet werden. Die "
+"Ausführungsumgebung kann nicht aus dieser Datei geladen werden."
+
+#, java-format
+msgid "Failed to read the script from file ''{0}''."
+msgstr "Konnte das Skript nicht aus der Datei ''{0}'' lesen."
+
+#, java-format
+msgid "Failed to read the script from the file ''{0}''."
+msgstr "Konnte das Skript nicht aus der Datei ''{0}'' lesen."
+
+#, java-format
+msgid "Failed to save file ''{0}''."
+msgstr "Die Datei ''{0}'' konnte nicht gespeichert werden."
+
+#. create the file menu
+msgid "File"
+msgstr "Datei"
+
+msgid "File not found"
+msgstr "Datei nicht gefunden"
+
+msgid "File not readable"
+msgstr "Datei nicht lesbar"
+
+msgid "File:"
+msgstr "Datei:"
+
+msgid "Full local path to the script file"
+msgstr "Vollständiger lokaler Pfad der Skript-Datei"
+
+msgid "Generate a globally unique ID"
+msgstr "Erzeuge eine global eindeutige ID"
+
+msgid "ID:"
+msgstr "ID:"
+
+msgid "IO error"
+msgstr "Ein-/Ausgabefehler"
+
+msgid "IO exception"
+msgstr "Ein-/Ausgabefehler"
+
+msgid "JAR file"
+msgstr "JAR-Datei"
+
+msgid "JAR files"
+msgstr "JAR-Dateien"
+
+msgid "JOSM currently supports the following script engines:"
+msgstr "JOSM unterstützt zurzeit folgende Ausführungsumgebungen:"
+
+msgid "Jython engine"
+msgstr "Ausführungsumgebung Jython"
+
+msgid ""
+"Jython interpreter isn''t on the class path. Support for Python plugins is "
+"disabled."
+msgstr ""
+"Der Interpreter Jython ist nicht im Klassenpfad enthalten. Die Unterstützung"
+" für Python-Plugins ist deaktiviert."
+
+msgid "Language version:"
+msgstr "Sprachversion:"
+
+msgid "Language:"
+msgstr "Sprache:"
+
+msgid "Launch file chooser"
+msgstr "Dateiauswahldialog öffnen"
+
+#. don't translate
 msgid "Launch file selection dialog"
 msgstr "Dialog zur Dateiauswahl öffnen"
 
+msgid "MIME-Types:"
+msgstr "MIME-Typen:"
+
+msgid "Move the selected path up by one position"
+msgstr "Verschiebe das ausgewählte Verzeichnis eine Position nach oben"
+
+msgid "Move the selected repository down by one position"
+msgstr "Verschiebe die ausgewählte Ablage eine Position nach unten"
+
+msgid "Move the selected repository up by one position"
+msgstr "Verschiebe die ausgewählte Ablage eine Position nach oben"
+
+msgid "Name:"
+msgstr "Name:"
+
+msgid "No script engine selected."
+msgstr "Keine Ausführungsumgebung ausgewählt."
+
+msgid "No syntax kit"
+msgstr "Kein Syntax-Kit"
+
+msgid "No syntax kit is configured for either of the following content types:"
+msgstr "Für die folgenden MIME-Types ist kein Syntax-Kit konfiguriert:"
+
+msgid "OK"
+msgstr "OK"
+
+msgid "Open"
+msgstr "Öffnen"
+
+msgid "Open a script file"
+msgstr "Eine Skript-Datei öffnen"
+
+msgid "Please enter a file name first."
+msgstr "Bitte zuerst einen Dateinamen eingeben."
+
+msgid ""
+"Please enter or paste a valid directory path or path to a jar/zip file."
+msgstr ""
+"Bitte einen gültigen Pfad eines Verzeichnisses oder einer jar-Datei "
+"eingeben."
+
+msgid ""
+"Please enter or paste a valide file or jar URL. HTTP URLs are not supported."
+msgstr ""
+"Bitte eine gültige URL mit dem Schema file: oder jar: eingeben. URLs mit den"
+" Schema http: werden nicht unterstützt."
+
+msgid ""
+"Refer to the online help how to configure syntax kits for specific content "
+"types."
+msgstr ""
+"Lesen Sie in der Online-Hilfe, wie Sie Syntax-Kits für bestimmte "
+"Inhaltstypen konfigurieren."
+
+msgid "Remove"
+msgstr "Entfernen"
+
+msgid "Remove a path"
+msgstr "Entferne ein Verzeichnis"
+
+#. putValue(Action.NAME, tr("Remove"));
+msgid "Remove a repository"
+msgstr "Entferne eine Ablage"
+
+msgid "Remove selected plugins"
+msgstr "Ausgewählte Plugins entfernen"
+
+msgid "Remove the selected jar files"
+msgstr "Die ausgewählten jar-Dateien entfernen"
+
+msgid "Run"
+msgstr "Ausführen"
+
+#. title
+#. icon name
+msgid "Run a script"
+msgstr "Ein Skript ausführen"
+
+msgid "Run the script"
+msgstr "Das Skript ausführen"
+
+msgid "Run..."
+msgstr "Ausführen…"
+
+msgid "Save"
+msgstr "Speichern"
+
+msgid "Save as ..."
+msgstr "Speichern als…"
+
+msgid "Save script to current file"
+msgstr "Speichere das Skript in der aktuellen Datei"
+
+msgid "Save to a script file"
+msgstr "In eine Skriptdatei speichern"
+
+msgid "Script Engine"
+msgstr "Ausführungsumgebung"
+
+msgid "Script Error"
+msgstr "Skript-Fehler"
+
+msgid "Script engine not found"
+msgstr "Ausführungsumgebung für Skripts nicht gefunden"
+
+msgid "Script engines"
+msgstr "Ausführungsumgebungen"
+
+msgid "Script engines:"
+msgstr "Ausführungsumgebungen:"
+
+msgid "Script execution failed"
+msgstr "Das Ausführen des Skripts schlug fehl"
+
+msgid "Script execution has failed."
+msgstr "Das Ausführen des Skripts ist fehlgeschlagen."
+
+msgid "Script file:"
+msgstr "Skriptdatei:"
+
+#. icon name
+msgid "Scripting"
+msgstr "Skripting"
+
+msgid "Scripting Console"
+msgstr "Skripting-Konsole"
+
+msgid "Scripting: Run a Script"
+msgstr "Skripting: Ein Skript ausführen"
+
+msgid "Scripting: Show/hide scripting console"
+msgstr "Skripting: Skripting-Konsole anzeigen/verstecken"
+
+msgid "Select a directory or a jar file"
+msgstr "Wähle ein Verzeichnis oder eine jar-Datei"
+
+msgid "Select a directory or jar/zip file"
+msgstr "Wähle ein Verzeichnis oder eine jar- bzw. zip-Datei"
+
+msgid "Select a jar file"
+msgstr "eine jar-Datei wählen"
+
+msgid "Select a script"
+msgstr "Ein Skript auswählen"
+
 msgid "Select a script file"
 msgstr "Skriptdatei auswählen"
+
+msgid "Select a script file and click on <strong>Run</strong>."
+msgstr "Wähle eine Skript-Datei und klicke Ausführen."
+
+#. used in the context of a combo box
+msgid "Select an engine"
+msgstr "Eine Ausführungsumgebung wählen"
+
+msgid "Select one of the available script engines for executing this script."
+msgstr ""
+"Wähle eine der verfügbaren Ausführungsumgebungen, um das Skript auszuführen."
+
+msgid "Select..."
+msgstr "Auswählen…"
+
+msgid "Show scripting console"
+msgstr "Skripting-Konsole anzeigen"
+
+#. title
+#. icon name
+msgid "Show/hide the scripting console"
+msgstr "Die Skripting-Konsole anzeigen/verstecken"
+
+msgid "Syntax highlighting is going to be disabled."
+msgstr "Syntaxhervorhebung wird deaktiviert."
+
+msgid "The display name of the script. Used in menu entries."
+msgstr "Der Anzeigename des Skripts. Wird in Menüeinträgen verwendet."
+
+#, java-format
+msgid ""
+"The jar file ''{0}'' doesn''t provide a script engine. The entry ''{1}'' is "
+"missing."
+msgstr ""
+"Die jar-Datei ''{0}'' enthält keine Ausführungsumgebung. Das Element ''{1}''"
+" fehlt."
+
+#, java-format
+msgid "The script file ''{0}'' doesn''t exist."
+msgstr "Die Skript-Datei ''{0}'' existiert nicht."
+
+#, java-format
+msgid "The script file ''{0}'' isn''t readable."
+msgstr "Die Skript-Datei ''{0}'' kann nicht gelesen werden."
+
+msgid ""
+"The scripting plugin can load and run plugins written in "
+"<strong>Python</strong>. Below you can configure where it looks for locally "
+"deployed plugins and which plugins it should load and launch at startup "
+"time."
+msgstr ""
+"Das Skripting-Plugin kann seinerseits Plugins laden und ausführen, die in "
+"<strong>Python</strong> geschrieben sind. Hier kann man konfigurieren, wo "
+"das Skripting-Plugin lokal installierten Python-Plugins sucht und welche "
+"Python-Plugins geladen und gestartet werden sollen."
 
 msgid ""
 "The scripting plugin includes an embedded scripting engine for JavaScript "
@@ -360,153 +635,10 @@ msgstr ""
 "jar-Datei des Plugins. Aber man kann zusätzliche Verzeichnisse und jar-"
 "Dateien hinzufügen.<br><br>Konfiguriere die Orte in der Liste unten."
 
-msgid "Add an additional repository"
-msgstr "Füge eine Ablage hinzu"
-
-msgid "Remove a repository"
-msgstr "Entferne eine Ablage"
-
-msgid "Move the selected repository up by one position"
-msgstr "Verschiebe die ausgewählte Ablage eine Position nach oben"
-
-msgid "Move the selected repository down by one position"
-msgstr "Verschiebe die ausgewählte Ablage eine Position nach unten"
-
-#, java-format
-msgid "''{0}'' doesn''t exist."
-msgstr "''{0}'' existiert nicht."
-
-#, java-format
-msgid "''{0}'' is a directory. Expecting a jar file instead."
-msgstr "''{0}'' ist ein Verzeichnis. Erwarte stattdessen eine jar-Datei."
-
-#, java-format
-msgid "''{0}'' isn''t readable. Can''t load a script engine from this file."
+msgid "The unique internal ID used to identify the script."
 msgstr ""
-"''{0}'' kann nicht gelesen werden. Die Ausführungsumgebung kann nicht aus "
-"dieser Datei geladen werden."
-
-msgid "Add"
-msgstr "Hinzufügen"
-
-msgid "Add a plugin"
-msgstr "Ein Plugin hinzufügen"
-
-msgid "Remove"
-msgstr "Entfernen"
-
-msgid "Remove selected plugins"
-msgstr "Ausgewählte Plugins entfernen"
-
-#, java-format
-msgid "Error: resource file ''{0}'' not found"
-msgstr "Fehler: Ressourcendatei ''{0}'' nicht gefunden"
-
-msgid "JAR files"
-msgstr "JAR-Dateien"
-
-msgid "Enter additional JAR files which provide script engines."
-msgstr ""
-"Zusätzliche JAR-Dateien eingeben, die Ausführungsumgebungen bereitstellen."
-
-msgid "Available engines:"
-msgstr "Verfügbare Engines:"
-
-msgid "Available script engines"
-msgstr "Verfügbare Ausführungsumgebungen"
-
-msgid "JOSM currently supports the following script engines:"
-msgstr "JOSM unterstützt zurzeit folgende Ausführungsumgebungen:"
-
-msgid "JAR file"
-msgstr "JAR-Datei"
-
-msgid "Remove the selected jar files"
-msgstr "Die ausgewählten jar-Dateien entfernen"
-
-msgid "Add a jar file providing a script engine"
-msgstr "Eine jar-Datei hinzufügen, die eine Skriptingengine bereitstellt"
-
-msgid "Download and install scripting engine"
-msgstr "Skriptingengine herunterladen und installieren"
-
-msgid "Launch file chooser"
-msgstr "Dateiauswahldialog öffnen"
-
-msgid "Select a jar file"
-msgstr "eine jar-Datei wählen"
-
-#, java-format
-msgid "Failed to load icon ''{0}''"
-msgstr "Konnte das Symbol ''{0}'' nicht laden"
-
-#, java-format
-msgid "Failed to load icon ''{0}/{1}''"
-msgstr "Das Symbol ''{0}/{1}'' konnte nicht geladen werden"
-
-msgid ""
-"Add directories and/or jar files where the Jython engine shall look for "
-"Python packages or modules."
-msgstr ""
-"Füge Verzeichnisse oder jar-Dateien hinzu, in denen die Ausführungsumgebung "
-"Jython nach Python-Paketen und -Modulen suchen soll."
-
-msgid "Add a path or jar file"
-msgstr "Füge ein Verzeichnis oder eine jar-Datei hinzu"
-
-msgid "Remove a path"
-msgstr "Entferne ein Verzeichnis"
-
-msgid "Up"
-msgstr "Hoch"
-
-msgid "Move the selected path up by one position"
-msgstr "Verschiebe das ausgewählte Verzeichnis eine Position nach oben"
-
-msgid "Down"
-msgstr "Runter"
-
-msgid ""
-"Please enter or paste a valid directory path or path to a jar/zip file."
-msgstr ""
-"Bitte einen gültigen Pfad eines Verzeichnisses oder einer jar-Datei "
-"eingeben."
-
-msgid "Create or edit a path"
-msgstr "Einen Pfad anlegen oder editieren"
-
-#, java-format
-msgid "''{0}'' isn''t an existing jar file"
-msgstr "''{0'}'' ist keine existierende jar-Datei"
-
-#, java-format
-msgid "''{0}'' is neither an existing directory nor an existing jar file"
-msgstr ""
-"''{0}'' ist weder ein existierendes Verzeichnis noch eine existierende jar-"
-"Datei"
-
-msgid "Select a directory or a jar file"
-msgstr "Wähle ein Verzeichnis oder eine jar-Datei"
-
-msgid "Select a directory or jar/zip file"
-msgstr "Wähle ein Verzeichnis oder eine jar- bzw. zip-Datei"
-
-msgid ""
-"Please enter or paste a valide file or jar URL. HTTP URLs are not supported."
-msgstr ""
-"Bitte eine gültige URL mit dem Schema file: oder jar: eingeben. URLs mit den"
-" Schema http: werden nicht unterstützt."
-
-msgid "Create or edit a CommonJS module repository"
-msgstr "Eine CommonJS-Modul-Ablage anlegen oder editieren"
-
-#, java-format
-msgid "''{0}'' isn''t a valid URL"
-msgstr "''{0}'' ist keine gültige URL"
-
-#, java-format
-msgid "URL ''{0}'' doesn''t refer to an existing local jar file"
-msgstr "Die URL ''{0}'' verweist nicht auf eine existierende lokale jar-Datei"
+"Die eindeutige interne ID, die verwendet wird, um das Skript zu "
+"identifizieren."
 
 #, java-format
 msgid "URL ''{0}'' doesn''t refer to an existing local directory or jar file"
@@ -514,48 +646,71 @@ msgstr ""
 "Die URL ''{0}'' verweist nicht auf ein lokales Verzeichnis oder eine lokale "
 "jar-Datei"
 
-msgid "Configure..."
-msgstr "Configure…"
+#, java-format
+msgid "URL ''{0}'' doesn''t refer to an existing local jar file"
+msgstr "Die URL ''{0}'' verweist nicht auf eine existierende lokale jar-Datei"
 
-msgid "Configure script engines and scripts"
-msgstr "Ausführungsumgebungen und Skripte konfigurieren"
+msgid "Up"
+msgstr "Hoch"
 
-msgid "Script engines"
-msgstr "Ausführungsumgebungen"
+msgid "Version:"
+msgstr "Version:"
 
-msgid "ID:"
-msgstr "ID:"
-
-msgid "Display name:"
-msgstr "Anzeigename:"
-
-msgid "Script file:"
-msgstr "Skriptdatei:"
-
-msgid "Edit a script"
-msgstr "Ein Skript bearbeiten"
-
-msgid "Generate a globally unique ID"
-msgstr "Erzeuge eine global eindeutige ID"
-
-msgid "Cancel and close dialog"
-msgstr "Abbrechen und Dialog schließen"
-
-msgid "Automatically derive a script engine from the file name."
-msgstr "Wähle eine Ausführungsumgebung, die zu diesem Dateinamen passt."
-
-msgid "Script Engine"
-msgstr "Ausführungsumgebung"
-
-msgid "Select one of the available script engines for executing this script."
+#, java-format
+msgid "Warning: failed to load default mime types from  resource ''{0}''."
 msgstr ""
-"Wähle eine der verfügbaren Ausführungsumgebungen, um das Skript auszuführen."
+"Warnung: Konnte die Standard-MIME-Typen nicht aus der internen Ressource "
+"''{0}'' laden."
 
-msgid "Script engines:"
-msgstr "Ausführungsumgebungen:"
+#, java-format
+msgid "Warning: failed to load mime types from file ''{0}''."
+msgstr "Warnung: Konnte keine MIME-Typen aus der Datei ''{0}'' laden."
 
-msgid "Choose a script engine"
-msgstr "Wähle eine Ausführungsumgebung"
+#, java-format
+msgid "Warning: failed to open resource file ''{0}''"
+msgstr "Warnung: Konnte die interne Ressourcendatei ''{0}'' nicht öffnen"
+
+#, java-format
+msgid ""
+"Warning: preference with key ''{0}'' refers to an unsupported JSR223 "
+"compatible  scripting engine with id ''{1}''.  Assuming default scripting "
+"engine."
+msgstr ""
+"Warnung: Die Einstellung mit dem Schlüssel ''{0}'' bezeichnet eine mit "
+"JSR223 kompatible, hier nicht unterstützte Ausführungsumgebung ''{1}''. Die "
+"Standard-Ausführungsumgebung wird stattdessen genutzt."
+
+#, java-format
+msgid ""
+"Warning: preference with key ''{0}'' refers to an unsupported embedded "
+"scripting engine with id ''{1}''. Assuming default scripting engine."
+msgstr ""
+"Warnung: Einstellung mit Schlüssel ''{0}'' verweist auf eine nicht "
+"unterstützte eingebettete Ausführungsumgebung mit ID ''{1}''.  Verwende "
+"stattdessen die Standard-Ausführungsumgebung."
+
+#, java-format
+msgid "Warning: property  ''{0}'' in resource file ''{1}'' not found"
+msgstr ""
+"Warnung: Eigenschaft ''{0}'' wurde in Ressourcendatei ''{1}'' nicht gefunden"
+
+#, java-format
+msgid ""
+"Warning: syntax kit ''{0}'' can''t be loaded. Ignoring mapping for mime type"
+" ''{1}''."
+msgstr ""
+"Warnung: Der Syntax-Kit ''{0}'' kann nicht geladen werden. Die konfigurierte"
+" Sprachunterstützung für den MIME-Type ''{1}'' wird ignoriert."
+
+msgid "cancel"
+msgstr "abbrechen"
+
+msgid "unknown"
+msgstr "unbekannt"
+
+#, java-format
+msgid "{1} (with engine {0})"
+msgstr "{1} (mit Ausführungsumgebung {0})"
 
 #. Plugin description for josm-scripting-plugin
 msgid "Runs scripts in JOSM"
