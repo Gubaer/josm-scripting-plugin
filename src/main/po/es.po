@@ -1,0 +1,191 @@
+# Translations for the JOSM plugin 'scripting' (es)
+# Copyright (C) 2018 Gubaer
+# This file is distributed under the same license as the josm-plugin_scripting package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: josm-plugin_scripting 30782\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-01-21 16:50+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Daniel Quisbert <dani3l.quisb3rt@gmail.com>, 2018\n"
+"Language-Team: Spanish (https://www.transifex.com/josm/teams/2544/es/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: es\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Accept script descriptor and close dialog"
+msgstr "Aceptar script descriptor y cerrar diálogo"
+
+msgid "Accept the selected scripting engine"
+msgstr "Aceptar el motor de scripting seleccionado"
+
+msgid "Add"
+msgstr "Añadir"
+
+msgid "Add a path or jar file"
+msgstr "Agregue una ruta o un archivo jar"
+
+msgid "Add a plugin"
+msgstr "Agregar un plugin"
+
+msgid "Add an additional repository"
+msgstr "Agregar un repositorio adicional"
+
+msgid "Always on top"
+msgstr "Siempre encima"
+
+msgid "An error occured in the script."
+msgstr "Ocurrió un error en el script "
+
+msgid "Cancel"
+msgstr "Cancelar"
+
+msgid "Cancel and close dialog"
+msgstr "Cancelar y cerrar diálogo"
+
+msgid "Change..."
+msgstr "Cambiando..."
+
+msgid "Choose a script engine"
+msgstr "Elija un motor de script"
+
+msgid "Clear log"
+msgstr "Limpiar registro"
+
+msgid "Close"
+msgstr "Cerrar"
+
+msgid "Close the scripting console"
+msgstr "Cerrar la consola de scripting"
+
+#. title
+#. icon name
+msgid "Configure scripting preferences"
+msgstr "Configurar preferencias de scripting"
+
+msgid "Configure..."
+msgstr "Configurar..."
+
+msgid "Create or edit a path"
+msgstr "Crear o editar una ruta"
+
+msgid "Current file:"
+msgstr "Archivo actual:"
+
+msgid "Define a new script"
+msgstr "Definir un nuevo script"
+
+msgid "Down"
+msgstr "Bajar"
+
+#. create the edit menu
+msgid "Edit"
+msgstr "Editar"
+
+msgid "Edit a script"
+msgstr "Editar un script"
+
+msgid "Empty file name"
+msgstr "Nombre de archivo vacío"
+
+msgid "Enter the name of a script file"
+msgstr "Ingrese el nombre de un archivo script"
+
+msgid "Execute the script"
+msgstr "Ejecutar el script"
+
+#. create the file menu
+msgid "File"
+msgstr "Archivo"
+
+msgid "File not found"
+msgstr "Archivo no encontrado"
+
+msgid "ID:"
+msgstr "ID:"
+
+msgid "IO error"
+msgstr "IO error"
+
+msgid "IO exception"
+msgstr "IO exception"
+
+msgid "JAR file"
+msgstr "Archivo JAR"
+
+msgid "JAR files"
+msgstr "Archivos JAR"
+
+msgid "Language:"
+msgstr "Lenguaje"
+
+msgid "Name:"
+msgstr "Nombre:"
+
+msgid "OK"
+msgstr "Aceptar"
+
+msgid "Open"
+msgstr "Abrir"
+
+msgid "Open a script file"
+msgstr "Abrir un archivo script"
+
+msgid "Please enter a file name first."
+msgstr "Por favor ingrese un nombre de archivo primero."
+
+msgid ""
+"Please enter or paste a valid directory path or path to a jar/zip file."
+msgstr ""
+"Por favor ingrese o pegue una ruta de directorio válido o ruta a un archivo "
+"jar/zip."
+
+msgid "Remove"
+msgstr "Eliminar"
+
+msgid "Save"
+msgstr "Guardar"
+
+msgid "Save as ..."
+msgstr "Guardar como..."
+
+msgid "Save script to current file"
+msgstr "Guardar script en el archivo actual"
+
+msgid "Save to a script file"
+msgstr "Guardar a un archivo script"
+
+msgid "Select a directory or a jar file"
+msgstr "Seleccionar un directorio o un archivo jar"
+
+msgid "Select a directory or jar/zip file"
+msgstr "Seleccionar un directorio o un archivo jar/zip"
+
+msgid "Select a jar file"
+msgstr "Seleccionar un archivo jar"
+
+msgid "Select a script"
+msgstr "Seleccionar un script"
+
+msgid "Select a script file"
+msgstr "Seleccionar un archivo script"
+
+msgid "Select..."
+msgstr "Seleccionar..."
+
+msgid "Up"
+msgstr "Subir"
+
+msgid "Version:"
+msgstr "Versión:"
+
+msgid "cancel"
+msgstr "Cancelar"
+
+msgid "unknown"
+msgstr "desconocido"

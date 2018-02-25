@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: josm-plugin/josm-plugin_scripting 30781\n"
+"Project-Id-Version: josm-plugin_scripting 30782\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-20 09:54+0000\n"
+"POT-Creation-Date: 2018-01-21 16:50+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Aleksey Kabanov <ak099@mail.ru>, 2018\n"
 "Language-Team: Russian (https://www.transifex.com/josm/teams/2544/ru/)\n"
@@ -18,50 +18,39 @@ msgstr ""
 "Language: ru\n"
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
 
-msgid "FATAL: Failed to initialize scripting plugin.\n"
-msgstr "ФАТАЛЬНАЯ ОШИБКА: не удалось инициализировать модуль scripting.\n"
-
-msgid "Scripting"
-msgstr "Scripting"
+#, java-format
+msgid "''{0}'' doesn''t exist."
+msgstr "''{0}'' не существует."
 
 #, java-format
-msgid "Warning: failed to load mime types from file ''{0}''."
-msgstr "Предупреждение: не удалось загрузить mime-типы из файла ''{0}''."
+msgid "''{0}'' is a directory. Expecting a jar file instead."
+msgstr "''{0}'' является каталогом. Ожидался jar-файл."
 
 #, java-format
-msgid "Warning: failed to load default mime types from  resource ''{0}''."
+msgid "''{0}'' is neither an existing directory nor an existing jar file"
 msgstr ""
-"Предупреждение: не удалось загрузить mime-типы по умолчанию из ресурса "
-"''{0}''."
+"''{0}'' не является ни существующим каталогом, ни существующим jar-файлом"
+
+#, java-format
+msgid "''{0}'' isn''t a valid URL"
+msgstr "''{0}'' — недопустимый URL"
+
+#, java-format
+msgid "''{0}'' isn''t an existing jar file"
+msgstr "''{0}'' не является существующим jar-файлом"
+
+#, java-format
+msgid "''{0}'' isn''t readable. Can''t load a script engine from this file."
+msgstr ""
+"''{0}'' не читается. Невозможно загрузить движок скриптов из этого файла."
 
 #, java-format
 msgid ""
-"Failed to load python module ''{0}''. \n"
-"Make sure the preferences with key ''{1}'' include the path to the module."
+"<p>Failed to execute a script.</p><p/><p><strong>Error "
+"message:</strong>{0}</p>"
 msgstr ""
-"Не удалось загрузить модуль python ''{0}''. \n"
-"Убедитесь, что параметр с ключом ''{1}'' содержит путь к модулю."
-
-msgid "Script Error"
-msgstr "Ошибка скрипта"
-
-msgid "An error occured in the script."
-msgstr "Произошла ошибка в скрипте."
-
-#, java-format
-msgid "Failed to read the script from file ''{0}''."
-msgstr "Не удалось прочитать скрипт из файла ''{0}''."
-
-msgid "IO error"
-msgstr "Ошибка ввода/вывода"
-
-#, java-format
-msgid ""
-"<p>Failed to execute the script file ''{0}''.</p><p/><p><strong>Error "
-"message:</strong>{1}</p><p><strong>At:</strong>line {2}, column {3}</p>"
-msgstr ""
-"<p>Не удалось выполнить файл скрипта ''{0}''.</p><p/><p><strong>Сообщение об"
-" ошибке:</strong>{1}</p><p><strong>В:</strong>строке {2}, столбце {3}</p>"
+"<p>Не удалось выполнить скрипт.</p><p/><p><strong>Сообщение об "
+"ошибке:</strong>{0}</p>"
 
 #, java-format
 msgid ""
@@ -81,106 +70,48 @@ msgstr ""
 
 #, java-format
 msgid ""
-"<p>Failed to execute a script.</p><p/><p><strong>Error "
-"message:</strong>{0}</p>"
+"<p>Failed to execute the script file ''{0}''.</p><p/><p><strong>Error "
+"message:</strong>{1}</p><p><strong>At:</strong>line {2}, column {3}</p>"
 msgstr ""
-"<p>Не удалось выполнить скрипт.</p><p/><p><strong>Сообщение об "
-"ошибке:</strong>{0}</p>"
+"<p>Не удалось выполнить файл скрипта ''{0}''.</p><p/><p><strong>Сообщение об"
+" ошибке:</strong>{1}</p><p><strong>В:</strong>строке {2}, столбце {3}</p>"
 
-#, java-format
-msgid "The script file ''{0}'' doesn''t exist."
-msgstr "Файл скрипта ''{0}'' не существует."
+msgid "Add"
+msgstr "Добавить"
 
-msgid "File not found"
-msgstr "Файл не найден"
+msgid "Add a path or jar file"
+msgstr "Добавить путь или jar-файл"
 
-msgid "Please enter a file name first."
-msgstr "Сначала введите имя файла."
+msgid "Add a plugin"
+msgstr "Добавить модуль"
 
-msgid "Empty file name"
-msgstr "Пустое имя файла"
+msgid "Add an additional repository"
+msgstr "Добавить дополнительный репозиторий"
 
-#, java-format
-msgid "The script file ''{0}'' isn''t readable."
-msgstr "Файл скрипта ''{0}'' не читается."
+msgid ""
+"Add directories and/or jar files where the Jython engine shall look for "
+"Python packages or modules."
+msgstr ""
+"Добавьте каталоги и/или jar-файлы, в которых движок Jython будет искать "
+"пакеты или модули Python."
 
-msgid "File not readable"
-msgstr "Файл не читается"
+msgid "Always on top"
+msgstr "Всегда наверху"
 
-#, java-format
-msgid "Failed to read the script from the file ''{0}''."
-msgstr "Не удалось прочитать скрипт из файла ''{0}''."
+msgid "An error occured in the script."
+msgstr "Произошла ошибка в скрипте."
 
-msgid "Run..."
-msgstr "Выполнить..."
-
-msgid "Run a script"
-msgstr "Запустить скрипт"
-
-msgid "Select an engine"
-msgstr "Выберите движок"
-
-msgid "Name:"
-msgstr "Имя:"
-
-msgid "Version:"
-msgstr "Версия:"
-
-msgid "Language:"
-msgstr "Язык:"
-
-msgid "Language version:"
-msgstr "Версия языка:"
-
-msgid "MIME-Types:"
-msgstr "MIME-типы:"
-
-msgid "OK"
-msgstr "OK"
+msgid "Available engines:"
+msgstr "Доступные движки:"
 
 msgid "Cancel"
 msgstr "Отмена"
 
-msgid "Show/hide the scripting console"
-msgstr "Показать/скрыть консоль модуля scripting"
-
-msgid "Select a script"
-msgstr "Выберите скрипт"
-
-msgid "Open"
-msgstr "Открыть"
-
-msgid "Open a script file"
-msgstr "Открыть файл скрипта"
-
-msgid "Current file:"
-msgstr "Текущий файл:"
-
-#, java-format
-msgid "Failed to load file ''{0}''."
-msgstr "Не удалось загрузить файл ''{0}''."
-
-msgid "IO exception"
-msgstr "Ошибка ввода/вывода"
-
-#, java-format
-msgid "Failed to save file ''{0}''."
-msgstr "Не удалось сохранить файл ''{0}''."
-
-msgid "No script engine selected."
-msgstr "Не выбран движок скриптов."
-
-msgid "Select..."
-msgstr "Выбрать..."
+msgid "Cancel and close dialog"
+msgstr "Отменить и закрыть диалог"
 
 msgid "Change..."
 msgstr "Изменить..."
-
-msgid "Save as ..."
-msgstr "Сохранить как..."
-
-msgid "Save to a script file"
-msgstr "Сохранить в файл скрипта"
 
 msgid "Clear log"
 msgstr "Очистить журнал"
@@ -188,124 +119,63 @@ msgstr "Очистить журнал"
 msgid "Clear the log content"
 msgstr "Удалить содержимое журнала"
 
-msgid "Save"
-msgstr "Сохранить"
-
-msgid "Save script to current file"
-msgstr "Сохранить скрипт в текущий файл"
-
-msgid "Scripting Console"
-msgstr "Консоль Scripting"
-
-msgid "File"
-msgstr "Файл"
-
-msgid "Edit"
-msgstr "Правка"
-
-msgid "Always on top"
-msgstr "Всегда наверху"
-
-#, java-format
-msgid "Warning: failed to open resource file ''{0}''"
-msgstr "Предупреждение: не удалось открыть файл ресурсов ''{0}''"
-
 msgid "Close"
 msgstr "Закрыть"
 
 msgid "Close the scripting console"
 msgstr "Закрыть консоль Scripting"
 
-msgid "Syntax highlighting is going to be disabled."
-msgstr "Синтаксическая подсветка будет отключена"
+#. title
+msgid "Configure script engines and scripts"
+msgstr "Настройки скриптов и скриптовых движков"
 
-msgid "Execute the script"
-msgstr "Выполнить скрипт"
+#. title
+#. icon name
+msgid "Configure scripting preferences"
+msgstr "Настроить параметры модуля scripting"
 
-msgid "Run"
-msgstr "Выполнить"
+msgid "Configure..."
+msgstr "Настройки..."
 
-msgid "Select a script file and click on <strong>Run</strong>."
-msgstr "Выберите файл скрипта и нажмите <strong>Выполнить</strong>."
+msgid "Current file:"
+msgstr "Текущий файл:"
 
-msgid "File:"
-msgstr "Файл:"
+msgid "Display name:"
+msgstr "Отображаемое имя:"
+
+msgid "Down"
+msgstr "Вниз"
+
+#. create the edit menu
+msgid "Edit"
+msgstr "Правка"
+
+msgid "Embedded Rhino engine"
+msgstr "Встроенный движок Rhino"
+
+msgid "Empty file name"
+msgstr "Пустое имя файла"
 
 msgid "Enter the name of a script file"
 msgstr "Введите имя файла скрипта"
-
-msgid "Run the script"
-msgstr "Выполнить скрипт"
-
-msgid "Launch file selection dialog"
-msgstr "Открыть диалог выбора файла"
-
-msgid "Select a script file"
-msgstr "Выберите файл скрипта"
-
-msgid "Add an additional repository"
-msgstr "Добавить дополнительный репозиторий"
-
-msgid "Remove a repository"
-msgstr "Удалить репозиторий"
-
-msgid "Move the selected repository up by one position"
-msgstr "Переместить выбранный репозиторий на одну позицию вверх"
-
-msgid "Move the selected repository down by one position"
-msgstr "Переместить выбранный репозиторий на одну позицию вниз"
-
-#, java-format
-msgid "''{0}'' doesn''t exist."
-msgstr "''{0}'' не существует."
-
-#, java-format
-msgid "''{0}'' is a directory. Expecting a jar file instead."
-msgstr "''{0}'' является каталогом. Ожидался jar-файл."
-
-#, java-format
-msgid "''{0}'' isn''t readable. Can''t load a script engine from this file."
-msgstr ""
-"''{0}'' не читается. Невозможно загрузить движок скриптов из этого файла."
-
-msgid "Add"
-msgstr "Добавить"
-
-msgid "Add a plugin"
-msgstr "Добавить модуль"
-
-msgid "Remove"
-msgstr "Удалить"
-
-msgid "Remove selected plugins"
-msgstr "Удалить выбранные модули"
-
-#, java-format
-msgid "Error: resource file ''{0}'' not found"
-msgstr "Ошибка: файл ресурсов ''{0}'' не найден"
 
 #, java-format
 msgid "Error: failed to load resource file ''{0}''"
 msgstr "Ошибка: не удалось загрузить файл ресурсов ''{0}''"
 
 #, java-format
-msgid "Warning: property  ''{0}'' in resource file ''{1}'' not found"
-msgstr "Предупреждение: свойство ''{0}'' в файле ресурсов ''{1}'' не найдено"
+msgid "Error: resource file ''{0}'' not found"
+msgstr "Ошибка: файл ресурсов ''{0}'' не найден"
 
-msgid "JAR files"
-msgstr "JAR-файлы"
+msgid "Execute the script"
+msgstr "Выполнить скрипт"
 
-msgid "Available engines:"
-msgstr "Доступные движки:"
+msgid "FATAL: Failed to initialize scripting plugin.\n"
+msgstr "ФАТАЛЬНАЯ ОШИБКА: не удалось инициализировать модуль scripting.\n"
 
-msgid "JAR file"
-msgstr "JAR-файл"
-
-msgid "Remove the selected jar files"
-msgstr "Удалить выбранные jar-файлы"
-
-msgid "Select a jar file"
-msgstr "Выберите jar-файл"
+#, java-format
+msgid "Failed to load file ''{0}''."
+msgstr "Не удалось загрузить файл ''{0}''."
 
 #, java-format
 msgid "Failed to load icon ''{0}''"
@@ -315,40 +185,161 @@ msgstr "Не удалось загрузить значок ''{0}''"
 msgid "Failed to load icon ''{0}/{1}''"
 msgstr "Не удалось загрузить значок ''{0}/{1}''"
 
+#, java-format
 msgid ""
-"Add directories and/or jar files where the Jython engine shall look for "
-"Python packages or modules."
+"Failed to load python module ''{0}''. \n"
+"Make sure the preferences with key ''{1}'' include the path to the module."
 msgstr ""
-"Добавьте каталоги и/или jar-файлы, в которых движок Jython будет искать "
-"пакеты или модули Python."
+"Не удалось загрузить модуль python ''{0}''. \n"
+"Убедитесь, что параметр с ключом ''{1}'' содержит путь к модулю."
 
-msgid "Add a path or jar file"
-msgstr "Добавить путь или jar-файл"
+#, java-format
+msgid "Failed to read the script from file ''{0}''."
+msgstr "Не удалось прочитать скрипт из файла ''{0}''."
 
-msgid "Remove a path"
-msgstr "Удалить путь"
+#, java-format
+msgid "Failed to read the script from the file ''{0}''."
+msgstr "Не удалось прочитать скрипт из файла ''{0}''."
 
-msgid "Up"
-msgstr "Вверх"
+#, java-format
+msgid "Failed to save file ''{0}''."
+msgstr "Не удалось сохранить файл ''{0}''."
+
+#. create the file menu
+msgid "File"
+msgstr "Файл"
+
+msgid "File not found"
+msgstr "Файл не найден"
+
+msgid "File not readable"
+msgstr "Файл не читается"
+
+msgid "File:"
+msgstr "Файл:"
+
+msgid "Full local path to the script file"
+msgstr "Полный локальный путь к файлу скрипта"
+
+msgid "Generate a globally unique ID"
+msgstr "Генерировать глобально уникальный ID"
+
+msgid "IO error"
+msgstr "Ошибка ввода/вывода"
+
+msgid "IO exception"
+msgstr "Ошибка ввода/вывода"
+
+msgid "JAR file"
+msgstr "JAR-файл"
+
+msgid "JAR files"
+msgstr "JAR-файлы"
+
+msgid "Jython engine"
+msgstr "Движок Jython"
+
+msgid "Language version:"
+msgstr "Версия языка:"
+
+msgid "Language:"
+msgstr "Язык:"
+
+#. don't translate
+msgid "Launch file selection dialog"
+msgstr "Открыть диалог выбора файла"
+
+msgid "MIME-Types:"
+msgstr "MIME-типы:"
 
 msgid "Move the selected path up by one position"
 msgstr "Переместить выделенный путь на одну позицию вверх"
 
-msgid "Down"
-msgstr "Вниз"
+msgid "Move the selected repository down by one position"
+msgstr "Переместить выбранный репозиторий на одну позицию вниз"
+
+msgid "Move the selected repository up by one position"
+msgstr "Переместить выбранный репозиторий на одну позицию вверх"
+
+msgid "Name:"
+msgstr "Имя:"
+
+msgid "No script engine selected."
+msgstr "Не выбран движок скриптов."
+
+msgid "OK"
+msgstr "OK"
+
+msgid "Open"
+msgstr "Открыть"
+
+msgid "Open a script file"
+msgstr "Открыть файл скрипта"
+
+msgid "Please enter a file name first."
+msgstr "Сначала введите имя файла."
 
 msgid ""
 "Please enter or paste a valid directory path or path to a jar/zip file."
 msgstr "Введите или вставьте правильный путь к каталогу или к jar/zip-файлу."
 
-#, java-format
-msgid "''{0}'' isn''t an existing jar file"
-msgstr "''{0}'' не является существующим jar-файлом"
+msgid "Remove"
+msgstr "Удалить"
 
-#, java-format
-msgid "''{0}'' is neither an existing directory nor an existing jar file"
-msgstr ""
-"''{0}'' не является ни существующим каталогом, ни существующим jar-файлом"
+msgid "Remove a path"
+msgstr "Удалить путь"
+
+#. putValue(Action.NAME, tr("Remove"));
+msgid "Remove a repository"
+msgstr "Удалить репозиторий"
+
+msgid "Remove selected plugins"
+msgstr "Удалить выбранные модули"
+
+msgid "Remove the selected jar files"
+msgstr "Удалить выбранные jar-файлы"
+
+msgid "Run"
+msgstr "Выполнить"
+
+#. title
+#. icon name
+msgid "Run a script"
+msgstr "Запустить скрипт"
+
+msgid "Run the script"
+msgstr "Выполнить скрипт"
+
+msgid "Run..."
+msgstr "Выполнить..."
+
+msgid "Save"
+msgstr "Сохранить"
+
+msgid "Save as ..."
+msgstr "Сохранить как..."
+
+msgid "Save script to current file"
+msgstr "Сохранить скрипт в текущий файл"
+
+msgid "Save to a script file"
+msgstr "Сохранить в файл скрипта"
+
+msgid "Script Error"
+msgstr "Ошибка скрипта"
+
+msgid "Script engines"
+msgstr "Скриптовые движки"
+
+msgid "Script file:"
+msgstr "Файл скрипта:"
+
+#. icon name
+msgid "Scripting"
+msgstr "Scripting"
+
+msgid "Scripting Console"
+msgstr "Консоль Scripting"
 
 msgid "Select a directory or a jar file"
 msgstr "Выберите каталог или jar-файл"
@@ -356,54 +347,76 @@ msgstr "Выберите каталог или jar-файл"
 msgid "Select a directory or jar/zip file"
 msgstr "Выберите каталог или jar/zip-файл"
 
-#, java-format
-msgid "''{0}'' isn''t a valid URL"
-msgstr "''{0}'' — недопустимый URL"
+msgid "Select a jar file"
+msgstr "Выберите jar-файл"
+
+msgid "Select a script"
+msgstr "Выберите скрипт"
+
+msgid "Select a script file"
+msgstr "Выберите файл скрипта"
+
+msgid "Select a script file and click on <strong>Run</strong>."
+msgstr "Выберите файл скрипта и нажмите <strong>Выполнить</strong>."
+
+#. used in the context of a combo box
+msgid "Select an engine"
+msgstr "Выберите движок"
+
+msgid "Select..."
+msgstr "Выбрать..."
+
+#. title
+#. icon name
+msgid "Show/hide the scripting console"
+msgstr "Показать/скрыть консоль модуля scripting"
+
+msgid "Syntax highlighting is going to be disabled."
+msgstr "Синтаксическая подсветка будет отключена"
+
+msgid "The display name of the script. Used in menu entries."
+msgstr "Отображаемое имя скрипта. Используется в пунктах меню."
 
 #, java-format
-msgid "URL ''{0}'' doesn''t refer to an existing local jar file"
-msgstr "URL ''{0}'' не ссылается на существующий локальный jar-файл"
+msgid "The script file ''{0}'' doesn''t exist."
+msgstr "Файл скрипта ''{0}'' не существует."
+
+#, java-format
+msgid "The script file ''{0}'' isn''t readable."
+msgstr "Файл скрипта ''{0}'' не читается."
+
+msgid "The unique internal ID used to identify the script."
+msgstr "Уникальный внутренний идентификатор скрипта."
 
 #, java-format
 msgid "URL ''{0}'' doesn''t refer to an existing local directory or jar file"
 msgstr ""
 "URL ''{0}'' не ссылается на существующий локальный каталог или jar-файл"
 
-msgid "Configure..."
-msgstr "Настройки..."
+#, java-format
+msgid "URL ''{0}'' doesn''t refer to an existing local jar file"
+msgstr "URL ''{0}'' не ссылается на существующий локальный jar-файл"
 
-msgid "Configure scripting preferences"
-msgstr "Настроить параметры модуля scripting"
+msgid "Up"
+msgstr "Вверх"
 
-msgid "Configure script engines and scripts"
-msgstr "Настройки скриптов и скриптовых движков"
+msgid "Version:"
+msgstr "Версия:"
 
-msgid "Script engines"
-msgstr "Скриптовые движки"
+#, java-format
+msgid "Warning: failed to load default mime types from  resource ''{0}''."
+msgstr ""
+"Предупреждение: не удалось загрузить mime-типы по умолчанию из ресурса "
+"''{0}''."
 
-msgid "Embedded Rhino engine"
-msgstr "Встроенный движок Rhino"
+#, java-format
+msgid "Warning: failed to load mime types from file ''{0}''."
+msgstr "Предупреждение: не удалось загрузить mime-типы из файла ''{0}''."
 
-msgid "Jython engine"
-msgstr "Движок Jython"
+#, java-format
+msgid "Warning: failed to open resource file ''{0}''"
+msgstr "Предупреждение: не удалось открыть файл ресурсов ''{0}''"
 
-msgid "Full local path to the script file"
-msgstr "Полный локальный путь к файлу скрипта"
-
-msgid "The unique internal ID used to identify the script."
-msgstr "Уникальный внутренний идентификатор скрипта."
-
-msgid "Display name:"
-msgstr "Отображаемое имя:"
-
-msgid "The display name of the script. Used in menu entries."
-msgstr "Отображаемое имя скрипта. Используется в пунктах меню."
-
-msgid "Script file:"
-msgstr "Файл скрипта:"
-
-msgid "Generate a globally unique ID"
-msgstr "Генерировать глобально уникальный ID"
-
-msgid "Cancel and close dialog"
-msgstr "Отменить и закрыть диалог"
+#, java-format
+msgid "Warning: property  ''{0}'' in resource file ''{1}'' not found"
+msgstr "Предупреждение: свойство ''{0}'' в файле ресурсов ''{1}'' не найдено"
