@@ -1,0 +1,293 @@
+# Translations for the JOSM plugin 'scripting' (da)
+# Copyright (C) 2018 Gubaer
+# This file is distributed under the same license as the josm-plugin_scripting package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: josm-plugin_scripting 30782\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-01-21 16:50+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Jurbo Lator <joern.map@gmail.com>, 2018\n"
+"Language-Team: Danish (https://www.transifex.com/josm/teams/2544/da/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: da\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#, java-format
+msgid ""
+"''onLoad()'' for plugin ''{0}'' failed. Plugin isn''t properly initialized."
+msgstr ""
+"''onLoad ()'' for udvidelse ''{0}'' mislykkedes. Udvidelse er ikke korrekt "
+"initialiseret."
+
+#, java-format
+msgid "''{0}'' doesn''t exist."
+msgstr "''{0}'' eksisterer ikke.."
+
+#, java-format
+msgid "''{0}'' is a directory. Expecting a jar file instead."
+msgstr "''{0}'' er en mappe. Forventer en jar fil i stedet."
+
+#, java-format
+msgid "''{0}'' is neither a ''jar'' nor a ''file'' URL"
+msgstr "''{0}'' er hverken en ''jar'' eller en ''fil'' URL"
+
+#, java-format
+msgid "''{0}'' is neither an existing directory nor an existing jar file"
+msgstr "''{0}'' er hverken en eksisterende mappe eller en eksisterende jarfil"
+
+#, java-format
+msgid "''{0}'' isn''t a valid URL"
+msgstr "''{0}'' er ikke en gyldig URL"
+
+#, java-format
+msgid "''{0}'' isn''t an existing jar file"
+msgstr "''{0}'' er ikke en eksisterende jarfil"
+
+#, java-format
+msgid "''{0}'' isn''t readable. Can''t load a script engine from this file."
+msgstr "''{0}'' er ikke læsbar. Kan ikke load et script sprog fra denne fil."
+
+msgid "Accept script descriptor and close dialog"
+msgstr "Acceptere script beskrivelse og luk dialog"
+
+msgid "Accept the selected scripting engine"
+msgstr "Acceptere det valgte script sprog"
+
+msgid "Add"
+msgstr "Tilføj"
+
+msgid "Add a path or jar file"
+msgstr "Tilføj en sti eller jar fil"
+
+msgid "Add a plugin"
+msgstr "Tilføj en udvidelse"
+
+msgid "Always on top"
+msgstr "Altid øverst"
+
+msgid "An error occured in the script."
+msgstr "Der opstod en fejl i scriptet."
+
+msgid "Cancel"
+msgstr "Annuller"
+
+msgid "Cancel and close dialog"
+msgstr "Annuller og luk dialog"
+
+msgid "Change..."
+msgstr "Skift..."
+
+msgid "Close"
+msgstr "Luk"
+
+msgid "Configure..."
+msgstr "Konfigurer..."
+
+msgid "Create or edit a path"
+msgstr "Opret eller rediger en sti"
+
+msgid "Current file:"
+msgstr "Aktuel fil:"
+
+msgid "Define a new script"
+msgstr "Definer et nyt script"
+
+msgid "Display name:"
+msgstr "Vis navn:"
+
+msgid "Down"
+msgstr "Ned"
+
+#. create the edit menu
+msgid "Edit"
+msgstr "Rediger"
+
+msgid "Edit a script"
+msgstr "Rediger et script"
+
+msgid "Empty file name"
+msgstr "Tomt filnavn"
+
+msgid "Enter the name of a script file"
+msgstr "Indtast navnet på en script fil"
+
+#, java-format
+msgid "Error: failed to load resource file ''{0}''"
+msgstr "Fejl: kunne ikke indlæse ressource fil ''{0}''"
+
+#, java-format
+msgid "Error: resource file ''{0}'' not found"
+msgstr "Fejl: ressource fil ''{0}'' ikke fundet"
+
+#, java-format
+msgid "Failed to load file ''{0}''."
+msgstr "Kunne ikke indlæse fil ''{0}''."
+
+#, java-format
+msgid "Failed to load icon ''{0}''"
+msgstr "Kunne ikke indlæse ikon ''{0}''"
+
+#, java-format
+msgid "Failed to load icon ''{0}/{1}''"
+msgstr "Kunne ikke indlæse ikon ''{0}/{1}''"
+
+#, java-format
+msgid "Failed to read the script from file ''{0}''."
+msgstr "Kunne ikke læse scriptet fra fil ''{0}''."
+
+#, java-format
+msgid "Failed to read the script from the file ''{0}''."
+msgstr "Kunne ikke læse scriptet fra filen ''{0}''."
+
+#, java-format
+msgid "Failed to save file ''{0}''."
+msgstr "Kunne ikke gemme fil ''{0}''."
+
+#. create the file menu
+msgid "File"
+msgstr "Filer"
+
+msgid "File not found"
+msgstr "Fil ikke fundet"
+
+msgid "File not readable"
+msgstr "Fil ikke læsbar"
+
+msgid "File:"
+msgstr "Fil:"
+
+msgid "Full local path to the script file"
+msgstr "Fuld lokal sti til script filen"
+
+msgid "ID:"
+msgstr "ID:"
+
+msgid "IO error"
+msgstr "IO fejl"
+
+msgid "IO exception"
+msgstr "IO hændelse"
+
+msgid "JAR file"
+msgstr "JAR fil"
+
+msgid "JAR files"
+msgstr "JAR filer"
+
+msgid "Language version:"
+msgstr "Sprogversion:"
+
+msgid "Language:"
+msgstr "Sprog:"
+
+msgid "MIME-Types:"
+msgstr "MIME-Typer:"
+
+msgid "Move the selected path up by one position"
+msgstr "Flyt den valgte sti en position op"
+
+msgid "Name:"
+msgstr "Navn:"
+
+msgid "OK"
+msgstr "OK"
+
+msgid "Open"
+msgstr "Åbn"
+
+msgid "Open a script file"
+msgstr "Åben en script fil"
+
+msgid "Please enter a file name first."
+msgstr "Indtast et filnavn først."
+
+msgid ""
+"Please enter or paste a valid directory path or path to a jar/zip file."
+msgstr "Indtast eller indsæt en gyldig mappesti eller sti til en jar/zip fil."
+
+msgid ""
+"Please enter or paste a valide file or jar URL. HTTP URLs are not supported."
+msgstr ""
+"Indtast eller indsæt en gyldig fil eller jar URL. HTTP URLer understøttes "
+"ikke."
+
+msgid "Remove"
+msgstr "Fjern"
+
+msgid "Remove a path"
+msgstr "Fjern en sti"
+
+msgid "Remove selected plugins"
+msgstr "Fjern valgte udvidelser"
+
+msgid "Remove the selected jar files"
+msgstr "Fjern de valgte jar filer"
+
+msgid "Save"
+msgstr "Gem"
+
+msgid "Save as ..."
+msgstr "Gem som ..."
+
+msgid "Save to a script file"
+msgstr "Gem til en script fil"
+
+msgid "Script Error"
+msgstr "Script fejl"
+
+msgid "Script file:"
+msgstr "Script fil:"
+
+#. icon name
+msgid "Scripting"
+msgstr "Scripting"
+
+msgid "Scripting Console"
+msgstr "Scripting konsol"
+
+msgid "Select a directory or a jar file"
+msgstr "Vælg en mappe eller en jar fil"
+
+msgid "Select a directory or jar/zip file"
+msgstr "Vælg en mappe eller jar/zip fil"
+
+msgid "Select a jar file"
+msgstr "Vælg en jar fil"
+
+msgid "Select a script"
+msgstr "Vælg et script"
+
+msgid "Select a script file"
+msgstr "Vælg en script fil"
+
+msgid "Select..."
+msgstr "Vælg..."
+
+msgid "Show scripting console"
+msgstr "Vis scripting konsol"
+
+#, java-format
+msgid "The script file ''{0}'' doesn''t exist."
+msgstr "Script filen ''{0}'' findes ikke."
+
+#, java-format
+msgid "The script file ''{0}'' isn''t readable."
+msgstr "Script filen ''{0}'' er ikke læsbar."
+
+msgid "Up"
+msgstr "Op"
+
+msgid "Version:"
+msgstr "Version:"
+
+msgid "cancel"
+msgstr "annuller"
+
+msgid "unknown"
+msgstr "ukendt"
