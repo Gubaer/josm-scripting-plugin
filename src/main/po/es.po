@@ -6,17 +6,69 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: josm-plugin_scripting 30783\n"
+"Project-Id-Version: josm-plugin_scripting 30784\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-25 15:20+0000\n"
+"POT-Creation-Date: 2018-05-10 10:09+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: jesuslopez <jesusl.temez@gmail.com>, 2018\n"
+"Last-Translator: Fundación OpenStreetMap Chile <julio.costa@openstreetmap.cl>, 2018\n"
 "Language-Team: Spanish (https://www.transifex.com/josm/teams/2544/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#, java-format
+msgid "''{0}'' doesn''t exist."
+msgstr "''{0}'' no existe."
+
+#, java-format
+msgid "''{0}'' is a directory. Expecting a jar file instead."
+msgstr "''{0}'' es un directorio. Se esperaba un archivo jar en su lugar."
+
+#, java-format
+msgid "''{0}'' is neither an existing directory nor an existing jar file"
+msgstr "''{0}'' no es un directorio o un archivo jar existente"
+
+#, java-format
+msgid "''{0}'' isn''t a valid URL"
+msgstr "''{0}'' no es una URL valida"
+
+#, java-format
+msgid "''{0}'' isn''t an existing jar file"
+msgstr "''{0}'' no es un archivo jar existente"
+
+#, java-format
+msgid "''{0}'' isn''t readable. Can''t load a script engine from this file."
+msgstr ""
+"''{0}'' no es legible. No se puede cargar un motor de script desde este "
+"archivo."
+
+#, java-format
+msgid ""
+"<p>Failed to execute the script file ''{0}''.</p><p/><p><strong>Error "
+"message:</strong>{1}</p><p><strong>At:</strong>line {2}, column {3}</p>"
+msgstr ""
+"<p>Falló al ejecutar el archivo script ''{0}''.</p><p/><p><strong>Mensaje de"
+" error:</strong>{1}</p><p><strong>En:</strong>linea {2}, columna {3}</p>"
+
+msgid ""
+"<strong>Support for python plugins is disabled.</strong><br>The scripting "
+"plugin can load and run plugins written in <strong>Python</strong>. In order"
+" to use this feature the Jython interpreter has to be on the class path when"
+" you start JOSM. Currently, it isn''t and python plugin support is therefore"
+" disabled.<br><br>Launch JOSM with the following command line: <br>java -cp "
+"\"josm-jar.jar:/path/to/jython.jar\" "
+"org.openstreetmap.josm.gui.MainApplication"
+msgstr ""
+"<strong>El soporte para complementos python está "
+"deshabilitado.</strong><br>El complemento de scripting puede cargar y "
+"ejecutar complementos escritos en <strong>Python</strong>. Para poder "
+"utilizar esta funcionalidad el interprete Jython tiene que estar en la class"
+" path cuando inicias JOSM. Actualmente no lo está y por lo tanto el soporte "
+"para complementos python está deshabilitado.<br><br>Inicia JOSM con la "
+"siguiente línea de comando: <br>java -cp \"josm-"
+"jar.jar:/path/to/jython.jar\" org.openstreetmap.josm.gui.MainApplication"
 
 msgid "Accept script descriptor and close dialog"
 msgstr "Aceptar script descriptor y cerrar diálogo"
@@ -36,11 +88,24 @@ msgstr "Agregar un plugin"
 msgid "Add an additional repository"
 msgstr "Agregar un repositorio adicional"
 
+msgid ""
+"Add directories and/or jar files where the Jython engine shall look for "
+"Python packages or modules."
+msgstr ""
+"Agregar directorios y/o archivos jar donde el motor Jython debiera buscar "
+"paquetes o módulos Python."
+
 msgid "Always on top"
 msgstr "Siempre encima"
 
 msgid "An error occured in the script."
 msgstr "Ocurrió un error en el script "
+
+msgid "Available engines:"
+msgstr "Motores disponibles:"
+
+msgid "Available script engines"
+msgstr "Motores de script disponibles"
 
 msgid "Cancel"
 msgstr "Cancelar"
@@ -56,6 +121,9 @@ msgstr "Elija un motor de script"
 
 msgid "Clear log"
 msgstr "Limpiar registro"
+
+msgid "Clear the log content"
+msgstr "Limpiar el contenido del registro"
 
 msgid "Close"
 msgstr "Cerrar"
@@ -83,6 +151,9 @@ msgstr "Definir un nuevo script"
 msgid "Down"
 msgstr "Bajar"
 
+msgid "Download and install scripting engine"
+msgstr "Descargar e instalar motor de scripting"
+
 #. create the edit menu
 msgid "Edit"
 msgstr "Editar"
@@ -96,8 +167,28 @@ msgstr "Nombre de archivo vacío"
 msgid "Enter the name of a script file"
 msgstr "Ingrese el nombre de un archivo script"
 
+#, java-format
+msgid "Error: failed to load resource file ''{0}''"
+msgstr "Error: falló al cargar el archivo de recurso ''{0}''"
+
+#, java-format
+msgid "Error: resource file ''{0}'' not found"
+msgstr "Error: archivo de recurso ''{0}'' no encontrado"
+
 msgid "Execute the script"
 msgstr "Ejecutar el script"
+
+#, java-format
+msgid "Failed to load file ''{0}''."
+msgstr "Falló al cargar el archivo ''{0}''."
+
+#, java-format
+msgid "Failed to load icon ''{0}''"
+msgstr "Falló al cargar el icono ''{0}''"
+
+#, java-format
+msgid "Failed to save file ''{0}''."
+msgstr "Falló al guardar el archivo \"{0}\"."
 
 #. create the file menu
 msgid "File"
@@ -106,8 +197,14 @@ msgstr "Archivo"
 msgid "File not found"
 msgstr "Archivo no encontrado"
 
+msgid "File not readable"
+msgstr "Archivo no legible"
+
 msgid "File:"
 msgstr "Archivo:"
+
+msgid "Full local path to the script file"
+msgstr "Ruta local completa al archivo de script"
 
 msgid "ID:"
 msgstr "ID:"
@@ -124,8 +221,20 @@ msgstr "Archivo JAR"
 msgid "JAR files"
 msgstr "Archivos JAR"
 
+msgid "JOSM currently supports the following script engines:"
+msgstr "JOSM actualmente soporta lo siguientes motores de script:"
+
+msgid "Jython engine"
+msgstr "Motor Jython"
+
+msgid "Language version:"
+msgstr "Versión del lenguaje:"
+
 msgid "Language:"
 msgstr "Lenguaje"
+
+msgid "Launch file chooser"
+msgstr "Lanzar seleccionador de archivo"
 
 msgid "Name:"
 msgstr "Nombre:"
@@ -150,6 +259,26 @@ msgstr ""
 
 msgid "Remove"
 msgstr "Eliminar"
+
+msgid "Remove selected plugins"
+msgstr "Eliminar los complementos seleccionados"
+
+msgid "Remove the selected jar files"
+msgstr "Eliminar los archivos jar seleccionados"
+
+msgid "Run"
+msgstr "Ejecutar"
+
+#. title
+#. icon name
+msgid "Run a script"
+msgstr "Ejecutar un script"
+
+msgid "Run the script"
+msgstr "Ejecutar el script"
+
+msgid "Run..."
+msgstr "Ejecutar..."
 
 msgid "Save"
 msgstr "Guardar"
@@ -178,6 +307,10 @@ msgstr "Seleccionar un script"
 msgid "Select a script file"
 msgstr "Seleccionar un archivo script"
 
+#. used in the context of a combo box
+msgid "Select an engine"
+msgstr "Seleccione un motor"
+
 msgid "Select..."
 msgstr "Seleccionar..."
 
@@ -192,3 +325,11 @@ msgstr "Cancelar"
 
 msgid "unknown"
 msgstr "desconocido"
+
+#, java-format
+msgid "{1} (with engine {0})"
+msgstr "{1} (con motor {0})"
+
+#. Plugin description for josm-scripting-plugin
+msgid "Runs scripts in JOSM"
+msgstr "Ejecutar scripts en JOSM"

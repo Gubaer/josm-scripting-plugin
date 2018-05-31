@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: josm-plugin_scripting 30783\n"
+"Project-Id-Version: josm-plugin_scripting 30784\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-25 15:20+0000\n"
+"POT-Creation-Date: 2018-05-10 10:09+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Jurbo Lator <joern.map@gmail.com>, 2018\n"
 "Language-Team: Danish (https://www.transifex.com/josm/teams/2544/da/)\n"
@@ -68,6 +68,9 @@ msgstr "Tilføj en sti eller jar fil"
 msgid "Add a plugin"
 msgstr "Tilføj en udvidelse"
 
+msgid "Add an additional repository"
+msgstr "Tilføj et ekstra repository"
+
 msgid "Always on top"
 msgstr "Altid øverst"
 
@@ -83,11 +86,20 @@ msgstr "Annuller og luk dialog"
 msgid "Change..."
 msgstr "Skift..."
 
+msgid "Clear log"
+msgstr "Slet log"
+
+msgid "Clear the log content"
+msgstr "Slet logindholdet"
+
 msgid "Close"
 msgstr "Luk"
 
 msgid "Configure..."
 msgstr "Konfigurer..."
+
+msgid "Create or edit a CommonJS module repository"
+msgstr "Opret eller rediger et CommonJS-modul repository"
 
 msgid "Create or edit a path"
 msgstr "Opret eller rediger en sti"
@@ -124,6 +136,10 @@ msgstr "Fejl: kunne ikke indlæse ressource fil ''{0}''"
 #, java-format
 msgid "Error: resource file ''{0}'' not found"
 msgstr "Fejl: ressource fil ''{0}'' ikke fundet"
+
+#, java-format
+msgid "Failed to create URL referring to the module repository ''{0}''"
+msgstr "Kunne ikke oprette URL der henviser til repository modulet ''{0}''"
 
 #, java-format
 msgid "Failed to load file ''{0}''."
@@ -165,6 +181,9 @@ msgstr "Fil:"
 msgid "Full local path to the script file"
 msgstr "Fuld lokal sti til script filen"
 
+msgid "Generate a globally unique ID"
+msgstr "Generer et globalt unikt id"
+
 msgid "ID:"
 msgstr "ID:"
 
@@ -192,8 +211,17 @@ msgstr "MIME-Typer:"
 msgid "Move the selected path up by one position"
 msgstr "Flyt den valgte sti en position op"
 
+msgid "Move the selected repository down by one position"
+msgstr "Flyt det valgte repository en position ned"
+
+msgid "Move the selected repository up by one position"
+msgstr "Flyt det valgte repository en position op"
+
 msgid "Name:"
 msgstr "Navn:"
+
+msgid "No syntax kit"
+msgstr "Intet syntaks kit"
 
 msgid "OK"
 msgstr "OK"
@@ -211,17 +239,15 @@ msgid ""
 "Please enter or paste a valid directory path or path to a jar/zip file."
 msgstr "Indtast eller indsæt en gyldig mappesti eller sti til en jar/zip fil."
 
-msgid ""
-"Please enter or paste a valide file or jar URL. HTTP URLs are not supported."
-msgstr ""
-"Indtast eller indsæt en gyldig fil eller jar URL. HTTP URLer understøttes "
-"ikke."
-
 msgid "Remove"
 msgstr "Fjern"
 
 msgid "Remove a path"
 msgstr "Fjern en sti"
+
+#. putValue(Action.NAME, tr("Remove"));
+msgid "Remove a repository"
+msgstr "Fjern et repository"
 
 msgid "Remove selected plugins"
 msgstr "Fjern valgte udvidelser"
@@ -272,6 +298,9 @@ msgstr "Vælg..."
 msgid "Show scripting console"
 msgstr "Vis scripting konsol"
 
+msgid "Syntax highlighting is going to be disabled."
+msgstr "Syntaks fremhævning vil blive deaktiveret."
+
 #, java-format
 msgid "The script file ''{0}'' doesn''t exist."
 msgstr "Script filen ''{0}'' findes ikke."
@@ -279,6 +308,15 @@ msgstr "Script filen ''{0}'' findes ikke."
 #, java-format
 msgid "The script file ''{0}'' isn''t readable."
 msgstr "Script filen ''{0}'' er ikke læsbar."
+
+#, java-format
+msgid "URL ''{0}'' doesn''t refer to an existing local directory or jar file"
+msgstr ""
+"URL ''{0}'' henviser ikke til en eksisterende lokal mappe eller jar-fil"
+
+#, java-format
+msgid "URL ''{0}'' doesn''t refer to an existing local jar file"
+msgstr "URL ''{0}'' henviser ikke til en eksisterende lokal jar-fil"
 
 msgid "Up"
 msgstr "Op"

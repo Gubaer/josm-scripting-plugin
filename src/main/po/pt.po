@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: josm-plugin_scripting 30783\n"
+"Project-Id-Version: josm-plugin_scripting 30784\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-25 15:20+0000\n"
+"POT-Creation-Date: 2018-05-10 10:09+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Rui <xymarior@yandex.com>, 2018\n"
 "Language-Team: Portuguese (https://www.transifex.com/josm/teams/2544/pt/)\n"
@@ -337,6 +337,13 @@ msgstr "Versão da língua:"
 msgid "Language:"
 msgstr "Língua:"
 
+msgid "Launch file chooser"
+msgstr "Lançar o selecionador de ficheiro"
+
+#. don't translate
+msgid "Launch file selection dialog"
+msgstr "Lançar a janela de seleção de ficheiro"
+
 msgid "MIME-Types:"
 msgstr "Tipos-MIME"
 
@@ -369,6 +376,12 @@ msgstr "Abrir um ficheiro de script"
 
 msgid "Please enter a file name first."
 msgstr "Por favor introduza primeiro um nome de ficheiro."
+
+msgid ""
+"Please enter or paste a valid directory path or path to a jar/zip file."
+msgstr ""
+"Por favor introduza ou cole um caminho de diretório válido para o ficheiro "
+"jar/zip."
 
 msgid "Remove"
 msgstr "Remover"
