@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: josm-plugin_scripting 30783\n"
+"Project-Id-Version: josm-plugin_scripting 30784\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-25 15:20+0000\n"
+"POT-Creation-Date: 2018-05-10 10:09+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Aleksey Kabanov <ak099@mail.ru>, 2018\n"
 "Language-Team: Russian (https://www.transifex.com/josm/teams/2544/ru/)\n"
@@ -25,6 +25,10 @@ msgstr "''{0}'' не существует."
 #, java-format
 msgid "''{0}'' is a directory. Expecting a jar file instead."
 msgstr "''{0}'' является каталогом. Ожидался jar-файл."
+
+#, java-format
+msgid "''{0}'' is neither a ''jar'' nor a ''file'' URL"
+msgstr "''{0}'' не является URL типа ''jar'' или ''file'' "
 
 #, java-format
 msgid "''{0}'' is neither an existing directory nor an existing jar file"
@@ -76,6 +80,16 @@ msgstr ""
 "<p>Не удалось выполнить файл скрипта ''{0}''.</p><p/><p><strong>Сообщение об"
 " ошибке:</strong>{1}</p><p><strong>В:</strong>строке {2}, столбце {3}</p>"
 
+#, java-format
+msgid ""
+"<p>The script can''t be executed, because a scripting engine with name "
+"''{0}'' isn''t configured.</p><p>Refer to the online help for information "
+"about how to install/configure a scripting engine for JOSM.</p>"
+msgstr ""
+"<p>Невозможно выполнить скрипт, так как движок скриптов с именем ''{0}'' не "
+"сконфигурирован.</p><p>Обратитесь к онлайн-справке за информацией о том, как"
+" установить/сконфигурировать движок скриптов для JOSM.</p>"
+
 msgid "Add"
 msgstr "Добавить"
 
@@ -95,6 +109,14 @@ msgstr ""
 "Добавьте каталоги и/или jar-файлы, в которых движок Jython будет искать "
 "пакеты или модули Python."
 
+#, java-format
+msgid "Added {0} primitive"
+msgid_plural "Added {0} primitives"
+msgstr[0] "Добавлен {0} примитив"
+msgstr[1] "Добавлено {0} примитива"
+msgstr[2] "Добавлено {0} примитивов"
+msgstr[3] "Добавлено {0} примитива"
+
 msgid "Always on top"
 msgstr "Всегда наверху"
 
@@ -104,6 +126,9 @@ msgstr "Произошла ошибка в скрипте."
 msgid "Available engines:"
 msgstr "Доступные движки:"
 
+msgid "Available script engines"
+msgstr "Доступные движки скриптов"
+
 msgid "Cancel"
 msgstr "Отмена"
 
@@ -112,6 +137,14 @@ msgstr "Отменить и закрыть диалог"
 
 msgid "Change..."
 msgstr "Изменить..."
+
+#, java-format
+msgid "Changed {0} primitive"
+msgid_plural "Changed {0} primitives"
+msgstr[0] "Изменён {0} примитив"
+msgstr[1] "Изменены {0} примитива"
+msgstr[2] "Изменено {0} примитивов"
+msgstr[3] "Изменено {0} примитива"
 
 msgid "Clear log"
 msgstr "Очистить журнал"
@@ -140,15 +173,29 @@ msgstr "Настройки..."
 msgid "Current file:"
 msgstr "Текущий файл:"
 
+#, java-format
+msgid "Deleted {0} primitive"
+msgid_plural "Deleted {0} primitives"
+msgstr[0] "Удалён {0} примитив"
+msgstr[1] "Удалены {0} примитива"
+msgstr[2] "Удалено {0} примитивов"
+msgstr[3] "Удалено {0} примитива"
+
 msgid "Display name:"
 msgstr "Отображаемое имя:"
 
 msgid "Down"
 msgstr "Вниз"
 
+msgid "Download and install scripting engine"
+msgstr "Скачать и установить движок скриптов"
+
 #. create the edit menu
 msgid "Edit"
 msgstr "Правка"
+
+msgid "Edit a script"
+msgstr "Изменить скрипт"
 
 msgid "Embedded Rhino engine"
 msgstr "Встроенный движок Rhino"

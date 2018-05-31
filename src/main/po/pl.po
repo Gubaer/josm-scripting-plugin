@@ -1,0 +1,308 @@
+# Translations for the JOSM plugin 'scripting' (pl)
+# Copyright (C) 2018 Gubaer
+# This file is distributed under the same license as the josm-plugin_scripting package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: josm-plugin_scripting 30784\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-05-10 10:09+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Piotr Strębski <strebski@gmail.com>, 2018\n"
+"Language-Team: Polish (https://www.transifex.com/josm/teams/2544/pl/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: pl\n"
+"Plural-Forms: nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
+
+#, java-format
+msgid ""
+"''onLoad()'' for plugin ''{0}'' failed. Plugin isn''t properly initialized."
+msgstr ""
+"''onLoad()'' we wtyczce ''{0}'' wykonał błąd. Wtyczka nie została poprawnie "
+"zainicjowana."
+
+#, java-format
+msgid "''{0}'' doesn''t exist."
+msgstr "''{0}'' nie istnieje."
+
+#, java-format
+msgid "''{0}'' is a directory. Expecting a jar file instead."
+msgstr "''{0}'' jest katalogiem. Oczekiwano jednakże pliku jar."
+
+#, java-format
+msgid "''{0}'' is neither a ''jar'' nor a ''file'' URL"
+msgstr "''{0}'' nie jest ani plikiem ''jar'' ani ''plikiem'' z URL"
+
+#, java-format
+msgid "''{0}'' is neither an existing directory nor an existing jar file"
+msgstr ""
+"''{0}'' nie jest ani istniejącym katalogiem ani istniejącym plikiem jar"
+
+#, java-format
+msgid "''{0}'' isn''t a valid URL"
+msgstr "''{0}'' nie jest poprawnym URL"
+
+#, java-format
+msgid "''{0}'' isn''t an existing jar file"
+msgstr "''{0}'' nie jest istniejącym plikiem jar"
+
+#, java-format
+msgid "''{0}'' isn''t readable. Can''t load a script engine from this file."
+msgstr ""
+"''{0}'' nie jest do odczytu. Nie można wczytać silnika skryptu z tego pliku."
+
+msgid "Accept script descriptor and close dialog"
+msgstr "Zaakceptuj deskryptor skryptów i zamknij okno dialogowe"
+
+msgid "Accept the selected scripting engine"
+msgstr "Zaakceptuj wybrany silnik skryptów"
+
+msgid "Add"
+msgstr "Dodaj"
+
+msgid "Add a jar file providing a script engine"
+msgstr "Dodaj plik jar zapewniający silnik skryptów"
+
+msgid "Add a path or jar file"
+msgstr "Dodaj ścieżkę lub plik jar"
+
+msgid "Add a plugin"
+msgstr "Dodaj wtyczkę"
+
+msgid "Add an additional repository"
+msgstr "Dodaj dodatkowe repozytorium"
+
+msgid "Always on top"
+msgstr "Zawsze na wierzchu"
+
+msgid "An error occured in the script."
+msgstr "W skrypcie wystąpił błąd"
+
+msgid "Available engines:"
+msgstr "Dostępne silniki:"
+
+msgid "Available script engines"
+msgstr "Dostępne silniki skryptów"
+
+msgid "Cancel"
+msgstr "Anuluj"
+
+msgid "Cancel and close dialog"
+msgstr "Anuluj i zamknij okno dialogowe"
+
+msgid "Change..."
+msgstr "Zmień..."
+
+msgid "Choose a script engine"
+msgstr "Wybierz silnik skryptów"
+
+msgid "Clear log"
+msgstr "Wyczyść dziennik"
+
+msgid "Clear the log content"
+msgstr "Wyczyść zawartość dziennika"
+
+msgid "Close"
+msgstr "Zamknij"
+
+msgid "Close the scripting console"
+msgstr "Zamknij konsolę skryptów"
+
+#. title
+msgid "Configure script engines and scripts"
+msgstr "Konfiguracja silników skryptów i skryptów"
+
+#. title
+#. icon name
+msgid "Configure scripting preferences"
+msgstr "Konfiguracja preferencji skryptów"
+
+msgid "Configure..."
+msgstr "Konfiguruj..."
+
+msgid "Create or edit a path"
+msgstr "Utwórz lub edytuj ścieżkę"
+
+msgid "Current file:"
+msgstr "Bieżący plik:"
+
+msgid "Define a new script"
+msgstr "Określ nowy skrypt"
+
+msgid "Display name:"
+msgstr "Wyświetlana nazwa:"
+
+msgid "Down"
+msgstr "W dół"
+
+msgid "Download and install scripting engine"
+msgstr "Pobierz i zainstaluj silnik skryptów"
+
+#. create the edit menu
+msgid "Edit"
+msgstr "Edycja"
+
+msgid "Edit a script"
+msgstr "Edytuj skrypt"
+
+msgid "Embedded Rhino engine"
+msgstr "Wbudowany silnik Rhino"
+
+msgid "Empty file name"
+msgstr "Pusta nazwa pliku"
+
+msgid "Enter the name of a script file"
+msgstr "Podaj nazwę pliku skryptu"
+
+msgid "Execute the script"
+msgstr "Wykonaj skrypt"
+
+#, java-format
+msgid "Failed to load file ''{0}''."
+msgstr "Błąd wczytywania pliku \"{0}\"."
+
+#, java-format
+msgid "Failed to load icon ''{0}''"
+msgstr "Błąd wczytywania ikony ''{0}''"
+
+#, java-format
+msgid "Failed to load icon ''{0}/{1}''"
+msgstr "Błąd wczytywania ikony ''{0}/{1}''"
+
+#, java-format
+msgid "Failed to save file ''{0}''."
+msgstr "Błąd zapisu pliku ''{0}''."
+
+#. create the file menu
+msgid "File"
+msgstr "Plik"
+
+msgid "File not found"
+msgstr "Nie odnaleziono pliku"
+
+msgid "File not readable"
+msgstr "Plik nie jest do odczytu"
+
+msgid "File:"
+msgstr "Plik:"
+
+msgid "Full local path to the script file"
+msgstr "Pełna ścieżka lokalna do pliku skryptu"
+
+msgid "ID:"
+msgstr "ID:"
+
+msgid "IO error"
+msgstr "Błąd wejścia/wyjścia"
+
+msgid "IO exception"
+msgstr "Wyjątek wejścia/wyjścia"
+
+msgid "JAR file"
+msgstr "Plik JAR"
+
+msgid "JAR files"
+msgstr "Pliki JAR"
+
+msgid "JOSM currently supports the following script engines:"
+msgstr "JOSM obsługuje obecnie następujące silniki skryptów:"
+
+msgid "Jython engine"
+msgstr "Silnik Jython"
+
+msgid "Language version:"
+msgstr "Wersja języka:"
+
+msgid "Language:"
+msgstr "Język:"
+
+msgid "Name:"
+msgstr "Nazwa:"
+
+msgid "OK"
+msgstr "OK"
+
+msgid "Open"
+msgstr "Otwórz"
+
+msgid "Open a script file"
+msgstr "Otwórz plik skryptu"
+
+msgid "Remove"
+msgstr "Usuń"
+
+msgid "Remove a path"
+msgstr "Usuń ścieżkę"
+
+#. putValue(Action.NAME, tr("Remove"));
+msgid "Remove a repository"
+msgstr "Usuń repozytorium"
+
+msgid "Remove selected plugins"
+msgstr "Usuń zaznaczone wtyczki"
+
+msgid "Remove the selected jar files"
+msgstr "Usuń wybrane pliki jar"
+
+msgid "Run"
+msgstr "Uruchom"
+
+#. title
+#. icon name
+msgid "Run a script"
+msgstr "Uruchom skrypt"
+
+msgid "Run the script"
+msgstr "Uruchom skrypt"
+
+msgid "Save"
+msgstr "Zapisz"
+
+msgid "Script engines:"
+msgstr "Silniki skryptów:"
+
+msgid "Script file:"
+msgstr "Plik skryptu:"
+
+msgid "Select a jar file"
+msgstr "Wybierz plik jar"
+
+msgid "Select a script"
+msgstr "Wybierz skrypt"
+
+msgid "Select a script file"
+msgstr "Wybierz plik skryptu"
+
+#. used in the context of a combo box
+msgid "Select an engine"
+msgstr "Wybierz silnik"
+
+msgid "Select..."
+msgstr "Wybierz..."
+
+msgid "Show scripting console"
+msgstr "Wyświetl konsolę skryptów"
+
+#. title
+#. icon name
+msgid "Show/hide the scripting console"
+msgstr "Wyświetl/ukryj konsolę skryptów"
+
+msgid "The display name of the script. Used in menu entries."
+msgstr "Wyświetlana nazwa skryptu. Używana we wpisach menu."
+
+msgid "Up"
+msgstr "W górę"
+
+msgid "Version:"
+msgstr "Wersja:"
+
+msgid "cancel"
+msgstr "anuluj"
+
+msgid "unknown"
+msgstr "nieznany"

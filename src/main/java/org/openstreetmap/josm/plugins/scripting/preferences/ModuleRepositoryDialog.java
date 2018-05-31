@@ -53,7 +53,7 @@ public class ModuleRepositoryDialog extends JDialog {
         HtmlPanel info = new HtmlPanel();
         info.setText(
                 "<html>"
-                + tr("Please enter or paste a valide file or jar URL. "
+                + tr("Please enter or paste a valid file or jar URL. "
                    + "HTTP URLs are not supported."
                 )
                 + "</html>"
