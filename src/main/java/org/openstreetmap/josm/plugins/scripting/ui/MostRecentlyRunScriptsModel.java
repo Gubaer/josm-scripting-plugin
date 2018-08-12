@@ -75,7 +75,7 @@ public class MostRecentlyRunScriptsModel extends Observable
      * @param prefs the preferences
      */
     public void saveToPreferences(Preferences prefs) {
-        prefs.getList(PREF_KEY_FILE_HISTORY, scripts);
+        prefs.putList(PREF_KEY_FILE_HISTORY, scripts);
     }
 
     protected boolean canRun(String script) {
