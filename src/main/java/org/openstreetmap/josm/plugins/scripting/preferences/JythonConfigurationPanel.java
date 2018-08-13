@@ -12,10 +12,11 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.util.logging.Logger;
 
+
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
-import org.openstreetmap.josm.Main;
+import org.openstreetmap.josm.data.Preferences;
 import org.openstreetmap.josm.gui.widgets.HtmlPanel;
 import org.openstreetmap.josm.gui.widgets.VerticallyScrollablePanel;
 
@@ -105,15 +106,17 @@ public class JythonConfigurationPanel extends VerticallyScrollablePanel{
      * Persist the current preferences values
      */
     public void persistToPreferences() {
-        pnlSysPathEditor.getModel().persistToPreferences(Main.pref);
-        pnlPythonPlugins.getModel().persistToPreferences(Main.pref);
+        final Preferences pref = Preferences.main();
+        pnlSysPathEditor.getModel().persistToPreferences(pref);
+        pnlPythonPlugins.getModel().persistToPreferences(pref);
     }
 
     /**
      * Load the preferences values from the preferences file
      */
     public void loadFromPreferences() {
-        pnlSysPathEditor.getModel().loadFromPreferences(Main.pref);
-        pnlPythonPlugins.getModel().loadFromPreferences(Main.pref);
+        final Preferences pref = Preferences.main();
+        pnlSysPathEditor.getModel().loadFromPreferences(pref);
+        pnlPythonPlugins.getModel().loadFromPreferences(pref);
     }
 }

@@ -11,7 +11,7 @@ import javax.swing.DefaultListSelectionModel;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.AbstractTableModel;
 
-import org.openstreetmap.josm.Main;
+import org.openstreetmap.josm.data.Preferences;
 import org.openstreetmap.josm.plugins.scripting.model.JSR223ScriptEngineProvider;
 import org.openstreetmap.josm.plugins.scripting.model.PreferenceKeys;
 
@@ -90,7 +90,8 @@ public class ScriptEngineJarTableModel extends AbstractTableModel implements Pre
      */
     public void restoreFromPreferences() {
         jars.clear();
-        Collection<String> paths = Main.pref.getList(PREF_KEY_SCRIPTING_ENGINE_JARS);
+        Collection<String> paths = Preferences.main()
+                .getList(PREF_KEY_SCRIPTING_ENGINE_JARS);
         if (paths != null) {
             paths.stream()
                 .map(String::trim)
@@ -110,7 +111,7 @@ public class ScriptEngineJarTableModel extends AbstractTableModel implements Pre
                 .map(info -> info.getJarFilePath().trim())
                 .filter(path -> ! path.isEmpty())
                 .collect(Collectors.toList());
-        Main.pref.putList(PREF_KEY_SCRIPTING_ENGINE_JARS, paths);
+        Preferences.main().putList(PREF_KEY_SCRIPTING_ENGINE_JARS, paths);
     }
 
     public void deleteSelected(){

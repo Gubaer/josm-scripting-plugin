@@ -6,8 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 
-import org.openstreetmap.josm.Main;
 import org.openstreetmap.josm.actions.JosmAction;
+import org.openstreetmap.josm.gui.MainApplication;
 import org.openstreetmap.josm.gui.help.HelpUtil;
 import org.openstreetmap.josm.gui.preferences.PreferenceDialog;
 
@@ -31,7 +31,7 @@ public class ConfigureAction extends JosmAction {
 
     @Override
     public void actionPerformed(ActionEvent evt) {
-        dialog = new PreferenceDialog(Main.parent);
+        dialog = new PreferenceDialog(MainApplication.getMainFrame());
         dialog.addComponentListener(visibilityListener);
         dialog.setVisible(true);
     }
