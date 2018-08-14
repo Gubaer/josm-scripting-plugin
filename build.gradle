@@ -116,7 +116,6 @@ sourceSets {
     test {
         java.srcDirs = ["test/common", "test/script-api"]
         groovy.srcDirs = ["test/unit"]
-        resources.srcDirs = ["test"]
     }
 }
 processResources {
