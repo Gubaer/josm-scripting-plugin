@@ -1,5 +1,5 @@
 plugins {
-    id 'org.openstreetmap.josm' version '0.3.2'
+    id 'org.openstreetmap.josm' version '0.5.0'
     id 'java'
     id 'groovy'
     id 'eclipse'
@@ -33,8 +33,11 @@ dependencies {
     packIntoJar group: 'javax.validation', name: 'validation-api', version: '1.0.0.GA'
 
     testImplementation('org.openstreetmap.josm:josm-unittest:latest'){changing=true}
+    testImplementation group: 'org.jmockit', name: 'jmockit', version: '1.40'
     testImplementation group: 'junit', name: 'junit', version: '4.12'
     testImplementation group: 'org.codehaus.groovy', name: 'groovy-all', version: '2.4.12'
+    testImplementation group: 'com.github.tomakehurst', name: 'wiremock', version: '2.18.0'
+    testImplementation group: 'org.awaitility', name: 'awaitility', version: '3.1.2'
 }
 
 def ConfigObject releaseHistory = new ConfigSlurper().parse(file("releases.conf").text)
@@ -59,7 +62,7 @@ josm {
     }
     i18n {
         copyrightHolder = "Gubaer"
-        pathTransformer = getGithubPathTransformer('Gubaer/josm-scripting-plugin')
+        //pathTransformer = getGithubPathTransformer('Gubaer/josm-scripting-plugin')
     }
 }
 
@@ -113,7 +116,6 @@ sourceSets {
     test {
         java.srcDirs = ["test/common", "test/script-api"]
         groovy.srcDirs = ["test/unit"]
-        resources.srcDirs = ["test"]
     }
 }
 processResources {

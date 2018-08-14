@@ -23,7 +23,6 @@ import org.mozilla.javascript.Function;
 import org.mozilla.javascript.JavaScriptException;
 import org.mozilla.javascript.RhinoException;
 import org.mozilla.javascript.Scriptable;
-import org.openstreetmap.josm.Main;
 import org.openstreetmap.josm.gui.MainApplication;
 import org.openstreetmap.josm.gui.MainMenu;
 import org.openstreetmap.josm.gui.MapFrame;
@@ -40,6 +39,8 @@ import org.openstreetmap.josm.plugins.scripting.python.PythonPluginManagerFactor
 import org.openstreetmap.josm.plugins.scripting.ui.MostRecentlyRunScriptsModel;
 import org.openstreetmap.josm.plugins.scripting.ui.RunScriptAction;
 import org.openstreetmap.josm.plugins.scripting.ui.ToggleConsoleAction;
+import org.openstreetmap.josm.spi.preferences.Config;
+import org.openstreetmap.josm.data.Preferences;
 
 public class ScriptingPlugin extends Plugin implements PreferenceKeys{
     static private final Logger logger =
@@ -114,10 +115,10 @@ public class ScriptingPlugin extends Plugin implements PreferenceKeys{
         if (pythonPluginManager == null) return;
 
         pythonPluginManager.updatePluginSpecificSysPaths(
-            Main.pref.getList(PREF_KEY_JYTHON_SYS_PATHS)
+            Config.getPref().getList(PREF_KEY_JYTHON_SYS_PATHS)
         );
 
-        Main.pref.getList(PREF_KEY_JYTHON_PLUGINS)
+        Config.getPref().getList(PREF_KEY_JYTHON_PLUGINS)
             .stream()
             .filter(plugin -> ! plugin.trim().isEmpty())
             .forEach(plugin -> pythonPluginManager.loadPlugin(plugin));
@@ -168,7 +169,8 @@ public class ScriptingPlugin extends Plugin implements PreferenceKeys{
                 MainApplication.getMenu().getDefaultMenuPos(), ht("/Plugin/Scripting")
         );
         scriptingMenu.setMnemonic('S');
-        MostRecentlyRunScriptsModel.getInstance().loadFromPreferences(Main.pref);
+        MostRecentlyRunScriptsModel.getInstance()
+                .loadFromPreferences(Preferences.main());
         populateStandardentries(scriptingMenu);
         populateMruMenuEntries(scriptingMenu);
         MostRecentlyRunScriptsModel.getInstance().addObserver(

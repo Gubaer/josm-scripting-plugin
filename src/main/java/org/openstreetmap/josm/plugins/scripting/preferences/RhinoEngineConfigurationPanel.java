@@ -35,7 +35,6 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.validation.constraints.NotNull;
 
-import org.openstreetmap.josm.Main;
 import org.openstreetmap.josm.data.Preferences;
 import org.openstreetmap.josm.gui.widgets.HtmlPanel;
 import org.openstreetmap.josm.gui.widgets.VerticallyScrollablePanel;
@@ -147,9 +146,10 @@ public class RhinoEngineConfigurationPanel extends VerticallyScrollablePanel{
 
         public void loadFromPreferences() {
             // do not translate
-            Assert.assertState(Main.pref != null,
-                    "Main.pref is not initialized. Can''t load preferences.");
-            loadFromPreferences(Main.pref);
+            Assert.assertState(Preferences.main() != null,
+                    "Preferences.main() is not initialized. "
+                    + "Can''t load preferences.");
+            loadFromPreferences(Preferences.main());
         }
 
         public void loadFromPreferences(@NotNull Preferences prefs) {
@@ -179,9 +179,11 @@ public class RhinoEngineConfigurationPanel extends VerticallyScrollablePanel{
 
         public void saveToPreferences() {
             // do not translate
-            Assert.assertState(Main.pref != null,
-                    "Main.pref is not initialized. Can''t save preferences.");
-            saveToPreferences(Main.pref);
+            Preferences pref = Preferences.main();
+            Assert.assertState(pref != null,
+                    "Preferences.main() is not initialized. "
+                  + "Can''t save preferences.");
+            saveToPreferences(pref);
         }
 
         public void remove(int i) {

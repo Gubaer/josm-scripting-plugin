@@ -16,7 +16,6 @@ import java.util.logging.Logger;
 import javax.script.ScriptEngineFactory;
 import javax.validation.constraints.NotNull;
 
-import org.openstreetmap.josm.Main;
 import org.openstreetmap.josm.data.Preferences;
 
 /**
@@ -105,13 +104,13 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
 
     /**
      * <p>Replies a script engine descriptor derived from a preference value
-     * <code>engineType/engineId</code> in {@link Main#prefs}.<p>
+     * <code>engineType/engineId</code> in {@link Preferences#main()}.<p>
      *
      * @return the scripting engine descriptor
      * @see #buildFromPreferences(Preferences)
      */
     static public ScriptEngineDescriptor buildFromPreferences(){
-        return buildFromPreferences(Main.pref);
+        return buildFromPreferences(Preferences.main());
     }
 
     /**

@@ -3,11 +3,13 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.util.logging.Level;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.openstreetmap.josm.plugins.PluginException;
 import org.openstreetmap.josm.plugins.PluginInformation;
 import org.openstreetmap.josm.plugins.scripting.ScriptingPlugin;
+import org.openstreetmap.josm.plugins.scripting.fixtures.JOSMFixture;
 import org.openstreetmap.josm.plugins.scripting.js.JOSMModuleScriptProvider;
 import org.openstreetmap.josm.plugins.scripting.js.RhinoEngine;
 import org.openstreetmap.josm.plugins.scripting.ui.console.ScriptingConsole;
@@ -16,10 +18,17 @@ import org.openstreetmap.josm.tools.Logging;
 
 public class ScriptApiTest {
 
-    @Rule
-    public JOSMTestRules rules = new JOSMTestRules().preferences().platform().projection().main();
+    //@Rule
+    //public JOSMTestRules rules = new JOSMTestRules().preferences().platform().projection().main();
 
     private RhinoEngine engine;
+
+    static JOSMFixture fixture;
+
+    @BeforeClass
+    public static void init() throws Exception {
+        fixture = new JOSMFixture(true);
+    }
 
     @Before
     public void setup() throws PluginException, MalformedURLException {

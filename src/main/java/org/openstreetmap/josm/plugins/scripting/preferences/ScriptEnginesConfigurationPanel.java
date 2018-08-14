@@ -50,7 +50,7 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
-import org.openstreetmap.josm.Main;
+import org.openstreetmap.josm.data.Preferences;
 import org.openstreetmap.josm.gui.MainApplication;
 import org.openstreetmap.josm.gui.io.DownloadFileTask;
 import org.openstreetmap.josm.gui.util.CellEditorSupport;
@@ -509,7 +509,7 @@ public class ScriptEnginesConfigurationPanel extends VerticallyScrollablePanel{
             // Either fix DownloadFileTask or replace it with a more robust
             // implementation for this plugin.
             final DownloadFileTask downloadFileTask = new DownloadFileTask(
-                    Main.parent,
+                    MainApplication.getMainFrame(),
                     desc.getDownloadUrl(),
                     desc.getLocalJarFile(),
                     true  /* mkdir */,
@@ -523,12 +523,12 @@ public class ScriptEnginesConfigurationPanel extends VerticallyScrollablePanel{
                         ex.printStackTrace();
                         return;
                     }
-                    ArrayList<String> jars = new ArrayList<>(Main.pref
+                    ArrayList<String> jars = new ArrayList<>(Preferences.main()
                             .getList(PREF_KEY_SCRIPTING_ENGINE_JARS));
                     if (!jars.contains(desc.getLocalJarFile().toString())){
                         jars.add(desc.getLocalJarFile().toString());
-                        Main.pref.putList(PREF_KEY_SCRIPTING_ENGINE_JARS,
-                                jars);
+                        Preferences.main().putList(
+                                PREF_KEY_SCRIPTING_ENGINE_JARS, jars);
                     }
                     //refresh on the UI thread
                     SwingUtilities.invokeLater(() ->

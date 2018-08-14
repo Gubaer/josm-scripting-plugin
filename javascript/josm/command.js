@@ -12,6 +12,7 @@ var layers = require("josm/layers");
 
 var OsmPrimitive = org.openstreetmap.josm.data.osm.OsmPrimitive;
 var OsmDataLayer = org.openstreetmap.josm.gui.layer.OsmDataLayer;
+var UndoRedoHandler = org.openstreetmap.josm.data.UndoRedoHandler;
 
 function checkAndFlatten(primitives) {
     var HashSet = java.util.HashSet;
@@ -487,11 +488,11 @@ exports.CommandHistory.undo = function(depth) {
             depth);
         util.assert(depth > 0, "depth: expected number > 0, got {0}", depth);
     }
-    if (!Main.main || !Main.main.undoRedo) return;
+    var undoRedoHandler = UndoRedoHandler.getInstance();
     if (depth){
-        Main.main.undoRedo.undo(depth);
+        undoRedoHandler.undo(depth);
     } else {
-        Main.main.undoRedo.undo();
+        undoRedoHandler.undo();
     }
 };
 
@@ -508,18 +509,17 @@ exports.CommandHistory.undo = function(depth) {
  *         Default if missing: 1
  */
 exports.CommandHistory.redo = function(depth) {
-    var Main = org.openstreetmap.josm.Main;
 
     if (util.isDef(depth)) {
         util.assert(util.isNumber(depth), "depth: expected a number, got {0}",
             depth);
         util.assert(depth > 0, "depth: expected number > 0, got {0}", depth);
     }
-    if (!Main.main || !Main.main.undoRedo) return;
+    var undoRedoHandler = UndoRedoHandler.getInstance();
     if (depth){
-        Main.main.undoRedo.redo(depth);
+        undoRedoHandler.redo(depth);
     } else {
-        Main.main.undoRedo.redo();
+        undoRedoHandler.redo();
     }
 };
 
@@ -537,17 +537,14 @@ exports.CommandHistory.redo = function(depth) {
  * if missing: <strong>all</strong> commands are removed.
  */
 exports.CommandHistory.clear = function(layer) {
-    var Main = org.openstreetmap.josm.Main;
     var Layer = org.openstreetmap.josm.gui.layer.Layer;
-
+    var undoRedoHandler = UndoRedoHandler.getInstance();
     function clearAll() {
-        if (!Main.main || !Main.main.undoRedo) return;
-        Main.main.undoRedo.clean();
+        undoRedoHandler.clean();
     }
 
     function clearForLayer(layer) {
-        if (!Main.main || !Main.main.undoRedo) return;
-        Main.main.undoRedo.clean(layer);
+        undoRedoHandler.clean(layer);
     }
 
     switch(arguments.length) {

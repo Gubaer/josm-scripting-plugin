@@ -5,8 +5,8 @@ import static org.openstreetmap.josm.tools.I18n.tr;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
-import org.openstreetmap.josm.Main;
 import org.openstreetmap.josm.actions.JosmAction;
+import org.openstreetmap.josm.gui.MainApplication;
 import org.openstreetmap.josm.gui.help.HelpUtil;
 import org.openstreetmap.josm.tools.Shortcut;
 
@@ -29,7 +29,8 @@ public class RunScriptAction extends JosmAction {
 
     @Override
     public void actionPerformed(ActionEvent evt) {
-        RunScriptDialog dialog = new RunScriptDialog(Main.parent);
+        RunScriptDialog dialog
+                = new RunScriptDialog(MainApplication.getMainFrame());
         dialog.setVisible(true);
     }
 }

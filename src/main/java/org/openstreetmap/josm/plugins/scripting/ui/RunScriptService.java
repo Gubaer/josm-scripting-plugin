@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.validation.constraints.NotNull;
 
-import org.openstreetmap.josm.Main;
+import org.openstreetmap.josm.data.Preferences;
 import org.openstreetmap.josm.gui.HelpAwareOptionPane;
 import org.openstreetmap.josm.gui.help.HelpUtil;
 import org.openstreetmap.josm.plugins.scripting.model.JSR223ScriptEngineProvider;
@@ -166,7 +166,7 @@ public class RunScriptService {
         MostRecentlyRunScriptsModel model = MostRecentlyRunScriptsModel
                 .getInstance();
         model.remember(f.getAbsolutePath());
-        model.saveToPreferences(Main.pref);
+        model.saveToPreferences(Preferences.main());
 
         switch(engine.getEngineType()){
         case EMBEDDED:

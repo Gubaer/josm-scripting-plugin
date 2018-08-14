@@ -29,7 +29,6 @@ import org.mozilla.javascript.Script;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.commonjs.module.ModuleScript;
 import org.mozilla.javascript.commonjs.module.ModuleScriptProvider;
-import org.openstreetmap.josm.Main;
 import org.openstreetmap.josm.data.Preferences;
 import org.openstreetmap.josm.spi.preferences.PreferenceChangeEvent;
 import org.openstreetmap.josm.spi.preferences.PreferenceChangedListener;
@@ -108,13 +107,15 @@ public class JOSMModuleScriptProvider implements ModuleScriptProvider,
     }
 
     static public List<URL> loadFromPreferences(){
-        if (Main.pref == null) return Collections.emptyList();
-        return loadFromPreferences(Main.pref);
+        if (Preferences.main() == null) return Collections.emptyList();
+        return loadFromPreferences(Preferences.main());
     }
 
     public JOSMModuleScriptProvider() {
         preferenceRepos.addAll(loadFromPreferences());
-        if (Main.pref != null) Main.pref.addPreferenceChangeListener(this);
+        if (Preferences.main() != null) {
+            Preferences.main().addPreferenceChangeListener(this);
+        }
         rebuildAllRepos();
     }
 

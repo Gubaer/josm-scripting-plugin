@@ -24,7 +24,7 @@ import javax.script.ScriptEngineManager;
 import javax.swing.AbstractListModel;
 import javax.validation.constraints.NotNull;
 
-import org.openstreetmap.josm.Main;
+import org.openstreetmap.josm.data.Preferences;
 import org.openstreetmap.josm.plugins.scripting.ScriptingPlugin;
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor.ScriptEngineType;
 import org.openstreetmap.josm.plugins.scripting.preferences.ScriptEngineJarInfo;
@@ -112,13 +112,13 @@ public class JSR223ScriptEngineProvider
 
     protected void restoreScriptEngineUrlsFromPreferences() {
         scriptEngineJars.clear();
-        if (Main.pref != null) {
-            Main.pref.getList(PREF_KEY_SCRIPTING_ENGINE_JARS).stream()
+        if (Preferences.main() != null) {
+            Preferences.main().getList(PREF_KEY_SCRIPTING_ENGINE_JARS).stream()
                 .map(String::trim)
                 .filter(s -> !s.isEmpty())
                 .map(ScriptEngineJarInfo::new)
                 .filter(info -> info.getStatusMessage()
-                        .equals(ScriptEngineJarInfo.OK_MESSAGE))
+                    .equals(ScriptEngineJarInfo.OK_MESSAGE))
                 .forEach(info ->
                     scriptEngineJars.add(new File(info.getJarFilePath())));
         }

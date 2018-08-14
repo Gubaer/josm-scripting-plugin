@@ -34,7 +34,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import org.openstreetmap.josm.Main;
+import org.openstreetmap.josm.gui.MainApplication;
 import org.openstreetmap.josm.gui.help.ContextSensitiveHelpAction;
 import org.openstreetmap.josm.gui.help.HelpUtil;
 import org.openstreetmap.josm.gui.widgets.HtmlPanel;
@@ -74,7 +74,7 @@ public class ScriptEngineSelectionDialog extends JDialog {
      *  didn't select an engine
      */
     static public ScriptEngineDescriptor select(){
-        return select(Main.parent, null);
+        return select(MainApplication.getMainFrame(), null);
     }
 
     /**
@@ -87,7 +87,7 @@ public class ScriptEngineSelectionDialog extends JDialog {
      */
     static public ScriptEngineDescriptor select(Component parent,
             ScriptEngineDescriptor current){
-        if (parent == null) parent = Main.parent;
+        if (parent == null) parent = MainApplication.getMainFrame();
         ScriptEngineSelectionDialog dialog =
                 new ScriptEngineSelectionDialog(parent);
         dialog.setSelectedScriptEngine(current);

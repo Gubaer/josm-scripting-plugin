@@ -28,7 +28,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 
-import org.openstreetmap.josm.Main;
+import org.openstreetmap.josm.data.Preferences;
 import org.openstreetmap.josm.gui.help.ContextSensitiveHelpAction;
 import org.openstreetmap.josm.gui.help.HelpUtil;
 import org.openstreetmap.josm.gui.widgets.HtmlPanel;
@@ -148,7 +148,7 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys{
     @Override
     public void setVisible(boolean visible) {
         if (visible) {
-            String lastFile = Main.pref.get(PREF_KEY_LAST_FILE);
+            String lastFile = Preferences.main().get(PREF_KEY_LAST_FILE);
             if (lastFile != null && !lastFile.trim().isEmpty()){
                 cbScriptFile.setText(lastFile.trim());
             }
@@ -160,7 +160,7 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys{
              * in the preferences
              */
             String currentFile = cbScriptFile.getText();
-            Main.pref.put(PREF_KEY_LAST_FILE, currentFile.trim());
+            Preferences.main().put(PREF_KEY_LAST_FILE, currentFile.trim());
         }
         super.setVisible(visible);
     }

@@ -17,7 +17,7 @@ class ChangeMultiCommandTest {
 
     @BeforeClass
     public static void init() {
-       fixture = new JOSMFixture()
+       fixture = new JOSMFixture(false)
     }
 
     def shouldFail = new GroovyTestCase().&shouldFail;
