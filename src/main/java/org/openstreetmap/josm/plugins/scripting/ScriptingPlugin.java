@@ -1,28 +1,10 @@
 package org.openstreetmap.josm.plugins.scripting;
 
-import static org.openstreetmap.josm.gui.help.HelpUtil.ht;
-import static org.openstreetmap.josm.plugins.scripting.python.PythonPluginManagerFactory.isJythonPresent;
-import static org.openstreetmap.josm.tools.I18n.tr;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.util.List;
-import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import javax.swing.Action;
-import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JMenu;
-import javax.swing.JSeparator;
-
 import org.mozilla.javascript.Function;
 import org.mozilla.javascript.JavaScriptException;
 import org.mozilla.javascript.RhinoException;
 import org.mozilla.javascript.Scriptable;
+import org.openstreetmap.josm.data.Preferences;
 import org.openstreetmap.josm.gui.MainApplication;
 import org.openstreetmap.josm.gui.MainMenu;
 import org.openstreetmap.josm.gui.MapFrame;
@@ -40,7 +22,22 @@ import org.openstreetmap.josm.plugins.scripting.ui.MostRecentlyRunScriptsModel;
 import org.openstreetmap.josm.plugins.scripting.ui.RunScriptAction;
 import org.openstreetmap.josm.plugins.scripting.ui.ToggleConsoleAction;
 import org.openstreetmap.josm.spi.preferences.Config;
-import org.openstreetmap.josm.data.Preferences;
+
+import javax.swing.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.List;
+import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import static org.openstreetmap.josm.gui.help.HelpUtil.ht;
+import static org.openstreetmap.josm.plugins.scripting.python
+        .PythonPluginManagerFactory.isJythonPresent;
+import static org.openstreetmap.josm.tools.I18n.tr;
 
 public class ScriptingPlugin extends Plugin implements PreferenceKeys{
     static private final Logger logger =
@@ -53,7 +50,8 @@ public class ScriptingPlugin extends Plugin implements PreferenceKeys{
     private IPythonPluginManager pythonPluginManager;
 
     protected void initLocalInstallation() {
-        final File f = new File(getPluginDirs().getUserDataDirectory(false), "modules");
+        final File f = new File(getPluginDirs()
+                .getUserDataDirectory(false), "modules");
         if (!f.exists()) {
             if (!f.mkdirs()) {
                 logger.warning(String.format("Failed to create directory '%s'",
@@ -166,7 +164,8 @@ public class ScriptingPlugin extends Plugin implements PreferenceKeys{
         final MainMenu mainMenu = MainApplication.getMenu();
         final JMenu scriptingMenu = mainMenu.addMenu(
                 "Scripting", tr("Scripting"), -1 /* no mnemonic key */ ,
-                MainApplication.getMenu().getDefaultMenuPos(), ht("/Plugin/Scripting")
+                MainApplication.getMenu().getDefaultMenuPos(),
+                ht("/Plugin/Scripting")
         );
         scriptingMenu.setMnemonic('S');
         MostRecentlyRunScriptsModel.getInstance()
@@ -218,7 +217,8 @@ public class ScriptingPlugin extends Plugin implements PreferenceKeys{
      * <tt>/resources/mime.types.default</tt> in the plugin directory.
      */
     protected void installResourceFiles() {
-        final File mimeTypesTarget = new File(getPluginDirs().getUserDataDirectory(false), "mime.types");
+        final File mimeTypesTarget = new File(getPluginDirs()
+                .getUserDataDirectory(false), "mime.types");
         if (mimeTypesTarget.exists()) return; // don't have to install it
         final String res = "/resources/mime.types.default";
         try(InputStream is = getClass().getResourceAsStream(res)){
