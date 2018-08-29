@@ -264,4 +264,32 @@ Object.defineProperty(exports, "menu", {
     value: menu
 });
 
+/**
+* <p>Loads a class using the class loader of a 3d-party plugin</p>
+*
+* @memberOf josm
+* @name loadClassFrom3dPartyPlugin
+* @instance
+* @method
+* @summary Loads a class using the class loader of a 3d-party plugin
+*
+* @example
+* var console = require("josm/scriptingconsole");
+* var cls = josm.loadClassFrom3dPartyPlugin(
+*    "contourmerge",
+*    "org.openstreetmap.josm.plugins.contourmerge.ContourMergePlugin"
+* );
+* // isEnabled() is a static method of the class ContourMergePlugin
+* console.println(cls.isEnabled());
+*/
+exports.loadClassFrom3dPartyPlugin = function(pluginName, className) {
+    var ScriptingPlugin =
+        org.openstreetmap.josm.plugins.scripting.ScriptingPlugin;
+    var cls = ScriptingPlugin.loadClassFrom3dPartyPlugin(
+        pluginName,
+        className
+    );
+    return cls;
+}
+
 }());

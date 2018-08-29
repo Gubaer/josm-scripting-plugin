@@ -43,8 +43,14 @@ import static java.text.MessageFormat.format;
 public class JOSMFixture {
     static private final Logger logger = Logger.getLogger(JOSMFixture.class.getName());
 
+    private String josmHome;
+
+    public String getJosmHome() {
+        return josmHome;
+    }
+
     public JOSMFixture(boolean createGui) throws Exception {
-        String josmHome = System.getProperty("josm.home");
+        josmHome = System.getProperty("josm.home");
 
         if (josmHome == null) {
             josmHome = "test/josm.home";
@@ -94,6 +100,7 @@ public class JOSMFixture {
 
         // setup projection grid files
         MainApplication.setupNadGridSources();
+
 
         // make sure we don't upload to or test against production
         url = OsmApi.getOsmApi().getBaseUrl().toLowerCase(Locale.ENGLISH).trim();
