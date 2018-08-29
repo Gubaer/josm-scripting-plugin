@@ -1,15 +1,14 @@
 package org.openstreetmap.josm.plugins.scripting;
 
-import org.mozilla.javascript.Function;
-import org.mozilla.javascript.JavaScriptException;
-import org.mozilla.javascript.RhinoException;
-import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.*;
 import org.openstreetmap.josm.data.Preferences;
 import org.openstreetmap.josm.gui.MainApplication;
 import org.openstreetmap.josm.gui.MainMenu;
 import org.openstreetmap.josm.gui.MapFrame;
 import org.openstreetmap.josm.gui.preferences.PreferenceSetting;
 import org.openstreetmap.josm.plugins.Plugin;
+import org.openstreetmap.josm.plugins.PluginClassLoader;
+import org.openstreetmap.josm.plugins.PluginHandler;
 import org.openstreetmap.josm.plugins.PluginInformation;
 import org.openstreetmap.josm.plugins.scripting.js.JOSMModuleScriptProvider;
 import org.openstreetmap.josm.plugins.scripting.js.RhinoEngine;
@@ -24,6 +23,7 @@ import org.openstreetmap.josm.plugins.scripting.ui.ToggleConsoleAction;
 import org.openstreetmap.josm.spi.preferences.Config;
 
 import javax.swing.*;
+import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -250,5 +250,37 @@ public class ScriptingPlugin extends Plugin implements PreferenceKeys{
             ));
             e.printStackTrace();
         }
+    }
+
+    static public class PluginNotFoundException extends Exception {
+        public PluginNotFoundException(String message) {
+            super(message);
+        }
+    }
+
+    /**
+     * Loads a class from a 3d-party plugin present in JOSM
+     *
+     * @param pluginName the short plugin name, i.e. <pre>contourmerge</pre>
+     * @param className the fully qualified class name
+     * @return the loaded class
+     * @throws PluginNotFoundException thrown, if the plugin isn't available,
+     *      i.e. because it isn't configured or loaded in JOSM
+     * @throws ClassNotFoundException thrown, if the class could not be
+     *      loaded using the class loader of the 3d-party plugin
+     */
+    static public NativeJavaClass loadClassFrom3dPartyPlugin(
+            @NotNull final String pluginName,
+            @NotNull final String className)
+        throws PluginNotFoundException, ClassNotFoundException{
+        final PluginClassLoader cl =
+                PluginHandler.getPluginClassLoader(pluginName);
+        if (cl == null) {
+            throw new PluginNotFoundException(
+                tr("plugin class loader for plugin ''{0}'' not found",
+                        pluginName));
+        }
+        return new NativeJavaClass(RhinoEngine.getInstance().getScope(),
+                cl.loadClass(className));
     }
 }
