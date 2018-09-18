@@ -12,7 +12,6 @@ import java.util.Locale;
 import java.util.TimeZone;
 import java.util.logging.Logger;
 
-import org.openstreetmap.josm.Main;
 import org.openstreetmap.josm.actions.DeleteAction;
 import org.openstreetmap.josm.command.DeleteCommand;
 import org.openstreetmap.josm.data.Preferences;
@@ -131,7 +130,7 @@ public class JOSMFixture {
         initContentPane();
         initMainPanel(false);
         initToolbar();
-        if (Main.main == null) {
+        if (MainApplication.getMenu() == null) {
             Lifecycle.initialize(new MainInitialization(new MainApplication()));
         }
         // Add a test layer to the layer manager to get the MapFrame
