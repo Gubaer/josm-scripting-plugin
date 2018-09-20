@@ -323,7 +323,7 @@ function afterFromOptions(options) {
  * @param {objects} options  optional named parameters
  */
 mixin.addToToolbar = function(options) {
-    var Main = org.openstreetmap.josm.Main;
+    var Preferences = org.openstreetmap.josm.data.Preferences;
     var MainApplication = org.openstreetmap.josm.gui.MainApplication;
     var ArrayList = java.util.ArrayList;
     options = options || {};
@@ -336,7 +336,7 @@ mixin.addToToolbar = function(options) {
     MainApplication.getToolbar().register(this);
     var toolbarId = this.getValue("toolbarId");
     var toolbarPrefs = new ArrayList(
-        Main.pref.getList("toolbar",new ArrayList()));
+        Preferences.main().getList("toolbar",new ArrayList()));
 
     // The following is clumsy. We have to fiddle with preference settings
     // in order to display a toolbar entry at a specific position

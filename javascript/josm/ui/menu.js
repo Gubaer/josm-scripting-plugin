@@ -35,9 +35,9 @@ exports.MenuBar = {};
 Object.defineProperty(exports.MenuBar, "length", {
     enumerable: true,
     get: function() {
-        var Main = org.openstreetmap.josm.Main;
-        if (!Main.main || !Main.main.menu) return 0;
-        return Main.main.menu.getMenuCount();
+        var MainApplication = org.openstreetmap.josm.gui.MainApplication;
+        if (!MainApplication.getMenu()) return 0;
+        return MainApplication.getMenu().getMenuCount();
     }
 });
 
@@ -72,23 +72,24 @@ Object.defineProperty(exports.MenuBar, "length", {
  * @param {number|string} key  the key denoting the menu.
  */
 exports.MenuBar.get = function(key) {
-    var Main = org.openstreetmap.josm.Main;
+    var MainApplication = org.openstreetmap.josm.gui.MainApplication;
     util.assert(util.isSomething(key), "key: must not be null or undefined");
+    var mainMenu = MainApplication.getMenu();
     if (util.isNumber(key)) {
         util.assert(key >= 0 && key < exports.MenuBar.length,
             "key: index out of range, got {0}", key);
-        return Main.main.menu.getMenu(key);
+        return mainMenu.getMenu(key);
     } else if (util.isString(key)) {
         key = util.trim(key).toLowerCase();
         switch(key) {
-        case "file": return Main.main.menu.fileMenu;
-        case "edit": return Main.main.menu.editMenu;
-        case "view": return Main.main.menu.viewMenu;
-        case "tools": return Main.main.menu.toolsMenu;
-        case "presets": return Main.main.menu.presetsMenu;
-        case "imagery": return Main.main.menu.imageryMenu;
-        case "window": return Main.main.menu.windowMenu;
-        case "help": return Main.main.menu.helpMenu;
+        case "file": return mainMenu.fileMenu;
+        case "edit": return mainMenu.editMenu;
+        case "view": return mainMenu.viewMenu;
+        case "tools": return mainMenu.toolsMenu;
+        case "presets": return mainMenu.presetsMenu;
+        case "imagery": return mainMenu.imageryMenu;
+        case "window": return mainMenu.windowMenu;
+        case "help": return mainMenu.helpMenu;
         default:
             util.assert(false,
                 "Unsupported key to access a menu, got {0}", key);

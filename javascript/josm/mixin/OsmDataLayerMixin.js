@@ -42,7 +42,7 @@ var mixin = {};
  * @memberOf OsmDataLayerMixin
  */
 mixin.apply = function() {
-    var Main = org.openstreetmap.josm.Main;
+    var UndoRedoHandler = org.openstreetmap.josm.data.UndoRedoHandler;
     var cmds = [];
     var layer = this;
     util.each(arguments, function(arg) {
@@ -58,7 +58,7 @@ mixin.apply = function() {
     try {
         this.data.beginUpdate();
         util.each(cmds, function(cmd) {
-            Main.main.undoRedo.add(cmd);
+            UndoRedoHandler.getInstance().add(cmd);
         });
     } finally {
         this.data.endUpdate();

@@ -1,10 +1,10 @@
-package org.openstreetmap.josm.plugins.scripting.model;
+package org.openstreetmap.josm.plugins.scripting.model
 
-import static org.junit.Assert.*;
-import org.junit.*;
-import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor.ScriptEngineType;
+import static org.junit.Assert.*
+import org.junit.*
+import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor.ScriptEngineType
 import org.openstreetmap.josm.data.Preferences
-import org.openstreetmap.josm.Main
+import org.openstreetmap.josm.spi.preferences.Config
 
 class ScriptEngineDescriptorTest {
 
@@ -24,7 +24,7 @@ class ScriptEngineDescriptorTest {
             sd = new ScriptEngineDescriptor(null);
         }
 
-        sd = new ScriptEngineDescriptor(ScriptEngineType.PLUGGED, "rhino");
+        sd = new ScriptEngineDescriptor(ScriptEngineType.PLUGGED, "rhino")
         assert sd.getEngineId() == "rhino"
         assert sd.getEngineType() == ScriptEngineType.PLUGGED
         assert sd.getLanguageName() != null
@@ -61,8 +61,8 @@ class ScriptEngineDescriptorTest {
 
     @Test
     public void buildFromPreferencs_EmbeddedScriptingEngine() {
-        def pref = new Preferences(Main.pref);
-        pref.put(PreferenceKeys.PREF_KEY_SCRIPTING_ENGINE, "embedded/rhino");
+        def pref = new Preferences(Config.getPref());
+        pref.put(PreferenceKeys.PREF_KEY_SCRIPTING_ENGINE, "embedded/rhino")
         def sd = ScriptEngineDescriptor.buildFromPreferences(pref);
         assert sd != null
         assert sd == ScriptEngineDescriptor.DEFAULT_SCRIPT_ENGINE
@@ -70,8 +70,8 @@ class ScriptEngineDescriptorTest {
 
     @Test
     public void buildFromPreferencs_UnknownEmbeddedScriptingEngine() {
-        def pref = new Preferences(Main.pref);
-        pref.put(PreferenceKeys.PREF_KEY_SCRIPTING_ENGINE, "embedded/noSuchEmbeddedEngine");
+        def pref = new Preferences(Config.getPref());
+        pref.put(PreferenceKeys.PREF_KEY_SCRIPTING_ENGINE, "embedded/noSuchEmbeddedEngine")
         def sd = ScriptEngineDescriptor.buildFromPreferences(pref);
         assert sd != null
         assert sd == ScriptEngineDescriptor.DEFAULT_SCRIPT_ENGINE
@@ -79,8 +79,8 @@ class ScriptEngineDescriptorTest {
 
     @Test
     public void buildFromPreferencs_PluggedScriptingEngine() {
-        def pref = new Preferences(Main.pref);
-        pref.put(PreferenceKeys.PREF_KEY_SCRIPTING_ENGINE, "plugged/javascript");
+        def pref = new Preferences(Config.getPref());
+        pref.put(PreferenceKeys.PREF_KEY_SCRIPTING_ENGINE, "plugged/javascript")
         def sd = ScriptEngineDescriptor.buildFromPreferences(pref);
         assert sd != null
         assert sd != ScriptEngineDescriptor.DEFAULT_SCRIPT_ENGINE
@@ -90,8 +90,8 @@ class ScriptEngineDescriptorTest {
 
     @Test
     public void buildFromPreferencs_UnknownPluggedScriptingEngine() {
-        def pref = new Preferences(Main.pref);
-        pref.put(PreferenceKeys.PREF_KEY_SCRIPTING_ENGINE, "plugged/noSuchPluggedEngine");
+        def pref = new Preferences(Config.getPref());
+        pref.put(PreferenceKeys.PREF_KEY_SCRIPTING_ENGINE, "plugged/noSuchPluggedEngine")
         def sd = ScriptEngineDescriptor.buildFromPreferences(pref);
         assert sd != null
         assert sd == ScriptEngineDescriptor.DEFAULT_SCRIPT_ENGINE
