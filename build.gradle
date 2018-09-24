@@ -27,10 +27,12 @@ repositories {
 dependencies {
     implementation group: 'org.codehaus.groovy', name: 'groovy-all', version: '2.4.12'
     implementation group: "org.python", name: "jython", version: "2.7.0"
+    implementation group: 'javax.activation', name: 'activation', version: '1.1.1'
 
     packIntoJar group: "org.mozilla", name: "rhino", version: "1.7.7.1"
     packIntoJar group: "de.sciss", name: "jsyntaxpane", version: "1.0.0"
     packIntoJar group: 'javax.validation', name: 'validation-api', version: '1.0.0.GA'
+    packIntoJar group: 'javax.activation', name: 'activation', version: '1.1.1'
 
     testImplementation('org.openstreetmap.josm:josm-unittest:latest'){changing=true}
     testImplementation group: 'org.jmockit', name: 'jmockit', version: '1.40'
@@ -68,6 +70,7 @@ josm {
 
 jar {
     metaInf {
+        //TODO: fix - there is no mime.types file
         from("resources") {
             include "mime.types"
         }
