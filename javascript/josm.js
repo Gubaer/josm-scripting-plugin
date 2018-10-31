@@ -14,7 +14,7 @@ var ScriptingConsole =
     org.openstreetmap.josm.plugins.scripting.ui.console.ScriptingConsole;
 var JOptionPane = javax.swing.JOptionPane;
 var HelpAwareOptionPane = org.openstreetmap.josm.gui.HelpAwareOptionPane;
-var Main = org.openstreetmap.josm.Main;
+var MainApplication = org.openstreetmap.josm.gui.MainApplication;
 var util = require("josm/util");
 
 /**
@@ -157,19 +157,21 @@ exports.alert = function() {
     switch(arguments.length){
     case 0: return;
     case 1:
-        HelpAwareOptionPane.showOptionDialog(Main.parent, arguments[0],"",
+        HelpAwareOptionPane.showOptionDialog(MainApplication.getMainFrame(),
+            arguments[0],"",
             JOptionPane.INFORMATION_MESSAGE,null);
         return;
     default:
         if (typeof arguments[1] !== "object") {
-            HelpAwareOptionPane.showOptionDialog(Main.parent, arguments[0],"",
+            HelpAwareOptionPane.showOptionDialog(MainApplication.getMainFrame(),
+                arguments[0],"",
                 JOptionPane.INFORMATION_MESSAGE,null);
             return;
         }
         var title = titleFromOptions(arguments[1]);
         var messageType = messageTypeFromOptions(arguments[1]);
-        HelpAwareOptionPane.showOptionDialog(Main.parent, arguments[0],title,
-            messageType,null);
+        HelpAwareOptionPane.showOptionDialog(MainApplication.getMainFrame(),
+            arguments[0],title,messageType,null);
     }
 };
 

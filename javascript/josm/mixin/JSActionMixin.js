@@ -9,6 +9,8 @@
  */
 var util = require("josm/util");
 
+var Preferences = org.openstreetmap.josm.data.Preferences;
+
 /**
  * <p>This mixin is auto-loaded by the scripting plugin and mixed into the
  * native java class
@@ -354,7 +356,7 @@ mixin.addToToolbar = function(options) {
             toolbarPrefs.remove(toolbarId);
             toolbarPrefs.add(Math.min(toolbarPrefs.size(), at), toolbarId);
         }       
-        Main.pref.putList("toolbar", toolbarPrefs);
+        Preferences.main().putList("toolbar", toolbarPrefs);
     } else if (util.isDef(after)) {
         // if we got the parameter 'after', we try to insert it after the
         // entry given as value for 'after'
@@ -364,7 +366,7 @@ mixin.addToToolbar = function(options) {
             toolbarPrefs.remove(toolbarId);
             toolbarPrefs.add(at + 1, toolbarId);
         }
-        Main.pref.putList("toolbar", toolbarPrefs);
+        Preferences.main().putList("toolbar", toolbarPrefs);
     } else if (util.isDef(before)) {
         // if we got the parameter 'before', we try to insert it before the
         // entry given as value for 'before'
@@ -374,7 +376,7 @@ mixin.addToToolbar = function(options) {
             toolbarPrefs.remove(toolbarId);
             toolbarPrefs.add(at, toolbarId);
         }
-        Main.pref.putList("toolbar", toolbarPrefs);
+        Preferences.main().putList("toolbar", toolbarPrefs);
     }
     MainApplication.getToolbar().refreshToolbarControl();
 };

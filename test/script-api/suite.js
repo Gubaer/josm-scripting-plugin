@@ -18,6 +18,7 @@
  */
 var tests = [
     "DataSetWrapperTest",
+    //"josm/apiTest",
     "josm/ChangesetMixinTest",
     "josm/commandTest",
     "josm/DataSetMixinTest",

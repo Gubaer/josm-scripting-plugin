@@ -481,7 +481,6 @@ exports.CommandHistory = {};
  *         Default if missing: 1
  */
 exports.CommandHistory.undo = function(depth) {
-    var Main = org.openstreetmap.josm.Main;
 
     if (util.isDef(depth)) {
         util.assert(util.isNumber(depth), "depth: expected a number, got {0}",
