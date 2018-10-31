@@ -4,7 +4,9 @@ var conf = require("josm/api").ApiConfig;
 var out = java.lang.System.out;
 var URL = java.net.URL;
 
-tu.suite("ApiConfig.serverUrl",
+var suites = [];
+
+suites.push(tu.suite("ApiConfig.serverUrl",
 	tu.test("get", function() {
 		var url = conf.serverUrl;
 		util.assert(url, "url expected");
@@ -25,10 +27,10 @@ tu.suite("ApiConfig.serverUrl",
 		conf.serverUrl = undefined;
 		util.assert(conf.serverUrl == conf.defaultServerUrl, "should be default");
 	})
-).run();
+));
 
 
-tu.suite("ApiConfig.authMethod",
+suites.push(tu.suite("ApiConfig.authMethod",
 	tu.test("get", function() {
 		var authMethod = conf.authMethod;
 		util.assert(authMethod, "authMethod expected");
@@ -58,11 +60,11 @@ tu.suite("ApiConfig.authMethod",
 			conf.serverUrl = undefined;
 		});
 	})	
-).run();
+));
 
 
 
-tu.suite("ApiConfig.getCredentials",
+suites.push(tu.suite("ApiConfig.getCredentials",
 	tu.test("get basic credentials", function() {
 		var credentials = conf.getCredentials("basic");
 		out.println("user=" + credentials.user + ", password=" + credentials.password);
@@ -82,9 +84,9 @@ tu.suite("ApiConfig.getCredentials",
 			var credentials = conf.getCredentials("nosuchmethod");
 		});
 	})	
-).run();
+));
 
-tu.suite("ApiConfig.setCredentials",
+suites.push(tu.suite("ApiConfig.setCredentials",
 	tu.test("set basic credentials - with object", function() { 
 		var cred1 = {user: "testuser", password: "testpassword"};
 		conf.setCredentials("basic", cred1);
@@ -129,4 +131,10 @@ tu.suite("ApiConfig.setCredentials",
 		});
 	})	
 	
-).run();
+));
+
+exports.run = function() {
+    return suites
+        .map(function(a) { return a.run(); })
+        .reduce(function(a, b) { return a + b; });
+};

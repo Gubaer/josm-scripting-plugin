@@ -20,6 +20,7 @@ var OsmServerChangesetReader =
 var OsmServerObjectReader = org.openstreetmap.josm.io.OsmServerObjectReader;
 var OsmServerBackreferenceReader =
     org.openstreetmap.josm.io.OsmServerBackreferenceReader;
+var Preferences = org.openstreetmap.josm.data.Preferences;
 
 var util = require("josm/util");
 
@@ -925,7 +926,7 @@ Object.defineProperty(exports, "ApiConfig", {
     enumerable: true
 });
 
-var Main = org.openstreetmap.josm.Main;
+
 var DEFAULT_URL = "http://api.openstreetmap.com/api/0.6";
 var URL = java.net.URL;
 /**
@@ -959,19 +960,19 @@ var URL = java.net.URL;
 Object.defineProperty(exports.ApiConfig, "serverUrl", {
     enumerable: true,
     get: function() {
-        var url = Main.pref.get("osm-server.url", null);
+        var url = Preferences.main().get("osm-server.url", null);
         if (url == null) url = DEFAULT_URL;
         return url == null ? undefined: util.trim(url);
     },
 
     set: function(value) {
         if (util.isNothing(value)) {
-            Main.pref.put("osm-server.url", null);
+            Preferences.main().put("osm-server.url", null);
         } else if (value instanceof URL) {
             util.assert(value.getProtocol() == "http"
                 || value.getProtocol() == "https",
                 "url: expected a http or https URL, got {0}", value);
-            Main.pref.put("osm-server.url", value.toString());
+            Preferences.main().put("osm-server.url", value.toString());
         } else if (util.isString(value)) {
             value = util.trim(value);
             try {
@@ -980,7 +981,7 @@ Object.defineProperty(exports.ApiConfig, "serverUrl", {
                     || url.getProtocol() == "https",
                     "url: expected a http or https URL, got {0}",
                     url.toString());
-                Main.pref.put("osm-server.url", url.toString());
+                Preferences.main().put("osm-server.url", url.toString());
             } catch(e) {
                 util.assert(false,
                     "url: doesn''t look like a valid URL, got {0}. Error: {1}",
@@ -1051,7 +1052,7 @@ function normalizeAuthMethod(authMethod) {
 Object.defineProperty(exports.ApiConfig, "authMethod", {
     enumerate: true,
     get: function() {
-        var authMethod = Main.pref.get("osm-server.auth-method", "basic");
+        var authMethod = Preferences.main().get("osm-server.auth-method", "basic");
         authMethod = util.trim(authMethod).toLowerCase();
         if (authMethod == "basic" || authMethod == "oauth") return authMethod;
         // unsupported value for authMethod in the preferences. Returning
@@ -1060,7 +1061,7 @@ Object.defineProperty(exports.ApiConfig, "authMethod", {
     },
     set: function(value) {
         value = normalizeAuthMethod(value);
-        Main.pref.put("osm-server.auth-method", value);
+        Preferences.main().put("osm-server.auth-method", value);
     }
 });
 
