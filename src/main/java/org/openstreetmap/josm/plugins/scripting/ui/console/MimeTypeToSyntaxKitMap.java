@@ -8,14 +8,14 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.openstreetmap.josm.plugins.scripting.ScriptingPlugin;
-
 import jsyntaxpane.DefaultSyntaxKit;
+import org.openstreetmap.josm.plugins.scripting.ScriptingPlugin;
 /**
  * <p>Provides a map of mime types to class names for syntax kits.
  * Looks for two configuration files:</p>
@@ -82,7 +82,7 @@ public class MimeTypeToSyntaxKitMap {
                     + "syntax kits from resource ''{0}''",
                     "/resources/syntax-kit-map.default"));
             final BufferedReader br =
-                    new BufferedReader(new InputStreamReader(in));
+                    new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8));
             loadMappings(br);
         } catch(IOException e) {
             // may be thrown if closing the resource fails - ignore
@@ -96,7 +96,7 @@ public class MimeTypeToSyntaxKitMap {
         final File f = new File(dir, "syntax-kit-map");
         if (! f.exists() || !f.isFile() || !f.canRead()) return;
         try (BufferedReader br = new BufferedReader(
-                new InputStreamReader(new FileInputStream(f)))){
+                new InputStreamReader(new FileInputStream(f), StandardCharsets.UTF_8))){
             System.out.println(tr("Loading local map from mime-types to "
                     + "syntax kits from resource ''{0}''",f.toString()));
             loadMappings(br);

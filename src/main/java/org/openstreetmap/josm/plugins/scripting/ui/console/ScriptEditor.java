@@ -10,10 +10,12 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 import java.util.Objects;
 import java.util.Optional;
@@ -142,7 +144,7 @@ public class ScriptEditor extends JPanel implements PropertyChangeListener {
      */
     public void open(File file) {
         final Document doc = editor.getDocument();
-        try(final BufferedReader reader = new BufferedReader(new FileReader(file))) {
+        try(final BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8))) {
             doc.remove(doc.getStartPosition().getOffset(), doc.getLength());
             for(Iterator<String> it = reader.lines().iterator();it.hasNext();) {
                 String line = it.next();

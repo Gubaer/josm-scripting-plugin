@@ -4,8 +4,11 @@ import static org.openstreetmap.josm.tools.I18n.tr;
 
 import java.awt.Component;
 import java.io.File;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -123,7 +126,7 @@ public class RunScriptService {
             return false;
         }
 
-        try(FileReader reader = new FileReader(f)){
+        try(Reader reader = new InputStreamReader(new FileInputStream(f), StandardCharsets.UTF_8)) {
             // just try to open the reader ...
         } catch(IOException e){
             // ... and if it fails, warn about it

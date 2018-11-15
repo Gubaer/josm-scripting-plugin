@@ -2,6 +2,7 @@ package org.openstreetmap.josm.plugins.scripting.python;
 
 import static org.openstreetmap.josm.tools.I18n.tr;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.logging.Logger;
 
 /**

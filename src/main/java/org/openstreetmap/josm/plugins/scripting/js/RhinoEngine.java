@@ -3,13 +3,15 @@ package org.openstreetmap.josm.plugins.scripting.js;
 import static org.openstreetmap.josm.tools.I18n.tr;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.Reader;
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -262,7 +264,7 @@ public class RhinoEngine {
         Assert.assertArg(file.canRead(),
              "Can''t read script from file, because file isn''t readable. "
              + "Got file ''{0}''", file);
-        try (Reader fr = new FileReader(file)){
+        try (Reader fr = new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8)){
             enterSwingThreadContext();
             Runnable r = () -> {
                 try {

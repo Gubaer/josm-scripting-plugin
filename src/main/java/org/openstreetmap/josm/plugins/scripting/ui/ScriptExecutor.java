@@ -5,15 +5,17 @@ import static org.openstreetmap.josm.tools.I18n.tr;
 import java.awt.Component;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.lang.reflect.InvocationTargetException;
+import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import javax.script.Compilable;
-import javax.script.CompiledScript;
 import javax.script.ScriptEngine;
 import javax.script.ScriptException;
 import javax.swing.JOptionPane;
@@ -32,7 +34,6 @@ import org.openstreetmap.josm.plugins.scripting.model.JSR223ScriptEngineProvider
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
 import org.openstreetmap.josm.plugins.scripting.util.Assert;
 import org.openstreetmap.josm.plugins.scripting.util.ExceptionUtil;
-import org.openstreetmap.josm.plugins.scripting.util.IOUtil;
 
 /**
  * A utility class providing methods for executing a script (as string or
@@ -256,23 +257,21 @@ public class ScriptExecutor {
             return;
         }
         Runnable task = () -> {
-            FileReader reader = null;
             try {
                 if (engine instanceof Compilable) {
-                    CompiledScript script = JSR223CompiledScriptCache
-                            .getInstance()
-                            .compile((Compilable)engine,scriptFile);
-                    script.eval();
+                    JSR223CompiledScriptCache
+                        .getInstance()
+                        .compile((Compilable) engine, scriptFile)
+                        .eval();
                 } else {
-                    reader = new FileReader(scriptFile);
-                    engine.eval(reader);
+                    try (Reader reader = new InputStreamReader(new FileInputStream(scriptFile), StandardCharsets.UTF_8)) {
+                        engine.eval(reader);
+                    }
                 }
-            } catch(ScriptException e){
+            } catch (ScriptException e) {
                 warnExecutingScriptFailed(e);
-            } catch(IOException e){
+            } catch (IOException e) {
                 warnOpenScriptFileFailed(scriptFile, e);
-            } finally {
-                IOUtil.close(reader);
             }
         };
         runOnSwingEDT(task);
@@ -308,10 +307,8 @@ public class ScriptExecutor {
 
     protected String readFile(File scriptFile) throws IOException {
         try (BufferedReader reader =
-                new BufferedReader(new FileReader(scriptFile))) {
-            String ret = reader.lines()
-                .collect(Collectors.joining("\n"));
-            return ret;
+                new BufferedReader(new InputStreamReader(new FileInputStream(scriptFile), StandardCharsets.UTF_8))) {
+            return reader.lines().collect(Collectors.joining("\n"));
         }
     }
 

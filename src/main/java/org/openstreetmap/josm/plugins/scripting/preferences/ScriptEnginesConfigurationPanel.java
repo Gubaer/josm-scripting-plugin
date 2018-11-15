@@ -60,7 +60,6 @@ import org.openstreetmap.josm.gui.widgets.VerticallyScrollablePanel;
 import org.openstreetmap.josm.plugins.scripting.ScriptingPlugin;
 import org.openstreetmap.josm.plugins.scripting.model.JSR223ScriptEngineProvider;
 import org.openstreetmap.josm.plugins.scripting.ui.ScriptEngineCellRenderer;
-import org.openstreetmap.josm.plugins.scripting.util.IOUtil;
 import org.openstreetmap.josm.tools.ImageProvider;
 
 /**
@@ -160,22 +159,19 @@ public class ScriptEnginesConfigurationPanel extends VerticallyScrollablePanel{
     private static void readDownloadableEngines() {
         downloadableEngines = new ArrayList<>();
 
-        InputStream in = ScriptEnginesConfigurationPanel.class
-                .getResourceAsStream(RES_SCRIPT_ENGINE_JARS);
-        if (in == null) {
-            System.err.println(tr("Error: resource file ''{0}'' not found",
-            RES_SCRIPT_ENGINE_JARS));
-        }
-        Properties prop = new Properties();
-        try {
+        final Properties prop = new Properties();
+        try (InputStream in = ScriptEnginesConfigurationPanel.class.getResourceAsStream(RES_SCRIPT_ENGINE_JARS)) {
+            if (in == null) {
+                System.err.println(tr("Error: resource file ''{0}'' not found",
+                RES_SCRIPT_ENGINE_JARS));
+            }
+
             prop.load(in);
         } catch(IOException e) {
             System.err.println(tr("Error: failed to load resource file ''{0}''",
                     RES_SCRIPT_ENGINE_JARS));
             System.err.println(e);
             e.printStackTrace();
-        } finally {
-            IOUtil.close(in);
         }
         String value = prop.getProperty("engines");
         if (value == null) {
