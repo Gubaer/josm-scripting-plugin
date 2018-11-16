@@ -1,5 +1,6 @@
 package org.openstreetmap.josm.plugins.scripting.ui;
 
+import static org.openstreetmap.josm.plugins.scripting.util.FileUtils.buildTextFileReader;
 import static org.openstreetmap.josm.tools.I18n.tr;
 
 import java.awt.Component;
@@ -307,7 +308,7 @@ public class ScriptExecutor {
 
     protected String readFile(File scriptFile) throws IOException {
         try (BufferedReader reader =
-                new BufferedReader(new InputStreamReader(new FileInputStream(scriptFile), StandardCharsets.UTF_8))) {
+                     new BufferedReader(buildTextFileReader(scriptFile))) {
             return reader.lines().collect(Collectors.joining("\n"));
         }
     }

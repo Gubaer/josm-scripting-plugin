@@ -1,5 +1,6 @@
 package org.openstreetmap.josm.plugins.scripting.ui;
 
+import static org.openstreetmap.josm.plugins.scripting.util.FileUtils.buildTextFileReader;
 import static org.openstreetmap.josm.tools.I18n.tr;
 
 import java.awt.Component;
@@ -126,7 +127,7 @@ public class RunScriptService {
             return false;
         }
 
-        try(Reader reader = new InputStreamReader(new FileInputStream(f), StandardCharsets.UTF_8)) {
+        try(Reader reader = buildTextFileReader(f)) {
             // just try to open the reader ...
         } catch(IOException e){
             // ... and if it fails, warn about it

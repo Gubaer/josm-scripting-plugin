@@ -160,7 +160,8 @@ public class ScriptEnginesConfigurationPanel extends VerticallyScrollablePanel{
         downloadableEngines = new ArrayList<>();
 
         final Properties prop = new Properties();
-        try (InputStream in = ScriptEnginesConfigurationPanel.class.getResourceAsStream(RES_SCRIPT_ENGINE_JARS)) {
+        try (InputStream in = ScriptEnginesConfigurationPanel.class
+                .getResourceAsStream(RES_SCRIPT_ENGINE_JARS)) {
             if (in == null) {
                 System.err.println(tr("Error: resource file ''{0}'' not found",
                 RES_SCRIPT_ENGINE_JARS));

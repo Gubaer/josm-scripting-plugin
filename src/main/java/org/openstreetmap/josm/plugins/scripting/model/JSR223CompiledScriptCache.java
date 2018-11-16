@@ -16,6 +16,8 @@ import javax.script.CompiledScript;
 import javax.script.ScriptException;
 import javax.validation.constraints.NotNull;
 
+import static org.openstreetmap.josm.plugins.scripting.util.FileUtils.buildTextFileReader;
+
 /**
  * <p><strong>CompiledScriptCache</strong> maintains a cache of compiled
  * scripts for script languages which are compiled before executed.</p>
@@ -84,7 +86,7 @@ public class JSR223CompiledScriptCache {
         if (entry != null && entry.getTimestamp() >= scriptFile.lastModified()){
             return entry.getScript();
         }
-        try (Reader reader = new InputStreamReader(new FileInputStream(scriptFile), StandardCharsets.UTF_8)) {
+        try (Reader reader = buildTextFileReader(scriptFile)) {
             CompiledScript script = compiler.compile(reader);
             entry = new CacheEntry(scriptFile, script);
             cache.put(scriptFile, entry);

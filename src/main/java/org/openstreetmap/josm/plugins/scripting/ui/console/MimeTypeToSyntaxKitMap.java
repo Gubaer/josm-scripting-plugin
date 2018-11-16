@@ -1,5 +1,6 @@
 package org.openstreetmap.josm.plugins.scripting.ui.console;
 
+import static org.openstreetmap.josm.plugins.scripting.util.FileUtils.buildTextFileReader;
 import static org.openstreetmap.josm.tools.I18n.tr;
 
 import java.io.BufferedReader;
@@ -81,8 +82,9 @@ public class MimeTypeToSyntaxKitMap {
             System.out.println(tr("Loading default map from mime-types to "
                     + "syntax kits from resource ''{0}''",
                     "/resources/syntax-kit-map.default"));
-            final BufferedReader br =
-                    new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8));
+            final BufferedReader br =  new BufferedReader(
+                    new InputStreamReader(in, StandardCharsets.UTF_8)
+                );
             loadMappings(br);
         } catch(IOException e) {
             // may be thrown if closing the resource fails - ignore
@@ -95,8 +97,7 @@ public class MimeTypeToSyntaxKitMap {
         final File dir = plugin.getPluginDirs().getUserDataDirectory(false);
         final File f = new File(dir, "syntax-kit-map");
         if (! f.exists() || !f.isFile() || !f.canRead()) return;
-        try (BufferedReader br = new BufferedReader(
-                new InputStreamReader(new FileInputStream(f), StandardCharsets.UTF_8))){
+        try (BufferedReader br = new BufferedReader(buildTextFileReader(f))) {
             System.out.println(tr("Loading local map from mime-types to "
                     + "syntax kits from resource ''{0}''",f.toString()));
             loadMappings(br);

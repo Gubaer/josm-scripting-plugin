@@ -1,5 +1,6 @@
 package org.openstreetmap.josm.plugins.scripting.js;
 
+import static org.openstreetmap.josm.plugins.scripting.util.FileUtils.buildTextFileReader;
 import static org.openstreetmap.josm.tools.I18n.tr;
 
 import java.io.File;
@@ -144,7 +145,8 @@ public class RhinoEngine {
 
         // add the $PLUGIN_HOME/modules to the list of module repositories
         //
-        File dir = ScriptingPlugin.getInstance().getPluginDirs().getUserDataDirectory(false);
+        File dir = ScriptingPlugin.getInstance().getPluginDirs()
+                .getUserDataDirectory(false);
         File f = new File(dir, "modules");
         try {
             provider.addRepository(f.toURI().toURL());
@@ -257,14 +259,14 @@ public class RhinoEngine {
      * @throws EvaluatorException thrown if the evaluation of the script fails
      */
     public void evaluateOnSwingThread(final File file, final Scriptable scope)
-            throws FileNotFoundException, IOException, EvaluatorException {
+            throws IOException, EvaluatorException {
         if (file == null) return;
         Assert.assertArg(!file.isDirectory(),
             "Can''t read script from a directory ''{0}''", file);
         Assert.assertArg(file.canRead(),
              "Can''t read script from file, because file isn''t readable. "
              + "Got file ''{0}''", file);
-        try (Reader fr = new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8)){
+        try (Reader fr = buildTextFileReader(file)){
             enterSwingThreadContext();
             Runnable r = () -> {
                 try {
