@@ -1,22 +1,17 @@
 package org.openstreetmap.josm.plugins.scripting.ui.console;
 
-import static org.openstreetmap.josm.plugins.scripting.util.FileUtils.buildTextFileReader;
-import static org.openstreetmap.josm.tools.I18n.tr;
+import jsyntaxpane.DefaultSyntaxKit;
+import org.openstreetmap.josm.plugins.scripting.ScriptingPlugin;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import jsyntaxpane.DefaultSyntaxKit;
-import org.openstreetmap.josm.plugins.scripting.ScriptingPlugin;
+import static org.openstreetmap.josm.plugins.scripting.util.FileUtils.buildTextFileReader;
+import static org.openstreetmap.josm.tools.I18n.tr;
 /**
  * <p>Provides a map of mime types to class names for syntax kits.
  * Looks for two configuration files:</p>
