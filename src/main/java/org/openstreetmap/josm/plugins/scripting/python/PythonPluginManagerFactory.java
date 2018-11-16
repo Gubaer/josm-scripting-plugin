@@ -2,6 +2,7 @@ package org.openstreetmap.josm.plugins.scripting.python;
 
 import static org.openstreetmap.josm.tools.I18n.tr;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.logging.Logger;
 
 /**
@@ -33,11 +34,15 @@ public class PythonPluginManagerFactory {
                + ".PythonPluginManager"
             );
             final IPythonPluginManager mgr =
-               (IPythonPluginManager) mgrClass.newInstance();
+               (IPythonPluginManager) mgrClass.getDeclaredConstructor()
+                       .newInstance();
             logger.info("Enabled support for Python plugins.");
             return mgr;
-        } catch(ClassNotFoundException | InstantiationException
-                | IllegalAccessException | NoClassDefFoundError e) {
+        } catch(
+            ClassNotFoundException | InstantiationException
+            | IllegalAccessException | NoClassDefFoundError
+            | NoSuchMethodException | InvocationTargetException e
+        ) {
             System.out.println(e);
             e.printStackTrace();
             return null;

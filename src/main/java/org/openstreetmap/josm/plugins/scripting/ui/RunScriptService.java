@@ -1,23 +1,23 @@
 package org.openstreetmap.josm.plugins.scripting.ui;
 
-import static org.openstreetmap.josm.tools.I18n.tr;
-
-import java.awt.Component;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.Objects;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import javax.swing.JOptionPane;
-import javax.validation.constraints.NotNull;
-
 import org.openstreetmap.josm.data.Preferences;
 import org.openstreetmap.josm.gui.HelpAwareOptionPane;
 import org.openstreetmap.josm.gui.help.HelpUtil;
 import org.openstreetmap.josm.plugins.scripting.model.JSR223ScriptEngineProvider;
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
+
+import javax.swing.*;
+import javax.validation.constraints.NotNull;
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.Reader;
+import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import static org.openstreetmap.josm.plugins.scripting.util.FileUtils.buildTextFileReader;
+import static org.openstreetmap.josm.tools.I18n.tr;
 
 /**
  * Behaviour to run a script file, factored out into a service class.
@@ -123,7 +123,7 @@ public class RunScriptService {
             return false;
         }
 
-        try(FileReader reader = new FileReader(f)){
+        try(Reader reader = buildTextFileReader(f)) {
             // just try to open the reader ...
         } catch(IOException e){
             // ... and if it fails, warn about it

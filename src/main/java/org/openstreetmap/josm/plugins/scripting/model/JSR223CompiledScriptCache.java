@@ -1,17 +1,18 @@
 package org.openstreetmap.josm.plugins.scripting.model;
 
+import javax.script.Compilable;
+import javax.script.CompiledScript;
+import javax.script.ScriptException;
+import javax.validation.constraints.NotNull;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.Reader;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Logger;
 
-import javax.script.Compilable;
-import javax.script.CompiledScript;
-import javax.script.ScriptException;
-import javax.validation.constraints.NotNull;
+import static org.openstreetmap.josm.plugins.scripting.util.FileUtils.buildTextFileReader;
 
 /**
  * <p><strong>CompiledScriptCache</strong> maintains a cache of compiled
@@ -81,7 +82,7 @@ public class JSR223CompiledScriptCache {
         if (entry != null && entry.getTimestamp() >= scriptFile.lastModified()){
             return entry.getScript();
         }
-        try (FileReader reader = new FileReader(scriptFile)){
+        try (Reader reader = buildTextFileReader(scriptFile)) {
             CompiledScript script = compiler.compile(reader);
             entry = new CacheEntry(scriptFile, script);
             cache.put(scriptFile, entry);

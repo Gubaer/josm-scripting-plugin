@@ -1,33 +1,22 @@
 package org.openstreetmap.josm.plugins.scripting.ui.console;
 
-import static org.openstreetmap.josm.plugins.scripting.ui.GridBagConstraintBuilder.gbc;
-import static org.openstreetmap.josm.tools.I18n.tr;
+import org.openstreetmap.josm.gui.HelpAwareOptionPane;
 
-import java.awt.BorderLayout;
-import java.awt.Font;
-import java.awt.GridBagLayout;
+import javax.swing.*;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
+import javax.validation.constraints.NotNull;
+import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.Iterator;
 import java.util.Objects;
 import java.util.Optional;
 
-import javax.swing.JEditorPane;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.Document;
-import javax.validation.constraints.NotNull;
-
-import org.openstreetmap.josm.gui.HelpAwareOptionPane;
+import static org.openstreetmap.josm.plugins.scripting.ui.GridBagConstraintBuilder.gbc;
+import static org.openstreetmap.josm.plugins.scripting.util.FileUtils.buildTextFileReader;
+import static org.openstreetmap.josm.tools.I18n.tr;
 
 /**
  * <p>Editor for scripts. Basically a minimal text editor with syntax
@@ -142,7 +131,8 @@ public class ScriptEditor extends JPanel implements PropertyChangeListener {
      */
     public void open(File file) {
         final Document doc = editor.getDocument();
-        try(final BufferedReader reader = new BufferedReader(new FileReader(file))) {
+        try(final BufferedReader reader =
+                    new BufferedReader(buildTextFileReader(file))) {
             doc.remove(doc.getStartPosition().getOffset(), doc.getLength());
             for(Iterator<String> it = reader.lines().iterator();it.hasNext();) {
                 String line = it.next();

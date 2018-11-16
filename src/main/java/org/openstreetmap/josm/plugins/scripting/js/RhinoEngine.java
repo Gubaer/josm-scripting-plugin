@@ -1,10 +1,16 @@
 package org.openstreetmap.josm.plugins.scripting.js;
 
-import static org.openstreetmap.josm.tools.I18n.tr;
+import org.mozilla.javascript.*;
+import org.mozilla.javascript.commonjs.module.Require;
+import org.openstreetmap.josm.plugins.PluginException;
+import org.openstreetmap.josm.plugins.PluginInformation;
+import org.openstreetmap.josm.plugins.scripting.ScriptingPlugin;
+import org.openstreetmap.josm.plugins.scripting.util.Assert;
+import org.openstreetmap.josm.plugins.scripting.util.ExceptionUtil;
 
+import javax.swing.*;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.lang.reflect.InvocationTargetException;
@@ -14,21 +20,8 @@ import java.text.MessageFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.swing.SwingUtilities;
-
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.EvaluatorException;
-import org.mozilla.javascript.Function;
-import org.mozilla.javascript.NativeArray;
-import org.mozilla.javascript.NativeObject;
-import org.mozilla.javascript.RhinoException;
-import org.mozilla.javascript.Scriptable;
-import org.mozilla.javascript.commonjs.module.Require;
-import org.openstreetmap.josm.plugins.PluginException;
-import org.openstreetmap.josm.plugins.PluginInformation;
-import org.openstreetmap.josm.plugins.scripting.ScriptingPlugin;
-import org.openstreetmap.josm.plugins.scripting.util.Assert;
-import org.openstreetmap.josm.plugins.scripting.util.ExceptionUtil;
+import static org.openstreetmap.josm.plugins.scripting.util.FileUtils.buildTextFileReader;
+import static org.openstreetmap.josm.tools.I18n.tr;
 
 /**
  * A facade to the embedded rhino scripting engine.
@@ -142,7 +135,8 @@ public class RhinoEngine {
 
         // add the $PLUGIN_HOME/modules to the list of module repositories
         //
-        File dir = ScriptingPlugin.getInstance().getPluginDirs().getUserDataDirectory(false);
+        File dir = ScriptingPlugin.getInstance().getPluginDirs()
+                .getUserDataDirectory(false);
         File f = new File(dir, "modules");
         try {
             provider.addRepository(f.toURI().toURL());
@@ -255,14 +249,14 @@ public class RhinoEngine {
      * @throws EvaluatorException thrown if the evaluation of the script fails
      */
     public void evaluateOnSwingThread(final File file, final Scriptable scope)
-            throws FileNotFoundException, IOException, EvaluatorException {
+            throws IOException, EvaluatorException {
         if (file == null) return;
         Assert.assertArg(!file.isDirectory(),
             "Can''t read script from a directory ''{0}''", file);
         Assert.assertArg(file.canRead(),
              "Can''t read script from file, because file isn''t readable. "
              + "Got file ''{0}''", file);
-        try (Reader fr = new FileReader(file)){
+        try (Reader fr = buildTextFileReader(file)){
             enterSwingThreadContext();
             Runnable r = () -> {
                 try {

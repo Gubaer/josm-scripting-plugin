@@ -24,7 +24,6 @@ import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
-import org.openstreetmap.josm.plugins.scripting.util.IOUtil;
 import org.xml.sax.SAXException;
 
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -76,17 +75,13 @@ public class ScriptDescriptors {
      */
     static public Schema getSchema() throws IOException, SAXException {
         SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-        InputStream is = null;
-        try {
-            is = ScriptDescriptor.class.getResourceAsStream("script.xsd");
+        try (InputStream is = ScriptDescriptor.class.getResourceAsStream("script.xsd")) {
             if (is == null){
                 throw new IOException(
                         MessageFormat.format("failed to open input stream to resource ''{0}''", "script.xsd")
                 );
             }
             return factory.newSchema(new StreamSource(is));
-        } finally {
-            IOUtil.close(is);
         }
     }
 
