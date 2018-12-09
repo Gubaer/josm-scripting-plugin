@@ -34,7 +34,7 @@ var mixin = {};
  *   <dd>Replies the function or undefined, if no function has been assigned.
  *   </dd>
  *   <dt>set</dt>
- *   <dd>Set the function, or null or undefined to remove the function.</dd>
+ *   <dd>Set the function, null, or undefined to remove the function.</dd>
  * </dl>
  *
  * @memberOf JSActionMixin
@@ -70,7 +70,7 @@ mixin.onInitEnabled = {
  *   <dd>Replies the function or undefined, if no function has been assigned.
  *   </dd>
  *   <dt>set</dt>
- *   <dd>Set the function, or null or undefined to remove the function.</dd>
+ *   <dd>Set the function, null, or undefined to remove the function.</dd>
  * </dl>
  *
  * @memberOf JSActionMixin
@@ -106,7 +106,7 @@ mixin.onUpdateEnabled = {
  *   <dd>Replies the function or undefined, if no function has been assigned.
  *   </dd>
  *   <dt>set</dt>
- *   <dd>Set the function, or null or undefined to remove the function.</dd>
+ *   <dd>Set the function, null, or undefined to remove the function.</dd>
  * </dl>
  *
  * @memberOf JSActionMixin
@@ -139,7 +139,7 @@ mixin.onExecute = {
  *   <dt>get</dt>
  *   <dd>Replies the name as string, or undefined, if no name is set. </dd>
  *   <dt>set</dt>
- *   <dd>Set null or undefined, to clear the name. Any other value is converted
+ *   <dd>Set null or undefined to clear the name. Any other value is converted
  *   to a string.</dd>
  * </dl>
  *
@@ -172,7 +172,7 @@ mixin.name = {
  *   <dd>Replies the tooltip as string, or undefined, if no tooltip is set.
  *   </dd>
  *   <dt>set</dt>
- *   <dd>Set null or undefined, to clear the tooltip. Any other value is
+ *   <dd>Set null or undefined to clear the tooltip. Any other value is
  *   converted to a string.</dd>
  * </dl>
  *
@@ -205,7 +205,7 @@ mixin.tooltip = {
  *
  * // adds a new action to the JOSM edit menu
  * new JSAction({name: "My Action"})
- *    .addTo(josm.menu.get("edit"));
+ *    .addToMenu(josm.menu.get("edit"));
  *
  * @method
  * @name addToMenu
@@ -281,15 +281,15 @@ function afterFromOptions(options) {
  * <p>If no parameters are passed in, the action is registered with its
  * toolbar id (see property tooblarId) for being displayed in the toolbar.
  * It isn't displayed, however, unless the toolbar id is already included
- * in the toolbar preferences. If not, the user first have to configure it
+ * in the toolbar preferences. If not, the user first has to configure it
  * manually in the preference dialog.</p>
  *
- * <p>Use one of the named options described below, if you want to enforce,
- * that the action is displayed at a a specific position in the toolbar.
+ * <p>Use one of the named options described below to display the the action
+   at a a specific position in the toolbar.
  * If you use one of these options, the toolbar configuration is saved
  * to the preferences.</p>
  *
- * <code>options</code> supports the following named parameters:
+ * <code>options</code> support the following named parameters:
  * <dl>
  *   <dt><code class="signature">toolbarId: string</code> </dt>
  *   <dd>Optional toolbar id, overriding an already assigned toolbar id.</dd>
