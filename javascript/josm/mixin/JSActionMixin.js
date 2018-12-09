@@ -205,7 +205,7 @@ mixin.tooltip = {
  *
  * // adds a new action to the JOSM edit menu
  * new JSAction({name: "My Action"})
- *    .addTo(josm.menu.get("edit"));
+ *    .addToMenu(josm.menu.get("edit"));
  *
  * @method
  * @name addToMenu
