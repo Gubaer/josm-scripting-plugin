@@ -10,7 +10,15 @@ var util = require("josm/util");
 var ut = require("josm/unittest");
 var menu = require("josm/ui/menu");
 
+
+// we can create a minimal action
+// see #78: wrapped java.lang.nullpointerexception for JSaction
 var action = new menu.JSAction({
+    name: "My Action"
+});
+
+// we can create a more elaborate action
+action = new menu.JSAction({
     name: "My Action",
     iconName: "script-engine",
     onInitEnabled: function() {

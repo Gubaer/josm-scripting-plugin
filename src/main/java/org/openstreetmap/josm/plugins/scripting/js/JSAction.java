@@ -61,9 +61,11 @@ public class JSAction extends JosmAction {
                 null);
         putValue(NAME, name);
         putValue(SHORT_DESCRIPTION, tooltip);
-        Icon icon = ImageProvider.getIfAvailable(iconName);
-        if (icon != null) {
-            putValue(SMALL_ICON, icon);
+        if (iconName != null) {
+            Icon icon = ImageProvider.getIfAvailable(iconName);
+            if (icon != null) {
+                putValue(SMALL_ICON, icon);
+            }
         }
         if (toolbarId == null) {
             // automatically generate a toolbar id, if missing
