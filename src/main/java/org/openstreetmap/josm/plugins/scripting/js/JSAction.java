@@ -118,9 +118,8 @@ public class JSAction extends JosmAction {
      * Sets the JavaScript function which is invoked to update
      * the state (enabled/disabled) of this action
      *
-     * @param onInitEnabled the JavaScript function
+     * @param onUpdateEnabled the JavaScript function
      */
-
     public void setOnUpdateEnabled(Function onUpdateEnabled) {
         this.onUpdateEnabled = onUpdateEnabled;
     }
