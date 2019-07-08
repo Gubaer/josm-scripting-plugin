@@ -58,6 +58,12 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys {
     static private final Logger logger =
             Logger.getLogger(RunScriptDialog.class.getName());
 
+    static private RunScriptDialog instance =
+        new RunScriptDialog(MainApplication.getMainFrame());
+    static public RunScriptDialog getInstance() {
+        return instance;
+    }
+
     /**
      * the input field for the script file name
      */

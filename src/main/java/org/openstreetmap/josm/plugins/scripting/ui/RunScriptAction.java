@@ -12,8 +12,6 @@ import org.openstreetmap.josm.tools.Shortcut;
 
 public class RunScriptAction extends JosmAction {
     private static final long serialVersionUID = 1L;
-    // dialog must be created at startup so that its actions can be registered&used from toolbar
-    private final RunScriptDialog dialog = new RunScriptDialog(MainApplication.getMainFrame());
 
     public RunScriptAction() {
         super(tr("Run..."), // title
@@ -31,6 +29,6 @@ public class RunScriptAction extends JosmAction {
 
     @Override
     public void actionPerformed(ActionEvent evt) {
-        dialog.setVisible(true);
+        RunScriptDialog.getInstance().setVisible(true);
     }
 }
