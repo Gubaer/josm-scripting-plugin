@@ -27,10 +27,7 @@ import org.openstreetmap.josm.io.OsmApi;
 import org.openstreetmap.josm.spi.lifecycle.Lifecycle;
 import org.openstreetmap.josm.spi.preferences.Config;
 import org.openstreetmap.josm.testutils.JOSMTestRules;
-import org.openstreetmap.josm.tools.I18n;
-import org.openstreetmap.josm.tools.JosmRuntimeException;
-import org.openstreetmap.josm.tools.Logging;
-import org.openstreetmap.josm.tools.PlatformManager;
+import org.openstreetmap.josm.tools.*;
 import org.openstreetmap.josm.tools.date.DateUtils;
 import org.openstreetmap.josm.gui.MainApplication;
 import org.openstreetmap.josm.gui.util.GuiHelper;
@@ -49,6 +46,8 @@ public class JOSMFixture {
     }
 
     public JOSMFixture(boolean createGui) throws Exception {
+        HttpClient.setFactory(Http1Client::new);
+
         josmHome = System.getProperty("josm.home");
 
         if (josmHome == null) {
