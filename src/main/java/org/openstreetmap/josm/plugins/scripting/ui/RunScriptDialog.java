@@ -88,9 +88,9 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys {
         JPanel pnl = new JPanel(new BorderLayout());
         HtmlPanel info = new HtmlPanel();
         info.setText(
-                "<html>"
-                        + tr("Select a script file and click on <strong>Run</strong>.")
-                        + "</html>"
+              "<html>"
+            + tr("Select a script file and click on <strong>Run</strong>.")
+            + "</html>"
         );
         pnl.add(info, BorderLayout.CENTER);
         return pnl;
@@ -140,8 +140,9 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys {
         filePnl.add(filler, gc);
 
         JPanel toolbarPnl = new JPanel(new FlowLayout(FlowLayout.LEADING));
-        addOnToolbar = new JCheckBox(tr("add toolbar button"), false);
-        addOnToolbar.setToolTipText(tr("Add a button with this search expression to the toolbar."));
+        addOnToolbar = new JCheckBox(tr("Add toolbar button"), false);
+        addOnToolbar.setToolTipText(
+            tr("Add a button for this script script file to the toolbar."));
         toolbarPnl.add(addOnToolbar);
 
         pnl.add(filePnl);
@@ -164,8 +165,8 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys {
         getContentPane().add(buildContentPanel(), BorderLayout.CENTER);
 
         getRootPane().registerKeyboardAction(actRun,
-                KeyStroke.getKeyStroke("ctrl ENTER"),
-                JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT
+            KeyStroke.getKeyStroke("ctrl ENTER"),
+            JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT
         );
         setTitle(tr("Run a script"));
         setSize(600, 180);
@@ -216,23 +217,25 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys {
 
         public RunAction() {
             super(
-                    tr("Run"),
-                    "run",
-                    tr("Run the script"),
-                    null,
-                    true,
-                    "scripting/run",
-                    true
+                tr("Run"),
+                "run",
+                tr("Run the script"),
+                null, // no shortcut
+                true, // do register in toolbar
+                "scripting/run", // the toolbar id
+                true // do install adapters
             );
         }
 
         @Override
         public List<ActionParameter<?>> getActionParameters() {
-            return Collections.singletonList(new ActionParameter.StringActionParameter(SCRIPTING_FILENAME));
+            return Collections.singletonList(
+                new ActionParameter.StringActionParameter(SCRIPTING_FILENAME));
         }
 
         @Override
-        public void actionPerformed(ActionEvent evt, Map<String, Object> parameters) {
+        public void actionPerformed(ActionEvent evt,
+                                    Map<String, Object> parameters) {
             if (parameters.containsKey(SCRIPTING_FILENAME)) {
                 doRun((String) parameters.get(SCRIPTING_FILENAME), false);
             }
@@ -243,28 +246,36 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys {
             doRun(cbScriptFile.getText().trim(), addOnToolbar.isSelected());
         }
 
-        private void doRun(String fileName, boolean addToolbar) {
+        private void doRun(String fileName, boolean addToToolbar) {
             RunScriptService service = new RunScriptService();
             if (!service.canRunScript(fileName, RunScriptDialog.this)) {
                 return;
             }
-            if (addToolbar) {
+            if (addToToolbar) {
                 ToolbarPreferences.ActionDefinition aDef =
                         new ToolbarPreferences.ActionDefinition(this);
                 aDef.getParameters().put(SCRIPTING_FILENAME, fileName);
+
                 // Display filename as tooltip instead of generic one
-                aDef.setName(tr("Run script {0}", Utils.shortenString(fileName, 100)));
+                aDef.setName(tr("Run script ''{0}''",
+                        Utils.shortenString(fileName, 100)));
+
                 // parametrized action definition is now composed
-                ToolbarPreferences.ActionParser actionParser = new ToolbarPreferences.ActionParser(null);
+                ToolbarPreferences.ActionParser actionParser =
+                        new ToolbarPreferences.ActionParser(null);
                 String res = actionParser.saveAction(aDef);
 
                 // add custom scripting button to toolbar preferences
-                MainApplication.getToolbar().addCustomButton(res, -1, false);
+                MainApplication.getToolbar().addCustomButton(
+                    res,
+                    -1,   // at end of toolbar
+                    false // don't remove if exists
+                );
             }
             ScriptEngineDescriptor engine =
-                    service.deriveOrAskScriptEngineDescriptor(
-                            fileName, RunScriptDialog.this
-                    );
+                service.deriveOrAskScriptEngineDescriptor(
+                    fileName, RunScriptDialog.this
+                );
             if (engine == null) return;
             setVisible(false);
             service.runScript(fileName, engine, RunScriptDialog.this);
