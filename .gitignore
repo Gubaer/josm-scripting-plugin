@@ -13,3 +13,7 @@ libs
 out
 test/josm.home
 .idea
+*.iml
+*.env
+releases
+dist

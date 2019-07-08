@@ -29,8 +29,6 @@ public class RunScriptAction extends JosmAction {
 
     @Override
     public void actionPerformed(ActionEvent evt) {
-        RunScriptDialog dialog
-                = new RunScriptDialog(MainApplication.getMainFrame());
-        dialog.setVisible(true);
+        RunScriptDialog.getInstance().setVisible(true);
     }
 }

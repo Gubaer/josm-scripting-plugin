@@ -19,6 +19,7 @@ import org.openstreetmap.josm.plugins.scripting.python.IPythonPluginManager;
 import org.openstreetmap.josm.plugins.scripting.python.PythonPluginManagerFactory;
 import org.openstreetmap.josm.plugins.scripting.ui.MostRecentlyRunScriptsModel;
 import org.openstreetmap.josm.plugins.scripting.ui.RunScriptAction;
+import org.openstreetmap.josm.plugins.scripting.ui.RunScriptDialog;
 import org.openstreetmap.josm.plugins.scripting.ui.ToggleConsoleAction;
 import org.openstreetmap.josm.spi.preferences.Config;
 
@@ -157,6 +158,14 @@ public class ScriptingPlugin extends Plugin implements PreferenceKeys{
     }
 
     private final Action toggleConsoleAction = new ToggleConsoleAction();
+
+    {
+        // make sure  RunScriptDialog singleton is initialized
+        // *before* the RunScriptAction singleton below. Ensures that
+        // toolbar buttons for scripts are added to the toolbar as
+        // expected.
+        RunScriptDialog.getInstance();
+    }
     private final Action runScriptAction = new RunScriptAction();
     private final Action configureAction = new ConfigureAction();
 
