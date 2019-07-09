@@ -1,3 +1,10 @@
+before_script:
+  - "sh -e /etc/init.d/xvfb start"
+  - sleep 3 # give xvfb some time to start
+
+env:
+  - DISPLAY=:99.0
+
 jobs:
   include:
     - language: java
@@ -19,3 +26,4 @@ stages:
   - test
   - name: i18n
     if: type = push AND branch = master
+
