@@ -1,15 +1,20 @@
 # Translations for the JOSM plugin 'scripting' (ru)
-# Copyright (C) 2018 Gubaer
+# Copyright (C) 2019 Gubaer
 # This file is distributed under the same license as the josm-plugin_scripting package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+# Translators:
+# Florian Schäfer, 2018
+# Aleksey Kabanov <ak099@mail.ru>, 2018
+# Simon Legner <simon.legner@gmail.com>, 2019
 # 
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: josm-plugin_scripting 30784\n"
+"Project-Id-Version: josm-plugin_scripting 30795\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-05-10 10:09+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"POT-Creation-Date: 2019-07-09 12:32+0000\n"
+"PO-Revision-Date: 2018-01-17 21:36+0000\n"
 "Language-Team: Russian (https://www.transifex.com/josm/teams/2544/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -107,6 +112,9 @@ msgid ""
 msgstr ""
 "Добавьте каталоги и/или jar-файлы, в которых движок Jython будет искать "
 "пакеты или модули Python."
+
+msgid "Add toolbar button"
+msgstr "Добавить кнопку на панель инструментов"
 
 #, java-format
 msgid "Added {0} primitive"
@@ -269,6 +277,9 @@ msgstr "Полный локальный путь к файлу скрипта"
 
 msgid "Generate a globally unique ID"
 msgstr "Генерировать глобально уникальный ID"
+
+msgid "ID:"
+msgstr "ID:"
 
 msgid "IO error"
 msgstr "Ошибка ввода/вывода"
@@ -466,3 +477,6 @@ msgstr "Предупреждение: не удалось открыть фай�
 #, java-format
 msgid "Warning: property  ''{0}'' in resource file ''{1}'' not found"
 msgstr "Предупреждение: свойство ''{0}'' в файле ресурсов ''{1}'' не найдено"
+
+msgid "unknown"
+msgstr "неизвестно"

@@ -1,0 +1,71 @@
+# Translations for the JOSM plugin 'scripting' (ca@valencia)
+# Copyright (C) 2019 Gubaer
+# This file is distributed under the same license as the josm-plugin_scripting package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+# Translators:
+# Simon Legner <simon.legner@gmail.com>, 2018
+# 
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: josm-plugin_scripting 30795\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-07-09 12:32+0000\n"
+"PO-Revision-Date: 2018-01-17 21:36+0000\n"
+"Language-Team: Catalan (Valencian) (https://www.transifex.com/josm/teams/2544/ca@valencia/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ca@valencia\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Add"
+msgstr "Afig"
+
+msgid "Cancel"
+msgstr "Cancel·la"
+
+msgid "Clear log"
+msgstr "Neteja el registre"
+
+msgid "Close"
+msgstr "Tanca"
+
+msgid "Down"
+msgstr "Avall"
+
+#. create the edit menu
+msgid "Edit"
+msgstr "Edita"
+
+#. create the file menu
+msgid "File"
+msgstr "Fitxer"
+
+msgid "ID:"
+msgstr "ID:"
+
+msgid "Name:"
+msgstr "Nom:"
+
+msgid "OK"
+msgstr "D’acord"
+
+msgid "Open"
+msgstr "Obri"
+
+msgid "Remove"
+msgstr "Suprimeix"
+
+msgid "Save"
+msgstr "Guarda"
+
+msgid "Up"
+msgstr "Amunt"
+
+msgid "Version:"
+msgstr "Versió:"
+
+msgid "unknown"
+msgstr "desconegut"
