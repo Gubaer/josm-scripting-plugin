@@ -1,26 +1,25 @@
 # Translations for the JOSM plugin 'scripting' (el)
-# Copyright (C) 2018 Gubaer
+# Copyright (C) 2019 Gubaer
 # This file is distributed under the same license as the josm-plugin_scripting package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+# Translators:
+# Gerasimos Maris <makmar21@yahoo.com>, 2018
+# Simon Legner <simon.legner@gmail.com>, 2019
 # 
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: josm-plugin_scripting 30790\n"
+"Project-Id-Version: josm-plugin_scripting 30795\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-09-24 13:31+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"POT-Creation-Date: 2019-07-09 12:32+0000\n"
+"PO-Revision-Date: 2018-01-17 21:36+0000\n"
 "Language-Team: Greek (https://www.transifex.com/josm/teams/2544/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: el\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
-#, java-format
-msgid ""
-"''onLoad()'' for plugin ''{0}'' failed. Plugin isn''t properly initialized."
-msgstr ""
 
 #, java-format
 msgid "''{0}'' doesn''t exist."
@@ -97,16 +96,6 @@ msgstr ""
 "πληροφορίες σχετικά με τον τρόπο εγκατάστασης/ρύθμισης μιας μηχανής σεναρίου"
 " για το JOSM.</p>"
 
-msgid ""
-"<strong>Support for python plugins is disabled.</strong><br>The scripting "
-"plugin can load and run plugins written in <strong>Python</strong>. In order"
-" to use this feature the Jython interpreter has to be on the class path when"
-" you start JOSM. Currently, it isn''t and python plugin support is therefore"
-" disabled.<br><br>Launch JOSM with the following command line: <br>java -cp "
-"\"josm-jar.jar:/path/to/jython.jar\" "
-"org.openstreetmap.josm.gui.MainApplication"
-msgstr ""
-
 msgid "Accept script descriptor and close dialog"
 msgstr "Αποδοχή της περιγραφής σεναρίου και κλείσιμο του διαλόγου"
 
@@ -119,31 +108,14 @@ msgstr "Προσθήκη"
 msgid "Add a jar file providing a script engine"
 msgstr "Προσθήκη ενός αρχείου jar που παρέχει μια μηχανή σεναρίου"
 
-msgid ""
-"Add a list of fully qualified names of Python plugin classes the scripting "
-"plugin shall load and install at startup time. <br>Example: "
-"''my_module.MyPlugin'' or ''my_package.my_module.MyPlugin''"
-msgstr ""
-
 msgid "Add a path or jar file"
 msgstr "Προσθήκη μιας διαδρομής ή ενός αρχείου ja"
 
 msgid "Add a plugin"
 msgstr "Προσθήκη ενός πρόσθετου"
 
-msgid "Add an additional repository"
-msgstr ""
-
-msgid ""
-"Add directories and/or jar files where the Jython engine shall look for "
-"Python packages or modules."
-msgstr ""
-
-#, java-format
-msgid "Added {0} primitive"
-msgid_plural "Added {0} primitives"
-msgstr[0] ""
-msgstr[1] ""
+msgid "Add toolbar button"
+msgstr "Προσθέστε το κουμπί της γραμμής εργαλείων"
 
 msgid "Always on top"
 msgstr "Πάντα στην κορυφή"
@@ -168,12 +140,6 @@ msgstr "Ακύρωση και κλείσιμο διαλόγου"
 
 msgid "Change..."
 msgstr "Αλλαγή..."
-
-#, java-format
-msgid "Changed {0} primitive"
-msgid_plural "Changed {0} primitives"
-msgstr[0] ""
-msgstr[1] ""
 
 msgid "Choose a script engine"
 msgstr "Επιλογή μηχανής σεναρίου"
@@ -202,9 +168,6 @@ msgstr "Διαμόρφωση προτιμήσεων σεναρίων"
 msgid "Configure..."
 msgstr "Διαμόρφωση..."
 
-msgid "Create or edit a CommonJS module repository"
-msgstr ""
-
 msgid "Create or edit a path"
 msgstr "Δημιουργία ή επεξεργασία μιας διαδρομής"
 
@@ -213,18 +176,6 @@ msgstr "Τρέχον αρχείο:"
 
 msgid "Define a new script"
 msgstr "Ορίστε ένα νέο σενάριο"
-
-#, java-format
-msgid "Deleted {0} primitive"
-msgid_plural "Deleted {0} primitives"
-msgstr[0] ""
-msgstr[1] ""
-
-#, java-format
-msgid ""
-"Didn''t find a suitable syntax kit for the script engine "
-"<strong>{0}</strong>."
-msgstr ""
 
 msgid "Display name:"
 msgstr "Εμφάνιση ονόματος:"
@@ -253,9 +204,6 @@ msgstr "Εισαγάγετε πρόσθετα αρχεία JAR που παρέχ
 
 msgid "Enter the name of a script file"
 msgstr "Καταχώρηση του ονόματος ενός αρχείου σεναρίου"
-
-msgid "Error: failed to load local map from mime-types to syntax kits"
-msgstr ""
 
 #, java-format
 msgid "Error: failed to load resource file ''{0}''"
@@ -293,10 +241,6 @@ msgstr ""
 "Αποτυχία δημιουργίας διεύθυνσης URL αναφερόμενη στην αποθήκη ενότητα ''{0}''"
 
 #, java-format
-msgid "Failed to instantiate plugin ''{0}''."
-msgstr ""
-
-#, java-format
 msgid "Failed to load file ''{0}''."
 msgstr "Αποτυχημένη η φόρτωση του αρχείου ''{0}''."
 
@@ -315,10 +259,6 @@ msgid ""
 msgstr ""
 "Αποτυχία φόρτωσης της ενότητας python ''{0}''. Βεβαιωθείτε ότι οι "
 "προτιμήσεις με το πλήκτρο ''{1}'' περιλαμβάνουν τη διαδρομή για την ενότητα."
-
-#, java-format
-msgid "Failed to lookup plugin class ''{0}''."
-msgstr ""
 
 #, java-format
 msgid ""
@@ -380,11 +320,6 @@ msgstr "Το JOSM υποστηρίζει προς το παρόν τις ακό�
 msgid "Jython engine"
 msgstr "Μηχανή Jython"
 
-msgid ""
-"Jython interpreter isn''t on the class path. Support for Python plugins is "
-"disabled."
-msgstr ""
-
 msgid "Language version:"
 msgstr "Έκδοση γλώσσας:"
 
@@ -397,18 +332,6 @@ msgstr "Έναρξη επιλογέα αρχείων"
 #. don't translate
 msgid "Launch file selection dialog"
 msgstr "Έναρξη διαλόγου επιλογής αρχείου"
-
-#, java-format
-msgid ""
-"Loading default map from mime-types to syntax kits from resource ''{0}''"
-msgstr ""
-
-#, java-format
-msgid "Loading local map from mime-types to syntax kits from resource ''{0}''"
-msgstr ""
-
-msgid "MIME-Types:"
-msgstr ""
 
 msgid "Move the selected path up by one position"
 msgstr "Μετακινήστε την επιλεγμένη διαδρομή πάνω κατά μία θέση"
@@ -424,12 +347,6 @@ msgstr "Όνομα:"
 
 msgid "No script engine selected."
 msgstr "Δεν επιλέχτηκε μηχανή σεναρίου."
-
-msgid "No syntax kit"
-msgstr ""
-
-msgid "No syntax kit is configured for either of the following content types:"
-msgstr ""
 
 msgid "OK"
 msgstr "Εντάξει"
@@ -454,11 +371,6 @@ msgid ""
 msgstr ""
 "Εισαγάγετε ή επικολλήστε ένα έγκυρο αρχείο ή διεύθυνση jar. Δεν "
 "υποστηρίζονται διευθύνσεις HTTP."
-
-msgid ""
-"Refer to the online help how to configure syntax kits for specific content "
-"types."
-msgstr ""
 
 msgid "Remove"
 msgstr "Αφαίρεση"
@@ -533,9 +445,6 @@ msgstr "Σενάρια"
 msgid "Scripting Console"
 msgstr "Κονσόλα Σεναρίων"
 
-msgid "Scripting: Run a Script"
-msgstr ""
-
 msgid "Scripting: Show/hide scripting console"
 msgstr "Σενάρια: Εμφάνιση/απόκρυψη της κονσόλας σεναρίων"
 
@@ -578,9 +487,6 @@ msgstr "Εμφάνιση κονσόλας σεναρίων"
 #. icon name
 msgid "Show/hide the scripting console"
 msgstr "Εμφάνιση/απόκρυψη της κονσόλας σεναρίων"
-
-msgid "Syntax highlighting is going to be disabled."
-msgstr ""
 
 msgid "The display name of the script. Used in menu entries."
 msgstr ""
@@ -651,14 +557,6 @@ msgid "Version:"
 msgstr "Εκδόσεις:"
 
 #, java-format
-msgid "Warning: failed to load default mime types from  resource ''{0}''."
-msgstr ""
-
-#, java-format
-msgid "Warning: failed to load mime types from file ''{0}''."
-msgstr ""
-
-#, java-format
 msgid "Warning: failed to open resource file ''{0}''"
 msgstr "Προειδοποίηση: αποτυχία ανοίγματος του αρχείου πόρων ''{0}''"
 
@@ -700,18 +598,8 @@ msgid "Warning: property  ''{0}'' in resource file ''{1}'' not found"
 msgstr ""
 "Προειδοποίηση: η ιδιότητα ''{0}'' στο αρχείο πόρων ''{1}'' δεν βρέθηκε"
 
-#, java-format
-msgid ""
-"Warning: syntax kit ''{0}'' can''t be loaded. Ignoring mapping for mime type"
-" ''{1}''."
-msgstr ""
-
 msgid "cancel"
 msgstr "ακύρωση"
-
-#, java-format
-msgid "plugin class loader for plugin ''{0}'' not found"
-msgstr ""
 
 msgid "unknown"
 msgstr "άγνωστο"

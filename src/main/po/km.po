@@ -1,0 +1,68 @@
+# Translations for the JOSM plugin 'scripting' (km)
+# Copyright (C) 2019 Gubaer
+# This file is distributed under the same license as the josm-plugin_scripting package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+# Translators:
+# Simon Legner <simon.legner@gmail.com>, 2019
+# 
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: josm-plugin_scripting 30795\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-07-09 12:32+0000\n"
+"PO-Revision-Date: 2018-01-17 21:36+0000\n"
+"Language-Team: Khmer (https://www.transifex.com/josm/teams/2544/km/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: km\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+msgid "Add"
+msgstr "បន្ថែម"
+
+msgid "Add toolbar button"
+msgstr "បន្ថែម​ប៊ូតុង​របារ​ឧបករណ៍"
+
+msgid "Cancel"
+msgstr "បោះបង់"
+
+msgid "Close"
+msgstr "បិទ"
+
+msgid "Down"
+msgstr "ចុះក្រោម"
+
+#. create the edit menu
+msgid "Edit"
+msgstr "កែសម្រួល"
+
+#. create the file menu
+msgid "File"
+msgstr "ឯកសារ"
+
+msgid "ID:"
+msgstr "លេខ​សម្គាល់៖"
+
+msgid "OK"
+msgstr "យល់​​ព្រម"
+
+msgid "Open"
+msgstr "បើក"
+
+msgid "Remove"
+msgstr "យកចេញ"
+
+msgid "Save"
+msgstr "រក្សាទុក"
+
+msgid "Up"
+msgstr "ឡើង​លើ"
+
+msgid "Version:"
+msgstr "កំណែ៖"
+
+msgid "unknown"
+msgstr "មិន​ស្គាល់"
