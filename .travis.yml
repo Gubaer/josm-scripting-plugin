@@ -3,7 +3,7 @@ before_script:
   - sleep 3 # give xvfb some time to start
 
 env:
-  - DISPLAY=:99.0
+  - DISPLAY=":0.0"
 
 jobs:
   include:
