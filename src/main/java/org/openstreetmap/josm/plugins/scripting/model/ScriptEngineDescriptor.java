@@ -66,11 +66,11 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
         static public ScriptEngineType fromPreferencesValue(
                 String preferencesValue) {
             if (preferencesValue == null) return null;
-            final int i = preferencesValue.trim().toLowerCase().indexOf("/");
-            if (i == 0) {
-                return null;
-            }
-            final String pv = preferencesValue.substring(0, i);
+            preferencesValue = preferencesValue.trim().toLowerCase();
+            final int i = preferencesValue.indexOf("/");
+            final String pv = i < 0
+                ? preferencesValue
+                : preferencesValue.substring(0, i);
             return Arrays.stream(values())
                 .filter(e -> e.preferencesValue.equals(pv))
                 .findFirst()

@@ -14,11 +14,18 @@ class ScriptEngineTypeTest {
         type = ScriptEngineType.fromPreferencesValue("plugged/rhino");
         assert type == ScriptEngineType.PLUGGED;
 
+        type = ScriptEngineType.fromPreferencesValue("graalvm/s");
+        assert type == ScriptEngineType.GRAALVM;
+
         type = ScriptEngineType.fromPreferencesValue("embedded");
         assert type == ScriptEngineType.EMBEDDED;
 
         type = ScriptEngineType.fromPreferencesValue("plugged");
         assert type == ScriptEngineType.PLUGGED;
+
+        type = ScriptEngineType.fromPreferencesValue("graalvm");
+        assert type == ScriptEngineType.GRAALVM;
+
     }
 
     @Test
@@ -29,6 +36,9 @@ class ScriptEngineTypeTest {
         type = ScriptEngineType.fromPreferencesValue("  emBeDded/rhino  ");
         assert type == ScriptEngineType.EMBEDDED;
 
+        type = ScriptEngineType.fromPreferencesValue("  GraalVM/JS  ");
+        assert type == ScriptEngineType.GRAALVM;
+
         type = ScriptEngineType.fromPreferencesValue("\t plugged/rhino  \t");
         assert type == ScriptEngineType.PLUGGED;
 
@@ -37,5 +47,9 @@ class ScriptEngineTypeTest {
 
         type = ScriptEngineType.fromPreferencesValue("   plugged  ");
         assert type == ScriptEngineType.PLUGGED;
+
+        type = ScriptEngineType.fromPreferencesValue("   GrAaLVM  ");
+        assert type == ScriptEngineType.GRAALVM;
+
     }
 }
