@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 public class GraalVMFacade  implements IGraalVMFacade {
 
-    private Context context = null;
+    private Context context;
 
     public GraalVMFacade() {
         // TODO(karl): initialize context

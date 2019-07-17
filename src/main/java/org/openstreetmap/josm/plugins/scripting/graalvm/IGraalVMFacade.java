@@ -14,5 +14,5 @@ public interface IGraalVMFacade {
      * @return supported languages; empty list, if no scripting languages are
      *  supported
      */
-    public @NotNull List<ScriptEngineDescriptor> getSupportedLanguages();
+     @NotNull List<ScriptEngineDescriptor> getSupportedLanguages();
 }
