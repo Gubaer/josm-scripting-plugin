@@ -139,13 +139,45 @@ task testGraalVMSupportPresent(type: Test) {
     }
 }
 
+task testJSR223EngineAbsent(type: Test) {
+    useJUnit()
+
+    // make sure neither a graalvm, nor groovy or python are on the
+    // classpath
+    classpath = classpath
+            .filter {! it.toString().toLowerCase().contains("graalvm")}
+            .filter {! it.toString().toLowerCase().contains("groovy")}
+            .filter {! it.toString().toLowerCase().contains("python")}
+
+    scanForTestClasses= false
+    include "**/jsr223/JSR223CompatibleEngineAbsentTest.class"
+    testLogging {
+        events TestLogEvent.FAILED, TestLogEvent.PASSED
+        exceptionFormat = TestExceptionFormat.FULL
+    }
+}
+
+task testJSR223EnginePresent(type: Test) {
+    useJUnit()
+
+    // groovy and python are on the classpath
+    scanForTestClasses= false
+    include "**/jsr223/JSR223CompatibleEnginePresentTest.class"
+    testLogging {
+        events TestLogEvent.FAILED, TestLogEvent.PASSED
+        exceptionFormat = TestExceptionFormat.FULL
+    }
+}
+
 tasks.check.dependsOn(tasks.testScriptApi)
 tasks.check.dependsOn(tasks.testGraalVMSupportNotPresent)
 tasks.check.dependsOn(tasks.testGraalVMSupportPresent)
+tasks.check.dependsOn(tasks.testJSR223EngineAbsent)
+tasks.check.dependsOn(tasks.testJSR223EnginePresent)
 
 sourceSets {
     test {
-        java.srcDirs = ["test/common", "test/script-api"]
+        java.srcDirs = ["test/common", "test/script-api","test/unit"]
         groovy.srcDirs = ["test/unit"]
     }
 }

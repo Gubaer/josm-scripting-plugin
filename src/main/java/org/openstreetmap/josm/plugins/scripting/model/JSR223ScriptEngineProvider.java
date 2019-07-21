@@ -30,8 +30,7 @@ import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor.Scr
 import org.openstreetmap.josm.plugins.scripting.preferences.ScriptEngineJarInfo;
 import org.openstreetmap.josm.plugins.scripting.util.Assert;
 /**
- * <p>Provides a list model for the list of available script engines.</p>
- *
+ * Provides a list model for the list of available script engines.
  */
 @SuppressWarnings("serial")
 public class JSR223ScriptEngineProvider
@@ -234,8 +233,7 @@ public class JSR223ScriptEngineProvider
             .findFirst()
             .map(ScriptEngineDescriptor::new)
             .orElse(null);
-}
-
+    }
 
     /**
      * Replies the content type for file {@code scriptFile}.

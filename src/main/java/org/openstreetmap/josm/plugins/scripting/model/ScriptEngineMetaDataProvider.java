@@ -1,0 +1,58 @@
+package org.openstreetmap.josm.plugins.scripting.model;
+
+import org.openstreetmap.josm.plugins.scripting.graalvm.GraalVMFacadeFactory;
+
+import javax.validation.constraints.NotNull;
+import java.util.stream.Stream;
+
+/**
+ * Provides a list of available script engines
+ */
+public class ScriptEngineMetaDataProvider {
+
+    /**
+     * Replies a stream of the available JSR223 compatible script engines.
+     *
+     * @return the stream of engines. Empty stream, if no engines are available
+     */
+    static public @NotNull
+        Stream<ScriptEngineDescriptor> getAvailablePluggedScriptEngines() {
+        return JSR223ScriptEngineProvider
+            .getInstance().getScriptEngineFactories()
+            .stream()
+            .map(ScriptEngineDescriptor::new);
+    }
+
+    /**
+     * Replies the stream of the available script engines supported by the
+     * GraalVM engine.
+     *
+     * @return the stream of engines. Empty, if no engines are available
+     */
+    static public @NotNull
+        Stream<ScriptEngineDescriptor> getAvailableGraalVMScriptEngines() {
+        if (!GraalVMFacadeFactory.isGraalVMPresent()) {
+            return Stream.of();
+        }
+        return GraalVMFacadeFactory
+            .createGraalVMFacade()
+            .getSupportedLanguages()
+            .stream();
+    }
+
+    /**
+     * Replies the stram of the available script engines, either script engines
+     * compatible with JSR223, or script engines supported by the GraalVM
+     *
+     * @return the stream of script engines. Empty stream, if no script engines
+     * are available
+     */
+    static public @NotNull
+        Stream<ScriptEngineDescriptor> getAvailableEngines() {
+
+        return Stream.concat(
+            getAvailablePluggedScriptEngines(),
+            getAvailableGraalVMScriptEngines()
+        );
+    }
+}

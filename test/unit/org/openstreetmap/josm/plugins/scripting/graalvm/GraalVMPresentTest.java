@@ -2,12 +2,12 @@ package org.openstreetmap.josm.plugins.scripting.graalvm;
 
 import org.junit.Test;
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
+import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineMetaDataProvider;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.*;
 
 public class GraalVMPresentTest {
 
@@ -29,5 +29,20 @@ public class GraalVMPresentTest {
         final List<ScriptEngineDescriptor>
             infos = facade.getSupportedLanguages();
         assertFalse(infos.isEmpty());
+    }
+
+    @Test
+    public void shouldProvideANonEmptyStreamOfGraalVMScriptEngines() {
+        final List<ScriptEngineDescriptor> engines =
+                ScriptEngineMetaDataProvider.getAvailableGraalVMScriptEngines()
+                        .collect(Collectors.toList());
+        assertFalse(engines.isEmpty());
+
+        final boolean allEnginesAreGraalVMEngines =
+            engines.stream().allMatch(engine ->
+                   engine.getEngineType()
+                == ScriptEngineDescriptor.ScriptEngineType.GRAALVM
+            );
+        assertTrue(allEnginesAreGraalVMEngines);
     }
 }
