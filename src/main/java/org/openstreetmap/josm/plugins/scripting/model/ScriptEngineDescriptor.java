@@ -82,6 +82,7 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
     private String engineId;
     private String languageName = null;
     private String engineName = null;
+    private String engineVersion = null;
     private final List<String> contentMimeTypes = new ArrayList<>();
 
     /**
@@ -191,6 +192,7 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
                 //don't lowercase. Lookup in ScriptEngineManager could be case
                 //sensitive
                 engineId = engineId.trim();
+                System.out.println("buildFromPreferences: engineId=" + engineId);
                 if (!JSR223ScriptEngineProvider.getInstance()
                         .hasEngineWithName(engineId)) {
                     System.out.println(tr("Warning: preference with key ''{0}''"
@@ -213,20 +215,22 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
     protected void initParametersForJSR223Engine(String engineId) {
         ScriptEngineFactory factory = JSR223ScriptEngineProvider.getInstance()
                 .getScriptFactoryByName(engineId);
-        if (factory == null){
-            this.languageName = null;
-            this.engineName = null;
-            this.contentMimeTypes.clear();
-            return;
-        }
         initParametersForJSR223Engine(factory);
     }
 
     protected void initParametersForJSR223Engine(ScriptEngineFactory factory) {
-        this.languageName = factory.getLanguageName();
-        this.engineName = factory.getEngineName();
-        this.contentMimeTypes.clear();
-        this.contentMimeTypes.addAll(factory.getMimeTypes());
+        if (factory == null){
+            this.languageName = null;
+            this.engineName = null;
+            this.contentMimeTypes.clear();
+            this.engineVersion = null;
+        } else {
+            this.languageName = factory.getLanguageName();
+            this.engineName = factory.getEngineName();
+            this.contentMimeTypes.clear();
+            this.contentMimeTypes.addAll(factory.getMimeTypes());
+            this.engineVersion = factory.getEngineVersion();
+        }
     }
 
     /**
@@ -268,9 +272,30 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
      * @param contentType the content type of the script sources. Ignored
      *   if null.
      */
-    public ScriptEngineDescriptor(@NotNull ScriptEngineType engineType,
+    public ScriptEngineDescriptor(
+            @NotNull ScriptEngineType engineType,
             @NotNull String engineId,
             String languageName, String engineName, String contentType) {
+        this(engineType, engineId, languageName, engineName, contentType,
+                null /* engineVersion */);
+    }
+
+    /**
+     * Creates a new descriptor.
+     *
+     * @param engineType the engine type. Must not be null.
+     * @param engineId the engine id. Must not be null.
+     * @param languageName the name of the scripting language. May be null.
+     * @param engineName the name of the scripting engine. May be null.
+     * @param contentType the content type of the script sources. Ignored
+     *   if null.
+     * @param engineVersion the version of the engine
+     */
+    public ScriptEngineDescriptor(
+            @NotNull ScriptEngineType engineType,
+            @NotNull String engineId,
+            String languageName, String engineName, String contentType,
+            String engineVersion) {
         Objects.requireNonNull(engineType);
         Objects.requireNonNull(engineId);
         this.engineId = engineId;
@@ -280,8 +305,8 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
         if (contentType != null) {
             this.contentMimeTypes.add(contentType.trim());
         }
+        this.engineVersion = engineVersion;
     }
-
     /**
      * Creates a new descriptor given a factory for JSR223-compatible script
      * engines.
@@ -362,6 +387,15 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
      */
     public Optional<String> getEngineName() {
         return Optional.ofNullable(engineName);
+    }
+
+    /**
+     * Replies the version of the scripting engine, if it is known.
+     *
+     * @return the version of the scripting engine
+     */
+    public Optional<String> getEngineVersion() {
+        return Optional.ofNullable(engineVersion);
     }
 
     /**
