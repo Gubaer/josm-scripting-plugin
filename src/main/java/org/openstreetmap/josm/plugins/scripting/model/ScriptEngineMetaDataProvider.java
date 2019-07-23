@@ -6,7 +6,7 @@ import javax.validation.constraints.NotNull;
 import java.util.stream.Stream;
 
 /**
- * Provides a list of available script engines
+ * Provides meta-data about available script engines
  */
 public class ScriptEngineMetaDataProvider {
 
@@ -24,8 +24,8 @@ public class ScriptEngineMetaDataProvider {
     }
 
     /**
-     * Replies the stream of the available script engines supported by the
-     * GraalVM engine.
+     * Replies the stream of available script engines supported by the
+     * GraalVM.
      *
      * @return the stream of engines. Empty, if no engines are available
      */
@@ -41,10 +41,10 @@ public class ScriptEngineMetaDataProvider {
     }
 
     /**
-     * Replies the stram of the available script engines, either script engines
+     * Replies the stream of available script engines, either script engines
      * compatible with JSR223, or script engines supported by the GraalVM
      *
-     * @return the stream of script engines. Empty stream, if no script engines
+     * @return the stream of script engines. Empty, if no script engines
      * are available
      */
     static public @NotNull
