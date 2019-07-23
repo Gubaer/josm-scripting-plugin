@@ -9,10 +9,7 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -186,11 +183,16 @@ public class JSR223ScriptEngineProvider
      *
      * @param name the name. Must not be null.
      * @return the script engine
-     * @see ScriptEngineManager#getEngineByName(String)
      */
     public ScriptEngine getEngineByName(@NotNull String name) {
         Objects.requireNonNull(name);
-        return getScriptEngineManager().getEngineByName(name);
+        // Note: getScriptEngineManager().get(name) doesn't work like
+        // expected. This is a work around.
+        return getScriptEngineFactories().stream()
+            .filter(f -> f.getEngineName().equals(name))
+            .findAny()
+            .map(value -> value.getScriptEngine())
+            .orElse(null);
     }
 
     /**
