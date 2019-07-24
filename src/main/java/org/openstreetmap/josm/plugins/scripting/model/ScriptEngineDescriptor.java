@@ -81,6 +81,7 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
     private ScriptEngineType engineType;
     private String engineId;
     private String languageName = null;
+    private String languageVersion = null;
     private String engineName = null;
     private String engineVersion = null;
     private final List<String> contentMimeTypes = new ArrayList<>();
@@ -221,11 +222,13 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
     protected void initParametersForJSR223Engine(ScriptEngineFactory factory) {
         if (factory == null){
             this.languageName = null;
+            this.languageVersion = null;
             this.engineName = null;
             this.contentMimeTypes.clear();
             this.engineVersion = null;
         } else {
             this.languageName = factory.getLanguageName();
+            this.languageVersion = factory.getLanguageVersion();
             this.engineName = factory.getEngineName();
             this.contentMimeTypes.clear();
             this.contentMimeTypes.addAll(factory.getMimeTypes());
@@ -275,9 +278,10 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
     public ScriptEngineDescriptor(
             @NotNull ScriptEngineType engineType,
             @NotNull String engineId,
-            String languageName, String engineName, String contentType) {
-        this(engineType, engineId, languageName, engineName, contentType,
-                null /* engineVersion */);
+            String engineName, String languageName,  String contentType) {
+        this(engineType, engineId, engineName, languageName, contentType,
+                null /* engineVersion */,
+                null /* languageVersion */);
     }
 
     /**
@@ -290,12 +294,13 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
      * @param contentType the content type of the script sources. Ignored
      *   if null.
      * @param engineVersion the version of the engine
+     * @param languageVersion the version the language
      */
     public ScriptEngineDescriptor(
             @NotNull ScriptEngineType engineType,
             @NotNull String engineId,
-            String languageName, String engineName, String contentType,
-            String engineVersion) {
+            String engineName, String languageName, String contentType,
+            String engineVersion, String languageVersion) {
         Objects.requireNonNull(engineType);
         Objects.requireNonNull(engineId);
         this.engineId = engineId;
@@ -306,6 +311,7 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
             this.contentMimeTypes.add(contentType.trim());
         }
         this.engineVersion = engineVersion;
+        this.languageVersion = languageVersion;
     }
     /**
      * Creates a new descriptor given a factory for JSR223-compatible script
@@ -396,6 +402,15 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
      */
     public Optional<String> getEngineVersion() {
         return Optional.ofNullable(engineVersion);
+    }
+
+    /**
+     * Replies the language version, if it is known.
+     *
+     * @return the language version
+     */
+    public Optional<String> getLanguageVersion() {
+        return Optional.ofNullable(languageVersion);
     }
 
     /**

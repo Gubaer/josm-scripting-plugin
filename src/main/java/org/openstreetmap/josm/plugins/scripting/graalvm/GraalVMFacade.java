@@ -8,7 +8,6 @@ import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 public class GraalVMFacade  implements IGraalVMFacade {
@@ -22,21 +21,23 @@ public class GraalVMFacade  implements IGraalVMFacade {
     }
 
     protected ScriptEngineDescriptor buildLanguageInfo(
-            final String name,
+            final Engine engine,
             final Language info) {
-        ScriptEngineDescriptor desc = new ScriptEngineDescriptor(
+        return new ScriptEngineDescriptor(
                 ScriptEngineDescriptor.ScriptEngineType.GRAALVM,
-                info.getId(),
-                info.getName(),
-                info.getImplementationName(),
-                info.getDefaultMimeType());
-        return desc;
+                info.getId(),                 // engineId
+                info.getImplementationName(), // engineName
+                info.getName(),               // languageName
+                info.getDefaultMimeType(),    // contentType
+                engine.getVersion(),          // engineVersion
+                info.getVersion()             // languageVersion
+        );
     }
+
     protected List<ScriptEngineDescriptor> buildSupportedLanguageInfos(
         @NotNull final Engine engine) {
-        final Map<String, Language> languages = engine.getLanguages();
-        return languages.entrySet().stream().map(entry ->
-            buildLanguageInfo(entry.getKey(), entry.getValue())
+        return engine.getLanguages().values().stream().map(value ->
+            buildLanguageInfo(engine, value)
         ).collect(Collectors.toList());
     }
 

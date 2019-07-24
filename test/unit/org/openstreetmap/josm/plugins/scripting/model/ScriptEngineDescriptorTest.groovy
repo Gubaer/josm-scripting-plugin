@@ -17,6 +17,7 @@ class ScriptEngineDescriptorTest {
         assert sd.getEngineId() == oracleNashornId
         assert sd.getEngineType() == ScriptEngineType.PLUGGED
         assert sd.getLanguageName().isPresent()
+        assert sd.getLanguageVersion().isPresent()
         assert sd.getEngineName().isPresent()
         assert ! sd.getContentMimeTypes().isEmpty()
         assert sd.getEngineVersion().isPresent()
@@ -29,6 +30,7 @@ class ScriptEngineDescriptorTest {
         assert sd.getEngineId() == oracleNashornId
         assert sd.getEngineType() == ScriptEngineType.PLUGGED
         assert sd.getLanguageName().isPresent()
+        assert sd.getLanguageVersion().isPresent()
         assert sd.getEngineName().isPresent()
         assert ! sd.getContentMimeTypes().isEmpty()
         assert sd.getEngineVersion().isPresent()
@@ -44,12 +46,13 @@ class ScriptEngineDescriptorTest {
         assert sd.getEngineId() == "rhino"
         assert sd.getEngineType() == ScriptEngineType.EMBEDDED
         assert sd.getLanguageName().empty()
+        assert sd.getLanguageVersion().empty()
         assert sd.getEngineName().empty()
         assert sd.getContentMimeTypes() == []
         assert sd.getEngineVersion().empty()
 
         sd = new ScriptEngineDescriptor(ScriptEngineType.EMBEDDED, "rhino",
-                "JavaScript", "Mozilla Rhino", "text/javascript")
+                "Mozilla Rhino", "JavaScript","text/javascript")
         assert sd.getEngineId() == "rhino"
         assert sd.getEngineType() == ScriptEngineType.EMBEDDED
         assert sd.getLanguageName().get() == "JavaScript"
@@ -58,13 +61,15 @@ class ScriptEngineDescriptorTest {
         assert sd.getEngineVersion().empty()
 
         sd = new ScriptEngineDescriptor(ScriptEngineType.EMBEDDED, "rhino",
-                "JavaScript", "Mozilla Rhino", "text/javascript", "v1.0.0")
+                "Mozilla Rhino", "JavaScript", "text/javascript",
+                "v1.0.0", "v2.0.0")
         assert sd.getEngineId() == "rhino"
         assert sd.getEngineType() == ScriptEngineType.EMBEDDED
         assert sd.getLanguageName().get() == "JavaScript"
         assert sd.getEngineName().get() == "Mozilla Rhino"
         assert sd.getContentMimeTypes() == ["text/javascript"]
         assert sd.getEngineVersion().get() == "v1.0.0"
+        assert sd.getLanguageVersion().get() == "v2.0.0"
 
     }
 
