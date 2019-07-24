@@ -48,7 +48,7 @@ class ScriptEngineDescriptorTest {
         assert sd.getLanguageName().empty()
         assert sd.getLanguageVersion().empty()
         assert sd.getEngineName().empty()
-        assert sd.getContentMimeTypes() == []
+        assert sd.getContentMimeTypes() == [] as Set
         assert sd.getEngineVersion().empty()
 
         sd = new ScriptEngineDescriptor(ScriptEngineType.EMBEDDED, "rhino",
@@ -57,7 +57,7 @@ class ScriptEngineDescriptorTest {
         assert sd.getEngineType() == ScriptEngineType.EMBEDDED
         assert sd.getLanguageName().get() == "JavaScript"
         assert sd.getEngineName().get() == "Mozilla Rhino"
-        assert sd.getContentMimeTypes() == ["text/javascript"]
+        assert sd.getContentMimeTypes() == ["text/javascript"] as Set
         assert sd.getEngineVersion().empty()
 
         sd = new ScriptEngineDescriptor(ScriptEngineType.EMBEDDED, "rhino",
@@ -67,21 +67,20 @@ class ScriptEngineDescriptorTest {
         assert sd.getEngineType() == ScriptEngineType.EMBEDDED
         assert sd.getLanguageName().get() == "JavaScript"
         assert sd.getEngineName().get() == "Mozilla Rhino"
-        assert sd.getContentMimeTypes() == ["text/javascript"]
+        assert sd.getContentMimeTypes() == ["text/javascript"] as Set
         assert sd.getEngineVersion().get() == "v1.0.0"
         assert sd.getLanguageVersion().get() == "v2.0.0"
-
     }
 
     @Test
-    void buildFromPreferencs_MissingPreference() {
+    void buildFromPreferences_MissingPreference() {
         def pref = new Preferences()
         def sd = ScriptEngineDescriptor.buildFromPreferences(pref)
         assert sd == ScriptEngineDescriptor.DEFAULT_SCRIPT_ENGINE
     }
 
     @Test
-    void buildFromPreferencs_EmbeddedScriptingEngine() {
+    void buildFromPreferences_EmbeddedScriptingEngine() {
         def pref = new Preferences(Config.getPref())
         pref.put(PreferenceKeys.PREF_KEY_SCRIPTING_ENGINE, "embedded/rhino")
         def sd = ScriptEngineDescriptor.buildFromPreferences(pref)
@@ -90,7 +89,7 @@ class ScriptEngineDescriptorTest {
     }
 
     @Test
-    void buildFromPreferencs_UnknownEmbeddedScriptingEngine() {
+    void buildFromPreferences_UnknownEmbeddedScriptingEngine() {
         def pref = new Preferences(Config.getPref())
         pref.put(PreferenceKeys.PREF_KEY_SCRIPTING_ENGINE,
                 "embedded/noSuchEmbeddedEngine")
@@ -134,5 +133,18 @@ class ScriptEngineDescriptorTest {
 
         sd = new ScriptEngineDescriptor(ScriptEngineType.PLUGGED, "groovy")
         assert !sd.isDefault()
+    }
+
+    @Test
+    void "should set and then get content mime types"() {
+        def sd = new ScriptEngineDescriptor(ScriptEngineType.EMBEDDED, "rhino",
+                "Mozilla Rhino", "JavaScript", "text/javascript",
+                "v1.0.0", "v2.0.0")
+        def mimeTypes = ["text/plain", "application/javascript"]
+        sd.setContentMimeTypes(mimeTypes)
+        def mt = sd.getContentMimeTypes()
+        mimeTypes.each {t ->
+            assert mt.contains(t)
+        }
     }
 }

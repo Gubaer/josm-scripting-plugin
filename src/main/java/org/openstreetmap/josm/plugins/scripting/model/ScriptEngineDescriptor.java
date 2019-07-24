@@ -3,14 +3,7 @@ package org.openstreetmap.josm.plugins.scripting.model;
 import static org.openstreetmap.josm.tools.I18n.tr;
 
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.logging.Logger;
 
 import javax.script.ScriptEngineFactory;
@@ -84,7 +77,7 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
     private String languageVersion = null;
     private String engineName = null;
     private String engineVersion = null;
-    private final List<String> contentMimeTypes = new ArrayList<>();
+    private final HashSet<String> contentMimeTypes = new HashSet<>();
 
     /**
      * The default script engine descriptor. Refers to the embedded script
@@ -419,8 +412,18 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
      * @return the content types. An unmodifiable list. An empty list, if no
      *  content types are known.
      */
-    public List<String> getContentMimeTypes() {
-        return Collections.unmodifiableList(contentMimeTypes);
+    public Set<String> getContentMimeTypes() {
+        return Collections.unmodifiableSet(contentMimeTypes);
+    }
+
+    /**
+     * Sets the content mime types of the script source
+     *
+     * @param mimeTypes the content mime types
+     */
+    public void setContentMimeTypes(@NotNull Collection<String> mimeTypes) {
+        this.contentMimeTypes.clear();
+        this.contentMimeTypes.addAll(mimeTypes);
     }
 
     public String toString() {

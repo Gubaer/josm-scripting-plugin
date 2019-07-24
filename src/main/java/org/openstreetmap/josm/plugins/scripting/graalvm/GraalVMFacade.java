@@ -4,8 +4,6 @@ import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.Engine;
 import org.graalvm.polyglot.Language;
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
-
-
 import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,7 +21,7 @@ public class GraalVMFacade  implements IGraalVMFacade {
     protected ScriptEngineDescriptor buildLanguageInfo(
             final Engine engine,
             final Language info) {
-        return new ScriptEngineDescriptor(
+        final ScriptEngineDescriptor desc = new ScriptEngineDescriptor(
                 ScriptEngineDescriptor.ScriptEngineType.GRAALVM,
                 info.getId(),                 // engineId
                 info.getImplementationName(), // engineName
@@ -32,6 +30,8 @@ public class GraalVMFacade  implements IGraalVMFacade {
                 engine.getVersion(),          // engineVersion
                 info.getVersion()             // languageVersion
         );
+        desc.setContentMimeTypes(info.getMimeTypes());
+        return desc;
     }
 
     protected List<ScriptEngineDescriptor> buildSupportedLanguageInfos(
