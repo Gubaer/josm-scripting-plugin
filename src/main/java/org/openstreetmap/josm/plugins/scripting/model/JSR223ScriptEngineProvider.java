@@ -27,11 +27,12 @@ import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor.Scr
 import org.openstreetmap.josm.plugins.scripting.preferences.ScriptEngineJarInfo;
 import org.openstreetmap.josm.plugins.scripting.util.Assert;
 /**
- * Provides a list model for the list of available script engines.
+ * Provides a list model for the list of available JSR223 compatible
+ * script engines.
  */
 @SuppressWarnings("serial")
 public class JSR223ScriptEngineProvider
-    extends AbstractListModel<ScriptEngineFactory>
+    extends AbstractListModel<ScriptEngineDescriptor>
     implements PreferenceKeys {
 
     /**
@@ -59,6 +60,7 @@ public class JSR223ScriptEngineProvider
     }
 
     private final List<ScriptEngineFactory> factories = new ArrayList<>();
+    private final List<ScriptEngineDescriptor> descriptors = new ArrayList<>();
     private final List<File> scriptEngineJars = new ArrayList<>();
     private MimetypesFileTypeMap mimeTypesMap = new MimetypesFileTypeMap();
     private ClassLoader scriptClassLoader = getClass().getClassLoader();
@@ -151,13 +153,16 @@ public class JSR223ScriptEngineProvider
         Objects.requireNonNull(scriptClassLoader,
                 "expected scriptClassLoader != null");
         factories.clear();
-        ScriptEngineManager manager =
-                new ScriptEngineManager(scriptClassLoader);
+        descriptors.clear();
+        final ScriptEngineManager manager =
+            new ScriptEngineManager(scriptClassLoader);
         factories.addAll(manager.getEngineFactories());
 
         Collections.sort(factories,
             (f1,f2) -> f1.getEngineName().compareTo(f2.getEngineName())
         );
+        factories.stream().map(ScriptEngineDescriptor::new)
+            .collect(Collectors.toCollection(() -> descriptors));
     }
 
     private JSR223ScriptEngineProvider(){
@@ -186,7 +191,7 @@ public class JSR223ScriptEngineProvider
      */
     public ScriptEngine getEngineByName(@NotNull String name) {
         Objects.requireNonNull(name);
-        // Note: getScriptEngineManager().get(name) doesn't work like
+        // Note: getScriptEngineManager().get(name) doesn't work as
         // expected. This is a work around.
         return getScriptEngineFactories().stream()
             .filter(f -> f.getEngineName().equals(name))
@@ -344,12 +349,12 @@ public class JSR223ScriptEngineProvider
     /* ListModel                                                             */
     /* --------------------------------------------------------------------- */
     @Override
-    public ScriptEngineFactory getElementAt(int i) {
-        return factories.get(i);
+    public ScriptEngineDescriptor getElementAt(int i) {
+        return descriptors.get(i);
     }
 
     @Override
     public int getSize() {
-        return factories.size();
+        return descriptors.size();
     }
 }
