@@ -9,6 +9,7 @@ import org.openstreetmap.josm.gui.widgets.SelectAllOnFocusGainedDecorator;
 import org.openstreetmap.josm.gui.widgets.VerticallyScrollablePanel;
 import org.openstreetmap.josm.plugins.scripting.ScriptingPlugin;
 import org.openstreetmap.josm.plugins.scripting.model.JSR223ScriptEngineProvider;
+import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
 import org.openstreetmap.josm.plugins.scripting.ui.ScriptEngineCellRenderer;
 import org.openstreetmap.josm.tools.ImageProvider;
 
@@ -183,8 +184,8 @@ public class ScriptEnginesConfigurationPanel extends VerticallyScrollablePanel{
 
     protected JPanel buildScriptEnginesInfoPanel() {
         JPanel pnl = new JPanel(new BorderLayout());
-        JList<ScriptEngineFactory> lstEngines =
-                new JList<ScriptEngineFactory>(JSR223ScriptEngineProvider
+        JList<ScriptEngineDescriptor> lstEngines =
+                new JList<>(JSR223ScriptEngineProvider
                     .getInstance());
         lstEngines.setCellRenderer(new ScriptEngineCellRenderer());
         lstEngines.setVisibleRowCount(3);

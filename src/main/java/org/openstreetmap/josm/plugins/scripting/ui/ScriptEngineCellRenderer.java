@@ -5,6 +5,7 @@ import org.openstreetmap.josm.tools.ImageProvider;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.openstreetmap.josm.tools.I18n.tr;
@@ -15,14 +16,18 @@ import static org.openstreetmap.josm.tools.I18n.tr;
 public class ScriptEngineCellRenderer
     implements ListCellRenderer<ScriptEngineDescriptor> {
 
+    static public String defaultEngineName(Optional<String> name) {
+        return name.map(n -> n.trim().isEmpty() ? tr("unknown engine") : n)
+            .orElse(tr("unknown engine"));
+    }
+
     private final JLabel lbl = new JLabel();
 
     protected String getDisplayName(ScriptEngineDescriptor descriptor){
         if (descriptor == null) return tr("Select an engine");
-        final String engineName = descriptor.getEngineName()
-                .orElse(tr("unknown language"));
+        final String engineName = defaultEngineName(descriptor.getEngineName());
         final String languageName = descriptor.getLanguageName()
-                .orElse(tr("unknown engine"));
+                .orElse(tr("unknown language"));
         // used in the context of a combo box
         return tr("{1} (with engine {0})", engineName, languageName);
     }
@@ -39,7 +44,7 @@ public class ScriptEngineCellRenderer
         sb.append("<html>");
         if (descriptor.getEngineName().isPresent()) {
             addNameValuePairToToolTip(sb, tr("Name:"),
-                descriptor.getEngineName().get());
+                defaultEngineName(descriptor.getEngineName()));
         }
         if (descriptor.getEngineVersion().isPresent()) {
             addNameValuePairToToolTip(sb, tr("Version:"),

@@ -20,6 +20,7 @@ import javax.swing.text.html.StyleSheet;
 import javax.validation.constraints.NotNull;
 
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
+import org.openstreetmap.josm.plugins.scripting.ui.ScriptEngineCellRenderer;
 import org.openstreetmap.josm.plugins.scripting.ui.ScriptEngineSelectionDialog;
 
 /**
@@ -101,12 +102,11 @@ PropertyChangeListener, HyperlinkListener{
             sb.append("</html>");
         } else {
             sb.append("<html>");
-            sb.append(tr(
-                    "Executing scripts in language <strong>{0}</strong> "
-                    + "using engine <strong>{1}</strong>.",
-                    desc.getLanguageName().orElse(tr("unknown")),
-                    desc.getEngineName().orElse(tr("unknown"))
-                )
+            sb.append(tr("Executing scripts in language <strong>{0}</strong> "
+                + "using engine <strong>{1}</strong>.",
+                desc.getLanguageName().orElse(tr("unknown")),
+                ScriptEngineCellRenderer.defaultEngineName(
+                    desc.getEngineName()))
             );
             sb.append(" ");
             sb.append("<a href=\"urn:change-script-engine\">")

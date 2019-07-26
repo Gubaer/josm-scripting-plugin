@@ -1,60 +1,45 @@
 package org.openstreetmap.josm.plugins.scripting.ui;
 
-import static org.openstreetmap.josm.plugins.scripting.ui
-    .GridBagConstraintBuilder.gbc;
-import static org.openstreetmap.josm.tools.I18n.tr;
+import org.openstreetmap.josm.gui.MainApplication;
+import org.openstreetmap.josm.gui.help.ContextSensitiveHelpAction;
+import org.openstreetmap.josm.gui.help.HelpUtil;
+import org.openstreetmap.josm.gui.util.WindowGeometry;
+import org.openstreetmap.josm.gui.widgets.HtmlPanel;
+import org.openstreetmap.josm.plugins.scripting.graalvm.GraalVMFacadeFactory;
+import org.openstreetmap.josm.plugins.scripting.model.JSR223ScriptEngineProvider;
+import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
+import org.openstreetmap.josm.tools.ImageProvider;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
-import javax.script.ScriptEngineFactory;
-import javax.swing.AbstractAction;
-import javax.swing.ButtonGroup;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JDialog;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JScrollPane;
-import javax.swing.KeyStroke;
-import javax.swing.ListSelectionModel;
+import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.Collections;
+import java.util.List;
+import java.util.logging.Logger;
 
-import org.openstreetmap.josm.gui.MainApplication;
-import org.openstreetmap.josm.gui.help.ContextSensitiveHelpAction;
-import org.openstreetmap.josm.gui.help.HelpUtil;
-import org.openstreetmap.josm.gui.widgets.HtmlPanel;
-import org.openstreetmap.josm.plugins.scripting.model
-    .JSR223ScriptEngineProvider;
-import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
-import org.openstreetmap.josm.tools.ImageProvider;
-import org.openstreetmap.josm.gui.util.WindowGeometry;
+import static org.openstreetmap.josm.plugins.scripting.ui.GridBagConstraintBuilder.gbc;
+import static org.openstreetmap.josm.tools.I18n.tr;
 
 /**
  * <strong>ScriptEngineSelectionDialog</strong> allows to select one of the
- *  plugable JSR-223 compatible script engines, one of the embedded script
+ *  plugable JSR223 compatible script engines, one of the embedded script
  *  engines, or one of the scripting languages supported by the GraalVM.
  *
  */
 public class ScriptEngineSelectionDialog extends JDialog {
     private static final long serialVersionUID = 3359988700106524131L;
+    private static Logger logger =
+        Logger.getLogger(ScriptEngineDescriptor.class.getName());
 
     /**
-     * <p>Launches a modal dialog for selecting a script engine.</p>
+     * Launches a modal dialog for selecting a script engine.
      *
      * @param parent the parent component for the dialog. Assumes
      * {@code Main.parent} if null
@@ -67,8 +52,8 @@ public class ScriptEngineSelectionDialog extends JDialog {
     }
 
     /**
-     * <p>Launches a modal dialog for selecting a script engine. The dialog
-     * is opened with {@code Main.parent} as owner.</p>
+     * Launches a modal dialog for selecting a script engine. The dialog
+     * is opened with {@code Main.parent} as owner.
      *
      * @return descriptor for the selected script engine, or null, if the user
      *  didn't select an engine
@@ -78,9 +63,9 @@ public class ScriptEngineSelectionDialog extends JDialog {
     }
 
     /**
-     * <p>Launches a modal dialog for selecting a script engine. The dialog is
+     * Launches a modal dialog for selecting a script engine. The dialog is
      * opened with {@code parent} as owner. If available, the factory
-     * {@code currentFactory} is selected in the list.</p>
+     * {@code currentFactory} is selected in the list.
      *
      * @return the selected script engine, or null, if the user didn't select
      *  an engine
@@ -96,10 +81,12 @@ public class ScriptEngineSelectionDialog extends JDialog {
     }
 
     private JList<ScriptEngineDescriptor> lstPluggedEngines;
+    private ListModel<ScriptEngineDescriptor> mdlPluggedEngines;
     private JList<ScriptEngineDescriptor> lstGraalVMEngines;
+    private ListModel<ScriptEngineDescriptor> mdlGraalVMEngines;
+
     private JButton btnOK;
     private ScriptEngineDescriptor selectedEngine;
-    private JSR223ScriptEngineProvider model;
 
     private ButtonGroup bgScriptingEngineType;
     private JRadioButton rbEmbeddedScriptingEngine;
@@ -107,7 +94,7 @@ public class ScriptEngineSelectionDialog extends JDialog {
     private JRadioButton rbGraalVMScriptingEngine;
 
     /**
-     * <p>Creates a new dialog.</p>
+     * Creates a new dialog.
      *
      * @param parent the parent. Uses
      *  {@link JOptionPane#getFrameForComponent(Component)} to determine the
@@ -115,7 +102,7 @@ public class ScriptEngineSelectionDialog extends JDialog {
      */
     public ScriptEngineSelectionDialog(Component parent) {
         super(JOptionPane.getFrameForComponent(parent),
-                ModalityType.APPLICATION_MODAL);
+            ModalityType.APPLICATION_MODAL);
         build();
         HelpUtil.setHelpContext(getRootPane(),
                 HelpUtil.ht("/Plugin/Scripting"));
@@ -188,18 +175,40 @@ public class ScriptEngineSelectionDialog extends JDialog {
         if (selected == null) {
             selected= ScriptEngineDescriptor.DEFAULT_SCRIPT_ENGINE;
         }
+        ScriptEngineDescriptor desc = null;
         switch(selected.getEngineType()){
             case EMBEDDED:
                 rbEmbeddedScriptingEngine.setSelected(true);
                 break;
             case PLUGGED:
                 rbPluggableScriptingEngine.setSelected(true);
-                ScriptEngineFactory factory =
-                        model.getScriptFactoryByName(selected.getEngineId());
-                if (factory == null){
+                desc = null;
+                for (int i = 0; i < mdlPluggedEngines.getSize(); i++) {
+                    desc = mdlPluggedEngines.getElementAt(i);
+                    if (desc.getEngineId().equals(selected.getEngineId())) {
+                        break;
+                    }
+                }
+                if (desc == null){
                     lstPluggedEngines.setSelectedIndex(0);
                 } else {
-                    lstPluggedEngines.setSelectedValue(factory,
+                    lstPluggedEngines.setSelectedValue(desc,
+                            true /* scroll to selected */);
+                }
+                break;
+            case GRAALVM:
+                rbGraalVMScriptingEngine.setSelected(true);
+                desc = null;
+                for (int i = 0; i < mdlGraalVMEngines.getSize(); i++) {
+                    desc = mdlGraalVMEngines.getElementAt(i);
+                    if (desc.getEngineId().equals(selected.getEngineId())) {
+                        break;
+                    }
+                }
+                if (desc == null){
+                    lstGraalVMEngines.setSelectedIndex(0);
+                } else {
+                    lstGraalVMEngines.setSelectedValue(desc,
                             true /* scroll to selected */);
                 }
                 break;
@@ -210,7 +219,7 @@ public class ScriptEngineSelectionDialog extends JDialog {
         if (bgScriptingEngineType == null) {
             bgScriptingEngineType = new ButtonGroup();
         }
-        JPanel pnl = new JPanel(new GridBagLayout());
+        final JPanel pnl = new JPanel(new GridBagLayout());
         GridBagConstraints gc  = gbc().cell(0, 0).weight(0.0, 0.0)
                 .anchor(GridBagConstraints.NORTHWEST)
                 .fill(GridBagConstraints.VERTICAL)
@@ -257,6 +266,9 @@ public class ScriptEngineSelectionDialog extends JDialog {
     }
 
     protected JPanel buildGraalVMScriptEnginePanel() {
+        if (bgScriptingEngineType == null) {
+            bgScriptingEngineType = new ButtonGroup();
+        }
         final JPanel pnl = new JPanel(new GridBagLayout());
         GridBagConstraints gc  = gbc().cell(0, 0).weight(0.0, 0.0)
             .anchor(GridBagConstraints.NORTHWEST)
@@ -266,7 +278,7 @@ public class ScriptEngineSelectionDialog extends JDialog {
         rbGraalVMScriptingEngine.addChangeListener(clEngineTypeChanged);
         rbGraalVMScriptingEngine.addChangeListener(actOK);
         bgScriptingEngineType.add(rbGraalVMScriptingEngine);
-        pnl.add(rbPluggableScriptingEngine, gc);
+        pnl.add(rbGraalVMScriptingEngine, gc);
 
         gc = gbc(gc).cell(1,0).weight(1.0,0.0).fillboth().constraints();
         HtmlPanel ht = new HtmlPanel();
@@ -305,16 +317,65 @@ public class ScriptEngineSelectionDialog extends JDialog {
         return pnl;
     }
 
+    private static class GraalVMEngineListModel
+                    extends AbstractListModel<ScriptEngineDescriptor> {
+        private List<ScriptEngineDescriptor> descriptors;
+        public GraalVMEngineListModel() {
+            if (GraalVMFacadeFactory.isGraalVMPresent()) {
+                descriptors = GraalVMFacadeFactory.createGraalVMFacade()
+                    .getSupportedLanguages();
+            } else {
+                descriptors = Collections.emptyList();
+            }
+        }
+
+        @Override
+        public int getSize() {
+            return descriptors.size();
+        }
+
+        @Override
+        public ScriptEngineDescriptor getElementAt(int index) {
+            return descriptors.get(index);
+        }
+    }
+
     protected void build() {
         lstPluggedEngines = new JList<>(
-                model = JSR223ScriptEngineProvider.getInstance());
+            mdlPluggedEngines = JSR223ScriptEngineProvider.getInstance());
+        lstGraalVMEngines = new JList<>(
+            mdlGraalVMEngines = new GraalVMEngineListModel());
 
         Container c = getContentPane();
         c.setLayout(new BorderLayout());
+
+        //NORTH: display the default embedded script language
         c.add(buildEmbeddedScriptingEnginePanel(), BorderLayout.NORTH);
-        c.add(buildPluggableScriptEngineListPanel(), BorderLayout.CENTER);
+
+        //CENTER: always display the list of plugged engines. Optionally,
+        // if a GraalVM is present, display the list of languages
+        // it supports
+        if (GraalVMFacadeFactory.isGraalVMPresent()) {
+            logger.info("GraalVM is present ...");
+            final JPanel pnl = new JPanel(new GridBagLayout());
+            GridBagConstraints gc  = gbc().cell(0, 0).weight(0.0, 0.5)
+                    .anchor(GridBagConstraints.NORTHWEST)
+                    .fillboth()
+                    .constraints();
+            pnl.add(buildPluggableScriptEngineListPanel(),gc);
+            gc = gbc(gc).cell(0,1).weight(1.0,0.5).fillboth().constraints();
+            pnl.add(buildGraalVMScriptEnginePanel(),gc);
+            c.add(pnl, BorderLayout.CENTER);
+        } else {
+            logger.info("GraalVM is not present ...");
+            c.add(buildPluggableScriptEngineListPanel(), BorderLayout.CENTER);
+        }
+
+        //SOUTH: the action buttons
         c.add(buildControlButtonPanel(), BorderLayout.SOUTH);
 
+        // double-click on an engine selects the engine and closes
+        // the dialog
         lstPluggedEngines.getSelectionModel()
             .addListSelectionListener((OKAction)btnOK.getAction());
 
@@ -341,10 +402,10 @@ public class ScriptEngineSelectionDialog extends JDialog {
                 selectedEngine = ScriptEngineDescriptor.DEFAULT_SCRIPT_ENGINE;
             } else if (rbPluggableScriptingEngine.isSelected()) {
                 int selIndex = lstPluggedEngines.getSelectedIndex();
-                selectedEngine = new ScriptEngineDescriptor(
-                        model.getScriptEngineFactories()
-                              .get(selIndex).getNames().get(0)
-                );
+                selectedEngine = mdlPluggedEngines.getElementAt(selIndex);
+            } else if (rbGraalVMScriptingEngine.isSelected()) {
+                int selIndex = lstGraalVMEngines.getSelectedIndex();
+                selectedEngine = mdlGraalVMEngines.getElementAt(selIndex);
             }
             setVisible(false);
         }
@@ -354,7 +415,7 @@ public class ScriptEngineSelectionDialog extends JDialog {
             execute();
         }
 
-        protected void updateEnabeldState() {
+        protected void updateEnabledState() {
             if (rbEmbeddedScriptingEngine.isSelected()) {
                 setEnabled(true);
             } else if (rbPluggableScriptingEngine.isSelected()) {
@@ -364,12 +425,12 @@ public class ScriptEngineSelectionDialog extends JDialog {
 
         @Override
         public void valueChanged(ListSelectionEvent e) {
-            updateEnabeldState();
+            updateEnabledState();
         }
 
         @Override
         public void stateChanged(ChangeEvent e) {
-            updateEnabeldState();
+            updateEnabledState();
         }
     }
 
@@ -392,13 +453,19 @@ public class ScriptEngineSelectionDialog extends JDialog {
         if (visible) {
             btnOK.requestFocusInWindow();
             WindowGeometry
-                .centerInWindow(getParent(), new Dimension(400, 200))
+                .centerInWindow(getParent(), new Dimension(400, 600))
                 .applySafe(this);
         }
         super.setVisible(visible);
     }
 
     private final ChangeListener clEngineTypeChanged =
-        (ChangeEvent evt) ->
-        lstPluggedEngines.setEnabled(rbPluggableScriptingEngine.isSelected());
+        (ChangeEvent evt) -> {
+            lstPluggedEngines.setEnabled(
+                rbPluggableScriptingEngine.isSelected());
+            if (rbGraalVMScriptingEngine != null) {
+                lstGraalVMEngines.setEnabled(
+                    rbGraalVMScriptingEngine.isSelected());
+            }
+        };
 }

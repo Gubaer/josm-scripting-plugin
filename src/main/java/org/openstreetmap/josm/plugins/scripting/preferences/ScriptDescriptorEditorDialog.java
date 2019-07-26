@@ -43,12 +43,13 @@ import org.openstreetmap.josm.gui.help.HelpUtil;
 import org.openstreetmap.josm.gui.widgets.HtmlPanel;
 import org.openstreetmap.josm.gui.widgets.SelectAllOnFocusGainedDecorator;
 import org.openstreetmap.josm.plugins.scripting.model.JSR223ScriptEngineProvider;
+import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
 import org.openstreetmap.josm.plugins.scripting.ui.ScriptEngineCellRenderer;
 import org.openstreetmap.josm.tools.ImageProvider;
 import org.openstreetmap.josm.gui.util.WindowGeometry;
 
 /**
- * <p>A modal dialog for creating and editing script descriptors.</p>
+ * A modal dialog for creating and editing script descriptors.
  *
  */
 public class ScriptDescriptorEditorDialog extends JDialog {
@@ -333,7 +334,7 @@ public class ScriptDescriptorEditorDialog extends JDialog {
         private JRadioButton rbDeriveFromFileName;
         private JRadioButton rbManuallySelectScriptEngine;
         private ButtonGroup bgMethodToSelectScriptEngine;
-        private JComboBox<ScriptEngineFactory> cbScriptEngines;
+        private JComboBox<ScriptEngineDescriptor> cbScriptEngines;
         private JPanel  pnlSelectScriptEngine;
         private HtmlPanel pnlAutomaticallyDeriveEngine;
 
