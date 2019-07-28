@@ -21,14 +21,13 @@ import static org.openstreetmap.josm.tools.I18n.tr;
 
 /**
  * Behaviour to run a script file, factored out into a service class.
- *
  */
 public class RunScriptService {
     static final private Logger logger = Logger.getLogger(
             RunScriptService.class.getName()
     );
 
-    protected void warnMacroFileDoesntExist(File f, Component parent){
+    protected void warnScriptFileDoesntExist(File f, Component parent){
         HelpAwareOptionPane.showOptionDialog(
                 parent,
                 tr("The script file ''{0}'' doesn''t exist.", f.toString()),
@@ -48,7 +47,7 @@ public class RunScriptService {
         );
     }
 
-    protected void warnMacroFileIsntReadable(File f, Component parent){
+    protected void warnScriptFileIsntReadable(File f, Component parent){
         HelpAwareOptionPane.showOptionDialog(
                 parent,
                 tr("The script file ''{0}'' isn''t readable.", f.toString()),
@@ -116,10 +115,10 @@ public class RunScriptService {
         }
         final File f = new File(fileName);
         if (! f.exists() || !f.isFile()) {
-            warnMacroFileDoesntExist(f, parent);
+            warnScriptFileDoesntExist(f, parent);
             return false;
         } else if (!f.canRead()) {
-            warnMacroFileIsntReadable(f, parent);
+            warnScriptFileIsntReadable(f, parent);
             return false;
         }
 
