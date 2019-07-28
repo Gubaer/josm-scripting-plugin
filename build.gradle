@@ -133,6 +133,7 @@ task testGraalVMSupportPresent(type: Test) {
     useJUnit()
     scanForTestClasses= false
     include "**/graalvm/GraalVMPresentTest.class"
+    include "**/graalvm/GraalVMEvalTest.class"
     testLogging {
         events TestLogEvent.FAILED, TestLogEvent.PASSED
         exceptionFormat = TestExceptionFormat.FULL

@@ -306,6 +306,13 @@ public class ScriptExecutor {
         runOnSwingEDT(task);
     }
 
+    public void runScriptWithGraalVM(
+            @NotNull final ScriptEngineDescriptor desc,
+            final String script) {
+        Objects.requireNonNull(desc);
+    }
+
+
     protected String readFile(File scriptFile) throws IOException {
         try (BufferedReader reader =
                      new BufferedReader(buildTextFileReader(scriptFile))) {

@@ -3,6 +3,8 @@ package org.openstreetmap.josm.plugins.scripting.ui;
 import org.openstreetmap.josm.data.Preferences;
 import org.openstreetmap.josm.gui.HelpAwareOptionPane;
 import org.openstreetmap.josm.gui.help.HelpUtil;
+import org.openstreetmap.josm.plugins.scripting.graalvm.GraalVMFacadeFactory;
+import org.openstreetmap.josm.plugins.scripting.graalvm.IGraalVMFacade;
 import org.openstreetmap.josm.plugins.scripting.model.JSR223ScriptEngineProvider;
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
 
@@ -12,9 +14,13 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.Reader;
+import java.text.MessageFormat;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.openstreetmap.josm.plugins.scripting.util.FileUtils.buildTextFileReader;
 import static org.openstreetmap.josm.tools.I18n.tr;
@@ -73,6 +79,25 @@ public class RunScriptService {
         e.printStackTrace();
     }
 
+    protected Stream<ScriptEngineDescriptor> filterJSR223Engines(
+            final String mimeType) {
+        return JSR223ScriptEngineProvider.getInstance()
+            .getScriptEngineFactories()
+            .stream()
+            .filter(factory -> factory.getMimeTypes().contains(mimeType))
+            .map(ScriptEngineDescriptor::new);
+    }
+
+    protected Stream<ScriptEngineDescriptor> filterGraalVMEngines(
+            final String mimeType) {
+        return  GraalVMFacadeFactory.isGraalVMPresent()
+            ? GraalVMFacadeFactory.createGraalVMFacade()
+                .getSupportedLanguages()
+                .stream()
+                .filter(desc ->
+                        desc.getContentMimeTypes().contains(mimeType))
+            : Stream.empty();
+    }
     /**
      * Determines the script engine to run the script in file <tt>file</tt>.
      * Prompts the user with a selection dialog, if the engine can't be
@@ -89,13 +114,28 @@ public class RunScriptService {
         JSR223ScriptEngineProvider provider =
                 JSR223ScriptEngineProvider.getInstance();
         String mimeType = provider.getContentTypeForFile(file);
-        if (mimeType.equals("application/javascript")) {
-            return ScriptEngineDescriptor.DEFAULT_SCRIPT_ENGINE;
+
+        // the default engine if the language is JavaScript
+        Stream<ScriptEngineDescriptor> defaultEngine =
+            mimeType.equals("application/javascript")
+                ? Stream.of(ScriptEngineDescriptor.DEFAULT_SCRIPT_ENGINE)
+                : Stream.empty();
+
+        // the stream of suitable engines for a given mime type
+        java.util.List<ScriptEngineDescriptor> engines = Stream.of(
+            defaultEngine,
+            filterGraalVMEngines(mimeType),
+            filterJSR223Engines(mimeType)
+        ).flatMap (desc -> desc).collect(Collectors.toList());
+
+        // exactly one suitable engine found. Use it without prompting
+        // the user.
+        if (engines.size() == 1) {
+            return engines.get(0);
         }
-        ScriptEngineDescriptor desc = JSR223ScriptEngineProvider
-                .getInstance()
-                .getEngineForFile(file);
-        if (desc != null) return desc;
+
+        // no or more than one suitable engines found. Prompt the user
+        // to select one.
         return ScriptEngineSelectionDialog.select(parent);
     }
 
@@ -146,6 +186,21 @@ public class RunScriptService {
         runScript(fileName, engine, null);
     }
 
+    protected void runScriptWithGraalVM(
+            File script, ScriptEngineDescriptor engine) throws IOException {
+        if (logger.isLoggable(Level.FINE)) {
+            final String message =  MessageFormat.format(
+                    "executing script with GraalVM '{0}'. Script file: '{1}'",
+                    engine.getEngineId(),
+                    script.getAbsolutePath()
+            );
+            logger.log(Level.FINE, message);
+        }
+        final IGraalVMFacade facade = GraalVMFacadeFactory
+                .createGraalVMFacade();
+        facade.eval(engine, script);
+    }
+
     /**
      * Runs the script in the file <tt>fileName</tt> using the scripting
      * engine <tt>engine</tt>. <tt>parent</tt> is the parent component relative
@@ -168,16 +223,26 @@ public class RunScriptService {
         model.saveToPreferences(Preferences.main());
 
         switch(engine.getEngineType()){
-        case EMBEDDED:
-            if (logger.isLoggable(Level.FINE)) {
-                logger.log(Level.FINE,
-                        "executing script with embedded engine ...");
-            }
-            new ScriptExecutor(parent).runScriptWithEmbeddedEngine(f);
-            break;
-        case PLUGGED:
-            new ScriptExecutor(parent).runScriptWithPluggedEngine(engine, f);
-            break;
+            case EMBEDDED:
+                if (logger.isLoggable(Level.FINE)) {
+                    logger.log(Level.FINE,
+                            "executing script with embedded engine ...");
+                }
+                new ScriptExecutor(parent).runScriptWithEmbeddedEngine(f);
+                break;
+
+            case PLUGGED:
+                new ScriptExecutor(parent).runScriptWithPluggedEngine(engine, f);
+                break;
+
+            case GRAALVM:
+                try {
+                    runScriptWithGraalVM(f, engine);
+                } catch(IOException e) {
+                    // TODO(karl): display error message in the GUI
+                    logger.log(Level.FINE, e.getMessage(), e);
+                }
+                break;
         }
     }
 }
