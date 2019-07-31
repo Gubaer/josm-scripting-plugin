@@ -6,7 +6,7 @@ class GraalVMEvalTest {
 
     @Test
     void "should eval a hello world script"() {
-        def facade = GraalVMFacadeFactory.createGraalVMFacade()
+        def facade = GraalVMFacadeFactory.getOrCreateGraalVMFacade()
         def desc = facade.getSupportedLanguages()
                     .find {desc -> desc.engineId == "js"}
         assert desc != null
@@ -18,7 +18,7 @@ class GraalVMEvalTest {
 
     @Test
     void "should eval javascript script file()"() {
-        def facade = GraalVMFacadeFactory.createGraalVMFacade()
+        def facade = GraalVMFacadeFactory.getOrCreateGraalVMFacade()
         def desc = facade.getSupportedLanguages()
             .find {desc -> desc.engineId == "js"}
         assert desc != null

@@ -25,6 +25,8 @@ public class GraalVMFacadeFactory {
         }
     }
 
+    private static IGraalVMFacade instance = null;
+
     /**
      * Replies a facade to the GraalVM or null, if the GraalVM isn't on
      * the classpath or if it can't be initialized
@@ -55,5 +57,18 @@ public class GraalVMFacadeFactory {
             e.printStackTrace();
             return null;
         }
+    }
+
+    /**
+     * Creates a GraalVM, if it doesn't exist yet and replies the current
+     * GraalVM instance
+     *
+     * @return
+     */
+    static public IGraalVMFacade getOrCreateGraalVMFacade() {
+        if (instance == null) {
+            instance = createGraalVMFacade();
+        }
+        return instance;
     }
 }

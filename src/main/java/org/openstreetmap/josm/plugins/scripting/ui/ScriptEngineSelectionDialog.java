@@ -322,7 +322,8 @@ public class ScriptEngineSelectionDialog extends JDialog {
         private List<ScriptEngineDescriptor> descriptors;
         public GraalVMEngineListModel() {
             if (GraalVMFacadeFactory.isGraalVMPresent()) {
-                descriptors = GraalVMFacadeFactory.createGraalVMFacade()
+                descriptors = GraalVMFacadeFactory
+                    .getOrCreateGraalVMFacade()
                     .getSupportedLanguages();
             } else {
                 descriptors = Collections.emptyList();

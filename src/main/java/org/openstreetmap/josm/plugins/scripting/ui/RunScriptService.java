@@ -93,7 +93,7 @@ public class RunScriptService {
     protected Stream<ScriptEngineDescriptor> filterGraalVMEngines(
             final String mimeType) {
         return  GraalVMFacadeFactory.isGraalVMPresent()
-            ? GraalVMFacadeFactory.createGraalVMFacade()
+            ? GraalVMFacadeFactory.getOrCreateGraalVMFacade()
                 .getSupportedLanguages()
                 .stream()
                 .filter(desc ->
@@ -200,7 +200,7 @@ public class RunScriptService {
             logger.log(Level.FINE, message);
         }
         final IGraalVMFacade facade = GraalVMFacadeFactory
-            .createGraalVMFacade();
+            .getOrCreateGraalVMFacade();
         facade.eval(engine, script);
     }
 

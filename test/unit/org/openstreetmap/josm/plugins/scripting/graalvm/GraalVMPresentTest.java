@@ -19,13 +19,15 @@ public class GraalVMPresentTest {
 
     @Test
     public void shouldCreateAGraalVMFacade(){
-        final IGraalVMFacade facade = GraalVMFacadeFactory.createGraalVMFacade();
+        final IGraalVMFacade facade =
+             GraalVMFacadeFactory.getOrCreateGraalVMFacade();
         assertNotNull(facade);
     }
 
     @Test
     public void shouldDetectANonEmptyListOfLanguages() {
-        final IGraalVMFacade facade = GraalVMFacadeFactory.createGraalVMFacade();
+        final IGraalVMFacade facade =
+            GraalVMFacadeFactory.getOrCreateGraalVMFacade();
         final List<ScriptEngineDescriptor>
             infos = facade.getSupportedLanguages();
         assertFalse(infos.isEmpty());

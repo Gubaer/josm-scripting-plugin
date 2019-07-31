@@ -210,7 +210,7 @@ public class ScriptingConsolePanel extends JPanel {
                 break;
             case GRAALVM:
                 try {
-                    GraalVMFacadeFactory.createGraalVMFacade()
+                    GraalVMFacadeFactory.getOrCreateGraalVMFacade()
                         .eval(model.getScriptEngineDescriptor(), source);
                 } catch(GraalVMEvalException ex) {
                     //TODO (karl): Prompt user

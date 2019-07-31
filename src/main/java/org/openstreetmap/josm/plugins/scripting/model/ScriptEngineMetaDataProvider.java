@@ -35,7 +35,7 @@ public class ScriptEngineMetaDataProvider {
             return Stream.of();
         }
         return GraalVMFacadeFactory
-            .createGraalVMFacade()
+            .getOrCreateGraalVMFacade()
             .getSupportedLanguages()
             .stream();
     }
