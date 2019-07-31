@@ -3,6 +3,8 @@ package org.openstreetmap.josm.plugins.scripting.ui;
 import org.openstreetmap.josm.data.Preferences;
 import org.openstreetmap.josm.gui.HelpAwareOptionPane;
 import org.openstreetmap.josm.gui.help.HelpUtil;
+import org.openstreetmap.josm.plugins.scripting.graalvm.GraalVMEvalException;
+import org.openstreetmap.josm.plugins.scripting.graalvm.GraalVMFacade;
 import org.openstreetmap.josm.plugins.scripting.graalvm.GraalVMFacadeFactory;
 import org.openstreetmap.josm.plugins.scripting.graalvm.IGraalVMFacade;
 import org.openstreetmap.josm.plugins.scripting.model.JSR223ScriptEngineProvider;
@@ -187,17 +189,18 @@ public class RunScriptService {
     }
 
     protected void runScriptWithGraalVM(
-            File script, ScriptEngineDescriptor engine) throws IOException {
+            final File script, final ScriptEngineDescriptor engine)
+            throws IOException, GraalVMEvalException {
         if (logger.isLoggable(Level.FINE)) {
             final String message =  MessageFormat.format(
-                    "executing script with GraalVM '{0}'. Script file: '{1}'",
-                    engine.getEngineId(),
-                    script.getAbsolutePath()
+                "executing script with GraalVM '{0}'. Script file: '{1}'",
+                engine.getEngineId(),
+                script.getAbsolutePath()
             );
             logger.log(Level.FINE, message);
         }
         final IGraalVMFacade facade = GraalVMFacadeFactory
-                .createGraalVMFacade();
+            .createGraalVMFacade();
         facade.eval(engine, script);
     }
 
@@ -238,7 +241,7 @@ public class RunScriptService {
             case GRAALVM:
                 try {
                     runScriptWithGraalVM(f, engine);
-                } catch(IOException e) {
+                } catch(IOException |GraalVMEvalException e) {
                     // TODO(karl): display error message in the GUI
                     logger.log(Level.FINE, e.getMessage(), e);
                 }

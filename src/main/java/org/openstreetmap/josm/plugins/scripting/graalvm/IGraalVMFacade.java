@@ -14,27 +14,36 @@ public interface IGraalVMFacade {
      * GraalVM.
      *
      * @return supported languages; empty list, if no scripting languages are
-     *  supported
+     * supported
      */
-     @NotNull List<ScriptEngineDescriptor> getSupportedLanguages();
+    @NotNull
+    List<ScriptEngineDescriptor> getSupportedLanguages();
 
     /**
      * Evaluate a script in language <code>desc.getLanguageName()</code>in
      * the GraalVM.
      *
-     * @param desc the script engine descriptor
+     * @param desc   the script engine descriptor
      * @param script the script
+     * @throws GraalVMEvalException thrown, if the GraalVM fails to eval the
+     *    script
      */
-     void eval(@NotNull ScriptEngineDescriptor desc, @NotNull String script);
+    void eval(@NotNull ScriptEngineDescriptor desc, @NotNull String script)
+        throws GraalVMEvalException;
 
 
     /**
      * Evaluate a script file in language <code>desc.getLanguageName()</code> in
      * the GraalVM.
      *
-     * @param desc the script engine descriptor
+     * @param desc   the script engine descriptor
      * @param script the script file
+     * @throws GraalVMEvalException thrown, if the GraalVM fails to eval the
+     *    script
+     * @throws IOException thrown, if the script file can't be read
      */
     void eval(@NotNull final ScriptEngineDescriptor desc,
-              @NotNull final File script) throws IOException;
+              @NotNull final File script)
+        throws IOException, GraalVMEvalException;
+
 }

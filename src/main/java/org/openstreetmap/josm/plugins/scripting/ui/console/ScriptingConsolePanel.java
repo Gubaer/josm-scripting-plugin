@@ -9,6 +9,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.util.Optional;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.AbstractAction;
@@ -22,6 +23,8 @@ import javax.validation.constraints.NotNull;
 
 import org.openstreetmap.josm.gui.HelpAwareOptionPane;
 import org.openstreetmap.josm.gui.HelpAwareOptionPane.ButtonSpec;
+import org.openstreetmap.josm.plugins.scripting.graalvm.GraalVMEvalException;
+import org.openstreetmap.josm.plugins.scripting.graalvm.GraalVMFacadeFactory;
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
 import org.openstreetmap.josm.plugins.scripting.ui.ScriptExecutor;
 import org.openstreetmap.josm.tools.ImageProvider;
@@ -30,7 +33,6 @@ import jsyntaxpane.DefaultSyntaxKit;
 
 /**
  * The panel displaying the script editor and the console log in a split pane.
- *
  */
 @SuppressWarnings("serial")
 public class ScriptingConsolePanel extends JPanel {
@@ -206,6 +208,14 @@ public class ScriptingConsolePanel extends JPanel {
                         source
                         );
                 break;
+            case GRAALVM:
+                try {
+                    GraalVMFacadeFactory.createGraalVMFacade()
+                        .eval(model.getScriptEngineDescriptor(), source);
+                } catch(GraalVMEvalException ex) {
+                    //TODO (karl): Prompt user
+                    logger.log(Level.SEVERE, "", ex);
+                }
             }
         }
 

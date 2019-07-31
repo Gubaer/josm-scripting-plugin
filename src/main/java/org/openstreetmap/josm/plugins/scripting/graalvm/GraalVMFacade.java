@@ -1,13 +1,11 @@
 package org.openstreetmap.josm.plugins.scripting.graalvm;
 
-import org.graalvm.polyglot.Context;
-import org.graalvm.polyglot.Engine;
-import org.graalvm.polyglot.Language;
-import org.graalvm.polyglot.Source;
+import org.graalvm.polyglot.*;
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
 import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -66,33 +64,41 @@ public class GraalVMFacade  implements IGraalVMFacade {
         }
     }
     /**
-     * Evaluate a script in language <code>desc.getLanguageName()</code> in
-     * the GraalVM.
-     *
-     * @param desc the script engine descriptor
-     * @param script the script
+     * {@inheritDoc}
      */
     public void eval(@NotNull final ScriptEngineDescriptor desc,
-                     @NotNull final String script) {
+                     @NotNull final String script)
+                     throws GraalVMEvalException {
         Objects.requireNonNull(desc);
         Objects.requireNonNull(script);
         final String engineId = desc.getEngineId();
         ensureEngineIdPresent(engineId);
-        context.eval(engineId, script);
+        try {
+            context.eval(engineId, script);
+        } catch(PolyglotException e) {
+            final String message = MessageFormat.format(
+                tr("failed to eval script in file {0}"), script
+            );
+            throw new GraalVMEvalException(message, e);
+        }
     }
 
     /**
-     * Evaluate a script file in language <code>desc.getLanguageName()</code> in
-     * the GraalVM.
-     *
-     * @param desc the script engine descriptor
-     * @param script the script file
+     * {@inheritDoc}
      */
     public void eval(@NotNull final ScriptEngineDescriptor desc,
-                     @NotNull final File script) throws IOException {
+                     @NotNull final File script)
+                    throws IOException, GraalVMEvalException {
         final String engineId = desc.getEngineId();
         ensureEngineIdPresent(engineId);
         Source source = Source.newBuilder(engineId, script).build();
-        context.eval(source);
+        try {
+            context.eval(source);
+        } catch(PolyglotException e) {
+            final String message = MessageFormat.format(
+                    tr("failed to eval script"), script
+            );
+            throw new GraalVMEvalException(message, e);
+        }
     }
 }
