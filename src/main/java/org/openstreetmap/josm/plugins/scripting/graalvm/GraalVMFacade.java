@@ -17,8 +17,11 @@ public class GraalVMFacade  implements IGraalVMFacade {
     private Context context;
 
     public GraalVMFacade() {
-        // TODO(karl): initialize context
-        context = Context.create();
+        context = Context.newBuilder()
+            // TODO(karl): should be more restrictive? Preference settings
+            // to explicitly allow for full access?
+            .allowAllAccess(true)
+            .build();
         context.enter();
     }
 

@@ -134,6 +134,23 @@ task testGraalVMSupportPresent(type: Test) {
     scanForTestClasses= false
     include "**/graalvm/GraalVMPresentTest.class"
     include "**/graalvm/GraalVMEvalTest.class"
+    include "**/graalvm/GraalVMEmbeddedInJOSMTest.class"
+    include "**/graalvm/GraalVMAndRequireTest.class"
+    testLogging {
+        events TestLogEvent.FAILED, TestLogEvent.PASSED
+        exceptionFormat = TestExceptionFormat.FULL
+    }
+}
+
+task testWithGraalVMJDK(type: Test) {
+    useJUnit()
+    scanForTestClasses= false
+    executable "/home/karl/software/graalvm/bin/java"
+    environment "JAVA_HOME", "/home/karl/software/graalvm"
+    include "**/graalvm/GraalVMPresentTest.class"
+    include "**/graalvm/GraalVMEvalTest.class"
+    include "**/graalvm/GraalVMEmbeddedInJOSMTest.class"
+    include "**/graalvm/GraalVMAndRequireTest.class"
     testLogging {
         events TestLogEvent.FAILED, TestLogEvent.PASSED
         exceptionFormat = TestExceptionFormat.FULL
@@ -175,6 +192,7 @@ tasks.check.dependsOn(tasks.testGraalVMSupportNotPresent)
 tasks.check.dependsOn(tasks.testGraalVMSupportPresent)
 tasks.check.dependsOn(tasks.testJSR223EngineAbsent)
 tasks.check.dependsOn(tasks.testJSR223EnginePresent)
+tasks.check.dependsOn(tasks.testWithGraalVMJDK)
 
 sourceSets {
     test {
