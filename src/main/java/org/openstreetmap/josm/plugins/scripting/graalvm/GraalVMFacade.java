@@ -38,7 +38,7 @@ public class GraalVMFacade  implements IGraalVMFacade {
         final ScriptEngineDescriptor desc = new ScriptEngineDescriptor(
                 ScriptEngineDescriptor.ScriptEngineType.GRAALVM,
                 info.getId(),                 // engineId
-                engineName, // engineName
+                engineName,                   // engineName
                 info.getName(),               // languageName
                 info.getDefaultMimeType(),    // contentType
                 engine.getVersion(),          // engineVersion
@@ -62,8 +62,8 @@ public class GraalVMFacade  implements IGraalVMFacade {
     protected void ensureEngineIdPresent(String engineId) {
         if (engineId.trim().isEmpty()) {
             throw new IllegalArgumentException(tr(
-                    "script engine descriptor doesn''t provide an engine id "
-                            + "name, got {0}", engineId));
+                "script engine descriptor doesn''t provide an engine id "
+              + "name, got {0}", engineId));
         }
     }
     /**
