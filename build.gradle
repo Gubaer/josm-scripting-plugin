@@ -31,6 +31,7 @@ dependencies {
     implementation group: 'org.graalvm.sdk', name: 'graal-sdk', version: '19.1.0'
     implementation group: 'org.graalvm.truffle', name: 'truffle-api', version: '19.1.0'
     implementation group: 'org.graalvm.js', name: 'js', version: '19.1.0'
+    implementation group: 'com.github.spullara.mustache.java', name: 'compiler', version: '0.9.6'
 
     packIntoJar group: "org.mozilla", name: "rhino", version: "1.7.7.1"
     packIntoJar group: "de.sciss", name: "jsyntaxpane", version: "1.0.0"
@@ -101,6 +102,8 @@ import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 test {
     useJUnit()
     environment "JOSM_SCRIPTING_PLUGIN_HOME", project.projectDir
+    environment "TEST_COMMONJS_MODULE_REPO",
+            "${project.projectDir}/src/test/data/require/modules"
     scanForTestClasses = false
     include "**/AllUnitTests.class"
     testLogging.events TestLogEvent.FAILED, TestLogEvent.PASSED
@@ -198,6 +201,9 @@ sourceSets {
     test {
         java.srcDirs = ["test/common", "test/script-api","test/unit"]
         groovy.srcDirs = ["test/unit"]
+        resources {
+            srcDir "test/unit"
+        }
     }
 }
 processResources {
