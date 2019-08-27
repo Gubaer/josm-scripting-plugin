@@ -1,0 +1,30 @@
+{{! --------------------------------------------------------------------- }}
+{{! mustache template for the JavaScript wrapper around a required module }}
+{{! --------------------------------------------------------------------- }}
+(function() {
+    const RequireFunction = Java.type({{& requireFunctionClassName }})
+    const URI = Java.type('java.net.URI')
+
+    {{# contextURI }}
+        const require = new RequireFunction(
+           new URI('{{& contextURI}}')
+        )
+    {{/ contextURI }}
+    {{^ contextURI }}
+        const require = new RequireFunction()
+    {{/ contextURI }}
+
+    const module = {
+        exports: {},
+        id: '{{& moduleID }}',
+        uri: '{{& moduleURI }}'
+    }
+
+    !function(module, exports, require) {
+
+         {{& moduleSource }}
+
+    }(module, module.exports, require)
+
+    return module.exports
+ }())
