@@ -85,17 +85,17 @@ public class FileSystemJSModuleRepository implements ICommonJSModuleRepository {
      * {@inheritDoc}
      */
     @Override
-    public Optional<URI> resolve(@NotNull String id, @NotNull URI contextURI) {
+    public Optional<URI> resolve(@NotNull String id, @NotNull URI contextUri) {
         ensureValidId(id);
-        Objects.requireNonNull(contextURI);
+        Objects.requireNonNull(contextUri);
 
-        if (! isBaseOf(contextURI)) {
+        if (! isBaseOf(contextUri)) {
             throw new IllegalArgumentException(MessageFormat.format(
                 "context URI ''{0}'' isn't a child of the base URI ''{1}''",
-                contextURI, baseDir.toURI().toString()
+                    contextUri, baseDir.toURI().toString()
             ));
         }
-        return internalResolve(id, contextURI);
+        return internalResolve(id, contextUri);
     }
 
     private void logFine(Supplier<String> messageBuilder) {
