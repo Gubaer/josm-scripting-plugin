@@ -2,17 +2,8 @@
 {{! mustache template for the JavaScript wrapper around a required module }}
 {{! --------------------------------------------------------------------- }}
 (function() {
-    const RequireFunction = Java.type({{& requireFunctionClassName }})
+    const RequireFunction = Java.type('{{& requireFunctionClassName }}')
     const URI = Java.type('java.net.URI')
-
-    {{# contextURI }}
-        const require = new RequireFunction(
-           new URI('{{& contextURI}}')
-        )
-    {{/ contextURI }}
-    {{^ contextURI }}
-        const require = new RequireFunction()
-    {{/ contextURI }}
 
     const module = {
         exports: {},
@@ -20,11 +11,19 @@
         uri: '{{& moduleURI }}'
     }
 
+    const require = (module) => (moduleId) => {
+        if (module && module.uri) {
+            return new RequireFunction(new URI(module.uri)).apply(moduleId)
+        } else {
+            return new RequireFunction().apply(moduleId)
+        }
+    }
+
     !function(module, exports, require) {
 
          {{& moduleSource }}
 
-    }(module, module.exports, require)
+    }(module, module.exports, require(module))
 
     return module.exports
  }())

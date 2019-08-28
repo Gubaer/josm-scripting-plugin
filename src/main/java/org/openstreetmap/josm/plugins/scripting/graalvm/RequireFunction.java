@@ -23,7 +23,7 @@ import java.util.logging.Logger;
 
 /**
  * Implementation of the <code>require()</code> function which is added
- * to evaluation context when a CommonJS module is loaded and evaluated.
+ * to the evaluation context when a CommonJS module is loaded and evaluated.
  */
 public class RequireFunction implements Function<String, Value> {
 
@@ -74,17 +74,26 @@ public class RequireFunction implements Function<String, Value> {
     public RequireFunction() {}
 
     /**
-     * Creates a <code>require</code> function which will be invoked in the
+     * Replies the context URI for this <code>require()</code> instance.
+     *
+     * @return the context URI. null, if missing.
+     */
+    public URI getContextURI() {
+        return contextURI;
+    }
+
+    /**
+     * Creates a <code>require()</code> function which will be invoked in the
      * context of the module given by <code>contextURI</code>. The context URI
      * can be null.
      *
-     * @param contextURI
+     * @param contextURI the context URI
      */
     public RequireFunction(final URI contextURI) {
         this.contextURI = contextURI;
     }
 
-    protected String loadModuleSource(@NotNull  URI uri) throws IOException {
+    protected String loadModuleSource(@NotNull URI uri) throws IOException {
         Objects.requireNonNull(uri);
         if (!uri.getScheme().toLowerCase().equals("file")) {
             throw new IllegalArgumentException(MessageFormat.format(
@@ -106,14 +115,12 @@ public class RequireFunction implements Function<String, Value> {
 
         // assemble parameters
         final Map<String, String> parameters = new HashMap<>();
-        parameters.put("requireFunctionClassName",
+        parameters.put(
+            "requireFunctionClassName",
             RequireFunction.class.getName());
         parameters.put("moduleID", moduleID);
         parameters.put("moduleURI", moduleURI);
         parameters.put("moduleSource", moduleSource);
-        if (contextURI != null) {
-            parameters.put("contextURI", contextURI.toString());
-        }
 
         if (requireWrapperTemplate == null) {
             throw new IllegalStateException(
@@ -128,7 +135,7 @@ public class RequireFunction implements Function<String, Value> {
     }
 
     /**
-     * Lookups or loads and evalutes the CommonJS module given by
+     * Lookup, load and evaluate the CommonJS module given by
      * the module ID <code>moduleId</code>-
      *
      * @param moduleID the module ID
@@ -152,18 +159,19 @@ public class RequireFunction implements Function<String, Value> {
             throw new IllegalStateException(message);
         }
 
-        Optional<URI> resolvedModuleUri;
+        Optional<URI> resolvedModuleURI;
         if (contextURI == null) {
-            resolvedModuleUri = ModuleRepositories.getInstance().resolve(moduleID);
+            resolvedModuleURI = ModuleRepositories.getInstance()
+                .resolve(moduleID);
         } else {
-            resolvedModuleUri = ModuleRepositories.getInstance().resolve(
+            resolvedModuleURI = ModuleRepositories.getInstance().resolve(
                 moduleID,
                 contextURI);
         }
 
-        if (! resolvedModuleUri.isPresent()) {
+        if (!resolvedModuleURI.isPresent()) {
             final String message = MessageFormat.format(
-                "failed to resolve module with module ID ''{0}'' with "
+                "failed to resolve module with module ID ''{0}'' from "
               + "context ''{1}''",
                 moduleID,
                 contextURI == null ? "undefined" : contextURI.toString()
@@ -174,25 +182,30 @@ public class RequireFunction implements Function<String, Value> {
 
 
         // lookup the module in the cache
-        final URI moduleUri = resolvedModuleUri.get();
-        final Optional<Value> cachedModule = cache.lookup(moduleUri, context);
+        final URI moduleURI = resolvedModuleURI.get();
+        final Optional<Value> cachedModule = cache.lookup(moduleURI, context);
         if (cachedModule.isPresent()) {
             return cachedModule.get();
         }
 
         try {
-            final String moduleSource = loadModuleSource(moduleUri);
-            final String wrapper = wrapModuleSource(
+            final String moduleSource = loadModuleSource(moduleURI);
+            final String wrapperSource = wrapModuleSource(
                 moduleID,
-                resolvedModuleUri.toString(),
+                moduleURI.toString(),
                 moduleSource);
 
-            final Value module = context.eval(Source.create("js", wrapper));
-            cache.remember(moduleUri, module, context);
+            final Source source = Source.newBuilder(
+                    "js",                                  // language
+                    new StringReader(wrapperSource),       // source
+                    moduleURI.toString() + "(wrapped)"     // source name
+                ).build();
+            final Value module = context.eval(source);
+            cache.remember(moduleURI, module, context);
             return module;
         } catch(IOException | PolyglotException e) {
             final String message = MessageFormat.format(
-                "failed to require module ''{0}'''", moduleID);
+                "failed to require module ''{0}''", moduleID);
             logger.log(Level.SEVERE, message, e);
             throw new RequireFunctionException(message, e);
         }
