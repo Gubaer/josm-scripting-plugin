@@ -91,7 +91,7 @@ public class FileSystemJSModuleRepository implements ICommonJSModuleRepository {
 
         if (! isBaseOf(contextUri)) {
             throw new IllegalArgumentException(MessageFormat.format(
-                "context URI ''{0}'' isn't a child of the base URI ''{1}''",
+                "context URI ''{0}'' isn''t a child of the base URI ''{1}''",
                     contextUri, baseDir.toURI().toString()
             ));
         }
@@ -229,6 +229,9 @@ public class FileSystemJSModuleRepository implements ICommonJSModuleRepository {
     @Override
     public boolean isBaseOf(@NotNull final URI moduleURI) {
         Objects.requireNonNull(moduleURI);
-        return moduleURI.toString().startsWith(baseDir.toURI().toString());
+        if (!moduleURI.getScheme().toLowerCase().equals("file")) {
+            return false;
+        }
+        return moduleURI.getPath().startsWith(baseDir.toURI().getPath());
     }
 }

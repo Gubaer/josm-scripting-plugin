@@ -119,6 +119,14 @@ class FileSystemJSModuleRepositoryTest {
         assertFalse(moduleUri.isPresent())
     }
 
+    @Test
+    void "isBase: should work for context URIs starting with file:///"() {
+        def baseDir = new File(moduleRepo)
+        def repo = new FileSystemJSModuleRepository(baseDir)
+        def moduleUri = new URI("file://" + baseDir.absolutePath + "/module3.js")
+        assertTrue(repo.isBaseOf(moduleUri))
+    }
+
 
     // ----------------------------------------------------------------------
     // resolution against a context path
