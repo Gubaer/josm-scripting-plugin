@@ -23,12 +23,17 @@ public interface IGraalVMFacade {
      * Evaluate a script in language <code>desc.getLanguageName()</code>in
      * the GraalVM.
      *
+     * Replies a {@link org.graalvm.polyglot.Value} as result. We don't
+     * declare it in the facade API because we wan't to load
+     * <code></code>org.graalmv.*</code> dynamically.
+     *
      * @param desc   the script engine descriptor
      * @param script the script
+     * @return the evaluation result.
      * @throws GraalVMEvalException thrown, if the GraalVM fails to eval the
      *    script
      */
-    void eval(@NotNull ScriptEngineDescriptor desc, @NotNull String script)
+    Object eval(@NotNull ScriptEngineDescriptor desc, @NotNull String script)
         throws GraalVMEvalException;
 
 
@@ -36,13 +41,18 @@ public interface IGraalVMFacade {
      * Evaluate a script file in language <code>desc.getLanguageName()</code> in
      * the GraalVM.
      *
+     * Replies a {@link org.graalvm.polyglot.Value} as result. We don't
+     * declare it in the facade API because we wan't to load
+     * <code></code>org.graalmv.*</code> dynamically.
+     *
      * @param desc   the script engine descriptor
      * @param script the script file
+     * @return the evaluation result.
      * @throws GraalVMEvalException thrown, if the GraalVM fails to eval the
      *    script
      * @throws IOException thrown, if the script file can't be read
      */
-    void eval(@NotNull final ScriptEngineDescriptor desc,
+    Object eval(@NotNull final ScriptEngineDescriptor desc,
               @NotNull final File script)
         throws IOException, GraalVMEvalException;
 

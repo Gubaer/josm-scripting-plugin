@@ -16,12 +16,44 @@ public class GraalVMFacade  implements IGraalVMFacade {
 
     private Context context;
 
-    public GraalVMFacade() {
-        context = Context.newBuilder()
-            // TODO(karl): should be more restrictive? Preference settings
-            // to explicitly allow for full access?
+
+    private void populateContext(final Context context) {
+        // populate the context with the require function
+        final RequireFunction require = new RequireFunction();
+        context.getBindings("js").putMember("require", require);
+    }
+
+    private void grantPrivilegesToContext(final Context.Builder builder) {
+        //TODO(karl): let users configure the privileges in the JOSM
+        //preferences
+        builder
+            // default: allow everything
             .allowAllAccess(true)
-            .build();
+            // in particular, grant the privilege to access JOSMs
+            // public methods and fields and grant it the right to
+            // lookup and instantiate classes provided by OpenStreetMap
+           .allowHostAccess(HostAccess.ALL)
+           .allowHostClassLookup(className ->
+                  className.startsWith("org.openstreetmap.")
+               || className.startsWith("java.")
+            )
+            // exclude native access
+            .allowNativeAccess(false)
+            // exclude launching external processes
+            .allowCreateProcess(false);
+    }
+
+    private void setOptionsOnContext(final Context.Builder builder) {
+        //TODO(karl): set options, i.e. js.strict, see
+        // https://www.graalvm.org/docs/reference-manual/languages/js/
+    }
+
+    public GraalVMFacade() {
+        final Context.Builder builder = Context.newBuilder("js");
+        grantPrivilegesToContext(builder);
+        setOptionsOnContext(builder);
+        context = builder.build();
+        populateContext(context);
         context.enter();
     }
 
@@ -69,7 +101,7 @@ public class GraalVMFacade  implements IGraalVMFacade {
     /**
      * {@inheritDoc}
      */
-    public void eval(@NotNull final ScriptEngineDescriptor desc,
+    public Object eval(@NotNull final ScriptEngineDescriptor desc,
                      @NotNull final String script)
                      throws GraalVMEvalException {
         Objects.requireNonNull(desc);
@@ -77,7 +109,7 @@ public class GraalVMFacade  implements IGraalVMFacade {
         final String engineId = desc.getEngineId();
         ensureEngineIdPresent(engineId);
         try {
-            context.eval(engineId, script);
+            return context.eval(engineId, script);
         } catch(PolyglotException e) {
             final String message = MessageFormat.format(
                 tr("failed to eval script"), script
@@ -89,14 +121,14 @@ public class GraalVMFacade  implements IGraalVMFacade {
     /**
      * {@inheritDoc}
      */
-    public void eval(@NotNull final ScriptEngineDescriptor desc,
+    public Object eval(@NotNull final ScriptEngineDescriptor desc,
                      @NotNull final File script)
                     throws IOException, GraalVMEvalException {
         final String engineId = desc.getEngineId();
         ensureEngineIdPresent(engineId);
         Source source = Source.newBuilder(engineId, script).build();
         try {
-            context.eval(source);
+            return context.eval(source);
         } catch(PolyglotException e) {
             final String message = MessageFormat.format(
                 tr("failed to eval script in file {0}"), script
