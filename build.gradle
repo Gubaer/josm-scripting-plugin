@@ -103,7 +103,9 @@ test {
     useJUnit()
     environment "JOSM_SCRIPTING_PLUGIN_HOME", project.projectDir
     environment "TEST_COMMONJS_MODULE_REPO",
-            "${project.projectDir}/src/test/data/require/modules"
+            "${project.projectDir}/test/data/require/modules"
+    environment "BUILTIN_COMMONJS_MODULE_REPO",
+            "${project.projectDir}/src/main/javascript/v2"
     scanForTestClasses = false
     include "**/AllUnitTests.class"
     testLogging.events TestLogEvent.FAILED, TestLogEvent.PASSED
