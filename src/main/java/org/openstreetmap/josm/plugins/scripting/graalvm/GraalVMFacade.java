@@ -48,13 +48,29 @@ public class GraalVMFacade  implements IGraalVMFacade {
         // https://www.graalvm.org/docs/reference-manual/languages/js/
     }
 
-    public GraalVMFacade() {
+    private void initContext() {
         final Context.Builder builder = Context.newBuilder("js");
         grantPrivilegesToContext(builder);
         setOptionsOnContext(builder);
         context = builder.build();
         populateContext(context);
         context.enter();
+    }
+
+    public GraalVMFacade() {
+        initContext();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void resetContext() {
+        if (context != null) {
+            context.leave();
+            context.close(true /* cancelIfExecuting */);
+        }
+        initContext();
     }
 
     protected ScriptEngineDescriptor buildLanguageInfo(
@@ -98,6 +114,7 @@ public class GraalVMFacade  implements IGraalVMFacade {
               + "name, got {0}", engineId));
         }
     }
+
     /**
      * {@inheritDoc}
      */

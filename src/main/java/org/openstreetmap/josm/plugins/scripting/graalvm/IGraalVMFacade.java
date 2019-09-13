@@ -56,4 +56,9 @@ public interface IGraalVMFacade {
               @NotNull final File script)
         throws IOException, GraalVMEvalException;
 
+    /**
+     * Exits and discards the current context and initializes a
+     * new context
+     */
+    void resetContext();
 }

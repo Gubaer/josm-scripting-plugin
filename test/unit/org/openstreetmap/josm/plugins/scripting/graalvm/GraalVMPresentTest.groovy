@@ -12,6 +12,7 @@ import static org.junit.Assert.assertFalse
 import static org.junit.Assert.assertNotNull
 import static org.junit.Assert.assertTrue
 import static org.junit.Assert.assertEquals
+import static org.junit.Assert.fail
 
 class GraalVMPresentTest {
 
@@ -109,6 +110,24 @@ class GraalVMPresentTest {
 
         // should throw
         facade.eval(js, script) as Value
+    }
+
+    @Test
+    void "can reset the scripting context"() {
+        def script = """a = 1 + 1"""
+        def js = getJavaScriptScriptEngineDescriptor()
+        def facade = GraalVMFacadeFactory.getOrCreateGraalVMFacade()
+        def value = facade.eval(js, script) as Value
+        assertEquals(2, value?.asInt())
+        facade.resetContext()
+        script = "a"
+        try {
+            facade.eval(js, script) as Value
+            fail(
+              "should have failed, 'a' should not be defined in the context")
+        } catch(GraalVMEvalException e) {
+            //OK. Expected this test to throw
+        }
     }
 
     @Test
