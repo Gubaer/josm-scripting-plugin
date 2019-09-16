@@ -18,7 +18,8 @@
     const HelpAwareOptionPane = Java.type('org.openstreetmap.josm.gui.HelpAwareOptionPane')
     const MainApplication = Java.type('org.openstreetmap.josm.gui.MainApplication')
 
-    const util = require("josm/util")
+    const util = require('josm/util')
+    const layers = require('josm/layers')
     
     /**
      * This is the global JOSM API object. It represents a running JOSM
@@ -65,12 +66,10 @@
      * @type {object}
      * @summary accessor for JOSM layers
      */
-    Object.defineProperty(exports, "layers", {
+    Object.defineProperty(exports, 'layers', {
         enumerable: true,
         get: function() {
-            //TODO(karl): implement
-            //return require("josm/layers");
-            return undefined
+            return layers
         }
     })
     

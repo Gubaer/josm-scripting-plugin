@@ -66,4 +66,10 @@ class BuiltInCommonJSModuleCompilationTest {
         def require = new RequireFunction(null)
         require.apply("josm")
     }
+
+    @Test
+    void "can evaluate module 'josm/layers'"() {
+        def require = new RequireFunction(null)
+        require.apply("josm/layers")
+    }
 }
