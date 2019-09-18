@@ -247,13 +247,10 @@
      * @type {CommandHistory}
      * @summary Replies the global command history.
      */
-    
-    //TODO(karl): implement
-    //const commands = require("josm/command").CommandHistory;
-    const commands = undefined
+    const { CommandHistory } = require("josm/command")
     Object.defineProperty(exports, 'commands', {
         enumerable: true,
-        value: commands
+        value: CommandHistory
     })
     
     /**
