@@ -81,4 +81,29 @@ class PathsResolveTest {
         assertEquals("/toplevel", path.toString())
     }
 
+    @Test
+    void "relativize of paths 1"() {
+        def basePath = Paths.get(
+            new File("/full/path/to/my/repo").toURI())
+        def modulePath = Paths.get(
+            new File("/full/path/to/my/repo/my/module.index.js").toURI())
+
+        def moduleRepoPath = Paths.get("/", basePath.relativize(modulePath).toString());
+        println(moduleRepoPath)
+
+    }
+
+    @Test
+    void "relativize of paths 2"() {
+        def moduleRepoPath = Paths.get(
+                new File("/my/module/index.js").toURI())
+        def repoBasePath = Paths.get(
+                new File("/full/path/to/my/repo").toURI())
+
+        def moduleFilePath = Paths.get(
+            repoBasePath.toString(),
+            moduleRepoPath.toString())
+        println(moduleFilePath)
+
+    }
 }
