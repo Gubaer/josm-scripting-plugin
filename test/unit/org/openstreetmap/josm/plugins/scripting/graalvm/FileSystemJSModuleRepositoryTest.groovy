@@ -12,17 +12,19 @@ import static org.junit.Assert.*
 class FileSystemJSModuleRepositoryTest {
 
     static def moduleRepo
+
     @BeforeClass
     static void readEnvironmentVariables() {
-        moduleRepo = System.getenv("TEST_COMMONJS_MODULE_REPO")
+        moduleRepo = System.getenv("JOSM_SCRIPTING_PLUGIN_HOME")
         if (moduleRepo == null) {
-            fail("environment variable TEST_COMMONJS_MODULE_REPO not set.")
+            fail("environment variable JOSM_SCRIPTING_PLUGIN_HOME not set.")
         }
+        moduleRepo += "/test/data/require/modules"
     }
 
     @BeforeClass
     static void enableLogging() {
-        Logger.getLogger(FileSystemJSModuleRepository.class.getName())
+        Logger.getLogger(BaseJSModuleRepository.class.getName())
              .setLevel(Level.FINE);
 
         Logger.getLogger("")
@@ -112,11 +114,11 @@ class FileSystemJSModuleRepositoryTest {
     }
 
     @Test
-    void "resolve: should reject relative ids leaving the repo"() {
+    void "resolve: should ignore too many .. segments in a module URI "() {
         def baseDir = new File(moduleRepo)
         def repo = new FileSystemJSModuleRepository(baseDir)
         def moduleUri = repo.resolve("../../module1")
-        assertFalse(moduleUri.isPresent())
+        assertTrue(moduleUri.isPresent())
     }
 
     @Test
@@ -188,12 +190,12 @@ class FileSystemJSModuleRepositoryTest {
     }
 
     @Test
-    void "resolve with context: should reject relative ids leaving the repo"() {
+    void "resolve with context: should accept relative ids leaving with too many .. segments"() {
         def baseDir = new File(moduleRepo)
         def repo = new FileSystemJSModuleRepository(baseDir)
         def contextUri = new File(baseDir, "sub/module4").toURI()
         def moduleUri = repo.resolve("../../../../module1", contextUri)
-        assertFalse(moduleUri.isPresent())
+        assertTrue(moduleUri.isPresent())
     }
 
 

@@ -8,19 +8,25 @@ import java.nio.file.Paths;
 import java.text.MessageFormat;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.function.Supplier;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * A <strong>FileSystemJSModuleRepository</strong> resolves CommonJS
  * module stored in a directory in the file system.
  */
-public class FileSystemJSModuleRepository implements ICommonJSModuleRepository {
-    private static Logger logger =
-        Logger.getLogger(FileSystemJSModuleRepository.class.getName());
+public class FileSystemJSModuleRepository extends BaseJSModuleRepository {
 
     private File baseDir;
+
+    @Override
+    protected boolean isRepoFile(String repoPath) {
+        final Path moduleFilePath = Paths.get(
+                baseDir.toString(),
+                Paths.get("/", repoPath).toString());
+        logFine(() -> MessageFormat.format(
+            "isRepoFile: checking path ''{0}''", moduleFilePath
+        ));
+        return isModuleReadable(moduleFilePath);
+    }
 
     /**
      * Creates a new repository maintained in the local file system
@@ -55,30 +61,13 @@ public class FileSystemJSModuleRepository implements ICommonJSModuleRepository {
         return baseDir.toURI();
     }
 
-    private void ensureValidId(String id) {
-        Objects.requireNonNull(id);
-        id = id.trim();
-        // id must not be empty
-        if (id.isEmpty()) {
-            throw new IllegalArgumentException("id must not be empty");
-        }
-
-        // id must not start with '/'
-        if (id.startsWith("/")) {
-            throw new IllegalArgumentException(MessageFormat.format(
-                "a module id must not start with '/', got ''{0}''",
-                id
-            ));
-        }
-    }
-
     /**
      * {@inheritDoc}
      */
     @Override
     public Optional<URI> resolve(@NotNull String id) {
-        ensureValidId(id);
-        return internalResolve(id, baseDir.toURI());
+        ModuleID.ensureValid(id);
+        return internalResolve(new ModuleID((id)), baseDir.toURI());
     }
 
     /**
@@ -86,55 +75,25 @@ public class FileSystemJSModuleRepository implements ICommonJSModuleRepository {
      */
     @Override
     public Optional<URI> resolve(@NotNull String id, @NotNull URI contextUri) {
-        ensureValidId(id);
+        ModuleID.ensureValid(id);
         Objects.requireNonNull(contextUri);
 
         if (! isBaseOf(contextUri)) {
-            throw new IllegalArgumentException(MessageFormat.format(
-                "context URI ''{0}'' isn''t a child of the base URI ''{1}''",
-                    contextUri, baseDir.toURI().toString()
+            logFine(() -> MessageFormat.format(
+                "resolve: failed to resolve module ''{0}''. " +
+                "Context URI ''{1}'' isn''t a child of the base URI ''{2}''",
+                 id, contextUri, baseDir.toURI().toString()
             ));
+            return Optional.empty();
         }
-        return internalResolve(id, contextUri);
+        return internalResolve(new ModuleID(id), contextUri);
     }
 
-    private void logFine(Supplier<String> messageBuilder) {
-        if (logger.isLoggable(Level.FINE)) {
-            final String message = messageBuilder.get();
-            logger.log(Level.FINE, message);
-        }
-    }
-
-    private boolean isModuleReadable(Path modulePath) {
-        final File moduleFile = modulePath.toFile();
+    private boolean isModuleReadable(Path moduleFilePath) {
+        final File moduleFile = moduleFilePath.toFile();
         return moduleFile.exists()
                 && moduleFile.isFile()
                 && moduleFile.canRead();
-    }
-
-    private boolean tryModulePathAlternative(String id, Path modulePath) {
-        final Path basePath = baseDir.toPath();
-        final boolean moduleIsReadable = isModuleReadable(modulePath);
-        final Object[] params = new Object[]{
-            id,
-            modulePath.toAbsolutePath().toString(),
-            basePath.toAbsolutePath().toString()
-        };
-
-        if (! moduleIsReadable) {
-            logFine(() -> MessageFormat.format(
-                "MODULE PATH ALTERNATIVE: failed to resolve module id ''{0}''. "
-              + "resolved path ''{1}'' doesn''t refer to a readable file",
-                params
-            ));
-        } else {
-            logFine(() -> MessageFormat.format(
-                "MODULE PATH ALTERNATIVE: succeeded to resolve module id ''{0}''. "
-              + "resolved path ''{1}'' refers to a readable file",
-                params
-            ));
-        }
-        return moduleIsReadable;
     }
 
     private void ensureBaseDirExistAndReadable(String id) {
@@ -156,71 +115,58 @@ public class FileSystemJSModuleRepository implements ICommonJSModuleRepository {
         }
     }
 
-    private String normalizeModuleId(String moduleId) {
-        if (moduleId.endsWith(".js")) {
-            return moduleId.substring(0, moduleId.length() - 3);
-        } else {
-            return moduleId;
-        }
-    }
-
-    private boolean isAbsolute(@NotNull String moduleId) {
-        return !(moduleId.startsWith("./") || moduleId.startsWith("../"));
-    }
-
-    private Optional<URI> internalResolve(String id,
+    private Optional<URI> internalResolve(ModuleID id,
                                           URI contextURI) {
         // make sure baseDir is an existing and readable directory
-        ensureBaseDirExistAndReadable(id);
+        ensureBaseDirExistAndReadable(id.toString());
+        id = id.normalized();
 
-        // remove trailing ".js" in module id, if any. For convenience only,
-        // a file suffix ".js" should't be part of a module id.
-        id = normalizeModuleId(id);
-
-        final Path basePath = Paths.get(baseDir.toURI())
+        // we already know, that contextURI is a non-null file:// URI
+        // below the baseUri of this repo. Normalize it.
+        Path contextFilePath = Paths.get(contextURI)
             .toAbsolutePath().normalize();
-        Path resolvedPath = Paths.get(contextURI).resolve(id)
-            .toAbsolutePath().normalize();
+        if (contextFilePath.toFile().isFile()) {
+            contextFilePath = contextFilePath.getParent().normalize();
+        }
 
-        if (! resolvedPath.startsWith(basePath)) {
-            final String _id = id;
-            final String _path = resolvedPath.toString();
+        // extract the contextRepoPath from the contextFilePath
+        Path contextRepoPath = Paths.get("/",
+             baseDir.toPath().relativize(contextFilePath).toString());
+
+        final Optional<String> moduleRepoPath = resolve(id, contextRepoPath);
+        if (!moduleRepoPath.isPresent()) {
+            final String[] params = {
+                id.toString()
+            };
             logFine(() -> MessageFormat.format(
-                "failed to resolve module id ''{0}''. resolved path ''{1}'' "
-              + "isn''t a child path relative to the base path ''{2}''",
-                _id, _path, basePath.toString()
+                "resolve: failed to resolve module id ''{0}''. " +
+                "no matching module repo path found",
+                params
             ));
             return Optional.empty();
         }
+        final Path moduleFilePath = Paths.get(
+            baseDir.toPath().toString(),
+            moduleRepoPath.get());
 
-        // normalize context URI. Always resolve against a directory, even
-        // if the context URI refers to a file
-        final Path contextPath = Paths.get(contextURI)
-            .toAbsolutePath().normalize();
-        if (contextPath.toFile().isFile()) {
-            contextURI = contextPath.getParent().toUri();
-            resolvedPath = Paths.get(contextURI).resolve(id)
-                .toAbsolutePath().normalize();
+        final String[] params = {
+            id.toString(),
+            moduleFilePath.toString()
+        };
+        if (! isModuleReadable(moduleFilePath)) {
+            logFine(() -> MessageFormat.format(
+                "resolve: failed to resolve module id ''{0}''. " +
+                "resolved file path ''{1}'' doesn''t refer to a readable file",
+                params
+            ));
+            return Optional.empty();
         }
-
-        // always resolve absolute module ids against the base dir
-        if (isAbsolute(id)) {
-            contextURI = baseDir.toURI();
-            resolvedPath = Paths.get(contextURI).resolve(id)
-                .toAbsolutePath().normalize();
-        }
-
-        if (tryModulePathAlternative(id, resolvedPath)) {
-            return Optional.of(resolvedPath.toUri());
-        }
-
-        final Path alternativePath = Paths.get(resolvedPath.toString() + ".js")
-            .toAbsolutePath().normalize();
-        if (tryModulePathAlternative(id, alternativePath)) {
-            return Optional.of(alternativePath.toUri());
-        }
-
-        return Optional.empty();
+        logFine(() -> MessageFormat.format(
+            "resolve: succeeded to resolve module id ''{0}''. " +
+            "resolved file path ''{1}'' refers to a readable file",
+            params
+        ));
+        return Optional.of(moduleFilePath.toUri());
     }
 
     /**
@@ -232,6 +178,7 @@ public class FileSystemJSModuleRepository implements ICommonJSModuleRepository {
         if (!moduleURI.getScheme().toLowerCase().equals("file")) {
             return false;
         }
-        return moduleURI.getPath().startsWith(baseDir.toURI().getPath());
+        final Path moduleFilePath = new File(moduleURI).toPath().normalize();
+        return moduleFilePath.startsWith(baseDir.toPath());
     }
 }
