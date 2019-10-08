@@ -5,6 +5,7 @@
  */
 
 /* global Java */
+/* global require */
 
 // -- imports
 const Node = Java.type('org.openstreetmap.josm.data.osm.Node')
@@ -85,9 +86,23 @@ function rememberVersionFromObject (builder, args) {
   builder.version = o
 }
 
+function checkLat (value) {
+  if (!(util.isSomething(value) && util.isNumber(value) && LatLon.isValidLat(value))) {
+    throw new Error(`invalid lat value, got '${value}`)
+  }
+  return value
+}
+
+function checkLon (value) {
+  if (!(util.isSomething(value) && util.isNumber(value) && LatLon.isValidLon(value))) {
+    throw new Error(`invalid lon value, got '${value}`)
+  }
+  return value
+}
+
 function rememberPosFromObject (builder, args) {
   if (Object.proptotype.hasOwnProperty.call(args, 'pos')) {
-    util.assert(!(args.hasOwnProperty('lat')|| args.hasOwnProperty('lon')),
+    util.assert(!(util.hasProp(args, 'lat') || util.hasProp(args, 'lon')),
       "Can''t process both properties ''pos'' and ''lat''/''lon''")
     const pos = args.pos
     util.assert(util.isSomething(pos),
@@ -109,9 +124,9 @@ function rememberPosFromObject (builder, args) {
         util.assert(false, "''{0}'': {1}", 'lon', e)
       }
     } else if (util.isObject(pos)) {
-      util.assert(pos.hasOwnProperty('lat'),
+      util.assert(util.hasProp(pos, 'lat'),
         "''{0}'': missing mandatory property ''lat''", 'pos')
-      util.assert(pos.hasOwnProperty('lon'),
+      util.assert(util.hasProp(pos, 'lon'),
         "''{0}'': missing mandatory property ''lon''", 'pos')
       try {
         builder.lat = checkLat(pos.lat)
@@ -125,7 +140,7 @@ function rememberPosFromObject (builder, args) {
       }
     }
   }
-  if (args.hasOwnProperty('lat')) {
+  if (util.hasProp(args, 'lat')) {
     const o = args.lat
     util.assert(util.isSomething(o),
       "''{0}'': must not be null or undefined", 'lat')
@@ -135,8 +150,8 @@ function rememberPosFromObject (builder, args) {
       "''{0}'': expected a valid latitude, got {1}", 'lat', o)
     builder.lat = o
   }
-  if (args.hasOwnProperty('lon')) {
-    var o = args['lon']
+  if (util.hasProp(args, 'lon')) {
+    var o = args.lon
     util.assert(util.isSomething(o),
       "''{0}'': must not be null or undefined", 'lon')
     util.assert(util.isNumber(o),
@@ -148,7 +163,7 @@ function rememberPosFromObject (builder, args) {
 }
 
 function rememberTagsFromObject (builder, args) {
-  if (!args.hasOwnProperty('tags')) return
+  if (!util.hasProp(args, 'tags')) return
   const o = args.tags
   if (util.isNothing(o)) return
   rememberTags(builder, o)
@@ -249,20 +264,6 @@ function rememberTagsFromObject (builder, args) {
 
   function receiver (that) {
     return typeof that === 'object' ? that : new exports.NodeBuilder()
-  }
-
-  function checkLat (value) {
-    if (!(util.isSomething(value) && util.isNumber(value) && LatLon.isValidLat(value))) {
-      throw new Error(`invalid lat value, got '${value}`)
-    }
-    return value
-  }
-
-  function checkLon (value) {
-    if (!(util.isSomething(value) && util.isNumber(value) && LatLon.isValidLon(value))) {
-      throw new Error(`invalid lon value, got '${value}`)
-    }
-    return value
   }
 
   function initFromObject (builder, args) {
@@ -796,17 +797,8 @@ function rememberTagsFromObject (builder, args) {
     exports.WayBuilder.prototype.createProxy =
     createProxy
 
-  function assignWayAttributes (builder, way) {
-    if (util.hasProperties(builder.tags)) {
-      assignTags(way, builder.tags)
-    }
-    if (builder.nodes.length > 0) {
-      way.setNodes(builder.nodes)
-    }
-  }
-
   function rememberNodesFromObject (builder, args) {
-    if (!args.hasOwnProperty('nodes')) return
+    if (!util.hasProp(args, 'nodes')) return
     const o = args.nodes
     if (!util.isSomething(o)) return
     util.assert(util.isArray(o) || o instanceof List,
@@ -870,7 +862,7 @@ function rememberTagsFromObject (builder, args) {
   function create () {
     const builder = receiver(this)
     let arg
-    switch (arguments.length){
+    switch (arguments.length) {
       case 0:
         break
       case 1:
@@ -881,7 +873,7 @@ function rememberTagsFromObject (builder, args) {
           util.assert(arg > 0,
             'Argument 0: expected an id > 0, got {0}', arg)
           builder.id = arg
-        } else if (typeof arg == 'object') {
+        } else if (typeof arg === 'object') {
           initFromObject(builder, arg)
         } else {
           util.assert(false,
@@ -1244,7 +1236,7 @@ function rememberTagsFromObject (builder, args) {
       if (util.isNothing(obj)) return
       if (obj instanceof OsmPrimitive) {
         members.push(new RelationMember(null, obj))
-      } else if (obj instanceof RelationMember)  {
+      } else if (obj instanceof RelationMember) {
         members.push(obj)
       } else if (util.isArray(obj)) {
         for (let i = 0; i < obj.length; i++) remember(obj[i])
@@ -1266,7 +1258,7 @@ function rememberTagsFromObject (builder, args) {
   exports.RelationBuilder.prototype.withMembers = withMembers
 
   function rememberMembersFromObject (builder, args) {
-    if (!args.hasOwnProperty('members')) return
+    if (!util.hasProp(args, 'members')) return
     const o = args.members
     if (!util.isSomething(o)) return
     util.assert(util.isArray(o) || o instanceof List,
@@ -1277,7 +1269,7 @@ function rememberTagsFromObject (builder, args) {
 
   function initFromObject (builder, args) {
     rememberIdFromObject(builder, args)
-    rememberVersionFromObject(builder,args)
+    rememberVersionFromObject(builder, args)
     rememberTagsFromObject(builder, args)
     rememberMembersFromObject(builder, args)
   }
@@ -1331,7 +1323,7 @@ function rememberTagsFromObject (builder, args) {
   function create () {
     const builder = receiver(this)
     let arg
-    switch (arguments.length){
+    switch (arguments.length) {
       case 0:
         break
       case 1:
