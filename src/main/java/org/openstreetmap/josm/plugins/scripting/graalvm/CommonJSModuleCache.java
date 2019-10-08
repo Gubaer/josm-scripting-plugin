@@ -51,12 +51,8 @@ public class CommonJSModuleCache {
         Objects.requireNonNull(module);
         Objects.requireNonNull(forContext);
 
-        Map<URI, Value> modulesCache = cache.get(forContext);
-        if (modulesCache == null) {
-            modulesCache = new HashMap<>();
-            cache.put(forContext, modulesCache);
-        }
-        modulesCache.put(moduleURI, module);
+        cache.computeIfAbsent(forContext, context -> new HashMap<>())
+            .put(moduleURI, module);
     }
 
     /**
