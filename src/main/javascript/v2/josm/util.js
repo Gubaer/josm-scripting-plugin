@@ -3,6 +3,9 @@
  *
  * @module josm/util
  */
+
+/* global Java */
+
 // -- imports
 const MessageFormat = Java.type('java.text.MessageFormat')
 
@@ -19,8 +22,8 @@ const MessageFormat = Java.type('java.text.MessageFormat')
  * @summary  Checks whether a value is null or undefined.
  * @name isNothing
  */
-exports.isNothing = function(value) {
-    return value === null || value === void 0
+exports.isNothing = function (value) {
+  return value === null || value === undefined
 }
 
 /**
@@ -34,8 +37,8 @@ exports.isNothing = function(value) {
  * @summary  Checks whether a value is neither null nor undefined.
  * @name isSomething
  */
-exports.isSomething = function(val) {
-    return ! exports.isNothing(val)
+exports.isSomething = function (val) {
+  return !exports.isNothing(val)
 }
 
 /**
@@ -52,11 +55,11 @@ exports.isSomething = function(val) {
  * @summary  Trims leading and trailing whitespace from <code>s</code>.
  * @name trim
  */
-exports.trim = function(s){
-    if (exports.isNothing(s)) {
-        return s
-    }
-    return (s + '').replace(/^\s+/, '').replace(/\s+$/, '')
+exports.trim = function (s) {
+  if (exports.isNothing(s)) {
+    return s
+  }
+  return (s + '').replace(/^\s+/, '').replace(/\s+$/, '')
 }
 
 /**
@@ -100,34 +103,35 @@ exports.trim = function(s){
  * @summary  Assert a condition and throw an Error if the condition isn't met.
  * @name assert
  */
-exports.assert = function() {
-    var error = new Error()
-    switch(arguments.length) {
+exports.assert = function () {
+  const error = new Error()
+  switch (arguments.length) {
     case 0:
-        return
-    case 1: 
-        if (arguments[0]) return;
-        error.name = "AssertionError"
-        error.description = "An assertion failed"
-        throw error
-        
-    case 2: 
-        if (arguments[0]) return
-        error.name = "AssertionError"
-        error.description = arguments[1]
-        throw error
-        
-    default:
-    	
-        if (arguments[0]) return;
-        error.name = "AssertionError"
-        const args = Array.prototype.slice.call(arguments,0)
-        error.description = MessageFormat.format(
-        	args[1], 
-        	args.slice(2)
-        )
-        throw error
+      return
+
+    case 1:
+      if (arguments[0]) return
+      error.name = 'AssertionError'
+      error.description = 'An assertion failed'
+      throw error
+
+    case 2:
+      if (arguments[0]) return
+      error.name = 'AssertionError'
+      error.description = arguments[1]
+      throw error
+
+    default: {
+      if (arguments[0]) return
+      error.name = 'AssertionError'
+      const args = Array.prototype.slice.call(arguments, 0)
+      error.description = MessageFormat.format(
+        args[1],
+        args.slice(2)
+      )
+      throw error
     }
+  }
 }
 
 /**
@@ -150,16 +154,16 @@ exports.assert = function() {
  * @summary  Asserts that <code>val</code> is defined and non-null.
  * @name assertSomething
  */
-exports.assertSomething = function(val) {
-    let args
-    if (arguments.length <= 1) {
-        args = [exports.isSomething(val),
-                'Expected a defined non-null value, got {0}', val]
-    } else {
-        args = [exports.isSomething(val)].concat(
-            Array.prototype.slice.call(arguments,1))
-    }
-    exports.assert.apply(args)
+exports.assertSomething = function (val) {
+  let args
+  if (arguments.length <= 1) {
+    args = [exports.isSomething(val),
+      'Expected a defined non-null value, got {0}', val]
+  } else {
+    args = [exports.isSomething(val)].concat(
+      Array.prototype.slice.call(arguments, 1))
+  }
+  exports.assert.apply(args)
 }
 
 /**
@@ -174,16 +178,16 @@ exports.assertSomething = function(val) {
  * @summary  Asserts that <code>val</code> is a number.
  * @name assertNumber
  */
-exports.assertNumber = function(val) {
-    let args = []
-    if (arguments.length <= 1) {
-       args = [exports.isSomething(val), 'Expected a number, got {0}', val]
-    } else {
-       args = [exports.isSomething(val)]
-               .concat(Array.prototype.slice.call(arguments,1))
-    }
-    exports.assert.apply(args)
-};
+exports.assertNumber = function (val) {
+  let args = []
+  if (arguments.length <= 1) {
+    args = [exports.isSomething(val), 'Expected a number, got {0}', val]
+  } else {
+    args = [exports.isSomething(val)]
+      .concat(Array.prototype.slice.call(arguments, 1))
+  }
+  exports.assert.apply(args)
+}
 
 /**
  * Returns true if  <code>val</code> is defined.
@@ -195,8 +199,8 @@ exports.assertNumber = function(val) {
  * @name isDef
  * @type boolean
  */
-exports.isDef = function(val) {
-    return val !== void 0
+exports.isDef = function (val) {
+  return val !== undefined
 }
 
 /**
@@ -209,9 +213,9 @@ exports.isDef = function(val) {
  * @name isNumber
  * @type boolean
  */
-exports.isNumber = function(val) {
-    return typeof val === 'number'
-};
+exports.isNumber = function (val) {
+  return typeof val === 'number'
+}
 
 /**
  * Returns true if  <code>val</code> is a string.
@@ -224,9 +228,9 @@ exports.isNumber = function(val) {
  * @name isString
  * @type boolean
  */
-exports.isString = function(val) {
-    return exports.isDef(val)
-        && (typeof val === 'string' || val instanceof String)
+exports.isString = function (val) {
+  return exports.isDef(val) &&
+    (typeof val === 'string' || val instanceof String)
 }
 
 /**
@@ -240,8 +244,8 @@ exports.isString = function(val) {
  * @name isArray
  * @type boolean
  */
-exports.isArray = function(val) {
-    return Object.prototype.toString.call( val ) === '[object Array]'
+exports.isArray = function (val) {
+  return Object.prototype.toString.call(val) === '[object Array]'
 }
 
 /**
@@ -255,8 +259,8 @@ exports.isArray = function(val) {
  * @name isArguments
  * @type boolean
  */
-exports.isArguments = function(val) {
-    return Object.prototype.toString.call(val) === '[object Arguments]'
+exports.isArguments = function (val) {
+  return Object.prototype.toString.call(val) === '[object Arguments]'
 }
 
 /**
@@ -280,14 +284,14 @@ exports.isArguments = function(val) {
  * @name countProperties
  * @type number
  */
-exports.countProperties  = function(o) {
-    if (exports.isNothing(o)) return void 0
-    if (! (typeof o === "object")) return void 0
-    let count = 0
-    for (let p in o) {
-        if (o.hasOwnProperty(p)) count++
-    }
-    return count
+exports.countProperties = function (o) {
+  if (exports.isNothing(o)) return undefined
+  if (!(typeof o === 'object')) return undefined
+  let count = 0
+  for (const p in o) {
+    if (exports.hasProp(o, p)) count++
+  }
+  return count
 }
 
 /**
@@ -311,10 +315,10 @@ exports.countProperties  = function(o) {
  * @name hasProperties
  * @type boolean
  */
-exports.hasProperties = function(o) {
-    const count = exports.countProperties(o)
-    if (count === void 0) return false
-    return count > 0
+exports.hasProperties = function (o) {
+  const count = exports.countProperties(o)
+  if (count === undefined) return false
+  return count > 0
 }
 
 /**
@@ -327,8 +331,8 @@ exports.hasProperties = function(o) {
  * @name isFunction
  * @type boolean
  */
-exports.isFunction = function(f) {
-    return typeof f === 'function'
+exports.isFunction = function (f) {
+  return typeof f === 'function'
 }
 
 /**
@@ -342,23 +346,23 @@ exports.isFunction = function(f) {
  * @summary Mixes the properties of a list of objects into one object.
  * @name mix
  */
-exports.mix = function(){
-    var mixin = {}
+exports.mix = function () {
+  const mixin = {}
 
-    function copyProperties(other){
-        for (let p in other){
-            if (!other.hasOwnProperty(p)) continue
-            mixin[p] = other[p]
-        }
+  function copyProperties (other) {
+    for (const p in other) {
+      if (!exports.hasProp(other, p)) continue
+      mixin[p] = other[p]
     }
+  }
 
-    for (let i=0; i< arguments.length; i++){
-        const template = arguments[i]
-        if (exports.isNothing(template)) continue
-        if (! (typeof template === 'object')) continue
-        copyProperties(template)
-    }
-    return mixin
+  for (let i = 0; i < arguments.length; i++) {
+    const template = arguments[i]
+    if (exports.isNothing(template)) continue
+    if (!(typeof template === 'object')) continue
+    copyProperties(template)
+  }
+  return mixin
 }
 
 /**
@@ -378,12 +382,12 @@ exports.mix = function(){
  * @summary Prints a message to stdout (including newline).
  * @name println
  */
-exports.println = function() {
-    const args = Array.prototype.slice.call(arguments,0);
-    if (args.length == 0) return ''
-    args[0] = args[0] + "" // make sure first argument is a string
-    const System = Java.type("java.lang.System")
-    System.out.println(MessageFormat.format(args[0],args.slice(1)))
+exports.println = function () {
+  const args = Array.prototype.slice.call(arguments, 0)
+  if (args.length === 0) return ''
+  args[0] = args[0] + '' // make sure first argument is a string
+  const System = Java.type('java.lang.System')
+  System.out.println(MessageFormat.format(args[0], args.slice(1)))
 }
 
 /**
@@ -403,12 +407,12 @@ exports.println = function() {
  * @summary Prints a message to stdout (without newline).
  * @name print
  */
-exports.print = function() {
-    const args = Array.prototype.slice.call(arguments,0);
-    if (args.length == 0) return ''
-    args[0] = args[0] + ""  // make sure first argument is a string
-    const System = Java.type("java.lang.System")
-    System.out.print(MessageFormat.format(args[0],args.slice(1)))
+exports.print = function () {
+  const args = Array.prototype.slice.call(arguments, 0)
+  if (args.length === 0) return ''
+  args[0] = args[0] + '' // make sure first argument is a string
+  const System = Java.type('java.lang.System')
+  System.out.print(MessageFormat.format(args[0], args.slice(1)))
 }
 
 /**
@@ -423,12 +427,12 @@ exports.print = function() {
  * @name javaEquals
  * @type boolean
  */
-exports.javaEquals = function(o1, o2) {
-    exports.assert(typeof o1 === 'object' && typeof o1.equals === 'function')
-    exports.assert(typeof o2 === 'object' && typeof o2.equals === 'function')
-    if (o1 === null && o2 === null) return true
-    if (o1 === null && o2 !== null) return false
-    return o1.equals(o2)
+exports.javaEquals = function (o1, o2) {
+  exports.assert(typeof o1 === 'object' && typeof o1.equals === 'function')
+  exports.assert(typeof o2 === 'object' && typeof o2.equals === 'function')
+  if (o1 === null && o2 === null) return true
+  if (o1 === null && o2 !== null) return false
+  return o1.equals(o2)
 }
 
 /**
@@ -443,18 +447,18 @@ exports.javaEquals = function(o1, o2) {
  * @summary Iteraties over the elements of a collection
  * @name each
  */
-exports.each = function(collection, delegate) {
-    const Collection = Java.type('java.util.Collection')
-    if (exports.isNothing(collection) || exports.isNothing(delegate)) return
-    if (exports.isArray(collection) || exports.isArguments(collection)) {
-        const len = collection.length;
-        for (let i=0; i<len; i++) delegate(collection[i]);
-    } else if (collection instanceof Collection) {
-        for (let it = collection.iterator(); it.hasNext();) delegate(it.next())
-    } else {
-        exports.assert(false, 'collection: unexpected type of value, got {0}"',
-            collection)
-    }
+exports.each = function (collection, delegate) {
+  const Collection = Java.type('java.util.Collection')
+  if (exports.isNothing(collection) || exports.isNothing(delegate)) return
+  if (exports.isArray(collection) || exports.isArguments(collection)) {
+    const len = collection.length
+    for (let i = 0; i < len; i++) delegate(collection[i])
+  } else if (collection instanceof Collection) {
+    for (let it = collection.iterator(); it.hasNext();) delegate(it.next())
+  } else {
+    exports.assert(false, 'collection: unexpected type of value, got {0}"',
+      collection)
+  }
 }
 
 /**
@@ -467,9 +471,13 @@ exports.each = function(collection, delegate) {
  * @summary Is a value a collection?
  * @name isCollection
  */
-exports.isCollection = function(value) {
-    const Collection = Java.type('java.util.Collection')
-    return exports.isArray(value) 
-        || exports.isArguments(value)
-        || value instanceof Collection
+exports.isCollection = function (value) {
+  const Collection = Java.type('java.util.Collection')
+  return exports.isArray(value) ||
+    exports.isArguments(value) ||
+    value instanceof Collection
+}
+
+exports.hasProp = function (o, name) {
+  return Object.proptotype.hasOwnProperty.call(o, name)
 }
