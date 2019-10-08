@@ -11,6 +11,7 @@ import java.text.MessageFormat;
 import java.util.Objects;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -100,7 +101,7 @@ public class CommonJSModuleJarURI {
 
     /**
      * Creates a CommonJSModuleJarURI given an URI.
-     * @param uri
+     * @param uri the jar URI
      * @throws IllegalArgumentException thrown, if <code>uri</code> isn't
      *  a valid jar URI
      * @throws IllegalArgumentException thrown, if <code>uri</code> doesn't
@@ -117,6 +118,7 @@ public class CommonJSModuleJarURI {
             ));
         }
         try {
+            // this makes sure the URI includes a jar entry path
             uri.toURL();
         } catch(MalformedURLException e) {
             throw new IllegalArgumentException(MessageFormat.format(
@@ -208,9 +210,9 @@ public class CommonJSModuleJarURI {
      *
      * The name is equal to the jar entry path ({@link #getJarEntryPath()}, but
      * without the leading '/'. It is used to lookup the jar entry, see
-     * {@link JarFile#getEntry(String)}.
+     * {@link JarFile#getEntry(String)} or {@link JarFile#getJarEntry(String)}.
      *
-     * @return
+     * @return the jar entry name
      */
     public String getJarEntryName() {
         final String path = getJarEntryPathAsString();
@@ -251,7 +253,11 @@ public class CommonJSModuleJarURI {
             }
             return entry.isDirectory();
         } catch(IOException e) {
-            //TODO(karl): log it
+            logger.log(Level.WARNING, MessageFormat.format(
+                "failed to open and read jar file. " +
+                "jar file=''{0}''",
+                getJarFile().toString()
+            ),e);
             return false;
         }
     }
@@ -264,18 +270,14 @@ public class CommonJSModuleJarURI {
      *     <li>if this jar entry path is a prefix of the other jar entry path
      *     </li>
      * </ul>
-     * @param other
-     * @return
+     * @param other the child URI
+     * @return true, if <code>other</code> is a child of this URI; false,
+     * otherwise
      */
     public boolean isBaseOf(@NotNull final CommonJSModuleJarURI other) {
         Objects.requireNonNull(other);
-        if (!this.jarFilePath.equals(other.jarFilePath)) {
-            return false;
-        }
-        if (!other.getJarEntryPath().startsWith(getJarEntryPath())) {
-            return false;
-        }
-        return true;
+        return jarFilePath.equals(other.jarFilePath)
+            && other.getJarEntryPath().startsWith(getJarEntryPath());
     }
 
     /**
@@ -285,7 +287,7 @@ public class CommonJSModuleJarURI {
      *  false otherwise
      */
     public boolean refersToJarFile() {
-        try(final JarFile jf = new JarFile(jarFilePath)) {
+        try(final JarFile ignored = new JarFile(jarFilePath)) {
             return true;
         } catch(IOException e) {
             return false;
@@ -299,7 +301,7 @@ public class CommonJSModuleJarURI {
      *     <li>the jar entry path is converted to an absolute,
      *     normalized path</li>
      * </ul>
-     * @return
+     * @return the normalized CommonJS module jar URI
      */
     public @NotNull CommonJSModuleJarURI normalized() {
         final String normalizedFilePath = new File(jarFilePath)
@@ -319,7 +321,7 @@ public class CommonJSModuleJarURI {
     /**
      * Replies this object as {@link URI}
      *
-     * @return
+     * @return the URI
      */
     public @NotNull URI toURI() {
         try {
@@ -352,8 +354,9 @@ public class CommonJSModuleJarURI {
      * If, however, it refers to a file entry in the jar file, then the
      * parent directory entry is used as resolution context.
      *
-     * @return
-     * @throws IOException
+     * @return the resolution context URI
+     * @throws IOException thrown, if the jar file can't be accessed/
+     * opened/read
      */
     public @NotNull CommonJSModuleJarURI toResolutionContextUri()
             throws IOException {
