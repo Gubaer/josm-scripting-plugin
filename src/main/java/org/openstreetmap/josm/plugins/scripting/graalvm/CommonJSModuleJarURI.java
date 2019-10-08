@@ -9,12 +9,58 @@ import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.text.MessageFormat;
 import java.util.Objects;
+import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
+import java.util.logging.Logger;
 
 /**
  * A CommonJSModuleJarURI is a jar-URI with an embedded file-URI.
  */
 public class CommonJSModuleJarURI {
+    static private final Logger logger =
+        Logger.getLogger(CommonJSModuleJarURI.class.getName());
+
+    /**
+     * Builds a jar URI given the path of the jar file and the path
+     * of the jar entry.
+     *
+     * @param jarFilePath the path to the jar file
+     * @param jarEntryPath the path to the jar entry in the jar file
+     * @return the jar URI
+     * @throws URISyntaxException thrown, if the  URI isn't a
+     *  valid jar URI
+     * @throws MalformedURLException thrown, if the URI can't be converted
+     *  to a valid jar URL
+     */
+    static URI buildJarUri(@NotNull final String jarFilePath,
+                           @NotNull final String jarEntryPath)
+        throws MalformedURLException, URISyntaxException {
+        Objects.requireNonNull(jarFilePath);
+        Objects.requireNonNull(jarEntryPath);
+        final URI uri = new URI(MessageFormat.format(
+            "jar:file://{0}!{1}", jarFilePath, jarEntryPath
+        ));
+        // try to convert the uri to an URL. This will make sure, the URI
+        // includes a valid jar entry path
+        uri.toURL();
+        return uri;
+    }
+
+    /**
+     * Builds a jar URI given the path of the jar file. Assumes the
+     * root jar entry path <code>/</code>.
+     *
+     * @param jarFilePath the path to the jar file
+     * @return the jar URI
+     * @throws URISyntaxException thrown, if the  URI isn't a
+     *  valid jar URI
+     * @throws MalformedURLException thrown, if the URI can't be converted
+     *  to a valid jar URL
+     */
+    static URI buildJarUri(@NotNull final String jarFilePath)
+            throws URISyntaxException, MalformedURLException {
+        return buildJarUri(jarFilePath, "/");
+    }
 
     /**
      * Replies true, if <code>uri</code> is a valid URI for a Common JS
@@ -50,8 +96,7 @@ public class CommonJSModuleJarURI {
     private String jarFilePath;
     private String jarEntryPath = "/";
 
-    private CommonJSModuleJarURI() {
-    }
+    private CommonJSModuleJarURI() {}
 
     /**
      * Creates a CommonJSModuleJarURI given an URI.
@@ -111,8 +156,10 @@ public class CommonJSModuleJarURI {
             jarFilePath = new File(new URI(fileUri.toString().substring(0, i)))
                     .toString();
         } catch(URISyntaxException e) {
-            // shouldn't happen
-            //TODO(karl): log it, rethrow it?
+            throw new IllegalArgumentException(MessageFormat.format(
+                "failed to rebuild file URI embedded in jar URI. " +
+                "jar URI=''{0}''", uri.toString()
+            ), e);
         }
         jarEntryPath = fileUri.toString().substring(i+1);
     }
@@ -157,6 +204,27 @@ public class CommonJSModuleJarURI {
     }
 
     /**
+     * Replies the name of the jar entry to which this URI refers.
+     *
+     * The name is equal to the jar entry path ({@link #getJarEntryPath()}, but
+     * without the leading '/'. It is used to lookup the jar entry, see
+     * {@link JarFile#getEntry(String)}.
+     *
+     * @return
+     */
+    public String getJarEntryName() {
+        final String path = getJarEntryPathAsString();
+        if (!path.startsWith("/")) {
+            throw new IllegalStateException(MessageFormat.format(
+                "jar entry path doesn''t start with ''/''. " +
+                "jar entry path=''{0}''",
+                path
+            ));
+        }
+        return path.substring(1);
+    }
+
+    /**
      * Replies true, if this URI refers to a readable local file.
      *
      * @return true, if this URI refers to a readable local file;
@@ -165,6 +233,49 @@ public class CommonJSModuleJarURI {
     public boolean refersToReadableFile() {
         final File f = getJarFile();
         return f.exists() && f.isFile() && f.canRead();
+    }
+
+    /**
+     * Replies true, if this URI refers to a directory in the jar file,
+     * not a file.
+     *
+     * @return true, if this URI refers to a directory in the jar file; false,
+     * otherwise
+     */
+    public boolean refersToDirectoryJarEntry() {
+        try(final JarFile jar = new JarFile(getJarFile())) {
+            final JarEntry entry =
+                jar.getJarEntry(this.getJarEntryName());
+            if (entry == null) {
+                return false;
+            }
+            return entry.isDirectory();
+        } catch(IOException e) {
+            //TODO(karl): log it
+            return false;
+        }
+    }
+
+    /**
+     * Replies true, if this module URI is the base for the <code>other</code>
+     * module URI, i.e.
+     * <ul>
+     *     <li>if they refer to the same jar file</li>
+     *     <li>if this jar entry path is a prefix of the other jar entry path
+     *     </li>
+     * </ul>
+     * @param other
+     * @return
+     */
+    public boolean isBaseOf(@NotNull final CommonJSModuleJarURI other) {
+        Objects.requireNonNull(other);
+        if (!this.jarFilePath.equals(other.jarFilePath)) {
+            return false;
+        }
+        if (!other.getJarEntryPath().startsWith(getJarEntryPath())) {
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -212,17 +323,19 @@ public class CommonJSModuleJarURI {
      */
     public @NotNull URI toURI() {
         try {
-            return new URI(toString());
-        } catch(URISyntaxException e) {
-            throw new IllegalStateException(e);
+            return buildJarUri(jarFilePath, jarEntryPath);
+        } catch(URISyntaxException | MalformedURLException e) {
+            // shouldn't happen, but just in case
+            throw new IllegalStateException(MessageFormat.format(
+                "failed to build URI from jar file path and jar entry path. " +
+                "jar file path=''{0}'', jar entry path=''{1}''",
+                 jarFilePath,jarEntryPath
+            ),e);
         }
     }
 
     @Override
     public String toString() {
-        return MessageFormat.format(
-            "jar:file://{0}!{1}",
-            jarFilePath, jarEntryPath
-        );
+        return toURI().toString();
     }
 }

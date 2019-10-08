@@ -126,5 +126,66 @@ class CommonJSModuleJarURITest {
         assertEquals(urispec, converted)
     }
 
+    @Test
+    void "refersToDirectoryJarEntry: true, if directory exists"() {
+        def urispec = "jar:file://${testJarFile('jar-repo-2.jar')}!/foo"
+                .toString()
+        def uri = new CommonJSModuleJarURI(new URI(urispec))
+        assertTrue(uri.refersToDirectoryJarEntry())
+    }
+
+    @Test
+    void "refersToDirectoryJarEntry: false, if entry does not exist"() {
+        def urispec = "jar:file://${testJarFile('jar-repo-2.jar')}!/no-such-entry"
+                .toString()
+        def uri = new CommonJSModuleJarURI(new URI(urispec))
+        assertFalse(uri.refersToDirectoryJarEntry())
+    }
+
+    @Test
+    void "refersToDirectoryJarEntry: false, if entry is a file"() {
+        def urispec = "jar:file://${testJarFile('jar-repo-2.jar')}!/foo/bar.js"
+                .toString()
+        def uri = new CommonJSModuleJarURI(new URI(urispec))
+        assertFalse(uri.refersToDirectoryJarEntry())
+    }
+
+    @Test
+    void "isBaseOf: true, if other is a 'child' URI"() {
+
+        def base = "jar:file://${testJarFile('jar-repo-2.jar')}!/foo"
+                .toString()
+        def other = "jar:file://${testJarFile('jar-repo-2.jar')}!/foo/bar.js"
+                .toString()
+        def baseUri = new CommonJSModuleJarURI(new URI(base))
+        def otherUri = new CommonJSModuleJarURI(new URI(other))
+        assertTrue(baseUri.isBaseOf(otherUri))
+    }
+
+    @Test
+    void "isBaseOf: false, if other refers to different file"() {
+
+        def base = "jar:file://${testJarFile('jar-repo-2.jar')}!/foo"
+                .toString()
+        // not the same jar file
+        def other = "jar:file://${testJarFile('jar-repo-1.jar')}!/foo/bar.js"
+                .toString()
+        def baseUri = new CommonJSModuleJarURI(new URI(base))
+        def otherUri = new CommonJSModuleJarURI(new URI(other))
+        assertFalse(baseUri.isBaseOf(otherUri))
+    }
+
+    @Test
+    void "isBaseOf: false, if other jar entry path isn't a prefix"() {
+
+        def base = "jar:file://${testJarFile('jar-repo-2.jar')}!/foo"
+                .toString()
+        // /foo isn't a prefix of /bar.js
+        def other = "jar:file://${testJarFile('jar-repo-2.jar')}!/bar.js"
+                .toString()
+        def baseUri = new CommonJSModuleJarURI(new URI(base))
+        def otherUri = new CommonJSModuleJarURI(new URI(other))
+        assertFalse(baseUri.isBaseOf(otherUri))
+    }
 }
 
