@@ -155,7 +155,7 @@ public class CommonJSModuleJarURI {
         try {
             jarFilePath = new File(new URI(fileUri.toString().substring(0, i)))
                     .toString();
-        } catch(URISyntaxException e) {
+        } catch(URISyntaxException | IllegalArgumentException e) {
             throw new IllegalArgumentException(MessageFormat.format(
                 "failed to rebuild file URI embedded in jar URI. " +
                 "jar URI=''{0}''", uri.toString()
@@ -337,5 +337,57 @@ public class CommonJSModuleJarURI {
     @Override
     public String toString() {
         return toURI().toString();
+    }
+
+    /**
+     * Replies the CommonJS module jar URI which which is a suitable
+     * resolution context URI for resolving CommonJS module IDs.
+     *
+     * If this jar entry path of this URI is '/', this URI is already a
+     * suitable resolution context.
+     *
+     * If this jar entry path refers to a directory in the jar file, it is
+     * already a suitable resolution context.
+     *
+     * If, however, it refers to a file entry in the jar file, then the
+     * parent directory entry is used as resolution context.
+     *
+     * @return
+     * @throws IOException
+     */
+    public @NotNull CommonJSModuleJarURI toResolutionContextUri()
+            throws IOException {
+
+        String normalizedJarEntryPath =
+            new File(jarEntryPath).toPath().normalize().toString();
+
+        // jar entry name without leading '/'
+        final String normalizedJarEntryName =
+            normalizedJarEntryPath.substring(1);
+
+        if (normalizedJarEntryName.isEmpty()) {
+            final CommonJSModuleJarURI resolutionContextUri =
+                    new CommonJSModuleJarURI();
+            resolutionContextUri.jarFilePath = this.jarFilePath;
+            resolutionContextUri.jarEntryPath = "/";
+            return resolutionContextUri;
+        }
+
+        // if this URI refers to a jar entry of type file, then use
+        // its parent dir as context path
+        try(final JarFile jar = new JarFile(getJarFile())) {
+            final JarEntry entry = jar.getJarEntry(normalizedJarEntryName);
+            if (entry != null) {
+                if (!entry.isDirectory()) {
+                    normalizedJarEntryPath = new File(normalizedJarEntryPath)
+                        .toPath().getParent().toString();
+                }
+            }
+        }
+        final CommonJSModuleJarURI resolutionContextUri =
+            new CommonJSModuleJarURI();
+        resolutionContextUri.jarFilePath = this.jarFilePath;
+        resolutionContextUri.jarEntryPath = normalizedJarEntryPath;
+        return resolutionContextUri;
     }
 }

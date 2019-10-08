@@ -187,5 +187,31 @@ class CommonJSModuleJarURITest {
         def otherUri = new CommonJSModuleJarURI(new URI(other))
         assertFalse(baseUri.isBaseOf(otherUri))
     }
+
+    @Test
+    void "toResolutionContextUri: identical, if jar entry path is '/'"() {
+        def urispec = "jar:file://${testJarFile('jar-repo-2.jar')}!/".toString()
+        def uri = new CommonJSModuleJarURI(new URI(urispec))
+        def resolutionContextUri = uri.toResolutionContextUri()
+        assertEquals(urispec, resolutionContextUri.toString())
+    }
+
+    @Test
+    void "toResolutionContextUri: identical, if jar entry path is a dir"() {
+        def urispec = "jar:file://${testJarFile('jar-repo-2.jar')}!/foo".toString()
+        def uri = new CommonJSModuleJarURI(new URI(urispec))
+        def resolutionContextUri = uri.toResolutionContextUri()
+        assertEquals(urispec, resolutionContextUri.toString())
+    }
+
+    @Test
+    void "toResolutionContextUri: parent, if jar entry path is a file"() {
+        def urispec = "jar:file://${testJarFile('jar-repo-2.jar')}!/foo/baz.js".toString()
+        def expectd = "jar:file://${testJarFile('jar-repo-2.jar')}!/foo".toString()
+        def uri = new CommonJSModuleJarURI(new URI(urispec))
+        def resolutionContextUri = uri.toResolutionContextUri()
+        assertEquals(expectd, resolutionContextUri.toString())
+    }
+
 }
 
