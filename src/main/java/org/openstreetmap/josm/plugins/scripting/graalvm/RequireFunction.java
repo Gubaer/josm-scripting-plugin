@@ -200,6 +200,8 @@ public class RequireFunction implements Function<String, Value> {
                     new StringReader(wrapperSource),       // source
                     moduleURI.toString() + "(wrapped)"     // source name
                 ).build();
+            //TODO(karl): remove later
+            //dumpSource(source, new File(new File("/tmp"), moduleID.replace("/", "_")));
             final Value module = context.eval(source);
             cache.remember(moduleURI, module, context);
             return module;
@@ -208,6 +210,20 @@ public class RequireFunction implements Function<String, Value> {
                 "failed to require module ''{0}''", moduleID);
             logger.log(Level.SEVERE, message, e);
             throw new RequireFunctionException(message, e);
+        }
+    }
+
+    protected void dumpSource (Source source, File f) {
+        try {
+            final BufferedWriter writer = new BufferedWriter(new FileWriter(f));
+            final BufferedReader reader =  new BufferedReader(source.getReader());
+            String line;
+            while((line = reader.readLine()) != null) {
+                writer.append(line);
+                writer.newLine();
+            }
+        } catch(IOException e) {
+            e.printStackTrace();
         }
     }
 }

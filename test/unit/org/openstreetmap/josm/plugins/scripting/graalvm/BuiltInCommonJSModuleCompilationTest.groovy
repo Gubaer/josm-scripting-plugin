@@ -18,10 +18,11 @@ class BuiltInCommonJSModuleCompilationTest {
 
     @BeforeClass
     static void readEnvironmentVariables() {
-        moduleRepoPath = System.getenv("BUILTIN_COMMONJS_MODULE_REPO")
+        moduleRepoPath = System.getenv("JOSM_SCRIPTING_PLUGIN_HOME")
         if (moduleRepoPath == null) {
-            fail("environment variable BUILTIN_COMMONJS_MODULE_REPO not set.")
+            fail("environment variable JOSM_SCRIPTING_PLUGIN_HOME not set.")
         }
+        moduleRepoPath = "${moduleRepoPath}/src/main/javascript/v2"
         moduleRepo = new FileSystemJSModuleRepository(moduleRepoPath)
     }
 
@@ -78,4 +79,11 @@ class BuiltInCommonJSModuleCompilationTest {
         def require = new RequireFunction(null)
         require.apply("josm/command")
     }
+
+    @Test
+    void "can evaluate module 'josm/builder'"() {
+        def require = new RequireFunction(null)
+        require.apply("josm/builder")
+    }
+
 }
