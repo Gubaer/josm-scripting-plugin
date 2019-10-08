@@ -1,7 +1,7 @@
 /**
  * A collection of functions to create commands which can be applied, undone
  * and redone on
- * {@class org.opoenstreetmap.josm.gui.layer.OsmDataLayer}s.
+ * {@class org.openstreetmap.josm.gui.layer.OsmDataLayer}s.
  *
  * @module josm/command
  */
