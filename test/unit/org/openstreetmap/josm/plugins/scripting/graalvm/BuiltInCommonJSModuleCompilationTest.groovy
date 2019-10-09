@@ -92,4 +92,10 @@ class BuiltInCommonJSModuleCompilationTest {
         require.apply("josm/scriptingconsole")
     }
 
+    @Test
+    void "can evaluate module 'josm/api'"() {
+        def require = new RequireFunction(null)
+        require.apply("josm/api")
+    }
+
 }
