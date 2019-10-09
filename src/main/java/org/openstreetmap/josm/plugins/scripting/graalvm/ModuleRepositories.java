@@ -3,6 +3,7 @@ package org.openstreetmap.josm.plugins.scripting.graalvm;
 import javax.validation.constraints.NotNull;
 import java.net.URI;
 import java.util.*;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 /**
@@ -13,6 +14,8 @@ import java.util.stream.Collectors;
  * managed in this registry.
  */
 public class ModuleRepositories implements IModuleResolver {
+    static private Logger logger =
+        Logger.getLogger(ModuleRepositories.class.getName());
 
     static private ModuleRepositories instance;
 
@@ -137,10 +140,23 @@ public class ModuleRepositories implements IModuleResolver {
                                  final @NotNull  URI contextUri) {
         Objects.requireNonNull(id);
         Objects.requireNonNull(contextUri);
-        return repos.stream()
-            .map(repo -> repo.resolve(id, contextUri))
-            .filter(Optional::isPresent)
-            .map(Optional::get)
-            .findFirst();
+        final ModuleID moduleID = new ModuleID(id);
+        if (moduleID.isRelative()) {
+            // try to resolve a relative module against each available module
+            // repo, but only accept resolved modules from the same repo, to
+            // which the contextUri refers
+            return repos.stream()
+                    .map(repo -> {
+                        logger.info("resolve " + id + " against " + repo.getBaseURI().toString());
+                        return repo.resolve(id, contextUri);
+                    })
+                    .filter(Optional::isPresent)
+                    .map(Optional::get)
+                    .findFirst();
+        } else {
+            // resolve an absolute module ID without context against all
+            // available module repository
+            return resolve(id);
+        }
     }
 }
