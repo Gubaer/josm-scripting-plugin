@@ -17,3 +17,4 @@ test/josm.home
 *.env
 releases
 dist
+node_modules
