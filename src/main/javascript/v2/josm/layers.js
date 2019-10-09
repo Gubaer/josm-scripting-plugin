@@ -1,16 +1,17 @@
-
 /**
  * Provides access to the JOSM layers.
  *
  * @module josm/layers
  */
 
-//-- imports
+/* global Java */
+
+// -- imports
 const MainApplication = Java.type('org.openstreetmap.josm.gui.MainApplication')
 const OsmDataLayer = Java.type('org.openstreetmap.josm.gui.layer.OsmDataLayer')
 const DataSet = Java.type('org.openstreetmap.josm.data.osm.DataSet')
 const Layer = Java.type('org.openstreetmap.josm.gui.layer.Layer')
-const util = require("josm/util")
+const util = require('josm/util')
 
 /**
  * Replies the number of currently open layers.
@@ -22,10 +23,10 @@ const util = require("josm/util")
  * @field
  * @summary Replies the number of currently open layers.
  */
-Object.defineProperty(exports, "length", {
-    get: function() {
-        return MainApplication.getLayerManager().getLayers().size()
-    }
+Object.defineProperty(exports, 'length', {
+  get: function () {
+    return MainApplication.getLayerManager().getLayers().size()
+  }
 })
 
 /**
@@ -47,47 +48,47 @@ Object.defineProperty(exports, "length", {
  * @summary Set or get the active layer.
  */
 Object.defineProperty(exports, 'activeLayer', {
-    get: function() {
-        return MainApplication.getLayerManager().getActiveLayer()
-    },
-    set: function(value) {
-        util.assert(util.isSomething(value),
-            'Value must not be null or undefined)')
-        let layer = null
-        if (value instanceof Layer) {
-            layer = value
-        } else if (util.isNumber(value) || util.isString(value)) {
-            layer = exports.get(value)
-        } else {
-            util.assert(false, 'Unexpected type of value, got {0}', value)
-        }
-        util.assert(util.isSomething(layer),
-            'Layer \'\'{0}\'\' doesn\'\'t exist. It can\'\'t be set as active layer.',
-            value)
-        MainApplication.getLayerManager().setActiveLayer(layer)
+  get: function () {
+    return MainApplication.getLayerManager().getActiveLayer()
+  },
+  set: function (value) {
+    util.assert(util.isSomething(value),
+      'Value must not be null or undefined)')
+    let layer = null
+    if (value instanceof Layer) {
+      layer = value
+    } else if (util.isNumber(value) || util.isString(value)) {
+      layer = exports.get(value)
+    } else {
+      util.assert(false, 'Unexpected type of value, got {0}', value)
     }
+    util.assert(util.isSomething(layer),
+      'Layer \'\'{0}\'\' doesn\'\'t exist. It can\'\'t be set as active layer.',
+      value)
+    MainApplication.getLayerManager().setActiveLayer(layer)
+  }
 })
 
-function getLayerByName(key) {
-    key = util.trim(key).toLowerCase()
-    if (exports.length == 0) return undefined
-    const layers = MainApplication.getLayerManager().getLayers()
-    for(let it=layers.iterator(); it.hasNext();) {
-        const l = it.next()
-        if (l.getName().trim().toLowerCase().equals(key)) return l
-    }
-    return undefined
+function getLayerByName (key) {
+  key = util.trim(key).toLowerCase()
+  if (exports.length === 0) return undefined
+  const layers = MainApplication.getLayerManager().getLayers()
+  for (let it = layers.iterator(); it.hasNext();) {
+    const l = it.next()
+    if (l.getName().trim().toLowerCase().equals(key)) return l
+  }
+  return undefined
 }
 
-function getLayerByIndex(idx) {
-    if (idx < 0 || idx >= exports.length) return undefined
-    const layers = MainApplication.getLayerManager().getLayers()
-    return layers.get(idx)
+function getLayerByIndex (idx) {
+  if (idx < 0 || idx >= exports.length) return undefined
+  const layers = MainApplication.getLayerManager().getLayers()
+  return layers.get(idx)
 }
 
 /**
  * Replies one of the layers given a key.
- * 
+ *
  * <ul>
  *   <li>If <code>key</code> is a number, replies the layer with index key, or
  *   undefined, if no layer for this index exists.</li>
@@ -111,11 +112,11 @@ function getLayerByIndex(idx) {
  * @method
  * @summary Replies one of the layers given a key.
  */
-exports.get = function(key) {
-    if (util.isNothing(key)) return void 0 /* undefined */
-    if (util.isString(key)) return getLayerByName(key)
-    if (util.isNumber(key)) return getLayerByIndex(key)
-    return void 0 /* undefined */
+exports.get = function (key) {
+  if (util.isNothing(key)) return undefined
+  if (util.isString(key)) return getLayerByName(key)
+  if (util.isNumber(key)) return getLayerByIndex(key)
+  return undefined
 }
 
 /**
@@ -144,18 +145,18 @@ exports.get = function(key) {
  * @name has
  * @summary Checks whether <code>layer</code> is currently registered layer.
  */
-exports.has = function(layer) {
-    if (util.isNothing(layer)) return false
-    const layerManager = MainApplication.getLayerManager()
-    if (layer instanceof Layer) {
-        return layerManager.getLayers().contains(layer)
-    } else if (util.isString(layer)) {
-        return util.isSomething(exports.get(layer))
-    } else if (util.isNumber(layer)) {
-        return layer >= 0 && layer < exports.length
-    } else {
-        return false
-    }
+exports.has = function (layer) {
+  if (util.isNothing(layer)) return false
+  const layerManager = MainApplication.getLayerManager()
+  if (layer instanceof Layer) {
+    return layerManager.getLayers().contains(layer)
+  } else if (util.isString(layer)) {
+    return util.isSomething(exports.get(layer))
+  } else if (util.isNumber(layer)) {
+    return layer >= 0 && layer < exports.length
+  } else {
+    return false
+  }
 }
 
 /**
@@ -187,34 +188,34 @@ exports.has = function(layer) {
  * @type org.openstreetmap.josm.gui.layer.Layer
  * @name add
  */
-exports.add = function(obj) {
-    if (util.isNothing(obj)) return;
-    const layerManager = MainApplication.getLayerManager()
-    if (obj instanceof Layer) {
-        layerManager.addLayer(obj)
-    } else if (obj instanceof DataSet){
-        layerManager.addLayer(new OsmDataLayer(obj, null, null))
-    } else {
-        util.assert(false,
-            'Expected an instance of Layer or DataSet, got {0}', obj)
-    }
+exports.add = function (obj) {
+  if (util.isNothing(obj)) return
+  const layerManager = MainApplication.getLayerManager()
+  if (obj instanceof Layer) {
+    layerManager.addLayer(obj)
+  } else if (obj instanceof DataSet) {
+    layerManager.addLayer(new OsmDataLayer(obj, null, null))
+  } else {
+    util.assert(false,
+      'Expected an instance of Layer or DataSet, got {0}', obj)
+  }
 }
 
-const removeLayerByIndex = function(idx) {
-    const layer = exports.get(idx)
-    if (util.isNothing(layer)) return
-    MainApplication.getLayerManager().removeLayer(layer)
+function removeLayerByIndex (idx) {
+  const layer = exports.get(idx)
+  if (util.isNothing(layer)) return
+  MainApplication.getLayerManager().removeLayer(layer)
 }
 
-const removeLayerByName = function(name) {
-    const layer = exports.get(name)
-    if (util.isNothing(layer)) return
-    MainApplication.getLayerManager().removeLayer(layer)
+function removeLayerByName (name) {
+  const layer = exports.get(name)
+  if (util.isNothing(layer)) return
+  MainApplication.getLayerManager().removeLayer(layer)
 }
 
 /**
  * Removes a layer with the given key.
- * 
+ *
  * <ul>
  *   <li>If <code>key</code> is a <code>Number</code>, removes the layer with
  *   the index key. If the index doesn't isn't a valid layer index, nothing
@@ -230,7 +231,7 @@ const removeLayerByName = function(name) {
  * layers.remove(0)
  *
  * // remove the first layer matching with the supplied name
- * layers.remove("myLayerName")
+ * layers.remove('myLayerName')
  *
  * @param {number|string} key  indicates the layer to remove
  * @memberof josm/layers
@@ -238,17 +239,15 @@ const removeLayerByName = function(name) {
  * @method
  * @summary Removes a layer.
  */
-exports.remove = function(key) {
-    if (util.isNothing(key)) return
-    if (util.isNumber(key)) {
-        removeLayerByIndex(key)
-        return
-    } else if (util.isString(key)) {
-        removeLayerByName(key)
-        return
-    } else {
-        util.assert(false, 'Expected a number or a string, got {0}', key)
-    }
+exports.remove = function (key) {
+  if (util.isNothing(key)) return
+  if (util.isNumber(key)) {
+    removeLayerByIndex(key)
+  } else if (util.isString(key)) {
+    removeLayerByName(key)
+  } else {
+    util.assert(false, 'Expected a number or a string, got {0}', key)
+  }
 }
 
 /**
@@ -275,8 +274,8 @@ exports.remove = function(key) {
  * layer = josm.layers.addDataLayer('test')
  *
  * // creates a new data layer for the dataset ds
- * const ds = new DataSet();
- * layer = josm.layers.addDataLayer(ds);
+ * const ds = new DataSet()
+ * layer = josm.layers.addDataLayer(ds)
  *
  * @name addDataLayer
  * @memberof josm/layers
@@ -284,34 +283,34 @@ exports.remove = function(key) {
  * @method
  * @summary Adds a data layer
  */
-exports.addDataLayer = function() {
-    let name, ds
-    switch(arguments.length){
+exports.addDataLayer = function () {
+  let name, ds
+  switch (arguments.length) {
     case 0: break
     case 1:
-        if (util.isString(arguments[0])) {
-            name = util.trim(arguments[0])
-        } else if (arguments[0] instanceof DataSet) {
-            ds = arguments[0]
-        } else if (typeof arguments[0] === 'object') {
-            if (util.isString(arguments[0].name)) {
-                name = util.trim(arguments[0].name)
-            }
-            if (arguments[0].ds instanceof DataSet) {
-                ds = arguments[0].ds
-            }
-        } else {
-            util.assert(false, 'unsupported type of argument, got {0}',
-                arguments[0]);
+      if (util.isString(arguments[0])) {
+        name = util.trim(arguments[0])
+      } else if (arguments[0] instanceof DataSet) {
+        ds = arguments[0]
+      } else if (typeof arguments[0] === 'object') {
+        if (util.isString(arguments[0].name)) {
+          name = util.trim(arguments[0].name)
         }
-        break
+        if (arguments[0].ds instanceof DataSet) {
+          ds = arguments[0].ds
+        }
+      } else {
+        util.assert(false, 'unsupported type of argument, got {0}',
+          arguments[0])
+      }
+      break
     default:
-        util.assert(false, 'Unsupported number of arguments, got {0}',
-            arguments.length);
-    }
-    ds = ds || new DataSet()
-    name = name ||  OsmDataLayer.createNewName()
-    const layer = new OsmDataLayer(ds, name, null /* no file */)
-    exports.add(layer)
-    return layer
+      util.assert(false, 'Unsupported number of arguments, got {0}',
+        arguments.length)
+  }
+  ds = ds || new DataSet()
+  name = name || OsmDataLayer.createNewName()
+  const layer = new OsmDataLayer(ds, name, null /* no file */)
+  exports.add(layer)
+  return layer
 }
