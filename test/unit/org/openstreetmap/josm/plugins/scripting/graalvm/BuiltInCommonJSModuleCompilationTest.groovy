@@ -104,4 +104,10 @@ class BuiltInCommonJSModuleCompilationTest {
         require.apply("clipboard")
     }
 
+    @Test
+    void "can evaluate module 'josm/unittest"() {
+        def require = new RequireFunction(null)
+        require.apply("josm/unittest")
+    }
+
 }
