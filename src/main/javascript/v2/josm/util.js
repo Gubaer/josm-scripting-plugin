@@ -479,5 +479,5 @@ exports.isCollection = function (value) {
 }
 
 exports.hasProp = function (o, name) {
-  return Object.proptotype.hasOwnProperty.call(o, name)
+  return Object.prototype.hasOwnProperty.call(o, name)
 }
