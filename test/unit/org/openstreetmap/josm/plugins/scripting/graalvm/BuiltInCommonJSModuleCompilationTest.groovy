@@ -86,4 +86,10 @@ class BuiltInCommonJSModuleCompilationTest {
         require.apply("josm/builder")
     }
 
+    @Test
+    void "can evaluate module 'josm/scriptingconsole'"() {
+        def require = new RequireFunction(null)
+        require.apply("josm/scriptingconsole")
+    }
+
 }
