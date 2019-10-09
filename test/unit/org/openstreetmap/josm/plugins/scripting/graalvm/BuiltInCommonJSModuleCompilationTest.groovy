@@ -110,4 +110,10 @@ class BuiltInCommonJSModuleCompilationTest {
         require.apply("josm/unittest")
     }
 
+    @Test
+    void "can evaluate module 'josm/ui/menu"() {
+        def require = new RequireFunction(null)
+        require.apply("josm/ui/menu")
+    }
+
 }
