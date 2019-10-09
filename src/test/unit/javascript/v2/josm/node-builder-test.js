@@ -6,7 +6,6 @@ const test = tu.test
 
 const nb = require('josm/builder').NodeBuilder
 const DataSet = Java.type('org.openstreetmap.josm.data.osm.DataSet')
-const System = Java.type('java.lang.System')
 const suites = []
 
 suites.push(tu.suite('NodeBuilder test cases',
