@@ -30,6 +30,7 @@ const Map = Java.type('java.util.Map')
 const HashMap = Java.type('java.util.HashMap')
 const HashSet = Java.type('java.util.HashSet')
 const Collection = Java.type('java.util.Collection')
+const System = Java.type('java.lang.System')
 
 function checkAndFlatten (primitives) {
   const ret = new HashSet()
@@ -41,7 +42,7 @@ function checkAndFlatten (primitives) {
       ret.add(value)
     } else {
       util.assert(false,
-        'Unexpected object to add as OSM primitive, got {0}, value')
+        'Unexpected object to add as OSM primitive, got {0}', value)
     }
   }
   visit(primitives)
@@ -60,7 +61,7 @@ function toArray (collection) {
   if (util.isArray(collection)) return collection
   if (collection instanceof Collection) {
     const ret = []
-    for (let it = collection.iterator(); it.hasNext();) ret.push(it.next())
+    for (const it = collection.iterator(); it.hasNext();) ret.push(it.next())
     return ret
   }
 }
@@ -106,7 +107,12 @@ exports.AddCommand.prototype.createJOSMCommand = function (layer) {
     'layer: must not be null or undefined')
   util.assert(layer instanceof OsmDataLayer,
     'layer: expected OsmDataLayer, got {0}', layer)
-  return new AddMultiCommand(layer, this._objs)
+  const list = new ArrayList()
+  for (let i = 0; i < this._objs.length; i++) {
+    const o = this._objs[i]
+    list.add(o)
+  }
+  return new AddMultiCommand(layer, list)
 }
 
 /**
@@ -140,7 +146,8 @@ exports.AddCommand.prototype.createJOSMCommand = function (layer) {
  * @memberOf josm/command
  */
 exports.add = function () {
-  return new exports.AddCommand(checkAndFlatten(arguments))
+  const objs = checkAndFlatten(arguments)
+  return new exports.AddCommand(objs)
 }
 
 /**
