@@ -9,8 +9,8 @@
 /* global Java */
 /* global require */
 
-const util = require("josm/util")
-const layers = require("josm/layers")
+const util = require('josm/util')
+const layers = require('josm/layers')
 
 const OsmPrimitive = Java.type('org.openstreetmap.josm.data.osm.OsmPrimitive')
 const OsmDataLayer = Java.type('org.openstreetmap.josm.gui.layer.OsmDataLayer')
@@ -122,9 +122,9 @@ exports.AddCommand.prototype.createJOSMCommand = function (layer) {
  * </dl>
  *
  * @example
- * const cmd = require("josm/command")
- * const layers = require("josm/layer")
- * const layer  = layers.get("Data Layer 1")
+ * const cmd = require('josm/command')
+ * const layers = require('josm/layer')
+ * const layer  = layers.get('Data Layer 1')
  *
  * // add two nodes
  * cmd.add(n1,n1).applyTo(layer)
@@ -199,9 +199,9 @@ exports.DeleteCommand.prototype.createJOSMCommand = function (layer) {
  * </dl>
  *
  * @example
- * const cmd = require("josm/command")
- * const layers= require("josm/layer")
- * const layer = layers.get("Data Layer 1")
+ * const cmd = require('josm/command')
+ * const layers= require('josm/layer')
+ * const layer = layers.get('Data Layer 1')
  *
  * // delete two nodes
  * cmd.delete(n1,n1).applyTo(layer)
@@ -283,7 +283,7 @@ function scheduleMemberChangeFromPara (para, change) {
 }
 
 function scheduleTagsChangeFromPara (para, change) {
-  if (!para || !util.isDef(para.tags)) return;
+  if (!para || !util.isDef(para.tags)) return
   util.assert(para.tags, 'tags must no be null')
   let tags = para.tags
   if (tags instanceof Map) {
@@ -435,7 +435,7 @@ exports.change = function () {
       break
 
     default: {
-      const a = arguments[arguments.length -1]
+      const a = arguments[arguments.length - 1]
       if (a instanceof OsmPrimitive) {
         util.assert(false,
           'Argument {0}: unexpected last argument, expected named ' +
@@ -478,18 +478,18 @@ exports.CommandHistory = {}
  * @param {number} depth (optional) the number of commands to be undone.
  *         Default if missing: 1
  */
-exports.CommandHistory.undo = function(depth) {
-    if (util.isDef(depth)) {
-        util.assert(util.isNumber(depth), 'depth: expected a number, got {0}',
-            depth)
-        util.assert(depth > 0, 'depth: expected number > 0, got {0}', depth)
-    }
-    const undoRedoHandler = UndoRedoHandler.getInstance()
-    if (depth){
-        undoRedoHandler.undo(depth)
-    } else {
-        undoRedoHandler.undo()
-    }
+exports.CommandHistory.undo = function (depth) {
+  if (util.isDef(depth)) {
+    util.assert(util.isNumber(depth), 'depth: expected a number, got {0}',
+      depth)
+    util.assert(depth > 0, 'depth: expected number > 0, got {0}', depth)
+  }
+  const undoRedoHandler = UndoRedoHandler.getInstance()
+  if (depth) {
+    undoRedoHandler.undo(depth)
+  } else {
+    undoRedoHandler.undo()
+  }
 }
 
 /**
@@ -504,18 +504,18 @@ exports.CommandHistory.undo = function(depth) {
  * @param {number} depth (optional) the number of commands to be redone.
  *         Default if missing: 1
  */
-exports.CommandHistory.redo = function(depth) {
-    if (util.isDef(depth)) {
-        util.assert(util.isNumber(depth), 'depth: expected a number, got {0}',
-            depth)
-        util.assert(depth > 0, 'depth: expected number > 0, got {0}', depth)
-    }
-    const undoRedoHandler = UndoRedoHandler.getInstance()
-    if (depth){
-        undoRedoHandler.redo(depth)
-    } else {
-        undoRedoHandler.redo()
-    }
+exports.CommandHistory.redo = function (depth) {
+  if (util.isDef(depth)) {
+    util.assert(util.isNumber(depth), 'depth: expected a number, got {0}',
+      depth)
+    util.assert(depth > 0, 'depth: expected number > 0, got {0}', depth)
+  }
+  const undoRedoHandler = UndoRedoHandler.getInstance()
+  if (depth) {
+    undoRedoHandler.redo(depth)
+  } else {
+    undoRedoHandler.redo()
+  }
 }
 
 /**
@@ -531,26 +531,28 @@ exports.CommandHistory.redo = function(depth) {
  * reference layer. Only commands applied to this layer are remove. Default
  * if missing: <strong>all</strong> commands are removed.
  */
-exports.CommandHistory.clear = function(layer) {
-    const undoRedoHandler = UndoRedoHandler.getInstance()
-    function clearAll() {
-        undoRedoHandler.clean()
-    }
+exports.CommandHistory.clear = function (layer) {
+  const undoRedoHandler = UndoRedoHandler.getInstance()
 
-    function clearForLayer(layer) {
-        undoRedoHandler.clean(layer)
-    }
+  function clearAll () {
+    undoRedoHandler.clean()
+  }
 
-    switch(arguments.length) {
+  function clearForLayer (layer) {
+    undoRedoHandler.clean(layer)
+  }
+
+  switch (arguments.length) {
     case 0: clearAll(); break
-    case 1:
-        const layer = arguments[0]
-        util.assert(layer instanceof Layer, 'Expected a Layer, got {0}', layer)
-        clearForLayer(layer)
-        break
-    default:
-        util.assert(false, 'Unexpected number of arguments')
+    case 1: {
+      const layer = arguments[0]
+      util.assert(layer instanceof Layer, 'Expected a Layer, got {0}', layer)
+      clearForLayer(layer)
+      break
     }
+    default:
+      util.assert(false, 'Unexpected number of arguments')
+  }
 }
 
 /**
@@ -563,8 +565,8 @@ exports.CommandHistory.clear = function(layer) {
 *
 * @param ways the ways to be combined
 * @example
-* const cmd = require("josm/command")
-* const layers = require("josm/layer")
+* const cmd = require('josm/command')
+* const layers = require('josm/layer')
 * const ds = layers.activeLayer.data
 * const ways  = [ds.way(1), ds.way(2), ds.way(3)]
 *
@@ -580,34 +582,32 @@ exports.CommandHistory.clear = function(layer) {
 * @static
 * @memberOf josm/command
 */
-exports.combineWays = function() {
-    // ways becomes a java.util.HashSet
-    var ways = checkAndFlatten(arguments)
+exports.combineWays = function () {
+  // ways becomes a java.util.HashSet
+  const ways = checkAndFlatten(arguments)
 
-    // remove any primitives which are not nodes from the arguments
-    const it = ways.iterator()
-    while (it.hasNext()) {
-        const primitive = it.next()
-        if (primitive == null || ! primitive.isWay) {
-            it.remove()
-        }
+  // remove any primitives which are not nodes from the arguments
+  const it = ways.iterator()
+  while (it.hasNext()) {
+    const primitive = it.next()
+    if (primitive == null || !primitive.isWay) {
+      it.remove()
     }
-    // at least two remaining ways required to combine them. If less, just
-    // return, don't throw
-    if (ways.size() <=1) return
+  }
+  // at least two remaining ways required to combine them. If less, just
+  // return, don't throw
+  if (ways.size() <= 1) return
 
+  const activeLayer = layers.activeLayer
+  if (activeLayer == null) return
 
-    const activeLayer = layers.activeLayer
-    if (activeLayer == null) return
-    const data = activeLayer.data
-
-    const ret = CombineWayAction.combineWaysWorker(ways)
-    // happens, if combineWayWorkers presents a modal dialog and the user
-    // aborts it
-    if (ret == null) return
-    // ret.b is the SequenceCommand which combines the ways into one
-    // resulting ways. Apply this command to the active layer.
-    activeLayer.apply(ret.b)
+  const ret = CombineWayAction.combineWaysWorker(ways)
+  // happens, if combineWayWorkers presents a modal dialog and the user
+  // aborts it
+  if (ret == null) return
+  // ret.b is the SequenceCommand which combines the ways into one
+  // resulting ways. Apply this command to the active layer.
+  activeLayer.apply(ret.b)
 }
 
 /**
@@ -639,10 +639,10 @@ exports.combineWays = function() {
 * @static
 * @memberOf josm/command
 */
-exports.combineSelectedWays = function() {
-    const activeLayer = layers.activeLayer
-    if (activeLayer == null) return
-    const ways = activeLayer.data.selection.ways
-    if (ways == null || ways.length <= 1) return
-    exports.combineWays(ways)
+exports.combineSelectedWays = function () {
+  const activeLayer = layers.activeLayer
+  if (activeLayer == null) return
+  const ways = activeLayer.data.selection.ways
+  if (ways == null || ways.length <= 1) return
+  exports.combineWays(ways)
 }
