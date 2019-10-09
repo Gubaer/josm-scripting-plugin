@@ -32,8 +32,16 @@ exports.TestCase.prototype.run = function () {
     out.println('PASS - ' + this._name)
     return true
   } catch (e) {
-    // out.println('FAIL - ' + this._name + ' - ' + e.toSource() + (e.description ? ' - ' + e.description : ''))
-    out.println('FAIL - ' + this._name + ' - ' + (e.description ? ' - ' + e.description : ''))
+    out.println(`FAIL - ${this._name}`)
+    const desc = e.message || e.description || e
+    out.println(`    description: ${desc}`)
+    let context
+    if (e.lineNumber || e.fileName) {
+      context = `   filename: ${e.fileName}, line: ${e.lineNumber}`
+    }
+    if (context) {
+      out.println(`    context: ${context}`)
+    }
     return false
   }
 }
