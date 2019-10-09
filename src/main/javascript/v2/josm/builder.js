@@ -724,7 +724,7 @@ function rememberTagsFromObject (builder, args) {
         } else if (util.isArray(nodes)) {
           // OK
         } else if (nodes instanceof List) {
-          var temp = []
+          const temp = []
           for (let it = nodes.iterator(); it.hasNext();) temp.push(it.next())
           nodes = temp
         } else {
@@ -746,7 +746,7 @@ function rememberTagsFromObject (builder, args) {
       util.assert(n instanceof Node,
         'Expected instances of Node only, got {0} at index {1}', n, i)
       // skip sequence of identical nodes
-      if (last && last.id === n.id) continue
+      if (last && last.getUniqueId() === n.getUniqueId()) continue
       newnodes.push(n)
       last = n
     }
@@ -1390,4 +1390,4 @@ function rememberTagsFromObject (builder, args) {
   }
   exports.RelationBuilder.create = create
   exports.RelationBuilder.prototype.create = create
-}()); // end submodul Relation Builder
+}()) // end submodul Relation Builder

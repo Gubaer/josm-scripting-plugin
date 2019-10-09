@@ -23,7 +23,8 @@ const System = Java.type('java.lang.System')
 
 const tests = [
   'josm/util-test',
-  'josm/node-builder-test.js'
+  'josm/node-builder-test.js',
+  'josm/way-builder-test.js'
   // 'DataSetWrapperTest',
   // 'josm/apiTest',
   // 'josm/ChangesetMixinTest',
