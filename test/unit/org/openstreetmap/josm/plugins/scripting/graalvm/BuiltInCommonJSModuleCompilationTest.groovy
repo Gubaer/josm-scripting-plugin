@@ -98,4 +98,10 @@ class BuiltInCommonJSModuleCompilationTest {
         require.apply("josm/api")
     }
 
+    @Test
+    void "can evaluate module 'clipboard"() {
+        def require = new RequireFunction(null)
+        require.apply("clipboard")
+    }
+
 }
