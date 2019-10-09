@@ -5,6 +5,10 @@
  *
  * @module josm/command
  */
+
+/* global Java */
+/* global require */
+
 const util = require("josm/util")
 const layers = require("josm/layers")
 
@@ -27,38 +31,38 @@ const HashMap = Java.type('java.util.HashMap')
 const HashSet = Java.type('java.util.HashSet')
 const Collection = Java.type('java.util.Collection')
 
-function checkAndFlatten(primitives) {    
-    const ret = new HashSet()
-    function visit(value) {
-        if (util.isNothing(value)) return
-        if (util.isCollection(value)) {
-            util.each(value, visit)
-        } else if (value instanceof OsmPrimitive) {
-            ret.add(value)
-        } else {
-            util.assert(false,
-                'Unexpected object to add as OSM primitive, got {0}, value')
-        }
+function checkAndFlatten (primitives) {
+  const ret = new HashSet()
+  function visit (value) {
+    if (util.isNothing(value)) return
+    if (util.isCollection(value)) {
+      util.each(value, visit)
+    } else if (value instanceof OsmPrimitive) {
+      ret.add(value)
+    } else {
+      util.assert(false,
+        'Unexpected object to add as OSM primitive, got {0}, value')
     }
-    visit(primitives)
+  }
+  visit(primitives)
+  return ret
+}
+
+function applyTo (layer) {
+  util.assert(util.isSomething(layer),
+    'layer: must not be null or undefined')
+  util.assert(layer instanceof OsmDataLayer,
+    'layer: expected OsmDataLayer, got {0}', layer)
+  layer.apply(this)
+}
+
+function toArray (collection) {
+  if (util.isArray(collection)) return collection
+  if (collection instanceof Collection) {
+    const ret = []
+    for (let it = collection.iterator(); it.hasNext();) ret.push(it.next())
     return ret
-}
-
-function applyTo(layer) {   
-    util.assert(util.isSomething(layer),
-        'layer: must not be null or undefined')
-    util.assert(layer instanceof OsmDataLayer,
-        'layer: expected OsmDataLayer, got {0}', layer)
-    layer.apply(this)
-}
-
-function toArray(collection){
-    if (util.isArray(collection)) return collection
-    if (collection instanceof Collection) {
-        const ret = []
-        for(let it=collection.iterator();it.hasNext();) ret.push(it.next())
-        return ret
-    }
+  }
 }
 
 /**
@@ -70,8 +74,8 @@ function toArray(collection){
  * @param {java.util.Collection|array} objs the objects to add
  */
 exports.AddCommand = function (objs) {
-    util.assert(objs, 'objs: mandatory parameter missing')
-    this._objs = toArray(checkAndFlatten(objs))
+  util.assert(objs, 'objs: mandatory parameter missing')
+  this._objs = toArray(checkAndFlatten(objs))
 }
 
 /**
@@ -97,12 +101,12 @@ exports.AddCommand.prototype.applyTo = applyTo
  * @param {org.openstreetmap.josm.gui.layer.OsmDataLayer} layer the data layer
  * @type {org.openstreetmap.josm.command.Command}
  */
-exports.AddCommand.prototype.createJOSMCommand = function(layer) {
-    util.assert(util.isSomething(layer),
-        'layer: must not be null or undefined')
-    util.assert(layer instanceof OsmDataLayer,
-        'layer: expected OsmDataLayer, got {0}', layer)
-    return new AddMultiCommand(layer, this._objs)
+exports.AddCommand.prototype.createJOSMCommand = function (layer) {
+  util.assert(util.isSomething(layer),
+    'layer: must not be null or undefined')
+  util.assert(layer instanceof OsmDataLayer,
+    'layer: expected OsmDataLayer, got {0}', layer)
+  return new AddMultiCommand(layer, this._objs)
 }
 
 /**
@@ -135,8 +139,8 @@ exports.AddCommand.prototype.createJOSMCommand = function(layer) {
  * @summary Creates a command to add a collection of objects
  * @memberOf josm/command
  */
-exports.add = function() {
-    return new exports.AddCommand(checkAndFlatten(arguments))
+exports.add = function () {
+  return new exports.AddCommand(checkAndFlatten(arguments))
 }
 
 /**
@@ -148,7 +152,7 @@ exports.add = function() {
  * @param {java.util.Collection|array} objs the objects to add
  */
 exports.DeleteCommand = function (objs) {
-    this._objs = checkAndFlatten(objs)
+  this._objs = checkAndFlatten(objs)
 }
 
 /**
@@ -174,12 +178,12 @@ exports.DeleteCommand.prototype.applyTo = applyTo
  * @param {org.openstreetmap.josm.gui.layer.OsmDataLayer} layer the data layer
  * @type {org.openstreetmap.josm.command.Command}
  */
-exports.DeleteCommand.prototype.createJOSMCommand = function(layer) {
-    util.assert(util.isSomething(layer),
-        'layer: must not be null or undefined')
-    util.assert(layer instanceof OsmDataLayer,
-        'layer: expected OsmDataLayer, got {0}', layer)
-    return new DeleteCommand.delete(this._objs, true /* alsoDeleteNodesInWay */, true /* silent */)
+exports.DeleteCommand.prototype.createJOSMCommand = function (layer) {
+  util.assert(util.isSomething(layer),
+    'layer: must not be null or undefined')
+  util.assert(layer instanceof OsmDataLayer,
+    'layer: expected OsmDataLayer, got {0}', layer)
+  return new DeleteCommand().delete(this._objs, true /* alsoDeleteNodesInWay */, true /* silent */)
 }
 
 /**
@@ -212,103 +216,103 @@ exports.DeleteCommand.prototype.createJOSMCommand = function(layer) {
  * @summary Creates a command to delete a collection of objects
  * @memberOf josm/command
  */
-exports.delete = function() {
-    return new exports.DeleteCommand(checkAndFlatten(arguments))
+exports.delete = function () {
+  return new exports.DeleteCommand(checkAndFlatten(arguments))
 }
 
-function scheduleLatChangeFromPara(para, change) {
-    if (!para || ! util.isDef(para.lat)) return
-    util.assert(util.isNumber(para.lat),
-        'lat: lat must be a number, got {0}', para.lat)
-    util.assert(LatLon.isValidLat(para.lat),
-        'lat: expected a valid lat, got {0}', para.lat)
-    change.withLatChange(para.lat)
+function scheduleLatChangeFromPara (para, change) {
+  if (!para || !util.isDef(para.lat)) return
+  util.assert(util.isNumber(para.lat),
+    'lat: lat must be a number, got {0}', para.lat)
+  util.assert(LatLon.isValidLat(para.lat),
+    'lat: expected a valid lat, got {0}', para.lat)
+  change.withLatChange(para.lat)
 }
 
-function scheduleLonChangeFromPara(para, change) {
-    if (!para || ! util.isDef(para.lon)) return
-    util.assert(util.isNumber(para.lon),
-        'lon: lon must be a number, got {0}', para.lon)
-    util.assert(LatLon.isValidLon(para.lon),
-        'lon: expected a valid lon, got {0}', para.lon)
-    change.withLonChange(para.lon)
+function scheduleLonChangeFromPara (para, change) {
+  if (!para || !util.isDef(para.lon)) return
+  util.assert(util.isNumber(para.lon),
+    'lon: lon must be a number, got {0}', para.lon)
+  util.assert(LatLon.isValidLon(para.lon),
+    'lon: expected a valid lon, got {0}', para.lon)
+  change.withLonChange(para.lon)
 }
 
-function schedulePosChangeFromPara(para, change) {
-    if (!para || ! util.isDef(para.pos)) return
-    util.assert(para.pos, 'pos must no be null')
-    let pos = para.pos
-    if (pos instanceof LatLon) {
-        // OK
-    } else if (typeof pos === 'object') {
-        pos = LatLon.make(pos)
-    } else {
-        util.assert(false,
-            'pos: unexpected value, expected LatLon or object, got {0}', pos)
+function schedulePosChangeFromPara (para, change) {
+  if (!para || !util.isDef(para.pos)) return
+  util.assert(para.pos, 'pos must no be null')
+  let pos = para.pos
+  if (pos instanceof LatLon) {
+    // OK
+  } else if (typeof pos === 'object') {
+    pos = LatLon.make(pos)
+  } else {
+    util.assert(false,
+      'pos: unexpected value, expected LatLon or object, got {0}', pos)
+  }
+  change.withPosChange(pos)
+}
+
+function scheduleNodeChangeFromPara (para, change) {
+  if (!para || !util.isDef(para.nodes)) return
+  // convert to a Java List ...
+  const l = new ArrayList()
+  for (let i = 0; i < para.nodes.length; i++) {
+    l.add(para.nodes[i])
+  }
+  // ... and pass it to the change command
+  change.withNodeChange(l)
+}
+
+function scheduleMemberChangeFromPara (para, change) {
+  if (!para || !util.isDef(para.members)) return
+  const l = new ArrayList()
+  if (para.members instanceof RelationMember) {
+    l.add(para.members)
+  } else if (para.members instanceof Collection) {
+    l.addAll(para.members)
+  } else if (util.isArray(para.members)) {
+    for (let i = 0; i < para.members.length; i++) {
+      l.add(para.members[i])
     }
-    change.withPosChange(pos)
+  } else {
+    util.assert(false, 'Expected RelationMember, array or collection ' +
+      'of RelationMembers, got {0}', para.members)
+  }
+  change.withMemberChange(l)
 }
 
-function scheduleNodeChangeFromPara(para, change) {
-    if (!para || ! util.isDef(para.nodes)) return
-    // convert to a Java List ...
-    const l = new ArrayList()
-    for (let i=0; i<para.nodes.length; i++) {
-        l.add(para.nodes[i])
+function scheduleTagsChangeFromPara (para, change) {
+  if (!para || !util.isDef(para.tags)) return;
+  util.assert(para.tags, 'tags must no be null')
+  let tags = para.tags
+  if (tags instanceof Map) {
+    // OK
+  } else if (typeof tags === 'object') {
+    const map = new HashMap()
+    for (let key in tags) {
+      if (!util.hasProp(tags, key)) continue
+      const value = tags[key]
+      key = util.trim(key)
+      map.put(key, value)
     }
-    /// ... and pass it to the change command
-    change.withNodeChange(l)
+    tags = map
+  } else {
+    util.assert(false,
+      'tags: unexpected value, expected Map or object, got {0}', tags)
+  }
+  change.withTagsChange(tags)
 }
 
-function scheduleMemberChangeFromPara(para, change) {
-    if (!para || ! util.isDef(para.members)) return
-    const l = new ArrayList()
-    if (para.members instanceof RelationMember) {
-        l.add(para.members)
-    } else if (para.members instanceof Collection) {
-        l.addAll(para.members)
-    } else if (util.isArray(para.members)) {
-        for (let i=0; i<para.members.length; i++) {
-            l.add(para.members[i])
-        }
-    } else {
-        util.assert(false, 'Expected RelationMember, array or collection '
-            + 'of RelationMembers, got {0}', para.members)
-    }
-    change.withMemberChange(l)
-}
-
-function scheduleTagsChangeFromPara(para, change) {
-    if (!para || ! util.isDef(para.tags)) return;
-    util.assert(para.tags, 'tags must no be null')
-    let tags = para.tags
-    if (tags instanceof Map) {
-        // OK
-    } else if (typeof tags === 'object') {
-        const map = new HashMap()
-        for (let key in tags) {
-            if (!tags.hasOwnProperty(key)) continue
-            const value = tags[key]
-            key = util.trim(key)
-            map.put(key,value)
-        }
-        tags = map
-    } else {
-        util.assert(false,
-            'tags: unexpected value, expected Map or object, got {0}', tags)
-    }
-    change.withTagsChange(tags)
-}
-
-function changeFromParameters(para) {
-    const change = new Change()
-    scheduleLatChangeFromPara(para,change)
-    scheduleLonChangeFromPara(para,change)
-    schedulePosChangeFromPara(para,change)
-    scheduleTagsChangeFromPara(para,change)
-    scheduleNodeChangeFromPara(para, change)
-    scheduleMemberChangeFromPara(para,change)
-    return change
+function changeFromParameters (para) {
+  const change = new Change()
+  scheduleLatChangeFromPara(para, change)
+  scheduleLonChangeFromPara(para, change)
+  schedulePosChangeFromPara(para, change)
+  scheduleTagsChangeFromPara(para, change)
+  scheduleNodeChangeFromPara(para, change)
+  scheduleMemberChangeFromPara(para, change)
+  return change
 }
 
 /**
@@ -322,8 +326,8 @@ function changeFromParameters(para) {
  *         change the change specification
  */
 exports.ChangeCommand = function (objs, change) {
-    this._objs = checkAndFlatten(objs)
-    this._change = change
+  this._objs = checkAndFlatten(objs)
+  this._change = change
 }
 
 /**
@@ -349,12 +353,12 @@ exports.ChangeCommand.prototype.applyTo = applyTo
  * @param {org.openstreetmap.josm.gui.layer.OsmDataLayer} layer the data layer
  * @type {org.openstreetmap.josm.command.Command}
  */
-exports.ChangeCommand.prototype.createJOSMCommand = function(layer) {
-    util.assert(util.isSomething(layer),
-        'layer: must not be null or undefined')
-    util.assert(layer instanceof OsmDataLayer,
-        'layer: expected OsmDataLayer, got {0}', layer)
-    return new ChangeMultiCommand(layer, this._objs, this._change)
+exports.ChangeCommand.prototype.createJOSMCommand = function (layer) {
+  util.assert(util.isSomething(layer),
+    'layer: must not be null or undefined')
+  util.assert(layer instanceof OsmDataLayer,
+    'layer: expected OsmDataLayer, got {0}', layer)
+  return new ChangeMultiCommand(layer, this._objs, this._change)
 }
 
 /**
@@ -420,33 +424,36 @@ exports.ChangeCommand.prototype.createJOSMCommand = function(layer) {
  * @static
  * @memberOf josm/command
  */
-exports.change = function() {
-    let objs = []
-    let change = undefined
-    switch(arguments.length) {
+exports.change = function () {
+  let objs = []
+  let change
+  switch (arguments.length) {
     case 0:
-        util.assert(false,
-            'Unexpected number of arguments, got {0} arguments',
-            arguments.length)
-    default:
-        const a = arguments[arguments.length -1]
-        if (a instanceof OsmPrimitive) {
-            util.assert(false,
-                'Argument {0}: unexpected last argument, expected named '
-                + 'parameters, got {0}', a)
-        } else if (typeof a === 'object') {
-            // last argument is an object with named parameters
-            objs = Array.prototype.slice.call(arguments,0,-1)
-            change = changeFromParameters(a)
-        } else {
-            util.assert(false,
-                'Argument {0}: unexpected type of value, got {1}',
-                arguments.length -1, a)
-        }
-    }
+      util.assert(false,
+        'Unexpected number of arguments, got {0} arguments',
+        arguments.length)
+      break
 
-    const tochange = checkAndFlatten(objs)
-    return new exports.ChangeCommand(tochange, change)
+    default: {
+      const a = arguments[arguments.length -1]
+      if (a instanceof OsmPrimitive) {
+        util.assert(false,
+          'Argument {0}: unexpected last argument, expected named ' +
+          'parameters, got {0}', a)
+      } else if (typeof a === 'object') {
+        // last argument is an object with named parameters
+        objs = Array.prototype.slice.call(arguments, 0, -1)
+        change = changeFromParameters(a)
+      } else {
+        util.assert(false,
+          'Argument {0}: unexpected type of value, got {1}',
+          arguments.length - 1, a)
+      }
+    }
+  }
+
+  const tochange = checkAndFlatten(objs)
+  return new exports.ChangeCommand(tochange, change)
 }
 
 /**
