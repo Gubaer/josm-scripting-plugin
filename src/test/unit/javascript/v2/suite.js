@@ -22,7 +22,8 @@ const Exception = Java.type('java.lang.Exception')
 const System = Java.type('java.lang.System')
 
 const tests = [
-  'josm/util-test'
+  'josm/util-test',
+  'josm/node-builder-test.js'
   // 'DataSetWrapperTest',
   // 'josm/apiTest',
   // 'josm/ChangesetMixinTest',
@@ -54,7 +55,7 @@ if (typeof exports === 'undefined') {
   // execute it here.
   exports.run = run
   exports.fragileRun = function () {
-    var numfail = run()
+    const numfail = run()
     if (numfail > 0) {
       throw new Exception('There are ' + numfail + ' failing tests')
     } else {

@@ -42,9 +42,9 @@ function rememberTags (builder, tags) {
   util.assert(typeof tags === 'object',
     'Expected a hash with tags, got {0}', tags)
   builder.tags = builder.tags || {}
-  for (var name in tags) {
-    if (!Object.proptotype.hasOwnProperty.call(tags, name)) break
-    var value = tags[name]
+  for (let name in tags) {
+    if (!util.hasProp(tags, name)) break
+    let value = tags[name]
     name = util.trim(name)
     if (util.isNothing(value)) break
     value = value + '' // convert to string
@@ -53,9 +53,9 @@ function rememberTags (builder, tags) {
 }
 
 function assignTags (primitive, tags) {
-  for (var name in tags) {
-    if (!Object.proptotype.hasOwnProperty.call(tags, name)) continue
-    var value = tags[name]
+  for (const name in tags) {
+    if (!util.hasProp(tags, name)) continue
+    let value = tags[name]
     if (util.isNothing(value)) continue
     value = value + ''
     primitive.put(name, value)
@@ -63,8 +63,8 @@ function assignTags (primitive, tags) {
 }
 
 function rememberIdFromObject (builder, args) {
-  if (!Object.proptotype.hasOwnProperty.call(args, 'id')) return
-  var o = args.id
+  if (!util.hasProp(args, 'id')) return
+  const o = args.id
   util.assert(util.isSomething(o),
     "''{0}'': must not be null or undefined", 'id')
   util.assert(util.isNumber(o),
@@ -75,8 +75,8 @@ function rememberIdFromObject (builder, args) {
 }
 
 function rememberVersionFromObject (builder, args) {
-  if (!Object.proptotype.hasOwnProperty.call(args, 'version')) return
-  var o = args.version
+  if (!util.hasProp(args, 'version')) return
+  const o = args.version
   util.assert(util.isSomething(o),
     "''{0}'': must not be null or undefined", 'version')
   util.assert(util.isNumber(o),
@@ -101,7 +101,7 @@ function checkLon (value) {
 }
 
 function rememberPosFromObject (builder, args) {
-  if (Object.proptotype.hasOwnProperty.call(args, 'pos')) {
+  if (util.hasProp(args, 'pos')) {
     util.assert(!(util.hasProp(args, 'lat') || util.hasProp(args, 'lon')),
       "Can''t process both properties ''pos'' and ''lat''/''lon''")
     const pos = args.pos
@@ -151,7 +151,7 @@ function rememberPosFromObject (builder, args) {
     builder.lat = o
   }
   if (util.hasProp(args, 'lon')) {
-    var o = args.lon
+    const o = args.lon
     util.assert(util.isSomething(o),
       "''{0}'': must not be null or undefined", 'lon')
     util.assert(util.isNumber(o),
@@ -1390,4 +1390,4 @@ function rememberTagsFromObject (builder, args) {
   }
   exports.RelationBuilder.create = create
   exports.RelationBuilder.prototype.create = create
-}()) // end submodul Relation Builder
+}()); // end submodul Relation Builder
