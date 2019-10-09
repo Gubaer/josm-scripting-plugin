@@ -32,7 +32,8 @@ exports.TestCase.prototype.run = function () {
     out.println('PASS - ' + this._name)
     return true
   } catch (e) {
-    out.println('FAIL - ' + this._name + ' - ' + e.toSource() + (e.description ? ' - ' + e.description : ''))
+    // out.println('FAIL - ' + this._name + ' - ' + e.toSource() + (e.description ? ' - ' + e.description : ''))
+    out.println('FAIL - ' + this._name + ' - ' + (e.description ? ' - ' + e.description : ''))
     return false
   }
 }
