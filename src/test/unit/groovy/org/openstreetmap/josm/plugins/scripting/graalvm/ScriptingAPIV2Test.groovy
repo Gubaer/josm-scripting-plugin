@@ -64,5 +64,4 @@ class ScriptingAPIV2Test {
             fail()
         }
     }
-
 }
