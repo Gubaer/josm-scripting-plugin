@@ -104,34 +104,37 @@ exports.trim = function (s) {
  * @name assert
  */
 exports.assert = function () {
-  const error = new Error()
+  let message, name
   switch (arguments.length) {
     case 0:
       return
 
     case 1:
       if (arguments[0]) return
-      error.name = 'AssertionError'
-      error.description = 'An assertion failed'
-      throw error
+      name = 'AssertionError'
+      message = 'An assertion failed'
+      break
 
     case 2:
       if (arguments[0]) return
-      error.name = 'AssertionError'
-      error.description = arguments[1]
-      throw error
+      name = 'AssertionError'
+      message = arguments[1]
+      break
 
     default: {
       if (arguments[0]) return
-      error.name = 'AssertionError'
+      name = 'AssertionError'
       const args = Array.prototype.slice.call(arguments, 0)
-      error.description = MessageFormat.format(
+      message = MessageFormat.format(
         args[1],
         args.slice(2)
       )
-      throw error
+      break
     }
   }
+  const error = new Error(message)
+  error.name = name
+  throw error
 }
 
 /**
