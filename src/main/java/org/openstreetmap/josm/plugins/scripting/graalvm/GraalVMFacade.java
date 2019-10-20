@@ -36,7 +36,8 @@ public class GraalVMFacade  implements IGraalVMFacade {
            .allowHostClassLookup(className ->
                   className.startsWith("org.openstreetmap.")
                || className.startsWith("java.")
-               || className.startsWith("javax.swing")
+               || className.startsWith("javax.swing.")
+               || className.startsWith("org.graalvm.")
             )
             // exclude native access
             .allowNativeAccess(false)
