@@ -8,6 +8,7 @@
 /* global Java */
 
 const MainApplication = Java.type('org.openstreetmap.josm.gui.MainApplication')
+const JSAction = Java.type('org.openstreetmap.josm.plugins.scripting.graalvm.JSAction')
 const util = require('josm/util')
 
 /**
@@ -174,4 +175,4 @@ Object.defineProperty(exports.MenuBar, 'menuNames', {
  * @see JSActionMixin
  * @param {object} para  the named parameters (see description)
  */
-exports.JSAction = Java.type('org.openstreetmap.josm.plugins.scripting.js.JSAction')
+exports.JSAction = JSAction
