@@ -30,6 +30,8 @@ const Map = Java.type('java.util.Map')
 const HashMap = Java.type('java.util.HashMap')
 const HashSet = Java.type('java.util.HashSet')
 const Collection = Java.type('java.util.Collection')
+const Command = Java.type('org.openstreetmap.josm.command.Command')
+
 const System = Java.type('java.lang.System')
 
 function checkAndFlatten (primitives) {
@@ -54,7 +56,13 @@ function applyTo (layer) {
     'layer: must not be null or undefined')
   util.assert(layer instanceof OsmDataLayer,
     'layer: expected OsmDataLayer, got {0}', layer)
-  layer.apply(this)
+  const cmd = this.createJOSMCommand(layer)
+  try {
+    layer.getDataSet().beginUpdate()
+    UndoRedoHandler.getInstance().add(cmd)
+  } finally {
+    layer.getDataSet().endUpdate()
+  }
 }
 
 function toArray (collection) {
