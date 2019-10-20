@@ -15,6 +15,7 @@ const MainApplication = Java.type('org.openstreetmap.josm.gui.MainApplication')
 
 const util = require('josm/util')
 const layers = require('josm/layers')
+const { MenuBar } = require('josm/ui/menu')
 
 /**
  * This is the global JOSM API object. It represents a running JOSM
@@ -264,12 +265,9 @@ Object.defineProperty(exports, 'commands', {
  * @summary Replies an accessor for JOSMs menu bar.
  */
 
-// TODO(karl): implement
-// const menu = require("josm/ui/menu").MenuBar;
-const menu = undefined
 Object.defineProperty(exports, 'menu', {
   enumerable: true,
-  value: menu
+  value: MenuBar
 })
 
 /**
