@@ -202,7 +202,7 @@ tasks.check.dependsOn(tasks.testWithGraalVMJDK)
 sourceSets {
     test {
         java.srcDirs = ["test/common", "test/script-api","test/unit"]
-        groovy.srcDirs = ["test/unit"]
+        groovy.srcDirs = ["src/test/unit/groovy", "test/unit"]
         resources {
             srcDir "test/unit"
         }
