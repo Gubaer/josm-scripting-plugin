@@ -253,6 +253,23 @@ function scheduleLonChangeFromPara (para, change) {
   change.withLonChange(para.lon)
 }
 
+function buildLatLon (obj) {
+  util.assert(util.isSomething(obj), 'obj: must not be null or undefined')
+  util.assert(typeof obj === 'object',
+    'obj: expected an object, got {0}', obj)
+  util.assert(util.isNumber(obj.lat),
+    'obj.lat: expected a number, got {0}', obj.lat)
+  util.assert(util.isNumber(obj.lon),
+    'obj.lon: expected a number, got {0}', obj.lon)
+  util.assert(LatLon.isValidLat(obj.lat),
+    'obj.lat: expected a valid lat in the range [-90,90], got {0}',
+    obj.lat)
+  util.assert(LatLon.isValidLon(obj.lon),
+    'obj.lon: expected a valid lon in the range [-180,180], got {0}',
+    obj.lon)
+  return new LatLon(obj.lat, obj.lon)
+}
+
 function schedulePosChangeFromPara (para, change) {
   if (!para || !util.isDef(para.pos)) return
   util.assert(para.pos, 'pos must no be null')
@@ -260,7 +277,7 @@ function schedulePosChangeFromPara (para, change) {
   if (pos instanceof LatLon) {
     // OK
   } else if (typeof pos === 'object') {
-    pos = LatLon.make(pos)
+    pos = buildLatLon(pos)
   } else {
     util.assert(false,
       'pos: unexpected value, expected LatLon or object, got {0}', pos)
