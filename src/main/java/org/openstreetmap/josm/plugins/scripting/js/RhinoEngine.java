@@ -89,7 +89,7 @@ public class RhinoEngine {
         try {
             PluginInformation info = PluginInformation.findPlugin("scripting");
             if (info != null) {
-                URL url = new URL(String.format("jar:%s!/js",
+                URL url = new URL(String.format("jar:%s!/js/v1",
                         info.file.toURI().toURL()));
                 return url;
             } else {

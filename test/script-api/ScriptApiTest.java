@@ -1,4 +1,15 @@
-import java.awt.GraphicsEnvironment;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.openstreetmap.josm.plugins.PluginException;
+import org.openstreetmap.josm.plugins.PluginHandler;
+import org.openstreetmap.josm.plugins.PluginInformation;
+import org.openstreetmap.josm.plugins.scripting.ScriptingPlugin;
+import org.openstreetmap.josm.plugins.scripting.fixtures.JOSMFixture;
+import org.openstreetmap.josm.plugins.scripting.js.JOSMModuleScriptProvider;
+import org.openstreetmap.josm.plugins.scripting.js.RhinoEngine;
+import org.openstreetmap.josm.tools.Logging;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -8,20 +19,6 @@ import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.util.Collections;
 import java.util.logging.Level;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Rule;
-import org.junit.Test;
-import org.openstreetmap.josm.plugins.PluginException;
-import org.openstreetmap.josm.plugins.PluginHandler;
-import org.openstreetmap.josm.plugins.PluginInformation;
-import org.openstreetmap.josm.plugins.scripting.ScriptingPlugin;
-import org.openstreetmap.josm.plugins.scripting.fixtures.JOSMFixture;
-import org.openstreetmap.josm.plugins.scripting.js.JOSMModuleScriptProvider;
-import org.openstreetmap.josm.plugins.scripting.js.RhinoEngine;
-import org.openstreetmap.josm.plugins.scripting.ui.console.ScriptingConsole;
-import org.openstreetmap.josm.testutils.JOSMTestRules;
-import org.openstreetmap.josm.tools.Logging;
 
 public class ScriptApiTest {
 
@@ -42,7 +39,7 @@ public class ScriptApiTest {
         final String projectDirEnv = System.getenv("JOSM_SCRIPTING_PLUGIN_HOME");
         final File projectDir = new File(projectDirEnv == null ? "." : projectDirEnv);
 
-        JOSMModuleScriptProvider.getInstance().addRepository(new File(projectDir,  "javascript/").toURI().toURL());
+        JOSMModuleScriptProvider.getInstance().addRepository(new File(projectDir,  "src/main/javascript/v1").toURI().toURL());
         JOSMModuleScriptProvider.getInstance().addRepository(new File(projectDir,  "test/script-api/").toURI().toURL());
         new ScriptingPlugin(new PluginInformation(new File(projectDir, "dist/scripting.jar")));
 

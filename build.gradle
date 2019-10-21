@@ -37,6 +37,10 @@ dependencies {
     packIntoJar group: "de.sciss", name: "jsyntaxpane", version: "1.0.0"
     packIntoJar group: 'javax.validation', name: 'validation-api', version: '1.0.0.GA'
     packIntoJar group: 'javax.activation', name: 'activation', version: '1.1.1'
+    packIntoJar group: 'com.github.spullara.mustache.java', name: 'compiler', version: '0.9.6'
+    packIntoJar group: 'org.graalvm.sdk', name: 'graal-sdk', version: '19.1.0'
+    packIntoJar group: 'org.graalvm.truffle', name: 'truffle-api', version: '19.1.0'
+    packIntoJar group: 'org.graalvm.js', name: 'js', version: '19.1.0'
 
     testImplementation('org.openstreetmap.josm:josm-unittest:latest'){changing=true}
     testImplementation group: 'org.jmockit', name: 'jmockit', version: '1.40'
@@ -73,19 +77,17 @@ josm {
 }
 
 jar {
-    metaInf {
-        //TODO: fix - there is no mime.types file
-        from("resources") {
-            include "mime.types"
-        }
-    }
-
     from("src") {
       include("**/*.dtd")
     }
 
-    from("javascript") {
-      into("js")
+    from("src/main/javascript/v1") {
+      into("js/v1")
+      include("**/*.js")
+    }
+
+    from("src/main/javascript/v2") {
+      into("js/v2")
       include("**/*.js")
     }
 }
