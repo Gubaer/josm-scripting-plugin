@@ -135,7 +135,7 @@ public class FileSystemJSModuleRepository extends BaseJSModuleRepository {
 
         final Optional<String> moduleRepoPath = resolve(id, contextRepoPath);
         if (!moduleRepoPath.isPresent()) {
-            final String[] params = {
+            final Object[] params = {
                 id.toString()
             };
             logFine(() -> MessageFormat.format(
@@ -149,7 +149,7 @@ public class FileSystemJSModuleRepository extends BaseJSModuleRepository {
             baseDir.toPath().toString(),
             moduleRepoPath.get());
 
-        final String[] params = {
+        final Object[] params = {
             id.toString(),
             moduleFilePath.toString()
         };
@@ -157,7 +157,7 @@ public class FileSystemJSModuleRepository extends BaseJSModuleRepository {
             logFine(() -> MessageFormat.format(
                 "resolve: failed to resolve module id ''{0}''. " +
                 "resolved file path ''{1}'' doesn''t refer to a readable file",
-                params
+                 params
             ));
             return Optional.empty();
         }
