@@ -1,8 +1,9 @@
 package org.openstreetmap.josm.plugins.scripting.model
 
-import org.junit.*
-import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor.ScriptEngineType
+
+import org.junit.Test
 import org.openstreetmap.josm.data.Preferences
+import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor.ScriptEngineType
 import org.openstreetmap.josm.spi.preferences.Config
 
 class ScriptEngineDescriptorTest {

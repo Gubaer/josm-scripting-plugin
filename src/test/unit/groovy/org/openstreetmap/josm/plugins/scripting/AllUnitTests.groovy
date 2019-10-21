@@ -1,9 +1,9 @@
 package org.openstreetmap.josm.plugins.scripting
 
-import org.junit.Test
+
 import org.junit.runner.RunWith
-import org.junit.runners.Suite.SuiteClasses
 import org.junit.runners.Suite
+import org.junit.runners.Suite.SuiteClasses
 import org.openstreetmap.josm.plugins.scripting.js.JOSMModuleScriptProviderTest
 import org.openstreetmap.josm.plugins.scripting.js.api.AddMultiCommandTest
 import org.openstreetmap.josm.plugins.scripting.js.api.ChangeMultiCommandTest
