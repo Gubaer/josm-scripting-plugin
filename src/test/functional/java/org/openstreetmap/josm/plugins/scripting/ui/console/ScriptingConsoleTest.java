@@ -1,23 +1,20 @@
 package org.openstreetmap.josm.plugins.scripting.ui.console;
 
-import java.awt.Container;
-import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-
-import javax.swing.AbstractAction;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-
 import org.openstreetmap.josm.plugins.scripting.fixtures.JOSMFixture;
 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
 
+/**
+ * functional, interactive test for {@link ScriptingConsole}
+ */
 public class ScriptingConsoleTest extends JFrame {
 
-    private final JOSMFixture fixture;
+    private ScriptingConsoleTest() throws Exception {
 
-    public ScriptingConsoleTest() throws Exception {
-
-        fixture = new JOSMFixture();
+        @SuppressWarnings("unused")
+        final JOSMFixture fixture = new JOSMFixture(true);
 
         Container c = getContentPane();
         c.setLayout(new FlowLayout());
@@ -34,7 +31,7 @@ public class ScriptingConsoleTest extends JFrame {
         setSize(200,200);
     }
 
-    static public void main(String args[]) throws Exception {
+    static public void main(String[] args) throws Exception {
         ScriptingConsoleTest app = new ScriptingConsoleTest();
         app.setVisible(true);
     }
