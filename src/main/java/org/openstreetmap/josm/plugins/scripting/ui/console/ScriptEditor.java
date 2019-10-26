@@ -21,10 +21,9 @@ import static org.openstreetmap.josm.plugins.scripting.util.FileUtils.buildTextF
 import static org.openstreetmap.josm.tools.I18n.tr;
 
 /**
- * <p>Editor for scripts. Basically a minimal text editor with syntax
+ * Editor for scripts. Basically a minimal text editor with syntax
  * highlighting for various scripting languages, based on
- * <a href="https://bobbylight.github.io/RSyntaxTextArea/">RSyntaxPane</a>.</p>
- *
+ * <a href="https://bobbylight.github.io/RSyntaxTextArea/">RSyntaxPane</a>.
  */
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class ScriptEditor extends JPanel implements PropertyChangeListener {
@@ -116,7 +115,7 @@ public class ScriptEditor extends JPanel implements PropertyChangeListener {
     }
 
     /**
-     * <p>Replies the script editor model.</p>
+     * Replies the script editor model.
      *
      * @return the script editor model
      */
@@ -146,7 +145,7 @@ public class ScriptEditor extends JPanel implements PropertyChangeListener {
     }
 
     /**
-     * <p>Loads the script from file {@code file} into the text editor.</p>
+     * Loads the script from file {@code file} into the text editor.
      *
      * @param file the file. Must not be null. A readable file is expected.
      */
@@ -170,9 +169,9 @@ public class ScriptEditor extends JPanel implements PropertyChangeListener {
     }
 
     /**
-     * <p>Saves the content of the script editor to the file {@code file}.</p>
-     *
-     * <p>Exceptions are handled internally.</p>
+     * Saves the content of the script editor to the file {@code file}.
+     * <p>
+     * Exceptions are handled internally.
      *
      * @param file the output file. Must not be null.
      */

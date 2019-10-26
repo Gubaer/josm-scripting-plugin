@@ -146,7 +146,7 @@ public class ScriptingConsolePanel extends JPanel {
     }
 
     /**
-     * <p>Reads the script from file {@code file}</p>
+     * Reads the script from file {@code file}
      *
      * @param file the file. Must not be null. A readable file is expected.
      */
@@ -169,7 +169,7 @@ public class ScriptingConsolePanel extends JPanel {
     }
 
     /**
-     * <p>Replies the script log</p>
+     * Replies the script log
      *
      * @return the script log
      */
