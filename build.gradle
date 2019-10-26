@@ -203,8 +203,18 @@ tasks.check.dependsOn(tasks.testWithGraalVMJDK)
 
 sourceSets {
     test {
-        java.srcDirs = ["test/common", "test/script-api","test/unit"]
-        groovy.srcDirs = ["src/test/unit/groovy", "test/unit"]
+        java.srcDirs = [
+            "src/test/unit/java",
+            "test/script-api",  // deprecated
+            "test/common",      // deprecated
+            "test/unit",        // deprecated
+            "test/functional"   // deprecated
+        ]
+        groovy.srcDirs = [
+            "src/test/unit/groovy",
+            "test/unit",        // deprecated
+            "test/functional"   // deprecated
+        ]
         resources {
             srcDir "test/unit"
         }
