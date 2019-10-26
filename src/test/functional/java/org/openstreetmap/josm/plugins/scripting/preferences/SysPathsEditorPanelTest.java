@@ -1,16 +1,16 @@
 package org.openstreetmap.josm.plugins.scripting.preferences;
 
-import java.awt.BorderLayout;
-
-import javax.swing.JFrame;
-
 import org.openstreetmap.josm.plugins.scripting.fixtures.JOSMFixture;
 
+import javax.swing.*;
+import java.awt.*;
+
+/**
+ * functional, interactive test for {@link SysPathsEditorPanel}
+ */
 public class SysPathsEditorPanelTest extends JFrame {
 
-    private JOSMFixture fixture;
-
-    protected void build() {
+    private void build() {
         setSize(600,400);
         getContentPane().setLayout(new BorderLayout());
 
@@ -18,16 +18,14 @@ public class SysPathsEditorPanelTest extends JFrame {
         getContentPane().add(pnl, BorderLayout.CENTER);
     }
 
-    public SysPathsEditorPanelTest() throws Exception {
-        fixture = new JOSMFixture();
+    private SysPathsEditorPanelTest() throws Exception {
+        @SuppressWarnings("unused")
+        final JOSMFixture fixture = new JOSMFixture(true);
         build();
     }
 
-
-    static public void main(String args[]) throws Exception {
+    static public void main(String[] args) throws Exception {
         SysPathsEditorPanelTest app = new SysPathsEditorPanelTest();
         app.setVisible(true);
     }
-
-
 }
