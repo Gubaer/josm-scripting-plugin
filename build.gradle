@@ -212,9 +212,6 @@ sourceSets {
             "src/test/unit/groovy",
             "src/test/functional/groovy"
         ]
-        resources {
-            srcDir "test/unit"
-        }
     }
 }
 processResources {
