@@ -1,3 +1,5 @@
+package org.openstreetmap.josm.plugins.scripting.v1;
+
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -13,7 +15,6 @@ import org.openstreetmap.josm.tools.Logging;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
@@ -22,12 +23,8 @@ import java.util.logging.Level;
 
 public class ScriptApiTest {
 
-    //@Rule
-    //public JOSMTestRules rules = new JOSMTestRules().preferences().platform().projection().main();
-
     private RhinoEngine engine;
-
-    static JOSMFixture fixture;
+    private static JOSMFixture fixture;
 
     @BeforeClass
     public static void init() throws Exception {
@@ -35,28 +32,36 @@ public class ScriptApiTest {
     }
 
     @Before
-    public void setup() throws PluginException, MalformedURLException, IOException {
-        final String projectDirEnv = System.getenv("JOSM_SCRIPTING_PLUGIN_HOME");
-        final File projectDir = new File(projectDirEnv == null ? "." : projectDirEnv);
+    public void setup() throws PluginException, IOException {
+        final String projectDirEnv =
+            System.getenv("JOSM_SCRIPTING_PLUGIN_HOME");
+        final File projectDir =
+            new File(projectDirEnv == null ? "." : projectDirEnv);
 
-        JOSMModuleScriptProvider.getInstance().addRepository(new File(projectDir,  "src/main/javascript/v1").toURI().toURL());
-        JOSMModuleScriptProvider.getInstance().addRepository(new File(projectDir,  "test/script-api/").toURI().toURL());
-        new ScriptingPlugin(new PluginInformation(new File(projectDir, "dist/scripting.jar")));
+        // JavaScript API V1 - source repository
+        JOSMModuleScriptProvider.getInstance().addRepository(
+            new File(projectDir,  "src/main/javascript/v1").toURI().toURL());
+
+        // JavaScript API V1 unit tests- source repository
+        JOSMModuleScriptProvider.getInstance().addRepository(
+            new File(projectDir,  "src/test/unit/javascript/v1").toURI().toURL());
+
+        new ScriptingPlugin(new PluginInformation
+            (new File(projectDir, "dist/scripting.jar")));
 
         engine = RhinoEngine.getInstance();
         engine.enterSwingThreadContext();
 
-        Logging.getLogger().setFilter(record -> record.getLevel().intValue() >= Level.WARNING.intValue());
-
+        Logging.getLogger().setFilter(
+            record -> record.getLevel().intValue() >= Level.WARNING.intValue());
     }
 
-    protected File localContourmergePluginJar() {
+    private File localContourmergePluginJar() {
         return new File(new File(fixture.getJosmHome()),
-                "plugins/contourmerge.jar");
+            "plugins/contourmerge.jar");
     }
 
-
-    protected void downlaodContourmergePluginForTesting() throws IOException {
+    private void downlaodContourmergePluginForTesting() throws IOException {
         System.out.println("Downloading contourmerge plugin for testing ...");
         final URL downloadUrl = new URL(
                 "https://github.com/Gubaer/josm-contourmerge-plugin/"
@@ -75,32 +80,38 @@ public class ScriptApiTest {
 
     @Test
     public void commandAddTest() {
-        engine.evaluateOnSwingThread("require(\"functional/commandAddTest.js\")");
+        engine.evaluateOnSwingThread(
+            "require(\"functional/commandAddTest.js\")");
     }
 
     @Test
     public void commandChangeTest() {
-        engine.evaluateOnSwingThread("require(\"functional/commandDeleteTest.js\")");
+        engine.evaluateOnSwingThread(
+            "require(\"functional/commandDeleteTest.js\")");
     }
 
     @Test
     public void commandDeleteTest() {
-        engine.evaluateOnSwingThread("require(\"functional/commandDeleteTest.js\")");
+        engine.evaluateOnSwingThread(
+            "require(\"functional/commandDeleteTest.js\")");
     }
 
     @Test
     public void commandUndoRedoTest() {
-        engine.evaluateOnSwingThread("require(\"functional/commandUndoRedo.js\")");
+        engine.evaluateOnSwingThread(
+            "require(\"functional/commandUndoRedo.js\")");
     }
 
     @Test
     public void menuBarTest() {
-        engine.evaluateOnSwingThread("require(\"functional/menuBarTest.js\")");
+        engine.evaluateOnSwingThread(
+            "require(\"functional/menuBarTest.js\")");
     }
 
     @Test
     public void menuTest() {
-        engine.evaluateOnSwingThread("require(\"functional/menuTest.js\")");
+        engine.evaluateOnSwingThread(
+            "require(\"functional/menuTest.js\")");
     }
 
     @Test
@@ -121,5 +132,4 @@ public class ScriptApiTest {
         engine.evaluateOnSwingThread(
             "require(\"functional/loadClassFrom3dPartyPluginTest.js\")");
     }
-
 }

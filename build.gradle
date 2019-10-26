@@ -117,7 +117,7 @@ task testScriptApi (type: Test) {
     useJUnit()
     environment "JOSM_SCRIPTING_PLUGIN_HOME", project.projectDir
     scanForTestClasses = false
-    include "ScriptApiTest.class"
+    include "org.openstreetmap.josm.plugins.scripting.v1.ScriptApiTest.class"
     testLogging {
         events TestLogEvent.FAILED, TestLogEvent.PASSED
         exceptionFormat = TestExceptionFormat.FULL
@@ -206,8 +206,7 @@ sourceSets {
         java.srcDirs = [
             "src/test/unit/java",
             "src/test/functional/java",
-            "src/test/common/java",
-            "test/script-api"   // deprecated
+            "src/test/common/java"
         ]
         groovy.srcDirs = [
             "src/test/unit/groovy",
