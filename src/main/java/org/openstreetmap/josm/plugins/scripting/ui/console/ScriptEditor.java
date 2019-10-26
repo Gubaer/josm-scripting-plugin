@@ -2,6 +2,7 @@ package org.openstreetmap.josm.plugins.scripting.ui.console;
 
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
+import org.fife.ui.rtextarea.RTextScrollPane;
 import org.openstreetmap.josm.gui.HelpAwareOptionPane;
 
 import javax.swing.*;
@@ -55,13 +56,9 @@ public class ScriptEditor extends JPanel implements PropertyChangeListener {
         add(buildNorthPanel(), BorderLayout.NORTH);
 
         editor = new RSyntaxTextArea();
-        JScrollPane editorScrollPane = new JScrollPane(editor);
-        editorScrollPane.setVerticalScrollBarPolicy(
-                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        editorScrollPane.setHorizontalScrollBarPolicy(
-                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        add(editorScrollPane, BorderLayout.CENTER);
+        add(new RTextScrollPane(editor), BorderLayout.CENTER);
         // for context type text/plain
+        // TODO (karl): make configurable in the preferences
         editor.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_NONE);
         editor.setCodeFoldingEnabled(false);
         editor.setWhitespaceVisible(true);
