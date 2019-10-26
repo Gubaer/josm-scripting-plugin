@@ -32,15 +32,17 @@ dependencies {
     implementation group: 'org.graalvm.truffle', name: 'truffle-api', version: '19.1.0'
     implementation group: 'org.graalvm.js', name: 'js', version: '19.1.0'
     implementation group: 'com.github.spullara.mustache.java', name: 'compiler', version: '0.9.6'
+    implementation group: 'com.fifesoft', name: 'rsyntaxtextarea', version: '3.0.4'
+
 
     packIntoJar group: "org.mozilla", name: "rhino", version: "1.7.7.1"
-    packIntoJar group: "de.sciss", name: "jsyntaxpane", version: "1.0.0"
     packIntoJar group: 'javax.validation', name: 'validation-api', version: '1.0.0.GA'
     packIntoJar group: 'javax.activation', name: 'activation', version: '1.1.1'
     packIntoJar group: 'com.github.spullara.mustache.java', name: 'compiler', version: '0.9.6'
     packIntoJar group: 'org.graalvm.sdk', name: 'graal-sdk', version: '19.1.0'
     packIntoJar group: 'org.graalvm.truffle', name: 'truffle-api', version: '19.1.0'
     packIntoJar group: 'org.graalvm.js', name: 'js', version: '19.1.0'
+    packIntoJar group: 'com.fifesoft', name: 'rsyntaxtextarea', version: '3.0.4'
 
     testImplementation('org.openstreetmap.josm:josm-unittest:latest'){changing=true}
     testImplementation group: 'org.jmockit', name: 'jmockit', version: '1.40'

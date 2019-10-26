@@ -1,5 +1,7 @@
 package org.openstreetmap.josm.plugins.scripting.ui.console;
 
+import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
+import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.openstreetmap.josm.gui.HelpAwareOptionPane;
 
 import javax.swing.*;
@@ -21,17 +23,18 @@ import static org.openstreetmap.josm.tools.I18n.tr;
 /**
  * <p>Editor for scripts. Basically a minimal text editor with syntax
  * highlighting for various scripting languages, based on
- * <a href="http://code.google.com/p/jsyntaxpane/">jsyntaxpane</a>.</p>
+ * <a href="https://bobbylight.github.io/RSyntaxTextArea/">RSyntaxPane</a>.</p>
  *
  */
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class ScriptEditor extends JPanel implements PropertyChangeListener {
 
-    private JEditorPane editor;
     private ScriptEditorModel model;
     private JLabel lblScriptFile;
     private JPanel pnlScriptFile;
+    private RSyntaxTextArea editor;
 
-    protected JPanel buildNorthPanel() {
+    private JPanel buildNorthPanel() {
         JPanel pnl = new JPanel(new GridBagLayout());
         ScriptEngineInfoPanel p  = new ScriptEngineInfoPanel(model);
         pnl.add(p, gbc().cell(0,0).weight(1.0,0.0).constraints());
@@ -52,26 +55,44 @@ public class ScriptEditor extends JPanel implements PropertyChangeListener {
         setLayout(new BorderLayout());
         add(buildNorthPanel(), BorderLayout.NORTH);
 
-        editor = new JEditorPane();
+        editor = new RSyntaxTextArea();
         JScrollPane editorScrollPane = new JScrollPane(editor);
         editorScrollPane.setVerticalScrollBarPolicy(
                 JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         editorScrollPane.setHorizontalScrollBarPolicy(
                 JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         add(editorScrollPane, BorderLayout.CENTER);
-        editor.setContentType("text/plain");
+        // for context type text/plain
+        editor.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_NONE);
+        editor.setCodeFoldingEnabled(false);
+        editor.setWhitespaceVisible(true);
     }
 
-    public void changeContentType(String mimeType){
-        String text = editor.getText();
-        editor.setContentType(mimeType);
-        editor.setText(text);
+    public @NotNull Optional<String> lookupSyntaxConstants(
+            @NotNull String mimeType) {
+        Objects.requireNonNull(mimeType);
+        final String normalizedMimeType = mimeType.toLowerCase();
+        // TODO(karl): find better solution
+        // - resource file with configuration map mimetype -> syntax constant?
+        // - loop over the constants in SyntaxConstants and find a matching constant?
+        if (normalizedMimeType.contains("javascript")) {
+            return Optional.of(SyntaxConstants.SYNTAX_STYLE_JAVASCRIPT);
+        } else if (normalizedMimeType.contains("groovy")) {
+            return Optional.of(SyntaxConstants.SYNTAX_STYLE_GROOVY);
+        } else if (normalizedMimeType.contains("python")) {
+            return Optional.of(SyntaxConstants.SYNTAX_STYLE_PYTHON);
+        }
+        return Optional.empty();
+    }
+
+    public void changeSyntaxEditingStyle(@NotNull String syntaxStyle){
+        editor.setSyntaxEditingStyle(syntaxStyle);
     }
 
     protected void refreshScriptFile() {
         final  Optional<File> file = model.getScriptFile();
         lblScriptFile.setText(
-           file.map(f -> f.getAbsolutePath()).orElse(""));
+           file.map(File::getAbsolutePath).orElse(""));
         pnlScriptFile.setVisible(file.isPresent());
     }
 
