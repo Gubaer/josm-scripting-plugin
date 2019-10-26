@@ -48,7 +48,7 @@ class ChangeTest {
         assert !change.appliesTo( new Relation(1,1)), "doesn't apply to relations"
 
         change = new LatChange(12.345)
-        node = new Node(new LatLon(1,2))
+        def node = new Node(new LatLon(1,2))
         change.apply(node)
         assert node.getCoor() == new LatLon(12.345,2), "unexpected position"
 
@@ -78,7 +78,7 @@ class ChangeTest {
         assert !change.appliesTo( new Relation(1,1)), "doesn't apply to relations"
 
         change = new LonChange(12.345)
-        node = new Node(new LatLon(1,2))
+        def node = new Node(new LatLon(1,2))
         change.apply(node)
         assert node.getCoor() == new LatLon(1,12.345), "unexpected position"
 
@@ -103,7 +103,7 @@ class ChangeTest {
         assert !change.appliesTo( new Relation(1,1)), "doesn't apply to relations"
 
         change = new PosChange(new LatLon(3,4))
-        node = new Node(new LatLon(1,2))
+        def node = new Node(new LatLon(1,2))
         change.apply(node)
         assert node.getCoor() == new LatLon(3,4), "unexpected position"
 
