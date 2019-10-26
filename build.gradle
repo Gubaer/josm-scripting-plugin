@@ -205,6 +205,7 @@ sourceSets {
     test {
         java.srcDirs = [
             "src/test/unit/java",
+            "src/test/functional/java",
             "test/script-api",  // deprecated
             "test/common",      // deprecated
             "test/unit",        // deprecated
@@ -212,6 +213,7 @@ sourceSets {
         ]
         groovy.srcDirs = [
             "src/test/unit/groovy",
+            "src/test/functional/groovy",
             "test/unit",        // deprecated
             "test/functional"   // deprecated
         ]
