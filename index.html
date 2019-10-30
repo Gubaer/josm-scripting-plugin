@@ -3,12 +3,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>JOSM Scripting Plugin</title>	
-	<link href="assets/css/bootstrap.min.css" rel="stylesheet">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link href="assets/css/bootstrap-responsive.min.css" rel="stylesheet">
-	<link href="assets/css/scripting-plugin.css" rel="stylesheet">
-	<link href="assets/css/pygments.css" rel="stylesheet">
+  <title>JOSM Scripting Plugin</title>
+  <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="assets/css/bootstrap-responsive.min.css" rel="stylesheet">
+  <link href="assets/css/scripting-plugin.css" rel="stylesheet">
+  <link href="assets/css/pygments.css" rel="stylesheet">
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -40,54 +40,58 @@
     </div>
 
    <div class="container-fluid">
-   
+
    <div class="row-fluid">
-   		<div class="span12">
-   			<h1 class="home title">JOSM Scripting Plugin</h1>
-			<h2 class="home subtitle">Run scripts in the Open Street Map editor JOSM</h2>
-   	    </div>
+       <div class="span12">
+         <h1 class="home title">JOSM Scripting Plugin</h1>
+      <h2 class="home subtitle">Run scripts in the Open Street Map editor JOSM</h2>
+         </div>
    </div>
 
    <div class="row-fluid">
-   		<div class="span6">
-		<p>The JOSM Scripting Plugin is a plugin for the <a href="http://www.openstreetmap.org">Open Street Map</a> editor 
-		<a href="http://josm.openstreetmap.de">JOSM</a>.</p>
+       <div class="span6">
+    <p>The JOSM Scripting Plugin is a plugin for the <a href="http://www.openstreetmap.org">Open Street Map</a> editor
+    <a href="http://josm.openstreetmap.de">JOSM</a>.</p>
 
 
-		<p>It includes a built-in scripting engine for Javascript based on <a href="http://www.mozilla.org/rhino/" target="external">Mozilla Rhino</a> and an 
-		<a href="apidoc/namespaces/josm.html" target="_top">API for Javascript</a>  to manipulate JOSMs internal application objects.
-		</p>
+    <p>It includes  Oracles Javascript engine <a href="http://www.mozilla.org/rhino/" target="external">Graal.js</a>
+      and an <a href="apidoc/namespaces/josm.html" target="_top">API for Javascript</a>
+      to manipulate JOSMs internal application objects.
+    </p>
 {% highlight javascript %}
-var command = require("josm/command");
-var nodeBuilder = require("josm/builder").NodeBuilder; 
-josm.layers.activeLayer.apply(
-    command.add(
-      nodeBuilder
-        .withTags({amenity: "restaurant"})
-        .withPosition(12.34,45.67)
-        .create()
-  )
-);
-josm.alert("Added a node");
+const command = require("josm/command")
+const { NodeBuilder } = require("josm/builder")
+
+// create an add command ...
+const cmd = command.add(
+    NodeBuilder
+      .withTags({amenity: "restaurant"})
+      .withPosition(12.34,45.67)
+      .create()
+)
+// ... and apply it to the active layer
+cmd.applyTo(josm.layers.activeLayer)
+josm.alert("Added a node")
 {% endhighlight %}
 
     <p>It also executes Python scripts and can <a href="doc/python.html">load and execute plugins</a>
       written in Python.</p>
 
-		<p>In addition, it can execute scripts written in 
-		<a href="http://groovy.codehaus.org/">Groovy</a>, 
-		<a href="http://www.ruby-lang.org">Ruby</a>, or any other language for which a JSR-223 compatible
-    script engine is available.</p> 	
-   	    </div>
+    <p>In addition, it can execute scripts written in
+    <a href="https://www.python.org/">Python</a>,
+    <a href="http://groovy.codehaus.org/">Groovy</a>,
+    <a href="http://www.ruby-lang.org">Ruby</a>, or any other language, for which a JSR-223 compatible
+    script engine is available.</p>
+         </div>
 
-   		<div class="span6">
-   		<img id="console-img" src="assets/img/scripting-console-sample.png"/>
-   	    </div>   	    
+       <div class="span6">
+       <img id="console-img" src="assets/img/scripting-console-sample.png"/>
+         </div>
    </div>
 
    </div> <!-- /container -->
 
    <script src="http://code.jquery.com/jquery.js"></script>
    <script src="assets/js/bootstrap.min.js"></script>
-</body>  
+</body>
 </html>
