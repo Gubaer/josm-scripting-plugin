@@ -100,5 +100,8 @@ The JOSM scripting plugin uses:
 * jsyntaxpane by Ayman Al-Sairafi
 * [Rhino](http://www.mozilla.org/rhino/) scripting engine by Mozilla Foundation
 
+* supported by [![JetBrains logo](jetbrains.png)](https://www.jetbrains.com/?from=JOSM%20Scripting%20Plugin) with an free JetBrains Open Source license
+
+
 ## License
 Published under GPL Version 3 and higher. See included LICENSE file.
