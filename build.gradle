@@ -79,9 +79,6 @@ josm {
 }
 
 jar {
-    from("src") {
-      include("**/*.dtd")
-    }
 
     from("src/main/javascript/v1") {
       into("js/v1")
