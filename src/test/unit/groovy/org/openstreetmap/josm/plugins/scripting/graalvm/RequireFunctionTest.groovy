@@ -31,7 +31,7 @@ class RequireFunctionTest {
     }
 
     @BeforeClass
-    static void enableLogging() {
+    static void enableogging() {
         Logger.getLogger(FileSystemJSModuleRepository.class.getName())
                 .setLevel(Level.FINE);
 
@@ -48,7 +48,7 @@ class RequireFunctionTest {
     @Before
     void resetRepositoryRegistry() {
         ModuleRepositories.instance.clear()
-        ModuleRepositories.instance.add(moduleRepo)
+        ModuleRepositories.instance.addUserDefinedRepository(moduleRepo)
     }
 
     @Before

@@ -1,7 +1,12 @@
 package org.openstreetmap.josm.plugins.scripting.graalvm;
 
 import org.graalvm.polyglot.*;
+import org.openstreetmap.josm.plugins.scripting.js.api.AddMultiCommand;
+import org.openstreetmap.josm.plugins.scripting.js.api.Change;
+import org.openstreetmap.josm.plugins.scripting.js.api.ChangeMultiCommand;
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
+import org.openstreetmap.josm.plugins.scripting.ui.console.ScriptingConsole;
+
 import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.io.IOException;
@@ -16,16 +21,30 @@ public class GraalVMFacade  implements IGraalVMFacade {
 
     private Context context;
 
-
     private void populateContext(final Context context) {
         // populate the context with the require function
         final RequireFunction require = new RequireFunction();
         context.getBindings("js").putMember("require", require);
+
+        // WORKAROUND: populate the context with class objects provided by the
+        // plugin itself. Java.type('...') doesn't work for this classes,
+        // class loading problem?
+        context.getBindings("js").putMember(
+            "RequireFunction", RequireFunction.class);
+        context.getBindings("js").putMember("JSAction", JSAction.class);
+        context.getBindings("js").putMember(
+            "AddMultiCommand", AddMultiCommand.class);
+        context.getBindings("js").putMember(
+            "ChangeMultiCommand", ChangeMultiCommand.class);
+        context.getBindings("js").putMember(
+            "Change", Change.class);
+        context.getBindings("js").putMember(
+                "ScriptingConsole", ScriptingConsole.class);
     }
 
     private void grantPrivilegesToContext(final Context.Builder builder) {
         //TODO(karl): let users configure the privileges in the JOSM
-        //preferences
+        // preferences
         builder
             // default: allow everything
             .allowAllAccess(true)
@@ -46,11 +65,11 @@ public class GraalVMFacade  implements IGraalVMFacade {
     }
 
     private void setOptionsOnContext(final Context.Builder builder) {
-        //TODO(karl): set options, i.e. js.strict, see
-        // https://www.graalvm.org/docs/reference-manual/languages/js/
+        builder.option("js.strict", "true");
     }
 
     private void initContext() {
+        //TODO(karl): what about other languages?
         final Context.Builder builder = Context.newBuilder("js");
         grantPrivilegesToContext(builder);
         setOptionsOnContext(builder);

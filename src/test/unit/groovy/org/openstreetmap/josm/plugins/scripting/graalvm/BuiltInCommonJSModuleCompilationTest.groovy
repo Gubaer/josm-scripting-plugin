@@ -48,7 +48,7 @@ class BuiltInCommonJSModuleCompilationTest {
     @Before
     void resetRepositoryRegistry() {
         ModuleRepositories.instance.clear()
-        ModuleRepositories.instance.add(moduleRepo)
+        ModuleRepositories.instance.addUserDefinedRepository(moduleRepo)
     }
 
     @Before

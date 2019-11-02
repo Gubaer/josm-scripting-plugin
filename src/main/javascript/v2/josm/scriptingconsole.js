@@ -6,15 +6,15 @@
  */
 /* global Java */
 
+// org.openstreetmap.josm.plugins.scripting.ui.console.ScriptingConsole is
+// populated in the context
+/* global ScriptingConsole */
+
 // -- imports
 const MessageFormat = Java.type('java.text.MessageFormat')
 
-// const scripting = org.openstreetmap.josm.plugins.scripting;
-const ScriptingConsole = Java.type('org.openstreetmap.josm.plugins.scripting.ui.console.ScriptingConsole')
-
 function consoleWriter () {
-  // TODO(karl): have to call getInstance(), getScriptLog(), etc.?
-  return ScriptingConsole.instance.scriptLog.logWriter
+  return ScriptingConsole.getInstance().getScriptLog().getLogWriter()
 }
 
 /**
@@ -98,8 +98,7 @@ exports.println = function () {
  * @name clear
  */
 exports.clear = function () {
-  // TODO(karl): have to invoke getInstance(), etc. ?
-  const action = ScriptingConsole.instance.scriptLog.clearAction
+  const action = ScriptingConsole.getInstance().getScriptLog().getClearAction()
   action.actionPerformed(null)
 }
 

@@ -129,7 +129,7 @@ class AddHouseNumberDialog extends JDialog {
 			start += incr
 			return new ChangeCommand(n, nn)			
 		}
-		Main.main.undoRedo.add(new SequenceCommand("Setting house numbers", cmds))
+		Main.main.undoRedo.addUserDefinedRepository(new SequenceCommand("Setting house numbers", cmds))
 	}
 	
 	def build() {
@@ -142,7 +142,8 @@ class AddHouseNumberDialog extends JDialog {
 		
 		addWindowListener([windowActivated: {tfStart.requestFocusInWindow()}] as WindowAdapter) 
 		getRootPane().registerKeyboardAction(actApply, KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,KeyEvent.CTRL_MASK, false), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT)
-	}		
+	}		
+
 	@Override
 	public void setVisible(boolean b) {
 		if (b){

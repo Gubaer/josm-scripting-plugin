@@ -10,6 +10,7 @@ import org.graalvm.polyglot.Value;
 import javax.validation.constraints.NotNull;
 import java.io.*;
 import java.net.URI;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.MessageFormat;
@@ -18,6 +19,9 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.function.Supplier;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -67,6 +71,13 @@ public class RequireFunction implements Function<String, Value> {
     // the URI of the module in which this require function is invoked
     private URI contextURI = null;
 
+    private void logFine(Supplier<String> messageBuilder) {
+        if (logger.isLoggable(Level.FINE)) {
+            final String message = messageBuilder.get();
+            logger.log(Level.FINE, message);
+        }
+    }
+
     /**
      * Creates a <code>require</code> function which will be invoked in no
      * specific context.
@@ -93,31 +104,67 @@ public class RequireFunction implements Function<String, Value> {
         this.contextURI = contextURI;
     }
 
-    protected String loadModuleSource(@NotNull URI uri) throws IOException {
-        Objects.requireNonNull(uri);
-        if (!uri.getScheme().toLowerCase().equals("file")) {
-            throw new IllegalArgumentException(MessageFormat.format(
-                "unsupported type of module URI, file URI required. Got ''{0}''",
-                uri
-            ));
-        }
+    private String loadModuleSourceFromFile(@NotNull URI uri)
+        throws IOException {
+        // pre: uri is a file URI - don't check again
         final File moduleFile = new File(uri);
-        final String moduleSource = new String(
+        return new String(
             Files.readAllBytes(Paths.get(moduleFile.getAbsolutePath()))
         );
-        return moduleSource;
     }
 
-    protected String wrapModuleSource(
-            @NotNull String moduleID,
-            @NotNull String moduleURI,
-            @NotNull String moduleSource) {
+    private String loadModuleSourceFromJarEntry(@NotNull URI uri)
+        throws IOException {
+        // pre: uri is a jar file URI - don't check again
+        final CommonJSModuleJarURI moduleUri = new CommonJSModuleJarURI(uri);
+
+        try (final JarFile jarFile = new JarFile(moduleUri.getJarFile())) {
+            final JarEntry entry = jarFile.getJarEntry(
+                moduleUri.getJarEntryName());
+            if (entry == null || entry.isDirectory()) {
+                // should not happen here, because we already checked before,
+                // that this entry exists and is a file. Just in case, throw
+                // an exception.
+                throw new IllegalStateException(MessageFormat.format(
+                    "unexpected CommonJS module jar URI doesn''t refer to " +
+                    "a file entry in a jar file. uri=''{0}''",
+                    uri.toString()
+                ));
+            }
+            final ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+            try(InputStream is = jarFile.getInputStream(entry)) {
+                final byte [] data = new byte[1024];
+                int numRead;
+                while ((numRead = is.read(data, 0, data.length)) != -1) {
+                    buffer.write(data, 0, numRead);
+                }
+                buffer.flush();
+                return new String(buffer.toByteArray(), StandardCharsets.UTF_8);
+            }
+        }
+    }
+
+    private String loadModuleSource(@NotNull URI uri) throws IOException {
+        Objects.requireNonNull(uri);
+        final String scheme = uri.getScheme().toLowerCase();
+        switch(scheme) {
+            case "file":
+                return loadModuleSourceFromFile(uri);
+            case "jar":
+                return loadModuleSourceFromJarEntry(uri);
+            default:
+                throw new IllegalArgumentException(MessageFormat.format(
+                    "unsupported type of module URI, file URI required. " +
+                    "Got ''{0}''", uri
+                ));
+        }
+    }
+
+    private String wrapModuleSource(@NotNull String moduleID,
+        @NotNull String moduleURI, @NotNull String moduleSource) {
 
         // assemble parameters
         final Map<String, String> parameters = new HashMap<>();
-        parameters.put(
-            "requireFunctionClassName",
-            RequireFunction.class.getName());
         parameters.put("moduleID", moduleID);
         parameters.put("moduleURI", moduleURI);
         parameters.put("moduleSource", moduleSource);
@@ -151,7 +198,7 @@ public class RequireFunction implements Function<String, Value> {
         if (context == null) {
             final String message = MessageFormat.format(
                 "No Polyglot context available. Can''t apply require function. "
-              + "Context URI is ''{0}''",
+              + "Context URI =''{0}''",
                  this.contextURI == null
                     ? "undefined"
                     : this.contextURI.toString()
@@ -161,9 +208,18 @@ public class RequireFunction implements Function<String, Value> {
 
         Optional<URI> resolvedModuleURI;
         if (contextURI == null) {
+            logFine(() -> MessageFormat.format(
+                "Resolving module ID without context. module ID=''{0}''",
+                moduleID
+            ));
             resolvedModuleURI = ModuleRepositories.getInstance()
                 .resolve(moduleID);
         } else {
+            logFine(() -> MessageFormat.format(
+                    "Resolving module ID with context. module ID=''{0}'', " +
+                    "context URI=''{1}''",
+                    moduleID, contextURI.toString()
+            ));
             resolvedModuleURI = ModuleRepositories.getInstance().resolve(
                 moduleID,
                 contextURI);
@@ -200,8 +256,6 @@ public class RequireFunction implements Function<String, Value> {
                     new StringReader(wrapperSource),       // source
                     moduleURI.toString() + "(wrapped)"     // source name
                 ).build();
-            //TODO(karl): remove later
-            //dumpSource(source, new File(new File("/tmp"), moduleID.replace("/", "_")));
             final Value module = context.eval(source);
             cache.remember(moduleURI, module, context);
             return module;
@@ -210,20 +264,6 @@ public class RequireFunction implements Function<String, Value> {
                 "failed to require module ''{0}''", moduleID);
             logger.log(Level.SEVERE, message, e);
             throw new RequireFunctionException(message, e);
-        }
-    }
-
-    protected void dumpSource (Source source, File f) {
-        try {
-            final BufferedWriter writer = new BufferedWriter(new FileWriter(f));
-            final BufferedReader reader =  new BufferedReader(source.getReader());
-            String line;
-            while((line = reader.readLine()) != null) {
-                writer.append(line);
-                writer.newLine();
-            }
-        } catch(IOException e) {
-            e.printStackTrace();
         }
     }
 }

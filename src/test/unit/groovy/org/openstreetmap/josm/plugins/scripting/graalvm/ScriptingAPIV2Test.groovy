@@ -1,7 +1,6 @@
 package org.openstreetmap.josm.plugins.scripting.graalvm
 
 import com.oracle.truffle.api.interop.UnsupportedTypeException
-import org.graalvm.polyglot.PolyglotException
 import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Ignore
@@ -36,13 +35,13 @@ class ScriptingAPIV2Test {
                 .toURI().toURL());
 
         def repos = ModuleRepositories.instance
-        repos.add(new FileSystemJSModuleRepository(
+        repos.addUserDefinedRepository(new FileSystemJSModuleRepository(
             "${projectDirEnv}/src/main/javascript/v2"
         ))
-        repos.add(new FileSystemJSModuleRepository(
+        repos.addUserDefinedRepository(new FileSystemJSModuleRepository(
             "${projectDirEnv}/src/test/unit/javascript/v2"
         ))
-        repos.add(new FileSystemJSModuleRepository(
+        repos.addUserDefinedRepository(new FileSystemJSModuleRepository(
             "${projectDirEnv}/src/test/functional/javascript/v2"
         ))
 

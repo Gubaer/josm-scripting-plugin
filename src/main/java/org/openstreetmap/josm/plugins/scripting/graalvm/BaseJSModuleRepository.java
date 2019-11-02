@@ -31,8 +31,13 @@ abstract public class BaseJSModuleRepository
      *     entry</li>
      *     <li><code>repoPath</code> refers to a readable file entry</li>
      * </ul>
-     * @param repoPath
-     * @return
+     *
+     * <code>repoPath</code> should be an absolute path, not a JAR entry key.
+     * Example: <code>/foo/bar/module.js</code>, not
+     * <code>foo/bar/module.js</code>.
+     *
+     * @param repoPath the path to the entry in a JAR file
+     * @return true, if <code>repoPath</code> refers to a readable file entry
      */
     abstract protected boolean isRepoFile(@NotNull final String repoPath);
 
@@ -45,6 +50,7 @@ abstract public class BaseJSModuleRepository
         }
     }
 
+    @SuppressWarnings("WeakerAccess") // used in subclasses
     protected void logFine(Supplier<String> messageBuilder) {
         if (logger.isLoggable(Level.FINE)) {
             final String message = messageBuilder.get();
@@ -54,8 +60,9 @@ abstract public class BaseJSModuleRepository
 
     private @NotNull Optional<Path> tryResolve(@NotNull final ModuleID moduleId,
                                                  @NotNull Path context) {
-        final Path modulePath = context.resolve(
-                moduleIdToModulePath(moduleId)).normalize();
+
+        final Path modulePath = context.resolve(moduleId.toString())
+            .normalize();
 
         final Object[] params = new Object[]{
             moduleId.toString(),
@@ -67,7 +74,7 @@ abstract public class BaseJSModuleRepository
             logFine(() -> MessageFormat.format(
                 "MODULE PATH ALTERNATIVE: " +
                 "succeeded to resolve module id ''{0}''. " +
-                "resolved path ''{1}'' refers to a readable file",
+                "Resolved path ''{1}'' refers to a readable file",
                 params
             ));
             return Optional.of(modulePath);

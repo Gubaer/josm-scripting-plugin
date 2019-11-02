@@ -1,8 +1,8 @@
 {{! --------------------------------------------------------------------- }}
 {{! mustache template for the JavaScript wrapper around a required module }}
 {{! --------------------------------------------------------------------- }}
+{{! RequireFunction is populated in the scripting context                 }}
 (function() {
-    const RequireFunction = Java.type('{{& requireFunctionClassName }}')
     const URI = Java.type('java.net.URI')
 
     const module = {

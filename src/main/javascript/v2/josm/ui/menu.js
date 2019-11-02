@@ -6,9 +6,12 @@
  */
 
 /* global Java */
+// org.openstreetmap.josm.plugins.scripting.graalvm.JSAction has to be
+// injected in the scripting context
+/* global JSAction */
 
 const MainApplication = Java.type('org.openstreetmap.josm.gui.MainApplication')
-const JSAction = Java.type('org.openstreetmap.josm.plugins.scripting.graalvm.JSAction')
+// const JSAction = Java.type('org.openstreetmap.josm.plugins.scripting.graalvm.JSAction')
 const util = require('josm/util')
 
 /**

@@ -58,7 +58,7 @@ version = currentPluginVersion(releaseHistory)
 archivesBaseName = "scripting"
 
 josm {
-    josmCompileVersion = "latest"
+    josmCompileVersion = "tested"
     manifest {
         description = 'Runs scripts in JOSM'
         minJosmVersion = currentPluginMainVersion(releaseHistory)

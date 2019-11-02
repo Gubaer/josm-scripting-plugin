@@ -1,40 +1,38 @@
 package org.openstreetmap.josm.plugins.scripting.ui;
 
-import static org.openstreetmap.josm.plugins.scripting.util.FileUtils.buildTextFileReader;
-import static org.openstreetmap.josm.tools.I18n.tr;
-
-import java.awt.Component;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.lang.reflect.InvocationTargetException;
-import java.nio.charset.StandardCharsets;
-import java.util.Objects;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
-
-import javax.script.Compilable;
-import javax.script.ScriptEngine;
-import javax.script.ScriptException;
-import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
-import javax.validation.constraints.NotNull;
-
 import org.mozilla.javascript.JavaScriptException;
 import org.mozilla.javascript.RhinoException;
 import org.mozilla.javascript.ScriptRuntime;
 import org.mozilla.javascript.Scriptable;
 import org.openstreetmap.josm.gui.HelpAwareOptionPane;
 import org.openstreetmap.josm.gui.help.HelpUtil;
+import org.openstreetmap.josm.plugins.scripting.graalvm.GraalVMEvalException;
+import org.openstreetmap.josm.plugins.scripting.graalvm.GraalVMFacadeFactory;
+import org.openstreetmap.josm.plugins.scripting.graalvm.IGraalVMFacade;
 import org.openstreetmap.josm.plugins.scripting.js.RhinoEngine;
 import org.openstreetmap.josm.plugins.scripting.model.JSR223CompiledScriptCache;
 import org.openstreetmap.josm.plugins.scripting.model.JSR223ScriptEngineProvider;
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
 import org.openstreetmap.josm.plugins.scripting.util.Assert;
 import org.openstreetmap.josm.plugins.scripting.util.ExceptionUtil;
+
+import javax.script.Compilable;
+import javax.script.ScriptEngine;
+import javax.script.ScriptException;
+import javax.swing.*;
+import javax.validation.constraints.NotNull;
+import java.awt.*;
+import java.io.*;
+import java.lang.reflect.InvocationTargetException;
+import java.nio.charset.StandardCharsets;
+import java.text.MessageFormat;
+import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
+
+import static org.openstreetmap.josm.plugins.scripting.util.FileUtils.buildTextFileReader;
+import static org.openstreetmap.josm.tools.I18n.tr;
 
 /**
  * A utility class providing methods for executing a script (as string or
@@ -82,6 +80,17 @@ public class ScriptExecutor {
     protected void warnExecutingScriptFailed(ScriptException e){
         System.out.println(tr("Script execution has failed."));
         e.printStackTrace();
+        HelpAwareOptionPane.showOptionDialog(
+                this.parent,
+                tr("Script execution has failed."),
+                tr("Script Error"),
+                JOptionPane.ERROR_MESSAGE,
+                HelpUtil.ht("/Plugin/Scripting")
+        );
+    }
+
+    protected void warnExecutingScriptFailed(GraalVMEvalException e){
+        logger.log(Level.SEVERE, tr("Script execution has failed."), e);
         HelpAwareOptionPane.showOptionDialog(
                 this.parent,
                 tr("Script execution has failed."),
@@ -306,12 +315,38 @@ public class ScriptExecutor {
         runOnSwingEDT(task);
     }
 
-    public void runScriptWithGraalVM(
+    /**
+     * Runs a script with a GraalVM engine.
+     *
+     * Runs the script on the Swing EDT and prompts the user with a modal
+     * dialog, in case of an exception.
+     *
+     * @param desc the descriptor
+     * @param script the script
+     */
+    public void runScriptWithGraalEngine(
             @NotNull final ScriptEngineDescriptor desc,
             final String script) {
         Objects.requireNonNull(desc);
+        if (!desc.getEngineType().equals(ScriptEngineDescriptor.ScriptEngineType.GRAALVM)) {
+            throw new IllegalArgumentException(MessageFormat.format(
+                "Expected GRAALVM descriptor, got {0}", desc.getEngineType()
+            ));
+        }
+        if (script == null) return;
+        final IGraalVMFacade facade =
+            GraalVMFacadeFactory.createGraalVMFacade();
+        Runnable task = () -> {
+            try {
+                facade.eval(desc, script);
+            } catch(GraalVMEvalException e){
+                warnExecutingScriptFailed(e);
+            } finally {
+                facade.resetContext();
+            }
+        };
+        runOnSwingEDT(task);
     }
-
 
     protected String readFile(File scriptFile) throws IOException {
         try (BufferedReader reader =

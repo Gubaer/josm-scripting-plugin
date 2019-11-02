@@ -288,6 +288,7 @@ Object.defineProperty(exports, 'menu', {
 * // isEnabled() is a static method of the class ContourMergePlugin
 * console.println(cls.isEnabled())
 */
+// TODO(karl): still supported in API v2?
 exports.loadClassFrom3dPartyPlugin = function (pluginName, className) {
   const ScriptingPlugin = Java.type(
     'org.openstreetmap.josm.plugins.scripting.ScriptingPlugin'

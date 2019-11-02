@@ -12,16 +12,11 @@ import java.util.Optional;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * A collection of common JS modules packaged into a jar file.
  */
 public class JarJSModuleRepository extends BaseJSModuleRepository {
-
-    static public final Logger logger =
-         Logger.getLogger(JarJSModuleRepository.class.getName());
-
     private void ensureReadableJarFile() throws IOException {
         if (! (jarUri.refersToReadableFile() && jarUri.refersToJarFile())) {
             throw new IOException(MessageFormat.format(
@@ -89,30 +84,26 @@ public class JarJSModuleRepository extends BaseJSModuleRepository {
         }
         repoPath = repoPath.trim();
         if (!repoPath.startsWith("/")) {
-            if (logger.isLoggable(Level.FINE)) {
-                logger.log(Level.FINE, MessageFormat.format(
-                    "unexpected repo path, doesn''t start with ''/''. " +
-                    "repoPath=''{0}''",
-                    jarUri.getJarFilePath()
-                ));
-            }
+            logFine(() -> MessageFormat.format(
+                "unexpected repo path, doesn''t start with ''/''. " +
+                "repoPath=''{0}''",
+                jarUri.getJarFilePath()
+            ));
             return false;
         }
         final String jarEntryName = repoPath.substring(1);
         if (jarEntryName.isEmpty()) {
-            if (logger.isLoggable(Level.FINE)) {
-                logger.log(Level.FINE, MessageFormat.format(
-                    "unexpected empty jar entry name",
-                    jarEntryName
-                ));
-            }
+            logFine(() -> MessageFormat.format(
+                "unexpected empty jar entry name",
+                jarEntryName
+            ));
             return false;
         }
         try {
             ensureJarEntryIsFile(jarUri.getJarFile(), jarEntryName);
         } catch(IOException e) {
-            if (logger.isLoggable(Level.FINE)) {
-                logger.log(Level.FINE, MessageFormat.format(
+            if (getLogger().isLoggable(Level.FINE)) {
+                getLogger().log(Level.FINE, MessageFormat.format(
                     "jar entry isn''t doesn''t exist or isn''t a file entry. " +
                     "jar file=''{0}'', entry name=''{1}''",
                     jarUri.getJarFilePath(), jarEntryName
@@ -132,7 +123,7 @@ public class JarJSModuleRepository extends BaseJSModuleRepository {
      * @throws IOException thrown, if <code>jar</code> isn't an existing and
      * readable jar file
      */
-    JarJSModuleRepository(@NotNull final File jar) throws IOException {
+    public JarJSModuleRepository(@NotNull final File jar) throws IOException {
         Objects.requireNonNull(jar);
         final URI jarUri;
         try {
@@ -161,7 +152,7 @@ public class JarJSModuleRepository extends BaseJSModuleRepository {
      * @throws IOException thrown, if there is no directory <code>rootPath</code>
      * in the jar file <code>jar</code>
      */
-    JarJSModuleRepository(@NotNull final File jar,
+    public JarJSModuleRepository(@NotNull final File jar,
                           @NotNull final String rootPath) throws IOException {
         Objects.requireNonNull(jar);
         Objects.requireNonNull(rootPath);
@@ -197,7 +188,7 @@ public class JarJSModuleRepository extends BaseJSModuleRepository {
      * @throws IOException thrown, if <code>uri</code> doesn't refer to an
      * existing and readable directory entry in the jar file
      */
-    JarJSModuleRepository(@NotNull final URI uri) throws IOException {
+    public JarJSModuleRepository(@NotNull final URI uri) throws IOException {
         Objects.requireNonNull(uri);
         // throws IllegalArgumentException, if uri isn't valid
         jarUri = new CommonJSModuleJarURI(uri);
@@ -227,7 +218,7 @@ public class JarJSModuleRepository extends BaseJSModuleRepository {
             // throws IllegalArgumentException, if moduleUri isn't valid
             other = new CommonJSModuleJarURI(moduleUri);
         } catch(IllegalArgumentException e) {
-            logger.log(Level.WARNING, MessageFormat.format(
+            getLogger().log(Level.WARNING, MessageFormat.format(
                 "moduleUri isn''t a valid jar URI for a CommonJS module. " +
                 "moduleUri=''{0}''", moduleUri.toString()),
             e);

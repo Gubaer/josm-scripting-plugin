@@ -114,7 +114,7 @@ class GraalVMPresentTest {
 
     @Test
     void "can reset the scripting context"() {
-        def script = """a = 1 + 1"""
+        def script = """const a = 1 + 1; a;"""
         def js = getJavaScriptScriptEngineDescriptor()
         def facade = GraalVMFacadeFactory.getOrCreateGraalVMFacade()
         def value = facade.eval(js, script) as Value

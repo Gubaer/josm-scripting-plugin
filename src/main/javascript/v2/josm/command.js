@@ -6,6 +6,18 @@
  * @module josm/command
  */
 
+// org.openstreetmap.josm.plugins.scripting.js.api.AddMultiCommand is populated
+// in the context
+/* global AddMultiCommand */
+
+// org.openstreetmap.josm.plugins.scripting.js.api.ChangeMultiCommand is populated
+// in the context
+/* global ChangeMultiCommand */
+
+// org.openstreetmap.josm.plugins.scripting.js.api.Change is populated in the
+// context
+/* global Change */
+
 /* global Java */
 /* global require */
 
@@ -16,15 +28,10 @@ const OsmPrimitive = Java.type('org.openstreetmap.josm.data.osm.OsmPrimitive')
 const OsmDataLayer = Java.type('org.openstreetmap.josm.gui.layer.OsmDataLayer')
 const Layer = Java.type('org.openstreetmap.josm.gui.layer.Layer')
 const UndoRedoHandler = Java.type('org.openstreetmap.josm.data.UndoRedoHandler')
-const AddMultiCommand =
-    Java.type('org.openstreetmap.josm.plugins.scripting.js.api.AddMultiCommand')
-const ChangeMultiCommand =
-    Java.type('org.openstreetmap.josm.plugins.scripting.js.api.ChangeMultiCommand')
 const CombineWayAction = Java.type('org.openstreetmap.josm.actions.CombineWayAction')
 const DeleteCommand = Java.type('org.openstreetmap.josm.command.DeleteCommand')
 const LatLon = Java.type('org.openstreetmap.josm.data.coor.LatLon')
 const RelationMember = Java.type('org.openstreetmap.josm.data.osm.RelationMember')
-const Change = Java.type('org.openstreetmap.josm.plugins.scripting.js.api.Change')
 const ArrayList = Java.type('java.util.ArrayList')
 const Map = Java.type('java.util.Map')
 const HashMap = Java.type('java.util.HashMap')
