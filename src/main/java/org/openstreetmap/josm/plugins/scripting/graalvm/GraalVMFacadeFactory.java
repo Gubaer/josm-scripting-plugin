@@ -7,7 +7,7 @@ import java.util.logging.Logger;
 import static org.openstreetmap.josm.tools.I18n.tr;
 
 public class GraalVMFacadeFactory {
-    final static Logger logger =
+    static private final  Logger logger =
         Logger.getLogger(GraalVMFacadeFactory.class.getName());
 
     /**
@@ -63,7 +63,7 @@ public class GraalVMFacadeFactory {
      * Creates a GraalVM, if it doesn't exist yet and replies the current
      * GraalVM instance
      *
-     * @return
+     * @return the facade
      */
     static public IGraalVMFacade getOrCreateGraalVMFacade() {
         if (instance == null) {

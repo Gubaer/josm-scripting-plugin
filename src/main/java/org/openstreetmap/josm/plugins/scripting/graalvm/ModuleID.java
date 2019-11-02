@@ -46,6 +46,13 @@ public class ModuleID {
         }
     }
 
+    /**
+     * Replies true, if <code>moduleId</code> is (syntactically) valid.
+     *
+     * @param moduleId the module id, i.e. <code>josm/layers</code>
+     * @return true, if the <code>moduleId</code> is valid; false, otherwise
+     */
+    @SuppressWarnings("unused")  // part of the public API
     static public boolean isValid(@NotNull String moduleId) {
         try {
             ensureValid(moduleId);

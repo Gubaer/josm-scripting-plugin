@@ -70,6 +70,7 @@ public class CommonJSModuleJarURI {
      * @param uri the uri
      * @return true, if <code>uri</code> is valid; false otherwise
      */
+    @SuppressWarnings("unused") // part of the public API
     static public boolean isValid(@NotNull final String uri) {
         try {
             return isValid(new URI(uri));
@@ -85,6 +86,7 @@ public class CommonJSModuleJarURI {
      * @param uri the uri
      * @return true, if <code>uri</code> is valid; false otherwise
      */
+    @SuppressWarnings("WeakerAccess") // part of the public API
     static public boolean isValid(@NotNull final URI uri) {
         try {
             new CommonJSModuleJarURI(uri);
@@ -181,6 +183,7 @@ public class CommonJSModuleJarURI {
      *
      * @return the jar file
      */
+    @SuppressWarnings("WeakerAccess") // part of the public API
     public @NotNull File getJarFile() {
         return new File(jarFilePath);
     }
@@ -201,6 +204,7 @@ public class CommonJSModuleJarURI {
      *
      * @return the path of the jar entry
      */
+    @SuppressWarnings("WeakerAccess") // part of the public API
     public Path getJarEntryPath() {
         return new File(jarEntryPath).toPath();
     }
@@ -214,6 +218,7 @@ public class CommonJSModuleJarURI {
      *
      * @return the jar entry name
      */
+    @SuppressWarnings("WeakerAccess") // part of the public API
     public String getJarEntryName() {
         final String path = getJarEntryPathAsString();
         if (!path.startsWith("/")) {

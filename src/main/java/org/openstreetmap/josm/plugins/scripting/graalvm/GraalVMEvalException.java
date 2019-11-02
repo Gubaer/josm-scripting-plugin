@@ -1,5 +1,6 @@
 package org.openstreetmap.josm.plugins.scripting.graalvm;
 
+@SuppressWarnings({"unused", "WeakerAccess"})
 public class GraalVMEvalException extends Exception {
     public GraalVMEvalException() {
         super();

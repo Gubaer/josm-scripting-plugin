@@ -8,13 +8,11 @@ import org.openstreetmap.josm.tools.ImageProvider;
 import org.openstreetmap.josm.tools.Shortcut;
 
 import javax.swing.*;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.text.MessageFormat;
 import java.util.Collection;
-import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class JSAction extends JosmAction {
@@ -29,8 +27,9 @@ public class JSAction extends JosmAction {
         return prop.asString();
     }
 
+    @SuppressWarnings("SameParameterValue")
     static private Value propertyAsFunction(Value object,
-            String property, Value defaultValue) {
+        String property, Value defaultValue) {
         final Value value = object.getMember(property);
         if (value == null || !value.canExecute()) {
             return defaultValue;
@@ -77,6 +76,7 @@ public class JSAction extends JosmAction {
     private Value onInitEnabled;
     private Value onUpdateEnabled;
 
+    @SuppressWarnings("unused") // part of the public API, used in JavaScript
     public @Null Value getOnExecute() {
         return onExecute;
     }
@@ -89,6 +89,7 @@ public class JSAction extends JosmAction {
      * @throws IllegalArgumentException if <code>onExecute</code> isn't
      * executable
      */
+    @SuppressWarnings("unused") // part of the public API, used in JavaScript
     public void setOnExecute(@Null Value onExecute) {
         if (onExecute == null || onExecute.isNull()) {
             this.onExecute = null;
@@ -111,6 +112,7 @@ public class JSAction extends JosmAction {
      * @throws IllegalArgumentException if <code>onInitEnabled</code> isn't
      * executable
      */
+    @SuppressWarnings("unused") // part of the public API, used in JavaScript
     public void setOnInitEnabled(@Null Value onInitEnabled) {
         if (onInitEnabled == null || onInitEnabled.isNull()) {
             this.onInitEnabled = null;
@@ -124,6 +126,13 @@ public class JSAction extends JosmAction {
         }
     }
 
+    /**
+     * Replies the JavaScript function which is invoked to initialize
+     * the state (enabled/disabled) of this action
+     *
+     * @return the function;  null, if no function is set
+     */
+    @SuppressWarnings("unused") // part of the public API
     public @Null Value getOnInitEnabled() {
         return onInitEnabled;
     }
@@ -136,6 +145,7 @@ public class JSAction extends JosmAction {
      * @throws IllegalArgumentException if <code>onUpdateEnabled</code> isn't
      * executable
      */
+    @SuppressWarnings("unused")  // part of the public API
     public void setOnUpdateEnabled(Value onUpdateEnabled) {
         if (onUpdateEnabled == null || onUpdateEnabled.isNull()) {
             this.onUpdateEnabled = null;
@@ -149,6 +159,13 @@ public class JSAction extends JosmAction {
         }
     }
 
+    /**
+     * Replies the JavaScript function which is invoked to update
+     * the state (enabled/disabled) of this action
+     *
+     * @return the function; null, if no function is set
+     */
+    @SuppressWarnings("unused") // part of the public API, used in JavaScript
     public @Null Value getOnUpdateEnabled() {
         return onUpdateEnabled;
     }
