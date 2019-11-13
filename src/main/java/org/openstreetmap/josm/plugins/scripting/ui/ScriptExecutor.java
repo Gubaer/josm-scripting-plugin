@@ -78,26 +78,13 @@ public class ScriptExecutor {
     }
 
     protected void warnExecutingScriptFailed(ScriptException e){
-        System.out.println(tr("Script execution has failed."));
-        e.printStackTrace();
-        HelpAwareOptionPane.showOptionDialog(
-                this.parent,
-                tr("Script execution has failed."),
-                tr("Script Error"),
-                JOptionPane.ERROR_MESSAGE,
-                HelpUtil.ht("/Plugin/Scripting")
-        );
+        logger.log(Level.SEVERE, tr("Script execution has failed."), e);
+        ScriptErrorDialog.showErrorDialog(e);
     }
 
     protected void warnExecutingScriptFailed(GraalVMEvalException e){
         logger.log(Level.SEVERE, tr("Script execution has failed."), e);
-        HelpAwareOptionPane.showOptionDialog(
-                this.parent,
-                tr("Script execution has failed."),
-                tr("Script Error"),
-                JOptionPane.ERROR_MESSAGE,
-                HelpUtil.ht("/Plugin/Scripting")
-        );
+        ScriptErrorDialog.showErrorDialog(e);
     }
 
     protected void warnJavaScriptExceptionCaught(JavaScriptException e){
@@ -114,25 +101,14 @@ public class ScriptExecutor {
             }
         }
 
-        System.out.println(tr("Script execution has failed."));
-        e.printStackTrace();
-
-        HelpAwareOptionPane.showOptionDialog(
-            this.parent,
-            tr("An error occured in the script.")
-            + (details.isEmpty() ? ""
-                    : ("<br><br><strong>Details:</strong> " + details)),
-            tr("Script Error"),
-            JOptionPane.ERROR_MESSAGE,
-            HelpUtil.ht("/Plugin/Scripting")
-        );
+        logger.log(Level.SEVERE, tr("Script execution has failed."), e);
+        ScriptErrorDialog.showErrorDialog(e);
     }
 
     protected void warnOpenScriptFileFailed(File f, Exception e){
-        System.out.println(tr("Failed to read the script from file ''{0}''.",
-                f.toString()));
-        e.printStackTrace();
-
+        logger.log(Level.SEVERE,
+            tr("Failed to read the script from file ''{0}''.", f.toString()),
+            e);
         HelpAwareOptionPane.showOptionDialog(
             this.parent,
             tr("Failed to read the script from file ''{0}''.", f.toString()),
@@ -202,20 +178,8 @@ public class ScriptExecutor {
     }
 
     protected void notifyRuntimeException(RuntimeException e) {
-        HelpAwareOptionPane.showOptionDialog(
-            this.parent,
-            "<html>"
-            + tr(
-                "<p>Failed to execute a script.</p><p/>"
-                + "<p><strong>Error message:</strong>{0}</p>",
-                e.getMessage()
-            )
-            + "</html>"
-            ,
-            tr("Script execution failed"),
-            JOptionPane.ERROR_MESSAGE,
-            HelpUtil.ht("/Plugin/Scripting")
-        );
+        logger.log(Level.SEVERE, tr("Failed to execute a script."),e);
+        ScriptErrorDialog.showErrorDialog(e);
     }
 
     protected void runOnSwingEDT(Runnable r){

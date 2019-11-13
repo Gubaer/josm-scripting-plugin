@@ -1,27 +1,21 @@
 package org.openstreetmap.josm.plugins.scripting.ui.console;
 
-import static org.openstreetmap.josm.tools.I18n.tr;
+import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
+import org.openstreetmap.josm.plugins.scripting.ui.EditorPaneBuilder;
+import org.openstreetmap.josm.plugins.scripting.ui.ScriptEngineCellRenderer;
+import org.openstreetmap.josm.plugins.scripting.ui.ScriptEngineSelectionDialog;
 
-import java.awt.BorderLayout;
-import java.awt.Font;
+import javax.swing.*;
+import javax.swing.event.HyperlinkEvent;
+import javax.swing.event.HyperlinkListener;
+import javax.validation.constraints.NotNull;
+import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.text.MessageFormat;
 import java.util.Objects;
 import java.util.logging.Logger;
 
-import javax.swing.JEditorPane;
-import javax.swing.JPanel;
-import javax.swing.UIManager;
-import javax.swing.event.HyperlinkEvent;
-import javax.swing.event.HyperlinkListener;
-import javax.swing.text.html.HTMLEditorKit;
-import javax.swing.text.html.StyleSheet;
-import javax.validation.constraints.NotNull;
-
-import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
-import org.openstreetmap.josm.plugins.scripting.ui.ScriptEngineCellRenderer;
-import org.openstreetmap.josm.plugins.scripting.ui.ScriptEngineSelectionDialog;
+import static org.openstreetmap.josm.tools.I18n.tr;
 
 /**
  * Displays summary information about the currently selected scripting engine.
@@ -49,27 +43,8 @@ PropertyChangeListener, HyperlinkListener{
     }
 
     protected void build() {
-        jepInfo = new JEditorPane("text/html", "");
-        jepInfo.setOpaque(false);
-        jepInfo.setEditable(false);
+        jepInfo = EditorPaneBuilder.buildInfoEditorPane();
         jepInfo.addHyperlinkListener(this);
-        final Font f = UIManager.getFont("Label.font");
-        final StyleSheet ss = new StyleSheet();
-        final String cssRuleFontFamily =
-            "font-family: ''{0}'';font-size: {1,number}pt; font-weight: {2}; "
-                + "font-style: {3}";
-        String rule = MessageFormat
-                .format(cssRuleFontFamily,
-                        f.getName(),
-                        f.getSize(),
-                        "bold",
-                        f.isItalic() ? "italic" : "normal");
-        rule = "strong {" + rule + "}";
-        ss.addRule(rule);
-        ss.addRule("a {text-decoration: underline; color: blue}");
-        final HTMLEditorKit kit = new HTMLEditorKit();
-        kit.setStyleSheet(ss);
-        jepInfo.setEditorKit(kit);
         setLayout(new BorderLayout());
         add(jepInfo, BorderLayout.CENTER);
     }

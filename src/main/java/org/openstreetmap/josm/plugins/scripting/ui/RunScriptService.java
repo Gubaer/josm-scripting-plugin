@@ -229,7 +229,7 @@ public class RunScriptService {
             case EMBEDDED:
                 if (logger.isLoggable(Level.FINE)) {
                     logger.log(Level.FINE,
-                            "executing script with embedded engine ...");
+                        "executing script with embedded engine ...");
                 }
                 new ScriptExecutor(parent).runScriptWithEmbeddedEngine(f);
                 break;
@@ -242,8 +242,8 @@ public class RunScriptService {
                 try {
                     runScriptWithGraalVM(f, engine);
                 } catch(IOException |GraalVMEvalException e) {
-                    // TODO(karl): display error message in the GUI
-                    logger.log(Level.FINE, e.getMessage(), e);
+                    ScriptErrorDialog.showErrorDialog(e);
+                    logger.log(Level.SEVERE, e.getMessage(), e);
                 }
                 break;
         }
