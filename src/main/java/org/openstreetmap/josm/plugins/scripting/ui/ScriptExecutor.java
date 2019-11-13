@@ -41,13 +41,10 @@ import static org.openstreetmap.josm.tools.I18n.tr;
  *
  */
 public class ScriptExecutor {
-    static private final  Logger logger =
+    static private final Logger logger =
          Logger.getLogger(ScriptExecutor.class.getName());
 
-    private Component parent = null;
-
-    public ScriptExecutor() {
-    }
+    private Component parent;
 
     /**
      * Creates a new script executor
@@ -59,35 +56,35 @@ public class ScriptExecutor {
         this.parent = parent;
     }
 
-    protected void warnScriptingEngineNotFound(ScriptEngineDescriptor desc) {
+    private void warnScriptingEngineNotFound(ScriptEngineDescriptor desc) {
         HelpAwareOptionPane.showOptionDialog(
-                this.parent,
-                "<html>"
-                + tr(
-                    "<p>The script can''t be executed, because a scripting "
-                    + "engine with name ''{0}'' isn''t configured.</p>"
-                    + "<p>Refer to the online help for information about how "
-                    + "to install/configure a scripting engine for JOSM.</p>"
-                )
-                + "</html>"
-                ,
-                tr("Script engine not found"),
-                JOptionPane.ERROR_MESSAGE,
-                HelpUtil.ht("/Plugin/Scripting")
+            this.parent,
+            "<html>"
+            + tr(
+                "<p>The script can''t be executed, because a scripting "
+                + "engine with name ''{0}'' isn''t configured.</p>"
+                + "<p>Refer to the online help for information about how "
+                + "to install/configure a scripting engine for JOSM.</p>"
+            )
+            + "</html>"
+            ,
+            tr("Script engine not found"),
+            JOptionPane.ERROR_MESSAGE,
+            HelpUtil.ht("/Plugin/Scripting")
         );
     }
 
-    protected void warnExecutingScriptFailed(ScriptException e){
+    private void warnExecutingScriptFailed(ScriptException e){
         logger.log(Level.SEVERE, tr("Script execution has failed."), e);
         ScriptErrorDialog.showErrorDialog(e);
     }
 
-    protected void warnExecutingScriptFailed(GraalVMEvalException e){
+    private void warnExecutingScriptFailed(GraalVMEvalException e){
         logger.log(Level.SEVERE, tr("Script execution has failed."), e);
         ScriptErrorDialog.showErrorDialog(e);
     }
 
-    protected void warnJavaScriptExceptionCaught(JavaScriptException e){
+    private void warnJavaScriptExceptionCaught(JavaScriptException e){
         // extract detail information from the property 'description' of
         // the original JavaScript error object
         //
@@ -105,7 +102,7 @@ public class ScriptExecutor {
         ScriptErrorDialog.showErrorDialog(e);
     }
 
-    protected void warnOpenScriptFileFailed(File f, Exception e){
+    private void warnOpenScriptFileFailed(File f, Exception e){
         logger.log(Level.SEVERE,
             tr("Failed to read the script from file ''{0}''.", f.toString()),
             e);
@@ -118,7 +115,7 @@ public class ScriptExecutor {
         );
     }
 
-    protected void notifyRhinoException(File scriptFile, RhinoException e) {
+    private void notifyRhinoException(File scriptFile, RhinoException e) {
         HelpAwareOptionPane.showOptionDialog(
             this.parent,
             "<html>"
@@ -139,7 +136,7 @@ public class ScriptExecutor {
         );
     }
 
-    protected void notifyRhinoException(RhinoException e) {
+    private void notifyRhinoException(RhinoException e) {
         HelpAwareOptionPane.showOptionDialog(
             this.parent,
             "<html>"
@@ -159,7 +156,7 @@ public class ScriptExecutor {
     );
     }
 
-    protected void notifyIOExeption(File scriptFile, IOException e) {
+    private void notifyIOExeption(File scriptFile, IOException e) {
         HelpAwareOptionPane.showOptionDialog(
             this.parent,
             "<html>"
@@ -177,12 +174,12 @@ public class ScriptExecutor {
         );
     }
 
-    protected void notifyRuntimeException(RuntimeException e) {
+    private void notifyRuntimeException(RuntimeException e) {
         logger.log(Level.SEVERE, tr("Failed to execute a script."),e);
         ScriptErrorDialog.showErrorDialog(e);
     }
 
-    protected void runOnSwingEDT(Runnable r){
+    private void runOnSwingEDT(Runnable r){
         if (SwingUtilities.isEventDispatchThread()) {
             r.run();
         } else {
@@ -214,7 +211,7 @@ public class ScriptExecutor {
      * @param scriptFile the script file. Must not be null. Readable file
      *      expected.
      */
-    public void runScriptWithPluggedEngine(
+    void runScriptWithPluggedEngine(
             @NotNull final ScriptEngineDescriptor desc,
             @NotNull  final File scriptFile) throws IllegalArgumentException {
         Objects.requireNonNull(desc);
@@ -238,7 +235,9 @@ public class ScriptExecutor {
                         .compile((Compilable) engine, scriptFile)
                         .eval();
                 } else {
-                    try (Reader reader = new InputStreamReader(new FileInputStream(scriptFile), StandardCharsets.UTF_8)) {
+                    try (Reader reader =
+                        new InputStreamReader(new FileInputStream(scriptFile),
+                                StandardCharsets.UTF_8)) {
                         engine.eval(reader);
                     }
                 }
@@ -292,7 +291,8 @@ public class ScriptExecutor {
             @NotNull final ScriptEngineDescriptor desc,
             final String script) {
         Objects.requireNonNull(desc);
-        if (!desc.getEngineType().equals(ScriptEngineDescriptor.ScriptEngineType.GRAALVM)) {
+        if (!desc.getEngineType().equals(
+            ScriptEngineDescriptor.ScriptEngineType.GRAALVM)) {
             throw new IllegalArgumentException(MessageFormat.format(
                 "Expected GRAALVM descriptor, got {0}", desc.getEngineType()
             ));
@@ -312,9 +312,9 @@ public class ScriptExecutor {
         runOnSwingEDT(task);
     }
 
-    protected String readFile(File scriptFile) throws IOException {
+    private String readFile(File scriptFile) throws IOException {
         try (BufferedReader reader =
-                     new BufferedReader(buildTextFileReader(scriptFile))) {
+             new BufferedReader(buildTextFileReader(scriptFile))) {
             return reader.lines().collect(Collectors.joining("\n"));
         }
     }
@@ -326,6 +326,7 @@ public class ScriptExecutor {
      * @param scriptFile the script file. Must not be null. Expects a
      *      readable file.
      */
+    @SuppressWarnings("WeakerAccess") // part of the public API
     public void runScriptWithEmbeddedEngine(@NotNull final File scriptFile)
                 throws IllegalArgumentException {
         Objects.requireNonNull(scriptFile);
@@ -337,16 +338,13 @@ public class ScriptExecutor {
         } catch(JavaScriptException e){
             warnJavaScriptExceptionCaught(e);
         } catch(RhinoException e){
-            System.err.println(e);
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "", e);
             notifyRhinoException(scriptFile, e);
         } catch(IOException e){
-            System.err.println(e);
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "", e);
             notifyIOExeption(scriptFile, e);
         } catch(RuntimeException e){
-            System.err.println(e);
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "", e);
             //TODO: notify with file name
             notifyRuntimeException(e);
         }
@@ -365,16 +363,13 @@ public class ScriptExecutor {
             engine.enterSwingThreadContext();
             engine.evaluateOnSwingThread(script);
         } catch(JavaScriptException e){
-            System.err.println(e);
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "", e);
             warnJavaScriptExceptionCaught(e);
         } catch(RhinoException e){
-            System.err.println(e);
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "", e);
             notifyRhinoException(e);
         } catch(RuntimeException e){
-            System.err.println(e);
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "", e);
             notifyRuntimeException(e);
         }
     }
