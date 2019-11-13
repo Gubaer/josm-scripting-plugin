@@ -19,7 +19,7 @@ public class RunScriptAction extends JosmAction {
             tr("Run a script"), // tooltip
             Shortcut.registerShortcut("scripting:runScript",
                     tr("Scripting: Run a Script"), KeyEvent.VK_R,
-                    Shortcut.NONE // don't assign an action group, let the
+                    Shortcut.NONE // don't assign an action group, let
                                   // the user assign in the preferences
             ), false, // don't register toolbar item
             "scripting:runScript", false // don't install adapters

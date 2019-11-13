@@ -1,22 +1,20 @@
 package org.openstreetmap.josm.plugins.scripting.ui.console;
 
-import static org.openstreetmap.josm.tools.I18n.tr;
+import org.openstreetmap.josm.tools.ImageProvider;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.util.logging.Logger;
 
-import javax.swing.AbstractAction;
-import javax.swing.JFileChooser;
-
-import org.openstreetmap.josm.tools.ImageProvider;
+import static org.openstreetmap.josm.tools.I18n.tr;
 
 public class SaveAsAction extends AbstractAction {
     @SuppressWarnings("unused")
     static private final Logger logger =
             Logger.getLogger(SaveAsAction.class.getName());
 
-    protected File askFile() {
+    private File askFile() {
         final JFileChooser chooser = new JFileChooser();
         chooser.setDialogTitle(tr("Select a script"));
         chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -28,7 +26,7 @@ public class SaveAsAction extends AbstractAction {
         return chooser.getSelectedFile();
     }
 
-    public SaveAsAction() {
+    SaveAsAction() {
         putValue(NAME, tr("Save as ..."));
         putValue(SHORT_DESCRIPTION, tr("Save to a script file"));
         putValue(SMALL_ICON, ImageProvider.get("save_as"));

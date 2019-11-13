@@ -19,12 +19,12 @@ import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
 import org.openstreetmap.josm.tools.ImageProvider;
 
 /**
- * <p>This model manages a list of most recently run scripts.</p>
+ * This model manages a list of most recently run scripts.
  *
- * <p>Use {@link #remember()} to remember an entry.</p>
+ * Use {@link #remember(String)} to remember an entry.
  *
- * <p>There is a unique instance of this model which can be connected to
- * either an {@link Observer} or a {@link ComboBox}.</p>
+ * There is a unique instance of this model which can be connected to
+ * either an {@link Observer} or a {@link javax.swing.ComboBoxEditor}.
  *
  */
 public class MostRecentlyRunScriptsModel extends Observable
@@ -47,12 +47,11 @@ public class MostRecentlyRunScriptsModel extends Observable
     /**
      * Remembers a script in the list of most recently run scripts
      *
-     * @param script
+     * @param script the script to remember in the list
      */
     public void remember(String script) {
         switch(scripts.indexOf(script)) {
         case -1:
-            //System.out.println("remembering script: " + script);
             scripts.add(0, script);
             break;
         case 0:
@@ -78,7 +77,7 @@ public class MostRecentlyRunScriptsModel extends Observable
         prefs.putList(PREF_KEY_FILE_HISTORY, scripts);
     }
 
-    protected boolean canRun(String script) {
+    private boolean canRun(String script) {
         final File f = new File(script);
         return f.exists() && f.isFile() && f.canRead();
     }
@@ -91,7 +90,7 @@ public class MostRecentlyRunScriptsModel extends Observable
      */
     public void loadFromPreferences(Preferences prefs) {
         scripts = prefs.getList(PREF_KEY_FILE_HISTORY).stream()
-            .filter(s->canRun(s))
+            .filter(this::canRun)
             .distinct()
             .limit(10)
             .collect(Collectors.toList());
@@ -113,7 +112,7 @@ public class MostRecentlyRunScriptsModel extends Observable
 
     @SuppressWarnings("serial")
     private class ComboBoxModel extends DefaultComboBoxModel<String> {
-        public void fireContentChanged() {
+        void fireContentChanged() {
             super.fireContentsChanged(MostRecentlyRunScriptsModel.this,
                     0, scripts.size());
         }
@@ -130,7 +129,7 @@ public class MostRecentlyRunScriptsModel extends Observable
     @SuppressWarnings("serial")
     static private class RunScriptAction extends AbstractAction {
         private final String script;
-        public RunScriptAction(int pos, String script) {
+        RunScriptAction(int pos, String script) {
             File f = new File(script);
             putValue(NAME, String.format("%s %s", pos, f.getName()));
             putValue(SHORT_DESCRIPTION, f.getAbsolutePath());

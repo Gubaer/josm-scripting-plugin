@@ -1,22 +1,23 @@
 package org.openstreetmap.josm.plugins.scripting.ui.console;
 
-import static org.openstreetmap.josm.tools.I18n.tr;
+import org.openstreetmap.josm.tools.ImageProvider;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.logging.Logger;
 
-import javax.swing.AbstractAction;
-
-import org.openstreetmap.josm.tools.ImageProvider;
+import static org.openstreetmap.josm.tools.I18n.tr;
 
 public class SaveAction extends AbstractAction implements
         PropertyChangeListener{
+
+    @SuppressWarnings("unused")
     static private final Logger logger =
            Logger.getLogger(SaveAsAction.class.getName());
 
-    public SaveAction() {
+    SaveAction() {
         putValue(NAME, tr("Save"));
         putValue(SHORT_DESCRIPTION, tr("Save script to current file"));
         putValue(SMALL_ICON, ImageProvider.get("save"));
@@ -28,7 +29,7 @@ public class SaveAction extends AbstractAction implements
         ScriptingConsole.getInstance().save();
     }
 
-    protected void updateEnabledState() {
+    private void updateEnabledState() {
         final ScriptingConsole console = ScriptingConsole.getInstance();
         if (console == null){
             setEnabled(false);

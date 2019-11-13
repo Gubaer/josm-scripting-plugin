@@ -20,13 +20,13 @@ public class ScriptEditorModel {
      * The current script engine as described by a
      * {@link ScriptEngineDescriptor}. The value is a
      * {@link ScriptEngineDescriptor} or null. */
-    static public final String PROP_SCRIPT_ENGINE  =
+    static final String PROP_SCRIPT_ENGINE  =
             ScriptEditorModel.class.getName() + ".scriptEngine";
 
     /** The current script file. If the value is null, there is no script file
      * loaded. The value is a {@link File} or null.
      */
-    static public final String PROP_SCRIPT_FILE =
+    static final String PROP_SCRIPT_FILE =
             ScriptEditorModel.class.getName() + ".scriptFile";
 
     private File scriptFile = null;
@@ -69,7 +69,7 @@ public class ScriptEditorModel {
     /**
      * Replies the script engine descriptor.
      *
-     * @return
+     * @return the descriptor
      */
     public ScriptEngineDescriptor getScriptEngineDescriptor() {
         return this.descriptor;

@@ -4,7 +4,6 @@ import org.openstreetmap.josm.data.Preferences;
 import org.openstreetmap.josm.gui.HelpAwareOptionPane;
 import org.openstreetmap.josm.gui.help.HelpUtil;
 import org.openstreetmap.josm.plugins.scripting.graalvm.GraalVMEvalException;
-import org.openstreetmap.josm.plugins.scripting.graalvm.GraalVMFacade;
 import org.openstreetmap.josm.plugins.scripting.graalvm.GraalVMFacadeFactory;
 import org.openstreetmap.josm.plugins.scripting.graalvm.IGraalVMFacade;
 import org.openstreetmap.josm.plugins.scripting.model.JSR223ScriptEngineProvider;
@@ -18,7 +17,6 @@ import java.io.IOException;
 import java.io.Reader;
 import java.text.MessageFormat;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -32,10 +30,9 @@ import static org.openstreetmap.josm.tools.I18n.tr;
  */
 public class RunScriptService {
     static final private Logger logger = Logger.getLogger(
-            RunScriptService.class.getName()
-    );
+        RunScriptService.class.getName());
 
-    protected void warnScriptFileDoesntExist(File f, Component parent){
+    private void warnScriptFileDoesntExist(File f, Component parent){
         HelpAwareOptionPane.showOptionDialog(
                 parent,
                 tr("The script file ''{0}'' doesn''t exist.", f.toString()),
@@ -45,7 +42,7 @@ public class RunScriptService {
         );
     }
 
-    protected void warnEmptyFile(Component parent){
+    private void warnEmptyFile(Component parent){
         HelpAwareOptionPane.showOptionDialog(
                 parent,
                 tr("Please enter a file name first."),
@@ -55,7 +52,7 @@ public class RunScriptService {
         );
     }
 
-    protected void warnScriptFileIsntReadable(File f, Component parent){
+    private void warnScriptFileIsntReadable(File f, Component parent){
         HelpAwareOptionPane.showOptionDialog(
                 parent,
                 tr("The script file ''{0}'' isn''t readable.", f.toString()),
@@ -65,7 +62,7 @@ public class RunScriptService {
         );
     }
 
-    protected void warnOpenScriptFileFailed(File f, Exception e,
+    private void warnOpenScriptFileFailed(File f, Exception e,
             Component parent){
         HelpAwareOptionPane.showOptionDialog(
                 parent,
@@ -75,13 +72,12 @@ public class RunScriptService {
                 JOptionPane.ERROR_MESSAGE,
                 HelpUtil.ht("/Plugin/Scripting")
         );
-        System.out.println(
-                tr("Failed to read the script from the file ''{0}''.",
-                        f.toString()));
-        e.printStackTrace();
+        logger.log(Level.SEVERE,
+            tr("Failed to read the script from the file ''{0}''.", f.toString()),
+            e);
     }
 
-    protected Stream<ScriptEngineDescriptor> filterJSR223Engines(
+    private Stream<ScriptEngineDescriptor> filterJSR223Engines(
             final String mimeType) {
         return JSR223ScriptEngineProvider.getInstance()
             .getScriptEngineFactories()
@@ -90,7 +86,7 @@ public class RunScriptService {
             .map(ScriptEngineDescriptor::new);
     }
 
-    protected Stream<ScriptEngineDescriptor> filterGraalVMEngines(
+    private Stream<ScriptEngineDescriptor> filterGraalVMEngines(
             final String mimeType) {
         return  GraalVMFacadeFactory.isGraalVMPresent()
             ? GraalVMFacadeFactory.getOrCreateGraalVMFacade()
@@ -242,7 +238,6 @@ public class RunScriptService {
                 try {
                     runScriptWithGraalVM(f, engine);
                 } catch(IOException |GraalVMEvalException e) {
-                    ScriptErrorDialog.showErrorDialog(e);
                     logger.log(Level.SEVERE, e.getMessage(), e);
                 }
                 break;

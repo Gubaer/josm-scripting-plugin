@@ -23,7 +23,7 @@ public class ScriptEngineCellRenderer
 
     private final JLabel lbl = new JLabel();
 
-    protected String getDisplayName(ScriptEngineDescriptor descriptor){
+    private String getDisplayName(ScriptEngineDescriptor descriptor){
         if (descriptor == null) return tr("Select an engine");
         final String engineName = defaultEngineName(descriptor.getEngineName());
         final String languageName = descriptor.getLanguageName()
@@ -32,13 +32,13 @@ public class ScriptEngineCellRenderer
         return tr("{1} (with engine {0})", engineName, languageName);
     }
 
-    protected void addNameValuePairToToolTip(StringBuilder sb, String name,
+    private void addNameValuePairToToolTip(StringBuilder sb, String name,
                                              String value) {
         sb.append("<strong>").append(name).append("</strong> ")
           .append(value).append("<br>");
     }
 
-    protected String getTooltipText(ScriptEngineDescriptor descriptor) {
+    private String getTooltipText(ScriptEngineDescriptor descriptor) {
         if (descriptor == null) return "";
         final StringBuilder sb = new StringBuilder();
         sb.append("<html>");
@@ -59,14 +59,13 @@ public class ScriptEngineCellRenderer
                 descriptor.getLanguageVersion().get());
         }
         sb.append("<strong>").append(tr("MIME-Types:")).append("</strong> ");
-        sb.append(descriptor.getContentMimeTypes().stream()
-                    .collect(Collectors.joining(", ")));
+        sb.append(String.join(", ", descriptor.getContentMimeTypes()));
         sb.append("<br>");
         sb.append("</html>");
         return sb.toString();
     }
 
-    protected void renderColors(boolean selected, boolean enabled){
+    private void renderColors(boolean selected, boolean enabled){
         if (!selected || !enabled){
             lbl.setForeground(UIManager.getColor(enabled
                 ? "List.foreground"

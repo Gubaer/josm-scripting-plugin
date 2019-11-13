@@ -109,7 +109,7 @@ public class ScriptEngineSelectionDialog extends JDialog {
 
     }
 
-    protected JPanel buildEmbeddedScriptingEnginePanel() {
+    private JPanel buildEmbeddedScriptingEnginePanel() {
         if (bgScriptingEngineType == null) {
             bgScriptingEngineType = new ButtonGroup();
         }
@@ -135,7 +135,7 @@ public class ScriptEngineSelectionDialog extends JDialog {
         return pnl;
     }
 
-    protected JPanel buildControlButtonPanel() {
+    private JPanel buildControlButtonPanel() {
         JPanel pnl = new JPanel(new FlowLayout(FlowLayout.CENTER));
         JButton btn;
         pnl.add(btnOK = new JButton(actOK));
@@ -182,7 +182,6 @@ public class ScriptEngineSelectionDialog extends JDialog {
                 break;
             case PLUGGED:
                 rbPluggableScriptingEngine.setSelected(true);
-                desc = null;
                 for (int i = 0; i < mdlPluggedEngines.getSize(); i++) {
                     desc = mdlPluggedEngines.getElementAt(i);
                     if (desc.getEngineId().equals(selected.getEngineId())) {
@@ -198,7 +197,6 @@ public class ScriptEngineSelectionDialog extends JDialog {
                 break;
             case GRAALVM:
                 rbGraalVMScriptingEngine.setSelected(true);
-                desc = null;
                 for (int i = 0; i < mdlGraalVMEngines.getSize(); i++) {
                     desc = mdlGraalVMEngines.getElementAt(i);
                     if (desc.getEngineId().equals(selected.getEngineId())) {
@@ -215,7 +213,7 @@ public class ScriptEngineSelectionDialog extends JDialog {
         }
     }
 
-    protected JPanel buildPluggableScriptEngineListPanel() {
+    private JPanel buildPluggableScriptEngineListPanel() {
         if (bgScriptingEngineType == null) {
             bgScriptingEngineType = new ButtonGroup();
         }
@@ -252,20 +250,19 @@ public class ScriptEngineSelectionDialog extends JDialog {
         lstPluggedEngines.setSelectedIndex(0);
 
         lstPluggedEngines.addMouseListener(
-                new MouseAdapter() {
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-                        if (e.getClickCount() >= 2) {
-                            actOK.execute();
-                        }
+            new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    if (e.getClickCount() >= 2) {
+                        actOK.execute();
                     }
                 }
+            }
         );
-
         return pnl;
     }
 
-    protected JPanel buildGraalVMScriptEnginePanel() {
+    private JPanel buildGraalVMScriptEnginePanel() {
         if (bgScriptingEngineType == null) {
             bgScriptingEngineType = new ButtonGroup();
         }
@@ -313,14 +310,13 @@ public class ScriptEngineSelectionDialog extends JDialog {
                 }
             }
         );
-
         return pnl;
     }
 
     private static class GraalVMEngineListModel
                     extends AbstractListModel<ScriptEngineDescriptor> {
         private List<ScriptEngineDescriptor> descriptors;
-        public GraalVMEngineListModel() {
+        GraalVMEngineListModel() {
             if (GraalVMFacadeFactory.isGraalVMPresent()) {
                 descriptors = GraalVMFacadeFactory
                     .getOrCreateGraalVMFacade()
@@ -391,7 +387,7 @@ public class ScriptEngineSelectionDialog extends JDialog {
     private final OKAction actOK = new OKAction();
     private class OKAction extends AbstractAction
             implements ListSelectionListener, ChangeListener {
-        public OKAction() {
+        OKAction() {
             putValue(NAME, tr("OK"));
             putValue(SHORT_DESCRIPTION,
                     tr("Accept the selected scripting engine"));
@@ -416,7 +412,7 @@ public class ScriptEngineSelectionDialog extends JDialog {
             execute();
         }
 
-        protected void updateEnabledState() {
+        private void updateEnabledState() {
             if (rbEmbeddedScriptingEngine.isSelected()) {
                 setEnabled(true);
             } else if (rbPluggableScriptingEngine.isSelected()) {
@@ -436,7 +432,7 @@ public class ScriptEngineSelectionDialog extends JDialog {
     }
 
     private class CancelAction extends AbstractAction {
-        public CancelAction() {
+        CancelAction() {
             putValue(NAME, tr("Cancel"));
             putValue(SHORT_DESCRIPTION, tr("cancel"));
             putValue(SMALL_ICON, ImageProvider.get("cancel"));

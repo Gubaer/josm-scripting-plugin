@@ -1,15 +1,15 @@
 package org.openstreetmap.josm.plugins.scripting.ui;
 
-import static org.openstreetmap.josm.tools.I18n.tr;
+import org.openstreetmap.josm.actions.JosmAction;
+import org.openstreetmap.josm.plugins.scripting.ui.console.ScriptingConsole;
+import org.openstreetmap.josm.plugins.scripting.ui.console.ScriptingConsole.ScriptingConsoleListener;
+import org.openstreetmap.josm.tools.Shortcut;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.util.logging.Logger;
 
-import org.openstreetmap.josm.actions.JosmAction;
-import org.openstreetmap.josm.plugins.scripting.ui.console.ScriptingConsole;
-import org.openstreetmap.josm.plugins.scripting.ui.console.ScriptingConsole.ScriptingConsoleListener;
-import org.openstreetmap.josm.tools.Shortcut;
+import static org.openstreetmap.josm.tools.I18n.tr;
 
 @SuppressWarnings("serial")
 public class ToggleConsoleAction extends JosmAction
