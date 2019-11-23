@@ -35,7 +35,7 @@ dependencies {
     implementation group: 'com.fifesoft', name: 'rsyntaxtextarea', version: '3.0.4'
 
 
-    packIntoJar group: "org.mozilla", name: "rhino", version: "1.7.7.1"
+    packIntoJar group: "org.mozilla", name: "rhino", version: "1.7.11"
     packIntoJar group: 'javax.validation', name: 'validation-api', version: '1.0.0.GA'
     packIntoJar group: 'javax.activation', name: 'activation', version: '1.1.1'
     packIntoJar group: 'com.github.spullara.mustache.java', name: 'compiler', version: '0.9.6'
