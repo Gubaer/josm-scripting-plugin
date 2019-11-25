@@ -72,7 +72,7 @@ class ScriptingAPIV2Test {
     }
 
     def runTestScript(String script) {
-        def facade = GraalVMFacadeFactory.getOrCreateGraalVMFacade()
+        def facade = GraalVMFacadeFactory.createGraalVMFacade()
         def desc = facade.getSupportedLanguages()
                 .find { desc -> desc.engineId == "js" }
         try {
@@ -147,6 +147,15 @@ class ScriptingAPIV2Test {
     void "can run 'menu-test'"() {
         def script = """
             const test = require('menu-test')
+            test.run()
+        """
+        runTestScript(script)
+    }
+
+    @Test
+    void "can run 'layer-test'"() {
+        def script = """
+            const test = require('layer-test')
             test.run()
         """
         runTestScript(script)

@@ -5,6 +5,7 @@
  */
 
 /* global Java */
+/* global require */
 
 // -- imports
 const MainApplication = Java.type('org.openstreetmap.josm.gui.MainApplication')
@@ -75,7 +76,7 @@ function getLayerByName (key) {
   const layers = MainApplication.getLayerManager().getLayers()
   for (let it = layers.iterator(); it.hasNext();) {
     const l = it.next()
-    if (l.getName().trim().toLowerCase().equals(key)) return l
+    if (l.getName().trim().toLowerCase() === key) return l
   }
   return undefined
 }
@@ -225,13 +226,13 @@ function removeLayerByName (name) {
  *   matching is a case-insensitive sub-string match.</li>
  * </ul>
  * @example
- * const layers = require('josm/layers')
+ * const josm = require('josm')
  *
  * // remove the first layer
- * layers.remove(0)
+ * josm.layers.remove(0)
  *
  * // remove the first layer matching with the supplied name
- * layers.remove('myLayerName')
+ * josm.layers.remove('myLayerName')
  *
  * @param {number|string} key  indicates the layer to remove
  * @memberof josm/layers
@@ -267,15 +268,17 @@ exports.remove = function (key) {
  *   <dd>create data layer with a new  dataset and name <code>name</code></dd>
  * </dl>
  * @example
+ * const DataSet = Java.type('org.openstreetmap.josm.data.osm.DataSet')
+ * 
  * // creates a new data layer
- * const layer = josm.layers.addDataLayer()
+ * const l1 = josm.layers.addDataLayer()
  *
  * // creates a new data layer with name 'test'
- * layer = josm.layers.addDataLayer('test')
+ * const l2 = josm.layers.addDataLayer('test')
  *
  * // creates a new data layer for the dataset ds
  * const ds = new DataSet()
- * layer = josm.layers.addDataLayer(ds)
+ * const l3 = josm.layers.addDataLayer(ds)
  *
  * @name addDataLayer
  * @memberof josm/layers

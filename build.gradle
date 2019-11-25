@@ -150,6 +150,7 @@ task testGraalVMSupportPresent(type: Test) {
 
 task testWithGraalVMJDK(type: Test) {
     useJUnit()
+    environment "JOSM_SCRIPTING_PLUGIN_HOME", project.projectDir
     scanForTestClasses= false
     executable "/home/karl/software/graalvm/bin/java"
     environment "JAVA_HOME", "/home/karl/software/graalvm"
@@ -157,6 +158,7 @@ task testWithGraalVMJDK(type: Test) {
     include "**/graalvm/GraalVMEvalTest.class"
     include "**/graalvm/GraalVMEmbeddedInJOSMTest.class"
     include "**/graalvm/GraalVMAndRequireTest.class"
+    include "**/graalvm/ScriptingAPIV2Test.class"
     testLogging {
         events TestLogEvent.FAILED, TestLogEvent.PASSED
         exceptionFormat = TestExceptionFormat.FULL
@@ -165,7 +167,6 @@ task testWithGraalVMJDK(type: Test) {
 
 task testJSR223EngineAbsent(type: Test) {
     useJUnit()
-
     // make sure neither a graalvm, nor groovy or python are on the
     // classpath
     classpath = classpath
