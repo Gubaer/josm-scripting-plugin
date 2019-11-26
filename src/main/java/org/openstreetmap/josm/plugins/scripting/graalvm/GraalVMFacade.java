@@ -57,6 +57,7 @@ public class GraalVMFacade  implements IGraalVMFacade {
                || className.startsWith("java.")
                || className.startsWith("javax.swing.")
                || className.startsWith("org.graalvm.")
+               || className.startsWith("org.apache.")
             )
             // exclude native access
             .allowNativeAccess(false)
