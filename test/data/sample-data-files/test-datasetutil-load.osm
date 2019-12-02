@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+trivial OSM xml file. To be used in the functional tests of DataSetUtil#load()
+-->
+<osm version="0.6" generator="generated manually">
+    <node 
+        id="1" 
+        lat="1.0" 
+        lon="1.0" 
+        version="1"
+        changeset="1" 
+        user="test" 
+        uid="1" 
+        visible="true"
+        timestamp="2019-12-02T14:33:42Z"/>
+</osm>

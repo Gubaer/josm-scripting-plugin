@@ -52,12 +52,12 @@ public class GraalVMFacade  implements IGraalVMFacade {
             // public methods and fields and grant it the right to
             // lookup and instantiate classes provided by OpenStreetMap
            .allowHostAccess(HostAccess.ALL)
-           .allowHostClassLookup(className ->
-                  className.startsWith("org.openstreetmap.")
-               || className.startsWith("java.")
-               || className.startsWith("javax.swing.")
-               || className.startsWith("org.graalvm.")
-               || className.startsWith("org.apache.")
+           .allowHostClassLookup(className -> true
+//                  className.startsWith("org.openstreetmap.")
+//               || className.startsWith("java.")
+//               || className.startsWith("javax.swing.")
+//               || className.startsWith("org.graalvm.")
+//               || className.startsWith("org.apache.")
             )
             // exclude native access
             .allowNativeAccess(false)

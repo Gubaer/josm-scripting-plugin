@@ -29,8 +29,8 @@ class ScriptingAPIV2Test {
         def projectDir = new File(projectDirEnv == null ? "." : projectDirEnv);
 
         def scriptProvider = JOSMModuleScriptProvider.getInstance()
-        scriptProvider.addRepository(new File(projectDir,  "javascript/")
-                .toURI().toURL());
+        scriptProvider.addRepository(new File(projectDir,
+                "${projectDirEnv}/src/main/javascript/v1").toURI().toURL());
         scriptProvider.addRepository(new File(projectDir,  "test/script-api/")
                 .toURI().toURL());
 
@@ -54,7 +54,6 @@ class ScriptingAPIV2Test {
     }
 
     @Test
-    @Ignore
     void "can run script API test suite"() {
         def script = """
             const suite = require('suite')
@@ -94,7 +93,6 @@ class ScriptingAPIV2Test {
     }
 
     @Test
-    @Ignore
     void "can run 'command-add-test'"() {
         def script = """
             const test = require('command-add-test')
@@ -104,7 +102,6 @@ class ScriptingAPIV2Test {
     }
 
     @Test
-    @Ignore
     void "can run 'command-delete-test'"() {
         def script = """
             const test = require('command-delete-test')
@@ -114,7 +111,6 @@ class ScriptingAPIV2Test {
     }
 
     @Test
-    @Ignore
     void "can run 'command-change-test'"() {
         def script = """
             const test = require('command-change-test')
@@ -124,7 +120,6 @@ class ScriptingAPIV2Test {
     }
 
     @Test
-    @Ignore
     void "can run 'command-undo-redo-test'"() {
         def script = """
             const test = require('command-undo-redo-test')
@@ -134,7 +129,6 @@ class ScriptingAPIV2Test {
     }
 
     @Test
-    @Ignore
     void "can run 'menu-bar-test'"() {
         def script = """
             const test = require('menu-bar-test')
@@ -157,6 +151,15 @@ class ScriptingAPIV2Test {
         def script = """
             const test = require('layer-test')
             test.run()
+        """
+        runTestScript(script)
+    }
+
+    @Test
+    void "can run 'ds-test'"() {
+        def script = """
+            const test = require('ds-test')
+            test.fragileRun()
         """
         runTestScript(script)
     }
@@ -187,5 +190,4 @@ class ScriptingAPIV2Test {
             fail()
         }
     }
-
 }
