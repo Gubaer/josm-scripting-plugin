@@ -215,10 +215,11 @@ exports.open = function () {
     } else if (file instanceof File) {
       files.push(file)
     } else {
-      util.assert(false, 'unexpected value, got {0}', file)
+      util.assert(false, 'expected java.io.File or string, got {0}', file)
     }
   }
-  OpenFileAction.openFiles(files)
+  // openFiles is async
+  OpenFileAction.openFiles(files).get()
 }
 
 /**
