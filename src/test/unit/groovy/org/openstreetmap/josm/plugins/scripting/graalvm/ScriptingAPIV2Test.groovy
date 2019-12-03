@@ -165,6 +165,15 @@ class ScriptingAPIV2Test {
     }
 
     @Test
+    void "can run 'open-files-test'"() {
+        def script = """
+            const test = require('open-files-test')
+            test.fragileRun()
+        """
+        runTestScript(script)
+    }
+
+    @Test
     @Ignore
     void "test throwing error"() {
         def script = """
