@@ -151,7 +151,6 @@ function normalizeIds () {
  * manipulate data in a {@class org.openstreetmap.josm.data.osm.DataSet}.
  */
 class DataSetUtil {
-
   // TODO(karl): how to properly document an ES6 constructor
   /**
    * Creates an instane of <code>DataSetUtil</code> for a given
@@ -170,7 +169,7 @@ class DataSetUtil {
    * @method
    * @instance
    */
-   constructor (ds) {
+  constructor (ds) {
     ds = ds || new DataSet()
     this.ds = ds
   }
@@ -663,7 +662,7 @@ class DataSetUtil {
   save (target, options) {
     function normalizeTarget (target) {
       util.assert(util.isSomething(target),
-        'target: must not be null or undefined');
+        'target: must not be null or undefined')
       if (util.isString(target)) {
         return new File(target)
       } else if (target instanceof File) {
@@ -775,7 +774,7 @@ class DataSetUtil {
  * const dsutil = new DataSetUtil()
  * // add or load primitives to query
  * // ...
- * 
+ *
  * // query restaurants
  * const result1 = dsutil.query('amenity=restaurant')
  *
@@ -787,7 +786,7 @@ class DataSetUtil {
  * const result3 = dsutil.query((primitive) => {
   *  primitive.getKeys().size() ===2
  * })
- * 
+ *
  * @param {string|function} expression  the match expression
  * @param {object} options (optional) additional named parameters
  * @memberOf DataSetUtil
