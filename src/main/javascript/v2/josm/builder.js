@@ -1295,9 +1295,8 @@ function rememberTagsFromObject (builder, args) {
    *
    *
    * @example
-   * const rb = require('josm/builder').RelationBuilder
-   * const nb = require('josm/builder').NodeBuilder
-   * const member = rb.member
+   * const { NodeBuilder, RelationBuilder } = require('josm/builder')
+   * const member = RelationBuilder.member
    * // create a new local relation
    * const r1 = rb.create()
    *
