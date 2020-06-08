@@ -90,6 +90,30 @@ $ git commit
 $ ./gradlew build
 ```
 
+## How to generate the API documentation
+
+### Required software
+```bash
+# install nvm
+$ wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
+# install npm and node
+$ nvm install --lts
+# install the fs-extra module
+$ npm install fs-extra
+# install jsdoc
+$ npm install -g jsdoc
+```
+
+### Generate the API documentation
+```bash
+# generate the API documentation for the v1 API. Documentation is written
+# to out/v1
+$ ./jsdoc.sh --api-version v1
+
+# generate the API documentation for the v2 API in a temporary directory
+$ ./jsdoc.sh --api-version v2 --outputdir /tmp/api-v2
+```
+
 ## Build status
 
 [![Build Status](https://travis-ci.org/Gubaer/josm-scripting-plugin.svg?branch=master)](https://travis-ci.org/Gubaer/josm-scripting-plugin.svg?branch=master)

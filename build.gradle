@@ -199,7 +199,8 @@ tasks.check.dependsOn(tasks.testGraalVMSupportNotPresent)
 tasks.check.dependsOn(tasks.testGraalVMSupportPresent)
 tasks.check.dependsOn(tasks.testJSR223EngineAbsent)
 tasks.check.dependsOn(tasks.testJSR223EnginePresent)
-tasks.check.dependsOn(tasks.testWithGraalVMJDK)
+//TODO(karl): reactive - fix hard coded path to graalvm jdk first
+//tasks.check.dependsOn(tasks.testWithGraalVMJDK)
 
 sourceSets {
     test {

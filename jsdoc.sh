@@ -84,15 +84,14 @@ if [ "$(echo $NODE_PATH | tr ":" "\n" | grep $TEMPLATE_PATH)" == "" ] ; then
 	export NODE_PATH=$NODE_PATH:$TEMPLATE_PATH
 fi
 
-if [ ! -f $JSDOC_HOME/jsdoc.js ] ;  then
-	echo "error: $JSDOC_HOME/jsdoc.js not found"
-	echo "Make sure jsdoc is installed and configure JSDOC_HOME in this script."
-	echo "Clone jsdoc from github to install it."
-	echo "==>  $ git clone https://github.com/jsdoc3/jsdoc"
+JSDOC=`which jsdoc`
+if [ "$JSDOC" == "" ] ; then
+	echo "error: jsdoc not found"
+	echo "Make sure jsdoc is installed. See README.md"
 	exit 1
 fi
 
-node $JSDOC_HOME/jsdoc.js \
+jsdoc \
   -c jsdoc.${API_VERSION}.conf \
   -t doc/templates \
   -d $OUTPUT_DIR/$API_VERSION

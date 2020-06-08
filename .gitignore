@@ -18,3 +18,4 @@ test/josm.home
 releases
 dist
 node_modules
+package-lock.json
