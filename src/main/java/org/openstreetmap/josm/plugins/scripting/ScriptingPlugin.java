@@ -86,6 +86,8 @@ public class ScriptingPlugin extends Plugin implements PreferenceKeys{
                     e);
             }
         }
+        ModuleRepositories.getInstance()
+            .loadFromPreferences(Preferences.main());
     }
 
     public ScriptingPlugin(PluginInformation info) {

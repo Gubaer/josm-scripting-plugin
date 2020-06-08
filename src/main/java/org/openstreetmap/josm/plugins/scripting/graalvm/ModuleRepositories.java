@@ -1,6 +1,9 @@
 package org.openstreetmap.josm.plugins.scripting.graalvm;
 
+import org.openstreetmap.josm.data.Preferences;
+import org.openstreetmap.josm.gui.MainApplication;
 import org.openstreetmap.josm.plugins.PluginInformation;
+import org.openstreetmap.josm.plugins.scripting.model.PreferenceKeys;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
@@ -239,5 +242,63 @@ public class ModuleRepositories implements IModuleResolver {
             // available module repository
             return resolve(id);
         }
+    }
+
+    /**
+     * Save the the base URIs for the user defined CommonJS module
+     * repositories to preferences.
+     *
+     * @param pref the preferences
+     */
+    public void saveToPreferences(@NotNull final Preferences pref) {
+        Objects.requireNonNull(pref);
+        List<String> entries = userDefinedRepos.stream()
+            .map(repo -> {
+                try {
+                    return repo.getBaseURI().toURL().toString();
+                } catch (MalformedURLException e) {
+                    // should not happen, just in case
+                    logger.log(Level.WARNING,
+                        "failed to convert CommonJS module base URI to URL",
+                        e);
+                }
+                return null;
+            })
+            .filter(Objects::nonNull)
+            .collect(Collectors.toList());
+        pref.putList(PreferenceKeys.PREF_KEY_COMMONJS_MODULE_REPOSITORIES,
+            entries);
+    }
+
+    /**
+     * Load the the base URIs for the user defined CommonJS module
+     * repositories from preferences.
+     *
+     * @param pref the preferences
+     */
+    public void loadFromPreferences(@NotNull final Preferences pref) {
+        Objects.requireNonNull(pref);
+        final CommonJSModuleRepositoryFactory factory =
+            CommonJSModuleRepositoryFactory.getInstance();
+        final ModuleRepositories repos = ModuleRepositories.getInstance();
+        repos.clear();
+        pref.getList(PreferenceKeys.PREF_KEY_COMMONJS_MODULE_REPOSITORIES)
+            .stream()
+            .map(value -> {
+                try {
+                    return factory.build(value);
+                } catch(IllegalCommonJSModuleBaseURI e) {
+                    final String message = String.format(
+                          "illegal preference value for CommonJS module base. "
+                        + "Ignoring preference value. "
+                        + "preference key=%s, value=%s ",
+                        PreferenceKeys.PREF_KEY_COMMONJS_MODULE_REPOSITORIES,
+                        value);
+                    logger.log(Level.WARNING,message, e);
+                    return null;
+                }
+            })
+            .filter(Objects::nonNull)
+            .forEach(repos::addUserDefinedRepository);
     }
 }

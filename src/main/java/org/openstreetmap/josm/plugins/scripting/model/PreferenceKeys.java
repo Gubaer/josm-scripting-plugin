@@ -54,6 +54,16 @@ public interface PreferenceKeys {
     String PREF_KEY_COMMONJS_MODULE_REPOSITORIES =
             "scripting.commonjs-module-repositories";
 
+
+    /**
+     * <p>The array of CommonJS module repositories used in the GraalVM.
+     * Entries are URLs, either file URLs or jar URLs.</p>
+     *
+     * <p>Default value: empty</p>
+     */
+    String PREF_KEY_GRAALVM_COMMONJS_MODULE_REPOSITORIES =
+            "scripting.graalvm.commonjs-module-repositories";
+
     /**
      * <p>The array of local paths which are added to
      * the <tt>sys.path</tt> of the internal Jython interpreter</p>
