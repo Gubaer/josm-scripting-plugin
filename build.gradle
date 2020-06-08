@@ -25,12 +25,14 @@ repositories {
 }
 
 dependencies {
+    def graalvmVersion = project.properties["graalvm.version"]
+
     implementation group: 'org.codehaus.groovy', name: 'groovy-all', version: '2.4.12'
     implementation group: "org.python", name: "jython", version: "2.7.0"
     implementation group: 'javax.activation', name: 'activation', version: '1.1.1'
-    implementation group: 'org.graalvm.sdk', name: 'graal-sdk', version: '19.1.0'
-    implementation group: 'org.graalvm.truffle', name: 'truffle-api', version: '19.1.0'
-    implementation group: 'org.graalvm.js', name: 'js', version: '19.1.0'
+    implementation group: 'org.graalvm.sdk', name: 'graal-sdk', version: graalvmVersion
+    implementation group: 'org.graalvm.truffle', name: 'truffle-api', version: graalvmVersion
+    implementation group: 'org.graalvm.js', name: 'js', version: graalvmVersion
     implementation group: 'com.github.spullara.mustache.java', name: 'compiler', version: '0.9.6'
     implementation group: 'com.fifesoft', name: 'rsyntaxtextarea', version: '3.0.4'
 
@@ -39,9 +41,9 @@ dependencies {
     packIntoJar group: 'javax.validation', name: 'validation-api', version: '1.0.0.GA'
     packIntoJar group: 'javax.activation', name: 'activation', version: '1.1.1'
     packIntoJar group: 'com.github.spullara.mustache.java', name: 'compiler', version: '0.9.6'
-    packIntoJar group: 'org.graalvm.sdk', name: 'graal-sdk', version: '19.1.0'
-    packIntoJar group: 'org.graalvm.truffle', name: 'truffle-api', version: '19.1.0'
-    packIntoJar group: 'org.graalvm.js', name: 'js', version: '19.1.0'
+    packIntoJar group: 'org.graalvm.sdk', name: 'graal-sdk', version: graalvmVersion
+    packIntoJar group: 'org.graalvm.truffle', name: 'truffle-api', version: graalvmVersion
+    packIntoJar group: 'org.graalvm.js', name: 'js', version: graalvmVersion
     packIntoJar group: 'com.fifesoft', name: 'rsyntaxtextarea', version: '3.0.4'
 
     testImplementation('org.openstreetmap.josm:josm-unittest:latest'){changing=true}
