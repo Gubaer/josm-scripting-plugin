@@ -1,4 +1,4 @@
-package org.openstreetmap.josm.plugins.scripting.preferences;
+package org.openstreetmap.josm.plugins.scripting.preferences.rhino;
 
 import static org.openstreetmap.josm.plugins.scripting.ui.GridBagConstraintBuilder.gbc;
 import static org.openstreetmap.josm.tools.I18n.tr;
@@ -52,11 +52,11 @@ public class ModuleRepositoryDialog extends JDialog {
     protected JPanel buildInfoPanel() {
         HtmlPanel info = new HtmlPanel();
         info.setText(
-                "<html>"
-                + tr("Please enter or paste a valid file or jar URL. "
-                   + "HTTP URLs are not supported."
-                )
-                + "</html>"
+            "<html>"
+            + tr("Please enter or paste a valid file or jar URL. "
+               + "HTTP URLs are not supported."
+            )
+            + "</html>"
         );
         return info;
     }

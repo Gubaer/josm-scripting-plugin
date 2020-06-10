@@ -34,7 +34,7 @@ class ScriptingAPIV2Test {
         scriptProvider.addRepository(new File(projectDir,  "test/script-api/")
                 .toURI().toURL());
 
-        def repos = ModuleRepositories.instance
+        def repos = CommonJSModuleRepositoryRegistry.instance
         repos.addUserDefinedRepository(new FileSystemJSModuleRepository(
             "${projectDirEnv}/src/main/javascript/v2"
         ))

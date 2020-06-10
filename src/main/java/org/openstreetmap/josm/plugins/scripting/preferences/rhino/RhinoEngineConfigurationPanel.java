@@ -1,4 +1,4 @@
-package org.openstreetmap.josm.plugins.scripting.preferences;
+package org.openstreetmap.josm.plugins.scripting.preferences.rhino;
 
 import static org.openstreetmap.josm.plugins.scripting.ui.GridBagConstraintBuilder.gbc;
 import static org.openstreetmap.josm.tools.I18n.tr;
@@ -43,7 +43,6 @@ import org.openstreetmap.josm.plugins.scripting.model.PreferenceKeys;
 import org.openstreetmap.josm.plugins.scripting.util.Assert;
 import org.openstreetmap.josm.tools.ImageProvider;
 
-
 public class RhinoEngineConfigurationPanel extends VerticallyScrollablePanel{
     private static final Logger logger =
             Logger.getLogger(RhinoEngineConfigurationPanel.class.getName());
@@ -57,18 +56,18 @@ public class RhinoEngineConfigurationPanel extends VerticallyScrollablePanel{
     protected JPanel buildInfoPanel() {
         HtmlPanel info = new HtmlPanel();
         info.setText(
-                "<html>"
-                + tr("The scripting plugin includes an embedded scripting "
-                    + "engine for JavaScript based on Mozilla Rhino. "
-                    + "It can load CommonJS modules either from the local "
-                    + "filesystem or from jar/zip files.<br><br>"
-                    + "Per default, it loads CommonJS modules from the "
-                    + "directory <strong>/js</strong> in the plugin jar, "
-                    + "but you can add additional directories and jar files."
-                    + "<br><br>"
-                    + "Configure them in the list below."
-                )
-                + "</html>"
+            "<html>"
+            + tr("The scripting plugin includes an embedded scripting "
+                + "engine for JavaScript based on Mozilla Rhino. "
+                + "It can load CommonJS modules either from the local "
+                + "filesystem or from jar/zip files.<br><br>"
+                + "Per default, it loads CommonJS modules from the "
+                + "directory <strong>/js</strong> in the plugin jar, "
+                + "but you can add additional directories and jar files."
+                + "<br><br>"
+                + "Configure them in the list below."
+            )
+            + "</html>"
         );
         return info;
     }

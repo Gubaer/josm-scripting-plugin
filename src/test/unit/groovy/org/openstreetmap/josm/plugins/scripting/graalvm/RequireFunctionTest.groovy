@@ -47,8 +47,8 @@ class RequireFunctionTest {
 
     @Before
     void resetRepositoryRegistry() {
-        ModuleRepositories.instance.clear()
-        ModuleRepositories.instance.addUserDefinedRepository(moduleRepo)
+        CommonJSModuleRepositoryRegistry.instance.clear()
+        CommonJSModuleRepositoryRegistry.instance.addUserDefinedRepository(moduleRepo)
     }
 
     @Before

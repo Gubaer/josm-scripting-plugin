@@ -1,7 +1,6 @@
 package org.openstreetmap.josm.plugins.scripting.graalvm;
 
 import org.openstreetmap.josm.data.Preferences;
-import org.openstreetmap.josm.gui.MainApplication;
 import org.openstreetmap.josm.plugins.PluginInformation;
 import org.openstreetmap.josm.plugins.scripting.model.PreferenceKeys;
 
@@ -26,11 +25,11 @@ import java.util.stream.Stream;
  * managed in this registry.
  */
 @SuppressWarnings("unused")
-public class ModuleRepositories implements IModuleResolver {
+public class CommonJSModuleRepositoryRegistry implements IModuleResolver {
     static private Logger logger =
-        Logger.getLogger(ModuleRepositories.class.getName());
+        Logger.getLogger(CommonJSModuleRepositoryRegistry.class.getName());
 
-    static private ModuleRepositories instance;
+    static private CommonJSModuleRepositoryRegistry instance;
 
     /**
      * Replies the jar URI referring to the built-in CommonJS modules
@@ -59,9 +58,10 @@ public class ModuleRepositories implements IModuleResolver {
      *
      * @return the singleton instance
      */
-    static public @NotNull ModuleRepositories getInstance() {
+    static public @NotNull
+    CommonJSModuleRepositoryRegistry getInstance() {
         if (instance == null) {
-            instance = new ModuleRepositories();
+            instance = new CommonJSModuleRepositoryRegistry();
         }
         return instance;
     }
@@ -93,7 +93,7 @@ public class ModuleRepositories implements IModuleResolver {
     /**
      * Creates a registry with an empty list of module repositories
      */
-    private ModuleRepositories(){}
+    private CommonJSModuleRepositoryRegistry(){}
 
     private Stream<ICommonJSModuleRepository> getRepositoriesAsStream() {
         return Stream.concat(
@@ -123,6 +123,7 @@ public class ModuleRepositories implements IModuleResolver {
             return;
         }
         userDefinedRepos.add(repo);
+        saveToPreferences(Preferences.main());
     }
 
     /**
@@ -147,6 +148,7 @@ public class ModuleRepositories implements IModuleResolver {
         userDefinedRepos = userDefinedRepos.stream()
             .filter(repo -> ! repo.getBaseURI().equals(baseUri))
             .collect(Collectors.toList());
+        saveToPreferences(Preferences.main());
     }
 
     /**
@@ -175,6 +177,18 @@ public class ModuleRepositories implements IModuleResolver {
      */
     public @NotNull List<ICommonJSModuleRepository> getUserDefinedRepositories() {
         return Collections.unmodifiableList(userDefinedRepos);
+    }
+
+    /**
+     * Sets the user defined repositories managed by this registry.
+     *
+     * @param repos the list of user defined CommonJS module repositories
+     */
+    public void setUserDefinedRepositories(@NotNull final List<ICommonJSModuleRepository> repos) {
+        Objects.requireNonNull(repos);
+        userDefinedRepos.clear();
+        userDefinedRepos.addAll(repos);
+        saveToPreferences(Preferences.main());
     }
 
     /**
@@ -280,7 +294,7 @@ public class ModuleRepositories implements IModuleResolver {
         Objects.requireNonNull(pref);
         final CommonJSModuleRepositoryFactory factory =
             CommonJSModuleRepositoryFactory.getInstance();
-        final ModuleRepositories repos = ModuleRepositories.getInstance();
+        final CommonJSModuleRepositoryRegistry repos = CommonJSModuleRepositoryRegistry.getInstance();
         repos.clear();
         pref.getList(PreferenceKeys.PREF_KEY_COMMONJS_MODULE_REPOSITORIES)
             .stream()

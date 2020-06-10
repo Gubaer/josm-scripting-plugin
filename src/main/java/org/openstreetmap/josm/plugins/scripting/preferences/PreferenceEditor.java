@@ -11,6 +11,8 @@ import javax.swing.JTabbedPane;
 import org.openstreetmap.josm.gui.preferences.DefaultTabPreferenceSetting;
 import org.openstreetmap.josm.gui.preferences.PreferenceTabbedPane;
 import org.openstreetmap.josm.gui.preferences.PreferenceTabbedPane.PreferencePanel;
+import org.openstreetmap.josm.plugins.scripting.preferences.graalvm.GraalVMConfigurationPanel;
+import org.openstreetmap.josm.plugins.scripting.preferences.rhino.RhinoEngineConfigurationPanel;
 import org.openstreetmap.josm.plugins.scripting.ui.GridBagConstraintBuilder;
 
 public class PreferenceEditor extends DefaultTabPreferenceSetting {
@@ -21,6 +23,7 @@ public class PreferenceEditor extends DefaultTabPreferenceSetting {
 
     private JTabbedPane tpPreferenceTabs;
     private ScriptEnginesConfigurationPanel pnlScriptEngineConfiguration;
+    private GraalVMConfigurationPanel pnlGraalVMConfiguration;
     private RhinoEngineConfigurationPanel pnlRhinoEngineConfiguration;
     private JythonConfigurationPanel pnlJythonConfiguration;
 
@@ -40,6 +43,9 @@ public class PreferenceEditor extends DefaultTabPreferenceSetting {
         tpPreferenceTabs.add(tr("Script engines"),
              pnlScriptEngineConfiguration =
              new ScriptEnginesConfigurationPanel());
+        tpPreferenceTabs.add(tr("GraalVM"),
+                pnlGraalVMConfiguration =
+                        new GraalVMConfigurationPanel());
         tpPreferenceTabs.add(tr("Embedded Rhino engine"),
                 pnlRhinoEngineConfiguration =
                 new RhinoEngineConfigurationPanel());
@@ -59,6 +65,7 @@ public class PreferenceEditor extends DefaultTabPreferenceSetting {
         pnlScriptEngineConfiguration.persistToPreferences();
         pnlRhinoEngineConfiguration.persistToPreferences();
         pnlJythonConfiguration.persistToPreferences();
+        pnlGraalVMConfiguration.persistToPreferences();
         return false;
     }
 }

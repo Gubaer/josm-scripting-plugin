@@ -32,10 +32,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -74,10 +72,10 @@ public class ScriptingPlugin extends Plugin implements PreferenceKeys{
 
     private void initGraalVMJSModuleRepository(PluginInformation info) {
         final Optional<URI> builtInRepoUri =
-            ModuleRepositories.buildRepositoryUrlForBuiltinModules(info);
+            CommonJSModuleRepositoryRegistry.buildRepositoryUrlForBuiltinModules(info);
         if (builtInRepoUri.isPresent()) {
             try {
-                ModuleRepositories.getInstance().setBuiltInRepository(
+                CommonJSModuleRepositoryRegistry.getInstance().setBuiltInRepository(
                     new JarJSModuleRepository(builtInRepoUri.get())
                 );
             } catch(IOException e) {
@@ -86,7 +84,7 @@ public class ScriptingPlugin extends Plugin implements PreferenceKeys{
                     e);
             }
         }
-        ModuleRepositories.getInstance()
+        CommonJSModuleRepositoryRegistry.getInstance()
             .loadFromPreferences(Preferences.main());
     }
 

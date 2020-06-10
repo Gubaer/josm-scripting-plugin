@@ -1,6 +1,7 @@
 package org.openstreetmap.josm.plugins.scripting.preferences;
 
 import org.openstreetmap.josm.plugins.scripting.fixtures.JOSMFixture;
+import org.openstreetmap.josm.plugins.scripting.preferences.rhino.ModuleRepositoryDialog;
 
 import javax.swing.*;
 import java.awt.*;

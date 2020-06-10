@@ -212,7 +212,7 @@ public class RequireFunction implements Function<String, Value> {
                 "Resolving module ID without context. module ID=''{0}''",
                 moduleID
             ));
-            resolvedModuleURI = ModuleRepositories.getInstance()
+            resolvedModuleURI = CommonJSModuleRepositoryRegistry.getInstance()
                 .resolve(moduleID);
         } else {
             logFine(() -> MessageFormat.format(
@@ -220,7 +220,7 @@ public class RequireFunction implements Function<String, Value> {
                     "context URI=''{1}''",
                     moduleID, contextURI.toString()
             ));
-            resolvedModuleURI = ModuleRepositories.getInstance().resolve(
+            resolvedModuleURI = CommonJSModuleRepositoryRegistry.getInstance().resolve(
                 moduleID,
                 contextURI);
         }

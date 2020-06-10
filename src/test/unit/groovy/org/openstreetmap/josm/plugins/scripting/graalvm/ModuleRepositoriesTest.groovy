@@ -20,19 +20,19 @@ class ModuleRepositoriesTest {
 
     @Before
     void clearRepositories() {
-        ModuleRepositories.instance.clear()
+        CommonJSModuleRepositoryRegistry.instance.clear()
     }
 
     @Test
     void "singleton instance should be available"() {
-        def repos = ModuleRepositories.getInstance()
+        def repos = CommonJSModuleRepositoryRegistry.getInstance()
         assertNotNull(repos)
     }
 
     @Test
     void "add: can add a user defined repository"() {
         def repo = new FileSystemJSModuleRepository(new File("/foo/bar"))
-        def repos = ModuleRepositories.getInstance()
+        def repos = CommonJSModuleRepositoryRegistry.getInstance()
         repos.addUserDefinedRepository(repo)
         assertNotNull(repos.userDefinedRepositories.find {
             r -> r.baseURI == repo.baseURI
@@ -42,7 +42,7 @@ class ModuleRepositoriesTest {
     @Test
     void "add: don't add a user defined repository twice"() {
         def repo = new FileSystemJSModuleRepository(new File("/foo/bar"))
-        def repos = ModuleRepositories.getInstance()
+        def repos = CommonJSModuleRepositoryRegistry.getInstance()
         repos.addUserDefinedRepository(repo)
         repos.addUserDefinedRepository(repo)
         assertEquals(1,
@@ -54,13 +54,13 @@ class ModuleRepositoriesTest {
 
     @Test(expected = NullPointerException)
     void "add: don't add a user defined null repository"() {
-        ModuleRepositories.instance.addUserDefinedRepository(null)
+        CommonJSModuleRepositoryRegistry.instance.addUserDefinedRepository(null)
     }
 
     @Test
     void "remove: can remove a user defined repo"() {
         def repo = new FileSystemJSModuleRepository(new File("/foo/bar"))
-        def repos = ModuleRepositories.getInstance()
+        def repos = CommonJSModuleRepositoryRegistry.getInstance()
         repos.addUserDefinedRepository(repo)
         repos.removeUserDefinedRepository(repo)
         assertTrue(repos.userDefinedRepositories.isEmpty())
@@ -69,7 +69,7 @@ class ModuleRepositoriesTest {
     @Test
     void "remove: can remove a user defined repo given a base URI"() {
         def repo = new FileSystemJSModuleRepository(new File("/foo/bar"))
-        def repos = ModuleRepositories.getInstance()
+        def repos = CommonJSModuleRepositoryRegistry.getInstance()
         repos.addUserDefinedRepository(repo)
         repos.removeUserDefinedRepository(repo.baseURI)
         assertTrue(repos.userDefinedRepositories.isEmpty())
@@ -77,17 +77,17 @@ class ModuleRepositoriesTest {
 
     @Test(expected = NullPointerException)
     void "remove: reject null repo"() {
-        ModuleRepositories.instance.removeUserDefinedRepository(null as ICommonJSModuleRepository)
+        CommonJSModuleRepositoryRegistry.instance.removeUserDefinedRepository(null as ICommonJSModuleRepository)
     }
 
     @Test(expected = NullPointerException)
     void "remove: reject null base URI when removing a user defined repo"() {
-        ModuleRepositories.instance.removeUserDefinedRepository(null as URI)
+        CommonJSModuleRepositoryRegistry.instance.removeUserDefinedRepository(null as URI)
     }
 
     @Test
     void "clear: can clear the registry"() {
-        def repos = ModuleRepositories.getInstance()
+        def repos = CommonJSModuleRepositoryRegistry.getInstance()
         repos.addUserDefinedRepository(new FileSystemJSModuleRepository(
             new File("/foo/bar1")))
         repos.addUserDefinedRepository(new FileSystemJSModuleRepository(
@@ -98,7 +98,7 @@ class ModuleRepositoriesTest {
 
     @Test
     void "getRepositories: can retrieve the repositories"() {
-        def repos = ModuleRepositories.getInstance()
+        def repos = CommonJSModuleRepositoryRegistry.getInstance()
         repos.addUserDefinedRepository(new FileSystemJSModuleRepository(
             new File("/foo/bar1")))
         repos.addUserDefinedRepository(new FileSystemJSModuleRepository(
@@ -109,7 +109,7 @@ class ModuleRepositoriesTest {
 
     @Test
     void "getRepositoryForModule: does correctly lookup a module"() {
-        def repos = ModuleRepositories.getInstance()
+        def repos = CommonJSModuleRepositoryRegistry.getInstance()
         def repo = new FileSystemJSModuleRepository(new File("/foo/bar1"))
         repos.addUserDefinedRepository(repo)
         def moduleUri = new File(new File(repo.baseURI), "my/module.js").toURI()
@@ -121,7 +121,7 @@ class ModuleRepositoriesTest {
 
     @Test
     void "getRepositoryForModule: doesn't find an arbitrary module URI"() {
-        def repos = ModuleRepositories.getInstance()
+        def repos = CommonJSModuleRepositoryRegistry.getInstance()
         def repo = new FileSystemJSModuleRepository(new File("/foo/bar1"))
         repos.addUserDefinedRepository(repo)
         def moduleUri = new File("/yet/another/location/my/module.js").toURI()
@@ -132,7 +132,7 @@ class ModuleRepositoriesTest {
 
     @Test(expected = NullPointerException)
     void "getRepositoryForModule: reject null module URI"() {
-        ModuleRepositories.instance.getRepositoryForModule(null)
+        CommonJSModuleRepositoryRegistry.instance.getRepositoryForModule(null)
     }
 }
 
@@ -166,14 +166,14 @@ class ModuleRepositoriesResolveTest {
 
     @Before
     void resetRepositoryRegistry() {
-        ModuleRepositories.instance.clear()
-        ModuleRepositories.instance.addUserDefinedRepository(moduleRepo)
+        CommonJSModuleRepositoryRegistry.instance.clear()
+        CommonJSModuleRepositoryRegistry.instance.addUserDefinedRepository(moduleRepo)
     }
 
     @Test
     void "can resolve an existing module"() {
         def moduleId = "module1"
-        def moduleUri = ModuleRepositories.instance.resolve(moduleId)
+        def moduleUri = CommonJSModuleRepositoryRegistry.instance.resolve(moduleId)
         assertTrue(moduleUri.isPresent())
         moduleRepo.isBaseOf(moduleUri.get())
     }
@@ -185,7 +185,7 @@ class ModuleRepositoriesResolveTest {
             new File(moduleRepo.baseURI),
             "sub/module3.js"
         ).toURI()
-        def moduleUri = ModuleRepositories.instance.resolve(moduleId, contextUri)
+        def moduleUri = CommonJSModuleRepositoryRegistry.instance.resolve(moduleId, contextUri)
         assertTrue(moduleUri.isPresent())
         moduleRepo.isBaseOf(moduleUri.get())
     }
