@@ -4,6 +4,7 @@ import org.openstreetmap.josm.gui.util.WindowGeometry;
 import org.openstreetmap.josm.plugins.scripting.graalvm.CommonJSModuleRepositoryFactory;
 import org.openstreetmap.josm.plugins.scripting.graalvm.ICommonJSModuleRepository;
 import org.openstreetmap.josm.plugins.scripting.graalvm.IllegalCommonJSModuleBaseURI;
+import org.openstreetmap.josm.plugins.scripting.graalvm.JarJSModuleRepository;
 import org.openstreetmap.josm.plugins.scripting.model.CommonJSModuleRepository;
 import org.openstreetmap.josm.plugins.scripting.ui.EditorPaneBuilder;
 import org.openstreetmap.josm.tools.ImageProvider;
@@ -125,7 +126,7 @@ public class ModuleRepositoryDialog extends JDialog {
             "TextField.background");
 
     protected void validateRepository() {
-        boolean valid;
+        boolean valid = true;
         final String repository = tfRepositoryUrl.getText().trim();
         String msg = "";
         if (repository.isEmpty()) {
@@ -148,25 +149,14 @@ public class ModuleRepositoryDialog extends JDialog {
         switch(url.getProtocol()) {
         case "jar":
             try {
-                final CommonJSModuleRepository repo =
-                        new CommonJSModuleRepository(repository);
-                final File f = repo.getFile();
-                if (f.isDirectory()) {
-                    valid = true;
-                } else if (f.isFile()) {
-                    valid = isExistingJarFile(f);
-                    if (!valid) {
-                        msg = tr("URL ''{0}'' doesn''t refer to an "
-                                + "existing local jar file",repository);
-                    }
-                } else {
-                    valid = false;
-                    msg = tr("URL ''{0}'' doesn''t refer to an existing "
-                            + "local directory or jar file",repository);
-                }
-            } catch(MalformedURLException e){
-                e.printStackTrace();
-                msg = tr("''{0}'' isn''t a valid URL");
+                CommonJSModuleRepositoryFactory
+                    .getInstance()
+                    .build(repository);
+            } catch(IllegalCommonJSModuleBaseURI e) {
+                msg = tr("''{0}'' isn''t a valid base URL:",
+                    url.toString()
+                ) + e.getMessage();
+                logger.log(Level.WARNING, msg, e);
                 valid = false;
             }
             break;
