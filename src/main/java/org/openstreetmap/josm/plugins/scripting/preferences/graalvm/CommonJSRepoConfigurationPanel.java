@@ -261,7 +261,7 @@ public class CommonJSRepoConfigurationPanel extends JPanel  {
 
         public RemoveAction() {
             putValue(Action.SHORT_DESCRIPTION, tr("Remove a repository"));
-            //Note: can't use this
+            //Note: can't use
             //  putValue(Action.SMALL_ICON, ImageProvider.get("dialogs", "delete"));
             //Icon dimensions are to large, button ends up larger than for the
             //other action buttons
