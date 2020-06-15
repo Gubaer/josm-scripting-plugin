@@ -37,22 +37,23 @@ public class CommonJSModuleRepositoryFactory {
         Objects.requireNonNull(uri);
         try {
             final URL url = uri.toURL();
-            if ("file".equals(url.getProtocol().toLowerCase())) {
-                final String path = url.getPath();
-                return new FileSystemJSModuleRepository(path);
-            } else if ("jar".equals(url.getProtocol().toLowerCase())) {
-                try {
-                    return new JarJSModuleRepository(uri);
-                } catch(IOException e) {
-                    throw new IllegalCommonJSModuleBaseURI(e);
-                }
-            } else {
-                throw new IllegalCommonJSModuleBaseURI(
-                    String.format(
+            switch(url.getProtocol().toLowerCase()) {
+                case "file":
+                    final String path = url.getPath();
+                    return new FileSystemJSModuleRepository(path);
+
+                case "jar":
+                    try {
+                        return new JarJSModuleRepository(uri);
+                    } catch(IOException e) {
+                        throw new IllegalCommonJSModuleBaseURI(e);
+                    }
+
+                default:
+                    throw new IllegalCommonJSModuleBaseURI(String.format(
                         "unsupported protocol for CommonJS module base. url=%s",
                         url.toString()
-                    )
-                );
+                        ));
             }
         } catch(MalformedURLException e) {
             throw new IllegalCommonJSModuleBaseURI(e);
