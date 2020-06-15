@@ -12,6 +12,7 @@ import org.openstreetmap.josm.gui.preferences.DefaultTabPreferenceSetting;
 import org.openstreetmap.josm.gui.preferences.PreferenceTabbedPane;
 import org.openstreetmap.josm.gui.preferences.PreferenceTabbedPane.PreferencePanel;
 import org.openstreetmap.josm.plugins.scripting.preferences.graalvm.GraalVMConfigurationPanel;
+import org.openstreetmap.josm.plugins.scripting.preferences.jython.JythonConfigurationPanel;
 import org.openstreetmap.josm.plugins.scripting.preferences.rhino.RhinoEngineConfigurationPanel;
 import org.openstreetmap.josm.plugins.scripting.ui.GridBagConstraintBuilder;
 

@@ -1,4 +1,4 @@
-package org.openstreetmap.josm.plugins.scripting.preferences;
+package org.openstreetmap.josm.plugins.scripting.preferences.jython;
 
 import static org.openstreetmap.josm.plugins.scripting.ui
     .GridBagConstraintBuilder.gbc;
