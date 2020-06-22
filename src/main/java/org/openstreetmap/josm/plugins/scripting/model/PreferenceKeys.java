@@ -85,4 +85,72 @@ public interface PreferenceKeys {
      * <p>Default value: empty</p>
      */
     String PREF_KEY_JYTHON_PLUGINS = "scripting.jython.plugins";
+
+    /**
+     * The default access policy for the GraalVM.
+     *
+     * Either <code>allow-all</code> or <code>deny-all</code>. Default (if
+     * missing or illegal) is <code>deny-all</code>.
+     */
+    String GRAALVM_DEFAULT_ACCESS_POLICY = "scripting.graalvm.default-access-policy";
+
+    /**
+     * The policy whether the GraalVM is granted the privilege to create and
+     * execute external processes.
+     *
+     * Either <code>allow</code>, <code>deny</code>, or <code>derive</code>.
+     * Default (if missing or illegal) is <code>derive</code>.
+     */
+    String GRAALVM_CREATE_PROCESS_POLICY = "scripting.graalvm.create-process-policy";
+
+    /**
+     * The policy whether the GraalVM is granted the privilege to create
+     * threads.
+     *
+     * Either <code>allow</code>, <code>deny</code>, or <code>derive</code>.
+     * Default (if missing or illegal) is <code>derive</code>.
+     */
+    String GRAALVM_CREATE_THREAD_POLICY = "scripting.graalvm.create-thread-policy";
+
+    /**
+     * The policy whether the GraalVM can use experimental language options.
+     *
+     * Either <code>allow</code>, <code>deny</code>, or <code>derive</code>.
+     * Default (if missing or illegal) is <code>derive</code>.
+     *
+     * @see org.graalvm.polyglot.Context.Builder#allowExperimentalOptions(boolean)
+     */
+    String GRAALVM_USE_EXPERIMENTAL_OPTIONS_POLICY = "scripting.graalvm.use-experimental-options-policy";
+
+    /**
+     * The policy whether the GraalVM can load new host classes via jar or
+     * class file.
+     *
+     * Either <code>allow</code>, <code>deny</code>, or <code>derive</code>.
+     * Default (if missing or illegal) is <code>derive</code>.
+     *
+     * @see org.graalvm.polyglot.Context.Builder#allowHostClassLoading(boolean)
+     */
+    String GRAALVM_HOST_CLASS_LOADING_POLICY = "scripting.graalvm.host-class-loading-policy";
+
+    /**
+     * The policy whether the GraalVM can execute IO operations.
+     *
+     * Either <code>allow</code>, <code>deny</code>, or <code>derive</code>.
+     * Default (if missing or illegal) is <code>derive</code>.
+     *
+     * @see org.graalvm.polyglot.Context.Builder#allowIO(boolean)
+     */
+    String GRAALVM_IO_POLICY = "scripting.graalvm.io-policy";
+
+    /**
+     * The policy whether the GraalVM can execute native methods.
+     *
+     * Either <code>allow</code>, <code>deny</code>, or <code>derive</code>.
+     * Default (if missing or illegal) is <code>derive</code>.
+     *
+     * @see org.graalvm.polyglot.Context.Builder#allowNativeAccess(boolean)
+     */
+    String GRAALVM_NATIVE_ACCESS_POLICY = "scripting.graalvm.native-access-policy";
+
 }
