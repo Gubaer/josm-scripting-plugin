@@ -80,7 +80,9 @@ public class GraalVMPrivilegesModel {
             switch(value.toLowerCase().trim()) {
                 case "allow": return ALLOW;
                 case "deny": return DENY;
-                case "derive": return DERIVE;
+                case "derive":
+                case "":
+                    return DERIVE;
                 default:
                     final String message =
                         "unsupported preference value for ternary access policy. "
@@ -92,18 +94,15 @@ public class GraalVMPrivilegesModel {
     }
 
     public enum EnvironmentAccessPolicy {
-        /** allow for read-only access to environment variables */
-        READ_ONLY,
         /** deny access to environment variables */
         NONE,
-        /** derive the privilege from the defeault access policy
+        /** derive the privilege from the default access policy
          * @see DefaultAccessPolicy
          */
         DERIVE;
 
         public String toPreferenceValue() {
             switch(this) {
-                case READ_ONLY: return "read-only";
                 case NONE: return "none";
                 case DERIVE: return "derive";
             }
@@ -115,7 +114,6 @@ public class GraalVMPrivilegesModel {
             if (value == null) return DERIVE;
 
             switch(value.toLowerCase().trim()) {
-                case "read-only": return READ_ONLY;
                 case "none": return NONE;
                 case "derive": return DERIVE;
                 default:
@@ -172,8 +170,7 @@ public class GraalVMPrivilegesModel {
     private TernaryAccessPolicy nativeAccessPolicy;
     //Note: polyglot access policy is fixed and not configurable
 
-    //TODO(karl): support environment access policy
-    //private EnvironmentAccessPolicy environmentAccessPolicy;
+    private EnvironmentAccessPolicy environmentAccessPolicy;
     //TODO(karl): support host access policy
     //private HostAccessPolicy hostAccessPolicy;
 
@@ -211,6 +208,9 @@ public class GraalVMPrivilegesModel {
         nativeAccessPolicy = TernaryAccessPolicy.fromPreferenceValue(
             prefs.get(GRAALVM_NATIVE_ACCESS_POLICY)
         );
+        environmentAccessPolicy = EnvironmentAccessPolicy.fromPreferenceValue(
+            prefs.get(GRAALVM_ENVIRONMENT_ACCESS_POLICY)
+        );
     }
 
     public void saveToPreferences(@NotNull final Preferences prefs) {
@@ -242,6 +242,10 @@ public class GraalVMPrivilegesModel {
         prefs.put(
             GRAALVM_NATIVE_ACCESS_POLICY,
             nativeAccessPolicy.toPreferenceValue()
+        );
+        prefs.put(
+            GRAALVM_ENVIRONMENT_ACCESS_POLICY,
+            environmentAccessPolicy.toPreferenceValue()
         );
     }
 
@@ -379,5 +383,24 @@ public class GraalVMPrivilegesModel {
     public void setNativeAccessPolicy(@NotNull final TernaryAccessPolicy policy) {
         Objects.requireNonNull(policy);
         this.nativeAccessPolicy = policy;
+    }
+
+    public boolean allowEnvironmentAccess() {
+        switch(environmentAccessPolicy) {
+            case DERIVE:
+                return DefaultAccessPolicy.ALLOW_ALL.equals(defaultAccessPolicy);
+            case NONE:
+                return false;
+        }
+        throw new IllegalStateException();
+    }
+
+    public @NotNull EnvironmentAccessPolicy getEnvironmentAccessPolicy() {
+        return environmentAccessPolicy;
+    }
+
+    public void setEnvironmentAccessPolicy(@NotNull final EnvironmentAccessPolicy policy) {
+        Objects.requireNonNull(policy);
+        this.environmentAccessPolicy = policy;
     }
 }

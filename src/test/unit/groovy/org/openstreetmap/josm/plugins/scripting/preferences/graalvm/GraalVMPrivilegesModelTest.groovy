@@ -6,7 +6,10 @@ import org.openstreetmap.josm.data.Preferences
 import org.openstreetmap.josm.plugins.scripting.fixtures.JOSMFixture
 
 import static org.junit.jupiter.api.Assertions.assertEquals
+import static org.junit.jupiter.api.Assertions.assertFalse
+import static org.junit.jupiter.api.Assertions.assertTrue
 import static org.junit.jupiter.api.Assertions.assertNotNull
+
 import static org.openstreetmap.josm.plugins.scripting.model.PreferenceKeys.*
 import static org.openstreetmap.josm.plugins.scripting.preferences.graalvm.GraalVMPrivilegesModel.DefaultAccessPolicy.ALLOW_ALL
 import static org.openstreetmap.josm.plugins.scripting.preferences.graalvm.GraalVMPrivilegesModel.DefaultAccessPolicy.DENY_ALL
@@ -36,9 +39,9 @@ class GraalVMPrivilegesModelTest {
     }
 
     @Test
-    void "should properly init default acccess policy from preferences"() {
+    void "should properly init default access policy from preferences"() {
 
-        def prefs = new Preferences()
+        Preferences prefs = new Preferences()
         def model = new GraalVMPrivilegesModel()
 
         // accept supported configuration value "allow-all"
@@ -91,7 +94,7 @@ class GraalVMPrivilegesModelTest {
 
     @Test
     void "should properly init the create-thread policy from preferences"() {
-        def prefs = new Preferences()
+        Preferences prefs = new Preferences()
         def model = new GraalVMPrivilegesModel()
 
         // accept supported configuration value "derive"
@@ -217,5 +220,52 @@ class GraalVMPrivilegesModelTest {
         prefs = new Preferences()
         model.initFromPreferences(prefs)
         assertEquals(DERIVE, model.getUseExperimentalOptionsPolicy())
+    }
+
+    @Test
+    void "should properly init the environment-access-policy from preferences"() {
+        def prefs = new Preferences()
+        def model = new GraalVMPrivilegesModel()
+
+        // accept supported configuration value "derive"
+        prefs.put(GRAALVM_ENVIRONMENT_ACCESS_POLICY, "derive")
+        model.initFromPreferences(prefs)
+        assertEquals(GraalVMPrivilegesModel.EnvironmentAccessPolicy.DERIVE,
+            model.getEnvironmentAccessPolicy())
+
+        // accept supported configuration value "none"
+        prefs.put(GRAALVM_ENVIRONMENT_ACCESS_POLICY, "none")
+        model.initFromPreferences(prefs)
+        assertEquals(GraalVMPrivilegesModel.EnvironmentAccessPolicy.NONE,
+            model.getEnvironmentAccessPolicy())
+
+        // fall back to default value for an unsupported configuration value
+        prefs.put(GRAALVM_ENVIRONMENT_ACCESS_POLICY, "unsupported-value")
+        model.initFromPreferences(prefs)
+        assertEquals(GraalVMPrivilegesModel.EnvironmentAccessPolicy.DERIVE,
+            model.getEnvironmentAccessPolicy())
+
+        // fall back to default value for a missing configuration value
+        prefs = new Preferences()
+        model.initFromPreferences(prefs)
+        assertEquals(GraalVMPrivilegesModel.EnvironmentAccessPolicy.DERIVE,
+            model.getEnvironmentAccessPolicy())
+
+        // deny access if default access is deny-all
+        prefs.put(GRAALVM_DEFAULT_ACCESS_POLICY, "deny-all")
+        prefs.put(GRAALVM_ENVIRONMENT_ACCESS_POLICY, "derive")
+        model.initFromPreferences(prefs)
+        assertFalse(model.allowEnvironmentAccess())
+
+        // allow access if default access is allow-all
+        prefs.put(GRAALVM_DEFAULT_ACCESS_POLICY, "allow-all")
+        prefs.put(GRAALVM_ENVIRONMENT_ACCESS_POLICY, "derive")
+        model.initFromPreferences(prefs)
+        assertTrue(model.allowEnvironmentAccess())
+
+        // deny access if environment access policy is 'none'
+        prefs.put(GRAALVM_ENVIRONMENT_ACCESS_POLICY, "none")
+        model.initFromPreferences(prefs)
+        assertFalse(model.allowEnvironmentAccess())
     }
 }

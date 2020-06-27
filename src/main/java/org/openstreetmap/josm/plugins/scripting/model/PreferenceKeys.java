@@ -153,4 +153,13 @@ public interface PreferenceKeys {
      */
     String GRAALVM_NATIVE_ACCESS_POLICY = "scripting.graalvm.native-access-policy";
 
+    /**
+     * The policy whether the GraalVM can read environment variables.
+     *
+     * Either <code>derive</code>, or <code>none</code>.
+     * Default (if missing or illegal) is <code>derive</code>.
+     *
+     * @see org.graalvm.polyglot.Context.Builder#allowNativeAccess(boolean)
+     */
+    String GRAALVM_ENVIRONMENT_ACCESS_POLICY = "scripting.graalvm.environment-access-policy";
 }
