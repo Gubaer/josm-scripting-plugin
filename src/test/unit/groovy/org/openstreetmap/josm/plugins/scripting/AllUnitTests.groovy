@@ -1,6 +1,5 @@
 package org.openstreetmap.josm.plugins.scripting
 
-
 import org.junit.runner.RunWith
 import org.junit.runners.Suite
 import org.junit.runners.Suite.SuiteClasses
@@ -12,6 +11,7 @@ import org.openstreetmap.josm.plugins.scripting.js.api.DeleteMultiCommandTest
 import org.openstreetmap.josm.plugins.scripting.model.CommonJSModuleRepositoryTest
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptorTest
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineTypeTest
+import org.openstreetmap.josm.plugins.scripting.preferences.graalvm.GraalVMPrivilegesModelTest
 import org.openstreetmap.josm.plugins.scripting.ui.console.ScriptEditorModelTest
 
 @RunWith(Suite)
@@ -24,6 +24,7 @@ import org.openstreetmap.josm.plugins.scripting.ui.console.ScriptEditorModelTest
     CommonJSModuleRepositoryTest,
     ScriptEngineDescriptorTest,
     ScriptEngineTypeTest,
-    ScriptEditorModelTest
+    ScriptEditorModelTest,
+    GraalVMPrivilegesModelTest
 ])
 class AllUnitTests {}
