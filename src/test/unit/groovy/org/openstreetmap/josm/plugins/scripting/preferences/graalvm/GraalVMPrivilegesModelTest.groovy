@@ -299,4 +299,41 @@ class GraalVMPrivilegesModelTest {
         model.initFromPreferences(prefs)
         assertFalse(model.allowEnvironmentAccess())
     }
+
+    @Test
+    void "should properly init the host-access-policy from preferences"() {
+        def prefs = new Preferences()
+        def model = new GraalVMPrivilegesModel()
+
+        // accept supported configuration value "all"
+        prefs.put(GRAALVM_HOST_ACCESS_POLICY, "all")
+        model.initFromPreferences(prefs)
+        assertEquals(GraalVMPrivilegesModel.HostAccessPolicy.ALL,
+            model.getHostAccessPolicy())
+
+        // accept supported configuration value "explicit"
+        prefs.put(GRAALVM_HOST_ACCESS_POLICY, "explicit")
+        model.initFromPreferences(prefs)
+        assertEquals(GraalVMPrivilegesModel.HostAccessPolicy.EXPLICIT,
+            model.getHostAccessPolicy())
+
+        // accept supported configuration value "none"
+        prefs.put(GRAALVM_HOST_ACCESS_POLICY, "none")
+        model.initFromPreferences(prefs)
+        assertEquals(GraalVMPrivilegesModel.HostAccessPolicy.NONE,
+            model.getHostAccessPolicy())
+
+        // fall back to default value for an unsupported configuration value
+        prefs.put(GRAALVM_HOST_ACCESS_POLICY, "unsupported-value")
+        model.initFromPreferences(prefs)
+        assertEquals(GraalVMPrivilegesModel.HostAccessPolicy.getDefault(),
+                model.getHostAccessPolicy())
+
+        // fall back to default value for a missing configuration value
+        prefs = new Preferences()
+        model.initFromPreferences(prefs)
+        assertEquals(GraalVMPrivilegesModel.HostAccessPolicy.getDefault(),
+                model.getHostAccessPolicy())
+
+    }
 }

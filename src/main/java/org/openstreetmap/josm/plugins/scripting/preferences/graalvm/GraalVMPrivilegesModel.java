@@ -101,6 +101,10 @@ public class GraalVMPrivilegesModel {
          */
         DERIVE;
 
+        public static EnvironmentAccessPolicy getDefault() {
+            return DERIVE;
+        }
+
         public String toPreferenceValue() {
             switch(this) {
                 case NONE: return "none";
@@ -121,7 +125,7 @@ public class GraalVMPrivilegesModel {
                         "unsupported preference value for environment access policy. "
                       + "Using 'derive' instead. Got '%s'";
                     logger.log(Level.WARNING, String.format(message, value));
-                    return DERIVE;
+                    return getDefault();
             }
         }
     }
@@ -129,33 +133,34 @@ public class GraalVMPrivilegesModel {
     public enum HostAccessPolicy {
         ALL,
         EXPLICIT,
-        NONE,
-        DERIVE;
+        NONE;
+
+        public static HostAccessPolicy getDefault() {
+            return EXPLICIT;
+        }
 
         public String toPreferenceValue() {
             switch(this) {
                 case ALL: return "all";
                 case EXPLICIT: return "explicit";
                 case NONE: return "none";
-                case DERIVE: return "derive";
             }
             // should not happen
             throw new IllegalStateException();
         }
 
         static public HostAccessPolicy fromPreferenceValue(@Null final String value) {
-            if (value == null) return DERIVE;
+            if (value == null) return getDefault();
             switch(value.toLowerCase().trim()) {
                 case "all": return ALL;
                 case "explicit": return EXPLICIT;
                 case "none": return NONE;
-                case "derive": return DERIVE;
                 default:
                     final String message =
                             "unsupported preference value for host access policy. "
-                                    + "Using 'derive' instead. Got '%s'";
+                                    + "Using 'explicit' instead. Got '%s'";
                     logger.log(Level.WARNING, String.format(message, value));
-                    return DERIVE;
+                    return getDefault();
             }
         }
     }
@@ -171,8 +176,7 @@ public class GraalVMPrivilegesModel {
     //Note: polyglot access policy is fixed and not configurable
 
     private EnvironmentAccessPolicy environmentAccessPolicy;
-    //TODO(karl): support host access policy
-    //private HostAccessPolicy hostAccessPolicy;
+    private HostAccessPolicy hostAccessPolicy;
 
     public void resetToDefaults() {
         defaultAccessPolicy = DENY_ALL;
@@ -183,6 +187,9 @@ public class GraalVMPrivilegesModel {
         hostClassLoadingPolicy = DERIVE;
         ioPolicy = DERIVE;
         nativeAccessPolicy = DERIVE;
+
+        environmentAccessPolicy = EnvironmentAccessPolicy.getDefault();
+        hostAccessPolicy = HostAccessPolicy.getDefault();
     }
 
     public void initFromPreferences(@NotNull final Preferences prefs) {
@@ -210,6 +217,9 @@ public class GraalVMPrivilegesModel {
         );
         environmentAccessPolicy = EnvironmentAccessPolicy.fromPreferenceValue(
             prefs.get(GRAALVM_ENVIRONMENT_ACCESS_POLICY)
+        );
+        hostAccessPolicy = HostAccessPolicy.fromPreferenceValue(
+            prefs.get(GRAALVM_HOST_ACCESS_POLICY)
         );
     }
 
@@ -403,4 +413,16 @@ public class GraalVMPrivilegesModel {
         Objects.requireNonNull(policy);
         this.environmentAccessPolicy = policy;
     }
+
+
+    public @NotNull HostAccessPolicy getHostAccessPolicy() {
+        return hostAccessPolicy;
+    }
+
+    public void setHostAccessPolicy(@NotNull final HostAccessPolicy policy) {
+        Objects.requireNonNull(policy);
+        this.hostAccessPolicy = policy;
+    }
 }
+
+

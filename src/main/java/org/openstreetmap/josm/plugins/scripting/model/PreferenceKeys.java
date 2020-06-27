@@ -1,5 +1,8 @@
 package org.openstreetmap.josm.plugins.scripting.model;
 
+import org.graalvm.polyglot.EnvironmentAccess;
+import org.graalvm.polyglot.HostAccess;
+
 /**
  * Preferences keys used in the scripting plugin
  */
@@ -159,7 +162,18 @@ public interface PreferenceKeys {
      * Either <code>derive</code>, or <code>none</code>.
      * Default (if missing or illegal) is <code>derive</code>.
      *
-     * @see org.graalvm.polyglot.Context.Builder#allowNativeAccess(boolean)
+     * @see org.graalvm.polyglot.Context.Builder#allowEnvironmentAccess(EnvironmentAccess)
      */
     String GRAALVM_ENVIRONMENT_ACCESS_POLICY = "scripting.graalvm.environment-access-policy";
+
+    /**
+     * The policy whether and how the GraalVM can access public constructors,
+     * methods or fields of public classes.
+     *
+     * Either <code>all</code>, <code>none</code>, or <code>explicit</code>.
+     * Default (if missing or illegal) is <code>explicit</code>.
+     *
+     * @see org.graalvm.polyglot.Context.Builder#allowHostAccess(HostAccess) 
+     */
+    String GRAALVM_HOST_ACCESS_POLICY = "scripting.graalvm.host-access-policy";
 }
