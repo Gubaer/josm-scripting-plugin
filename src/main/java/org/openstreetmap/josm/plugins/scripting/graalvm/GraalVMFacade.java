@@ -1,10 +1,12 @@
 package org.openstreetmap.josm.plugins.scripting.graalvm;
 
 import org.graalvm.polyglot.*;
+import org.openstreetmap.josm.data.Preferences;
 import org.openstreetmap.josm.plugins.scripting.js.api.AddMultiCommand;
 import org.openstreetmap.josm.plugins.scripting.js.api.Change;
 import org.openstreetmap.josm.plugins.scripting.js.api.ChangeMultiCommand;
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
+import org.openstreetmap.josm.plugins.scripting.preferences.graalvm.GraalVMPrivilegesModel;
 import org.openstreetmap.josm.plugins.scripting.ui.console.ScriptingConsole;
 
 import javax.validation.constraints.NotNull;
@@ -43,26 +45,11 @@ public class GraalVMFacade  implements IGraalVMFacade {
     }
 
     private void grantPrivilegesToContext(final Context.Builder builder) {
-        //TODO(karl): let users configure the privileges in the JOSM
-        // preferences
-        builder
-            // default: allow everything
-            .allowAllAccess(true)
-            // in particular, grant the privilege to access JOSMs
-            // public methods and fields and grant it the right to
-            // lookup and instantiate classes provided by OpenStreetMap
-           .allowHostAccess(HostAccess.ALL)
-           .allowHostClassLookup(className -> true
-//                  className.startsWith("org.openstreetmap.")
-//               || className.startsWith("java.")
-//               || className.startsWith("javax.swing.")
-//               || className.startsWith("org.graalvm.")
-//               || className.startsWith("org.apache.")
-            )
-            // exclude native access
-            .allowNativeAccess(false)
-            // exclude launching external processes
-            .allowCreateProcess(false);
+        new GraalVMPrivilegesModel()
+            .initFromPreferences(Preferences.main())
+            .prepareContextBuilder(builder);
+
+        builder.allowHostClassLookup(className -> true);
     }
 
     private void setOptionsOnContext(final Context.Builder builder) {

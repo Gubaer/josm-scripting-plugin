@@ -105,6 +105,8 @@ compileJava {
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 
+import java.nio.file.Files
+
 test {
     useJUnit()
     environment "JOSM_SCRIPTING_PLUGIN_HOME", project.projectDir
@@ -140,8 +142,22 @@ task testGraalVMSupportNotPresent(type: Test) {
     }
 }
 
+import java.nio.file.Paths
+import java.nio.file.StandardCopyOption
 task testGraalVMSupportPresent(type: Test) {
+    doFirst {
+        // prepare a suitable 'preferences.xml' for the test cases in this
+        // executed by this task
+        Files.copy(
+            Paths.get("${project.projectDir}/test/josm-test-environments/env01/preferences.xml"),
+            Paths.get("${project.projectDir}/test/josm.home/preferences.xml"),
+            StandardCopyOption.REPLACE_EXISTING
+        )
+        println("testGraalVMSupportPresent: prepared preferences.xml")
+    }
     useJUnit()
+    environment "JOSM_SCRIPTING_PLUGIN_HOME",project.projectDir
+    systemProperty "josm.home", "${project.projectDir}/test/josm.home"
     scanForTestClasses= false
     include "**/graalvm/GraalVMPresentTest.class"
     include "**/graalvm/GraalVMEvalTest.class"

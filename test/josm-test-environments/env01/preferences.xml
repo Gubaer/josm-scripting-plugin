@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<preferences xmlns='http://josm.openstreetmap.de/preferences-1.0' version='16538'>
+  <tag key='draw.rawgps.lines' value='-1'/>
+  <tag key='josm.version' value='16538'/>
+  <tag key='osm-server.url' value='https://api06.dev.openstreetmap.org/api'/>
+  <tag key='preferences.reset.draw.rawgps.lines' value='true'/>
+
+  <!--
+  Allow all access for this test cases
+  -->
+  <tag key='scripting.graalvm.default-access-policy' value='allow-all'/>
+</preferences>

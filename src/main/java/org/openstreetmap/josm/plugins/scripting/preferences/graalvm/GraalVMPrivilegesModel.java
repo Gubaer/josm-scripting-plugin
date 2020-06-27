@@ -1,6 +1,8 @@
 package org.openstreetmap.josm.plugins.scripting.preferences.graalvm;
 
 
+import org.graalvm.polyglot.Context;
+import org.graalvm.polyglot.EnvironmentAccess;
 import org.openstreetmap.josm.data.Preferences;
 
 import javax.validation.constraints.NotNull;
@@ -14,6 +16,7 @@ import static org.openstreetmap.josm.plugins.scripting.preferences.graalvm.Graal
 import static org.openstreetmap.josm.plugins.scripting.preferences.graalvm.GraalVMPrivilegesModel.TernaryAccessPolicy.DERIVE;
 
 @SuppressWarnings("unused")
+//TODO(karl): implement interactive editor for this model and add it to the preferences editor
 public class GraalVMPrivilegesModel {
 
     static public final Logger logger =
@@ -128,6 +131,15 @@ public class GraalVMPrivilegesModel {
                     return getDefault();
             }
         }
+
+        public @NotNull EnvironmentAccess toEnvironmentAccess() {
+            switch(this) {
+                case NONE: return EnvironmentAccess.NONE;
+                case DERIVE: return EnvironmentAccess.INHERIT;
+            }
+            // should not happen
+            throw new IllegalStateException();
+        }
     }
 
     public enum HostAccessPolicy {
@@ -173,7 +185,7 @@ public class GraalVMPrivilegesModel {
     private TernaryAccessPolicy hostClassLoadingPolicy;
     private TernaryAccessPolicy ioPolicy;
     private TernaryAccessPolicy nativeAccessPolicy;
-    //Note: polyglot access policy is fixed and not configurable
+    //TODO(karl): add polyglot access policy
 
     private EnvironmentAccessPolicy environmentAccessPolicy;
     private HostAccessPolicy hostAccessPolicy;
@@ -192,7 +204,8 @@ public class GraalVMPrivilegesModel {
         hostAccessPolicy = HostAccessPolicy.getDefault();
     }
 
-    public void initFromPreferences(@NotNull final Preferences prefs) {
+    public @NotNull GraalVMPrivilegesModel initFromPreferences(
+        @NotNull final Preferences prefs) {
         Objects.requireNonNull(prefs);
         defaultAccessPolicy = DefaultAccessPolicy.fromPreferenceValue(
             prefs.get(GRAALVM_DEFAULT_ACCESS_POLICY)
@@ -221,6 +234,8 @@ public class GraalVMPrivilegesModel {
         hostAccessPolicy = HostAccessPolicy.fromPreferenceValue(
             prefs.get(GRAALVM_HOST_ACCESS_POLICY)
         );
+
+        return this;
     }
 
     public void saveToPreferences(@NotNull final Preferences prefs) {
@@ -423,6 +438,27 @@ public class GraalVMPrivilegesModel {
         Objects.requireNonNull(policy);
         this.hostAccessPolicy = policy;
     }
+
+    public @NotNull Context.Builder prepareContextBuilder(
+            @NotNull final Context.Builder builder) {
+        Objects.requireNonNull(builder);
+
+        // default access policy
+        builder.allowAllAccess(isDefaultAccessAllowed());
+
+        // individual policies
+        builder.allowCreateProcess(allowCreateProcess());
+        builder.allowCreateThread(allowCreateThread());
+        builder.allowHostClassLoading(allowHostClassLoading());
+        builder.allowIO(allowIO());
+        builder.allowExperimentalOptions(allowExperimentalOptions());
+        builder.allowNativeAccess(allowNativeAccess());
+        builder.allowEnvironmentAccess(
+            environmentAccessPolicy.toEnvironmentAccess());
+
+        return builder;
+    }
+
 }
 
 
