@@ -439,6 +439,7 @@ public class GraalVMPrivilegesModel {
         this.hostAccessPolicy = policy;
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     public @NotNull Context.Builder prepareContextBuilder(
             @NotNull final Context.Builder builder) {
         Objects.requireNonNull(builder);
