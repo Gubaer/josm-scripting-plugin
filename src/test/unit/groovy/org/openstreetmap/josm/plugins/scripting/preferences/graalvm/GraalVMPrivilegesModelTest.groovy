@@ -76,15 +76,20 @@ class GraalVMPrivilegesModelTest {
         model.initFromPreferences(prefs)
         assertEquals(DERIVE, model.getCreateThreadPolicy())
 
-        // accept supported configuration value "deny-all"
+        // accept supported configuration value "allow"
         prefs.put(GRAALVM_CREATE_PROCESS_POLICY, "allow")
         model.initFromPreferences(prefs)
         assertEquals(ALLOW, model.getCreateProcessPolicy())
 
-        // fall back to default value for an unsupported configuration value
+        // accept supported configuration value "allow"
         prefs.put(GRAALVM_CREATE_PROCESS_POLICY, "deny")
         model.initFromPreferences(prefs)
         assertEquals(DENY, model.getCreateProcessPolicy())
+
+        // fall back to default value for an unsupported configuration value
+        prefs.put(GRAALVM_CREATE_PROCESS_POLICY, "an unsupported value")
+        model.initFromPreferences(prefs)
+        assertEquals(DERIVE, model.getCreateProcessPolicy())
 
         // fall back to default value for a missing configuration value
         prefs = new Preferences()
@@ -102,15 +107,20 @@ class GraalVMPrivilegesModelTest {
         model.initFromPreferences(prefs)
         assertEquals(DERIVE, model.getCreateThreadPolicy())
 
-        // accept supported configuration value "deny-all"
+        // accept supported configuration value "allow"
         prefs.put(GRAALVM_CREATE_THREAD_POLICY, "allow")
         model.initFromPreferences(prefs)
         assertEquals(ALLOW, model.getCreateThreadPolicy())
 
-        // fall back to default value for an unsupported configuration value
+        // accept supported configuration value "deny"
         prefs.put(GRAALVM_CREATE_THREAD_POLICY, "deny")
         model.initFromPreferences(prefs)
         assertEquals(DENY, model.getCreateThreadPolicy())
+
+        // fall back to default value for an unsupported configuration value
+        prefs.put(GRAALVM_CREATE_THREAD_POLICY, "an unsupported value")
+        model.initFromPreferences(prefs)
+        assertEquals(DERIVE, model.getCreateThreadPolicy())
 
         // fall back to default value for a missing configuration value
         prefs = new Preferences()
@@ -128,15 +138,20 @@ class GraalVMPrivilegesModelTest {
         model.initFromPreferences(prefs)
         assertEquals(DERIVE, model.getHostClassLoadingPolicy())
 
-        // accept supported configuration value "deny-all"
+        // accept supported configuration value "allow"
         prefs.put(GRAALVM_HOST_CLASS_LOADING_POLICY, "allow")
         model.initFromPreferences(prefs)
         assertEquals(ALLOW, model.getHostClassLoadingPolicy())
 
-        // fall back to default value for an unsupported configuration value
+        // accept supported configuration value "deny"
         prefs.put(GRAALVM_HOST_CLASS_LOADING_POLICY, "deny")
         model.initFromPreferences(prefs)
         assertEquals(DENY, model.getHostClassLoadingPolicy())
+
+        // fall back to default value for an unsupported configuration value
+        prefs.put(GRAALVM_HOST_CLASS_LOADING_POLICY, "an unsupported value")
+        model.initFromPreferences(prefs)
+        assertEquals(DERIVE, model.getHostClassLoadingPolicy())
 
         // fall back to default value for a missing configuration value
         prefs = new Preferences()
@@ -154,15 +169,20 @@ class GraalVMPrivilegesModelTest {
         model.initFromPreferences(prefs)
         assertEquals(DERIVE, model.getIOPolicy())
 
-        // accept supported configuration value "deny-all"
+        // accept supported configuration value "allow"
         prefs.put(GRAALVM_IO_POLICY, "allow")
         model.initFromPreferences(prefs)
         assertEquals(ALLOW, model.getIOPolicy())
 
-        // fall back to default value for an unsupported configuration value
+        // accept supported configuration value "deny"
         prefs.put(GRAALVM_IO_POLICY, "deny")
         model.initFromPreferences(prefs)
         assertEquals(DENY, model.getIOPolicy())
+
+        // fall back to default value for an unsupported configuration value
+        prefs.put(GRAALVM_IO_POLICY, "an unsupported value")
+        model.initFromPreferences(prefs)
+        assertEquals(DERIVE, model.getIOPolicy())
 
         // fall back to default value for a missing configuration value
         prefs = new Preferences()
@@ -185,10 +205,15 @@ class GraalVMPrivilegesModelTest {
         model.initFromPreferences(prefs)
         assertEquals(ALLOW, model.getNativeAccessPolicy())
 
-        // fall back to default value for an unsupported configuration value
+        // accept supported configuration value "deny"
         prefs.put(GRAALVM_NATIVE_ACCESS_POLICY, "deny")
         model.initFromPreferences(prefs)
         assertEquals(DENY, model.getNativeAccessPolicy())
+
+        // fall back to default value for an unsupported configuration value
+        prefs.put(GRAALVM_NATIVE_ACCESS_POLICY, "unsupported")
+        model.initFromPreferences(prefs)
+        assertEquals(DERIVE, model.getNativeAccessPolicy())
 
         // fall back to default value for a missing configuration value
         prefs = new Preferences()
@@ -206,15 +231,21 @@ class GraalVMPrivilegesModelTest {
         model.initFromPreferences(prefs)
         assertEquals(DERIVE, model.getUseExperimentalOptionsPolicy())
 
-        // accept supported configuration value "deny-all"
+        // accept supported configuration value "allow"
         prefs.put(GRAALVM_USE_EXPERIMENTAL_OPTIONS_POLICY, "allow")
         model.initFromPreferences(prefs)
         assertEquals(ALLOW, model.getUseExperimentalOptionsPolicy())
 
-        // fall back to default value for an unsupported configuration value
+        // accept supported configuration value "deny"
         prefs.put(GRAALVM_USE_EXPERIMENTAL_OPTIONS_POLICY, "deny")
         model.initFromPreferences(prefs)
         assertEquals(DENY, model.getUseExperimentalOptionsPolicy())
+
+        // fall back to default value for an unsupported configuration value
+        prefs.put(GRAALVM_USE_EXPERIMENTAL_OPTIONS_POLICY, "unsupported")
+        model.initFromPreferences(prefs)
+        assertEquals(DERIVE, model.getUseExperimentalOptionsPolicy())
+
 
         // fall back to default value for a missing configuration value
         prefs = new Preferences()
