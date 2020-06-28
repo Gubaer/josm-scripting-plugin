@@ -1,5 +1,0 @@
-safe:        false
-serve:      true
-port: 4000
-url: http://localhost:4000
-highlighter: rouge
