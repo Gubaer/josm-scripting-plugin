@@ -191,6 +191,10 @@ GEM
       gemoji (~> 3.0)
       html-pipeline (~> 2.2)
       jekyll (>= 3.0, < 5.0)
+    just-the-docs (0.3.0)
+      jekyll (>= 3.8.5)
+      jekyll-seo-tag (~> 2.0)
+      rake (>= 12.3.1, < 13.1.0)
     kramdown (1.17.0)
     liquid (4.0.3)
     listen (3.2.1)
@@ -204,7 +208,7 @@ GEM
       jekyll-seo-tag (~> 2.1)
     minitest (5.14.1)
     multipart-post (2.1.1)
-    nokogiri (1.10.9)
+    nokogiri (1.10.10)
       mini_portile2 (~> 2.4.0)
     octokit (4.18.0)
       faraday (>= 0.9)
@@ -212,6 +216,7 @@ GEM
     pathutil (0.16.2)
       forwardable-extended (~> 2.6)
     public_suffix (3.1.1)
+    rake (13.0.1)
     rb-fsevent (0.10.4)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
@@ -238,19 +243,16 @@ GEM
     tzinfo-data (1.2020.1)
       tzinfo (>= 1.0.0)
     unicode-display_width (1.7.0)
-    wdm (0.1.1)
-    zeitwerk (2.3.0)
+    zeitwerk (2.3.1)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   github-pages (~> 206)
-  jekyll-feed (~> 0.6)
-  minima (~> 2.0)
+  just-the-docs
   tzinfo (~> 1.2)
   tzinfo-data
-  wdm (~> 0.1.0)
 
 BUNDLED WITH
    2.1.4
