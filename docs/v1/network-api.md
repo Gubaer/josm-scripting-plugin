@@ -20,7 +20,7 @@ The module <a data-js-object="module:josm/api">josm/api</a> provides two classes
 The class <a data-js-object="class:Api">Api</a> provides several methods to download data
 using the <a href="http://wiki.openstreetmap.org/wiki/API_v0.6">OSM API</a>.
 
-Here's a sample scripts which downloads a bounding box:
+Here's a sample scripts which downloads data in a bounding box:
 
 ```js
 var api = require("josm/api").Api;
@@ -37,5 +37,5 @@ The class <a data-js-object="class:Api">Api</a> provides the method `upload()`
 to upload data to the server. It can be used to upload data using one of the upload strategies JOSM supports:
 
 *   uploading each object individually
-*   uploading objects in chunk
+*   uploading objects in chunks
 *   uploading objects in one go

@@ -11,10 +11,9 @@ nav_order: 3
 
 ## Using native Java classes and methods
 
-The embedded scripting engine is tightly integrated with the Java type system. Native java classes, both from the Java SDK and from the <a href="http://josm.openstreetmap.de/browser/josm/trunk/src">JOSM code base</a>, are available for scripting.
+The embedded scripting engine is tightly integrated with the Java type system. Native java classes, both from the Java SDK and from the [JOSM code base], are available for scripting.
 
-You can use the fully qualified class names of a Java class in a script. JavaScript doesn't have a keyword `import`. You can't and you don't have to import Java classes in a script. 
-Declare a local variable referring to the Java class, if you wan't to avoid the fully qualified
+You can use the fully qualified class names of a Java class in a script. JavaScript doesn't have a keyword `import`. You can't and you don't have to import Java classes in a script. Declare a local variable referring to the Java class, if you wan't to avoid the fully qualified
 Java class names.
 
 ```js
@@ -35,12 +34,11 @@ var s = pos.toDisplayString();        // this is a native Java method
 
 ## Enriched Java classes &ndash; Mixins
 
-The JOSM Scripting Plugin ships with JavaScript **mixins** for a selection of
-Java classes, in particular for those, which are often used in scripts.
-A JavaScript mixin decorates a Java class with additional properties and methods, 
-which are implemented in JavaScript.
+The JOSM Scripting Plugin ships with JavaScript **mixins** for a selection of Java classes, in particular for those, which are often used in scripts.
 
-The following examples show how <a data-js-object="mixin:LatLonMixin">LatLonMixin</a> decorates the native JOSM class <a data-josm-class="org.openstreetmap.josm.data.coor.LatLon">LatLon</a>.</p>
+A JavaScript mixin decorates a Java class with additional properties and methods, which are implemented in JavaScript.
+
+The following examples show how <a data-js-object="mixin:LatLonMixin">LatLonMixin</a> decorates the native JOSM class <a data-josm-class="org.openstreetmap.josm.data.coor.LatLon">LatLon</a>.
 
 ```js
 var LatLon = org.openstreetmap.josm.data.coor.LatLon;
@@ -67,3 +65,6 @@ lat = pos1.$lat();
 var name = pos1.toDisplayString();     
 name = pos1.$toDisplayString();
 ```
+
+
+[JOSM code base]: http://josm.openstreetmap.de/browser/josm/trunk/src"
