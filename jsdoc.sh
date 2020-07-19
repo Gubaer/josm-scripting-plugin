@@ -71,13 +71,8 @@ prepare_output_dir $OUTPUT_DIR
 
 echo "Generating documentation for API version '$API_VERSION' in '$OUTPUT_DIR/$API_VERSION' ..."
 
-# the path where jsdoc is installed 
-# If not installed, clone it from github: 
-#   $ git clone https://github.com/jsdoc3/jsdoc
-JSDOC_HOME=../jsdoc
-
 # the path to the jsdoc templates and project specific js modules
-TEMPLATE_PATH=$(pwd)/doc/templates
+TEMPLATE_PATH=$(pwd)/doc/v1/templates
 
 # add the template path to the node path if not yet present
 if [ "$(echo $NODE_PATH | tr ":" "\n" | grep $TEMPLATE_PATH)" == "" ] ; then
@@ -93,5 +88,5 @@ fi
 
 jsdoc \
   -c jsdoc.${API_VERSION}.conf \
-  -t doc/templates \
+  -t doc/v1/templates \
   -d $OUTPUT_DIR/$API_VERSION
