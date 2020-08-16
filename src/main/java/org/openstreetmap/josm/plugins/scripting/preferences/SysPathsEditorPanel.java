@@ -362,7 +362,7 @@ public class SysPathsEditorPanel extends JPanel {
         public UpAction() {
             putValue(Action.NAME, tr("Up"));
             putValue(Action.SHORT_DESCRIPTION, tr("Move the selected path up by one position"));
-            putValue(Action.SMALL_ICON, saveImageGet("dialogs", "moveup"));
+            putValue(Action.SMALL_ICON, saveImageGet("dialogs", "up"));
             updateEnabledState();
         }
 
@@ -388,7 +388,7 @@ public class SysPathsEditorPanel extends JPanel {
         public DownAction() {
             putValue(Action.NAME, tr("Down"));
             putValue(Action.SHORT_DESCRIPTION, tr("Move the selected repository down by one position"));
-            putValue(Action.SMALL_ICON, saveImageGet("dialogs", "movedown"));
+            putValue(Action.SMALL_ICON, saveImageGet("dialogs", "down"));
             updateEnabledState();
         }
         @Override
