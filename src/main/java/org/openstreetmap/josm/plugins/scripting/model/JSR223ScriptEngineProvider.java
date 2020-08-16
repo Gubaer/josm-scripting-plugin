@@ -43,7 +43,7 @@ public class JSR223ScriptEngineProvider
      * types, provided as resource in the jar.
      */
     static public final String DEFAULT_MIME_TYPES =
-                "/resources/mime.types.default";
+       "/resources/mime.types.default";
 
     @SuppressWarnings("unused")
     static private final Logger logger =
@@ -84,18 +84,18 @@ public class JSR223ScriptEngineProvider
             if (f.isFile() && f.canRead()){
                 try {
                     mimeTypesMap = new MimetypesFileTypeMap(
-                            new FileInputStream(f));
+                        new FileInputStream(f));
                     return;
                 } catch(IOException e) {
                     System.err.println(
-                            tr("Warning: failed to load mime types from "
-                                    + "file ''{0}''.", f));
+                        tr("Warning: failed to load mime types from "
+                         + "file ''{0}''.", f));
                     e.printStackTrace();
                 }
             }
         }
 
-        try (InputStream is = getClass()
+        try (final InputStream is = getClass()
                 .getResourceAsStream(DEFAULT_MIME_TYPES)){
             if (is == null){
                 System.err.println(tr("Warning: failed to load default mime "
@@ -172,8 +172,8 @@ public class JSR223ScriptEngineProvider
     }
 
     /**
-     * <p>Replies the list of jar files from which script engines are
-     * loaded.</p>
+     * Replies the list of jar files from which script engines are
+     * loaded.
      *
      * @return the list of jar files
      */
@@ -182,8 +182,8 @@ public class JSR223ScriptEngineProvider
     }
 
     /**
-     * <p>Replies a script engine by name or null, if no such script
-     * engine exists.</p>
+     * Replies a script engine by name or null, if no such script
+     * engine exists.
      *
      * @param name the name. Must not be null.
      * @return the script engine
@@ -195,8 +195,8 @@ public class JSR223ScriptEngineProvider
     }
 
     /**
-     * <p>Replies true, if a JSR223-compatible scripting engine with name
-     * <code>name</code> is currently available.</p>
+     * Replies true, if a JSR223-compatible scripting engine with name
+     * <code>name</code> is currently available.
      *
      * @param name the name. Must not be null.
      * @return true, if a JSR223-compatible scripting engine with name
@@ -208,10 +208,9 @@ public class JSR223ScriptEngineProvider
     }
 
     /**
-     * <p>Replies a suitable script engine for a mime type or null, if no such
-     * script engine exists.</p>
+     * Replies a suitable script engine for a mime type or null, if no such
+     * script engine exists.
      *
-     * @param name the mime type
      * @return the script engine
      * @see ScriptEngineManager#getEngineByMimeType(String)
      */
@@ -220,8 +219,8 @@ public class JSR223ScriptEngineProvider
     }
 
     /**
-     * <p>Derives a mime type from the file suffix and replies a script engine
-     * descriptor suitable for this mime type.</p>
+     * Derives a mime type from the file suffix and replies a script engine
+     * descriptor suitable for this mime type.
      *
      * @param scriptFile the script file
      * @return the script engine descriptor. null, if no suitable script engine
@@ -250,11 +249,11 @@ public class JSR223ScriptEngineProvider
     }
 
     /**
-     * <p>Sets the list of jar files which provide JSR 226 compatible script
-     * engines.</p>
-     *
-     * <p>null entries in the list are ignored. Entries which aren't
-     * {@link ScriptEngineJarInfo#getStatusMessage() valid} are ignored.</p>
+     * Sets the list of jar files which provide JSR 226 compatible script
+     * engines.
+     * <p>
+     * null entries in the list are ignored. Entries which aren't
+     * {@link ScriptEngineJarInfo#getStatusMessage() valid} are ignored.
      *
      * @param jars the list of jar files. Can be null to set an empty list of
      *  jar files.
@@ -276,7 +275,7 @@ public class JSR223ScriptEngineProvider
     }
 
     /**
-     * <p>Replies a script engine created by the i-th script engine factory.</p>
+     * Replies a script engine created by the i-th script engine factory.
      *
      * @param i the index
      * @return the engine
@@ -287,7 +286,7 @@ public class JSR223ScriptEngineProvider
     }
 
     /**
-     * <p>Replies a script engine for the first first script engine factory
+     * Replies a script engine for the first first script engine factory
      * whose name matches with the name in the descriptor <code>desc</code>,
      * or null, if no such scripting engine is found.
      *
@@ -309,14 +308,14 @@ public class JSR223ScriptEngineProvider
     }
 
     /**
-     * <p>Replies the first script engine factory with name {@code name}, or
+     * Replies the first script engine factory with name {@code name}, or
      * null,if no such factory exists. Replies null, if {@code name} is
-     * null.</p>
-     *
-     * <p>A script engine factory is matching with <code>name</code> if its
+     * null.
+     * <p>
+     * A script engine factory is matching with <code>name</code> if its
      * {@link ScriptEngineFactory#getEngineName() engine name} or one of its
      * {@link ScriptEngineFactory#getNames() short names} is equal to
-     * <code>name</code>.</p>
+     * <code>name</code>.
      *
      * @param name the name
      * @return the script engine factory
@@ -333,7 +332,7 @@ public class JSR223ScriptEngineProvider
     }
 
     /**
-     * <p>Replies a list of the available script engine factories.</p>
+     * Replies a list of the available script engine factories.
      *
      * @return the factories
      */

@@ -26,7 +26,7 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
     static private final Logger logger =
             Logger.getLogger(ScriptEngineDescriptor.class.getName());
 
-    static public enum ScriptEngineType {
+    public enum ScriptEngineType {
         /**
          * an embedded scripting engine, i.e. the embedded Mozilla Rhino engine
          */
@@ -34,7 +34,13 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
         /**
          * a scripting engine supplied as JSR233 compliant scripting engine
          */
-        PLUGGED("plugged");
+        PLUGGED("plugged"),
+
+        /**
+         * a scripting engine/language supported by the GraalVM
+         */
+        GRAALVM("graalvm")
+        ;
 
         public final String preferencesValue;
         ScriptEngineType(String preferencesValue) {
@@ -51,6 +57,7 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
          * <pre>
          *    type = ScriptEngineType.fromPreferencesValue("embedded/rhino");
          *    type = ScriptEngineType.fromPreferencesValue("plugged/groovy");
+         *    type = ScriptEngineType.fromPreferencesValue("graalvm/js");
          * </pre>
          *
          * @param preferencesValue the preferences value
@@ -60,9 +67,10 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
                 String preferencesValue) {
             if (preferencesValue == null) return null;
             preferencesValue = preferencesValue.trim().toLowerCase();
-            int i = preferencesValue.indexOf("/");
-            if (i > 0) preferencesValue = preferencesValue.substring(0, i);
-            final String pv = preferencesValue;
+            final int i = preferencesValue.indexOf("/");
+            final String pv = i < 0
+                ? preferencesValue
+                : preferencesValue.substring(0, i);
             return Arrays.stream(values())
                 .filter(e -> e.preferencesValue.equals(pv))
                 .findFirst()
@@ -117,7 +125,7 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
      * <p>Replies a script engine descriptor derived from a preference value
      * <code>engineType/engineId</code>.<p>
      *
-     * <p>It looks for  the preference value with key
+     * <p>Looks for  the preference value with key
      * {@link PreferenceKeys#PREF_KEY_SCRIPTING_ENGINE}.
      * If this key doesn't exist or if it doesn't refer to a supported
      * combination of <code>engineType</code> and <code>engineId</code>, the
@@ -128,7 +136,7 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
      * @return the scripting engine descriptor
      */
     static public ScriptEngineDescriptor buildFromPreferences(
-            Preferences preferences) {
+            final Preferences preferences) {
         if (preferences == null) return DEFAULT_SCRIPT_ENGINE;
         String prefValue = preferences.get(PREF_KEY_SCRIPTING_ENGINE);
         return buildFromPreferences(prefValue);
@@ -144,10 +152,11 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
      * @return the scripting engine descriptor
      */
     static public ScriptEngineDescriptor buildFromPreferences(
-            String preferenceValue){
+            final String preferenceValue){
         if (preferenceValue == null) return DEFAULT_SCRIPT_ENGINE;
-        ScriptEngineType type =
-                ScriptEngineType.fromPreferencesValue(preferenceValue);
+
+        final ScriptEngineType type =
+            ScriptEngineType.fromPreferencesValue(preferenceValue);
         if (type == null) {
             //NOTE: might be a legal preferences value for former plugin
             // versions. No attempt to recover from these values, when this
@@ -159,6 +168,7 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
                 PREF_KEY_SCRIPTING_ENGINE, preferenceValue));
             return DEFAULT_SCRIPT_ENGINE;
         }
+
         final int i = preferenceValue.indexOf("/");
         if (i < 0) return DEFAULT_SCRIPT_ENGINE;
         String engineId = preferenceValue.substring(i+1);
@@ -181,7 +191,7 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
                 //don't lowercase. Lookup in ScriptEngineManager could be case
                 //sensitive
                 engineId = engineId.trim();
-                if (! JSR223ScriptEngineProvider.getInstance()
+                if (!JSR223ScriptEngineProvider.getInstance()
                         .hasEngineWithName(engineId)) {
                     System.out.println(tr("Warning: preference with key ''{0}''"
                             + " refers to an unsupported JSR223 compatible "
@@ -193,6 +203,9 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
                 }
                 return new ScriptEngineDescriptor(ScriptEngineType.PLUGGED,
                         engineId);
+
+            case GRAALVM:
+                // TODO(karl): handle GraalVM
         }
         return DEFAULT_SCRIPT_ENGINE;
     }

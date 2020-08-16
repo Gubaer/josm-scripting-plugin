@@ -12,11 +12,11 @@ import javax.validation.constraints.NotNull;
 import org.openstreetmap.josm.plugins.scripting.util.Assert;
 
 /**
- * <p>Represents a location where CommonJS modules are loaded from.</p>
- *
- * <p>The scripting plugin loads CommonJS modules either from a directory in
+ * A location from where CommonJS modules are loaded.
+ * <p>
+ * The scripting plugin loads CommonJS modules either from a directory in
  * the file system or from a jar file in the local file system. It doesn't
- * load modules from remove location, i.e. from a HTTP server.</p>
+ * load modules from remote locations, i.e. from a HTTP server.
  */
 public class CommonJSModuleRepository {
     @SuppressWarnings("unused")
@@ -26,10 +26,10 @@ public class CommonJSModuleRepository {
     private URL url;
 
     /**
-     * <p>Creates a repository.</p>
-     *
-     * <p>Doesn't enforce that <code>dir</code> exists or that it is a
-     * directory.</p>
+     * Creates a repository.
+     * <p>
+     * Doesn't enforce that <code>dir</code> exists or that it is a
+     * directory.
      *
      * @param dir a directory. Must not be null.
      * @throws IllegalArgumentException thrown if dir is null
@@ -68,9 +68,9 @@ public class CommonJSModuleRepository {
     }
 
     /**
-     * <p>Creates a repository.</p>
-     *
-     * <p><code>url</code> must be a valid file or jar URL.</p>
+     * Creates a repository
+     * <p>
+     * <code>url</code> must be a valid file or jar URL.
      *
      * @param url an acceptable URL for a module repository as string.
      *              Must not be null.
@@ -162,11 +162,11 @@ public class CommonJSModuleRepository {
     }
 
     /**
-     * <p>Replies jar file entry where to look for CommonJS modules in the
-     *      jar file.</p>
-     *
-     * <p>Replies null, if this module repository is a local directory, not
-     *      a jar file.</p>
+     * Replies jar file entry where to look for CommonJS modules in the jar
+     * file.
+     * <p>
+     * Replies null, if this module repository is a local directory, not a jar
+     * file.
      *
      * @return the jar file entry or null
      */
@@ -180,7 +180,7 @@ public class CommonJSModuleRepository {
     }
 
     /**
-     * <p>Replies the URL of this module repository.</p>
+     * Replies the URL of this module repository.
      *
      * @return the url
      */

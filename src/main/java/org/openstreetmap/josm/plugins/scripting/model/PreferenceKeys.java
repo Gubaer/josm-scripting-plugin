@@ -25,18 +25,21 @@ public interface PreferenceKeys {
 
 
     /**
-     * <p>The preferences key for the current default engine used in the
+     * The preferences key for the current default engine used in the
      * scripting console. The value is string <em>type/id</em>, where
-     * <code>type</code> is either <code>embedded</code> or
-     * <code>plugged</code>.</p>
+     * <code>type</code> is either <code>embedded</code>,
+     * <code>plugged</code>, or <code>graalvm</code>.
+     * <p>
      *
-     * <p>If type is <code>plugged</code>, the the is the name of a JSR 223
-     * compliant scripting engine. It is is <code>embedded</code> then the id
+     * If type is <code>plugged</code>, the value is the name of a JSR 223
+     * compliant scripting engine. If it is <code>embedded</code>, then the id
      * is the name of an embedded scripting engine (currently always
-     * <code>rhino</code>).</p>
+     * <code>rhino</code>) If the type is <code>graalv</code>, <code>id</code>
+     * is the id of a language supported by the GraalVM.
+     * <p><
      *
-     * <p>If missing or invalid, the embedded default scripting engine is
-     * assumed.</p>
+     * If missing or invalid, the embedded default scripting engine is
+     * assumed.
      *
      */
     String PREF_KEY_SCRIPTING_ENGINE = "scripting.console.default.engine";
@@ -52,7 +55,7 @@ public interface PreferenceKeys {
             "scripting.commonjs-module-repositories";
 
     /**
-     * <p>The array of local paths which are added to the internal to
+     * <p>The array of local paths which are added to
      * the <tt>sys.path</tt> of the internal Jython interpreter</p>
      *
      * <p>Default value: empty</p>

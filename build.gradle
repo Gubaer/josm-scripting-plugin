@@ -1,5 +1,5 @@
 plugins {
-    id 'org.openstreetmap.josm' version '0.5.0'
+    id 'org.openstreetmap.josm' version '0.6.0'
     id 'java'
     id 'groovy'
     id 'eclipse'
@@ -28,6 +28,9 @@ dependencies {
     implementation group: 'org.codehaus.groovy', name: 'groovy-all', version: '2.4.12'
     implementation group: "org.python", name: "jython", version: "2.7.0"
     implementation group: 'javax.activation', name: 'activation', version: '1.1.1'
+    implementation group: 'org.graalvm.sdk', name: 'graal-sdk', version: '19.1.0'
+    implementation group: 'org.graalvm.truffle', name: 'truffle-api', version: '19.1.0'
+    implementation group: 'org.graalvm.js', name: 'js', version: '19.1.0'
 
     packIntoJar group: "org.mozilla", name: "rhino", version: "1.7.7.1"
     packIntoJar group: "de.sciss", name: "jsyntaxpane", version: "1.0.0"
@@ -40,6 +43,9 @@ dependencies {
     testImplementation group: 'org.codehaus.groovy', name: 'groovy-all', version: '2.4.12'
     testImplementation group: 'com.github.tomakehurst', name: 'wiremock', version: '2.18.0'
     testImplementation group: 'org.awaitility', name: 'awaitility', version: '3.1.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.6.0'
 }
 
 def ConfigObject releaseHistory = new ConfigSlurper().parse(file("releases.conf").text)
@@ -113,7 +119,32 @@ task testScriptApi (type: Test) {
         exceptionFormat = TestExceptionFormat.FULL
     }
 }
+
+task testGraalVMSupportNotPresent(type: Test) {
+    // remove GraalVM from classpath under test
+    classpath = classpath.filter {! it.toString().toLowerCase().contains("graalvm")}
+    useJUnit()
+    scanForTestClasses= false
+    include "**/graalvm/GraalVMNotPresentTest.class"
+    testLogging {
+        events TestLogEvent.FAILED, TestLogEvent.PASSED
+        exceptionFormat = TestExceptionFormat.FULL
+    }
+}
+
+task testGraalVMSupportPresent(type: Test) {
+    useJUnit()
+    scanForTestClasses= false
+    include "**/graalvm/GraalVMPresentTest.class"
+    testLogging {
+        events TestLogEvent.FAILED, TestLogEvent.PASSED
+        exceptionFormat = TestExceptionFormat.FULL
+    }
+}
+
 tasks.check.dependsOn(tasks.testScriptApi)
+tasks.check.dependsOn(tasks.testGraalVMSupportNotPresent)
+tasks.check.dependsOn(tasks.testGraalVMSupportPresent)
 
 sourceSets {
     test {
