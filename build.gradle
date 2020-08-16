@@ -196,7 +196,7 @@ class Git {
     }
 
     static def add(file) {
-        executeAndLog(["git", "add", file])
+        executeAndLog(["git", "add", "-f", file])
     }
 
     static def commit(file, message) {
