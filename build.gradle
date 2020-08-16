@@ -43,6 +43,9 @@ dependencies {
     testImplementation group: 'org.codehaus.groovy', name: 'groovy-all', version: '2.4.12'
     testImplementation group: 'com.github.tomakehurst', name: 'wiremock', version: '2.18.0'
     testImplementation group: 'org.awaitility', name: 'awaitility', version: '3.1.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.6.0'
 }
 
 def ConfigObject releaseHistory = new ConfigSlurper().parse(file("releases.conf").text)
