@@ -2,12 +2,11 @@
 # Copyright (C) 2019 Gubaer
 # This file is distributed under the same license as the josm-plugin_scripting package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+#
 # Translators:
 # Xuacu Saturio <xuacusk8@gmail.com>, 2018
 # Simon Legner <simon.legner@gmail.com>, 2019
-# 
-#, fuzzy
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: josm-plugin_scripting 30795\n"
@@ -36,11 +35,9 @@ msgstr "Zarrar"
 msgid "Down"
 msgstr "Abaxo"
 
-#. create the edit menu
 msgid "Edit"
 msgstr "Editar"
 
-#. create the file menu
 msgid "File"
 msgstr "Ficheru"
 
@@ -77,10 +74,8 @@ msgstr "encaboxar"
 msgid "unknown"
 msgstr "desconocíu"
 
-#, java-format
 msgid "{1} (with engine {0})"
 msgstr "{1} (col motor {0})"
 
-#. Plugin description for josm-scripting-plugin
 msgid "Runs scripts in JOSM"
 msgstr "Executar scripts en JOSM"
