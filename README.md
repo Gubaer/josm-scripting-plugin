@@ -68,8 +68,19 @@ Translated resources can be downloaded periodically from Transifex and then comm
 ```bash
 # install the transifex client
 # see transifex documentation: https://docs.transifex.com/client/installing-the-client
-$ sudo easy_install pip
-$ sudo pip install transifex-client
+$ sudo apt install python3-pip
+$ sudo pip3 install transifex-client
+
+# createa an API key for transifex, see https://docs.transifex.com/api/introduction
+# create a file with the transifex api key
+$ touch $HOME/.transifexrc
+
+# edit $HOME/.transifexrc and add the following content
+[https://www.transifex.com]
+api_hostname = https://api.transifex.com
+hostname = https://www.transifex.com
+password = <the transifex api key>
+username = api
 
 # For new languages, or when updating only certain languages:
 # Download the german translations into src/main/po/de.po

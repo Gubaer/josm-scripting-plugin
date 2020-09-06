@@ -2,11 +2,10 @@
 # Copyright (C) 2019 Gubaer
 # This file is distributed under the same license as the josm-plugin_scripting package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+#
 # Translators:
 # Simon Legner <simon.legner@gmail.com>, 2019
-# 
-#, fuzzy
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: josm-plugin_scripting 30795\n"
@@ -38,11 +37,9 @@ msgstr "Fermer"
 msgid "Down"
 msgstr "Descendre"
 
-#. create the edit menu
 msgid "Edit"
 msgstr "Modifier"
 
-#. create the file menu
 msgid "File"
 msgstr "Fichier"
 

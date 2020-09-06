@@ -2,13 +2,12 @@
 # Copyright (C) 2019 Gubaer
 # This file is distributed under the same license as the josm-plugin_scripting package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+#
 # Translators:
 # Simon Legner <simon.legner@gmail.com>, 2018
 # Jiří Podhorecký <j.podhorecky@volny.cz>, 2018
 # Jaroslav Lichtblau <jlichtblau@seznam.cz>, 2019
-# 
-#, fuzzy
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: josm-plugin_scripting 30795\n"
@@ -22,19 +21,15 @@ msgstr ""
 "Language: cs\n"
 "Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;\n"
 
-#, java-format
 msgid "''{0}'' doesn''t exist."
 msgstr "''{0}'' neexistuje."
 
-#, java-format
 msgid "''{0}'' is neither a ''jar'' nor a ''file'' URL"
 msgstr "''{0}'' není ani URL na soubor, ani ''jar'' soubor"
 
-#, java-format
 msgid "''{0}'' is neither an existing directory nor an existing jar file"
 msgstr "''{0}'' není ani existující adresář ani jar soubor"
 
-#, java-format
 msgid "''{0}'' isn''t an existing jar file"
 msgstr "''{0}'' není existující soubor jar"
 
@@ -96,12 +91,9 @@ msgstr "Zavřít"
 msgid "Close the scripting console"
 msgstr "Zavřít skriptovací konzoli"
 
-#. title
 msgid "Configure script engines and scripts"
 msgstr "Konfigurovat skriptovací enginy a skripty"
 
-#. title
-#. icon name
 msgid "Configure scripting preferences"
 msgstr "konfigurujte předvolby skriptování"
 
@@ -114,7 +106,6 @@ msgstr "Vytvořit nebo upravit repozitář modulu CommonJS"
 msgid "Create or edit a path"
 msgstr "Vytvořit nebo upravit cestu"
 
-#, java-format
 msgid ""
 "Didn''t find a suitable syntax kit for the script engine "
 "<strong>{0}</strong>."
@@ -131,7 +122,6 @@ msgstr "Dolu"
 msgid "Download and install scripting engine"
 msgstr "Stáhnout a instalovat skriptovací engine"
 
-#. create the edit menu
 msgid "Edit"
 msgstr "Upravit"
 
@@ -150,11 +140,9 @@ msgstr "Zadat název souboru skriptu"
 msgid "Error: failed to load local map from mime-types to syntax kits"
 msgstr "Chyba: nelze načíst lokální mapu z typů mime do syntaktických sad"
 
-#, java-format
 msgid "Error: failed to load resource file ''{0}''"
 msgstr "Chyba: Nelze načíst soubor prostředků ''{0}''"
 
-#, java-format
 msgid "Error: resource file ''{0}'' not found"
 msgstr "Chyba: soubor prostředků ''{0}'' nebyl nalezen"
 
@@ -164,23 +152,18 @@ msgstr "Spustit skript"
 msgid "FATAL: Failed to initialize scripting plugin.\n"
 msgstr "FATAL: Nepodařilo se inicializovat plugin pro skriptování\n"
 
-#, java-format
 msgid "Failed to instantiate plugin ''{0}''."
 msgstr "Nepodařilo se vytvořit instanci pluginu ''{0}''."
 
-#, java-format
 msgid "Failed to load icon ''{0}''"
 msgstr "Nepodařilo se načíst ikonu ''{0}''"
 
-#, java-format
 msgid "Failed to load icon ''{0}/{1}''"
 msgstr "Nepodařilo se načíst ikonu ''{0}/{1}''"
 
-#, java-format
 msgid "Failed to lookup plugin class ''{0}''."
 msgstr "Nepodařilo se vyhledávat třídu pluginů ''{0}''."
 
-#, java-format
 msgid ""
 "Failed to open file ''{0}'' as jar file. Can''t load a script engine from "
 "this file."
@@ -188,15 +171,12 @@ msgstr ""
 "Nepodařilo se otevřít soubor ''{0}'' jako soubor jar. Nelze nahrát "
 "skriptovací engine z tohoto souboru."
 
-#, java-format
 msgid "Failed to read the script from the file ''{0}''."
 msgstr "Skript se nepodařilo přečíst ze souboru ''{0}''."
 
-#, java-format
 msgid "Failed to save file ''{0}''."
 msgstr "Nepodařilo se uložit soubor ''{0}''."
 
-#. create the file menu
 msgid "File"
 msgstr "Soubor"
 
@@ -246,17 +226,14 @@ msgstr "Jazyk: "
 msgid "Launch file chooser"
 msgstr "Spustit výběr souborů"
 
-#. don't translate
 msgid "Launch file selection dialog"
 msgstr "Launch file selection dialog"
 
-#, java-format
 msgid ""
 "Loading default map from mime-types to syntax kits from resource ''{0}''"
 msgstr ""
 "Načítání výchozí mapy z typů mime do syntaktických sad z prostředku ''{0}''"
 
-#, java-format
 msgid "Loading local map from mime-types to syntax kits from resource ''{0}''"
 msgstr ""
 "Načítání místní mapy z mime-type do syntaktických sad ze zdroje ''{0}''"
@@ -308,7 +285,6 @@ msgstr "Odstranit"
 msgid "Remove a path"
 msgstr "Odstranit cestu"
 
-#. putValue(Action.NAME, tr("Remove"));
 msgid "Remove a repository"
 msgstr "Odstranit úložiště"
 
@@ -321,8 +297,6 @@ msgstr "Odstranit vybrané jar soubory"
 msgid "Run"
 msgstr "Spustit"
 
-#. title
-#. icon name
 msgid "Run a script"
 msgstr "Spustit script"
 
@@ -365,7 +339,6 @@ msgstr "Spuštění skriptu se nezdařilo."
 msgid "Script file:"
 msgstr "Soubor skriptu:"
 
-#. icon name
 msgid "Scripting"
 msgstr "Skriptování"
 
@@ -400,8 +373,6 @@ msgstr "Vybrat..."
 msgid "Show scripting console"
 msgstr "Zobrazit skriptovací konzoli"
 
-#. title
-#. icon name
 msgid "Show/hide the scripting console"
 msgstr "Zobrazit / skrýt skriptovací konzoli"
 
@@ -411,22 +382,18 @@ msgstr "Zvýrazněná syntaxe bude zakázána."
 msgid "The display name of the script. Used in menu entries."
 msgstr "Zobrazovaný název skriptu. Používá se v položkách nabídky."
 
-#, java-format
 msgid ""
 "The jar file ''{0}'' doesn''t provide a script engine. The entry ''{1}'' is "
 "missing."
 msgstr ""
 "Jar soubor ''{0}'' neposkytuje skriptovací engine. Položka ''{1}'' chybí."
 
-#, java-format
 msgid "The script file ''{0}'' doesn''t exist."
 msgstr "Soubor skriptu ''{0}'' neexistuje."
 
-#, java-format
 msgid "The script file ''{0}'' isn''t readable."
 msgstr "Soubor skriptu ''{0}'' není čitelný."
 
-#, java-format
 msgid "URL ''{0}'' doesn''t refer to an existing local directory or jar file"
 msgstr "URL ''{0}'' není odkazem na existující místní adresář nebo jar soubor"
 
@@ -436,7 +403,6 @@ msgstr "Nahoru"
 msgid "Version:"
 msgstr "Verzia:"
 
-#, java-format
 msgid "Warning: failed to open resource file ''{0}''"
 msgstr "Upozornění: nelze otevřít soubor prostředků ''{0}''"
 
@@ -446,10 +412,8 @@ msgstr "zrušit"
 msgid "unknown"
 msgstr "neznámý"
 
-#, java-format
 msgid "{1} (with engine {0})"
 msgstr "{1} (s enginem {0})"
 
-#. Plugin description for josm-scripting-plugin
 msgid "Runs scripts in JOSM"
 msgstr "Spouští skripty v JOSM"

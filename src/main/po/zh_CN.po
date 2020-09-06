@@ -2,12 +2,11 @@
 # Copyright (C) 2019 Gubaer
 # This file is distributed under the same license as the josm-plugin_scripting package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+#
 # Translators:
 # Mingye Wang <arthur200126@gmail.com>, 2019
 # Simon Legner <simon.legner@gmail.com>, 2019
-# 
-#, fuzzy
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: josm-plugin_scripting 30795\n"
@@ -21,37 +20,29 @@ msgstr ""
 "Language: zh_CN\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#, java-format
 msgid "''{0}'' doesn''t exist."
 msgstr "“{0}”不存在。"
 
-#, java-format
 msgid "''{0}'' is a directory. Expecting a jar file instead."
 msgstr "“{0}”是一个目录。要的是 jar 文件。"
 
-#, java-format
 msgid "''{0}'' is neither a ''jar'' nor a ''file'' URL"
 msgstr "“{0}”既不是“jar”，也不是“file://”URL"
 
-#, java-format
 msgid "''{0}'' isn''t a valid URL"
 msgstr "“{0}”不是有效的 URL"
 
-#, java-format
 msgid "''{0}'' isn''t an existing jar file"
 msgstr "“{0}”这个 jar 文件不存在"
 
-#, java-format
 msgid "''{0}'' isn''t readable. Can''t load a script engine from this file."
 msgstr "“{0}”不可读。无法从此文件中读取脚本引擎。"
 
-#, java-format
 msgid ""
 "<p>Failed to execute a script.</p><p/><p><strong>Error "
 "message:</strong>{0}</p>"
 msgstr "<p>未能执行脚本。</p><p><p><strong>错误消息：</strong>{0}</p>"
 
-#, java-format
 msgid ""
 "<p>Failed to execute a script.</p><p/><p><strong>Error "
 "message:</strong>{0}</p><p><strong>At:</strong>line {1}, column {2}</p>"
@@ -59,13 +50,11 @@ msgstr ""
 "<p>未能执行脚本。</p><p><p><strong>错误消息：</strong>{0}</p><p><strong>在：</strong>行 "
 "{1}, 列 {2}</p>"
 
-#, java-format
 msgid ""
 "<p>Failed to execute the script file ''{0}''.</p><p/><p><strong>Error "
 "message:</strong>{1}</p>"
 msgstr "<p>未能执行脚本文件“{0}”。</p><p><p><strong>错误消息：</strong>{1}</p>"
 
-#, java-format
 msgid ""
 "<p>Failed to execute the script file ''{0}''.</p><p/><p><strong>Error "
 "message:</strong>{1}</p><p><strong>At:</strong>line {2}, column {3}</p>"
@@ -112,12 +101,9 @@ msgstr "关闭"
 msgid "Close the scripting console"
 msgstr "关闭脚本控制台"
 
-#. title
 msgid "Configure script engines and scripts"
 msgstr "配置脚本引擎和脚本"
 
-#. title
-#. icon name
 msgid "Configure scripting preferences"
 msgstr "配置脚本首选项"
 
@@ -136,7 +122,6 @@ msgstr "当前文件："
 msgid "Define a new script"
 msgstr "定义新脚本"
 
-#, java-format
 msgid ""
 "Didn''t find a suitable syntax kit for the script engine "
 "<strong>{0}</strong>."
@@ -151,7 +136,6 @@ msgstr "下"
 msgid "Download and install scripting engine"
 msgstr "下载并安装脚本引擎"
 
-#. create the edit menu
 msgid "Edit"
 msgstr "编辑(E)"
 
@@ -170,7 +154,6 @@ msgstr "输入提供脚本引擎的额外 JAR 文件。"
 msgid "FATAL: Failed to initialize scripting plugin.\n"
 msgstr "致命：无法初始化脚本插件。\n"
 
-#. create the file menu
 msgid "File"
 msgstr "文件(F)"
 
@@ -215,7 +198,6 @@ msgstr "语言："
 msgid "Launch file chooser"
 msgstr "打开文件选择器"
 
-#. don't translate
 msgid "Launch file selection dialog"
 msgstr "打开文件选择对话框"
 
@@ -249,7 +231,6 @@ msgstr "删除"
 msgid "Remove a path"
 msgstr "删除路径"
 
-#. putValue(Action.NAME, tr("Remove"));
 msgid "Remove a repository"
 msgstr "删除库"
 
@@ -262,8 +243,6 @@ msgstr "删除选定的 jar 文件"
 msgid "Run"
 msgstr "运行"
 
-#. title
-#. icon name
 msgid "Run a script"
 msgstr "运行脚本"
 
@@ -309,7 +288,6 @@ msgstr "脚本执行失败。"
 msgid "Script file:"
 msgstr "脚本文件："
 
-#. icon name
 msgid "Scripting"
 msgstr "脚本"
 
@@ -340,7 +318,6 @@ msgstr "选择脚本文件"
 msgid "Select a script file and click on <strong>Run</strong>."
 msgstr "选择脚本文件,然后单击“<strong>运行</strong>”。"
 
-#. used in the context of a combo box
 msgid "Select an engine"
 msgstr "选择引擎"
 
@@ -353,8 +330,6 @@ msgstr "选择…"
 msgid "Show scripting console"
 msgstr "显示脚本控制台"
 
-#. title
-#. icon name
 msgid "Show/hide the scripting console"
 msgstr "显示/隐藏脚本控制台"
 
@@ -364,11 +339,9 @@ msgstr "语法高亮显示将被禁用。"
 msgid "The display name of the script. Used in menu entries."
 msgstr "脚本的显示名称。用于菜单项。"
 
-#, java-format
 msgid "The script file ''{0}'' doesn''t exist."
 msgstr "脚本文件“{0}”不存在。"
 
-#, java-format
 msgid "The script file ''{0}'' isn''t readable."
 msgstr "脚本文件“{0}”不可读。"
 
@@ -384,10 +357,8 @@ msgstr "取消"
 msgid "unknown"
 msgstr "不明"
 
-#, java-format
 msgid "{1} (with engine {0})"
 msgstr "{1}（使用引擎 {0}）"
 
-#. Plugin description for josm-scripting-plugin
 msgid "Runs scripts in JOSM"
 msgstr "在 JOSM 中运行脚本"

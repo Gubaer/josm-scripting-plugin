@@ -2,12 +2,11 @@
 # Copyright (C) 2019 Gubaer
 # This file is distributed under the same license as the josm-plugin_scripting package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+#
 # Translators:
 # Jurbo Lator <joern.map@gmail.com>, 2018
 # Simon Legner <simon.legner@gmail.com>, 2019
-# 
-#, fuzzy
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: josm-plugin_scripting 30795\n"
@@ -21,38 +20,30 @@ msgstr ""
 "Language: da\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#, java-format
 msgid ""
 "''onLoad()'' for plugin ''{0}'' failed. Plugin isn''t properly initialized."
 msgstr ""
 "''onLoad ()'' for udvidelse ''{0}'' mislykkedes. Udvidelse er ikke korrekt "
 "initialiseret."
 
-#, java-format
 msgid "''{0}'' doesn''t exist."
 msgstr "''{0}'' eksisterer ikke.."
 
-#, java-format
 msgid "''{0}'' is a directory. Expecting a jar file instead."
 msgstr "''{0}'' er en mappe. Forventer en jar fil i stedet."
 
-#, java-format
 msgid "''{0}'' is neither a ''jar'' nor a ''file'' URL"
 msgstr "''{0}'' er hverken en ''jar'' eller en ''fil'' URL"
 
-#, java-format
 msgid "''{0}'' is neither an existing directory nor an existing jar file"
 msgstr "''{0}'' er hverken en eksisterende mappe eller en eksisterende jarfil"
 
-#, java-format
 msgid "''{0}'' isn''t a valid URL"
 msgstr "''{0}'' er ikke en gyldig URL"
 
-#, java-format
 msgid "''{0}'' isn''t an existing jar file"
 msgstr "''{0}'' er ikke en eksisterende jarfil"
 
-#, java-format
 msgid "''{0}'' isn''t readable. Can''t load a script engine from this file."
 msgstr "''{0}'' er ikke læsbar. Kan ikke load et script sprog fra denne fil."
 
@@ -122,7 +113,6 @@ msgstr "Vis navn:"
 msgid "Down"
 msgstr "Ned"
 
-#. create the edit menu
 msgid "Edit"
 msgstr "Rediger"
 
@@ -135,43 +125,33 @@ msgstr "Tomt filnavn"
 msgid "Enter the name of a script file"
 msgstr "Indtast navnet på en script fil"
 
-#, java-format
 msgid "Error: failed to load resource file ''{0}''"
 msgstr "Fejl: kunne ikke indlæse ressource fil ''{0}''"
 
-#, java-format
 msgid "Error: resource file ''{0}'' not found"
 msgstr "Fejl: ressource fil ''{0}'' ikke fundet"
 
-#, java-format
 msgid "Failed to create URL referring to the module repository ''{0}''"
 msgstr "Kunne ikke oprette URL der henviser til repository modulet ''{0}''"
 
-#, java-format
 msgid "Failed to load file ''{0}''."
 msgstr "Kunne ikke indlæse fil ''{0}''."
 
-#, java-format
 msgid "Failed to load icon ''{0}''"
 msgstr "Kunne ikke indlæse ikon ''{0}''"
 
-#, java-format
 msgid "Failed to load icon ''{0}/{1}''"
 msgstr "Kunne ikke indlæse ikon ''{0}/{1}''"
 
-#, java-format
 msgid "Failed to read the script from file ''{0}''."
 msgstr "Kunne ikke læse scriptet fra fil ''{0}''."
 
-#, java-format
 msgid "Failed to read the script from the file ''{0}''."
 msgstr "Kunne ikke læse scriptet fra filen ''{0}''."
 
-#, java-format
 msgid "Failed to save file ''{0}''."
 msgstr "Kunne ikke gemme fil ''{0}''."
 
-#. create the file menu
 msgid "File"
 msgstr "Filer"
 
@@ -251,7 +231,6 @@ msgstr "Fjern"
 msgid "Remove a path"
 msgstr "Fjern en sti"
 
-#. putValue(Action.NAME, tr("Remove"));
 msgid "Remove a repository"
 msgstr "Fjern et repository"
 
@@ -276,7 +255,6 @@ msgstr "Script fejl"
 msgid "Script file:"
 msgstr "Script fil:"
 
-#. icon name
 msgid "Scripting"
 msgstr "Scripting"
 
@@ -307,20 +285,16 @@ msgstr "Vis scripting konsol"
 msgid "Syntax highlighting is going to be disabled."
 msgstr "Syntaks fremhævning vil blive deaktiveret."
 
-#, java-format
 msgid "The script file ''{0}'' doesn''t exist."
 msgstr "Script filen ''{0}'' findes ikke."
 
-#, java-format
 msgid "The script file ''{0}'' isn''t readable."
 msgstr "Script filen ''{0}'' er ikke læsbar."
 
-#, java-format
 msgid "URL ''{0}'' doesn''t refer to an existing local directory or jar file"
 msgstr ""
 "URL ''{0}'' henviser ikke til en eksisterende lokal mappe eller jar-fil"
 
-#, java-format
 msgid "URL ''{0}'' doesn''t refer to an existing local jar file"
 msgstr "URL ''{0}'' henviser ikke til en eksisterende lokal jar-fil"
 

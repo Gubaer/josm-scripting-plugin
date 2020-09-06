@@ -2,12 +2,11 @@
 # Copyright (C) 2019 Gubaer
 # This file is distributed under the same license as the josm-plugin_scripting package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+#
 # Translators:
 # Simon Legner <simon.legner@gmail.com>, 2018
 # Janis Karklins, 2018
-# 
-#, fuzzy
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: josm-plugin_scripting 30795\n"
@@ -21,27 +20,21 @@ msgstr ""
 "Language: lv\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);\n"
 
-#, java-format
 msgid "''{0}'' doesn''t exist."
 msgstr "''{0}'' neeksistē."
 
-#, java-format
 msgid "''{0}'' is a directory. Expecting a jar file instead."
 msgstr "''{0}'' is a mape. Gaidīju jar datni."
 
-#, java-format
 msgid "''{0}'' is neither a ''jar'' nor a ''file'' URL"
 msgstr "''{0}'' nav ne ''jar'' ne arī ''datnes'' URL"
 
-#, java-format
 msgid "''{0}'' is neither an existing directory nor an existing jar file"
 msgstr "''{0}'' nav ne eksistējoša mape, ne arī eksistējoša jar datne"
 
-#, java-format
 msgid "''{0}'' isn''t an existing jar file"
 msgstr "''{0}'' nav eksistējoša jar datne"
 
-#, java-format
 msgid "''{0}'' isn''t readable. Can''t load a script engine from this file."
 msgstr "''{0}'' nav nolasāms. Nevarēja ielādēt skriptu dzinēju no šīs datnes."
 
@@ -81,7 +74,6 @@ msgstr "Pašreizējā datne:"
 msgid "Display name:"
 msgstr "Displeja vārds:"
 
-#. create the edit menu
 msgid "Edit"
 msgstr "Rediģēt"
 

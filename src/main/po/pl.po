@@ -2,13 +2,12 @@
 # Copyright (C) 2019 Gubaer
 # This file is distributed under the same license as the josm-plugin_scripting package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+#
 # Translators:
 # Piotr Strębski <strebski@gmail.com>, 2018
 # Right Path, 2018
 # Simon Legner <simon.legner@gmail.com>, 2019
-# 
-#, fuzzy
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: josm-plugin_scripting 30795\n"
@@ -22,44 +21,35 @@ msgstr ""
 "Language: pl\n"
 "Plural-Forms: nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
 
-#, java-format
 msgid ""
 "''onLoad()'' for plugin ''{0}'' failed. Plugin isn''t properly initialized."
 msgstr ""
 "''onLoad()'' we wtyczce ''{0}'' wykonał błąd. Wtyczka nie została poprawnie "
 "zainicjowana."
 
-#, java-format
 msgid "''{0}'' doesn''t exist."
 msgstr "''{0}'' nie istnieje."
 
-#, java-format
 msgid "''{0}'' is a directory. Expecting a jar file instead."
 msgstr "''{0}'' jest katalogiem. Oczekiwano jednakże pliku jar."
 
-#, java-format
 msgid "''{0}'' is neither a ''jar'' nor a ''file'' URL"
 msgstr "''{0}'' nie jest ani plikiem ''jar'' ani ''plikiem'' z URL"
 
-#, java-format
 msgid "''{0}'' is neither an existing directory nor an existing jar file"
 msgstr ""
 "''{0}'' nie jest ani istniejącym katalogiem ani istniejącym plikiem jar"
 
-#, java-format
 msgid "''{0}'' isn''t a valid URL"
 msgstr "''{0}'' nie jest poprawnym URL"
 
-#, java-format
 msgid "''{0}'' isn''t an existing jar file"
 msgstr "''{0}'' nie jest istniejącym plikiem jar"
 
-#, java-format
 msgid "''{0}'' isn''t readable. Can''t load a script engine from this file."
 msgstr ""
 "''{0}'' nie jest do odczytu. Nie można wczytać silnika skryptu z tego pliku."
 
-#, java-format
 msgid ""
 "<p>Failed to execute a script.</p><p/><p><strong>Error "
 "message:</strong>{0}</p>"
@@ -67,7 +57,6 @@ msgstr ""
 "<p>Nieudane wykonanie skryptu.</p><p/><p><strong>Treść "
 "błędu:</strong>{0}</p>"
 
-#, java-format
 msgid ""
 "<p>Failed to execute a script.</p><p/><p><strong>Error "
 "message:</strong>{0}</p><p><strong>At:</strong>line {1}, column {2}</p>"
@@ -75,7 +64,6 @@ msgstr ""
 "<p>Błąd wykonania skryptu.</p><p/><p><strong>Komunikat "
 "błędu:</strong>{0}</p><p><strong>W:</strong>wiersz {1}, kolumna {2}</p>"
 
-#, java-format
 msgid ""
 "<p>Failed to execute the script file ''{0}''.</p><p/><p><strong>Error "
 "message:</strong>{1}</p>"
@@ -83,7 +71,6 @@ msgstr ""
 "<p>Błąd wykonania pliku skryptu ''{0}''.</p><p/><p><strong>Komunikat "
 "błędu:</strong>{1}</p>"
 
-#, java-format
 msgid ""
 "<p>Failed to execute the script file ''{0}''.</p><p/><p><strong>Error "
 "message:</strong>{1}</p><p><strong>At:</strong>line {2}, column {3}</p>"
@@ -91,7 +78,6 @@ msgstr ""
 "<p>Błąd wykonania pliku skryptu ''{0}''.</p><p/><p><strong>Komunikat "
 "błędu:</strong>{1}</p><p><strong>W:</strong>wiersz {2}, kolumna {3}</p>"
 
-#, java-format
 msgid ""
 "<p>The script can''t be executed, because a scripting engine with name "
 "''{0}'' isn''t configured.</p><p>Refer to the online help for information "
@@ -158,7 +144,6 @@ msgstr ""
 msgid "Add toolbar button"
 msgstr "Dodaj przycisk do paska narzędzi"
 
-#, java-format
 msgid "Added {0} primitive"
 msgid_plural "Added {0} primitives"
 msgstr[0] "Dodano {0} element"
@@ -190,7 +175,6 @@ msgstr "Anuluj i zamknij okno dialogowe"
 msgid "Change..."
 msgstr "Zmień..."
 
-#, java-format
 msgid "Changed {0} primitive"
 msgid_plural "Changed {0} primitives"
 msgstr[0] "Zmieniono {0} element"
@@ -213,12 +197,9 @@ msgstr "Zamknij"
 msgid "Close the scripting console"
 msgstr "Zamknij konsolę skryptów"
 
-#. title
 msgid "Configure script engines and scripts"
 msgstr "Konfiguracja silników skryptów i skryptów"
 
-#. title
-#. icon name
 msgid "Configure scripting preferences"
 msgstr "Konfiguracja preferencji skryptów"
 
@@ -237,7 +218,6 @@ msgstr "Bieżący plik:"
 msgid "Define a new script"
 msgstr "Określ nowy skrypt"
 
-#, java-format
 msgid "Deleted {0} primitive"
 msgid_plural "Deleted {0} primitives"
 msgstr[0] "Usunięto {0} element"
@@ -245,7 +225,6 @@ msgstr[1] "Usunięto {0} elementy"
 msgstr[2] "Usunięto {0} elementów"
 msgstr[3] "Usunięto {0} elementów"
 
-#, java-format
 msgid ""
 "Didn''t find a suitable syntax kit for the script engine "
 "<strong>{0}</strong>."
@@ -262,7 +241,6 @@ msgstr "W dół"
 msgid "Download and install scripting engine"
 msgstr "Pobierz i zainstaluj silnik skryptów"
 
-#. create the edit menu
 msgid "Edit"
 msgstr "Edycja"
 
@@ -285,18 +263,15 @@ msgid "Error: failed to load local map from mime-types to syntax kits"
 msgstr ""
 "Błąd: nie udało się załadować lokalnej mapy z typów mime do zestawów składni"
 
-#, java-format
 msgid "Error: failed to load resource file ''{0}''"
 msgstr "Błąd: nie udało się wczytać pliku zasobu \"{0}\""
 
-#, java-format
 msgid "Error: resource file ''{0}'' not found"
 msgstr "Błąd: nie odnaleziono pliku zasobu \"{0}\""
 
 msgid "Execute the script"
 msgstr "Wykonaj skrypt"
 
-#, java-format
 msgid ""
 "Executing scripts in language <strong>{0}</strong> using engine "
 "<strong>{1}</strong>."
@@ -304,7 +279,6 @@ msgstr ""
 "Wykonywanie skryptu w języku <strong>{0}</strong> przy użyciu silnika "
 "<strong>{1}</strong>."
 
-#, java-format
 msgid ""
 "Executing scripts with the built-in scripting engine for language "
 "<strong>{0}</strong> based on <strong>{1}</strong>."
@@ -315,27 +289,21 @@ msgstr ""
 msgid "FATAL: Failed to initialize scripting plugin.\n"
 msgstr "BŁĄD KRYTYCZNY: Błąd inicjacji wtyczki skryptów.\n"
 
-#, java-format
 msgid "Failed to create URL referring to the module repository ''{0}''"
 msgstr "Błąd tworzenia URL odwołującego się do modułu repozytorium \"{0}\""
 
-#, java-format
 msgid "Failed to instantiate plugin ''{0}''."
 msgstr "Błąd tworzenia instancji wtyczki \"{0}\"."
 
-#, java-format
 msgid "Failed to load file ''{0}''."
 msgstr "Błąd wczytywania pliku \"{0}\"."
 
-#, java-format
 msgid "Failed to load icon ''{0}''"
 msgstr "Błąd wczytywania ikony ''{0}''"
 
-#, java-format
 msgid "Failed to load icon ''{0}/{1}''"
 msgstr "Błąd wczytywania ikony ''{0}/{1}''"
 
-#, java-format
 msgid ""
 "Failed to load python module ''{0}''. \n"
 "Make sure the preferences with key ''{1}'' include the path to the module."
@@ -343,11 +311,9 @@ msgstr ""
 "Błąd ładowania modułu python ''{0}''. \n"
 "Upewnij się, że ustawienia z kluczem ''{1}'' zawierają ścieżkę do modułu."
 
-#, java-format
 msgid "Failed to lookup plugin class ''{0}''."
 msgstr "Błąd wyszukiwania wtyczki klasy \"{0}\"."
 
-#, java-format
 msgid ""
 "Failed to open file ''{0}'' as jar file. Can''t load a script engine from "
 "this file."
@@ -355,19 +321,15 @@ msgstr ""
 "Błąd otwierania pliku \"{0}\" jako pliku jar. Nie można załadować silnika "
 "skryptu z tego pliku."
 
-#, java-format
 msgid "Failed to read the script from file ''{0}''."
 msgstr "Błąd odczytu skryptu z pliku ''{0}''."
 
-#, java-format
 msgid "Failed to read the script from the file ''{0}''."
 msgstr "Błąd odczytu skryptu z pliku ''{0}''."
 
-#, java-format
 msgid "Failed to save file ''{0}''."
 msgstr "Błąd zapisu pliku ''{0}''."
 
-#. create the file menu
 msgid "File"
 msgstr "Plik"
 
@@ -423,17 +385,14 @@ msgstr "Język:"
 msgid "Launch file chooser"
 msgstr "Pokaż okno wyboru plików"
 
-#. don't translate
 msgid "Launch file selection dialog"
 msgstr "Launch file selection dialog"
 
-#, java-format
 msgid ""
 "Loading default map from mime-types to syntax kits from resource ''{0}''"
 msgstr ""
 "Ładowanie domyślnej mapy z typów mime do zestawów składni ze źródła \"{0}\""
 
-#, java-format
 msgid "Loading local map from mime-types to syntax kits from resource ''{0}''"
 msgstr ""
 "Ładowanie lokalnej mapy z typów mime do zestawów składni ze źródła \"{0}\""
@@ -499,7 +458,6 @@ msgstr "Usuń"
 msgid "Remove a path"
 msgstr "Usuń ścieżkę"
 
-#. putValue(Action.NAME, tr("Remove"));
 msgid "Remove a repository"
 msgstr "Usuń repozytorium"
 
@@ -512,8 +470,6 @@ msgstr "Usuń wybrane pliki jar"
 msgid "Run"
 msgstr "Uruchom"
 
-#. title
-#. icon name
 msgid "Run a script"
 msgstr "Uruchom skrypt"
 
@@ -559,7 +515,6 @@ msgstr "Wykonanie skryptu wywołało błąd."
 msgid "Script file:"
 msgstr "Plik skryptu:"
 
-#. icon name
 msgid "Scripting"
 msgstr "Skrypty"
 
@@ -590,7 +545,6 @@ msgstr "Wybierz plik skryptu"
 msgid "Select a script file and click on <strong>Run</strong>."
 msgstr "Wybierz plik skryptu i kliknij <strong>Uruchom</strong>."
 
-#. used in the context of a combo box
 msgid "Select an engine"
 msgstr "Wybierz silnik"
 
@@ -603,8 +557,6 @@ msgstr "Wybierz..."
 msgid "Show scripting console"
 msgstr "Wyświetl konsolę skryptów"
 
-#. title
-#. icon name
 msgid "Show/hide the scripting console"
 msgstr "Wyświetl/ukryj konsolę skryptów"
 
@@ -614,17 +566,14 @@ msgstr "Kolorowanie składni zostanie wyłączone."
 msgid "The display name of the script. Used in menu entries."
 msgstr "Wyświetlana nazwa skryptu. Używana we wpisach menu."
 
-#, java-format
 msgid ""
 "The jar file ''{0}'' doesn''t provide a script engine. The entry ''{1}'' is "
 "missing."
 msgstr "Plik jar ''{0}'' nie zawiera silnika skryptu. Brakuje wpisu ''{1}''."
 
-#, java-format
 msgid "The script file ''{0}'' doesn''t exist."
 msgstr "Plik skryptu ''{0}''nie istnieje."
 
-#, java-format
 msgid "The script file ''{0}'' isn''t readable."
 msgstr "Plik skryptu ''{0}'' nie jest do odczytu."
 
@@ -656,12 +605,10 @@ msgstr ""
 msgid "The unique internal ID used to identify the script."
 msgstr "Unikalne wewnętrzne ID, używane do identyfikowania skryptu."
 
-#, java-format
 msgid "URL ''{0}'' doesn''t refer to an existing local directory or jar file"
 msgstr ""
 "URL \"{0}\" nie odwołuje się do istniejącego lokalnego folderu lub pliku jar"
 
-#, java-format
 msgid "URL ''{0}'' doesn''t refer to an existing local jar file"
 msgstr "URL \"{0}\" nie odwołuje się do istniejącego lokalnego pliku jar"
 
@@ -671,23 +618,15 @@ msgstr "W górę"
 msgid "Version:"
 msgstr "Wersja:"
 
-#, java-format
 msgid "Warning: failed to load default mime types from  resource ''{0}''."
 msgstr "Ostrzeżenie: błąd ładowania domyślnych typów MIME z zasobu \"{0}\""
 
-#, java-format
 msgid "Warning: failed to load mime types from file ''{0}''."
 msgstr "Ostrzeżenie: błąd ładowania typów MIME z pliku \"{0}\""
 
-#, java-format
 msgid "Warning: failed to open resource file ''{0}''"
 msgstr "Ostrzeżenie: nie udało się załadować pliku zasobów \"{0}\""
 
-#. NOTE: might be a legal preferences value for former plugin
-#. versions. No attempt to recover from these values, when this
-#. code goes productive, former preference values are automatically
-#. reset to the current default scripting engine.
-#, java-format
 msgid ""
 "Warning: preference with key ''{0}'' consist of an unsupported value. "
 "Expected pattern ''type/id'', got ''{1}''. Assuming default scripting "
@@ -697,7 +636,6 @@ msgstr ""
 "Spodziewany schemat \"typ/id\", otrzymano \"{1}\". Przyjęto domyślny silnik "
 "skryptu."
 
-#, java-format
 msgid ""
 "Warning: preference with key ''{0}'' refers to an unsupported JSR223 "
 "compatible  scripting engine with id ''{1}''.  Assuming default scripting "
@@ -707,7 +645,6 @@ msgstr ""
 "zgodnego z JSR223, silnika skryptu o id \"{1}\". Przyjęto domyślny silnik "
 "skryptu."
 
-#, java-format
 msgid ""
 "Warning: preference with key ''{0}'' refers to an unsupported embedded "
 "scripting engine with id ''{1}''. Assuming default scripting engine."
@@ -715,13 +652,11 @@ msgstr ""
 "Ostrzeżenie: ustawienie z kluczem ''{0}'' odwołuje się do niewspieranego "
 "wbudowanego silnika skryptu o id \"{1}\". Przyjęto domyślny silnik skryptu."
 
-#, java-format
 msgid "Warning: property  ''{0}'' in resource file ''{1}'' not found"
 msgstr ""
 "Ostrzeżenie: właściwość  ''{0}'' w pliku zasobów ''{1}'' nie została "
 "znaleziona"
 
-#, java-format
 msgid ""
 "Warning: syntax kit ''{0}'' can''t be loaded. Ignoring mapping for mime type"
 " ''{1}''."
@@ -732,17 +667,14 @@ msgstr ""
 msgid "cancel"
 msgstr "anuluj"
 
-#, java-format
 msgid "plugin class loader for plugin ''{0}'' not found"
 msgstr "klasa ładowania wtyczki \"{0}\" nie została znaleziona"
 
 msgid "unknown"
 msgstr "nieznany"
 
-#, java-format
 msgid "{1} (with engine {0})"
 msgstr "{1} (z silnikiem {0})"
 
-#. Plugin description for josm-scripting-plugin
 msgid "Runs scripts in JOSM"
 msgstr "Uruchamiaj skrypty w JOSM"

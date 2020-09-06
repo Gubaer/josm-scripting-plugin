@@ -2,13 +2,12 @@
 # Copyright (C) 2019 Gubaer
 # This file is distributed under the same license as the josm-plugin_scripting package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+#
 # Translators:
 # Florian Schäfer, 2018
 # Aleksey Kabanov <ak099@mail.ru>, 2018
 # Simon Legner <simon.legner@gmail.com>, 2019
-# 
-#, fuzzy
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: josm-plugin_scripting 30795\n"
@@ -22,37 +21,29 @@ msgstr ""
 "Language: ru\n"
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#, java-format
 msgid "''{0}'' doesn''t exist."
 msgstr "''{0}'' не существует."
 
-#, java-format
 msgid "''{0}'' is a directory. Expecting a jar file instead."
 msgstr "''{0}'' является каталогом. Ожидался jar-файл."
 
-#, java-format
 msgid "''{0}'' is neither a ''jar'' nor a ''file'' URL"
 msgstr "''{0}'' не является URL типа ''jar'' или ''file'' "
 
-#, java-format
 msgid "''{0}'' is neither an existing directory nor an existing jar file"
 msgstr ""
 "''{0}'' не является ни существующим каталогом, ни существующим jar-файлом"
 
-#, java-format
 msgid "''{0}'' isn''t a valid URL"
 msgstr "''{0}'' — недопустимый URL"
 
-#, java-format
 msgid "''{0}'' isn''t an existing jar file"
 msgstr "''{0}'' не является существующим jar-файлом"
 
-#, java-format
 msgid "''{0}'' isn''t readable. Can''t load a script engine from this file."
 msgstr ""
 "''{0}'' не читается. Невозможно загрузить движок скриптов из этого файла."
 
-#, java-format
 msgid ""
 "<p>Failed to execute a script.</p><p/><p><strong>Error "
 "message:</strong>{0}</p>"
@@ -60,7 +51,6 @@ msgstr ""
 "<p>Не удалось выполнить скрипт.</p><p/><p><strong>Сообщение об "
 "ошибке:</strong>{0}</p>"
 
-#, java-format
 msgid ""
 "<p>Failed to execute a script.</p><p/><p><strong>Error "
 "message:</strong>{0}</p><p><strong>At:</strong>line {1}, column {2}</p>"
@@ -68,7 +58,6 @@ msgstr ""
 "<p>Не удалось выполнить скрипт.</p><p/><p><strong>Сообщение об "
 "ошибке:</strong>{0}</p><p><strong>В:</strong>строке {1}, столбце {2}</p>"
 
-#, java-format
 msgid ""
 "<p>Failed to execute the script file ''{0}''.</p><p/><p><strong>Error "
 "message:</strong>{1}</p>"
@@ -76,7 +65,6 @@ msgstr ""
 "<p>Не удалось выполнить файл скрипта ''{0}''.</p><p/><p><strong>Сообщение об"
 " ошибке:</strong>{1}</p>"
 
-#, java-format
 msgid ""
 "<p>Failed to execute the script file ''{0}''.</p><p/><p><strong>Error "
 "message:</strong>{1}</p><p><strong>At:</strong>line {2}, column {3}</p>"
@@ -84,7 +72,6 @@ msgstr ""
 "<p>Не удалось выполнить файл скрипта ''{0}''.</p><p/><p><strong>Сообщение об"
 " ошибке:</strong>{1}</p><p><strong>В:</strong>строке {2}, столбце {3}</p>"
 
-#, java-format
 msgid ""
 "<p>The script can''t be executed, because a scripting engine with name "
 "''{0}'' isn''t configured.</p><p>Refer to the online help for information "
@@ -116,7 +103,6 @@ msgstr ""
 msgid "Add toolbar button"
 msgstr "Добавить кнопку на панель инструментов"
 
-#, java-format
 msgid "Added {0} primitive"
 msgid_plural "Added {0} primitives"
 msgstr[0] "Добавлен {0} примитив"
@@ -145,7 +131,6 @@ msgstr "Отменить и закрыть диалог"
 msgid "Change..."
 msgstr "Изменить..."
 
-#, java-format
 msgid "Changed {0} primitive"
 msgid_plural "Changed {0} primitives"
 msgstr[0] "Изменён {0} примитив"
@@ -165,12 +150,9 @@ msgstr "Закрыть"
 msgid "Close the scripting console"
 msgstr "Закрыть консоль Scripting"
 
-#. title
 msgid "Configure script engines and scripts"
 msgstr "Настройки скриптов и скриптовых движков"
 
-#. title
-#. icon name
 msgid "Configure scripting preferences"
 msgstr "Настроить параметры модуля scripting"
 
@@ -180,7 +162,6 @@ msgstr "Настройки..."
 msgid "Current file:"
 msgstr "Текущий файл:"
 
-#, java-format
 msgid "Deleted {0} primitive"
 msgid_plural "Deleted {0} primitives"
 msgstr[0] "Удалён {0} примитив"
@@ -197,7 +178,6 @@ msgstr "Вниз"
 msgid "Download and install scripting engine"
 msgstr "Скачать и установить движок скриптов"
 
-#. create the edit menu
 msgid "Edit"
 msgstr "Правка"
 
@@ -213,11 +193,9 @@ msgstr "Пустое имя файла"
 msgid "Enter the name of a script file"
 msgstr "Введите имя файла скрипта"
 
-#, java-format
 msgid "Error: failed to load resource file ''{0}''"
 msgstr "Ошибка: не удалось загрузить файл ресурсов ''{0}''"
 
-#, java-format
 msgid "Error: resource file ''{0}'' not found"
 msgstr "Ошибка: файл ресурсов ''{0}'' не найден"
 
@@ -227,19 +205,15 @@ msgstr "Выполнить скрипт"
 msgid "FATAL: Failed to initialize scripting plugin.\n"
 msgstr "ФАТАЛЬНАЯ ОШИБКА: не удалось инициализировать модуль scripting.\n"
 
-#, java-format
 msgid "Failed to load file ''{0}''."
 msgstr "Не удалось загрузить файл ''{0}''."
 
-#, java-format
 msgid "Failed to load icon ''{0}''"
 msgstr "Не удалось загрузить значок ''{0}''"
 
-#, java-format
 msgid "Failed to load icon ''{0}/{1}''"
 msgstr "Не удалось загрузить значок ''{0}/{1}''"
 
-#, java-format
 msgid ""
 "Failed to load python module ''{0}''. \n"
 "Make sure the preferences with key ''{1}'' include the path to the module."
@@ -247,19 +221,15 @@ msgstr ""
 "Не удалось загрузить модуль python ''{0}''. \n"
 "Убедитесь, что параметр с ключом ''{1}'' содержит путь к модулю."
 
-#, java-format
 msgid "Failed to read the script from file ''{0}''."
 msgstr "Не удалось прочитать скрипт из файла ''{0}''."
 
-#, java-format
 msgid "Failed to read the script from the file ''{0}''."
 msgstr "Не удалось прочитать скрипт из файла ''{0}''."
 
-#, java-format
 msgid "Failed to save file ''{0}''."
 msgstr "Не удалось сохранить файл ''{0}''."
 
-#. create the file menu
 msgid "File"
 msgstr "Файл"
 
@@ -302,7 +272,6 @@ msgstr "Версия языка:"
 msgid "Language:"
 msgstr "Язык:"
 
-#. don't translate
 msgid "Launch file selection dialog"
 msgstr "Открыть диалог выбора файла"
 
@@ -346,7 +315,6 @@ msgstr "Удалить"
 msgid "Remove a path"
 msgstr "Удалить путь"
 
-#. putValue(Action.NAME, tr("Remove"));
 msgid "Remove a repository"
 msgstr "Удалить репозиторий"
 
@@ -359,8 +327,6 @@ msgstr "Удалить выбранные jar-файлы"
 msgid "Run"
 msgstr "Выполнить"
 
-#. title
-#. icon name
 msgid "Run a script"
 msgstr "Запустить скрипт"
 
@@ -391,7 +357,6 @@ msgstr "Скриптовые движки"
 msgid "Script file:"
 msgstr "Файл скрипта:"
 
-#. icon name
 msgid "Scripting"
 msgstr "Scripting"
 
@@ -416,15 +381,12 @@ msgstr "Выберите файл скрипта"
 msgid "Select a script file and click on <strong>Run</strong>."
 msgstr "Выберите файл скрипта и нажмите <strong>Выполнить</strong>."
 
-#. used in the context of a combo box
 msgid "Select an engine"
 msgstr "Выберите движок"
 
 msgid "Select..."
 msgstr "Выбрать..."
 
-#. title
-#. icon name
 msgid "Show/hide the scripting console"
 msgstr "Показать/скрыть консоль модуля scripting"
 
@@ -434,23 +396,19 @@ msgstr "Синтаксическая подсветка будет отключ�
 msgid "The display name of the script. Used in menu entries."
 msgstr "Отображаемое имя скрипта. Используется в пунктах меню."
 
-#, java-format
 msgid "The script file ''{0}'' doesn''t exist."
 msgstr "Файл скрипта ''{0}'' не существует."
 
-#, java-format
 msgid "The script file ''{0}'' isn''t readable."
 msgstr "Файл скрипта ''{0}'' не читается."
 
 msgid "The unique internal ID used to identify the script."
 msgstr "Уникальный внутренний идентификатор скрипта."
 
-#, java-format
 msgid "URL ''{0}'' doesn''t refer to an existing local directory or jar file"
 msgstr ""
 "URL ''{0}'' не ссылается на существующий локальный каталог или jar-файл"
 
-#, java-format
 msgid "URL ''{0}'' doesn''t refer to an existing local jar file"
 msgstr "URL ''{0}'' не ссылается на существующий локальный jar-файл"
 
@@ -460,21 +418,17 @@ msgstr "Вверх"
 msgid "Version:"
 msgstr "Версия:"
 
-#, java-format
 msgid "Warning: failed to load default mime types from  resource ''{0}''."
 msgstr ""
 "Предупреждение: не удалось загрузить mime-типы по умолчанию из ресурса "
 "''{0}''."
 
-#, java-format
 msgid "Warning: failed to load mime types from file ''{0}''."
 msgstr "Предупреждение: не удалось загрузить mime-типы из файла ''{0}''."
 
-#, java-format
 msgid "Warning: failed to open resource file ''{0}''"
 msgstr "Предупреждение: не удалось открыть файл ресурсов ''{0}''"
 
-#, java-format
 msgid "Warning: property  ''{0}'' in resource file ''{1}'' not found"
 msgstr "Предупреждение: свойство ''{0}'' в файле ресурсов ''{1}'' не найдено"
 
