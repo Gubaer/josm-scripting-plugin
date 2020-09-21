@@ -25,7 +25,7 @@ the [API documentation](http://gubaer.github.com/josm-scripting-plugin/).
 Furthermore, it can
 * load and execute [plugins written in Python](http://gubaer.github.com/josm-scripting-plugin/doc/python.html).
 * execute scripts written in Ruby, Groovy, and other languages, refer to
-[these examples](https://github.com/Gubaer/josm-scripting-plugin/tree/master/scripts).
+[these examples](https://github.com/Gubaer/josm-scripting-plugin/tree/master/src/main/resources/scripts).
 
 If you want to contribute to the scripting plugin itself, please fork this repository and
 submit your pull requests.
