@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>DocStrap Class: Api</title>
+
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<link type="text/css" rel="stylesheet" href="styles/sunlight.default.css">
+
+	<link type="text/css" rel="stylesheet" href="styles/site.cosmo.css">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top navbar-inverse">
+<div class="container">
+	<div class="navbar-header">
+		<a class="navbar-brand" href="index.html">DocStrap</a>
+		<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#topNavigation">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+        </button>
+	</div>
+	<div class="navbar-collapse collapse" id="topNavigation">
+		<ul class="nav navbar-nav">
+			
+			<li class="dropdown">
+				<a href="modules.list.html" class="dropdown-toggle" data-toggle="dropdown">Modules<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="module-clipboard.html">clipboard</a></li><li><a href="module-josm.html">josm</a></li><li><a href="module-josm_api.html">josm/api</a></li><li><a href="module-josm_builder.html">josm/builder</a></li><li><a href="module-josm_command.html">josm/command</a></li><li><a href="module-josm_layers.html">josm/layers</a></li><li><a href="module-josm_mixin_BoundsMixin.html">josm/mixin/BoundsMixin</a></li><li><a href="module-josm_mixin_ChangesetMixin.html">josm/mixin/ChangesetMixin</a></li><li><a href="module-josm_mixin_DataSetMixin.html">josm/mixin/DataSetMixin</a></li><li><a href="module-josm_mixin_JSActionMixin.html">josm/mixin/JSActionMixin</a></li><li><a href="module-josm_mixin_LatLonMixin.html">josm/mixin/LatLonMixin</a></li><li><a href="module-josm_mixin_NodeMixin.html">josm/mixin/NodeMixin</a></li><li><a href="module-josm_mixin_OsmDataLayerMixin.html">josm/mixin/OsmDataLayerMixin</a></li><li><a href="module-josm_mixin_OsmPrimitiveMixin.html">josm/mixin/OsmPrimitiveMixin</a></li><li><a href="module-josm_mixin_RelationMixin.html">josm/mixin/RelationMixin</a></li><li><a href="module-josm_mixin_UploadStrategyMixin.html">josm/mixin/UploadStrategyMixin</a></li><li><a href="module-josm_mixin_WayMixin.html">josm/mixin/WayMixin</a></li><li><a href="module-josm_scriptingconsole.html">josm/scriptingconsole</a></li><li><a href="module-josm_ui_menu.html">josm/ui/menu</a></li><li><a href="module-josm_util.html">josm/util</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="module-josm_api.Api.html">josm/api.Api</a></li><li><a href="module-josm_api-ChangesetApi.html">josm/api~ChangesetApi</a></li><li><a href="module-josm_builder.NodeBuilder.html">josm/builder.NodeBuilder</a></li><li><a href="module-josm_builder.RelationBuilder.html">josm/builder.RelationBuilder</a></li><li><a href="module-josm_builder.WayBuilder.html">josm/builder.WayBuilder</a></li><li><a href="module-josm_command.AddCommand.html">josm/command.AddCommand</a></li><li><a href="module-josm_command.ChangeCommand.html">josm/command.ChangeCommand</a></li><li><a href="module-josm_command.CommandHistory.html">josm/command.CommandHistory</a></li><li><a href="module-josm_command.DeleteCommand.html">josm/command.DeleteCommand</a></li><li><a href="module-josm_mixin_DataSetMixin-DataSetSelectionFacade.html">josm/mixin/DataSetMixin~DataSetSelectionFacade</a></li><li><a href="module-josm_ui_menu-MenuBar.html">josm/ui/menu~MenuBar</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="mixins.list.html" class="dropdown-toggle" data-toggle="dropdown">Mixins<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="module-josm_mixin_BoundsMixin-BoundsMixin.html">josm/mixin/BoundsMixin~BoundsMixin</a></li><li><a href="module-josm_mixin_ChangesetMixin-ChangesetMixin.html">josm/mixin/ChangesetMixin~ChangesetMixin</a></li><li><a href="module-josm_mixin_DataSetMixin-DataSetMixin.html">josm/mixin/DataSetMixin~DataSetMixin</a></li><li><a href="module-josm_mixin_JSActionMixin-JSActionMixin.html">josm/mixin/JSActionMixin~JSActionMixin</a></li><li><a href="module-josm_mixin_LatLonMixin-LatLonMixin.html">josm/mixin/LatLonMixin~LatLonMixin</a></li><li><a href="module-josm_mixin_NodeMixin-NodeMixin.html">josm/mixin/NodeMixin~NodeMixin</a></li><li><a href="module-josm_mixin_OsmDataLayerMixin-OsmDataLayerMixin.html">josm/mixin/OsmDataLayerMixin~OsmDataLayerMixin</a></li><li><a href="module-josm_mixin_OsmPrimitiveMixin-OsmPrimitiveMixin.html">josm/mixin/OsmPrimitiveMixin~OsmPrimitiveMixin</a></li><li><a href="module-josm_mixin_RelationMixin-RelationMixin.html">josm/mixin/RelationMixin~RelationMixin</a></li><li><a href="module-josm_mixin_UploadStrategyMixin-UploadStrategyMixin.html">josm/mixin/UploadStrategyMixin~UploadStrategyMixin</a></li><li><a href="module-josm_mixin_WayMixin-WayMixin.html">josm/mixin/WayMixin~WayMixin</a></li>
+				</ul>
+			</li>
+			
+		</ul>
+        
+            <div class="col-sm-3 col-md-3">
+                <form class="navbar-form" role="search">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search" name="q" id="search-input">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default" id="search-submit"><i class="glyphicon glyphicon-search"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        
+	</div>
+
+</div>
+</div>
+
+
+<div class="container" id="toc-content">
+<div class="row">
+
+	
+	<div class="col-md-8">
+	
+		<div id="main">
+			
+
+	<h1 class="page-title">Class: Api</h1>
+<section>
+
+<header>
+    
+        <h2>
+            <span class="ancestors"><a href="module-josm_api.html">josm/api</a>.</span>
+        
+        Api
+        </h2>
+        
+    
+</header>
+
+
+
+<article>
+    <div class="container-overview">
+    
+        
+<hr>
+<dt>
+    <h4 class="name" id="Api"><span class="type-signature"></span>new Api()</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Collection of static methods to download objects from and upload objects<br>
+to the OSM server.</p>
+<p><strong>Note:</strong> this class doesn't provide a constructor.<br>
+Methods and properties are &quot;static&quot;.</p>
+    </div>
+    
+
+    
+
+    
+
+    
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_api.js.html">josm/api.js</a>,
+				 <a href="josm_api.js.html#sunlight-1-line-289">line 289</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">// load the changeset api
+var api = require(&quot;josm/api&quot;).Api;
+
+// download node 12345
+var ds = api.downloadObject(12345, &quot;node&quot;);</pre>
+
+
+    
+</dd>
+
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        <dl>
+            
+<hr>
+<dt>
+    <h4 class="name" id=".downloadArea"><span class="type-signature">&lt;static> </span>downloadArea(bounds)</h4>
+    
+    
+    <p class="summary"><p>Downloads the objects within a bounding box</p></p>
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Downloads the objects within a bounding box.</p>
+    </div>
+    
+
+    
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>bounds</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">org.openstreetmap.josm.data.Bounds</span>
+|
+
+<span class="param-type">object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the bounding box</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_api.js.html">josm/api.js</a>,
+				 <a href="josm_api.js.html#sunlight-1-line-685">line 685</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">org.openstreetmap.josm.data.osm.DataSet</span>
+
+
+
+    </dd>
+</dl>
+
+
+        
+
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">var api = require(&quot;josm/api&quot;).Api;
+var ds1 = api.downloadArea(new Bounds(
+    new LatLon(46.9479186,7.4619484),   // min
+    new LatLon(46.9497642, 7.4660683)   // max
+));
+
+var ds1 = api.downloadArea({
+    min: {lat: 46.9479186, lon: 7.4619484},
+    max: {lat: 46.9497642, lon: 7.4660683}
+});</pre>
+
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id=".downloadObject"><span class="type-signature">&lt;static> </span>downloadObject()</h4>
+    
+    
+    <p class="summary"><p>Downloads an object from the server.</p></p>
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Downloads an object from the server.</p>
+<p>There are multiple options to specify what object to download.<br>
+In addition, the function accepts a set of optional named parameters<br>
+as last argument.</p>
+<dl>
+  <dt><code class="signature">downloadObject(id, type, ?options)</code></dt>
+  <dd><code>id</code> is the global numeric id.
+  <code>type</code> is either one of the strings "node", "way",
+  or "relation", or one of the  enumeration OsmPrimitiveType.NODE,
+  OsmPrimitiveType.WAY, or OsmPrimitiveType.RELATION
+  </dd>
+  <dt><code class="signature">downloadObject(id, ?options)</code></dt>
+  <dd><code>id</code> is a <code>PrimitiveId</code> or an object
+  with the (mandatory) properties <code>id</code> and <code>type</code>,
+  i.e. an object <code>{id: ..., type: ...}</code>.
+  <code>id</code> is again a number, <code>type</code> is again either one
+  of the strings "node", "way", or "relation", or one of the
+  enumeration OsmPrimitiveType.NODE, OsmPrimitiveType.WAY,
+  or OsmPrimitiveType.RELATION.
+  </dd>
+</dl>
+In both cases, <code>?options</code> is an (optional) object with the
+following two (optional) properties:
+<dl>
+  <dt><code class="signature">full</code>: boolean</dt>
+  <dd>If <code>true</code>, the object and its immediate children are
+  downloaded, i.e. the nodes of a way and
+  the relation members of a relation. Default if missing is
+  <code>false</code>.</dd>
+  <dt><code class="signature">version</code>: number</dt>
+  <dd>If present, the specified version of the object is downloaded.
+  If missing, the current version is downloaded. If present, the
+  option <code>full</code> is ignored.</dd>
+</dl>
+    </div>
+    
+
+    
+
+    
+
+    
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_api.js.html">josm/api.js</a>,
+				 <a href="josm_api.js.html#sunlight-1-line-479">line 479</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">org.openstreetmap.josm.data.osm.DataSet</span>
+
+
+
+    </dd>
+</dl>
+
+
+        
+
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">var api = require(&quot;josm/api&quot;).Api;
+var SimlePrimitiveId = org.openstreetmap.josm.data.osm.SimplePrimitiveId;
+var OsmPrimitiveType = org.openstreetmap.josm.data.osm.OsmPrimitiveType;
+
+// download the node with id 12345
+var ds1 = api.downloadObject(12345, &quot;node&quot;);
+
+// download the node with id 12345
+var ds2 = api.downloadObject({id: 12345, type: &quot;node&quot;});
+
+// download the full relation (including its members) with id 12345
+var id = new SimplePrimitiveId(12345, OsmPrimitiveType.RELATION);
+var ds3 = api.downloadObject(id, {full: true});
+
+// download version 5 of the full way 12345 (including its nodes)
+var ds4 = api.downloadObject(12345, OsmPrimitiveType.WAY, 
+        {version: 5});</pre>
+
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id=".downloadReferrer"><span class="type-signature">&lt;static> </span>downloadReferrer()</h4>
+    
+    
+    <p class="summary"><p>Downloads the objects <em>referring</em> to another object from<br>
+the server.</p></p>
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Downloads the objects <em>referring</em> to another object from<br>
+the server.</p>
+<p>Downloads primitives from the OSM server which<br>
+refer to a specific primitive. Given a node, the referring ways and<br>
+relations are downloaded. Given a way or a relation, only referring<br>
+relations are downloaded.</p>
+<p>The default behaviour is to reply proxy objects only.</p>
+<p>If you set the option <code>{full: true}</code>, every referring object<br>
+is downloaded in full.</p>
+<p>There are multiple options to specify what referrers to download.<br>
+In addition, the function accepts a set of optional named parameters as<br>
+last argument.</p>
+<dl>
+  <dt><code class="signature">downloadReferrer(id, type, ?options)
+      </code></dt>
+  <dd><code>id</code> is the global numeric id.
+  <code>type</code> is either one of the strings "node", "way", or
+  "relation", or one of the  enumeration
+  {@class org.openstreetmap.josm.data.osm.OsmPrimitiveType}.NODE,
+  {@class org.openstreetmap.josm.data.osm.OsmPrimitiveType}.WAY,
+  or {@class org.openstreetmap.josm.data.osm.OsmPrimitiveType}.RELATION.
+  </dd>
+  <dt><code class="signature">downloadReferrer(id, ?options)</code></dt>
+  <dd><code>id</code> is a <code>PrimitiveId</code> or an object
+  with the (mandatory) properties <code>id</code> and <code>type</code>,
+  i.e. an object <code>{id: ..., type: ...}</code>.
+  <code>id</code> is again a number, <code>type</code> is again either one
+  of the strings "node", "way", or "relation", or one of the
+  enumeration
+  {@class org.openstreetmap.josm.data.osm.OsmPrimitiveType}.NODE,
+  {@class org.openstreetmap.josm.data.osm.OsmPrimitiveType}.WAY,
+  or {@class org.openstreetmap.josm.data.osm.OsmPrimitiveType}.RELATION.
+  </dd>
+</dl>
+In both cases, <code>?options</code> is an (optional) object with the
+following  (optional) property:
+<dl>
+  <dt><code class="signature">full</code>:boolean</dt>
+  <dd>If <code>true</code>, the the <strong>full</strong> objects are
+  retrieved using multi-gets. If missing or <code>false</code>,
+  only proxy objects are downloaded. Default: false</dd>
+</dl>
+    </div>
+    
+
+    
+
+    
+
+    
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_api.js.html">josm/api.js</a>,
+				 <a href="josm_api.js.html#sunlight-1-line-648">line 648</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">org.openstreetmap.josm.data.osm.DataSet</span>
+
+
+
+    </dd>
+</dl>
+
+
+        
+
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">var api = require(&quot;josm/api&quot;).Api;
+var nbuilder = require(&quot;josm/builder&quot;).NodeBuilder;
+var SimlePrimitiveId = org.openstreetmap.josm.data.osm.SimplePrimitiveId;
+var OsmPrimitiveType = org.openstreetmap.josm.data.osm.OsmPrimitiveType;
+
+// download the objects referring to the node with id 12345
+var ds1 = api.downloadReferrer(12345, &quot;node&quot;);
+
+// download the objects referring to the node with id 12345
+var ds2 = api.downloadReferrer({id: 12345, type: &quot;node&quot;});
+
+// download the relations referring to the  relation with id 12345.
+// Referring relations are downloaded in full.
+var id = new SimplePrimitiveId(12345, OsmPrimitiveType.RELATION);
+var ds3 = api.downloadReferrer(id, {full: true});
+
+ // create the global node 12345 ...
+ var node = nbuilder.create(12345);
+ // ... and downloads its referrers in full
+ var ds = api.downloadReferrer(node, {full: true});</pre>
+
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id=".upload"><span class="type-signature">&lt;static> </span>upload(data, comment [, options])</h4>
+    
+    
+    <p class="summary"><p>Uploads objects</p></p>
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Uploads objects to the server.</p>
+<p>You can submit data either as<br>
+{@class org.openstreetmap.josm.data.osm.DataSet},<br>
+{@class org.openstreetmap.josm.data.APIDataSet}, javascript array of<br>
+{@class org.openstreetmap.josm.data.osm.OsmPrimitive}s or<br>
+a {@class java.util.Collection} of<br>
+{@class org.openstreetmap.josm.data.osm.OsmPrimitive}s.</p>
+<p>This method supports the same upload strategy as the JOSM upload dialog.<br>
+Supply the named parameter <code>{strategy: ...}</code> to choose the<br>
+strategy.</p>
+<p class="documentation-warning">
+Be careful when uploading data to the OSM server! Do not upload copyright
+protected or test data.
+<p>The method takes care to update the primitives in the uploaded data when<br>
+the upload succeeds. For instance, uploaded new primitives become global<br>
+objects and get assigned their new id and version, successfully deleted<br>
+objects become invisible, etc.</p>
+<p>Even if the entire upload of a dataset fails, a subset therefore may<br>
+have been uploaded successfully. In order to keep track, which pritives<br>
+have been uploaded successfully in case of an error, the method replies a<br>
+collection of the successfully uploaded objects.<br>
+Named options</p>
+<dl>
+  <dt><code class="signature">strategy: string|
+  {@class org.openstreetmap.josm.io.UploadStrategy}</code></dt>
+  <dd>Indicates how the data is uploaded. Either one of the strings
+    <ul>
+         <li>individualobjects</li>
+         <li>chunked</li>
+         <li>singlerequest</li>
+      </ul>
+     or one of the enumeration values in
+     {@class org.openstreetmap.josm.io.UploadStrategy}.
+     Default falue: UploadStrategy.DEFAULT_UPLOAD_STRATEGY
+  </dd>
+   <dt><code class="signature">changeset:
+       number|{@class org.openstreetmap.josm.data.osm.Changeset}</code></dt>
+   <dd>The changeset to which the data is uploaded. Either a number
+      (the changeset id) or a
+      {@class org.openstreetmap.josm.data.osm.Changeset} instance.
+      Default: creates a new changeset.</dd>
+   <dt><code class="signature">chunkSize: number</code></dt>
+   <dd>The size of an upload chunk, if the data is uploaded with the
+   upload strategy
+   {@class org.openstreetmap.josm.io.UploadStrategy}.CHUNKED_DATASET_STRATEGY.</dd>
+   <dt><code class="signature">closeChangeset: boolean</code></dt>
+   <dd>If true, closes the changeset after the upload. Default: true</dd>
+</dl>
+    </div>
+    
+
+    
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Argument</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>data</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">org.openstreetmap.josm.data.osm.DataSet</span>
+|
+
+<span class="param-type">org.openstreetmap.josm.data.APIDataSet</span>
+|
+
+<span class="param-type">array</span>
+|
+
+<span class="param-type">java.util.Collection</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>the data to upload</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>comment</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>the upload comment</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>various options (see above)</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_api.js.html">josm/api.js</a>,
+				 <a href="josm_api.js.html#sunlight-1-line-790">line 790</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">java.util.Collection</span>
+
+
+
+    </dd>
+</dl>
+
+
+        
+
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">var ds = new org.openstreetmap.josm.data.osm.DataSet();
+ds.wayBuilder.withNodes(
+    ds.nodeBuilder.withTags({name: &#x27;node1&#x27;}).create(),
+    ds.nodeBuilder.withTags({name: &#x27;node2&#x27;}.create()
+).withTags({name: &#x27;way1&#x27;}).create();
+var api = require(&quot;josm/api&quot;).Api;
+
+// uploads the data in a new changeset in one chunk)
+var processed = api.upload(ds, &quot;just testing&quot;);</pre>
+
+
+    
+</dd>
+
+        </dl>
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+		</div>
+	</div>
+
+	<div class="clearfix"></div>
+
+	
+		<div class="col-md-3">
+			<div id="toc" class="col-md-3 hidden-xs hidden-sm hidden-md"></div>
+		</div>
+	
+
+</div>
+</div>
+
+
+    <div class="modal fade" id="searchResults">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Search results</h4>
+          </div>
+          <div class="modal-body"></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div>
+
+
+<footer>
+
+
+	<span class="copyright">
+	© Contributors to the JOSM Scripting Plugin
+	</span>
+
+<span class="jsdoc-message">
+	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a>
+	
+		on Sat Oct 3rd 2020
+	
+	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
+</span>
+</footer>
+
+<script src="scripts/docstrap.lib.js"></script>
+<script src="scripts/toc.js"></script>
+
+    <script type="text/javascript" src="scripts/fulltext-search-ui.js"></script>
+
+
+<script>
+$( function () {
+	$( "[id*='$']" ).each( function () {
+		var $this = $( this );
+
+		$this.attr( "id", $this.attr( "id" ).replace( "$", "__" ) );
+	} );
+
+	$( ".tutorial-section pre, .readme-section pre, pre.prettyprint.source" ).each( function () {
+		var $this = $( this );
+
+		var example = $this.find( "code" );
+		exampleText = example.html();
+		var lang = /{@lang (.*?)}/.exec( exampleText );
+		if ( lang && lang[1] ) {
+			exampleText = exampleText.replace( lang[0], "" );
+			example.html( exampleText );
+			lang = lang[1];
+		} else {
+			var langClassMatch = example.parent()[0].className.match(/lang\-(\S+)/);
+			lang = langClassMatch ? langClassMatch[1] : "javascript";
+		}
+
+		if ( lang ) {
+
+			$this
+			.addClass( "sunlight-highlight-" + lang )
+			.addClass( "linenums" )
+			.html( example.html() );
+
+		}
+	} );
+
+	Sunlight.highlightAll( {
+		lineNumbers : true,
+		showMenu : true,
+		enableDoclinks : true
+	} );
+
+	$.catchAnchorLinks( {
+        navbarOffset: 10
+	} );
+	$( "#toc" ).toc( {
+		anchorName  : function ( i, heading, prefix ) {
+			return $( heading ).attr( "id" ) || ( prefix + i );
+		},
+		selectors   : "#toc-content h1,#toc-content h2,#toc-content h3,#toc-content h4",
+		showAndHide : false,
+		smoothScrolling: true
+	} );
+
+	$( "#main span[id^='toc']" ).addClass( "toc-shim" );
+	$( '.dropdown-toggle' ).dropdown();
+
+    $( "table" ).each( function () {
+      var $this = $( this );
+      $this.addClass('table');
+    } );
+
+} );
+</script>
+
+
+
+<!--Navigation and Symbol Display-->
+
+
+<!--Google Analytics-->
+
+
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            SearcherDisplay.init();
+        });
+    </script>
+
+
+</body>
+</html>

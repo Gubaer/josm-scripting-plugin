@@ -1,6 +1,6 @@
 ---
 layout: page
-title: NativeJava 
+title: Using native Java
 parent: API V1
 nav_order: 3
 ---
@@ -38,7 +38,7 @@ The JOSM Scripting Plugin ships with JavaScript **mixins** for a selection of Ja
 
 A JavaScript mixin decorates a Java class with additional properties and methods, which are implemented in JavaScript.
 
-The following examples show how <a data-js-object="mixin:LatLonMixin">LatLonMixin</a> decorates the native JOSM class <a data-josm-class="org.openstreetmap.josm.data.coor.LatLon">LatLon</a>.
+The following examples show how [LatLonMixin]{:target="apidoc"} decorates the native JOSM class [LatLon]{:target="apidoc"}.
 
 ```js
 var LatLon = org.openstreetmap.josm.data.coor.LatLon;
@@ -68,3 +68,5 @@ name = pos1.$toDisplayString();
 
 
 [JOSM code base]: http://josm.openstreetmap.de/browser/josm/trunk/src"
+[LatLon]: https://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/coor/LatLon.html
+[LatLonMixin]: /api/v1/josm_mixin_LatLonMixin.LatLonMixin.html

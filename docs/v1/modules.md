@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Modules
+title: Using modules
 parent: API V1
 nav_order: 1
 ---
@@ -13,7 +13,7 @@ nav_order: 1
 
 The embedded scripting engine can load CommonJS-compatible [modules][CommonJS module].
 
-Here's an example scripts which loads the built built in module <a data-js-object="module:josm/util">josm/util</a>.
+Here's an example scripts which loads the built built in module [josm/util]{:target="apidoc"}.
 
 ```js
 var util = require("josm/util");
@@ -53,5 +53,5 @@ JOSM preferences. The plugin looks for modules in two places:
 
 
 
-
 [CommonJS module]: http://www.commonjs.org/specs/modules/1.0/
+[josm/util]: /api/v1/module-josm_util.html

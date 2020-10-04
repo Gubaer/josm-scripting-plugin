@@ -1,0 +1,3347 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>DocStrap Mixin: OsmPrimitiveMixin</title>
+
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<link type="text/css" rel="stylesheet" href="styles/sunlight.default.css">
+
+	<link type="text/css" rel="stylesheet" href="styles/site.cosmo.css">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top navbar-inverse">
+<div class="container">
+	<div class="navbar-header">
+		<a class="navbar-brand" href="index.html">DocStrap</a>
+		<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#topNavigation">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+        </button>
+	</div>
+	<div class="navbar-collapse collapse" id="topNavigation">
+		<ul class="nav navbar-nav">
+			
+			<li class="dropdown">
+				<a href="modules.list.html" class="dropdown-toggle" data-toggle="dropdown">Modules<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="module-clipboard.html">clipboard</a></li><li><a href="module-josm.html">josm</a></li><li><a href="module-josm_api.html">josm/api</a></li><li><a href="module-josm_builder.html">josm/builder</a></li><li><a href="module-josm_command.html">josm/command</a></li><li><a href="module-josm_layers.html">josm/layers</a></li><li><a href="module-josm_mixin_BoundsMixin.html">josm/mixin/BoundsMixin</a></li><li><a href="module-josm_mixin_ChangesetMixin.html">josm/mixin/ChangesetMixin</a></li><li><a href="module-josm_mixin_DataSetMixin.html">josm/mixin/DataSetMixin</a></li><li><a href="module-josm_mixin_JSActionMixin.html">josm/mixin/JSActionMixin</a></li><li><a href="module-josm_mixin_LatLonMixin.html">josm/mixin/LatLonMixin</a></li><li><a href="module-josm_mixin_NodeMixin.html">josm/mixin/NodeMixin</a></li><li><a href="module-josm_mixin_OsmDataLayerMixin.html">josm/mixin/OsmDataLayerMixin</a></li><li><a href="module-josm_mixin_OsmPrimitiveMixin.html">josm/mixin/OsmPrimitiveMixin</a></li><li><a href="module-josm_mixin_RelationMixin.html">josm/mixin/RelationMixin</a></li><li><a href="module-josm_mixin_UploadStrategyMixin.html">josm/mixin/UploadStrategyMixin</a></li><li><a href="module-josm_mixin_WayMixin.html">josm/mixin/WayMixin</a></li><li><a href="module-josm_scriptingconsole.html">josm/scriptingconsole</a></li><li><a href="module-josm_ui_menu.html">josm/ui/menu</a></li><li><a href="module-josm_util.html">josm/util</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="module-josm_api-Api.html">josm/api~Api</a></li><li><a href="module-josm_api-ChangesetApi.html">josm/api~ChangesetApi</a></li><li><a href="module-josm_builder-NodeBuilder.html">josm/builder~NodeBuilder</a></li><li><a href="module-josm_builder-RelationBuilder.html">josm/builder~RelationBuilder</a></li><li><a href="module-josm_builder-WayBuilder.html">josm/builder~WayBuilder</a></li><li><a href="module-josm_command.AddCommand.html">josm/command.AddCommand</a></li><li><a href="module-josm_command.ChangeCommand.html">josm/command.ChangeCommand</a></li><li><a href="module-josm_command.CommandHistory.html">josm/command.CommandHistory</a></li><li><a href="module-josm_command.DeleteCommand.html">josm/command.DeleteCommand</a></li><li><a href="module-josm_mixin_DataSetMixin-DataSetSelectionFacade.html">josm/mixin/DataSetMixin~DataSetSelectionFacade</a></li><li><a href="module-josm_ui_menu-MenuBar.html">josm/ui/menu~MenuBar</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="mixins.list.html" class="dropdown-toggle" data-toggle="dropdown">Mixins<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="module-josm_mixin_BoundsMixin-BoundsMixin.html">josm/mixin/BoundsMixin~BoundsMixin</a></li><li><a href="module-josm_mixin_ChangesetMixin-ChangesetMixin.html">josm/mixin/ChangesetMixin~ChangesetMixin</a></li><li><a href="module-josm_mixin_DataSetMixin-DataSetMixin.html">josm/mixin/DataSetMixin~DataSetMixin</a></li><li><a href="module-josm_mixin_JSActionMixin-JSActionMixin.html">josm/mixin/JSActionMixin~JSActionMixin</a></li><li><a href="module-josm_mixin_LatLonMixin-LatLonMixin.html">josm/mixin/LatLonMixin~LatLonMixin</a></li><li><a href="module-josm_mixin_NodeMixin-NodeMixin.html">josm/mixin/NodeMixin~NodeMixin</a></li><li><a href="module-josm_mixin_OsmDataLayerMixin-OsmDataLayerMixin.html">josm/mixin/OsmDataLayerMixin~OsmDataLayerMixin</a></li><li><a href="module-josm_mixin_OsmPrimitiveMixin-OsmPrimitiveMixin.html">josm/mixin/OsmPrimitiveMixin~OsmPrimitiveMixin</a></li><li><a href="module-josm_mixin_RelationMixin-RelationMixin.html">josm/mixin/RelationMixin~RelationMixin</a></li><li><a href="module-josm_mixin_UploadStrategyMixin-UploadStrategyMixin.html">josm/mixin/UploadStrategyMixin~UploadStrategyMixin</a></li><li><a href="module-josm_mixin_WayMixin-WayMixin.html">josm/mixin/WayMixin~WayMixin</a></li>
+				</ul>
+			</li>
+			
+		</ul>
+        
+            <div class="col-sm-3 col-md-3">
+                <form class="navbar-form" role="search">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search" name="q" id="search-input">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default" id="search-submit"><i class="glyphicon glyphicon-search"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        
+	</div>
+
+</div>
+</div>
+
+
+<div class="container" id="toc-content">
+<div class="row">
+
+	
+	<div class="col-md-8">
+	
+		<div id="main">
+			
+
+	<h1 class="page-title">Mixin: OsmPrimitiveMixin</h1>
+<section>
+
+<header>
+    
+        <h2>
+            <span class="ancestors"><a href="module-josm_mixin_OsmPrimitiveMixin.html">josm/mixin/OsmPrimitiveMixin</a>~</span>
+        
+        OsmPrimitiveMixin
+        </h2>
+        
+    
+</header>
+
+
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p>OsmPrimitiveMixin provides additional properties and methods which you<br>
+can invoke on an instance of<br>
+<a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/OsmPrimitive.html" alt="org.openstreetmap.josm.data.osm.OsmPrimitive" target="javadoc">OsmPrimitive</a>.</p></div>
+        
+
+        
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_mixin_OsmPrimitiveMixin.js.html">josm/mixin/OsmPrimitiveMixin.js</a>,
+				 <a href="josm_mixin_OsmPrimitiveMixin.js.html#sunlight-1-line-13">line 13</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Members</h3>
+
+        <dl>
+            
+<hr>
+<dt class="name" id=".isNode">
+    <h4 id=".isNode"><span class="type-signature">&lt;static, readonly> </span>isNode<span class="type-signature"></span></h4>
+
+    
+    <p class="summary"><p>Replies true if this object is a node</p></p>
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>Replies true if this object is a node</p>
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    <dl>
+
+<table class="props table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>isNode</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>true if this object is a node</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+</dl>
+
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_mixin_OsmPrimitiveMixin.js.html">josm/mixin/OsmPrimitiveMixin.js</a>,
+				 <a href="josm_mixin_OsmPrimitiveMixin.js.html#sunlight-1-line-663">line 663</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt class="name" id=".isRelation">
+    <h4 id=".isRelation"><span class="type-signature">&lt;static, readonly> </span>isRelation<span class="type-signature"></span></h4>
+
+    
+    <p class="summary"><p>Replies true if this object is a relation</p></p>
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>Replies true if this object is a relation</p>
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    <dl>
+
+<table class="props table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>isRelation</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>true if this object is a relation</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+</dl>
+
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_mixin_OsmPrimitiveMixin.js.html">josm/mixin/OsmPrimitiveMixin.js</a>,
+				 <a href="josm_mixin_OsmPrimitiveMixin.js.html#sunlight-1-line-693">line 693</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt class="name" id=".isWay">
+    <h4 id=".isWay"><span class="type-signature">&lt;static, readonly> </span>isWay<span class="type-signature"></span></h4>
+
+    
+    <p class="summary"><p>Replies true if this object is a way</p></p>
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>Replies true if this object is a way</p>
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    <dl>
+
+<table class="props table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>isWay</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>true if this object is a way</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+</dl>
+
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_mixin_OsmPrimitiveMixin.js.html">josm/mixin/OsmPrimitiveMixin.js</a>,
+				 <a href="josm_mixin_OsmPrimitiveMixin.js.html#sunlight-1-line-678">line 678</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt class="name" id="changesetId">
+    <h4 id="changesetId"><span class="type-signature"></span>changesetId<span class="type-signature"></span></h4>
+
+    
+    <p class="summary"><p>set or get the changeset id this primitive was last modified in.</p></p>
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>Set or get the changeset id this primitive was last modified in.</p>
+<p><strong>get:</strong> - replies the changeset id or undefined, if no<br>
+changeset id is known (i.e.  for local primitives or proxy primitives).</p>
+<p><strong>set:</strong> - assign a changset id, a number &amp;gt, 0.</p>
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    <dl>
+
+<table class="props table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>changesetId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the changset id</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+</dl>
+
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_mixin_OsmPrimitiveMixin.js.html">josm/mixin/OsmPrimitiveMixin.js</a>,
+				 <a href="josm_mixin_OsmPrimitiveMixin.js.html#sunlight-1-line-230">line 230</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">var nb = require(&quot;josm/builder&quot;).NodeBuilder.forDataSet(ds);
+
+var n1 = nb.create(12345);
+// assign the changeset id
+n1.changesetId = 6;</pre>
+
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt class="name" id="dataSet">
+    <h4 id="dataSet"><span class="type-signature">&lt;readonly> </span>dataSet<span class="type-signature"></span></h4>
+
+    
+    <p class="summary"><p>Replies the parent dataset.</p></p>
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>Replies the parent dataset or undefined, if this primitive is not<br>
+attached to a dataset.</p>
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    <dl>
+
+<table class="props table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>dataSet</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">org.openstreetmap.josm.data.osm.DataSet</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the parent dataset</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+</dl>
+
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_mixin_OsmPrimitiveMixin.js.html">josm/mixin/OsmPrimitiveMixin.js</a>,
+				 <a href="josm_mixin_OsmPrimitiveMixin.js.html#sunlight-1-line-139">line 139</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">var ds = new DataSet();
+var nb = require(&quot;josm/builder&quot;).NodeBuilder.forDataSet(ds);
+
+// get members
+var n1 = nb.create();
+n1.dataSet;  // -&gt; ds
+
+var nb = require(&quot;josm/builder&quot;).NodeBuilder;
+var n2 = nb.create();
+n2.dataSet;   // -&gt; undefined</pre>
+
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt class="name" id="id">
+    <h4 id="id"><span class="type-signature">&lt;readonly> </span>id<span class="type-signature"></span></h4>
+
+    
+    <p class="summary"><p>The unique numeric id</p></p>
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>The unique numeric id, positive for global primitives, negative for local<br>
+primitives.</p>
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    <dl>
+
+<table class="props table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the numberic id</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+</dl>
+
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_mixin_OsmPrimitiveMixin.js.html">josm/mixin/OsmPrimitiveMixin.js</a>,
+				 <a href="josm_mixin_OsmPrimitiveMixin.js.html#sunlight-1-line-24">line 24</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">var nb = require(&quot;josm/builder&quot;).NodeBuilder;
+
+// get members
+var node = nb.create();
+var id = node.id;   // -&gt; a negative value</pre>
+
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt class="name" id="isGlobal">
+    <h4 id="isGlobal"><span class="type-signature">&lt;readonly> </span>isGlobal<span class="type-signature"></span></h4>
+
+    
+    <p class="summary"><p>Replies true, if this is a global primitive</p></p>
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>Replies true, if this is a global primitive</p>
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    <dl>
+
+<table class="props table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>isGlobal</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>true, if this is a global primitive</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+</dl>
+
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_mixin_OsmPrimitiveMixin.js.html">josm/mixin/OsmPrimitiveMixin.js</a>,
+				 <a href="josm_mixin_OsmPrimitiveMixin.js.html#sunlight-1-line-111">line 111</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">var nb = require(&quot;josm/builder&quot;).NodeBuilder;
+
+// get members
+var node = nb.create();
+node.isGlobal;   // -&gt; false
+
+node = nb.create(1234);
+node.isGlobal;   // -&gt; true</pre>
+
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt class="name" id="isIncomplete">
+    <h4 id="isIncomplete"><span class="type-signature">&lt;readonly> </span>isIncomplete<span class="type-signature"></span></h4>
+
+    
+    <p class="summary"><p>Replies true if this is a proxy object</p></p>
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>Replies true if this a proxy object, in JOSM terminology called an<br>
+incomplete object.</p>
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    <dl>
+
+<table class="props table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>isIncomplete</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>true if this is a proxy object</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+</dl>
+
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_mixin_OsmPrimitiveMixin.js.html">josm/mixin/OsmPrimitiveMixin.js</a>,
+				 <a href="josm_mixin_OsmPrimitiveMixin.js.html#sunlight-1-line-291">line 291</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt class="name" id="isLocal">
+    <h4 id="isLocal"><span class="type-signature">&lt;readonly> </span>isLocal<span class="type-signature"></span></h4>
+
+    
+    <p class="summary"><p>Replies true, if this is a local primitive.</p></p>
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>Replies true, if this is a local primitive.</p>
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    <dl>
+
+<table class="props table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>isLocal</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>true, if this is a local primitive</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+</dl>
+
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_mixin_OsmPrimitiveMixin.js.html">josm/mixin/OsmPrimitiveMixin.js</a>,
+				 <a href="josm_mixin_OsmPrimitiveMixin.js.html#sunlight-1-line-83">line 83</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">var nb = require(&quot;josm/builder&quot;).NodeBuilder;
+
+// get members
+var node = nb.create();
+node.isLocal;   // -&gt; true
+
+node = nb.create(1234);
+node.isLocal;   // -&gt; false</pre>
+
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt class="name" id="isModified">
+    <h4 id="isModified"><span class="type-signature"></span>isModified<span class="type-signature"></span></h4>
+
+    
+    <p class="summary"><p>Sets or gets whether this object is <em>modified</em>.</p></p>
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>Sets or gets whether this object is <em>modified</em>.</p>
+<p>Supported alias: <code>modified</code>.</p>
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    <dl>
+
+<table class="props table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>isModified</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>true, if modified</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+</dl>
+
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_mixin_OsmPrimitiveMixin.js.html">josm/mixin/OsmPrimitiveMixin.js</a>,
+				 <a href="josm_mixin_OsmPrimitiveMixin.js.html#sunlight-1-line-311">line 311</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">var node = ....           // create a node
+node.modified;            // -&gt; true or false
+node.isModified = true;   // sets the modified flag  to true</pre>
+
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt class="name" id="keys">
+    <h4 id="keys"><span class="type-signature">&lt;readonly> </span>keys<span class="type-signature"></span></h4>
+
+    
+    <p class="summary"><p>Replies an array with the tag keys.</p></p>
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>Replies an array with the tag keys.</p>
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    <dl>
+
+<table class="props table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>keys</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">array</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the tag keys</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+</dl>
+
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_mixin_OsmPrimitiveMixin.js.html">josm/mixin/OsmPrimitiveMixin.js</a>,
+				 <a href="josm_mixin_OsmPrimitiveMixin.js.html#sunlight-1-line-429">line 429</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">var node = .... // create a node
+
+// get the tag keys
+var keys = node.keys;</pre>
+
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt class="name" id="tags">
+    <h4 id="tags"><span class="type-signature"></span>tags<span class="type-signature"></span></h4>
+
+    
+    <p class="summary"><p>Get or set the tags of the object.</p></p>
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>Get or set the tags of the object.</p>
+<p><strong>get:</strong> - replies the tags as javascript object.</p>
+<p><strong>set:</strong></p>
+   <ul>
+     <li>assign null or undefined to remove all tags</li>
+     <li>assign an object to set its properties as tags.</li>
+     <li>assign an java.util.Map to set its elements as tags</li>
+   </ul>
+<p>null values and undefined tag values aren't assigned. tag keys are<br>
+normalized, i.e. leading and trailing white space is removed. Both, tag<br>
+keys and tag values, are converted to strings.</p>
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    <dl>
+
+<table class="props table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>tags</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the tags</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+</dl>
+
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_mixin_OsmPrimitiveMixin.js.html">josm/mixin/OsmPrimitiveMixin.js</a>,
+				 <a href="josm_mixin_OsmPrimitiveMixin.js.html#sunlight-1-line-369">line 369</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">var node = .... // create a node
+
+// set the tags using a javascript object
+node.tags = {amenity:&quot;restaurant&quot;, name:&quot;Obstberg&quot;};
+node.tags.amenity;  // -&gt; restaurant
+node.tags.name;     // -&gt; Obstberg
+
+// remove all tags
+node.tags = null;
+
+// set tags using a java map
+var tags = new java.util.HashMap();
+tags.put(&quot;amenity&quot;, &quot;restaurant&quot;);
+tags.put(&quot;name&quot;, &quot;Obstberg&quot;);
+node.tags = tags;</pre>
+
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt class="name" id="timestamp">
+    <h4 id="timestamp"><span class="type-signature">&lt;readonly> </span>timestamp<span class="type-signature"></span></h4>
+
+    
+    <p class="summary"><p>Get the timestamp this primitive was last modified on the server.</p></p>
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>Get the timestamp this primitive was last modified on the server.<br>
+Undefined, if this timestamp isn't known, i.e. for local primitives or<br>
+for proxy primitives.</p>
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    <dl>
+
+<table class="props table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>timestamp</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">java.util.Date</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the timestamp of last modification</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+</dl>
+
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_mixin_OsmPrimitiveMixin.js.html">josm/mixin/OsmPrimitiveMixin.js</a>,
+				 <a href="josm_mixin_OsmPrimitiveMixin.js.html#sunlight-1-line-266">line 266</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">var nb = require(&quot;josm/builder&quot;).NodeBuilder.forDataSet(ds);
+
+var n1 = ... // assume n1 was downloaded from the server
+n1.timestamp;  // the timestamp of last modification</pre>
+
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt class="name" id="user">
+    <h4 id="user"><span class="type-signature"></span>user<span class="type-signature"></span></h4>
+
+    
+    <p class="summary"><p>Set or get the user.</p></p>
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>Set or get the user.</p>
+<p><strong>get:</strong> - replies a User object or undefined, if not<br>
+user is set.</p>
+<p><strong>set:</strong> - assign a user, either as instance of User,<br>
+supplying a user name or the unique global user id as number. Assign null<br>
+or undefined to assign no user.</p>
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    <dl>
+
+<table class="props table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>user</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">org.openstreetmap.josm.data.osm.User</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the user who last modified the primitive</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+</dl>
+
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_mixin_OsmPrimitiveMixin.js.html">josm/mixin/OsmPrimitiveMixin.js</a>,
+				 <a href="josm_mixin_OsmPrimitiveMixin.js.html#sunlight-1-line-170">line 170</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">var User = org.openstreetmap.josm.data.osm.User;
+var nb = require(&quot;josm/builder&quot;).NodeBuilder.forDataSet(ds);
+
+
+var n1 = nb.create();
+// assign a user object
+n1.user = new User(&quot;foobar&quot;);
+// assign the unique global user with name &#x27;foobar&#x27;
+n1.user = &quot;foobar&quot;;
+// assign the unique global user with id 12345
+n1.user = 12345;</pre>
+
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt class="name" id="version">
+    <h4 id="version"><span class="type-signature">&lt;readonly> </span>version<span class="type-signature"></span></h4>
+
+    
+    <p class="summary"><p>The version of the object.</p></p>
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>The version of the object.</p>
+<p>Only global objects have a version. The version for local and proxy<br>
+objects is <var>undefined</var>.</p>
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    <dl>
+
+<table class="props table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>version</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the primitive version</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+</dl>
+
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_mixin_OsmPrimitiveMixin.js.html">josm/mixin/OsmPrimitiveMixin.js</a>,
+				 <a href="josm_mixin_OsmPrimitiveMixin.js.html#sunlight-1-line-48">line 48</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">var nb = require(&quot;josm/builder&quot;).NodeBuilder;
+
+// local object - get version is undefined
+var node = nb.create();
+node.version;  // -&amp;gt; undefined
+
+// global object - get version is defined
+var node = nb.create(12345, {version: 9});
+node.version;  // -&amp;gt; 9
+
+// proxy object - get version is undefined
+var node = nb.createProxy(12345);
+node.version;  // -&amp;gt; undefined</pre>
+
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt class="name" id="~isDeleted">
+    <h4 id="~isDeleted"><span class="type-signature">&lt;inner> </span>isDeleted<span class="type-signature"></span></h4>
+
+    
+    <p class="summary"><p>Set or get wheter this primitive is deleted.</p></p>
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>Set or get wheter this primitive is deleted.</p>
+<p>In order to invoke the native method <code>isDeleted()</code>,<br>
+prefix the name with $, i.e.</p>
+<pre>
+   node.$isDeleted(); // -> same as node.isDeleted  without parantheses
+</pre>
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    <dl>
+
+<table class="props table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>isDeleted</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>true, if this primitive is deleted</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+</dl>
+
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_mixin_OsmPrimitiveMixin.js.html">josm/mixin/OsmPrimitiveMixin.js</a>,
+				 <a href="josm_mixin_OsmPrimitiveMixin.js.html#sunlight-1-line-708">line 708</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+</dd>
+
+        </dl>
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        <dl>
+            
+<hr>
+<dt>
+    <h4 class="name" id=".get"><span class="type-signature">&lt;static> </span>get(name)</h4>
+    
+    
+    <p class="summary"><p>Replies the value of a tag.</p></p>
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Replies the value of a tag, or undefined, if the tag isn't set.</p>
+    </div>
+    
+
+    
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the tag name. Must not be null or undefined.<br>
+Non-string values are converted to a string. Leading and trailing<br>
+whitespace is removed.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_mixin_OsmPrimitiveMixin.js.html">josm/mixin/OsmPrimitiveMixin.js</a>,
+				 <a href="josm_mixin_OsmPrimitiveMixin.js.html#sunlight-1-line-455">line 455</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>the tag value</p>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">string</span>
+
+
+
+    </dd>
+</dl>
+
+
+        
+
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">var node = .... // create a node
+
+// set the tags using a javascript object
+node.tags = {amenity:&quot;restaurant&quot;, name:&quot;Obstberg&quot;};
+node.get(&quot;amenity&quot;);  // -&gt; restaurant
+node.get(&quot;name&quot;);     // -&gt; Obstberg</pre>
+
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id=".has"><span class="type-signature">&lt;static> </span>has(key)</h4>
+    
+    
+    <p class="summary"><p>Checks whether a primitive has a tag.</p></p>
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Replies true, if the object has a tag with key <var>key</var>.</p>
+<p><strong>Signatures</strong></p>
+<dl>
+  <dt><strong>has(key)</strong></dt>
+  <dd> <var>key</var> is a string. Replies true, if the
+  object has a tag with this key. Before matching, leading and trailing
+  white space is removed from <var>key</var>.</dd>
+  <dt><strong>has(regexp)</strong></dt>
+  <dd><var>regexp</var> is a regular expression. Replies true, if the
+  object has at least one tag whose key matches with <var>regexp</var>.</dd>
+</dl>
+    </div>
+    
+
+    
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>key</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+|
+
+<span class="param-type">regexp</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the tag key we are looking up</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_mixin_OsmPrimitiveMixin.js.html">josm/mixin/OsmPrimitiveMixin.js</a>,
+				 <a href="josm_mixin_OsmPrimitiveMixin.js.html#sunlight-1-line-560">line 560</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>true, if there is a tag with this key</p>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+
+    </dd>
+</dl>
+
+
+        
+
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">var node = .... // create a node
+
+// set the tags using a javascript object
+node.tags = {amenity:&quot;restaurant&quot;, name:&quot;Obstberg&quot;};
+
+// test wheter the tags are set
+node.has(&quot;amenity&quot;);     // -&gt; true
+node.has(&quot;no-such-tag&quot;); // -&gt; false
+
+ // use a regexp
+node.has(/^a/);               // -&gt; true
+node.has(/^name(:.*)?$/i);    // -&gt; false</pre>
+
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id=".remove"><span class="type-signature">&lt;static> </span>remove(name)</h4>
+    
+    
+    <p class="summary"><p>Removes a tag.</p></p>
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p><strong>Deprecated</strong>. There is a name conflict with the<br>
+<code>remove()</code> method for removing a node in <code>WayMixin</code>.<br>
+Use <code>removeTag()</code> instead.</p>
+<p>Removes a tag.</p>
+    </div>
+    
+
+    
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the tag name. Must not be null or undefined.<br>
+Non-string values are converted to a string. Leading and trailing<br>
+whitespace is removed.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_mixin_OsmPrimitiveMixin.js.html">josm/mixin/OsmPrimitiveMixin.js</a>,
+				 <a href="josm_mixin_OsmPrimitiveMixin.js.html#sunlight-1-line-638">line 638</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">var node = .... // create a node
+
+// set the tags using a javascript object
+node.tags = {amenity:&quot;restaurant&quot;, name:&quot;Obstberg&quot;};
+node.remove(&quot;amenity&quot;);
+node.has(&quot;amenity&quot;); // -&gt; false</pre>
+
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id=".removeTag"><span class="type-signature">&lt;static> </span>removeTag(name)</h4>
+    
+    
+    <p class="summary"><p>Removes a tag.</p></p>
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Removes a tag.</p>
+    </div>
+    
+
+    
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the tag name. Must not be null or undefined.<br>
+Non-string values are converted to a string. Leading and trailing<br>
+whitespace is removed.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_mixin_OsmPrimitiveMixin.js.html">josm/mixin/OsmPrimitiveMixin.js</a>,
+				 <a href="josm_mixin_OsmPrimitiveMixin.js.html#sunlight-1-line-610">line 610</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">var node = .... // create a node
+
+// set the tags using a javascript object
+node.tags = {amenity:&quot;restaurant&quot;, name:&quot;Obstberg&quot;};
+node.remove(&quot;amenity&quot;);
+node.has(&quot;amenity&quot;); // -&gt; false</pre>
+
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id=".set"><span class="type-signature">&lt;static> </span>set(tag)</h4>
+    
+    
+    <p class="summary"><p>Set a tag or a collection of tags.</p></p>
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Set a tag or a collection of tags.</p>
+<p><strong>Signatures</strong></p>
+<dl>
+  <dt><strong>set(name,value)</strong></dt>
+  <dd>sets a tag given a name and a value.<br/>
+  <var>name</var> must not be null or undefined. Non-string values are
+  converted to a string. Leading and trailing whitespace is removed.<br/>
+  <var>value</var>: if null or undefined, the tag is removed. Any other
+  value is converted to a string
+  </dd>
+  <dt><strong>set(tags)</strong></dt>
+  <dd><var>tags</var> is either a java object whose properties are set as
+  tags, or a java.util.Map.</dd>
+</dl>
+    </div>
+    
+
+    
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>tag</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">any</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>key/value pair, see description</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_mixin_OsmPrimitiveMixin.js.html">josm/mixin/OsmPrimitiveMixin.js</a>,
+				 <a href="josm_mixin_OsmPrimitiveMixin.js.html#sunlight-1-line-482">line 482</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">var node = .... // create a node
+
+// set the tags using a javascript object
+node.set(&quot;amenity&quot;, &quot;restaurant&quot;);
+node.set(&quot;name&quot;, &quot;obstberg&quot;);
+node.get(&quot;amenity&quot;);  // -&gt; restaurant
+node.get(&quot;name&quot;);     // -&gt; Obstberg
+
+// set the tags using an object
+node.set({amenity:&quot;restaurant&quot;, name: &quot;Obstberg&quot;});
+node.get(&quot;amenity&quot;);  // -&gt; restaurant
+node.get(&quot;name&quot;);     // -&gt; Obstberg</pre>
+
+
+    
+</dd>
+
+        </dl>
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+		</div>
+	</div>
+
+	<div class="clearfix"></div>
+
+	
+		<div class="col-md-3">
+			<div id="toc" class="col-md-3 hidden-xs hidden-sm hidden-md"></div>
+		</div>
+	
+
+</div>
+</div>
+
+
+    <div class="modal fade" id="searchResults">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Search results</h4>
+          </div>
+          <div class="modal-body"></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div>
+
+
+<footer>
+
+
+	<span class="copyright">
+	© Contributors to the JOSM Scripting Plugin
+	</span>
+
+<span class="jsdoc-message">
+	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a>
+	
+		on Sat Oct 3rd 2020
+	
+	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
+</span>
+</footer>
+
+<script src="scripts/docstrap.lib.js"></script>
+<script src="scripts/toc.js"></script>
+
+    <script type="text/javascript" src="scripts/fulltext-search-ui.js"></script>
+
+
+<script>
+$( function () {
+	$( "[id*='$']" ).each( function () {
+		var $this = $( this );
+
+		$this.attr( "id", $this.attr( "id" ).replace( "$", "__" ) );
+	} );
+
+	$( ".tutorial-section pre, .readme-section pre, pre.prettyprint.source" ).each( function () {
+		var $this = $( this );
+
+		var example = $this.find( "code" );
+		exampleText = example.html();
+		var lang = /{@lang (.*?)}/.exec( exampleText );
+		if ( lang && lang[1] ) {
+			exampleText = exampleText.replace( lang[0], "" );
+			example.html( exampleText );
+			lang = lang[1];
+		} else {
+			var langClassMatch = example.parent()[0].className.match(/lang\-(\S+)/);
+			lang = langClassMatch ? langClassMatch[1] : "javascript";
+		}
+
+		if ( lang ) {
+
+			$this
+			.addClass( "sunlight-highlight-" + lang )
+			.addClass( "linenums" )
+			.html( example.html() );
+
+		}
+	} );
+
+	Sunlight.highlightAll( {
+		lineNumbers : true,
+		showMenu : true,
+		enableDoclinks : true
+	} );
+
+	$.catchAnchorLinks( {
+        navbarOffset: 10
+	} );
+	$( "#toc" ).toc( {
+		anchorName  : function ( i, heading, prefix ) {
+			return $( heading ).attr( "id" ) || ( prefix + i );
+		},
+		selectors   : "#toc-content h1,#toc-content h2,#toc-content h3,#toc-content h4",
+		showAndHide : false,
+		smoothScrolling: true
+	} );
+
+	$( "#main span[id^='toc']" ).addClass( "toc-shim" );
+	$( '.dropdown-toggle' ).dropdown();
+
+    $( "table" ).each( function () {
+      var $this = $( this );
+      $this.addClass('table');
+    } );
+
+} );
+</script>
+
+
+
+<!--Navigation and Symbol Display-->
+
+
+<!--Google Analytics-->
+
+
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            SearcherDisplay.init();
+        });
+    </script>
+
+
+</body>
+</html>

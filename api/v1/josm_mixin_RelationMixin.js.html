@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>DocStrap Source: josm/mixin/RelationMixin.js</title>
+
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<link type="text/css" rel="stylesheet" href="styles/sunlight.default.css">
+
+	<link type="text/css" rel="stylesheet" href="styles/site.cosmo.css">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top navbar-inverse">
+<div class="container">
+	<div class="navbar-header">
+		<a class="navbar-brand" href="index.html">DocStrap</a>
+		<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#topNavigation">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+        </button>
+	</div>
+	<div class="navbar-collapse collapse" id="topNavigation">
+		<ul class="nav navbar-nav">
+			
+			<li class="dropdown">
+				<a href="modules.list.html" class="dropdown-toggle" data-toggle="dropdown">Modules<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="module-clipboard.html">clipboard</a></li><li><a href="module-josm.html">josm</a></li><li><a href="module-josm_api.html">josm/api</a></li><li><a href="module-josm_builder.html">josm/builder</a></li><li><a href="module-josm_command.html">josm/command</a></li><li><a href="module-josm_layers.html">josm/layers</a></li><li><a href="module-josm_mixin_BoundsMixin.html">josm/mixin/BoundsMixin</a></li><li><a href="module-josm_mixin_ChangesetMixin.html">josm/mixin/ChangesetMixin</a></li><li><a href="module-josm_mixin_DataSetMixin.html">josm/mixin/DataSetMixin</a></li><li><a href="module-josm_mixin_JSActionMixin.html">josm/mixin/JSActionMixin</a></li><li><a href="module-josm_mixin_LatLonMixin.html">josm/mixin/LatLonMixin</a></li><li><a href="module-josm_mixin_NodeMixin.html">josm/mixin/NodeMixin</a></li><li><a href="module-josm_mixin_OsmDataLayerMixin.html">josm/mixin/OsmDataLayerMixin</a></li><li><a href="module-josm_mixin_OsmPrimitiveMixin.html">josm/mixin/OsmPrimitiveMixin</a></li><li><a href="module-josm_mixin_RelationMixin.html">josm/mixin/RelationMixin</a></li><li><a href="module-josm_mixin_UploadStrategyMixin.html">josm/mixin/UploadStrategyMixin</a></li><li><a href="module-josm_mixin_WayMixin.html">josm/mixin/WayMixin</a></li><li><a href="module-josm_scriptingconsole.html">josm/scriptingconsole</a></li><li><a href="module-josm_ui_menu.html">josm/ui/menu</a></li><li><a href="module-josm_util.html">josm/util</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="module-josm_api-Api.html">josm/api~Api</a></li><li><a href="module-josm_api-ChangesetApi.html">josm/api~ChangesetApi</a></li><li><a href="module-josm_builder-NodeBuilder.html">josm/builder~NodeBuilder</a></li><li><a href="module-josm_builder-RelationBuilder.html">josm/builder~RelationBuilder</a></li><li><a href="module-josm_builder-WayBuilder.html">josm/builder~WayBuilder</a></li><li><a href="module-josm_command.AddCommand.html">josm/command.AddCommand</a></li><li><a href="module-josm_command.ChangeCommand.html">josm/command.ChangeCommand</a></li><li><a href="module-josm_command.CommandHistory.html">josm/command.CommandHistory</a></li><li><a href="module-josm_command.DeleteCommand.html">josm/command.DeleteCommand</a></li><li><a href="module-josm_mixin_DataSetMixin-DataSetSelectionFacade.html">josm/mixin/DataSetMixin~DataSetSelectionFacade</a></li><li><a href="module-josm_ui_menu-MenuBar.html">josm/ui/menu~MenuBar</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="mixins.list.html" class="dropdown-toggle" data-toggle="dropdown">Mixins<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="module-josm_mixin_BoundsMixin-BoundsMixin.html">josm/mixin/BoundsMixin~BoundsMixin</a></li><li><a href="module-josm_mixin_ChangesetMixin-ChangesetMixin.html">josm/mixin/ChangesetMixin~ChangesetMixin</a></li><li><a href="module-josm_mixin_DataSetMixin-DataSetMixin.html">josm/mixin/DataSetMixin~DataSetMixin</a></li><li><a href="module-josm_mixin_JSActionMixin-JSActionMixin.html">josm/mixin/JSActionMixin~JSActionMixin</a></li><li><a href="module-josm_mixin_LatLonMixin-LatLonMixin.html">josm/mixin/LatLonMixin~LatLonMixin</a></li><li><a href="module-josm_mixin_NodeMixin-NodeMixin.html">josm/mixin/NodeMixin~NodeMixin</a></li><li><a href="module-josm_mixin_OsmDataLayerMixin-OsmDataLayerMixin.html">josm/mixin/OsmDataLayerMixin~OsmDataLayerMixin</a></li><li><a href="module-josm_mixin_OsmPrimitiveMixin-OsmPrimitiveMixin.html">josm/mixin/OsmPrimitiveMixin~OsmPrimitiveMixin</a></li><li><a href="module-josm_mixin_RelationMixin-RelationMixin.html">josm/mixin/RelationMixin~RelationMixin</a></li><li><a href="module-josm_mixin_UploadStrategyMixin-UploadStrategyMixin.html">josm/mixin/UploadStrategyMixin~UploadStrategyMixin</a></li><li><a href="module-josm_mixin_WayMixin-WayMixin.html">josm/mixin/WayMixin~WayMixin</a></li>
+				</ul>
+			</li>
+			
+		</ul>
+        
+            <div class="col-sm-3 col-md-3">
+                <form class="navbar-form" role="search">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search" name="q" id="search-input">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default" id="search-submit"><i class="glyphicon glyphicon-search"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        
+	</div>
+
+</div>
+</div>
+
+
+<div class="container" id="toc-content">
+<div class="row">
+
+	
+	<div class="col-md-12">
+	
+		<div id="main">
+			
+
+		<h1 class="page-title">Source: josm/mixin/RelationMixin.js</h1>
+    
+<section>
+    <article>
+        <pre
+            class="sunlight-highlight-javascript linenums">/**
+ * This module is auto-loaded by the scripting plugin and mixed into the
+ * native java class {@class org/openstreetmap/josm/data/osm/Relation}.
+ *
+ * @module josm/mixin/RelationMixin
+ */
+
+var util = require("josm/util");
+var RelationMember = org.openstreetmap.josm.data.osm.RelationMember;
+var OsmPrimitive = org.openstreetmap.josm.data.osm.OsmPrimitive;
+var List = java.util.List;
+
+/**
+ * This mixin  provides additional properties and methods which you can
+ * invoke on an instance of
+ * {@class org/openstreetmap/josm/data/osm/Relation}.
+ *
+ * You can access relation members using
+ * &lt;pre>relation[i]&lt;/pre>,
+ * see examples below.
+ *
+ * @example
+ * var Relation = org.openstreetmap.josm.data.osm.Relation;
+ * var out = java.lang.System.out;
+ * var relation = new Relation(12345);
+ *
+ * // use the mixin property 'id' to access the relation id ...
+ * var id = relation.id;
+ *
+ * // ... or the native method getUniqueId()
+ * id = relation.getUniqueId();
+ *
+ * // loop over relation members and print out the roles
+ * for (var i=0; i &lt; relation.length; i++) {
+ *    out.println(relation[i].role);
+ * }
+ *
+ * @mixin RelationMixin
+ * @extends OsmPrimitiveMixin
+ * @forClass org.openstreetmap.josm.data.osm.Relation
+ */
+exports.mixin = {};
+exports.forClass=org.openstreetmap.josm.data.osm.Relation;
+
+
+/**
+ * Replies the number of relation members.
+ *
+ * @memberOf module:josm/mixin/RelationMixin~RelationMixin
+ * @name length
+ * @property {number} length the number of relation members
+ * @readOnly
+ * @summary Replies the number of relation members.
+ * @instance
+ */
+exports.mixin.length = {
+    get: function() {
+        return this.getMembersCount();
+    }
+}
+
+function memberListEquals(l1,l2) {
+    if (l1.length != l2.length) return false;
+    for (var i=0; i&lt; l1.length; i++) {
+        if (! l1[i].equals(l2[i])) return false;
+    }
+    return true;
+};
+
+/**
+ * The relation members
+ *
+ * &lt;dl>
+ *   &lt;dt>get&lt;/dt>
+ *   &lt;dd>replies the current list of relation members as javascript array.&lt;/dd>
+ *
+ *   &lt;dt>set&lt;/dt>
+ *   &lt;dd>Assign the list of relation members. Assign null or undefined to
+ *    remove all members.
+ *    Assign an array or a java.util.List of members. Members can be instances
+ *    of
+ *    {@class org/openstreetmap/josm/data/osm/RelationMember},
+ *    {@class org/openstreetmap/josm/data/osm/Node},
+ *    {@class org/openstreetmap/josm/data/osm/Way}, or
+ *    {@class org/openstreetmap/josm/data/osm/Relation}.
+ *    null or undefined are ignored.&lt;br/>
+ *    &lt;strong>Note:&lt;/strong> you can't assign members to a proxy relation.
+ *   &lt;/dd>
+ * &lt;/dl>
+ * @example
+ * var rb = require("josm/builder").RelationBuilder;
+ * var nb = require("josm/builder").NodeBuilder;
+ * var relation = rb.create();
+ *
+ * // set members
+ * relation.members = [nb.create(), rb.member('role.1', rb.create(12345))];
+ *
+ * // get members
+ * var members = relation.members;
+ *
+ * @memberOf module:josm/mixin/RelationMixin~RelationMixin
+ * @name members
+ * @property {...member | member[] | java.util.List} members  the relation members
+ * @summary Set or get the relation members
+ * @instance
+ */
+exports.mixin.members = {
+    get: function() {
+        var ret = [];
+        for(var it = this.getMembers().iterator(); it.hasNext();) {
+            ret.push(it.next());
+        }
+        return ret;
+    },
+    set: function(val) {
+        var members = [];
+        function remember(obj) {
+            if (util.isNothing(obj)) return;
+            if (obj instanceof RelationMember) {
+                members.push(obj);
+            } else if (obj instanceof OsmPrimitive) {
+                members.push(new RelationMember(null, obj));
+            } else if (util.isArray(obj)) {
+                for (var i=0; i&lt;obj.length;i++) remember(obj[i]);
+            } else if (obj instanceof List) {
+                for (var it=obj.iterator(); it.hasNext();) remember(it.next());
+            } else {
+                util.assert(false,
+                    "Can''t add object {0} as relation member", obj);
+            }
+        }
+        var oldmembers = this.members;
+        if (util.isNothing(val)) {
+            this.setMembers(null);
+        } else {
+            remember(val);
+            this.setMembers(members);
+        }
+        if (!memberListEquals(oldmembers, this.members)
+                &amp;&amp; !this.modified) this.modified = true;
+    }
+};
+
+exports.mixin.__getByIndex = function(idx) {
+    util.assert(idx >= 0 &amp;&amp; idx &lt; this.getMembersCount(),
+        "Index out of range, got {0}", idx);
+    return this.getMember(idx);
+};
+
+exports.mixin.__putByIndex = function(idx, val) {
+    util.assert(idx >= 0 &amp;&amp; idx &lt;= this.getMembersCount(),
+        "Index out of range, got {0}", idx);
+    util.assert(util.isSomething(val),
+        "value: must not be null or undefined");
+    util.assert(val instanceof RelationMember || val instanceof OsmPrimitive,
+        "Unexpected type of value, got {0}", val);
+    if (idx == this.length) {
+        this.add(val);
+    } else {
+        this.setAt(idx, val);
+    }
+    return this.getMember(idx);
+};
+
+
+/**
+ * Adds additional members at the end of the relation members list.
+ *
+ * &lt;strong>Signatures&lt;/strong>
+ * &lt;dl>
+ *   &lt;dt>&lt;code class="signature">add(m1, m2, ...)&lt;/code>&lt;/dt>
+ *   &lt;dd>Adds a variable number of members. null or undefined are ignored.
+ *   A member is either an instance of
+ *   &lt;code>{@class org.openstreetmap.josm.data.osm.RelationMember}&lt;/code> or a
+ *   {@class org.openstreetmap.josm.data.osm.Node},
+ *   {@class org.openstreetmap.josm.data.osm.Way},
+ *   or {@class org.openstreetmap.josm.data.osm.Relation}. If an OSM primitive
+ *   is passed in, a relation member with an empty role is created.&lt;/dd>
+ *   &lt;dt>&lt;code class="signature">add(array|list)&lt;/code>&lt;/dt>
+ *   &lt;dd>Adds an array or list of members. null or undefined are ignored.
+ *   A list is either a javascript array or an instance of a java List
+ *   (&lt;code>java.util.List&lt;/code>). A list element is either an
+ *   instance of
+ *   &lt;code>{@class org.openstreetmap.josm.data.osm.RelationMember}&lt;/code>,
+ *   or  or a  {@class org.openstreetmap.josm.data.osm.Node},
+ *   {@class org.openstreetmap.josm.data.osm.Way},
+ *   or {@class org.openstreetmap.josm.data.osm.Relation}. If an OSM primitive
+ *   is passed in, a relation member with an empty role is created. null and
+ *   undefined are ignored.&lt;/dd>
+ * &lt;/dl>
+ *
+ * @example
+ * var rbuilder = require("josm/builder").RelationBuilder;
+ * var nbuilder = require("josm/builder").NodeBuilder;
+ * var relation = rb.create();
+ *
+ * // add a member using a RelationMember instance (created with the utility
+ * // method rbuilder.member(...)
+ * relation.add(rbuilder.member('myrole', nbuilder.create()));
+ *
+ * // add three nodes as members, each with the empty role
+ * relation.add(nb.create(), nb.create(), nb.create());
+ *
+ * // add an array of members
+ * var m = [nb.create(), rb.member("role.1", nb.create())];
+ * relation.add(m);
+ *
+ * @memberOf module:josm/mixin/RelationMixin~RelationMixin
+ * @function
+ * @name add
+ * @param members see description
+ * @summary Adds one or more member to the relation.
+ * @instance
+ */
+exports.mixin.add = function(){
+    var toAdd = [];
+    function remember(obj){
+        if (util.isNothing(obj)) return;
+        if (obj instanceof RelationMember) {
+            toAdd.push(obj);
+        } else if (obj instanceof OsmPrimitive) {
+            toAdd.push(new RelationMember(null /* no role */, obj));
+        } else if (util.isArray(obj)) {
+            for (var i=0; i&lt;obj.length;i++) remember(obj[i]);
+        } else if (obj instanceof List) {
+            for (var it = obj.iterator(); it.hasNext();) remember(it.next());
+        } else {
+            util.assert(false,
+                "Can''t add a value ''{0}'' as member to a relation", obj);
+        }
+    }
+    for (var i=0; i &lt; arguments.length; i++) remember(arguments[i]);
+    for (var i=0; i&lt; toAdd.length; i++) this.addMember(toAdd[i]);
+};
+
+/**
+ * Inserts a member at position &lt;code>idx&lt;/code>.
+ *
+ * @example
+ * var rb = require("josm/builder").RelationBuilder;
+ * var nb = require("josm/builder").NodeBuilder;
+ * var wb = require("josm/builder").WayBuilder;
+ *
+ * // create a relation with two members
+ * var relation = rb.withMembers(nb.create(), nb.create()).create();
+ *
+ * // insert another member for a another node at position 0
+ * relation.insertAt(0, nb.create());
+ *
+ * // insert a way with role 'role.1' at position 1
+ * relation.insertAt(1, rb.member('role.1', wb.create()));
+ *
+ * @memberOf module:josm/mixin/RelationMixin~RelationMixin
+ * @function
+ * @name insertAt
+ * @param {number} idx  the index. a number &amp;gt;= 0 and &amp;lt;= the current
+ *         number of members
+ * @param {object} object the object, either a RelationMember, or a Node, a Way, or a
+ *         Relation. Must not be null or undefined.
+ * @summary Inserts one or more members at a position.
+ * @instance
+ */
+exports.mixin.insertAt = function(idx, obj) {
+    util.assert(util.isSomething(idx), "idx: must not be null or undefined");
+    util.assert(util.isNumber(idx), "idx: expected a number, got {0}", idx);
+    util.assert(idx >= 0, "idx: expected a number > 0, got {0}", idx);
+    idx = Math.max(this.getRelationsCount(), idx);
+
+    util.assert(util.isSomething(obj), "obj: must not be null or undefined");
+    if (obj instanceof RelationMember) {
+        this.addMember(idx, obj);
+    } else if (obj instanceof OsmPrimitive) {
+        this.addMember(idx, new RelationMember(null /* no role */, obj));
+    } else {
+        util.assert(false, "obj: unexpected type of value, got {0}", obj);
+    }
+};
+
+/**
+ * Sets a member at position &lt;code>idx&lt;/code>.
+ *
+ * @example
+ * var rb = require("josm/builder").RelationBuilder;
+ * var nb = require("josm/builder").NodeBuilder;
+ * var wb = require("josm/builder").WayBuilder;
+ *
+ * // relation has two members
+ * var relation = rb.withMembers(nb.create(), nb.create()).create();
+ *
+ * // set  another member for a another node at position 0
+ * relation.setAt(0, nb.create());
+ *
+ * // set a way with role 'role.1' at position 1
+ * relation.setAt(1, rb.member('role.1', wb.create()));
+ *
+ * @memberOf module:josm/mixin/RelationMixin~RelationMixin
+ * @function
+ * @name setAt
+ * @param {number} idx  the index. a number &amp;gt;= 0 and &amp;lt; the current
+ *         number of members
+ * @param {object} object  either a RelationMember, or a Node, a Way,
+ *         or a Relation. Must not be null or undefined.
+ * @summary Sets one or more members at a position.
+ * @instance
+ */
+exports.mixin.setAt = function(idx, obj) {
+    util.assert(util.isSomething(idx), "idx: must not be null or undefined");
+    util.assert(util.isNumber(idx), "idx: expected a number, got {0}", idx);
+    util.assert(idx >= 0 &amp;&amp; idx &lt; this.getMembersCount(),
+        "idx: out of range, got {0}", idx);
+
+    util.assert(util.isSomething(obj), "obj: must not be null or undefined");
+    if (obj instanceof RelationMember) {
+        this.setMember(idx, obj);
+    } else if (obj instanceof OsmPrimitive) {
+        this.setMember(idx, new RelationMember(null /* no role */, obj));
+    } else {
+        util.assert(false, "obj: unexpected type of value, got {0}", obj);
+    }
+};
+
+/**
+ * Replies the unique object id for the member object at position
+ * &lt;var>idx&lt;/var>.
+ *
+ * @example
+ * var rb = require("josm/builder").RelationBuilder;
+ * var nb = require("josm/builder").NodeBuilder;
+ * var wb = require("josm/builder").WayBuilder;
+ *
+ * // relation has two members
+ * var relation = rb.withMembers(nb.create(), nb.create()).create();
+ * var id = relation.getIdAt(0);
+ *
+ * @memberOf module:josm/mixin/RelationMixin~RelationMixin
+ * @function
+ * @name getIdAt
+ * @param {number} idx  the index. a number &amp;gt;= 0 and &amp;lt; the current
+ *         number of members
+ * @return {number} the unique object id for the member object at position
+ *         &lt;var>idx&lt;/var>
+ * @summary Replies the object id of a member.
+ * @instance
+ */
+exports.mixin.getIdAt = function(idx) {
+    util.assert(util.isSomething(idx), "idx: must not be null or undefined");
+    util.assert(util.isNumber(idx), "idx: expected a number, got {0}", idx);
+    util.assert(idx >= 0 &amp;&amp; idx &lt; this.getMembersCount(),
+        "idx: out of range, got {0}", idx);
+
+    return this.getMemberId(idx);
+};
+
+/**
+ * Replies the member role for the member at position &lt;code>idx&lt;/code>.
+ *
+ * @example
+ * var rb = require("josm/builder").RelationBuilder;
+ * var nb = require("josm/builder").NodeBuilder;
+ * var wb = require("josm/builder").WayBuilder;
+ *
+ * // relation has two members
+ * var relation = rb.withMembers(nb.create(), nb.create()).create();
+ * var role = relation.getRoleAt(0)  // ==> "", the empty role ;
+ *
+ * @memberOf module:josm/mixin/RelationMixin~RelationMixin
+ * @function
+ * @name getRoleAt
+ * @param {number} idx  the index. a number &amp;gt;= 0 and &amp;lt; the current
+ *         number of members
+ * @return {string} the member role for the member at position &lt;var>idx&lt;/var>
+ * @summary Replies the role of a member.
+ * @instance
+ */
+exports.mixin.getRoleAt = function(idx) {
+    util.assert(util.isSomething(idx), "idx: must not be null or undefined");
+    util.assert(util.isNumber(idx), "idx: expected a number, got {0}", idx);
+    util.assert(idx >= 0 &amp;&amp; idx &lt; this.getMembersCount(),
+        "idx: out of range, got {0}", idx);
+
+    return this.getRole(idx);
+};
+
+/**
+ * Replies the object represented by the member at position
+ * &lt;code>idx&lt;/code>.
+ *
+ * @example
+ * var rb = require("josm/builder").RelationBuilder;
+ * var nb = require("josm/builder").NodeBuilder;
+ * var wb = require("josm/builder").WayBuilder;
+ *
+ * // relation has two members
+ * var n1 = nb.create();
+ * var relation = rb.withMembers(n1, nb.create()).create();
+ * var node = relation.getObjectAt(0)  // ==> n1
+ *
+ * @memberOf module:josm/mixin/RelationMixin~RelationMixin
+ * @function
+ * @name getObjectAt
+ * @param {number} idx  the index. a number &amp;gt;= 0 and &amp;lt; the current
+ *         number of members
+ * @return {object} the object represented by the member at position &lt;code>idx&lt;/code>
+ * @summary Replies the object of a member.
+ * @instance
+ */
+exports.mixin.getObjectAt = function(idx) {
+    util.assert(util.isSomething(idx), "idx: must not be null or undefined");
+    util.assert(util.isNumber(idx), "idx: expected a number, got {0}", idx);
+    util.assert(idx >= 0 &amp;&amp; idx &lt; this.getMembersCount(),
+        "idx: out of range, got {0}", idx);
+    return this.getMember(idx).getMember();
+};
+
+exports.mixin = util.mix(require("josm/mixin/OsmPrimitiveMixin").mixin, exports.mixin);
+</pre>
+    </article>
+</section>
+
+
+
+
+
+		</div>
+	</div>
+
+	<div class="clearfix"></div>
+
+	
+
+</div>
+</div>
+
+
+    <div class="modal fade" id="searchResults">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Search results</h4>
+          </div>
+          <div class="modal-body"></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div>
+
+
+<footer>
+
+
+	<span class="copyright">
+	© Contributors to the JOSM Scripting Plugin
+	</span>
+
+<span class="jsdoc-message">
+	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a>
+	
+		on Sat Oct 3rd 2020
+	
+	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
+</span>
+</footer>
+
+<script src="scripts/docstrap.lib.js"></script>
+<script src="scripts/toc.js"></script>
+
+    <script type="text/javascript" src="scripts/fulltext-search-ui.js"></script>
+
+
+<script>
+$( function () {
+	$( "[id*='$']" ).each( function () {
+		var $this = $( this );
+
+		$this.attr( "id", $this.attr( "id" ).replace( "$", "__" ) );
+	} );
+
+	$( ".tutorial-section pre, .readme-section pre, pre.prettyprint.source" ).each( function () {
+		var $this = $( this );
+
+		var example = $this.find( "code" );
+		exampleText = example.html();
+		var lang = /{@lang (.*?)}/.exec( exampleText );
+		if ( lang && lang[1] ) {
+			exampleText = exampleText.replace( lang[0], "" );
+			example.html( exampleText );
+			lang = lang[1];
+		} else {
+			var langClassMatch = example.parent()[0].className.match(/lang\-(\S+)/);
+			lang = langClassMatch ? langClassMatch[1] : "javascript";
+		}
+
+		if ( lang ) {
+
+			$this
+			.addClass( "sunlight-highlight-" + lang )
+			.addClass( "linenums" )
+			.html( example.html() );
+
+		}
+	} );
+
+	Sunlight.highlightAll( {
+		lineNumbers : true,
+		showMenu : true,
+		enableDoclinks : true
+	} );
+
+	$.catchAnchorLinks( {
+        navbarOffset: 10
+	} );
+	$( "#toc" ).toc( {
+		anchorName  : function ( i, heading, prefix ) {
+			return $( heading ).attr( "id" ) || ( prefix + i );
+		},
+		selectors   : "#toc-content h1,#toc-content h2,#toc-content h3,#toc-content h4",
+		showAndHide : false,
+		smoothScrolling: true
+	} );
+
+	$( "#main span[id^='toc']" ).addClass( "toc-shim" );
+	$( '.dropdown-toggle' ).dropdown();
+
+    $( "table" ).each( function () {
+      var $this = $( this );
+      $this.addClass('table');
+    } );
+
+} );
+</script>
+
+
+
+<!--Navigation and Symbol Display-->
+
+
+<!--Google Analytics-->
+
+
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            SearcherDisplay.init();
+        });
+    </script>
+
+
+</body>
+</html>

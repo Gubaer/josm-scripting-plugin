@@ -19,39 +19,11 @@ Most of the scripts run by the Scripting Plugin will have to manipulate these pr
 
 The following table lists the names of the basic Java classes for data primitives and the names of the corresponding JavaScript *mixins*.
 
-<table id="table-primitives-and-mixins">
-  <tr>
-    <th>Kind of primitive</th>
-    <th>Java class</th>
-    <th>JavaScript mixin</th>
-    <th>JavaScript builder class</th>
-  </tr>
-  <tr>
-     <td>node</td>	
-     <td><a data-josm-class="org.openstreetmap.josm.data.osm.Node">Node</a><br/>
-     (extending <a data-josm-class="org.openstreetmap.josm.data.osm.OsmPrimitive">OsmPrimitive</a>)</td>
-     <td><a data-js-object="mixin:NodeMixin">NodeMixin</a><br/>
-      (extending <a data-js-object="mixin:NodeMixin">OsmPrimitiveMixin</a>)
-     </td>
-     <td><a data-js-object="class:NodeBuilder">NodeBuilder</a></td>
-  </tr>
-  <tr>
-     <td>way</td>
-     <td><a data-josm-class="org.openstreetmap.josm.data.osm.Way">Way</a><br/>
-     (extending <a data-josm-class="org.openstreetmap.josm.data.osm.OsmPrimitive">OsmPrimitive</a>)</td>
-     <td><a data-js-object="mixin:WayMixin">WayMixin</a><br/>
-     (extending <a data-js-object="mixin:NodeMixin">OsmPrimitiveMixin</a>)</td>
-     <td><a data-js-object="class:NodeBuilder">WayBuilder</a></td>
-  </tr>
-  <tr>
-     <td>relation</td>
-     <td><a data-josm-class="org.openstreetmap.josm.data.osm.Relation">Relation</a><br/>
-     (extending <a data-josm-class="org.openstreetmap.josm.data.osm.OsmPrimitive">OsmPrimitive</a>)</td>
-     <td><a data-js-object="mixin:RelationMixin">RelationMixin</a><br/>
-     (extending <a data-js-object="mixin:NodeMixin">OsmPrimitiveMixin</a>)</td>
-     <td><a data-js-object="class:NodeBuilder">RelationBuilder</a></td>
-  </tr>
-</table>
+| **Kind of primitive** | **Java class** | **JavaScript mixin** | **JavaScript builder class** |
+| node | [Node]{:target="apidoc"}<br/>(extending [OsmPrimitive]{:target="apidoc"}) | [NodeMixin]{:target="apidoc"}<br/>(extending [OsmPrimitiveMixin]{:target="apidoc"}) | [NodeBuilder]{:target="apidoc"} |
+| way | [Way]{:target="apidoc"}<br/>(extending [OsmPrimitive]{:target="apidoc"}) | [WayMixin]{:target="apidoc"}<br/>(extending [OsmPrimitiveMixin]{:target="apidoc"}) | [WayBuilder]{:target="apidoc"} |
+| relation | [Relation]{:target="apidoc"}<br/>(extending [OsmPrimitive]{:target="apidoc"}) | [RelationMixin]{:target="apidoc"}<br/>(extending [OsmPrimitiveMixin]{:target="apidoc"}) | [RelationBuilder]{:target="apidoc"} |
+
 
 
 ## Creating OSM primitives
@@ -73,7 +45,7 @@ var relation = new Relation(12345, 6);
 out.println("Created a relation - id=" + relation.getNumericId());
 ```
 
-The JOSM Scripting Plugin includes three <a data-js-object="module:josm/builder">builders</a> to create OSM primitives
+The JOSM Scripting Plugin includes three [josm/builder]{:target="apidoc"} to create OSM primitives
 in JavaScript, see the overview table above. The primitives from the previous example would be created as follows:
 
 ```js
@@ -158,19 +130,8 @@ at most one dataset. The dataset is said to be its **parent**.
 The following table summarizes the name of the native Java class and the JavaScript mixin
 representing data sets.
 
-<table id="table-primitives-and-mixins">
-  <tr>
-    <th></th>
-    <th>Java class</th>
-    <th>JavaScript mixin</th>
-  </tr>
-  <tr>
-     <td>data set</td>	
-     <td><a data-josm-class="org.openstreetmap.josm.data.osm.DataSet">DataSet</a></td>
-     <td><a data-js-object="mixin:DataSetMixin">DataSetMixin</a>
-     </td>
-  </tr>
-</table>
+|           | **Java class** | **JavaScript mixin** |
+| data set  | [DataSet]{:target="apidoc"} | [DataSetMixin]{:target="apidoc"} |
 
 There are two major differences between detached primitives and those attached to a dataset:
 
@@ -203,7 +164,7 @@ If primitives are modified interactively, the respective changes can be **undone
 
 If you manipulate primitives attached to a dataset which is itself attached to a data layer, you
 are better off to apply **data commands** to the primitives, instead of manipulating them directly.
-For this purpose, the Scripting Plugin provides a <a data-js-object="module:josm/command">command API</a>.
+For this purpose, the Scripting Plugin provides a [command API][josm/command]{:target="apidoc"}.
 
 ```js
   var command = require("josm/command");
@@ -256,3 +217,19 @@ In addition, you can *search in a dataset using the method `query()`.
   // query the dataset with a JOSM search expression
   restaurants = ds.query("amenity=restaurant");
 ```
+
+[Node]: https://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html
+[Way]: https://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Way.html
+[Relation]: https://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Relation.html
+[DataSet]: https://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/DataSet.html
+[OsmPrimitive]: https://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/OsmPrimitive.html
+[NodeMixin]: /api/v1/josm_mixin_NodeMixin.NodeMixin.html
+[WayMixin]: /api/v1/josm_mixin_WayMixin.WayMixin.html
+[DataSetMixin]: /api/v1/josm_mixin_DataSetMixin.DataSetMixin.html
+[RelationMixin]: /api/v1/josm_mixin_RelationMixin.RelationMixin.html
+[OsmPrimitiveMixin]: /api/v1/josm_mixin_OsmPrimitiveMixin.OsmPrimitiveMixin.html
+[NodeBuilder]: /api/v1/module-josm_builder.NodeBuilder.html
+[WayBuilder]: /api/v1/module-josm_builder.WayBuilder.html
+[RelationBuilder]: /api/v1/module-josm_builder.RelationBuilder.html
+[josm/builder]: /api/v1/module-josm_builder.html
+[josm/command]: /api/v1/module-josm_command.html

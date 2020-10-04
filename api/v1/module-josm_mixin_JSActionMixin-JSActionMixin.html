@@ -1,0 +1,1377 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>DocStrap Mixin: JSActionMixin</title>
+
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<link type="text/css" rel="stylesheet" href="styles/sunlight.default.css">
+
+	<link type="text/css" rel="stylesheet" href="styles/site.cosmo.css">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top navbar-inverse">
+<div class="container">
+	<div class="navbar-header">
+		<a class="navbar-brand" href="index.html">DocStrap</a>
+		<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#topNavigation">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+        </button>
+	</div>
+	<div class="navbar-collapse collapse" id="topNavigation">
+		<ul class="nav navbar-nav">
+			
+			<li class="dropdown">
+				<a href="modules.list.html" class="dropdown-toggle" data-toggle="dropdown">Modules<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="module-clipboard.html">clipboard</a></li><li><a href="module-josm.html">josm</a></li><li><a href="module-josm_api.html">josm/api</a></li><li><a href="module-josm_builder.html">josm/builder</a></li><li><a href="module-josm_command.html">josm/command</a></li><li><a href="module-josm_layers.html">josm/layers</a></li><li><a href="module-josm_mixin_BoundsMixin.html">josm/mixin/BoundsMixin</a></li><li><a href="module-josm_mixin_ChangesetMixin.html">josm/mixin/ChangesetMixin</a></li><li><a href="module-josm_mixin_DataSetMixin.html">josm/mixin/DataSetMixin</a></li><li><a href="module-josm_mixin_JSActionMixin.html">josm/mixin/JSActionMixin</a></li><li><a href="module-josm_mixin_LatLonMixin.html">josm/mixin/LatLonMixin</a></li><li><a href="module-josm_mixin_NodeMixin.html">josm/mixin/NodeMixin</a></li><li><a href="module-josm_mixin_OsmDataLayerMixin.html">josm/mixin/OsmDataLayerMixin</a></li><li><a href="module-josm_mixin_OsmPrimitiveMixin.html">josm/mixin/OsmPrimitiveMixin</a></li><li><a href="module-josm_mixin_RelationMixin.html">josm/mixin/RelationMixin</a></li><li><a href="module-josm_mixin_UploadStrategyMixin.html">josm/mixin/UploadStrategyMixin</a></li><li><a href="module-josm_mixin_WayMixin.html">josm/mixin/WayMixin</a></li><li><a href="module-josm_scriptingconsole.html">josm/scriptingconsole</a></li><li><a href="module-josm_ui_menu.html">josm/ui/menu</a></li><li><a href="module-josm_util.html">josm/util</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="module-josm_api-Api.html">josm/api~Api</a></li><li><a href="module-josm_api-ChangesetApi.html">josm/api~ChangesetApi</a></li><li><a href="module-josm_builder-NodeBuilder.html">josm/builder~NodeBuilder</a></li><li><a href="module-josm_builder-RelationBuilder.html">josm/builder~RelationBuilder</a></li><li><a href="module-josm_builder-WayBuilder.html">josm/builder~WayBuilder</a></li><li><a href="module-josm_command.AddCommand.html">josm/command.AddCommand</a></li><li><a href="module-josm_command.ChangeCommand.html">josm/command.ChangeCommand</a></li><li><a href="module-josm_command.CommandHistory.html">josm/command.CommandHistory</a></li><li><a href="module-josm_command.DeleteCommand.html">josm/command.DeleteCommand</a></li><li><a href="module-josm_mixin_DataSetMixin-DataSetSelectionFacade.html">josm/mixin/DataSetMixin~DataSetSelectionFacade</a></li><li><a href="module-josm_ui_menu-MenuBar.html">josm/ui/menu~MenuBar</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="mixins.list.html" class="dropdown-toggle" data-toggle="dropdown">Mixins<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="module-josm_mixin_BoundsMixin-BoundsMixin.html">josm/mixin/BoundsMixin~BoundsMixin</a></li><li><a href="module-josm_mixin_ChangesetMixin-ChangesetMixin.html">josm/mixin/ChangesetMixin~ChangesetMixin</a></li><li><a href="module-josm_mixin_DataSetMixin-DataSetMixin.html">josm/mixin/DataSetMixin~DataSetMixin</a></li><li><a href="module-josm_mixin_JSActionMixin-JSActionMixin.html">josm/mixin/JSActionMixin~JSActionMixin</a></li><li><a href="module-josm_mixin_LatLonMixin-LatLonMixin.html">josm/mixin/LatLonMixin~LatLonMixin</a></li><li><a href="module-josm_mixin_NodeMixin-NodeMixin.html">josm/mixin/NodeMixin~NodeMixin</a></li><li><a href="module-josm_mixin_OsmDataLayerMixin-OsmDataLayerMixin.html">josm/mixin/OsmDataLayerMixin~OsmDataLayerMixin</a></li><li><a href="module-josm_mixin_OsmPrimitiveMixin-OsmPrimitiveMixin.html">josm/mixin/OsmPrimitiveMixin~OsmPrimitiveMixin</a></li><li><a href="module-josm_mixin_RelationMixin-RelationMixin.html">josm/mixin/RelationMixin~RelationMixin</a></li><li><a href="module-josm_mixin_UploadStrategyMixin-UploadStrategyMixin.html">josm/mixin/UploadStrategyMixin~UploadStrategyMixin</a></li><li><a href="module-josm_mixin_WayMixin-WayMixin.html">josm/mixin/WayMixin~WayMixin</a></li>
+				</ul>
+			</li>
+			
+		</ul>
+        
+            <div class="col-sm-3 col-md-3">
+                <form class="navbar-form" role="search">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search" name="q" id="search-input">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default" id="search-submit"><i class="glyphicon glyphicon-search"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        
+	</div>
+
+</div>
+</div>
+
+
+<div class="container" id="toc-content">
+<div class="row">
+
+	
+	<div class="col-md-8">
+	
+		<div id="main">
+			
+
+	<h1 class="page-title">Mixin: JSActionMixin</h1>
+<section>
+
+<header>
+    
+        <h2>
+            <span class="ancestors"><a href="module-josm_mixin_JSActionMixin.html">josm/mixin/JSActionMixin</a>~</span>
+        
+        JSActionMixin
+        </h2>
+        
+    
+</header>
+
+
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p>This mixin is auto-loaded by the scripting plugin and mixed into the<br>
+native java class<br>
+<a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/plugins/scripting/js/JSAction.html" alt="org.openstreetmap.josm.plugins.scripting.js.JSAction" target="javadoc">JSAction</a>. It<br>
+provides additional properties and methods which you can invoke on an<br>
+instance of<br>
+<a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/plugins/scripting/js/JSAction.html" alt="org.openstreetmap.josm.plugins.scripting.js.JSAction" target="javadoc">JSAction</a>.</p></div>
+        
+
+        
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_mixin_JSActionMixin.js.html">josm/mixin/JSActionMixin.js</a>,
+				 <a href="josm_mixin_JSActionMixin.js.html#sunlight-1-line-12">line 12</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Members</h3>
+
+        <dl>
+            
+<hr>
+<dt class="name" id="name">
+    <h4 id="name"><span class="type-signature"></span>name<span class="type-signature"></span></h4>
+
+    
+    <p class="summary"><p>Set or get the name.</p></p>
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>Set or get the name.</p>
+<dl>
+  <dt>get</dt>
+  <dd>Replies the name as string, or undefined, if no name is set. </dd>
+  <dt>set</dt>
+  <dd>Set null or undefined to clear the name. Any other value is converted
+  to a string.</dd>
+</dl>
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    <dl>
+
+<table class="props table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the action name</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+</dl>
+
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_mixin_JSActionMixin.js.html">josm/mixin/JSActionMixin.js</a>,
+				 <a href="josm_mixin_JSActionMixin.js.html#sunlight-1-line-130">line 130</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt class="name" id="onExecute">
+    <h4 id="onExecute"><span class="type-signature"></span>onExecute<span class="type-signature"></span></h4>
+
+    
+    <p class="summary"><p>Set or get the function to be called when the action is executed.</p></p>
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>Set or get the function to be called when the action is executed.</p>
+<dl>
+  <dt>get</dt>
+  <dd>Replies the function or undefined, if no function has been assigned.
+  </dd>
+  <dt>set</dt>
+  <dd>Set the function, null, or undefined to remove the function.</dd>
+</dl>
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    <dl>
+
+<table class="props table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>onExecute</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>callback</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+</dl>
+
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_mixin_JSActionMixin.js.html">josm/mixin/JSActionMixin.js</a>,
+				 <a href="josm_mixin_JSActionMixin.js.html#sunlight-1-line-97">line 97</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt class="name" id="onInitEnabled">
+    <h4 id="onInitEnabled"><span class="type-signature"></span>onInitEnabled<span class="type-signature"></span></h4>
+
+    
+    <p class="summary"><p>Set or get the function to be called when the <em>enabled</em><br>
+state of the action should be reevaluated.</p></p>
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>Set or get the function to be called when the <em>enabled</em> state<br>
+should be initialized.</p>
+<dl>
+  <dt>get</dt>
+  <dd>Replies the function or undefined, if no function has been assigned.
+  </dd>
+  <dt>set</dt>
+  <dd>Set the function, null, or undefined to remove the function.</dd>
+</dl>
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    <dl>
+
+<table class="props table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>onInitEnabled</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>callback</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+</dl>
+
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_mixin_JSActionMixin.js.html">josm/mixin/JSActionMixin.js</a>,
+				 <a href="josm_mixin_JSActionMixin.js.html#sunlight-1-line-26">line 26</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt class="name" id="onUpdateEnabled">
+    <h4 id="onUpdateEnabled"><span class="type-signature"></span>onUpdateEnabled<span class="type-signature"></span></h4>
+
+    
+    <p class="summary"><p>Set or get the function to be called when the <em>enabled</em><br>
+state of the action should be reevaluated.</p></p>
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>Set or get the function to be called when the <em>enabled</em> state of<br>
+the action should be reevaluated.</p>
+<dl>
+  <dt>get</dt>
+  <dd>Replies the function or undefined, if no function has been assigned.
+  </dd>
+  <dt>set</dt>
+  <dd>Set the function, null, or undefined to remove the function.</dd>
+</dl>
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    <dl>
+
+<table class="props table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>onUpdateEnabled</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>callback</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+</dl>
+
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_mixin_JSActionMixin.js.html">josm/mixin/JSActionMixin.js</a>,
+				 <a href="josm_mixin_JSActionMixin.js.html#sunlight-1-line-61">line 61</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt class="name" id="tooltip">
+    <h4 id="tooltip"><span class="type-signature"></span>tooltip<span class="type-signature"></span></h4>
+
+    
+    <p class="summary"><p>Set or get the tooltip text.</p></p>
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>Set or get the tooltip text.</p>
+<dl>
+  <dt>get</dt>
+  <dd>Replies the tooltip as string, or undefined, if no tooltip is set.
+  </dd>
+  <dt>set</dt>
+  <dd>Set null or undefined to clear the tooltip. Any other value is
+  converted to a string.</dd>
+</dl>
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    <dl>
+
+<table class="props table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>tooltip</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the action tooltip</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+</dl>
+
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_mixin_JSActionMixin.js.html">josm/mixin/JSActionMixin.js</a>,
+				 <a href="josm_mixin_JSActionMixin.js.html#sunlight-1-line-160">line 160</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+</dd>
+
+        </dl>
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        <dl>
+            
+<hr>
+<dt>
+    <h4 class="name" id="addToMenu"><span class="type-signature"></span>addToMenu(menu [, index])</h4>
+    
+    
+    <p class="summary"><p>Adds an action to a menu.</p></p>
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Adds an action to a menu.</p>
+    </div>
+    
+
+    
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Argument</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>menu</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">java.swing.JMenu</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>the menu. This should be one of the global<br>
+JOSM menus.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>index</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>the index where to add the menu.<br>
+Default if missing: adds the menu at the end</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_mixin_JSActionMixin.js.html">josm/mixin/JSActionMixin.js</a>,
+				 <a href="josm_mixin_JSActionMixin.js.html#sunlight-1-line-191">line 191</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">var JSAction = require(&quot;josm/ui/menu&quot;).JSAction;
+
+// adds a new action to the JOSM edit menu
+new JSAction({name: &quot;My Action&quot;})
+   .addToMenu(josm.menu.get(&quot;edit&quot;));</pre>
+
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id="addToToolbar"><span class="type-signature"></span>addToToolbar( [options])</h4>
+    
+    
+    <p class="summary"><p>Adds an action to the toolbar.</p></p>
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Adds an action to the toolbar.</p>
+<p>If no parameters are passed in, the action is registered with its<br>
+toolbar id (see property tooblarId) for being displayed in the toolbar.<br>
+It isn't displayed, however, unless the toolbar id is already included<br>
+in the toolbar preferences. If not, the user first has to configure it<br>
+manually in the preference dialog.</p>
+<p>Use one of the named options described below to display the the action<br>
+at a a specific position in the toolbar.<br>
+If you use one of these options, the toolbar configuration is saved<br>
+to the preferences.</p>
+<p><code>options</code> support the following named parameters:</p>
+<dl>
+  <dt><code class="signature">toolbarId: string</code> </dt>
+  <dd>Optional toolbar id, overriding an already assigned toolbar id.</dd>
+  <dt><code class="signature">at: number, "start", "end"</code> </dt>
+  <dd>Display the toolbar entry at a specific position, at the start or at
+  the end of the toolbar.</dd>
+  <dt><code class="signature">after: string</code> </dt>
+  <dd>Display the toolbar entry after the entry with toolbar
+  id <code>after</code>.</dd>
+  <dt><code class="signature">before: string</code> </dt>
+  <dd>Display the toolbar entry before the entry with toolbar
+  id <code>before</code>.</dd>
+</dl>
+    </div>
+    
+
+    
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Argument</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">objects</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>named parameters</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_mixin_JSActionMixin.js.html">josm/mixin/JSActionMixin.js</a>,
+				 <a href="josm_mixin_JSActionMixin.js.html#sunlight-1-line-269">line 269</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">var JSAction = require(&quot;josm/ui/menu&quot;).JSAction;
+var action = new JSAction({name: &quot;My Action&quot;, toolbarId: &quot;myaction&quot;});
+
+// add the action after the &quot;open&quot; action in the toolbar
+action.addToToolbar({after: &quot;open&quot;});
+
+// add the action at the end of the toolbar
+action.addToToolbar({at: &quot;end&quot;});</pre>
+
+
+    
+</dd>
+
+        </dl>
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+		</div>
+	</div>
+
+	<div class="clearfix"></div>
+
+	
+		<div class="col-md-3">
+			<div id="toc" class="col-md-3 hidden-xs hidden-sm hidden-md"></div>
+		</div>
+	
+
+</div>
+</div>
+
+
+    <div class="modal fade" id="searchResults">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Search results</h4>
+          </div>
+          <div class="modal-body"></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div>
+
+
+<footer>
+
+
+	<span class="copyright">
+	© Contributors to the JOSM Scripting Plugin
+	</span>
+
+<span class="jsdoc-message">
+	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a>
+	
+		on Sat Oct 3rd 2020
+	
+	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
+</span>
+</footer>
+
+<script src="scripts/docstrap.lib.js"></script>
+<script src="scripts/toc.js"></script>
+
+    <script type="text/javascript" src="scripts/fulltext-search-ui.js"></script>
+
+
+<script>
+$( function () {
+	$( "[id*='$']" ).each( function () {
+		var $this = $( this );
+
+		$this.attr( "id", $this.attr( "id" ).replace( "$", "__" ) );
+	} );
+
+	$( ".tutorial-section pre, .readme-section pre, pre.prettyprint.source" ).each( function () {
+		var $this = $( this );
+
+		var example = $this.find( "code" );
+		exampleText = example.html();
+		var lang = /{@lang (.*?)}/.exec( exampleText );
+		if ( lang && lang[1] ) {
+			exampleText = exampleText.replace( lang[0], "" );
+			example.html( exampleText );
+			lang = lang[1];
+		} else {
+			var langClassMatch = example.parent()[0].className.match(/lang\-(\S+)/);
+			lang = langClassMatch ? langClassMatch[1] : "javascript";
+		}
+
+		if ( lang ) {
+
+			$this
+			.addClass( "sunlight-highlight-" + lang )
+			.addClass( "linenums" )
+			.html( example.html() );
+
+		}
+	} );
+
+	Sunlight.highlightAll( {
+		lineNumbers : true,
+		showMenu : true,
+		enableDoclinks : true
+	} );
+
+	$.catchAnchorLinks( {
+        navbarOffset: 10
+	} );
+	$( "#toc" ).toc( {
+		anchorName  : function ( i, heading, prefix ) {
+			return $( heading ).attr( "id" ) || ( prefix + i );
+		},
+		selectors   : "#toc-content h1,#toc-content h2,#toc-content h3,#toc-content h4",
+		showAndHide : false,
+		smoothScrolling: true
+	} );
+
+	$( "#main span[id^='toc']" ).addClass( "toc-shim" );
+	$( '.dropdown-toggle' ).dropdown();
+
+    $( "table" ).each( function () {
+      var $this = $( this );
+      $this.addClass('table');
+    } );
+
+} );
+</script>
+
+
+
+<!--Navigation and Symbol Display-->
+
+
+<!--Google Analytics-->
+
+
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            SearcherDisplay.init();
+        });
+    </script>
+
+
+</body>
+</html>

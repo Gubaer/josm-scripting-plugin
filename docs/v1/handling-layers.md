@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Layers
+title: Working with layers
 parent: API V1
 nav_order: 2
 ---
@@ -10,7 +10,7 @@ nav_order: 2
 # Working with layers
 
 The global object `josm.layers` represents the current layers in josm. The methods
-and properties of this object are defined in the module <a data-js-object="module:josm/layers">layers</a>
+and properties of this object are defined in the module [josm/layers]{:target="apidoc"}.
 
 The following scripts prints the names of the currently opened layers:
 
@@ -24,7 +24,7 @@ for (var i=0; i < len; i++) {
 
 ## Working with data layers
 
-Data layers are instances of the JOSM native class <a data-josm-class="org.openstreetmap.josm.gui.layer.OsmDataLayer">OsmDataLayer</a>.
+Data layers are instances of the JOSM native class [OsmDataLayer]{:target="apidoc"}.
 
 You can **open** a file with OSM data in a new data layer with the method
 `josm.open()`:
@@ -35,7 +35,7 @@ josm.open("/my/data/file.osm");
 ```
 
 Alternatively, you can create a data layer for a dataset, in particular for a dataset
-which has been <a data-js-object="class:Api">downloaded</a> from the OSM server.
+which has been [Api]{:target="apidoc"} from the OSM server.
 
 ```js
 var api = require("josm/api").Api;
@@ -45,4 +45,9 @@ var dataset = api.downloadArea({
 });
 josm.layers.addDataLayer({ds: dataset, name: "Obstberg"});
 ```
+
+[Api]: /api/v1/module-josm_api.Api.html
+[josm/layers]: /api/v1/module-josm_layers.html
+[OsmDataLayer]: https://josm.openstreetmap.de/doc/org/openstreetmap/josm/gui/layer/OsmDataLayer.html
+
 

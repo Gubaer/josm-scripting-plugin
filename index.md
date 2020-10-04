@@ -15,9 +15,6 @@ It includes a built-in scripting engine for Javascript based on [Mozilla Rhino]{
 [API for Javascript](apidoc/namespaces/josm.html)
 to manipulate JOSMs internal application objects.
 
-<table>
-  <tr>
-    <td>
 {% highlight javascript %}
 let command = require("josm/command")
 let nodeBuilder = require("josm/builder").NodeBuilder
@@ -32,12 +29,7 @@ josm.layers.activeLayer.apply(
 josm.alert("Added a node")
 {% endhighlight %}
 
-    </td>
-    <td>
-    <img id="console-img" src="assets/img/scripting-console-sample.png"/>
-    </td>
-  </tr>
-</table>
+<img id="console-img" src="assets/img/scripting-console-sample.png"/>
 
 It also executes Python scripts and can <a href="doc/python.html">load and execute plugins</a>
 written in Python.
