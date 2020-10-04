@@ -1,5 +1,6 @@
 plugins {
-    id 'org.openstreetmap.josm' version '0.5.0'
+    // id 'org.openstreetmap.josm' version '0.5.0'    
+    id 'org.openstreetmap.josm' version '0.7.0'
     id 'java'
     id 'groovy'
     id 'eclipse'
@@ -63,7 +64,7 @@ version = currentPluginVersion(releaseHistory)
 archivesBaseName = "scripting"
 
 josm {
-    josmCompileVersion = "tested"
+    josmCompileVersion = "latest"
     manifest {
         description = 'Runs scripts in JOSM'
         minJosmVersion = currentPluginMainVersion(releaseHistory)
