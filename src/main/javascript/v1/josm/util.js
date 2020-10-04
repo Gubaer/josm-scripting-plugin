@@ -10,11 +10,9 @@ var MessageFormat = java.text.MessageFormat;
  * Checks whether a value is null or undefined.
  *
  * @param {object} value  the value to check
- * @type {boolean}
- * @return false, if <code>value</code> is null or undefined; true, otherwise
- * @memberof josm/util
- * @method
+ * @return {boolean} false, if <code>value</code> is null or undefined; true, otherwise
  * @summary  Checks whether a value is null or undefined.
+ * @function
  * @name isNothing
  */
 exports.isNothing = function(value) {
@@ -25,11 +23,9 @@ exports.isNothing = function(value) {
  * Checks whether a value is neither null nor undefined.
  *
  * @param {object} value  the value to check
- * @type {boolean}
- * @return false, if <code>value</code> is null or undefined; true, otherwise
- * @memberof josm/util
- * @method
+ * @return {boolean} false, if <code>value</code> is null or undefined; true, otherwise
  * @summary  Checks whether a value is neither null nor undefined.
+ * @function
  * @name isSomething
  */
 exports.isSomething = function(val) {
@@ -43,10 +39,9 @@ exports.isSomething = function(val) {
  * string, then leading and trailing white space is removed.</p>
  *
  * @param {string} s  the string to be trimmed
- * @type {string}
- * @memberof josm/util
- * @method
+ * @return {string}
  * @summary  Trims leading and trailing whitespace from <code>s</code>.
+ * @function
  * @name trim
  */
 exports.trim = function(s){
@@ -90,10 +85,13 @@ exports.trim = function(s){
  * // throws an Error e, with e.description == "My message: test"
  * util.assert(false, "My message: {0}", "test");
  *
- * @memberof josm/util
- * @method
  * @summary  Assert a condition and throw an Error if the condition isn't met.
+ * @function
  * @name assert
+ * @static
+ * @param {boolean} condition
+ * @param {string} [message]  the message
+ * @param {...object} [values] an optional list of values
  */
 exports.assert = function() {
     var error = new Error();
@@ -138,12 +136,12 @@ exports.assert = function() {
  * util.assertSomething(5);       // -> OK
  *
  * @param {any} val the value to check
- * @param {string} msg  (optional) message if the assertion fails
- * @param values (optional) additional values used in <code>msg</code>
+ * @param {string} [msg] message if the assertion fails
+ * @param {...object} [values] additional values used in <code>msg</code>
  * placeholders
- * @memberof josm/util
- * @method
  * @summary  Asserts that <code>val</code> is defined and non-null.
+ * @function
+ * @static
  * @name assertSomething
  */
 exports.assertSomething = function(val) {
@@ -161,14 +159,13 @@ exports.assertSomething = function(val) {
 /**
  * Asserts that <code>val</code> is a number.
  *
- * @param {Anything} val the value to check
- * @param {String} msg  (optional) message if the assertion fails
- * @param values (optional) additional values used in <code>msg</code>
- * placeholders
- * @memberof josm/util
- * @method
+ * @param {Anything} value the value to check
+ * @param {String} [msg]  message if the assertion fails
+ * @param {...object} [values] values used in <code>msg</code> placeholders
  * @summary  Asserts that <code>val</code> is a number.
+ * @function
  * @name assertNumber
+ * @static
  */
 exports.assertNumber = function(val) {
     var args;
@@ -184,12 +181,12 @@ exports.assertNumber = function(val) {
 /**
  * Returns true if  <code>val</code> is defined.
  *
- * @param {any} val the value to check
- * @memberof josm/util
- * @method
+ * @param {any} value the value to check
  * @summary  Returns true if  <code>val</code> is defined.
+ * @return {boolean} true if  <code>val</code> is defined
+ * @function
  * @name isDef
- * @type boolean
+ * @static
  */
 exports.isDef = function(val) {
     return val !== void 0;
@@ -198,12 +195,12 @@ exports.isDef = function(val) {
 /**
  * Returns true if  <code>val</code> is a number.
  *
- * @param {any} val the value to check
- * @memberof josm/util
- * @method
+ * @param {any} value the value to check
  * @summary  Returns true if  <code>val</code> is a number.
+ * @return {boolean} true if  <code>val</code> is a number
+ * @function
  * @name isNumber
- * @type boolean
+ * @static
  */
 exports.isNumber = function(val) {
     return typeof val === "number";
@@ -212,13 +209,12 @@ exports.isNumber = function(val) {
 /**
  * Returns true if  <code>val</code> is a string.
  *
- * @param {any} val the value to check
- * @return true, if val is a string or a String object
- * @memberof josm/util
- * @method
+ * @param {any} value the value to check
+ * @return {boolean} true, if val is a string or a String object
  * @summary Returns true if  <code>val</code> is a string.
+ * @function
  * @name isString
- * @type boolean
+ * @static
  */
 exports.isString = function(val) {
     return exports.isDef(val)
@@ -228,13 +224,12 @@ exports.isString = function(val) {
 /**
  * Replies true if <code>val</code> is an array.
  *
- * @param {anything} val the value to check
- * @return true, if val is an array
- * @memberof josm/util
- * @method
+ * @param {anything} value the value to check
+ * @return {boolean} true, if val is an array
  * @summary Replies true if <code>val</code> is an array.
+ * @function
  * @name isArray
- * @type boolean
+ * @static
  */
 exports.isArray = function(val) {
     return Object.prototype.toString.call( val ) === '[object Array]';
@@ -243,13 +238,12 @@ exports.isArray = function(val) {
 /**
  * Replies true if <code>val</code> is a list of arguments.
  *
- * @param {anything} val the value to check
- * @return true, if val is a list of arguments
- * @memberof josm/util
- * @method
+ * @param {anything} value the value to check
+ * @return {boolean} true, if val is a list of arguments
  * @summary Replies true if <code>val</code> is a list of arguments.
+ * @function
  * @name isArguments
- * @type boolean
+ * @static
  */
 exports.isArguments = function(val) {
     return Object.prototype.toString.call(val) === '[object Arguments]';
@@ -270,11 +264,11 @@ exports.isArguments = function(val) {
  * c = util.countProperties(o);       // ->  undefined
  *
  * @param {any} o the object
- * @memberof josm/util
- * @method
  * @summary Replies the number of properties owned by <code>o</code>.
+ * @return {number} the number of properties owned by <code>o</code>.
+ * @function
  * @name countProperties
- * @type number
+ * @static
  */
 exports.countProperties  = function(o) {
     if (exports.isNothing(o)) return void 0;
@@ -301,11 +295,11 @@ exports.countProperties  = function(o) {
  * c = util.hasProperties(o);       // ->  false
  *
  * @param {any} o the object
- * @memberof josm/util
- * @method
  * @summary Replies true, if <code>o</code> owns at least one property.
+ * @return {boolean} true, if <code>o</code> owns at least one property.
+ * @function
  * @name hasProperties
- * @type boolean
+ * @static
  */
 exports.hasProperties = function(o) {
     var count = exports.countProperties(o);
@@ -317,11 +311,11 @@ exports.hasProperties = function(o) {
  * Replies true, if f is a function.
  *
  * @param {any} f the object
- * @memberof josm/util
- * @method
  * @summary Replies true, if f is a function.
+ * @return {boolean} true, if f is a function.
+ * @function
  * @name isFunction
- * @type boolean
+ * @static
  */
 exports.isFunction = function(f) {
     return typeof f === "function";
@@ -332,11 +326,11 @@ exports.isFunction = function(f) {
  *
  * @return a new object which includes the combined properties of the
  *         argument objects
- * @type object
- * @memberof josm/util
- * @method
+ * @return {object}
  * @summary Mixes the properties of a list of objects into one object.
+ * @function
  * @name mix
+ * @static
  */
 exports.mix = function(){
     var mixin = {};
@@ -369,10 +363,12 @@ exports.mix = function(){
  * // escape meta characters like {, } or ' with a leading apostrophe
  * util.println(" a pair of curly braces '{'}");
  *
- * @memberof josm/util
- * @method
  * @summary Prints a message to stdout (including newline).
+ * @param {string} message
+ * @param {...object} [args]
+ * @function
  * @name println
+ * @static
  */
 exports.println = function() {
     var args = Array.prototype.slice.call(arguments,0);
@@ -387,16 +383,17 @@ exports.println = function() {
  * <p>Supports the same string templates as {@class java.text.MessageFormat}</p>
  *
  * @example
- *
  * var myname = "...";
  * util.print("Hello world! My name is {0}", myname);
  * // escape meta characters like {, } or ' with a leading apostrophe
  * util.print(" a pair of curly braces '{'}");
  *
- * @memberof josm/util
- * @method
  * @summary Prints a message to stdout (without newline).
+ * @param {string} message
+ * @param {...object} [args]
+ * @function
  * @name print
+ * @static
  */
 exports.print = function() {
     var args = Array.prototype.slice.call(arguments,0);
@@ -411,11 +408,11 @@ exports.print = function() {
  *
  * @param {object} o1 a java object or null
  * @param {object} o2 a java object or null
- * @memberof josm/util
- * @method
  * @summary Are two java objects equal.
+ * @return {boolean}
+ * @function
  * @name javaEquals
- * @type boolean
+ * @static
  */
 exports.javaEquals = function(o1, o2) {
     exports.assert(typeof o1 === "object" && typeof o1.equals === "function");
@@ -432,10 +429,10 @@ exports.javaEquals = function(o1, o2) {
  * @param {array|arguments|java.util.Collection} collection the collection of
  *   elements
  * @param {function} delegate the function to call on each elemennt
- * @memberof josm/util
- * @method
  * @summary Iteraties over the elements of a collection
+ * @function
  * @name each
+ * @static
  */
 exports.each = function(collection, delegate) {
     if (exports.isNothing(collection) || exports.isNothing(delegate)) return;
@@ -451,14 +448,15 @@ exports.each = function(collection, delegate) {
 };
 
 /**
- * <p>Replies true, if a value is an array, an arguments list or a Java
- *     collection.
+ * Replies true, if a value is an array, an arguments list or a Java
+ * collection.
  *
  * @param {object} value the value to check
- * @memberof josm/util
- * @method
  * @summary Is a value a collection?
+ * @return {boolean} true, if <code>value</code> is a collection
+ * @function
  * @name isCollection
+ * @static
  */
 exports.isCollection = function(value) {
     return exports.isArray(value) || exports.isArguments(value)

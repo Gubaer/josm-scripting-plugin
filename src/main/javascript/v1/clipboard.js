@@ -23,12 +23,9 @@
  * // set the clipboard content
  * clipboard.text = "Hello World!";
  *
+ * @property {string} text clipboard content as text
  * @name text
- * @field
- * @instance
- * @memberof clipboard
  * @summary Set or get the clipboard content as text
- * @type {string}
  */
 Object.defineProperty(exports, "text",     {
     enumerable: true,

@@ -1,5 +1,3 @@
-(function() {
-
 /**
  * <p>This module is auto-loaded by the scripting plugin and mixed into the
  * native java class {@class org.openstreetmap.josm.data.osm.Node}.</p>
@@ -19,9 +17,9 @@ var LatLon = org.openstreetmap.josm.data.coor.LatLon;
  * @mixin NodeMixin
  * @extends OsmPrimitiveMixin
  * @forClass org.openstreetmap.josm.data.osm.Node
- * @memberof josm/mixin/NodeMixin
  */
-var mixin = {};
+exports.mixin = {};
+exports.forClass = org.openstreetmap.josm.data.osm.Node;
 
 /**
  * <p>Get or set the node latitude.</p>
@@ -44,14 +42,13 @@ var mixin = {};
  * n.lat = 23.245;
  * n.lat;  // -> 23.245
  *
- * @memberOf NodeMixin
+ * @memberOf module:josm/mixin/NodeMixin~NodeMixin
  * @name lat
- * @field
- * @instance
- * @type {number}
+ * @property {number} lat latitude
  * @summary Get or set the node latitude.
+ * @instance
  */
-mixin.lat =  {
+exports.mixin.lat =  {
     get: function() {
         if (this.isIncomplete || this.getCoor() == null) return undefined;
         return this.getCoor().$lat();
@@ -93,14 +90,13 @@ mixin.lat =  {
  * n.lon;  // -> -120.78;
  *
  *
- * @memberOf NodeMixin
+ * @memberOf module:josm/mixin/NodeMixin~NodeMixin
  * @name lon
- * @field
- * @instance
- * @type {number}
+ * @property {number} lon longitude 
  * @summary Get or set the node longitude.
+ * @instance
  */
-mixin.lon = {
+exports.mixin.lon = {
     get: function() {
         if (this.isIncomplete || this.getCoor() == null) return undefined;
         return this.getCoor().$lon();
@@ -131,15 +127,14 @@ mixin.lon = {
  * var n = nb.create();
  * n.east;
  *
- * @memberOf NodeMixin
+ * @memberOf module:josm/mixin/NodeMixin~NodeMixin
  * @name east
  * @readOnly
- * @field
- * @instance
- * @type {number}
+ * @property {number} east projected east coordinate
  * @summary Get the projected east coordinate.
+ * @instance
  */
-mixin.east= {
+exports.mixin.east= {
     get: function() {
         if (this.isIncomplete || this.getEastNorth() == null) return undefined;
         return this.getEastNorth().east();
@@ -157,13 +152,12 @@ mixin.east= {
  * var n = nb.create();
  * n.north;
  *
- * @memberOf NodeMixin
+ * @memberOf module:josm/mixin/NodeMixin~NodeMixin
  * @name north
  * @readOnly
- * @field
- * @instance
- * @type {number}
+ * @property {number} north projected north coordinate
  * @summary Get the projected north coordinate.
+ * @instance
  */
 mixin.north = {
     get: function() {
@@ -200,12 +194,11 @@ mixin.north = {
  * // get the position
  * n.pos;  // -> a LatLon with the position
  *
- * @memberOf NodeMixin
+ * @memberOf module:josm/mixin/NodeMixin~NodeMixin
  * @name pos
- * @field
- * @instance
- * @type org.openstreetmap.josm.data.coor.LatLon
+ * @property {org.openstreetmap.josm.data.coor.LatLon} pos position of the node
  * @summary Get or set the node position.
+ * @instance
  */
 mixin.pos =  {
     get: function() {
@@ -231,7 +224,4 @@ mixin.pos =  {
     }
 };
 
-exports.forClass = org.openstreetmap.josm.data.osm.Node;
-exports.mixin = util.mix(require("josm/mixin/OsmPrimitiveMixin").mixin, mixin);
-
-}());
+exports.mixin = util.mix(require("josm/mixin/OsmPrimitiveMixin").mixin, exports.mixin);

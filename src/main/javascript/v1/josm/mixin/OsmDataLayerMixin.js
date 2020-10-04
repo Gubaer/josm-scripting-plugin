@@ -1,8 +1,6 @@
-(function() {
-
 /**
- * <p>This module is auto-loaded by the scripting plugin and mixed into the
- * native java class {@class org.openstreetmap.josm.layer.OsmDataLayer}.</p>
+ * This module is auto-loaded by the scripting plugin and mixed into the
+ * native java class {@class org.openstreetmap.josm.layer.OsmDataLayer}.
  *
  * @module josm/mixin/OsmDataLayerMixin
  */
@@ -13,15 +11,16 @@ var Bounds = org.openstreetmap.josm.data.Bounds;
 var Command = org.openstreetmap.josm.command.Command;
 
 /**
- * <p>This mixin is auto-loaded by the scripting plugin and mixed into the
- * native java class {@class org.openstreetmap.josm.layer.OsmDataLayer}.</p>
+ * This mixin is auto-loaded by the scripting plugin and mixed into the
+ * native java class {@class org.openstreetmap.josm.layer.OsmDataLayer}.
  *
  * @mixin OsmDataLayerMixin
  * @forClass org.openstreetmap.josm.gui.layer.OsmDataLayer
- * @memberof josm/mixin/OsmDataLayerMixin
  *
  */
-var mixin = {};
+exports.mixin = {};
+exports.forClass=org.openstreetmap.josm.gui.layer.OsmDataLayer;
+
 
 /**
  * Applies one or more undoable/redoable commands to the data layer.
@@ -35,13 +34,13 @@ var mixin = {};
  *   </dd>
  * </dl>
  *
- * @method
- * @instance
+ * @param {...(org.openstreetmap.josm.command.Command | object)} commands the commands to apply
+ * @function
  * @name apply
  * @summary Apply commands
- * @memberOf OsmDataLayerMixin
+ * @memberOf module:josm/mixin/OsmDataLayerMixin~OsmDataLayerMixin
  */
-mixin.apply = function() {
+exports.mixin.apply = function() {
     var UndoRedoHandler = org.openstreetmap.josm.data.UndoRedoHandler;
     var cmds = [];
     var layer = this;
@@ -64,8 +63,3 @@ mixin.apply = function() {
         this.data.endUpdate();
     }
 };
-
-exports.forClass=org.openstreetmap.josm.gui.layer.OsmDataLayer;
-exports.mixin = mixin;
-
-}());

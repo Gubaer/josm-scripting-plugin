@@ -1,8 +1,6 @@
-(function() {
-
 /**
- * <p>This module is auto-loaded by the scripting plugin and mixed into the
- * native java class {@class org.openstreetmap.josm.data.osm.Changeset}.</p>
+ * This module is auto-loaded by the scripting plugin and mixed into the
+ * native java class {@class org.openstreetmap.josm.data.osm.Changeset}.
  *
  * @module josm/mixin/ChangesetMixin
  */
@@ -11,46 +9,43 @@ var util = require("josm/util");
 var Tags = org.openstreetmap.josm.plugins.scripting.js.api.Tags;
 
 /**
- * <p>This mixin is auto-loaded by the scripting plugin and mixed into the
- * native java class {@class org.openstreetmap.josm.data.osm.Changeset}.</p>
+ * This mixin is auto-loaded by the scripting plugin and mixed into the
+ * native java class {@class org.openstreetmap.josm.data.osm.Changeset}.
  *
  * @mixin ChangesetMixin
+ * @summary JavaScript mixin for the java class {@class org.openstreetmap.josm.data.osm.Changeset}
  * @forClass org.openstreetmap.josm.data.osm.Changeset
- * @memberof josm/mixin/ChangesetMixin
- *
  */
-var mixin = {};
+exports.forClass=org.openstreetmap.josm.data.osm.Changeset;
+exports.mixin = mixin;
 
 /**
- * <p>Replies the unique numeric id.</p>
+ * Replies the unique numeric id.
  *
- * @field
  * @readonly
+ * @property {number} id
  * @name id
  * @summary Replies the unique numeric id.
- * @memberof ChangesetMixin
  * @instance
- * @type {number}
+ * @memberof module:josm/mixin/ChangesetMixin~ChangesetMixin
  */
-mixin.id = {
+exports.mixin.id = {
     get: function() {
         return this.getId();
     }
 };
 
 /**
- * <p>Get or set whether this changeset is open.</p>
+ * Get or set whether this changeset is open.
  *
- * @field
- * @readonly
+ * @property {boolean} isOpen
  * @name isOpen
- * @summary Get or set whether this changeset is open.
- * @memberof ChangesetMixin
  * @instance
- * @type {boolean}
+ * @summary Get or set whether this changeset is open.
+ * @memberof module:josm/mixin/ChangesetMixin~ChangesetMixin
  * @alias open
  */
-mixin.isOpen = mixin.open = {
+exports.mixin.isOpen = exports.mixin.open = {
     get: function() {
         return this.$isOpen();
     },
@@ -66,8 +61,8 @@ var LatLon = org.openstreetmap.josm.data.coor.LatLon;
 var Bounds = org.openstreetmap.josm.data.Bounds;
 
 /**
- * <p>Set or get the coordinates of the lower left corner of the bounding box.
- * </p>
+ * Set or get the coordinates of the lower left corner of the bounding box.
+ * 
  *
  * <dl>
  *   <dt>get:</dt>
@@ -80,14 +75,14 @@ var Bounds = org.openstreetmap.josm.data.Bounds;
  *   an object <code>{lat:number, lon: number}</code> to set the coordinates.
  *   </dd>
  * </dl>
- * @field
+ 
+ * @property {org.openstreetmap.josm.data.coor.LatLon} min the lower left corner
  * @name min
  * @summary Get or set the coordinates of the lower left corner
- * @memberof ChangesetMixin
  * @instance
- * @type org.openstreetmap.josm.data.coor.LatLon
+ * @memberof module:josm/mixin/ChangesetMixin~ChangesetMixin
  */
-mixin.min = {
+exports.mixin.min = {
     get: function() {
         var min = this.$getMin();
         return min == null ? undefined : min;
@@ -109,8 +104,8 @@ mixin.min = {
 };
 
 /**
- * <p>Set or get the coordinates of the upper right corner of the bounding box.
- * </p>
+ * Set or get the coordinates of the upper right corner of the bounding box.
+ * 
  * <dl>
  *   <dt>get:</dt>
  *   <dd>Replies a {@class org.openstreetmap.josm.data.coor.LatLon} or
@@ -122,14 +117,14 @@ mixin.min = {
  *   an object <code>{lat:number, lon: number}</code> to set the coordinates.
  *   </dd>
  * </dl>
- * @field
+
  * @name max
+ * @property {org.openstreetmap.josm.data.coor.LatLon} max the upper right corner
  * @summary Get or set the coordinates of the upper right corner
- * @memberOf ChangesetMixin
  * @instance
- * @type org.openstreetmap.josm.data.coor.LatLon
+ * @memberOf module:josm/mixin/ChangesetMixin~ChangesetMixin
  */
-mixin.max = {
+exports.mixin.max = {
     get: function() {
         var max = this.$getMax();
         return max == null ? undefined : max;
@@ -151,22 +146,22 @@ mixin.max = {
 };
 
 /**
- * <p>Get the bounding box the bounding box.</p>
+ * Get the bounding box the bounding box.
  * <dl>
  *   <dt>get:</dt>
  *   <dd>Replies a {@class org.openstreetmap.josm.data.Bounds} or undefined,
  *   if the bounding box isn't known.</dd>
  * </dl>
  *
- * @field
+ *
  * @name bounds
+ * @property {org.openstreetmap.josm.data.Bounds} bounds the bounding box
  * @summary Get the bounding box the bounding box.
- * @memberof ChangesetMixin
+ * @memberof module:josm/mixin/ChangesetMixin~ChangesetMixin
  * @instance
  * @readOnly
- * @type org.openstreetmap.josm.data.Bounds
  */
-mixin.bounds = {
+exports.mixin.bounds = {
     get: function() {
         var bounds = this.$getBounds();
         return bounds == null ? undefined : bounds;
@@ -206,20 +201,20 @@ function applyTagObject(obj,tags) {
 };
 
 /**
- * <p>Get or set the tags of the changeset.</p>
- * <p><strong>get:</strong> - replies the tags as javascript object.</p>
+ * Get or set the tags of the changeset.
+ * <strong>get:</strong> - replies the tags as javascript object.
  *
- *  <p><strong>set:</strong>
+ *  <strong>set:</strong>
  *    <ul>
  *      <li>assign null or undefined to remove all tags</li>
  *      <li>assign an object to set its properties as tags.</li>
  *      <li>assign an java.util.Map to set its elements as tags</li>
  *    </ul>
- *  </p>
+ *  
  *
- *  <p>null values and undefined tag values aren't assigned. tag keys are
+ *  null values and undefined tag values aren't assigned. tag keys are
  *  normalized, i.e. leading and trailing white space is removed. Both, tag
- *  keys and tag values, are converted to strings.</p>
+ *  keys and tag values, are converted to strings.
  *
  * @example
  * var cs = .... // create a changeset
@@ -238,14 +233,13 @@ function applyTagObject(obj,tags) {
  * tags.put("name", "Obstberg");
  * cs.tags = tags;
  *
- * @memberOf ChangesetMixin
+ * @memberOf module:josm/mixin/ChangesetMixin~ChangesetMixin
  * @name tags
- * @field
- * @instance
- * @type {object}
+ * @property {object} tags  the tags
  * @summary Get or set the tags.
+ * @instance
  */
-mixin.tags = {
+exports.mixin.tags = {
     get: function() {
         return new Tags(this);
     },
@@ -266,7 +260,7 @@ mixin.tags = {
 };
 
 /**
- * <p>Set or get the date this changeset was created.</p>
+ * Set or get the date this changeset was created.
  * <dl>
  *   <dt>get:</dt>
  *   <dd>Replies a {@class java.utilDate} or undefined, if the date isn't
@@ -278,15 +272,13 @@ mixin.tags = {
  *   assign a javascript Date object.</dd>
  * </dl>
  *
- * @memberOf ChangesetMixin
+ * @memberOf module:josm/mixin/ChangesetMixin~ChangesetMixin
  * @name createdAt
- * @field
- * @instance
- * @readOnly
- * @type java.util.Date
+ * @property {java.util.Date} createdAt  date the changeset was created
  * @summary Set or get the date this changeset was created.
+ * @instance
  */
-mixin.createdAt = {
+exports.mixin.createdAt = {
     get: function() {
         var d = this.getCreatedAt();
         return d == null ? undefined: d;
@@ -307,7 +299,7 @@ mixin.createdAt = {
 };
 
 /**
- * <p>Set or get the date this changeset was closed.</p>
+ * Set or get the date this changeset was closed.
  *
  * <dl>
  *   <dt>get:</dt>
@@ -320,15 +312,13 @@ mixin.createdAt = {
  *   javascript Date object.</dd>
  * </dl>
  *
- * @memberOf ChangesetMixin
+ * @memberOf module:josm/mixin/ChangesetMixin~ChangesetMixin
  * @name closedAt
- * @field
- * @instance
- * @readOnly
- * @type java.util.Date
+ * @property {java.util.Date} closedAt date the changeset was closed
  * @summary Set or get the date this changeset was closed.
+ * @instance
  */
-mixin.closedAt = {
+exports.mixin.closedAt = {
     get: function() {
         var d = this.getClosedAt();
         return d == null ? undefined: d;
@@ -347,7 +337,3 @@ mixin.closedAt = {
         }
     }
 };
-
-exports.forClass=org.openstreetmap.josm.data.osm.Changeset;
-exports.mixin = mixin;
-}());

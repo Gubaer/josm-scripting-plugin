@@ -1,8 +1,6 @@
-(function() {
-
 /**
- * <p>This module is auto-loaded by the scripting plugin and mixed into the 
- * native java class {@class org.openstreetmap.josm.data.coor.LatLon}.</p>
+ * This module is auto-loaded by the scripting plugin and mixed into the 
+ * native java class {@class org.openstreetmap.josm.data.coor.LatLon}.
  * 
  * @module josm/mixin/LatLonMixin
  */
@@ -10,19 +8,19 @@ var util = require("josm/util");
 var LatLon = org.openstreetmap.josm.data.coor.LatLon;
 
 /**
- * <p>This mixin provides additional properties and methods which you can 
+ * This mixin provides additional properties and methods which you can 
  * invoke on an instance of
- * {@class org.openstreetmap.josm.data.coor.LatLon}.</p>
+ * {@class org.openstreetmap.josm.data.coor.LatLon}.
  *  
- * @mixin LatLonMixin 
+ * @mixin LatLonMixin
  * @forClass org.openstreetmap.josm.data.coor.LatLon
- * @memberof josm/mixin/LatLonMixin
  *
  */
-var mixin = {};
+exports.mixin = {};
+exports.forClass = org.openstreetmap.josm.data.coor.LatLon;
 
 /**
- * <p>Get the latitude.</p>
+ * Get the latitude.
  * 
  * @example
  * var LatLon = org.openstreetmap.josm.data.coor.LatLon;
@@ -35,22 +33,21 @@ var mixin = {};
  * // Note the parentheses - the native method has to be called as function!
  * pos.$lat();  // -> 1
  * 
- * @memberOf LatLonMixin
+ * @memberOf module:josm/mixin/LatLonMixin~LatLonMixin
  * @name lat
- * @field
+ * @property {number} lat  latitude
  * @readOnly
- * @instance
- * @type {number} 
  * @summary Get the latitude.
+ * @instance
  */
-mixin.lat = {
+exports.mixin.lat = {
     get: function() {
         return this.$lat();
     }    
 };
 
 /**
- * <p>Get the longitude.</p>
+ * Get the longitude.
  * 
  * @example
  * var LatLon = org.openstreetmap.josm.data.coor.LatLon;
@@ -63,15 +60,14 @@ mixin.lat = {
  * // Note the parentheses - the native method has to be called as function!
  * pos.$lon();  // -> 1
  * 
- * @memberOf LatLonMixin
+ * @memberOf module:josm/mixin/LatLonMixin~LatLonMixin
  * @name lon
- * @field
+ * @property {number} lon  longitude
  * @readOnly
- * @instance
- * @type {number} 
  * @summary Get the longitude.
+ * @instance
  */
-mixin.lon = {
+exports.mixin.lon = {
     get: function() {
         return this.$lon();
     }    
@@ -79,8 +75,8 @@ mixin.lon = {
 
 
 /**
- * <p>Creates a {@class org.openstreetmap.josm.data.coor.LatLon} from a 
- * javascript object.</p>
+ * Creates a {@class org.openstreetmap.josm.data.coor.LatLon} from a 
+ * javascript object.
  * 
  * @example
  * var pos = LatLon.make({lat: 1, lon: 2});
@@ -88,15 +84,15 @@ mixin.lon = {
  * @param {object} obj  a javascript object with two number properties 
  * <code>lat:</code> and 
  *   <code>lon:</code> 
- * @memberOf LatLonMixin
+ * @memberOf module:josm/mixin/LatLonMixin~LatLonMixin
  * @name make
  * @static
- * @method
- * @type org.openstreetmap.josm.data.coor.LatLon 
+ * @returns {org.openstreetmap.josm.data.coor.LatLon}  
  * @summary Create a {@class org.openstreetmap.josm.data.coor.LatLon} 
- * from a javascript object.
+ *      from a javascript object.
+ * @function
  */
-mixin.make = function(obj) {
+exports.mixin.make = function(obj) {
     util.assert(util.isSomething(obj), "obj: must not be null or undefined");
     util.assert(typeof obj === "object", 
         "obj: expected an object, got {0}", obj);
@@ -112,9 +108,4 @@ mixin.make = function(obj) {
         obj.lon);
     return new LatLon(obj.lat, obj.lon);
 };
-mixin.make.static=true;
-
-exports.forClass = org.openstreetmap.josm.data.coor.LatLon;
-exports.mixin    = mixin;
-
-}());
+exports.mixin.make.static=true;

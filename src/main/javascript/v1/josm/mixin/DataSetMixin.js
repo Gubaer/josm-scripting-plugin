@@ -1,8 +1,6 @@
-(function() {
-
 /**
-* <p>This module is auto-loaded by the scripting plugin and mixed into the
- * native java class {@class org/openstreetmap/josm/data/osm/DataSet}.</p>
+* This module is auto-loaded by the scripting plugin and mixed into the
+ * native java class {@class org/openstreetmap/josm/data/osm/DataSet}.
  *
  * @module josm/mixin/DataSetMixin
  */
@@ -27,9 +25,9 @@ var Collections   = java.util.Collections;
 
 
 /**
- * <p>This mixin provides additional properties and methods which you can
- * invoke on an instance of{@class org/openstreetmap/josm/data/osm/DataSet}.
- * </p>
+ * This mixin provides additional properties and methods which you can
+ * invoke on an instance of {@class org.openstreetmap.josm.data.osm.DataSet}.
+ * 
  *
  *  @example
  *  var ds = new org.openstreetmap.josm.data.osm.DataSet();
@@ -50,10 +48,12 @@ var Collections   = java.util.Collections;
  *  ds.selection.toogle(n2);
  *
  * @mixin DataSetMixin
+ * @summary JavaScript mixin for the java class {@class org.openstreetmap.josm.data.osm.DataSet}
  * @forClass org.openstreetmap.josm.data.osm.DataSet
- * @memberof josm/mixin/DataSetMixin
  */
-var mixin = {};
+exports.mixin = {};
+exports.forClass = org.openstreetmap.josm.data.osm.DataSet;
+
 
 function each(collection, delegate) {
     if (util.isArray(collection) || util.isArguments(collection)) {
@@ -85,7 +85,7 @@ function colToArray(col) {
 }
 
 /**
- * <p>Adds one or more primitives to the dataset.</p>
+ * Adds one or more primitives to the dataset.
  *
  * <strong>Signatures</strong>
  * <dl>
@@ -123,12 +123,13 @@ function colToArray(col) {
  * relation.add(l);
  *
  * @summary Adds one or more objects to the dataset.
- * @memberOf DataSetMixin
- * @method
- * @instance
+ * @memberOf module:josm/mixin/DataSetMixin~DataSetMixin
  * @name add
+ * @param {(...primitive|primitive[]|java.util.Collection)} primitives  primitives to add
+ * @function
+ * @instance
  */
-mixin.add = function() {
+exports.mixin.add = function() {
     var objs = [];
     function remember(obj){
         if(util.isNothing(obj)) return;
@@ -186,8 +187,8 @@ function primitiveIdFromObject(obj) {
 };
 
 /**
- * <p>Replies an OSM object from the dataset, or undefined, if no such object
- * exists.</p>
+ * Replies an OSM object from the dataset, or undefined, if no such object
+ * exists.
  *
  * <strong>Signatures</strong>
  * <dl>
@@ -233,12 +234,13 @@ function primitiveIdFromObject(obj) {
  * var o5 = ds.get(way);
  *
  * @summary Get an object from the dataset.
- * @memberOf DataSetMixin
- * @method
- * @instance
+ * @memberOf module:josm/mixin/DataSetMixin~DataSetMixin
+ * @function
  * @name get
+ * @param params see description
+ * @instance
  */
-mixin.get = function() {
+exports.mixin.get = function() {
     var args = Array.prototype.slice.call(arguments,0);
 
     function get_1(ds) {
@@ -277,53 +279,56 @@ mixin.get = function() {
 };
 
 /**
-* <p>Replies the node with id <code>id</code>.</p>
+* Replies the node with id <code>id</code>.
 *
 * @param {number} id  the unique numeric id. Must not be 0.
-* @memberOf DataSetMixin
-* @method
-* @instance
+* @memberOf module:josm/mixin/DataSetMixin~DataSetMixin
 * @name node
 * @summary Get a specific {@class org.openstreetmap.josm.data.osm.Node}
 *     from the dataset.
+* @return {org.openstreetmap.josm.data.osm.Node} the node
+* @function
+* @instance
 */
-mixin.node = function(id) {
+exports.mixin.node = function(id) {
     return this.get(normalizeId(id), "node");
 };
 
 /**
-* <p>Replies the way with id <code>id</code>.</p>
+* Replies the way with id <code>id</code>.
 *
 * @param {number} id  the unique numeric id. Must not be 0.
-* @memberOf DataSetMixin
-* @method
-* @instance
+* @memberOf module:josm/mixin/DataSetMixin~DataSetMixin
 * @name way
 * @summary Get a specific {@class org.openstreetmap.josm.data.osm.Way}
 *     from the dataset.
+* @returns {org.openstreetmap.josm.data.osm.Way} the way
+* @function
+* @instance
 */
-mixin.way = function(id) {
+exports.mixin.way = function(id) {
     return this.get(normalizeId(id), "way");
 };
 
 /**
-* <p>Replies the relation with id <code>id</code>.</p>
+* Replies the relation with id <code>id</code>.
 *
 * @param {number} id  the unique numeric id. Must not be 0.
-* @memberOf DataSetMixin
-* @method
-* @instance
+* @memberOf module:josm/mixin/DataSetMixin~DataSetMixin
 * @name relation
 * @summary Get a specific {@class org.openstreetmap.josm.data.osm.Relation}
 *     from the dataset.
+* @returns {org.openstreetmap.josm.data.osm.Relation}
+* @function
+* @instance
 */
-mixin.relation = function(id) {
+exports.mixin.relation = function(id) {
     return this.get(normalizeId(id), "relation");
 };
 
 /**
- * <p>Run a sequence of operations against the dataset in "batch mode".
- * Listeners to data set events are only notified at the end of the batch.</p>
+ * Run a sequence of operations against the dataset in "batch mode".
+ * Listeners to data set events are only notified at the end of the batch.
  *
  * @example
  * var DataSet = org.openstreetmap.josm.data.osm.DataSet;
@@ -336,13 +341,13 @@ mixin.relation = function(id) {
  *
  * @param {function} delegate  the function implementing the batch processes.
  *     Ignored if null or undefined.
- * @memberOf DataSetMixin
- * @method
- * @instance
+ * @memberOf module:josm/mixin/DataSetMixin~DataSetMixin
  * @name batch
  * @summary Run a sequence of command without notifying listeners.
+ * @function
+ * @instance
  */
-mixin.batch = function(delegate) {
+exports.mixin.batch = function(delegate) {
     if (util.isNothing(delegate)) return;
     util.assert(util.isFunction(delegate),
         "delegate: expected a function, got {0}", delegate);
@@ -383,7 +388,7 @@ function normalizeObjId(id, type){
 };
 
 /**
- * <p>Removes objects from the dataset.</p>
+ * Removes objects from the dataset.
  *
  * <strong>Signatures</strong>
  * <dl>
@@ -441,13 +446,14 @@ function normalizeObjId(id, type){
  * ids.add(id1); ids.add(id1);
  * ds.remove(ids);
  *
- * @memberOf DataSetMixin
- * @method
- * @instance
+ * @memberOf module:josm/mixin/DataSetMixin~DataSetMixin
  * @name remove
  * @summary Remove one or more objects from the dataset.
+ * @function
+ * @instance
+ * @param primitives see description and examples
  */
-mixin.remove = function() {
+exports.mixin.remove = function() {
     var ids;
     if (arguments.length == 2 && util.isNumber(arguments[0])){
         // handling remove(id, type)
@@ -467,7 +473,7 @@ mixin.remove = function() {
 };
 
 /**
- * <p>Replies true, if the dataset contains an object.</p>
+ * Replies true, if the dataset contains an object.
  *
  * <strong>Signatures</strong>
  * <dl>
@@ -512,13 +518,14 @@ mixin.remove = function() {
  * var way = wbuilder.create(987);
  * ret = ds.has(way);
  *
- * @memberOf DataSetMixin
- * @method
- * @instance
+ * @memberOf module:josm/mixin/DataSetMixin~DataSetMixin
  * @name has
  * @summary Check whether an object is in the dataset.
+ * @function
+ * @param params see description and examples
+ * @instance
  */
-mixin.has = function() {
+exports.mixin.has = function() {
     return mixin.get.apply(this,
         Array.prototype.slice.call(arguments)) !== undefined;
 };
@@ -532,16 +539,14 @@ mixin.has = function() {
  *            .create();
  * ds.has(n);  // --> true
  *
- * @memberOf DataSetMixin
+ * @memberOf module:josm/mixin/DataSetMixin~DataSetMixin
  * @name nodeBuilder
- * @field
- * @type NodeBuilder
- * @instance
+ * @property {module:josm/builder~NodeBuilder} nodeBuilder a node builder for this dataset
  * @readOnly
- * @summary the builder for creating
- *         {@class org.openstreetmap.josm.data.osm.Node}s
+ * @summary the builder for creating {@class org.openstreetmap.josm.data.osm.Node}s
+ * @instance
  */
-mixin.nodeBuilder = {
+exports.mixin.nodeBuilder = {
     get: function() {
         return NodeBuilder.forDataSet(this);
     }
@@ -555,16 +560,14 @@ mixin.nodeBuilder = {
  * var w = ds.wayBuilder.create(1234, {tags: {highway: "residential"}});
  * ds.has(w);  // --> true
  *
- * @memberOf DataSetMixin
+ * @memberOf module:josm/mixin/DataSetMixin~DataSetMixin
  * @name wayBuilder
- * @field
- * @type WayBuilder
- * @instance
+ * @property {module:josm/builder~WayBuilder} wayBuilder the way builder for this dataset
  * @readOnly
- * @summary the builder for creating
- *         {@class org.openstreetmap.josm.data.osm.Way}s
+ * @instance
+ * @summary the builder for creating {@class org.openstreetmap.josm.data.osm.Way}s
  */
-mixin.wayBuilder = {
+exports.mixin.wayBuilder = {
     get: function() {
         return WayBuilder.forDataSet(this);
     }
@@ -578,16 +581,14 @@ mixin.wayBuilder = {
  * var r = ds.relationBuilder.withId(8765).create({tags: {type: "network"}});
  * ds.has(r);  // --> true
  *
- * @memberOf DataSetMixin
+ * @memberOf module:josm/mixin/DataSetMixin~DataSetMixin
  * @name relationBuilder
- * @field
- * @type RelationBuilder
- * @instance
+ * @property {module:josm/builder~RelationBuilder} relationBuilder the relation builder for this dataset
  * @readOnly
- * @summary the builder for creating
- *         {@class org.openstreetmap.josm.data.osm.Relation}s
+ * @instance
+ * @summary the builder for creating {@class org.openstreetmap.josm.data.osm.Relation}s
  */
-mixin.relationBuilder = {
+exports.mixin.relationBuilder = {
     get: function() {
         return RelationBuilder.forDataSet(this);
     }
@@ -596,22 +597,20 @@ mixin.relationBuilder = {
 /**
  * Replies the dataset selection object.
  *
- * @memberOf DataSetMixin
+ * @memberOf module:josm/mixin/DataSetMixin~DataSetMixin
  * @name selection
- * @field
- * @type DataSetSelectionFacade
- * @instance
- * @readOnly
+ * @property {module:josm/mixin/DataSetMixin~DataSetSelectionFacade} selection a handler for the selected objects in the dataset
  * @summary to manipulate the selected objects in the dataset
+ * @instance
  */
-mixin.selection = {
+exports.mixin.selection = {
    get: function() {
        return new DataSetSelectionFacade(this);
    }
 };
 
 /**
- * <p>Queries the dataset</p>
+ * Queries the dataset
  *
 * <strong>Signatures</strong>
  * <dl>
@@ -663,14 +662,14 @@ mixin.selection = {
  * </dl>
  *
  * @param {string|function} expression  the match expression
- * @param {object} options (optional) additional named parameters
- * @memberOf DataSetMixin
- * @method
- * @instance
+ * @param {object} [options] additional named parameters
+ * @memberOf module:josm/mixin/DataSetMixin~DataSetMixin
  * @name query
  * @summary Queries the dataset.
+ * @function
+ * @instance
  */
-mixin.query = function(expression, options) {
+exports.mixin.query = function(expression, options) {
     var collection;
     var SearchAction =  org.openstreetmap.josm.actions.search.SearchAction;
     var SearchSetting = org.openstreetmap.josm.data.osm.search.SearchSetting;
@@ -721,7 +720,7 @@ mixin.query = function(expression, options) {
 };
 
 /**
- * <p>Iterates over the objects in the dataset.</p>
+ * Iterates over the objects in the dataset.
  *
 * <strong>Signatures</strong>
  * <dl>
@@ -747,14 +746,14 @@ mixin.query = function(expression, options) {
  * </dl>
  *
  * @param {function}  delegate  the function invoked on every element
- * @param {object} options (optional) additional named parameters
- * @memberOf DataSetMixin
- * @method
- * @instance
+ * @param {object} [options] additional named parameters
+ * @memberOf module:josm/mixin/DataSetMixin~DataSetMixin
  * @name each
  * @summary Iterates over the dataset.
+ * @function
+ * @instance
  */
-mixin.each = function(delegate, options){
+exports.mixin.each = function(delegate, options){
     if (util.isNothing(delegate)) return;
     util.assert(util.isFunction(delegate),
         "delegate: expected a function, got {0}", delegate);
@@ -767,14 +766,13 @@ mixin.each = function(delegate, options){
     each(collection, delegate);
 };
 
-
 /**
- * <p>Loads a dataset from a file.</p>
+ * Loads a dataset from a file.
  *
- * <p>Derives the format of the file from the file suffix, unless the named
- * option <code>options.format</code> is set.</p>
+ * Derives the format of the file from the file suffix, unless the named
+ * option <code>options.format</code> is set.
  *
- * <p><code>options</code> can contain the following named options:</p>
+ * <code>options</code> can contain the following named options:
  * <dl>
  *   <dt><code class="signature">format</code></dt>
  *   <dd>one of the strings "osm" (Open Street Map XML data), "osc"
@@ -793,14 +791,14 @@ mixin.each = function(delegate, options){
  *
  * @param {string|java.io.File}  source  the data source. Either a file
  *         name as string or a java.io.File
- * @param {object}  options  (optional) optional named parameters
- * @memberOf DataSetMixin
- * @method
+ * @param {object}  [options] optional named parameters
+ * @memberOf module:josm/mixin/DataSetMixin~DataSetMixin
  * @static
  * @name load
  * @summary Loads a dataset from a file.
+ * @function
  */
-mixin.load = function(source, options){
+exports.mixin.load = function(source, options){
     var io                 = java.io;
     var jio                = org.openstreetmap.josm.io;
     var jtools             = org.openstreetmap.josm.tools;
@@ -876,13 +874,13 @@ mixin.load = function(source, options){
         is && jtools.Utils.close(is);
     }
 };
-mixin.load.static = true;
+exports.mixin.load.static = true;
 
 
 /**
- * <p>Saves the dataset to a file (in OSM XML format).</p>
+ * Saves the dataset to a file (in OSM XML format).
  *
- * <p><code>options</code> can contain the following named options:</p>
+ * <code>options</code> can contain the following named options:
  * <dl>
  *   <dt><code class="signature">version</code>: string</dt>
  *   <dd>the value of the attribute <code>version</code> in the OSM file
@@ -902,14 +900,13 @@ mixin.load.static = true;
  *
  * @param {string|java.io.File}  target  the target file. Either a file
  *         name as string or a java.io.File
- * @param {object}  options  (optional) optional named parameters
- * @memberOf DataSetMixin
- * @method
- * @instance
+ * @param {object}  [options]   optional named parameters
  * @name save
  * @summary Saves a dataset to a file.
+ * @function
+ * @memberOf module:josm/mixin/DataSetMixin~DataSetMixin
  */
-mixin.save = function(target, options) {
+exports.mixin.save = function(target, options) {
     var io  = java.io;
     var Utils = org.openstreetmap.josm.tools.Utils;
     var OsmWriter = org.openstreetmap.josm.io.OsmWriter;
@@ -965,33 +962,24 @@ mixin.save = function(target, options) {
 };
 
 
-/**
- * Facade to access and manipulate the selected objects in a dataset.
- *
- * @class
- * @name DataSetSelectionFacade
- * @memberof josm/mixin/DataSetMixin
- */
-
 
 /**
  * Creates a facade
  *
- * @memberof DataSetSelectionFacade
+ * @class
  * @name DataSetSelectionFacade
- * @constructor
  * @param {org.openstreetmap.josm.data.osm.DataSet}  ds  the dataset.
  *     Must not be null or undefined.
  * @summary Creates a facade
  */
-function DataSetSelectionFacade(ds) {
+exports.DataSetSelectionFacade = function(ds) {
     util.assert(util.isSomething(ds), "ds: must not be null or undefined");
     util.assert(ds instanceof DataSet, "ds: expected a DataSet, got {0}", ds);
     this._ds = ds;
 };
 
 /**
- * <p>Set the selected objects as selected.</p>
+ * Set the selected objects as selected.
  *
 * <strong>Signatures</strong>
  * <dl>
@@ -1007,13 +995,14 @@ function DataSetSelectionFacade(ds) {
  * a relation, or an instance of
  * {@class org.openstreetmap.josm.data.osm.PrimitiveId}.
 
- * @memberOf DataSetSelectionFacade
- * @method
+ * @memberOf module:josm/mixin/DataSetMixin~DataSetSelectionFacade
+ * @function
  * @instance
  * @name set
  * @summary Set the selected objects as selected.
+ * @param {...primitive | array | java.uitl.Collection} primitives see description
  */
-DataSetSelectionFacade.prototype.set = function() {
+exports.DataSetSelectionFacade.prototype.set = function() {
     var ids = normalizeIds(arguments);
     if (ids.length == 0) return;
     if (ids.length == 0){
@@ -1024,7 +1013,7 @@ DataSetSelectionFacade.prototype.set = function() {
 };
 
 /**
- * <p>Adds selected objects.</p>
+ * Adds selected objects.
  *
  * <strong>Signatures</strong>
  * <dl>
@@ -1040,20 +1029,21 @@ DataSetSelectionFacade.prototype.set = function() {
  * a relation, or an instance of
  * {@class org.openstreetmap.josm.data.osm.PrimitiveId}.
  *
- * @memberOf DataSetSelectionFacade
- * @method
+ * @memberOf module:josm/mixin/DataSetMixin~DataSetSelectionFacade
+ * @function
  * @instance
  * @name add
  * @summary Adds selected objects
+ * @param {...primitive | array | java.util.Collection} primitives see description
  */
-DataSetSelectionFacade.prototype.add = function() {
+exports.DataSetSelectionFacade.prototype.add = function() {
     var ids = normalizeIds(arguments);
     if (ids.length == 0) return;
     this._ds.addSelected(ids);
 };
 
 /**
- * <p>Unselects a collection of objects.</p>
+ * Unselects a collection of objects.
  *
  * <strong>Signatures</strong>
  * <dl>
@@ -1069,35 +1059,36 @@ DataSetSelectionFacade.prototype.add = function() {
  * a relation, or an instance of
  * {@class org.openstreetmap.josm.data.osm.PrimitiveId}.
  *
- * @memberOf DataSetSelectionFacade
- * @method
+ * @memberOf module:josm/mixin/DataSetMixin~DataSetSelectionFacade
+ * @function
  * @instance
  * @name clear
  * @summary Unselects a collection of objects
+ * @param {...primitive | array | java.util.Collection} primitives see description
  */
-DataSetSelectionFacade.prototype.clear = function() {
+exports.DataSetSelectionFacade.prototype.clear = function() {
     var ids = normalizeIds(arguments);
     if (ids.length == 0) return;
     this._ds.clearSelection(ids);
 };
 
 /**
- * <p>Clear the selection.</p>
+ * Clear the selection.
  *
- * @memberOf DataSetSelectionFacade
- * @method
+ * @memberOf module:josm/mixin/DataSetMixin~DataSetSelectionFacade
+ * @function
  * @instance
  * @name clearAll
  * @summary Clear the selection
  */
-DataSetSelectionFacade.prototype.clearAll = function() {
+exports.DataSetSelectionFacade.prototype.clearAll = function() {
     // clearSelection has multiple overloaded variants. Make sure to call
     // the one with no arguments.
     this._ds["clearSelection()"]();
 };
 
 /**
- * <p>Toggle the selection state of a collection of objects.</p>
+ * Toggle the selection state of a collection of objects.
  *
  * <strong>Signatures</strong>
  * <dl>
@@ -1114,20 +1105,20 @@ DataSetSelectionFacade.prototype.clearAll = function() {
  * {@class org.openstreetmap.josm.data.osm.PrimitiveId}.
  *
  *
- * @memberOf DataSetSelectionFacade
- * @method
+ * @memberOf module:josm/mixin/DataSetMixin~DataSetSelectionFacade
+ * @function
  * @instance
  * @name toggle
  * @summary Toggle the selection state of a collection of objects
  */
-DataSetSelectionFacade.prototype.toggle = function() {
+exports.DataSetSelectionFacade.prototype.toggle = function() {
     var ids = normalizeIds(arguments);
     if (ids.length == 0) return;
     this._ds.toggleSelected(ids);
 };
 
 /**
- * <p>Replies true, if an object is currently selected.</p>
+ * Replies true, if an object is currently selected.
  *
  * <strong>Signatures</strong>
  * <dl>
@@ -1150,14 +1141,16 @@ DataSetSelectionFacade.prototype.toggle = function() {
  *   {@class org/openstreetmap/josm/data/osm/Relation}.</dd>
  * </dl>
  *
- * @memberOf DataSetSelectionFacade
- * @method
+ * @memberOf module:josm/mixin/DataSetMixin~DataSetSelectionFacade
+ * @function
  * @instance
  * @name isSelected
  * @alias has
+ * @returns {boolean} true, if the primitive is selected
  * @summary true, if an object is currently selected
+ * @param {primitive | id} primitive see description
  */
-DataSetSelectionFacade.prototype.isSelected = function() {
+exports.DataSetSelectionFacade.prototype.isSelected = function() {
     var args = Array.prototype.slice.call(arguments,0);
     function isSelected_1(ds) {
         var id = args[0];
@@ -1193,21 +1186,20 @@ DataSetSelectionFacade.prototype.isSelected = function() {
         args.length);
     }
 };
-DataSetSelectionFacade.prototype.has =
-        DataSetSelectionFacade.prototype.isSelected;
+exports.DataSetSelectionFacade.prototype.has =
+        exports.DataSetSelectionFacade.prototype.isSelected;
 
 /**
  * Replies an array with the selected nodes.
  *
- * @memberOf DataSetSelectionFacade
+ * @memberOf module:josm/mixin/DataSetMixin~DataSetSelectionFacade
  * @name nodes
- * @field
- * @type {array}
+ * @property {array} nodes the selected nodes
  * @instance
  * @readOnly
  * @summary an array with the selected nodes
  */
-Object.defineProperty(DataSetSelectionFacade.prototype, "nodes", {
+Object.defineProperty(exports.DataSetSelectionFacade.prototype, "nodes", {
     get: function() {
         return colToArray(this._ds.getSelectedNodes());
     }
@@ -1216,15 +1208,14 @@ Object.defineProperty(DataSetSelectionFacade.prototype, "nodes", {
 /**
  * Replies an array with the selected ways.
  *
- * @memberOf DataSetSelectionFacade
+ * @memberOf module:josm/mixin/DataSetMixin~DataSetSelectionFacade
  * @name ways
- * @field
- * @type {array}
+ * @property {array} ways the selected ways
  * @instance
  * @readOnly
  * @summary an array with the selected ways
  */
-Object.defineProperty(DataSetSelectionFacade.prototype, "ways", {
+Object.defineProperty(exports.DataSetSelectionFacade.prototype, "ways", {
     get: function() {
         return colToArray(this._ds.getSelectedWays());
     }
@@ -1233,15 +1224,14 @@ Object.defineProperty(DataSetSelectionFacade.prototype, "ways", {
 /**
  * Replies an array with the selected relations.
  *
- * @memberOf DataSetSelectionFacade
+ * @memberOf module:josm/mixin/DataSetMixin~DataSetSelectionFacade
  * @name relations
- * @field
- * @type {array}
+ * @property {array} relations the selected relations
  * @instance
  * @readOnly
  * @summary  an array with the selected relations
  */
-Object.defineProperty(DataSetSelectionFacade.prototype, "relations", {
+Object.defineProperty(exports.DataSetSelectionFacade.prototype, "relations", {
     get: function() {
         return colToArray(this._ds.getSelectedRelations());
     }
@@ -1250,21 +1240,15 @@ Object.defineProperty(DataSetSelectionFacade.prototype, "relations", {
 /**
  * Replies an array with the selected objects.
  *
- * @memberOf DataSetSelectionFacade
+ * @memberOf module:josm/mixin/DataSetMixin~DataSetSelectionFacade
  * @name objects
- * @field
- * @type {array}
+ * @property {array} objects the selected primitives
  * @instance
  * @readOnly
  * @summary an array with the selected object
  */
-Object.defineProperty(DataSetSelectionFacade.prototype, "objects", {
+Object.defineProperty(exports.DataSetSelectionFacade.prototype, "objects", {
     get: function() {
         return colToArray(this._ds.getSelected());
     }
 });
-
-exports.forClass = org.openstreetmap.josm.data.osm.DataSet;
-exports.mixin    = mixin;
-
-}());

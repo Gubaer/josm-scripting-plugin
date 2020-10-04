@@ -1,8 +1,6 @@
-(function() {
-
 /**
- * <p>This module is auto-loaded by the scripting plugin and mixed into the
- * native java class {@class org.openstreetmap.josm.data.osm.OsmPrimitive}.</p>
+ * This module is auto-loaded by the scripting plugin and mixed into the
+ * native java class {@class org.openstreetmap.josm.data.osm.OsmPrimitive}.
  *
  * @module josm/mixin/OsmPrimitiveMixin
  */
@@ -13,19 +11,19 @@ var OsmPrimitiveType = org.openstreetmap.josm.data.osm.OsmPrimitiveType;
 var Map  = java.util.Map;
 
 /**
- * <p>OsmPrimitiveMixin provides additional properties and methods which you
+ * OsmPrimitiveMixin provides additional properties and methods which you
  * can invoke on an instance of
  * {@class org.openstreetmap.josm.data.osm.OsmPrimitive}.
  *
  * @mixin OsmPrimitiveMixin
- * @memberOf josm/mixin/OsmPrimitiveMixin
  * @forClass org.openstreetmap.josm.data.osm.OsmPrimitive
  */
-var mixin = {};
+exports.mixin = {};
+exports.forClass = org.openstreetmap.josm.data.osm.OsmPrimitive;
 
 /**
- * <p>The unique numeric id, positive for global primitives, negative for local
- * primitives.</p>
+ * The unique numeric id, positive for global primitives, negative for local
+ * primitives.
  *
  * @example
  * var nb = require("josm/builder").NodeBuilder;
@@ -34,25 +32,24 @@ var mixin = {};
  * var node = nb.create();
  * var id = node.id;   // -> a negative value
  *
- * @memberOf OsmPrimitiveMixin
+ * @memberOf module:josm/mixin/OsmPrimitiveMixin~OsmPrimitiveMixin
  * @name id
- * @field
- * @instance
+ * @property {number} id  the numberic id
  * @readOnly
- * @type {number}
  * @summary The unique numeric id
+ * @instance
  */
-mixin.id = {
+exports.mixin.id = {
     get: function() {
         return this.getUniqueId();
     }
 };
 
 /**
- * <p>The version of the object.</p>
+ * The version of the object.
  *
- * <p>Only global objects have a version. The version for local and proxy
- * objects is <var>undefined</var>.</p>
+ * Only global objects have a version. The version for local and proxy
+ * objects is <var>undefined</var>.
  *
  * @example
  * var nb = require("josm/builder").NodeBuilder;
@@ -69,15 +66,14 @@ mixin.id = {
  * var node = nb.createProxy(12345);
  * node.version;  // -&gt; undefined
  *
- * @memberOf OsmPrimitiveMixin
+ * @memberOf module:josm/mixin/OsmPrimitiveMixin~OsmPrimitiveMixin
  * @name version
- * @field
- * @instance
+ * @property {number} version the primitive version
  * @readOnly
- * @type {number}
  * @summary The version of the object.
+ * @instance
  */
-mixin.version = {
+exports.mixin.version = {
     get: function() {
         var version = this.$getVersion();
         return version == 0 ? undefined : version;
@@ -85,7 +81,7 @@ mixin.version = {
 };
 
 /**
- * <p>Replies true, if this is a local primitive.</p>
+ * Replies true, if this is a local primitive.
  *
  * @example
  * var nb = require("josm/builder").NodeBuilder;
@@ -97,24 +93,23 @@ mixin.version = {
  * node = nb.create(1234);
  * node.isLocal;   // -> false
  *
- * @memberOf OsmPrimitiveMixin
+ * @memberOf module:josm/mixin/OsmPrimitiveMixin~OsmPrimitiveMixin
  * @name isLocal
- * @field
- * @instance
+ * @property {boolean} isLocal true, if this is a local primitive
  * @readOnly
- * @type {boolean}
  * @summary Replies true, if this is a local primitive.
  * @alias local
  * @alias isNew
+ * @instance
  */
-mixin.isLocal =  mixin.local = mixin.isNew = {
+exports.mixin.isLocal = exports.mixin.local = exports.mixin.isNew = {
     get: function() {
         return this.$isNew();
     }
 };
 
 /**
- * <p>Replies true, if this is a global primitive</p>
+ * Replies true, if this is a global primitive
  *
  * @example
  * var nb = require("josm/builder").NodeBuilder;
@@ -127,24 +122,23 @@ mixin.isLocal =  mixin.local = mixin.isNew = {
  * node.isGlobal;   // -> true
 
  *
- * @memberOf OsmPrimitiveMixin
+ * @memberOf module:josm/mixin/OsmPrimitiveMixin~OsmPrimitiveMixin
  * @name isGlobal
  * @alias global
- * @field
- * @instance
+ * @property {boolean} isGlobal  true, if this is a global primitive
  * @readOnly
- * @type {boolean}
  * @summary Replies true, if this is a global primitive
+ * @instance
  */
-mixin.isGlobal = mixin.global = {
+exports.mixin.isGlobal = exports.mixin.global = {
     get: function() {
         return ! this.$isNew();
     }
 };
 
 /**
- * <p>Replies the parent dataset or undefined, if this primitive is not
- * attached to a dataset.</p>
+ * Replies the parent dataset or undefined, if this primitive is not
+ * attached to a dataset.
  *
  * @example
  * var ds = new DataSet();
@@ -158,16 +152,15 @@ mixin.isGlobal = mixin.global = {
  * var n2 = nb.create();
  * n2.dataSet;   // -> undefined
  *
- * @memberOf OsmPrimitiveMixin
+ * @memberOf module:josm/mixin/OsmPrimitiveMixin~OsmPrimitiveMixin
  * @name dataSet
- * @field
- * @instance
  * @readOnly
- * @type org.openstreetmap.josm.data.osm.DataSet
+ * @property {org.openstreetmap.josm.data.osm.DataSet} dataSet  the parent dataset
  * @summary Replies the parent dataset.
+ * @instance
  *
  */
-mixin.dataSet = {
+exports.mixin.dataSet = {
     get: function() {
         var ds = this.$getDataSet();
         return ds == null? undefined: ds;
@@ -175,14 +168,14 @@ mixin.dataSet = {
 };
 
 /**
- * <p>Set or get the user.</p>
+ * Set or get the user.
  *
- * <p><strong>get:</strong> - replies a User object or undefined, if not
- * user is set.</p>
+ * <strong>get:</strong> - replies a User object or undefined, if not
+ * user is set.
  *
- * <p><strong>set:</strong> - assign a user, either as instance of User,
+ * <strong>set:</strong> - assign a user, either as instance of User,
  * supplying a user name or the unique global user id as number. Assign null
- * or undefined to assign no user.</p>
+ * or undefined to assign no user.
  *
  * @example
  * var User = org.openstreetmap.josm.data.osm.User;
@@ -197,14 +190,13 @@ mixin.dataSet = {
  * // assign the unique global user with id 12345
  * n1.user = 12345;
  *
- * @memberOf OsmPrimitiveMixin
+ * @memberOf module:josm/mixin/OsmPrimitiveMixin~OsmPrimitiveMixin
  * @name user
- * @field
- * @instance
- * @type org.openstreetmap.josm.data.osm.DataSet
+ * @property {org.openstreetmap.josm.data.osm.User} user  the user who last modified the primitive
  * @summary Set or get the user.
+ * @instance
  */
-mixin.user = {
+exports.mixin.user = {
     get: function() {
         var user = this.$getUser();
         return user == null ? undefined : user;
@@ -236,12 +228,12 @@ mixin.user = {
 };
 
 /**
- * <p>Set or get the changeset id this primitive was last modified in.</p>
+ * Set or get the changeset id this primitive was last modified in.
  *
- * <p><strong>get:</strong> - replies the changeset id or undefined, if no
- * changeset id is known (i.e.  for local primitives or proxy primitives).</p>
+ * <strong>get:</strong> - replies the changeset id or undefined, if no
+ * changeset id is known (i.e.  for local primitives or proxy primitives).
  *
- * <p><strong>set:</strong> - assign a changset id, a number &gt, 0.</p>
+ * <strong>set:</strong> - assign a changset id, a number &gt, 0.
  *
  * @example
  * var nb = require("josm/builder").NodeBuilder.forDataSet(ds);
@@ -250,15 +242,14 @@ mixin.user = {
  * // assign the changeset id
  * n1.changesetId = 6;
  *
- * @memberOf OsmPrimitiveMixin
+ * @memberOf module:josm/mixin/OsmPrimitiveMixin~OsmPrimitiveMixin
  * @name changesetId
- * @field
+ * @property {number} changesetId  the changset id
+ * @summary set or get the changeset id this primitive was last modified in.
  * @instance
- * @type {number}
- * @summary et or get the changeset id this primitive was last modified in.
  *
  */
-mixin.changesetId = {
+exports.mixin.changesetId = {
     get: function() {
         var cid = this.$getChangesetId();
         return cid == 0 ? undefined: cid;
@@ -273,9 +264,9 @@ mixin.changesetId = {
 };
 
 /**
- * <p>Get the timestamp this primitive was last modified on the server.
+ * Get the timestamp this primitive was last modified on the server.
  * Undefined, if this timestamp isn't known, i.e. for local primitives or
- * for proxy primitives.</p>
+ * for proxy primitives.
  *
  * @example
  * var nb = require("josm/builder").NodeBuilder.forDataSet(ds);
@@ -283,13 +274,12 @@ mixin.changesetId = {
  * var n1 = ... // assume n1 was downloaded from the server
  * n1.timestamp;  // the timestamp of last modification
  *
- * @memberOf OsmPrimitiveMixin
+ * @memberOf module:josm/mixin/OsmPrimitiveMixin~OsmPrimitiveMixin
  * @name timestamp
- * @field
- * @instance
  * @readOnly
- * @type java.util.Date
+ * @property {java.util.Date} timestamp the timestamp of last modification
  * @summary Get the timestamp this primitive was last modified on the server.
+ * @instance
  */
 mixin.timestamp = {
     get: function() {
@@ -299,30 +289,29 @@ mixin.timestamp = {
 };
 
 /**
- * <p>Replies true if this a proxy object, in JOSM terminology called an
- * incomplete object.</p>
+ * Replies true if this a proxy object, in JOSM terminology called an
+ * incomplete object.
  *
- * @memberOf OsmPrimitiveMixin
+ * @memberOf module:josm/mixin/OsmPrimitiveMixin~OsmPrimitiveMixin
  * @name isIncomplete
  * @alias isProxy
  * @alias incomplete
  * @alias proxy
- * @field
- * @instance
  * @readOnly
- * @type {boolean}
+ * @property {boolean} isIncomplete true if this is a proxy object
  * @summary Replies true if this is a proxy object
+ * @instance
  */
-mixin.isIncomplete = mixin.isProxy = mixin.incomplete = mixin.proxy = {
+exports.mixin.isIncomplete = exports.mixin.isProxy = exports.mixin.incomplete = exports.mixin.proxy = {
     get: function() {
         return this.$isIncomplete();
     }
 };
 
 /**
- * <p>Sets or gets whether this object is <em>modified</em>.</p>
+ * Sets or gets whether this object is <em>modified</em>.
  *
- * <p>Supported alias: <code>modified</code>.</p>
+ * Supported alias: <code>modified</code>.
  *
  * @example
  * var node = ....           // create a node
@@ -332,11 +321,11 @@ mixin.isIncomplete = mixin.isProxy = mixin.incomplete = mixin.proxy = {
  * @summary Sets or gets whether this object is <em>modified</em>.
  * @name isModified
  * @alias modified
- * @field
+ * @property {boolean} isModified  true, if modified
+ * @memberof module:josm/mixin/OsmPrimitiveMixin~OsmPrimitiveMixin
  * @instance
- * @type boolean
  */
-mixin.isModified = mixin.modified = {
+exports.mixin.isModified = exports.mixin.modified = {
     get: function() {
         return this.$isModified();
     },
@@ -378,21 +367,21 @@ function applyTagObject(obj,tags) {
 };
 
 /**
- * <p>Get or set the tags of the object.</p>
+ * Get or set the tags of the object.
  *
- * <p><strong>get:</strong> - replies the tags as javascript object.</p>
+ * <strong>get:</strong> - replies the tags as javascript object.
  *
- *  <p><strong>set:</strong>
+ *  <strong>set:</strong>
  *    <ul>
  *      <li>assign null or undefined to remove all tags</li>
  *      <li>assign an object to set its properties as tags.</li>
  *      <li>assign an java.util.Map to set its elements as tags</li>
  *    </ul>
- *  </p>
+ *  
  *
- *  <p>null values and undefined tag values aren't assigned. tag keys are
+ *  null values and undefined tag values aren't assigned. tag keys are
  *  normalized, i.e. leading and trailing white space is removed. Both, tag
- *  keys and tag values, are converted to strings.</p>
+ *  keys and tag values, are converted to strings.
  *
  * @example
  * var node = .... // create a node
@@ -411,14 +400,13 @@ function applyTagObject(obj,tags) {
  * tags.put("name", "Obstberg");
  * node.tags = tags;
  *
- * @memberOf OsmPrimitiveMixin
+ * @memberOf module:josm/mixin/OsmPrimitiveMixin~OsmPrimitiveMixin
  * @name tags
- * @field
- * @instance
- * @type {object}
+ * @property {object} tags  the tags
  * @summary Get or set the tags of the object.
+ * @instance
  */
-mixin.tags = {
+exports.mixin.tags = {
     get: function() {
         return new Tags(this);
     },
@@ -439,7 +427,7 @@ mixin.tags = {
 };
 
 /**
- * <p>Replies an array with the tag keys.</p>
+ * Replies an array with the tag keys.
  *
  * @example
  * var node = .... // create a node
@@ -447,14 +435,14 @@ mixin.tags = {
  * // get the tag keys
  * var keys = node.keys;
 
- * @memberOf OsmPrimitiveMixin
+ * @memberOf module:josm/mixin/OsmPrimitiveMixin~OsmPrimitiveMixin
  * @name keys
- * @field
- * @instance
- * @type {array}
+ * @property {array} keys  the tag keys
  * @summary Replies an array with the tag keys.
+ * @readonly
+ * @instance
  */
-mixin.keys = {
+exports.mixin.keys = {
     get: function() {
         var ret = [];
         for (var it = this.keySet().iterator(); it.hasNext();) {
@@ -465,7 +453,7 @@ mixin.keys = {
 };
 
 /**
- * <p>Replies the value of a tag, or undefined, if the tag isn't set.</p>
+ * Replies the value of a tag, or undefined, if the tag isn't set.
  *
  * @example
  * var node = .... // create a node
@@ -475,17 +463,16 @@ mixin.keys = {
  * node.get("amenity");  // -> restaurant
  * node.get("name");     // -> Obstberg
  *
- * @memberOf OsmPrimitiveMixin
+ * @memberOf module:josm/mixin/OsmPrimitiveMixin~OsmPrimitiveMixin
  * @param {string} name the tag name. Must not be null or undefined.
  *   Non-string values are converted to a string. Leading and trailing
  *   whitespace is removed.
  * @name get
- * @method
- * @instance
- * @type {string}
+ * @function
+ * @returns {string} the tag value
  * @summary Replies the value of a tag.
  */
-mixin.get = function(name) {
+exports.mixin.get = function(name) {
     if (util.isNothing(name)) return undefined;
     name = util.trim(name + "");
     var value = this.$get(name);
@@ -493,9 +480,9 @@ mixin.get = function(name) {
 };
 
 /**
- * <p>Set a tag or a collection of tags.</p>
+ * Set a tag or a collection of tags.
  *
- * <p><strong>Signatures</strong></p>
+ * <strong>Signatures</strong>
  * <dl>
  *   <dt><strong>set(name,value)</strong></dt>
  *   <dd>sets a tag given a name and a value.<br/>
@@ -525,14 +512,13 @@ mixin.get = function(name) {
  * node.get("amenity");  // -> restaurant
  * node.get("name");     // -> Obstberg
  *
- * @memberOf OsmPrimitiveMixin
+ * @memberOf module:josm/mixin/OsmPrimitiveMixin~OsmPrimitiveMixin
  * @name set
- * @method
- * @instance
- * @type {string}
+ * @function
+ * @param {any} tag key/value pair, see description
  * @summary Set a tag or a collection of tags.
  */
-mixin.set = function() {
+exports.mixin.set = function() {
     function setWithNameAndValue(name,value){
         util.assert(util.isSomething(name),
             "name: must not be null or undefined");
@@ -572,7 +558,7 @@ mixin.set = function() {
 };
 
 /**
- * <p>Replies true, if the object has a tag with key <var>key</var>.</p>
+ * Replies true, if the object has a tag with key <var>key</var>.
  *
  * <strong>Signatures</strong>
  * <dl>
@@ -600,18 +586,14 @@ mixin.set = function() {
  * node.has(/^a/);               // -> true
  * node.has(/^name(:.*)?$/i);    // -> false
  *
- * @memberOf OsmPrimitiveMixin
- * @param {string} key the tag key. Must not be null or undefined.
- * Non-string values are converted to a string. Leading and trailing
- * whitespace is removed.
- *
+ * @memberOf module:josm/mixin/OsmPrimitiveMixin~OsmPrimitiveMixin
  * @name has
- * @method
- * @instance
- * @type {boolean}
+ * @function
+ * @returns {boolean} true, if there is a tag with this key
+ * @param {(string | regexp)} key  the tag key we are looking up
  * @summary Checks whether a primitive has a tag.
  */
-mixin.has = function(key) {
+exports.mixin.has = function(key) {
     if (util.isNothing(key)) return false;
     // Strange: key instanceof RegExp doesn't work
     if (key.constructor.name == "RegExp") {
@@ -626,7 +608,7 @@ mixin.has = function(key) {
 };
 
 /**
- * <p>Removes a tag.</p>
+ * Removes a tag.
  *
  * @example
  * var node = .... // create a node
@@ -636,17 +618,15 @@ mixin.has = function(key) {
  * node.remove("amenity");
  * node.has("amenity"); // -> false
  *
- * @memberOf OsmPrimitiveMixin
+ * @memberOf module:josm/mixin/OsmPrimitiveMixin~OsmPrimitiveMixin
  * @param {string} name the tag name. Must not be null or undefined.
  *   Non-string values are converted to a string. Leading and trailing
  *   whitespace is removed.
  * @name removeTag
- * @method
- * @instance
- * @type {boolean}
+ * @function
  * @summary Removes a tag.
  */
-mixin.removeTag = function(key){
+exports.mixin.removeTag = function(key){
     if (util.isNothing(key)) return;
     key = util.trim(key + "");
     if (this.has(key)) {
@@ -656,11 +636,11 @@ mixin.removeTag = function(key){
 };
 
 /**
- *  * <p><strong>Deprecated</strong>. There is a name conflict with the 
+ * <strong>Deprecated</strong>. There is a name conflict with the 
  * <code>remove()</code> method for removing a node in <code>WayMixin</code>. 
- * Use <code>removeTag()</code> instead.</p>
+ * Use <code>removeTag()</code> instead.
  *
- * <p>Removes a tag.</p>
+ * Removes a tag.
  *
  * @example
  * var node = .... // create a node
@@ -670,89 +650,78 @@ mixin.removeTag = function(key){
  * node.remove("amenity");
  * node.has("amenity"); // -> false
  *
- * @memberOf OsmPrimitiveMixin
+ * @memberOf module:josm/mixin/OsmPrimitiveMixin~OsmPrimitiveMixin
  * @param {string} name the tag name. Must not be null or undefined.
  *   Non-string values are converted to a string. Leading and trailing
  *   whitespace is removed.
  * @name remove
- * @method
- * @instance
- * @type {boolean}
+ * @function
  * @summary Removes a tag.
  */
-mixin.remove = mixin.removeTag;
+exports.mixin.remove = exports.mixin.removeTag;
 
 /**
-* <p>Replies true if this object is a node</p>
+* Replies true if this object is a node
 *
-* @memberOf OsmPrimitiveMixin
+* @memberOf module:josm/mixin/OsmPrimitiveMixin~OsmPrimitiveMixin
 * @name isNode
-* @field
-* @instance
 * @readOnly
-* @type {boolean}
+* @property {boolean} isNode true if this object is a node
 * @summary Replies true if this object is a node
 */
-mixin.isNode = {
+exports.mixin.isNode = {
     get: function() {
         return this.getType() == OsmPrimitiveType.NODE;
     }
 };
 
 /**
-* <p>Replies true if this object is a way</p>
+* Replies true if this object is a way
 *
-* @memberOf OsmPrimitiveMixin
+* @memberOf module:josm/mixin/OsmPrimitiveMixin~OsmPrimitiveMixin
 * @name isWay
-* @field
-* @instance
 * @readOnly
-* @type {boolean}
+* @property {boolean} isWay true if this object is a way
 * @summary Replies true if this object is a way
 */
-mixin.isWay = {
+exports.mixin.isWay = {
     get: function() {
         return this.getType() == OsmPrimitiveType.WAY;
     }
 };
 
-
 /**
-* <p>Replies true if this object is a relation</p>
+* Replies true if this object is a relation
 *
-* @memberOf OsmPrimitiveMixin
+* @memberOf module:josm/mixin/OsmPrimitiveMixin~OsmPrimitiveMixin
 * @name isRelation
-* @field
-* @instance
 * @readOnly
-* @type {boolean}
+* @property {boolean} isRelation true if this object is a relation
 * @summary Replies true if this object is a relation
 */
-mixin.isRelation = {
+exports.mixin.isRelation = {
     get: function() {
         return this.getType() == OsmPrimitiveType.RELATION;
     }
 };
 
 /**
-* <p>Set or get wheter this primitive is deleted.</p>
+* Set or get wheter this primitive is deleted.
 *
-* <p>In order to invoke the native method <code>isDeleted()</code>,
+* In order to invoke the native method <code>isDeleted()</code>,
 * prefix the name with $, i.e.
 * <pre>
 *    node.$isDeleted(); // -> same as node.isDeleted  without parantheses
 * </pre>
-* </p>
+* 
 *
-* @memberOf OsmPrimitiveMixin
+* @memberOf module:josm/mixin/OsmPrimitiveMixin~OsmPrimitiveMixin
 * @name isDeleted
 * @alias deleted
-* @field
-* @instance
-* @type {boolean}
+* @property {boolean} isDeleted  true, if this primitive is deleted
 * @summary Set or get wheter this primitive is deleted.
 */
-mixin.isDeleted = mixin.deleted = {
+exports.mixin.isDeleted = exports.mixin.deleted = {
     get: function() {
         return this.$isDeleted();
     },
@@ -764,7 +733,4 @@ mixin.isDeleted = mixin.deleted = {
     }
 };
 
-exports.forClass = org.openstreetmap.josm.data.osm.OsmPrimitive;
-exports.mixin = mixin;
 
-}());

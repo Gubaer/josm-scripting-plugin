@@ -1,10 +1,8 @@
-(function() {
 /**
- * <p>This module is auto-loaded by the scripting plugin. It provides the
- * implementation of the global <code>josm</code> object.</p>
+ * This module is auto-loaded by the scripting plugin. It provides the
+ * implementation of the global <code>josm</code> object.
  *
  * @module josm
- *
  */
 
 var Version = org.openstreetmap.josm.data.Version;
@@ -18,24 +16,15 @@ var MainApplication = org.openstreetmap.josm.gui.MainApplication;
 var util = require("josm/util");
 
 /**
- * <p>This is the global JOSM API object. It represents a running JOSM
- * instance.</p>
- *
- * @namespace josm
- */
-
-/**
- * <p>Replies the current JOSM version string.</p>
+ * Replies the current JOSM version string.
  *
  * @example
  * josm.alert(josm.version);
  *
- * @memberOf josm
- * @name version
- * @field
  * @readOnly
- * @instance
- * @type {string}
+ * @property {string} version the JOSM version
+ * @static
+ * @name version
  * @summary JOSM version string
  */
 Object.defineProperty(exports, "version", {
@@ -46,7 +35,7 @@ Object.defineProperty(exports, "version", {
 });
 
 /**
- * <p>Replies the layers object.</p>
+ * Replies the layers object.
  *
  * @example
  * josm.alert("num layers: " + josm.layers.length);
@@ -54,12 +43,10 @@ Object.defineProperty(exports, "version", {
  * // name of first layer
  * josm.alert("num layers: " + josm.layers.get(0).name);
  *
- * @memberOf josm
- * @name layers
- * @field
  * @readOnly
- * @instance
- * @type {object}
+ * @name layers
+ * @static
+ * @property {object} layers  the layers object
  * @summary accessor for JOSM layers
  */
 Object.defineProperty(exports, "layers", {
@@ -70,9 +57,10 @@ Object.defineProperty(exports, "layers", {
 });
 
 /**
- * <p>Displays an alert window with a message</p>
+ * Displays an alert window with a message
  *
  * <strong>Signatures</strong>
+ * 
  * <dl>
  *   <dt><code class="signature">alert(message)</code><dt>
  *   <dd>Displays an information message with an OK button.</dd>
@@ -118,11 +106,10 @@ Object.defineProperty(exports, "layers", {
  *    messageType: "error"
  * });
  *
- * @memberOf josm
- * @instance
- * @method
- * @name alert
  * @summary display a message
+ * @param {string} message  the message
+ * @function
+ * @static
  */
 exports.alert = function() {
     var map = {
@@ -176,13 +163,10 @@ exports.alert = function() {
 };
 
 /**
- * <p>Opens one or more files in JOSM.</p>
+ * Opens one or more files in JOSM.
  *
- * <p>Accepts a variable number of files. Each argument is either a string
- *    (a file name) or a java.io.File.</p>
- *
- * <p>Creates and opens layers in JOSM, depending on the kind of file opened:
- * </p>
+ * Creates and opens layers in JOSM, depending on the kind of file opened:
+ * 
  * <ul>
  *   <li>creates a data layer for data files</li>
  *   <li>creates a gpx layer for gpx files</li>
@@ -190,15 +174,14 @@ exports.alert = function() {
  *   <li>etc.</li>
  * </ul>
  *
- * * @example
+ * @example
  * // open a data file in a new data layer
  * josm.open("/my/data/file.osm");
  *
- * @memberOf josm
- * @instance
- * @method
- * @name open
  * @summary Opens one or more files in JOSM
+ * @param {...(java.io.File | string)} files files to open
+ * @function
+ * @static
  */
 exports.open = function() {
     var OpenFileAction = org.openstreetmap.josm.actions.OpenFileAction;
@@ -220,10 +203,10 @@ exports.open = function() {
 };
 
 /**
- * <p>Replies the global command history.</p>
+ * Replies the global command history.
  *
- * <p>Use this object to undo/redo commands, or to clear the command
- *  history.</p>
+ * Use this object to undo/redo commands, or to clear the command
+ *  history.
  *
  * @example
  * // undoes the last command
@@ -232,13 +215,11 @@ exports.open = function() {
  * // redoes two commands
  * josm.commands.redo(2);
  *
- * @memberOf josm
- * @name commands
- * @field
  * @readOnly
- * @instance
- * @type {CommandHistory}
- * @summary Replies the global command history.
+ * @name commands
+ * @property {module:josm/command.CommandHistory} commands
+ * @summary the global command history
+ * @static
  */
 var commands = require("josm/command").CommandHistory;
 Object.defineProperty(exports, "commands", {
@@ -247,17 +228,15 @@ Object.defineProperty(exports, "commands", {
 });
 
 /**
- * <p>Replies an accessor for JOSMs menu bar.</p>
+ * Replies an accessor for JOSMs menu bar.
  *
- * <p>Use this object to inspect or modify the menu bar, i.e. to add additional
- * menu items.</p>
+ * Use this object to inspect or modify the menu bar, i.e. to add additional
+ * menu items.
  *
- * @memberOf josm
- * @name menu
- * @field
  * @readOnly
- * @instance
- * @type {MenuBar}
+ * @property {module:josm/ui/menu.MenuBar} menu accessor for JOSMs menu bar
+ * @name menu
+ * @static
  * @summary Replies an accessor for JOSMs menu bar.
  */
 var menu = require("josm/ui/menu").MenuBar;
@@ -267,13 +246,11 @@ Object.defineProperty(exports, "menu", {
 });
 
 /**
-* <p>Loads a class using the class loader of a 3d-party plugin</p>
+* Loads a class using the class loader of a 3d-party plugin
 *
-* @memberOf josm
-* @name loadClassFrom3dPartyPlugin
-* @instance
-* @method
 * @summary Loads a class using the class loader of a 3d-party plugin
+* @param {string} pluginName  the name of the plugin
+* @param {string} className the class name
 *
 * @example
 * var console = require("josm/scriptingconsole");
@@ -293,5 +270,3 @@ exports.loadClassFrom3dPartyPlugin = function(pluginName, className) {
     );
     return cls;
 }
-
-}());

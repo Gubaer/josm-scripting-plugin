@@ -1,7 +1,6 @@
-(function() {
 /**
- * <p>This module is auto-loaded by the scripting plugin and mixed into the
- * native java class {@class org.openstreetmap.josm.io.UploadStrategy}.</p>
+ * This module is auto-loaded by the scripting plugin and mixed into the
+ * native java class {@class org.openstreetmap.josm.io.UploadStrategy}.
  *
  * @module josm/mixin/UploadStrategyMixin
  */
@@ -9,22 +8,21 @@ var util = require("josm/util");
 var UploadStrategy = org.openstreetmap.josm.io.UploadStrategy;
 
 /**
- * <p>This mixin
- * provides additional properties and methods which you can invoke on an
- * instance of
- * {@class org.openstreetmap.josm.io.UploadStrategy}.</p>
+ * This mixin provides additional properties and methods which you can 
+ * invoke on an instance of {@class org.openstreetmap.josm.io.UploadStrategy}.
  *
  * @mixin UploadStrategyMixin
  * @forClass org.openstreetmap.josm.io.UploadStrategy
- * @memberof josm/mixin/UploadStrategyMixin
  */
-var mixin = {};
+exports.mixin = {};
+exports.forClass = org.openstreetmap.josm.io.UploadStrategy;
+
 
 /**
- * <p>Checks whether a value can be converted into an
+ * Checks whether a value can be converted into an
  * {@class org.openstreetmap.josm.io.UploadStrategy},
  * converts and normalizes it, and returns the converted value.
- * Throws an error, if <code>value</code> can't be converted.</p>
+ * Throws an error, if <code>value</code> can't be converted.
  *
  * Accepts one of the following values:
  * <dl>
@@ -51,15 +49,14 @@ var mixin = {};
  *
  * @param {org.openstreetmap.josm.io.UploadStrategy|string} value
  *         the value to normalize
- * @memberOf UploadStrategyMixin
+ * @memberOf module:josm/mixin/UploadStrategyMixin~UploadStrategyMixin
  * @static
  * @function
  * @name from
- * @type org.openstreetmap.josm.io.UploadStrategy
- * @summary Convert value to
- *         {@class org.openstreetmap.josm.io.UploadStrategy}
+ * @returns {org.openstreetmap.josm.io.UploadStrategy}
+ * @summary Convert value to {@class org.openstreetmap.josm.io.UploadStrategy}
  */
-mixin.from = function(value) {
+exports.mixin.from = function(value) {
     util.assertSomething(value, "value: must not be null or undefined");
     if (util.isString(value)) {
         value = util.trim(value).toLowerCase();
@@ -78,11 +75,11 @@ mixin.from = function(value) {
             value);
     }
 };
-mixin.from.static = true;
+exports.mixin.from.static = true;
 
 /**
- * <p>Replies true, if {@class org.openstreetmap.josm.io.UploadStrategy},
- * is equal to a specific enumeration value or to a string value.</p>
+ * Replies true, if {@class org.openstreetmap.josm.io.UploadStrategy},
+ * is equal to a specific enumeration value or to a string value.
  *
  * Accepts one of the following values:
  * <dl>
@@ -108,15 +105,16 @@ mixin.from.static = true;
  * strategy.is("individualobjects"); // true
  * strategy.is("chunked");           // false
  *
- * @param {org.openstreetmap.josm.io.UploadStrategy|string} value
+ * @param {org.openstreetmap.josm.io.UploadStrategy | string} value
  *         the value to check
- * @memberOf UploadStrategyMixin
+ * @memberOf module:josm/mixin/UploadStrategyMixin~UploadStrategyMixin
  * @function
  * @name is
- * @type boolean
+ * @instance
+ * @returns {boolean} true, if string value matches
  * @summary Checks equality with string values
  */
-mixin.is = function(value) {
+exports.mixin.is = function(value) {
     if (util.isNothing(value)) return false;
     if (util.isString(value)) {
         value = util.trim(value).toLowerCase();
@@ -127,8 +125,3 @@ mixin.is = function(value) {
         return false;
     }
 };
-
-exports.forClass = org.openstreetmap.josm.io.UploadStrategy;
-exports.mixin = mixin;
-
-}());

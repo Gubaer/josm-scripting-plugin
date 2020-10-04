@@ -1,9 +1,7 @@
-(function(){
-
 /**
- * <p>A collection of functions to create commands which can be applied, undone
+ * A collection of functions to create commands which can be applied, undone
  * and redone on
- * {@class org.opoenstreetmap.josm.gui.layer.OsmDataLayer}s.</p>
+ * {@class org.opoenstreetmap.josm.gui.layer.OsmDataLayer}s.
  *
  * @module josm/command
  */
@@ -55,9 +53,8 @@ function toArray(collection){
  * A command to add a collection of objects to a data layer.
  *
  * @class
- * @name AddCommand
- * @memberOf josm/command
  * @param {java.util.Collection|array} objs the objects to add
+ * @summary A command to add a collection of objects to a data layer
  */
 exports.AddCommand = function (objs) {
     util.assert(objs, "objs: mandatory parameter missing");
@@ -67,25 +64,25 @@ exports.AddCommand = function (objs) {
 /**
  * Applies the command to a layer.
  *
- * @method
- * @instance
- * @name applyTo
+ * @function
  * @summary Applies the command to a layer.
- * @memberOf AddCommand
  * @param {org.openstreetmap.josm.gui.layer.OsmDataLayer} layer the data layer
+ * @instance
+ * @memberof module:josm/command.AddCommand
+ * @name applyTo
  */
 exports.AddCommand.prototype.applyTo = applyTo;
 
 /**
  * Creates the internal JOSM command for this command
  *
- * @method
- * @instance
- * @name createJOSMCommand
+ * @function
  * @summary Creates the internal JOSM command for this command
- * @memberOf AddCommand
  * @param {org.openstreetmap.josm.gui.layer.OsmDataLayer} layer the data layer
- * @type {org.openstreetmap.josm.command.Command}
+ * @returns {org.openstreetmap.josm.command.Command} the command
+ * @memberof module:josm/command.AddCommand
+ * @name createJOSMCommand
+ * @instance
  */
 exports.AddCommand.prototype.createJOSMCommand = function(layer) {
     var OsmDataLayer = org.openstreetmap.josm.gui.layer.OsmDataLayer;
@@ -99,12 +96,12 @@ exports.AddCommand.prototype.createJOSMCommand = function(layer) {
 };
 
 /**
- * <p>Creates a command to add a collection of objects to a data layer.</p>
+ * Creates a command to add a collection of objects to a data layer.
  *
  * <strong>Signatures</strong>
  * <dl>
- *   <dt><code class="signature">add(obj, obj, ...)</code> </dt>
- *   <dd><code>obj</code> are {@class org.openstreetmap.josm.data.osm.Node}s,
+ *   <dt><code class="signature">add(primitive, primitive, ...)</code> </dt>
+ *   <dd><code>primitive</code> are {@class org.openstreetmap.josm.data.osm.Node}s,
  *   {@class org.openstreetmap.josm.data.osm.Way}s, or
  *   {@class org.openstreetmap.josm.data.osm.Relations}s. Or javascript array
  *   or Java collections thereof.</dd>
@@ -123,10 +120,12 @@ exports.AddCommand.prototype.createJOSMCommand = function(layer) {
  *    cmd.add([n1,n2,w2])
  * );
  *
- * @method
- * @name add
+ * @function
  * @summary Creates a command to add a collection of objects
- * @memberOf josm/command
+ * @param {...(primitive | primitive[] | java.lang.Collection )} primitives the primitives to add
+ * @name add
+ * @static
+ * @returns {module:josm/command.AddCommand} the command object
  */
 exports.add = function() {
     return new exports.AddCommand(checkAndFlatten(arguments));
@@ -136,9 +135,8 @@ exports.add = function() {
  * A command to delete a collection of objects in a data layer.
  *
  * @class
- * @name DeleteCommand
- * @memberOf josm/command
  * @param {java.util.Collection|array} objs the objects to add
+ * @summary A command to delete a collection of objects in a data layer.
  */
 exports.DeleteCommand = function (objs) {
     this._objs = checkAndFlatten(objs);
@@ -147,25 +145,25 @@ exports.DeleteCommand = function (objs) {
 /**
  * Applies the command to a layer.
  *
- * @method
+ * @function
+ * @summary   Applies the command to a layer.
+ * @param {org.openstreetmap.josm.gui.layer.OsmDataLayer} layer the data layer
+ * @memberof module:josm/command.DeleteCommand
  * @instance
  * @name applyTo
- * @summary   Applies the command to a layer.
- * @memberOf DeleteCommand
- * @param {org.openstreetmap.josm.gui.layer.OsmDataLayer} layer the data layer
  */
 exports.DeleteCommand.prototype.applyTo = applyTo;
 
 /**
  * Creates the internal JOSM command for this command
  *
- * @method
+ * @function
+ * @summary Creates the internal JOSM command for this command
+ * @param {org.openstreetmap.josm.gui.layer.OsmDataLayer} layer the data layer
+ * @returns {org.openstreetmap.josm.command.Command} the command object
  * @instance
  * @name createJOSMCommand
- * @summary Creates the internal JOSM command for this command
- * @memberOf DeleteCommand
- * @param {org.openstreetmap.josm.gui.layer.OsmDataLayer} layer the data layer
- * @type {org.openstreetmap.josm.command.Command}
+ * @memberof module:josm/command.DeleteCommand
  */
 exports.DeleteCommand.prototype.createJOSMCommand = function(layer) {
     var OsmDataLayer = org.openstreetmap.josm.gui.layer.OsmDataLayer;
@@ -178,12 +176,12 @@ exports.DeleteCommand.prototype.createJOSMCommand = function(layer) {
 };
 
 /**
- * <p>Creates a command to delete a collection of objects in  a data layer.</p>
+ * Creates a command to delete a collection of objects in  a data layer.
  *
  * <strong>Signatures</strong>
  * <dl>
- *   <dt><code class="signature">delete(obj,obj,..., ?options)</code> </dt>
- *   <dd><code>obj</code> are {@class org.openstreetmap.josm.data.osm.Node}s,
+ *   <dt><code class="signature">delete(primitive, primitive,...)</code> </dt>
+ *   <dd><code>primitive</code> are {@class org.openstreetmap.josm.data.osm.Node}s,
  *   {@class org.openstreetmap.josm.data.osm.Way}s, or
  *   {@class org.openstreetmap.josm.data.osm.Relations}s. Or javascript array
  *   or Java collections thereof.</dd>
@@ -202,10 +200,12 @@ exports.DeleteCommand.prototype.createJOSMCommand = function(layer) {
  *    cmd.delete([n1,n2,w2])
  * );
  *
- * @method
- * @name delete
+ * @function
  * @summary Creates a command to delete a collection of objects
- * @memberOf josm/command
+ * @param {...(primitive | primitive[] | java.lang.Collection )} primitives the primitives to delete
+ * @static
+ * @name delete
+ * @returns {module:josm/command.DeleteCommand} the command object
  */
 exports.delete = function() {
     return new exports.DeleteCommand(checkAndFlatten(arguments));
@@ -320,11 +320,9 @@ function changeFromParameters(para) {
  * A command to change a collection of objects in a data layer.
  *
  * @class
- * @name ChangeCommand
- * @memberOf josm/command
  * @param {java.util.Collection|array}  objs  the objects to change
- * @param {org.openstreetmap.josm.plugins.scripting.js.api.Change}
- *         change the change specification
+ * @param {org.openstreetmap.josm.plugins.scripting.js.api.Change} change the change specification
+ * @summary A command to change a collection of objects in a data layer.
  */
 exports.ChangeCommand = function (objs, change) {
     this._objs = checkAndFlatten(objs);
@@ -334,25 +332,25 @@ exports.ChangeCommand = function (objs, change) {
 /**
  * Applies the command to a layer.
  *
- * @method
+ * @function
+ * @summary Applies the command to a layer.
+ * @param {org.openstreetmap.josm.gui.layer.OsmDataLayer} layer the data layer
+ * @memberof module:josm/command.ChangeCommand
  * @instance
  * @name applyTo
- * @summary Applies the command to a layer.
- * @memberOf ChangeCommand
- * @param {org.openstreetmap.josm.gui.layer.OsmDataLayer} layer the data layer
  */
 exports.ChangeCommand.prototype.applyTo = applyTo;
 
 /**
  * Creates the internal JOSM command for this command
  *
- * @method
- * @instance
- * @name createJOSMCommand
  * @summary Creates the internal JOSM command for this command
- * @memberOf ChangeCommand
  * @param {org.openstreetmap.josm.gui.layer.OsmDataLayer} layer the data layer
- * @type {org.openstreetmap.josm.command.Command}
+ * @returns {org.openstreetmap.josm.command.Command} the command object
+ * @instance
+ * @function
+ * @name createJOSMCommand
+ * @memberof module:josm/command.ChangeCommand
  */
 exports.ChangeCommand.prototype.createJOSMCommand = function(layer) {
     var OsmDataLayer = org.openstreetmap.josm.gui.layer.OsmDataLayer;
@@ -366,7 +364,7 @@ exports.ChangeCommand.prototype.createJOSMCommand = function(layer) {
 };
 
 /**
- * <p>Creates a command to change a collection of objects in  a data layer.</p>
+ * Creates a command to change a collection of objects in  a data layer.
  *
  * <strong>Signatures</strong>
  * <dl>
@@ -422,11 +420,11 @@ exports.ChangeCommand.prototype.createJOSMCommand = function(layer) {
  *    tags: {"mycustommtag": "value"}
  * }).applyTo(layer);
  *
- * @method
- * @name change
+ * @function
  * @summary Creates a command to change a collection of objects
+ * @name change
+ * @returns {module:josm/command.ChangeCommand} the change command object
  * @static
- * @memberOf josm/command
  */
 exports.change = function() {
     var objs = [];
@@ -459,26 +457,22 @@ exports.change = function() {
 };
 
 /**
- * <p>Accessor to the global command history.</p>
+ * Provides static methods to redo and undo commands.
  *
- * <p>Provides static methods to redo and undo commands.</p>
- *
- * @name CommandHistory
- * @namespace
- * @summary Accessor to the global command history.
+ * @class
+ * @summary Accessor to the global command history
  */
-exports.CommandHistory = {};
+exports.CommandHistory = function(){}
 
 /**
  * Undoes the last <code>depth</code> commands.
  *
- * @method
- * @name undo
- * @memberOf CommandHistory
  * @static
  * @summary Undoes the last <code>depth</code> commands.
- * @param {number} depth (optional) the number of commands to be undone.
- *         Default if missing: 1
+ * @param {number} [depth=1]  the number of commands to be undone
+ * @memberof module:josm/command.CommandHistory
+ * @function
+ * @name undo
  */
 exports.CommandHistory.undo = function(depth) {
 
@@ -498,14 +492,12 @@ exports.CommandHistory.undo = function(depth) {
 /**
  * Redoes the last <code>depth</code> commands.
  *
- * @memberOf CommandHistory
- * @method
- * @name redo
- * @memberOf CommandHistory
  * @static
  * @summary Redoes the last <code>depth</code> commands.
- * @param {number} depth (optional) the number of commands to be redone.
- *         Default if missing: 1
+ * @param {number} [depth=1]  the number of commands to be redone.
+ * @memberof module:josm/command.CommandHistory
+ * @function
+ * @name redo
  */
 exports.CommandHistory.redo = function(depth) {
 
@@ -526,14 +518,14 @@ exports.CommandHistory.redo = function(depth) {
  * Removes commands in the command history, either all commands, or only the
  * commands  applied to a specific layer.
  *
- * @memberOf CommandHistory
- * @method
  * @static
- * @name clear
  * @summary Removes commands in the command history
- * @param {org.openstreetmap.josm.gui.layer.Layer} layer (optional) the
- * reference layer. Only commands applied to this layer are remove. Default
+ * @param {org.openstreetmap.josm.gui.layer.Layer} [layer]  the
+ * reference layer. Only commands applied to this layer are removed. Default
  * if missing: <strong>all</strong> commands are removed.
+ * @memberof module:josm/command.CommandHistory
+ * @function
+ * @name clear
  */
 exports.CommandHistory.clear = function(layer) {
     var Layer = org.openstreetmap.josm.gui.layer.Layer;
@@ -566,7 +558,6 @@ exports.CommandHistory.clear = function(layer) {
 * to the user, in particular if the direction of the ways has to be reversed
 * because otherwise they could not be combined.
 *
-* @param ways the ways to be combined
 * @example
 * var cmd = require("josm/command");
 * var layers = require("josm/layer");
@@ -579,11 +570,11 @@ exports.CommandHistory.clear = function(layer) {
 * cmd.combineWays(ds.way(1), ds.way(2), ds.way(3));
 * // ... or any combination thereof.
 *
-* @method
-* @name combineWays
+* @function
 * @summary Combines two or more ways into one resulting way.
+* @param {...org.openstreetmap.josm.data.osm.Way | array} ways the ways to be combined
 * @static
-* @memberOf josm/command
+* @name combineWays
 */
 exports.combineWays = function() {
     // ways becomes a java.util.HashSet
@@ -632,18 +623,10 @@ exports.combineWays = function() {
 * to the user, in particular if the direction of the ways has to be reversed
 * because otherwise they could not be combined.
 *
-* @example
-* var cmd = require("josm/command");
-* var layers = require("josm/layer");
-* var ds = layers.activeLayer.data;
-* var ways  = [ds.way(1), ds.way(2), ds.way(3)];
-* cmd.combineWays(ways);
-*
-* @method
-* @name combineSelectedWays
 * @summary Combines the currently selected ways.
 * @static
-* @memberOf josm/command
+* @name combineSelectedWays
+* @function
 */
 exports.combineSelectedWays = function() {
     var activeLayer = layers.activeLayer;
@@ -652,6 +635,3 @@ exports.combineSelectedWays = function() {
     if (ways == null || ways.length <= 1) return;
     exports.combineWays(ways);
 };
-
-}());
-

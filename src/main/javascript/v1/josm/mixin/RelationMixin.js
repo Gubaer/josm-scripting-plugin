@@ -1,7 +1,6 @@
-(function () {
 /**
- * <p>This module is auto-loaded by the scripting plugin and mixed into the
- * native java class {@class org/openstreetmap/josm/data/osm/Relation}.</p>
+ * This module is auto-loaded by the scripting plugin and mixed into the
+ * native java class {@class org/openstreetmap/josm/data/osm/Relation}.
  *
  * @module josm/mixin/RelationMixin
  */
@@ -11,14 +10,12 @@ var RelationMember = org.openstreetmap.josm.data.osm.RelationMember;
 var OsmPrimitive = org.openstreetmap.josm.data.osm.OsmPrimitive;
 var List = java.util.List;
 
-var mixin = {};
-
 /**
- * <p>This mixin  provides additional properties and methods which you can
+ * This mixin  provides additional properties and methods which you can
  * invoke on an instance of
- * {@class org/openstreetmap/josm/data/osm/Relation}.</p>
+ * {@class org/openstreetmap/josm/data/osm/Relation}.
  *
- * <p>You can access relation members using
+ * You can access relation members using
  * <pre>relation[i]</pre>,
  * see examples below.
  *
@@ -41,21 +38,22 @@ var mixin = {};
  * @mixin RelationMixin
  * @extends OsmPrimitiveMixin
  * @forClass org.openstreetmap.josm.data.osm.Relation
- * @memberof josm/mixin/RelationMixin
  */
+exports.mixin = {};
+exports.forClass=org.openstreetmap.josm.data.osm.Relation;
+
 
 /**
  * Replies the number of relation members.
  *
- * @memberOf RelationMixin
+ * @memberOf module:josm/mixin/RelationMixin~RelationMixin
  * @name length
- * @field
- * @type {number}
- * @instance
+ * @property {number} length the number of relation members
  * @readOnly
  * @summary Replies the number of relation members.
+ * @instance
  */
-mixin.length = {
+exports.mixin.length = {
     get: function() {
         return this.getMembersCount();
     }
@@ -70,7 +68,7 @@ function memberListEquals(l1,l2) {
 };
 
 /**
- * <p>The relation members</p>
+ * The relation members
  *
  * <dl>
  *   <dt>get</dt>
@@ -100,14 +98,13 @@ function memberListEquals(l1,l2) {
  * // get members
  * var members = relation.members;
  *
- * @memberOf RelationMixin
+ * @memberOf module:josm/mixin/RelationMixin~RelationMixin
  * @name members
- * @field
- * @instance
- * @type {array}
+ * @property {...member | member[] | java.util.List} members  the relation members
  * @summary Set or get the relation members
+ * @instance
  */
-mixin.members = {
+exports.mixin.members = {
     get: function() {
         var ret = [];
         for(var it = this.getMembers().iterator(); it.hasNext();) {
@@ -144,13 +141,13 @@ mixin.members = {
     }
 };
 
-mixin.__getByIndex = function(idx) {
+exports.mixin.__getByIndex = function(idx) {
     util.assert(idx >= 0 && idx < this.getMembersCount(),
         "Index out of range, got {0}", idx);
     return this.getMember(idx);
 };
 
-mixin.__putByIndex = function(idx, val) {
+exports.mixin.__putByIndex = function(idx, val) {
     util.assert(idx >= 0 && idx <= this.getMembersCount(),
         "Index out of range, got {0}", idx);
     util.assert(util.isSomething(val),
@@ -167,7 +164,7 @@ mixin.__putByIndex = function(idx, val) {
 
 
 /**
- * <p>Adds additional members at the end of the relation members list.</p>
+ * Adds additional members at the end of the relation members list.
  *
  * <strong>Signatures</strong>
  * <dl>
@@ -208,13 +205,14 @@ mixin.__putByIndex = function(idx, val) {
  * var m = [nb.create(), rb.member("role.1", nb.create())];
  * relation.add(m);
  *
- * @memberOf RelationMixin
- * @method
- * @instance
+ * @memberOf module:josm/mixin/RelationMixin~RelationMixin
+ * @function
  * @name add
- * @signature Adds one or more member to the relation.
+ * @param members see description
+ * @summary Adds one or more member to the relation.
+ * @instance
  */
-mixin.add = function(){
+exports.mixin.add = function(){
     var toAdd = [];
     function remember(obj){
         if (util.isNothing(obj)) return;
@@ -236,7 +234,7 @@ mixin.add = function(){
 };
 
 /**
- * <p>Inserts a member at position <code>idx</code>.</p>
+ * Inserts a member at position <code>idx</code>.
  *
  * @example
  * var rb = require("josm/builder").RelationBuilder;
@@ -252,17 +250,17 @@ mixin.add = function(){
  * // insert a way with role 'role.1' at position 1
  * relation.insertAt(1, rb.member('role.1', wb.create()));
  *
- * @memberOf RelationMixin
- * @method
- * @instance
+ * @memberOf module:josm/mixin/RelationMixin~RelationMixin
+ * @function
  * @name insertAt
  * @param {number} idx  the index. a number &gt;= 0 and &lt;= the current
  *         number of members
- * @param {object} the object  either a RelationMember, or a Node, a Way, or a
+ * @param {object} object the object, either a RelationMember, or a Node, a Way, or a
  *         Relation. Must not be null or undefined.
  * @summary Inserts one or more members at a position.
+ * @instance
  */
-mixin.insertAt = function(idx, obj) {
+exports.mixin.insertAt = function(idx, obj) {
     util.assert(util.isSomething(idx), "idx: must not be null or undefined");
     util.assert(util.isNumber(idx), "idx: expected a number, got {0}", idx);
     util.assert(idx >= 0, "idx: expected a number > 0, got {0}", idx);
@@ -279,7 +277,7 @@ mixin.insertAt = function(idx, obj) {
 };
 
 /**
- * <p>Sets a member at position <code>idx</code>.</p>
+ * Sets a member at position <code>idx</code>.
  *
  * @example
  * var rb = require("josm/builder").RelationBuilder;
@@ -295,17 +293,17 @@ mixin.insertAt = function(idx, obj) {
  * // set a way with role 'role.1' at position 1
  * relation.setAt(1, rb.member('role.1', wb.create()));
  *
- * @memberOf RelationMixin
- * @method
- * @instance
+ * @memberOf module:josm/mixin/RelationMixin~RelationMixin
+ * @function
  * @name setAt
  * @param {number} idx  the index. a number &gt;= 0 and &lt; the current
  *         number of members
- * @param {object} the object  either a RelationMember, or a Node, a Way,
+ * @param {object} object  either a RelationMember, or a Node, a Way,
  *         or a Relation. Must not be null or undefined.
  * @summary Sets one or more members at a position.
+ * @instance
  */
-mixin.setAt = function(idx, obj) {
+exports.mixin.setAt = function(idx, obj) {
     util.assert(util.isSomething(idx), "idx: must not be null or undefined");
     util.assert(util.isNumber(idx), "idx: expected a number, got {0}", idx);
     util.assert(idx >= 0 && idx < this.getMembersCount(),
@@ -322,8 +320,8 @@ mixin.setAt = function(idx, obj) {
 };
 
 /**
- * <p>Replies the unique object id for the member object at position
- * <var>idx</var>.</p>
+ * Replies the unique object id for the member object at position
+ * <var>idx</var>.
  *
  * @example
  * var rb = require("josm/builder").RelationBuilder;
@@ -334,18 +332,17 @@ mixin.setAt = function(idx, obj) {
  * var relation = rb.withMembers(nb.create(), nb.create()).create();
  * var id = relation.getIdAt(0);
  *
- * @memberOf RelationMixin
- * @method
- * @instance
+ * @memberOf module:josm/mixin/RelationMixin~RelationMixin
+ * @function
  * @name getIdAt
  * @param {number} idx  the index. a number &gt;= 0 and &lt; the current
  *         number of members
- * @return the unique object id for the member object at position
+ * @return {number} the unique object id for the member object at position
  *         <var>idx</var>
- * @type {number}
  * @summary Replies the object id of a member.
+ * @instance
  */
-mixin.getIdAt = function(idx) {
+exports.mixin.getIdAt = function(idx) {
     util.assert(util.isSomething(idx), "idx: must not be null or undefined");
     util.assert(util.isNumber(idx), "idx: expected a number, got {0}", idx);
     util.assert(idx >= 0 && idx < this.getMembersCount(),
@@ -355,7 +352,7 @@ mixin.getIdAt = function(idx) {
 };
 
 /**
- * <p>Replies the member role for the member at position <code>idx</code>.</p>
+ * Replies the member role for the member at position <code>idx</code>.
  *
  * @example
  * var rb = require("josm/builder").RelationBuilder;
@@ -366,17 +363,16 @@ mixin.getIdAt = function(idx) {
  * var relation = rb.withMembers(nb.create(), nb.create()).create();
  * var role = relation.getRoleAt(0)  // ==> "", the empty role ;
  *
- * @memberOf RelationMixin
- * @method
- * @instance
+ * @memberOf module:josm/mixin/RelationMixin~RelationMixin
+ * @function
  * @name getRoleAt
  * @param {number} idx  the index. a number &gt;= 0 and &lt; the current
  *         number of members
- * @return the member role for the member at position <var>idx</var>
- * @type {string}
+ * @return {string} the member role for the member at position <var>idx</var>
  * @summary Replies the role of a member.
+ * @instance
  */
-mixin.getRoleAt = function(idx) {
+exports.mixin.getRoleAt = function(idx) {
     util.assert(util.isSomething(idx), "idx: must not be null or undefined");
     util.assert(util.isNumber(idx), "idx: expected a number, got {0}", idx);
     util.assert(idx >= 0 && idx < this.getMembersCount(),
@@ -386,8 +382,8 @@ mixin.getRoleAt = function(idx) {
 };
 
 /**
- * <p>Replies the object represented by the member at position
- * <code>idx</code>.</p>
+ * Replies the object represented by the member at position
+ * <code>idx</code>.
  *
  * @example
  * var rb = require("josm/builder").RelationBuilder;
@@ -399,17 +395,16 @@ mixin.getRoleAt = function(idx) {
  * var relation = rb.withMembers(n1, nb.create()).create();
  * var node = relation.getObjectAt(0)  // ==> n1
  *
- * @memberOf RelationMixin
- * @method
- * @instance
+ * @memberOf module:josm/mixin/RelationMixin~RelationMixin
+ * @function
  * @name getObjectAt
  * @param {number} idx  the index. a number &gt;= 0 and &lt; the current
  *         number of members
- * @return  the object represented by the member at position <code>idx</code>
- * @type {object}
+ * @return {object} the object represented by the member at position <code>idx</code>
  * @summary Replies the object of a member.
+ * @instance
  */
-mixin.getObjectAt = function(idx) {
+exports.mixin.getObjectAt = function(idx) {
     util.assert(util.isSomething(idx), "idx: must not be null or undefined");
     util.assert(util.isNumber(idx), "idx: expected a number, got {0}", idx);
     util.assert(idx >= 0 && idx < this.getMembersCount(),
@@ -417,7 +412,4 @@ mixin.getObjectAt = function(idx) {
     return this.getMember(idx).getMember();
 };
 
-exports.forClass=org.openstreetmap.josm.data.osm.Relation;
-exports.mixin = util.mix(require("josm/mixin/OsmPrimitiveMixin").mixin, mixin);
-
-}());
+exports.mixin = util.mix(require("josm/mixin/OsmPrimitiveMixin").mixin, exports.mixin);

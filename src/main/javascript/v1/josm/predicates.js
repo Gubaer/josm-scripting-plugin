@@ -52,13 +52,13 @@ predicate.type = function() {
 
 predicates.and = function(){
 	var args = [];
-	var normalize(arg) {
+	function normalize(arg) {
 		if (util.isNothing(arg)) return;
 		if (util.isFunction(arg)) {
 			args.push(arg);
 		} else if (isCollection(arg)) {
 			each(arg, normalize);
-		} else if ()
+		} else {
 			util.assert(false, "Unexpected predicate, got {0}",arg);
 		}
 	}
@@ -73,13 +73,13 @@ predicates.and = function(){
 
 predicates.or = function(){
 	var args = [];
-	var normalize(arg) {
+	function normalize(arg) {
 		if (util.isNothing(arg)) return;
 		if (util.isFunction(arg)) {
 			args.push(arg);
 		} else if (isCollection(arg)) {
 			each(arg, normalize);
-		} else if ()
+		} else {
 			util.assert(false, "Unexpected predicate, got {0}",arg);
 		}
 	}

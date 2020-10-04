@@ -14,7 +14,6 @@ function consoleWriter() {
     return ScriptingConsole.instance.scriptLog.logWriter;
 }
 
-
 /**
  * <p>Prints a string to the console</p>
  *
@@ -25,10 +24,12 @@ function consoleWriter() {
  * // or use formatting
  * console.print("Hello world! My name is {0}", "foo");
  *
- * @memberof josm/scriptingconsole
- * @method
  * @summary  Prints a string to the console
+ * @param {string} message the message
+ * @param {...object} [values] optional values
+ * @static
  * @name print
+ * @function
  */
 exports.print = function() {
     var args = Array.prototype.slice.call(arguments,0);
@@ -58,10 +59,12 @@ exports.print = function() {
  * // or use formatting
  * console.println("Hello world! My name is {0}", "foo");
  *
- * @memberof josm/scriptingconsole
- * @method
  * @summary  Prints a string to the console, including newline
+ * @static
  * @name println
+ * @function
+ * @param {string} message  the message
+ * @param {...object} [values] optional values
  */
 exports.println = function() {
     var args = Array.prototype.slice.call(arguments,0);
@@ -88,10 +91,10 @@ exports.println = function() {
  * var console = require("josm/scriptingconsole");
  * console.clear();
  *
- * @memberof josm/scriptingconsole
- * @method
  * @summary  Clears the scripting console.
+ * @function
  * @name clear
+ * @static
  */
 exports.clear = function() {
     var action = ScriptingConsole.instance.scriptLog.clearAction;
@@ -105,10 +108,10 @@ exports.clear = function() {
  * var console = require("josm/scriptingconsole");
  * console.show();
  *
- * @memberof josm/scriptingconsole
- * @method
  * @summary Shows the scripting console
+ * @function
  * @name show
+ * @static
  */
 exports.show = function() {
     ScriptingConsole.showScriptingConsole();
@@ -121,10 +124,10 @@ exports.show = function() {
  * var console = require("josm/scriptingconsole");
  * console.hide();
  *
- * @memberof josm/scriptingconsole
- * @method
  * @summary Hides the scripting console
+ * @function
  * @name hide
+ * @static
  */
 exports.hide = function() {
     ScriptingConsole.hideScriptingConsole();
@@ -137,10 +140,10 @@ exports.hide = function() {
  * var console = require("josm/scriptingconsole");
  * console.toggle();
  *
- * @memberof josm/scriptingconsole
- * @method
  * @summary Toggles the visibility of the scripting console
+ * @function
  * @name toggle
+ * @static
  */
 exports.toggle = function() {
     ScriptingConsole.toggleScriptingConsole();

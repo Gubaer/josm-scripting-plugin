@@ -1,8 +1,6 @@
-(function() {
-
 /**
- * <p>This module is auto-loaded by the scripting plugin and mixed into the
- * native java class {@class org.openstreetmap.josm.data.Bounds}.</p>
+ * This module is auto-loaded by the scripting plugin and mixed into the
+ * native java class {@class org.openstreetmap.josm.data.Bounds}.
  *
  * @module josm/mixin/BoundsMixin
  */
@@ -12,18 +10,19 @@ var LatLon = org.openstreetmap.josm.data.coor.LatLon;
 var Bounds = org.openstreetmap.josm.data.Bounds;
 
 /**
- * <p>This mixin is auto-loaded by the scripting plugin and mixed into the
- * native java class {@class org/openstreetmap/josm/data/Bounds}.</p>
+ * This mixin is auto-loaded by the scripting plugin and mixed into the
+ * native java class {@class org/openstreetmap/josm/data/Bounds}.
  *
  * @mixin BoundsMixin
+ * @summary JavaScript mixin for the java class {@class org/openstreetmap/josm/data/Bounds}
  * @forClass org.openstreetmap.josm.data.Bounds
- * @memberof josm/mixin/BoundsMixin
  *
  */
-var mixin = {};
+exports.forClass = org.openstreetmap.josm.data.Bounds;
+exports.mixin = {};
 
 /**
- * <p>Creates a Bounds from a javascript object.</p>
+ * Creates a Bounds from a javascript object.
  *
  * @example
  * var bounds1 = Bounds.make({minlat: 46.9479186, minlon: 7.4619484,
@@ -35,13 +34,13 @@ var mixin = {};
  * });
  *
  * @param {object} obj  a javascript object
- * @memberOf BoundsMixin
+ * @return {org.openstreetmap.josm.data.Bounds} the bounds 
+ * @memberof module:josm/mixin/BoundsMixin~BoundsMixin
  * @name make
+ * @function
  * @static
- * @method
- * @type org.openstreetmap.josm.data.Bounds
  */
-mixin.make = function(obj) {
+exports.mixin.make = function(obj) {
     util.assert(util.isSomething(obj), "obj: must not be null or undefined");
     util.assert(typeof obj === "object",
         "obj: expected an object, got {0}", obj);
@@ -55,6 +54,7 @@ mixin.make = function(obj) {
             "{0}: expected a valid lat, got {1}", name, obj[name]);
         return obj[name];
     }
+
     function normalizeLon(obj,name) {
         util.assert(util.isDef(obj[name]),
             "{0}: missing mandatory property", name);
@@ -81,9 +81,4 @@ mixin.make = function(obj) {
         + "{minlat:, maxlat:, minlon:, maxlon:}, got {0}", obj);
     }
 };
-mixin.make.static=true;
-
-exports.forClass = org.openstreetmap.josm.data.Bounds;
-exports.mixin    = mixin;
-
-}());
+exports.mixin.make.static=true;

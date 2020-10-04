@@ -1,9 +1,7 @@
-(function() {
-
 /**
- * <p>This module is auto-loaded by the scripting plugin and mixed into the
+ * This module is auto-loaded by the scripting plugin and mixed into the
  * native java class
- * {@class org.openstreetmap.josm.plugins.scripting.js.JSAction}.</p>
+ * {@class org.openstreetmap.josm.plugins.scripting.js.JSAction}.
  *
  * @module josm/mixin/JSActionMixin
  */
@@ -12,22 +10,22 @@ var util = require("josm/util");
 var Preferences = org.openstreetmap.josm.data.Preferences;
 
 /**
- * <p>This mixin is auto-loaded by the scripting plugin and mixed into the
+ * This mixin is auto-loaded by the scripting plugin and mixed into the
  * native java class
  * {@class org.openstreetmap.josm.plugins.scripting.js.JSAction}. It
  * provides additional properties and methods which you can invoke on an
  * instance of
- * {@class org.openstreetmap.josm.plugins.scripting.js.JSAction}.</p>
+ * {@class org.openstreetmap.josm.plugins.scripting.js.JSAction}.
  *
  * @mixin JSActionMixin
  * @forClass org.openstreetmap.josm.plugins.scripting.js.JSAction
- * @memberOf josm/mixin/JSActionMixin
  */
-var mixin = {};
+exports.mixin = {};
+exports.forClass = org.openstreetmap.josm.plugins.scripting.js.JSAction;
 
 /**
- * <p>Set or get the function to be called when the <em>enabled</em> state
- * should be initialized.</p>
+ * Set or get the function to be called when the <em>enabled</em> state
+ * should be initialized.
  *
  * <dl>
  *   <dt>get</dt>
@@ -37,15 +35,14 @@ var mixin = {};
  *   <dd>Set the function, null, or undefined to remove the function.</dd>
  * </dl>
  *
- * @memberOf JSActionMixin
+ * @memberOf module:josm/mixin/JSActionMixin~JSActionMixin
  * @name onInitEnabled
- * @field
- * @instance
- * @type {function}
+ * @property {function} onInitEnabled  callback  
  * @summary Set or get the function to be called when the <em>enabled</em>
  * state of the action should be reevaluated.
+ * @instance
  */
-mixin.onInitEnabled = {
+exports.mixin.onInitEnabled = {
     get: function() {
         var value = this.$getOnInitEnabled();
         return value == null ? undefined: value;
@@ -62,8 +59,8 @@ mixin.onInitEnabled = {
 };
 
 /**
- * <p>Set or get the function to be called when the <em>enabled</em> state of
- * the action should be reevaluated.</p>
+ * Set or get the function to be called when the <em>enabled</em> state of
+ * the action should be reevaluated.
  *
  * <dl>
  *   <dt>get</dt>
@@ -73,15 +70,14 @@ mixin.onInitEnabled = {
  *   <dd>Set the function, null, or undefined to remove the function.</dd>
  * </dl>
  *
- * @memberOf JSActionMixin
+ * @memberOf module:josm/mixin/JSActionMixin~JSActionMixin
  * @name onUpdateEnabled
- * @field
- * @instance
- * @type {function}
+ * @property {function} onUpdateEnabled  callback
  * @summary Set or get the function to be called when the <em>enabled</em>
  * state of the action should be reevaluated.
+ * @instance
  */
-mixin.onUpdateEnabled = {
+exports.mixin.onUpdateEnabled = {
     enumerable: true,
     get: function() {
         var value =  this.$getOnUpdateEnabled();
@@ -99,7 +95,7 @@ mixin.onUpdateEnabled = {
 };
 
 /**
- * <p>Set or get the function to be called when the action is executed.</p>
+ * Set or get the function to be called when the action is executed.
  *
  * <dl>
  *   <dt>get</dt>
@@ -109,14 +105,13 @@ mixin.onUpdateEnabled = {
  *   <dd>Set the function, null, or undefined to remove the function.</dd>
  * </dl>
  *
- * @memberOf JSActionMixin
+ * @memberOf module:josm/mixin/JSActionMixin~JSActionMixin
  * @name onExecute
- * @field
- * @instance
- * @type {function}
+ * @property {function} onExecute callback
  * @summary Set or get the function to be called when the action is executed.
+ * @instance
  */
-mixin.onExecute = {
+exports.mixin.onExecute = {
     get: function() {
         var value =  this.$getOnExecute();
         return value == null ? undefined : value;
@@ -133,7 +128,7 @@ mixin.onExecute = {
 };
 
 /**
- * <p>Set or get the name.</p>
+ * Set or get the name.
  *
  * <dl>
  *   <dt>get</dt>
@@ -143,15 +138,13 @@ mixin.onExecute = {
  *   to a string.</dd>
  * </dl>
  *
- * @memberOf JSActionMixin
+ * @memberOf module:josm/mixin/JSActionMixin~JSActionMixin
  * @name name
- * @field
- * @readOnly
- * @instance
- * @type {String}
+ * @property {string} name  the action name
  * @summary Set or get the name.
+ * @instance
  */
-mixin.name = {
+exports.mixin.name = {
     get: function() {
         var Action = javax.swing.Action;
         var value = this.getValue(Action.NAME);
@@ -165,7 +158,7 @@ mixin.name = {
 };
 
 /**
- * <p>Set or get the tooltip text.</p>
+ * Set or get the tooltip text.
  *
  * <dl>
  *   <dt>get</dt>
@@ -176,15 +169,13 @@ mixin.name = {
  *   converted to a string.</dd>
  * </dl>
  *
- * @memberOf JSActionMixin
+ * @memberOf module:josm/mixin/JSActionMixin~JSActionMixin
  * @name tooltip
- * @field
- * @readOnly
- * @instance
- * @type {String}
+ * @property {string} tooltip  the action tooltip
  * @summary Set or get the tooltip text.
+ * @instance
  */
-mixin.tooltip = {
+exports.mixin.tooltip = {
     get: function() {
         var Action = javax.swing.Action;
         var value = this.getValue(Action.SHORT_DESCRIPTION);
@@ -198,7 +189,7 @@ mixin.tooltip = {
 };
 
 /**
- * <p>Adds an action to a menu.</p>
+ * Adds an action to a menu.
  *
  * @example
  * var JSAction = require("josm/ui/menu").JSAction;
@@ -207,17 +198,17 @@ mixin.tooltip = {
  * new JSAction({name: "My Action"})
  *    .addToMenu(josm.menu.get("edit"));
  *
- * @method
  * @name addToMenu
  * @summary Adds an action to a menu.
- * @memberOf JSActionMixin
- * @instance
+ * @memberOf module:josm/mixin/JSActionMixin~JSActionMixin
  * @param {java.swing.JMenu} menu  the menu. This should be one of the global
  *     JOSM menus.
- * @param {number} index (optional) the index where to add the menu.
+ * @param {number} [index] the index where to add the menu.
  *     Default if missing: adds the menu at the end
+ * @function
+ * @instance
  */
-mixin.addToMenu = function(menu, index) {
+exports.mixin.addToMenu = function(menu, index) {
     var MainMenu = org.openstreetmap.josm.gui.MainMenu;
 
     util.assert(util.isSomething(menu), "menu: must not be null or undefined");
@@ -276,18 +267,18 @@ function afterFromOptions(options) {
 };
 
 /**
- * <p>Adds an action to the toolbar.</p>
+ * Adds an action to the toolbar.
  *
- * <p>If no parameters are passed in, the action is registered with its
+ * If no parameters are passed in, the action is registered with its
  * toolbar id (see property tooblarId) for being displayed in the toolbar.
  * It isn't displayed, however, unless the toolbar id is already included
  * in the toolbar preferences. If not, the user first has to configure it
- * manually in the preference dialog.</p>
+ * manually in the preference dialog.
  *
- * <p>Use one of the named options described below to display the the action
+ * Use one of the named options described below to display the the action
    at a a specific position in the toolbar.
  * If you use one of these options, the toolbar configuration is saved
- * to the preferences.</p>
+ * to the preferences.
  *
  * <code>options</code> support the following named parameters:
  * <dl>
@@ -317,14 +308,14 @@ function afterFromOptions(options) {
  * // add the action at the end of the toolbar
  * action.addToToolbar({at: "end"});
  *
- * @method
  * @name addToToolbar
  * @summary Adds an action to the toolbar.
- * @memberOf JSActionMixin
+ * @memberOf module:josm/mixin/JSActionMixin~JSActionMixin
+ * @param {objects} [options]  named parameters
+ * @function
  * @instance
- * @param {objects} options  optional named parameters
  */
-mixin.addToToolbar = function(options) {
+exports.mixin.addToToolbar = function(options) {
     var Preferences = org.openstreetmap.josm.data.Preferences;
     var MainApplication = org.openstreetmap.josm.gui.MainApplication;
     var ArrayList = java.util.ArrayList;
@@ -380,8 +371,3 @@ mixin.addToToolbar = function(options) {
     }
     MainApplication.getToolbar().refreshToolbarControl();
 };
-
-exports.forClass = org.openstreetmap.josm.plugins.scripting.js.JSAction;
-exports.mixin = mixin;
-
-}());
