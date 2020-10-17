@@ -72,7 +72,7 @@ prepare_output_dir $OUTPUT_DIR
 echo "Generating documentation for API version '$API_VERSION' in '$OUTPUT_DIR/$API_VERSION' ..."
 
 # the path to the jsdoc templates and project specific js modules
-TEMPLATE_PATH=$(pwd)/doc/v2/templates
+TEMPLATE_PATH=../docstrap/template
 
 # add the template path to the node path if not yet present
 if [ "$(echo $NODE_PATH | tr ":" "\n" | grep $TEMPLATE_PATH)" == "" ] ; then
@@ -88,5 +88,5 @@ fi
 
 jsdoc \
   -c jsdoc.${API_VERSION}-ng.conf \
-  -t ../docstrap/template \
+  -t $TEMPLATE_PATH \
   -d $OUTPUT_DIR/$API_VERSION

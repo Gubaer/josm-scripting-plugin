@@ -1,6 +1,6 @@
 /**
- * <p>Provides a set of functions to write to the built-in scripting
- * console.</p>
+ * Provides a set of functions to write to the built-in scripting
+ * console.
  *
  * @module josm/scriptingconsole
  */
@@ -18,7 +18,7 @@ function consoleWriter () {
 }
 
 /**
- * <p>Prints a string to the console</p>
+ * Prints a string to the console
  *
  * @example
  * const console = require('josm/scriptingconsole')
@@ -27,10 +27,12 @@ function consoleWriter () {
  * // or use formatting
  * console.print('Hello world! My name is {0}', 'foo')
  *
- * @memberof josm/scriptingconsole
- * @method
  * @summary  Prints a string to the console
+ * @param {string} message the message
+ * @param {...object} [values] optional values
+ * @static
  * @name print
+ * @function
  */
 exports.print = function () {
   const args = Array.prototype.slice.call(arguments, 0)
@@ -52,7 +54,7 @@ exports.print = function () {
 }
 
 /**
- * <p>Prints a string to the console, including newline</p>
+ * Prints a string to the console, including newline
  *
  * @example
  * const console = require('josm/scriptingconsole')
@@ -61,10 +63,12 @@ exports.print = function () {
  * // or use formatting
  * console.println('Hello world! My name is {0}', 'foo');
  *
- * @memberof josm/scriptingconsole
- * @method
  * @summary  Prints a string to the console, including newline
+ * @static
  * @name println
+ * @function
+ * @param {string} message  the message
+ * @param {...object} [values] optional values
  */
 exports.println = function () {
   var args = Array.prototype.slice.call(arguments, 0)
@@ -86,16 +90,16 @@ exports.println = function () {
 }
 
 /**
- * <p>Clears the scripting console.</p>
+ * Clears the scripting console.
  *
  * @example
  * const console = require('josm/scriptingconsole')
  * console.clear()
  *
- * @memberof josm/scriptingconsole
- * @method
  * @summary  Clears the scripting console.
+ * @function
  * @name clear
+ * @static
  */
 exports.clear = function () {
   const action = ScriptingConsole.getInstance().getScriptLog().getClearAction()
@@ -103,48 +107,48 @@ exports.clear = function () {
 }
 
 /**
- * <p>Shows the scripting console</p>
+ * Shows the scripting console
  *
  * @example
  * const console = require('josm/scriptingconsole')
  * console.show()
  *
- * @memberof josm/scriptingconsole
- * @method
  * @summary Shows the scripting console
+ * @function
  * @name show
+ * @static
  */
 exports.show = function () {
   ScriptingConsole.showScriptingConsole()
 }
 
 /**
- * <p>Hides the scripting console</p>
+ * Hides the scripting console
  *
  * @example
  * var console = require('josm/scriptingconsole')
  * console.hide()
  *
- * @memberof josm/scriptingconsole
- * @method
  * @summary Hides the scripting console
+ * @function
  * @name hide
+ * @static
  */
 exports.hide = function () {
   ScriptingConsole.hideScriptingConsole()
 }
 
 /**
- * <p>Toggles the visibility of the scripting console</p>
+ * Toggles the visibility of the scripting console
  *
  * @example
  * const console = require('josm/scriptingconsole')
  * console.toggle()
  *
- * @memberof josm/scriptingconsole
- * @method
  * @summary Toggles the visibility of the scripting console
+ * @function
  * @name toggle
+ * @static
  */
 exports.toggle = function () {
   ScriptingConsole.toggleScriptingConsole()

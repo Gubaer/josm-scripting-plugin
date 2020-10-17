@@ -1,4 +1,3 @@
-(function() {
 /**
  * Provides access to the system clipboard
  *
@@ -6,7 +5,7 @@
  */
 
 /**
- * <p>Set or get the clipboard content as text</p>
+ * Set or get the clipboard content as text
  *
  * <dl>
  *   <dt><code class="signature">get</code></dt>
@@ -26,6 +25,7 @@
  * @property {string} text clipboard content as text
  * @name text
  * @summary Set or get the clipboard content as text
+ * @static
  */
 Object.defineProperty(exports, "text",     {
     enumerable: true,
@@ -53,5 +53,3 @@ Object.defineProperty(exports, "text",     {
         );
     }
 });
-
-}());

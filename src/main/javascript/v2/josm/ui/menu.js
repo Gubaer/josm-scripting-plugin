@@ -1,6 +1,6 @@
 /**
- * <p>Provides a collection of namespaces, classes and functions to work with
- * JOSMs menu system.</p>
+ * Provides a collection of namespaces, classes and functions to work with
+ * JOSMs menu system.
  *
  * @module josm/ui/menu
  */
@@ -15,27 +15,25 @@ const MainApplication = Java.type('org.openstreetmap.josm.gui.MainApplication')
 const util = require('josm/util')
 
 /**
- * <p>Represents JOSMs global menu bar.</p>
+ * Represents JOSMs global menu bar.
  *
- * @namespace
+ * @class
  * @name MenuBar
- * @memberOf josm/ui/menu
  */
-exports.MenuBar = {}
+exports.MenuBar = function () {}
 
 /**
- * <p>Replies the number of menus in the JOSM menu bar.</p>
+ * Replies the number of menus in the JOSM menu bar.
  *
  * @example
  * // display the number of menus
  * josm.alert(josm.menu.length)
  *
- * @memberOf MenuBar
+ * @property {number} length the number of menues
  * @name length
- * @field
- * @readOnly
- * @type {number}
- * @summary Replies the number of menus in the JOSM menu bar.
+ * @summary the number of menus in the JOSM menu bar
+ * @memberof module:josm/ui/menu~MenuBar
+ * @static
  */
 Object.defineProperty(exports.MenuBar, 'length', {
   enumerable: true,
@@ -46,9 +44,9 @@ Object.defineProperty(exports.MenuBar, 'length', {
 })
 
 /**
- * <p>Replies a menu in the JOSM menu bar.</p>
+ * Replies a menu in the JOSM menu bar.
  *
- * <p><code>key</code> is either a numberic index or one of the following
+ * <code>key</code> is either a numberic index or one of the following
  * symbolic names as string:
  * <ul>
  *   <li><code>file</code></li>
@@ -68,12 +66,13 @@ Object.defineProperty(exports.MenuBar, 'length', {
  * // get the file menu with a symbolic name
  * const filemenu = josm.menu.get('file')
  *
- * @memberOf MenuBar
- * @name get
- * @method
- * @type {javax.swing.JMenu}
+ * @return {javax.swing.JMenu} the menu
  * @summary Replies a menu in the JOSM menu bar.
- * @param {number|string} key  the key denoting the menu.
+ * @param {number|string} key  the key denoting the menu
+ * @memberof module:josm/ui/menu~MenuBar
+ * @name get
+ * @function
+ * @instance
  */
 exports.MenuBar.get = function (key) {
   util.assert(util.isSomething(key), 'key: must not be null or undefined')
@@ -103,14 +102,14 @@ exports.MenuBar.get = function (key) {
 }
 
 /**
- * <p>Replies an array with the symbolic menu names.</p>
+ * Replies an array with the symbolic menu names.
  *
- * @memberOf MenuBar
+ * @memberof module:josm/ui/menu~MenuBar
  * @name menuNames
- * @field
+ * @property {array} menuNames the names of the menues in the menu bar
  * @readOnly
- * @type {array}
  * @summary Replies an array with the symbolic menu names.
+ * 
  */
 Object.defineProperty(exports.MenuBar, 'menuNames', {
   enumerable: true,
@@ -121,14 +120,14 @@ Object.defineProperty(exports.MenuBar, 'menuNames', {
 })
 
 /**
- * <p>JSAction is an action for which a menu item or a toolbar item can be
- * added to  JOSMs menu or JOSMs toolbar respectively.</p>
+ * JSAction is an action for which a menu item or a toolbar item can be
+ * added to  JOSMs menu or JOSMs toolbar respectively.
  *
- * <p>This is just a shortcut for the Java class
- * {@class org.openstreetmap.josm.plugins.scripting.js.JSAction}.</p>
+ * This is just a shortcut for the Java class
+ * {@class org.openstreetmap.josm.plugins.scripting.js.JSAction}.
  *
- * <p>The constructor accepts an object with the following optional named
- * parameters.</p>
+ * The constructor accepts an object with the following optional named
+ * parameters.
  * <dl>
  *   <dt><code class="signature">name:string</code></dt>
  *   <dd>The optional name of the action. Default: an auto generated named.</dd>
@@ -172,10 +171,9 @@ Object.defineProperty(exports.MenuBar, 'menuNames', {
  *    josm.alert("Action is executing ...")
  * }
  *
- * @class
+ * @property {org.openstreetmap.josm.plugins.scripting.js.JSAction} JSAction
+ * @static
  * @name JSAction
- * @memberOf josm/ui/menu
- * @see JSActionMixin
- * @param {object} para  the named parameters (see description)
+ * @memberof module:josm/ui/menu~MenuBar
  */
 exports.JSAction = JSAction

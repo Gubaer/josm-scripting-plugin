@@ -174,12 +174,12 @@ function rememberTagsFromObject (builder, args) {
 // ----------------------------------------------------------------------------
 (function () { // start submodul NodeBuilder
   /**
-   * <p>NodeBuilder helps to create OSM nodes.</p>
+   * NodeBuilder helps to create OSM nodes.
    *
-   * <p>Methods of NodeBuilder can be used in a static and in an instance context.
+   * Methods of NodeBuilder can be used in a static and in an instance context.
    * It isn't necessary to create an instance of NodeBuilder, unless it is
    * configured with a {@class org.openstreetmap.josm.data.osm.DataSet},
-   * to which created nodes are added.</p>
+   * to which created nodes are added.
    *
    * @example
    *  const NodeBuilder = require('josm/builder').NodeBuilder
@@ -204,12 +204,14 @@ function rememberTagsFromObject (builder, args) {
    *  const n3 = nbuilder.createProxy(123456)
    *
    * @class
+   * @summary NodeBuilder helps to create OSM nodes
    * @name NodeBuilder
-   * @memberof josm/builder
+   * @param {org.openstreetmap.josm.data.osm.DataSet} [ds]  the dataset
+   *      which created objects are added to
    */
 
   /**
-   * <p>Creates a new node builder.</p>
+   * Creates a new node builder.
    *
    *  @param {org.openstreetmap.josm.data.osm.DataSet} ds (optional) the dataset,
    *      to which created objects are added
@@ -226,8 +228,8 @@ function rememberTagsFromObject (builder, args) {
   }
 
   /**
-   * <p>Creates or configures a NodeBuilder which will add created nodes
-   * to the dataset <code>ds</code>.</p>
+   * Creates or configures a NodeBuilder which will add created nodes
+   * to the dataset <code>ds</code>.
    *
    * @example
    * const builder = require('josm/builder')
@@ -235,21 +237,20 @@ function rememberTagsFromObject (builder, args) {
    * // create a new node builder building to a data set
    * const DataSet = Java.type('org.openstreetmap.josm.data.osm.DataSet')
    * const ds = new DataSet()
-   * let nb = builder.NodeBuilder.forDataSet(ds)
-   *
-   * // configure an existing node builder
-   * nb = new builder.NodeBuilder()
+   * 
+   * // ... using a static method ...
+   * const nb1 = builder.NodeBuilder.forDataSet(ds)
+   * // ... or the instance method
+   * let nb2 = new builder.NodeBuilder()
    * nb = nb.forDataSet(ds)
    *
-   * @memberOf NodeBuilder
-   * @method
-   * @name forDataSet
-   * @return the node builder
+   * @returns {module:josm/builder.NodeBuilder} the node builder
    * @param {org.openstreetmap.josm.data.osm.DataSet} ds the dataset which
    *         created objects are added to
-   * @type NodeBuilder
    * @summary Creates a new NodeBuilder for a specific
    *         {@class org.openstreetmap.josm.data.osm.DataSet}.
+   * @function
+   * @memberof module:josm/builder~NodeBuilder
    */
   function forDataSet (ds) {
     const builder = receiver(this)
@@ -274,12 +275,11 @@ function rememberTagsFromObject (builder, args) {
   }
 
   /**
-   * <p>Creates a new  {@class org.openstreetmap.josm.data.osm.Node}.</p>
+   * Creates a new  {@class org.openstreetmap.josm.data.osm.Node}.
    *
-   * <p>Can be used in an instance or in a static context.</p>.
-   *
-   * <strong>Optional named arguments in the parameters <code>args</code>
-   * </strong>
+   * Can be used in an instance or in a static context.
+   * <p>
+   * <strong>Optional named arguments in the parameter <code>options</code></strong>
    * <ul>
    *   <li><code>version</code> - the version of a global node (number > 0)</li>
    *   <li><code>lat</code> - a valide latitude (number in the range
@@ -305,19 +305,22 @@ function rememberTagsFromObject (builder, args) {
    *
    * // create a new global way with version 3 at a specific position
    * // and with some tags
-   * const n3 = nb.create(12345, {version: 3, lat: 23.45,
-   *     lon: 87.23, tags: {amenity: 'restaurant'}
+   * const n3 = nb.create(12345, {
+   *     version: 3, 
+   *     lat: 23.45,
+   *     lon: 87.23, 
+   *     tags: {amenity: 'restaurant'}
    * })
    *
-   * @memberOf NodeBuilder
-   * @method
-   * @param {number}  id (optional) a global node id. Optional. If missing and
-   *     not set before using
-   *    <code>withId(..)</code>, creates a new local id.
-   * @param {object} args (optional) additional parameters for creating the node
-   * @type org.openstreetmap.josm.data.osm.Node
+   * @param {number} [id]  a global node id. If missing and
+   *     not set before using <code>withId(..)</code>, creates a new local id.
+   * @param {object} [options] additional options for creating the node
+   * @returns {org.openstreetmap.josm.data.osm.Node}  the created node
    * @summary Creates a new  {@class org.openstreetmap.josm.data.osm.Node}
-   *
+   * @function
+   * @name create
+   * @memberof module:josm/builder~NodeBuilder
+   * @instance
    */
   function create () {
     const builder = receiver(this)
@@ -392,13 +395,13 @@ function rememberTagsFromObject (builder, args) {
   exports.NodeBuilder.prototype.create = create
 
   /**
-   * <p>Creates a new <em>proxy</em>
+   * Creates a new <em>proxy</em>
    * {@class org.openstreetmap.josm.data.osm.Node}. A proxy node is a node,
    * for which we only know its global id. In order to know more details
    * (position, tags, etc.), we would have to download it from the OSM server.
-   * </p>
+   * 
    *
-   * <p>The method can be used in a static and in an instance context.</p>
+   * The method can be used in a static and in an instance context.
    *
    * @example
    * const nbuilder = require('josm/builder').NodeBuilder
@@ -406,13 +409,13 @@ function rememberTagsFromObject (builder, args) {
    * // a new proxy node for the global node with id 12345
    * cons n1 = nbuilder.createProxy(12345)
    *
-   * @memberOf NodeBuilder
-   * @method
-   * @param {number} id  (mandatory) the node id (not null, number > 0 expected)
-   * @return the new proxy node
-   * @type org.openstreetmap.josm.data.osm.Node
-   * @summary Creates a new <em>proxy</em>
-   *         {@class org.openstreetmap.josm.data.osm.Node}
+   * @param {number} id  the node id (not null, number > 0 expected)
+   * @return {org.openstreetmap.josm.data.osm.Node} the new proxy node
+   * @summary Creates a new <em>proxy</em> {@class org.openstreetmap.josm.data.osm.Node}
+   * @function
+   * @name createProxy
+   * @memberof module:josm/builder~NodeBuilder
+   * @instance
    */
   function createProxy (id) {
     const builder = receiver(this)
@@ -432,9 +435,9 @@ function rememberTagsFromObject (builder, args) {
     createProxy
 
   /**
-   * <p>Declares the node position.</p>
+   * Declares the node position.
    *
-   * <p>The method can be used in a static and in an instance context.</p>
+   * The method can be used in a static and in an instance context.
    *
    * @example
    * const nbuilder = require('josm/builder').NodeBuilder
@@ -445,16 +448,15 @@ function rememberTagsFromObject (builder, args) {
    * // a new local node at position (23.2, 87.33)
    * const n2 = nbuilder.withPosition(23.3,87.33).create()
    *
-   * @memberOf NodeBuilder
-   * @method
-   * @param {Number} lat  (mandatory) the latitude.
-   *     A number in the range [-90..90].
-   * @param {Number} lon (mandatory) the longitude.
-   *     A number in the range [-180..180].
-   * @return a node builder (for method chaining)
-   * @type NodeBuilder
-   * @summary Declares the node position.
-   */
+  * @param {Number} lat  the latitude. A number in the range [-90..90].
+  * @param {Number} lon the longitude. A number in the range [-180..180].
+  * @returns {module:josm/builder~NodeBuilder} a node builder (for method chaining)
+  * @summary Declares the node position.
+  * @function
+  * @memberof module:josm/builder~NodeBuilder
+  * @name withPosition
+  * @instance
+  */
   function withPosition (lat, lon) {
     const builder = receiver(this)
     util.assert(util.isNumber(lat), 'Expected a number for lat, got {0}', lat)
@@ -469,9 +471,9 @@ function rememberTagsFromObject (builder, args) {
   exports.NodeBuilder.withPosition = withPosition
 
   /**
-   * <p>Declares the tags to be assigned to the new node.</p>
+   * Declares the tags to be assigned to the new node.
    *
-   * <p>The method can be used in a static and in an instance context.</p>
+   * The method can be used in a static and in an instance context.
    *
    * @example
    * const nbuilder = require('josm/builder').NodeBuilder
@@ -487,13 +489,13 @@ function rememberTagsFromObject (builder, args) {
    * }
    * const n2 = nbuilder.withTags(tags).local()
    *
-   * @memberOf NodeBuilder
-   * @method
-   * @param {object} tags  (optional) the tags
-   * @return a node builder (for method chaining)
-   * @name withTags
-   * @type NodeBuilder
+   * @param {object} [tags]  the tags
+   * @returns {module:josm/builder~NodeBuilder} the node builder (for method chaining)
    * @summary Declares the node tags.
+   * @function
+   * @memberof module:josm/builder~NodeBuilder
+   * @name withTags
+   * @instance
    */
   function withTags (tags) {
     const builder = typeof this === 'object' ? this : new exports.NodeBuilder()
@@ -504,19 +506,19 @@ function rememberTagsFromObject (builder, args) {
   exports.NodeBuilder.withTags = withTags
 
   /**
-   * <p>Declares the global node id and the global node version.</p>
+   * Declares the global node id and the global node version.
    *
-   * <p>The method can be used in a static and in an instance context.</p>
+   * The method can be used in a static and in an instance context.
    *
-   * @memberOf NodeBuilder
-   * @method
    * @param {number} id  (mandatory) the global node id. A number > 0.
    * @param {number} version (optional) the global node version. If present,
-   *     a number > 0. If missing,
-   * the version 1 is assumed.
-   * @return a node builder (for method chaining)
-   * @name withId
+   *     a number > 0. If missing, the version 1 is assumed.
+   * @returns {module:josm/builder~NodeBuilder} the node builder (for method chaining)
    * @summary Declares the node id and version.
+   * @function
+   * @memberof module:josm/builder~NodeBuilder
+   * @name withId
+   * @instance
    */
   function withId (id, version) {
     const builder = typeof this === 'object' ? this : new exports.NodeBuilder()
@@ -536,13 +538,13 @@ function rememberTagsFromObject (builder, args) {
   }
 
   /**
-  * <p>WayBuilder helps to create OSM
-  * {@class org.openstreetmap.josm.data.osm.Way}s.</p>
+  * WayBuilder helps to create OSM
+  * {@class org.openstreetmap.josm.data.osm.Way}s.
   *
-  * <p>Methods of WayBuilder can be used in a static and in an instance context.
+  * Methods of WayBuilder can be used in a static and in an instance context.
   * It isn't necessary to create an instance of WayBuilder, unless it is
   * configured with a {@class org.openstreetmap.josm.data.osm.DataSet},
-  * to which created ways are added.</p>
+  * to which created ways are added.
   * @example
   *  const WayBuilder = require('josm/builder').WayBuilder
   *  const DataSet = Java.type('org.openstreetmap.josm.data.osm.DataSet')
@@ -566,19 +568,24 @@ function rememberTagsFromObject (builder, args) {
   *  // (an 'incomplete' node in JOSM terminology)
   *  const w3 = wbuilder.createProxy(123456)
   *
-  * @class WayBuilder
-  * @memberof josm/builder
+  * @class
+  * @param {org.openstreetmap.josm.data.osm.DataSet} [ds]  a JOSM
+  *    dataset which created ways are added to. If missing, the created ways
+  *    aren't added to a dataset.
+  * @summary Helps to create OSM {@class org.openstreetmap.josm.data.osm.Way}s
+  * @name WayBuilder
   */
 
   /**
-   * <p>Creates a new builder for OSM ways</p>
+   * Creates a new builder for OSM ways
    *
-   * @constructor
-   * @memberOf WayBuilder
-   * @name WayBuilder
-   * @param {org.openstreetmap.josm.data.osm.DataSet} ds (optional) a JOSM
-   *    dataset which created ways are added to. If missing, the created ways
-   *    aren't added to a dataset.
+   * @return {module:josm/builder~WayBuilder} the way builder
+   * @param {org.openstreetmap.josm.data.osm.DataSet} ds the dataset which
+   *         created objects are added to
+   * @summary Creates a new WayBuilder with an underlying dataset.
+   * @function
+   * @memberof module:josm/builder~WayBuilder
+   * @name forDataSet
    */
   exports.WayBuilder = function (ds) {
     if (util.isSomething(ds)) {
@@ -589,8 +596,8 @@ function rememberTagsFromObject (builder, args) {
   }
 
   /**
-   * <p>Creates or configures a WayBuilder which will add created nodes
-   * to the dataset <code>ds</code>.</p>
+   * Creates or configures a WayBuilder which will add created nodes
+   * to the dataset <code>ds</code>.
    *
    * @example
    * const builder = require('josm/builder')
@@ -604,12 +611,13 @@ function rememberTagsFromObject (builder, args) {
    * wb = new builder.WayBuilder()
    * wb = wb.forDataSet(ds)
    *
-   * @memberOf WayBuilder
-   * @method
-   * @name forDataSet
-   * @return the way builder
-   * @type WayBuilder
+   * @return {module:josm/builder~WayBuilder} the way builder
+   * @param {org.openstreetmap.josm.data.osm.DataSet} ds the dataset which
+   *         created objects are added to
    * @summary Creates a new WayBuilder with an underlying dataset.
+   * @function
+   * @name forDataSet
+   * @memberof module:josm/builder~WayBuilder
    */
   function forDataSet (ds) {
     const builder = receiver(this)
@@ -623,22 +631,24 @@ function rememberTagsFromObject (builder, args) {
   exports.WayBuilder.forDataSet = forDataSet
 
   /**
-   * <p>Declares the global way id and the global way version.</p>
+   * Declares the global way id and the global way version.
    *
-   * <p>The method can be used in a static and in an instance context.</p>
+   * The method can be used in a static and in an instance context.
    *
    * @example
    * const wbuilder = require('josm/builder').WayBuilder
    * // creates a global way with id 12345 an version 12
    * const wb = wbuilder.withId(12345, 12).create()
    *
-   * @memberof WayBuilder
    * @param {number} id  (mandatory) the global way id. A number > 0.
-   * @param {number} version  (optional) the global way version. If present,
+   * @param {number} [version] the global way version. If present,
    *    a number > 0. If missing, the version 1 is assumed.
-   * @return a way builder (for method chaining)
-   * @type WayBuilder
+   * @return {module:josm/builder~WayBuilder} the way builder (for method chaining)
    * @summary Declares the global way id and the global way version.
+   * @function
+   * @memberof module:josm/builder~WayBuilder
+   * @name withId
+   * @instance
    */
   function withId (id, version) {
     const builder = receiver(this)
@@ -650,9 +660,9 @@ function rememberTagsFromObject (builder, args) {
   exports.WayBuilder.withId = withId
 
   /**
-   * <p>Declares the tags to be assigned to the new way.</p>
+   * Declares the tags to be assigned to the new way.
    *
-   * <p>The method can be used in a static and in an instance context.</p>
+   * The method can be used in a static and in an instance context.
    *
    * @example
    * const wbuilder = require('josm/builder').WayBuilder
@@ -668,11 +678,13 @@ function rememberTagsFromObject (builder, args) {
    * }
    * const w2 = wbuilder.withTags(tags).create()
    *
-   * @memberOf WayBuilder
-   * @param {object} tags  (optional) the tags
-   * @return a way builder (for method chaining)
-   * @type WayBuilder
+   * @param {object} [tags] the tags
+   * @return {module:josm/builder~WayBuilder} the way builder (for method chaining)
    * @summary Declares the tags to be assigned to the new way.
+   * @function
+   * @memberof module:josm/builder~WayBuilder
+   * @name withTags
+   * @instance
    */
   function withTags (tags) {
     const builder = receiver(this)
@@ -683,18 +695,18 @@ function rememberTagsFromObject (builder, args) {
   exports.WayBuilder.withTags = withTags
 
   /**
-   * <p>Declares the nodes of the way.</p>
+   * Declares the nodes of the way.
    *
-   * <p>Accepts either a vararg list of
+   * Accepts either a vararg list of
    * {@class org.openstreetmap.josm.data.osm.Node},
    * an array of {@class org.openstreetmap.josm.data.osm.Node}s or a Java list
    * of {@class org.openstreetmap.josm.data.osm.Node}s. At least <strong>two
    * non-identical nodes</strong> have to be supplied.
    * The same node can occure more than once in the list, but a consecutive
    * sequence of the same node is collapsed to one node.
-   * </p>
+   * 
    *
-   * <p>The method can be used in a static and in an instance context.</p>
+   * The method can be used in a static and in an instance context.
    *
    * @example
    * oonst wbuilder = require('josm/builder').WayBuilder
@@ -704,11 +716,13 @@ function rememberTagsFromObject (builder, args) {
    *    nbuilder.create(), nbuilder.create()
    * ).create()
    *
-   * @memberOf WayBuilder
    * @param nodes  the list of nodes. See description and examples.
-   * @return a way builder (for method chaining)
-   * @type WayBuilder
+   * @return {module:josm/builder~WayBuilder} the way builder (for method chaining)
    * @summary Declares the nodes of the way.
+   * @function
+   * @memberof module:josm/builder~WayBuilder
+   * @name withNodes
+   * @instance
    */
   function withNodes () {
     const builder = receiver(this)
@@ -759,11 +773,11 @@ function rememberTagsFromObject (builder, args) {
     withNodes
 
   /**
-   * <p>Creates a new <em>proxy</em> way. A proxy way is a way, for which we
+   * Creates a new <em>proxy</em> way. A proxy way is a way, for which we
    * only know its global id. In order to know more details (nodes, tags, etc.),
-   * we would have to download it from the OSM server.</p>
+   * we would have to download it from the OSM server.
    *
-   * <p>The method can be used in a static and in an instance context.</p>
+   * The method can be used in a static and in an instance context.
    *
    * @example
    * const wbuilder = require('josm/builder').WayBuilder
@@ -771,11 +785,12 @@ function rememberTagsFromObject (builder, args) {
    * // a new proxy way for the global way with id 12345
    * const w1 = wbuilder.createProxy(12345)
    *
-   * @memberOf WayBuilder
-   * @method
-   * @return the new proxy way
-   * @type org.openstreetmap.josm.data.osm.Way
+   * @return {org.openstreetmap.josm.data.osm.Way} the new proxy way
    * @summary Creates a new proxy way
+   * @function
+   * @memberof module:josm/builder~WayBuilder
+   * @name createProxy
+   * @instance
    */
   function createProxy (id) {
     const builder = receiver(this)
@@ -814,9 +829,9 @@ function rememberTagsFromObject (builder, args) {
   }
 
   /**
-   * <p>Creates a new way.</p>
+   * Creates a new way.
    *
-   * <p>Can be used in an instance or in a static context.</p>
+   * Can be used in an instance or in a static context.
    *
    * Optional named arguments in the parameters <code>options</code>:
    * <dl>
@@ -851,13 +866,15 @@ function rememberTagsFromObject (builder, args) {
    *    nodes: [n1,n2,n3]
    *  })
    *
-   * @memberOf WayBuilder
-   * @method
-   * @param {number}  id (optional) a global way id. If missing and not set
+   * @param {number}  [id]  a global way id. If missing and not set
    *    before using <code>withId(..)</code>, creates a new local id.
-   * @param {object} options (optional) additional parameters for creating the way
-   * @type org.openstreetmap.josm.data.osm.Way
+   * @param {object} [options]  additional parameters for creating the way
+   * @returns {org.openstreetmap.josm.data.osm.Way} the created way
    * @summary Creates a new way
+   * @function
+   * @memberof module:josm/builder~WayBuilder
+   * @name create
+   * @instance
    */
   function create () {
     const builder = receiver(this)
@@ -943,14 +960,14 @@ function rememberTagsFromObject (builder, args) {
   }
 
   /**
-  * <p>RelationBuilder helps to create OSM
-  * {@class org.openstreetmap.josm.data.osm.Relation}s.</p>
+  * RelationBuilder helps to create OSM
+  * {@class org.openstreetmap.josm.data.osm.Relation}s.
   *
-  * <p>Methods of RelationBuilder can be used in a static and in an instance
+  * Methods of RelationBuilder can be used in a static and in an instance
   * context.
   * It isn't necessary to create an instance of RelationBuilder, unless it is
   * configured with a {@class org.openstreetmap.josm.data.osm.DataSet},
-  * which created ways are added to.</p>
+  * which created ways are added to.
   * @example
   * const RelationBuilder = require('josm/builder').RelationBuilder
   * const DataSet = Java.type('org.openstreetmap.josm.data.osm.DataSet')
@@ -972,21 +989,15 @@ function rememberTagsFromObject (builder, args) {
   * // create a new proxy for a global relation
   * // (an 'incomplete' node in JOSM terminology)
   * const r3 = rbuilder.createProxy(123456)
-  *
-  * @class RelationBuilder
-  * @memberof josm/builder
-  */
 
-  /**
-   * <p>Creates a new builder for OSM relations</p>
-   *
-   * @constructor
-   * @name RelationBuilder
-   * @memberOf RelationBuilder
-   * @param {org.openstreetmap.josm.data.osm.DataSet} ds (optional) a JOSM
-   *     dataset which created ways are added to. If missing, the created ways
-   *     aren't added to a dataset.
-   */
+  *
+  * @class
+  * @param {org.openstreetmap.josm.data.osm.DataSet} ds (optional) a JOSM
+  *     dataset which created ways are added to. If missing, the created ways
+  *     aren't added to a dataset.
+  * @name RelationBuilder
+  * @summary Helps to create {@class org.openstreetmap.josm.data.osm.Relation}s
+  */
   exports.RelationBuilder = function (ds) {
     if (util.isSomething(ds)) {
       util.assert(ds instanceof DataSet, 'Expected a DataSet, got {0}', ds)
@@ -996,8 +1007,8 @@ function rememberTagsFromObject (builder, args) {
   }
 
   /**
-   * <p>Creates or configures a RelationBuilder which will add created nodes
-   * to the dataset <code>ds</code>.</p>
+   * Creates or configures a RelationBuilder which will add created nodes
+   * to the dataset <code>ds</code>.
    *
    * @example
    * const builder = require('josm/builder')
@@ -1011,13 +1022,14 @@ function rememberTagsFromObject (builder, args) {
    * let wb = new builder.RelationBuilder()
    * wb = wb.forDataSet(ds)
    *
-   * @memberOf RelationBuilder
-   * @method
-   * @name forDataSet
-   * @return the relation builder
-   * @type RelationBuilder
+   * @return {module:josm/builder.RelationBuilder} the relation builder
    * @summary Creates a new RelationBuilder which adds created relations to a
    *     dataset
+   * @param {org.openstreetmap.josm.data.osm.DataSet} ds  a JOSM
+   *     dataset which created ways are added to.
+   * @function
+   * @name forDataSet
+   * @memberof module:josm/builder~RelationBuilder
    */
   function forDataSet (ds) {
     const builder = receiver(this)
@@ -1031,7 +1043,7 @@ function rememberTagsFromObject (builder, args) {
   exports.RelationBuilder.forDataSet = forDataSet
 
   /**
-   * <p>Create a RelationMember</p>
+   * Create a RelationMember
    *
    * <dl>
    *   <dt>member(role, obj)</dt>
@@ -1057,11 +1069,13 @@ function rememberTagsFromObject (builder, args) {
    * const m2 = member(nb.create())
    *
    * @static
-   * @name member
-   * @memberOf RelationMember
-   * @method
-   * @type org.openstreetmap.josm.data.osm.RelationMember
+   * @returns {org.openstreetmap.josm.data.osm.RelationMember}  the relation member
    * @summary Utility function - creates a relation member
+   * @memberof module:josm/builder~RelationBuilder
+   * @name member
+   * @function
+   * @param {string} [role] the member role
+   * @param {primitive} primitive the member primitive
    */
   function member () {
     function normalizeObj (obj) {
@@ -1103,22 +1117,24 @@ function rememberTagsFromObject (builder, args) {
   exports.RelationBuilder.member = member
 
   /**
-   * <p>Declares the global relation id and the global relation version.</p>
+   * Declares the global relation id and the global relation version.
    *
-   * <p>The method can be used in a static and in an instance context.</p>
+   * The method can be used in a static and in an instance context.
    *
    * @example
    * const rbuilder = require('josm/builder').RelationBuilder
    * // creates a global relation with id 12345 an version 12
    * const r = rbuilder.withId(12345, 12).create()
    *
-   * @memberof RelationBuilder
    * @param {number} id  (mandatory) the global relation id. A number > 0.
    * @param {number} version  (optional) the global relation version. If present,
    *    a number > 0. If missing, the version 1 is assumed.
-   * @return the relation builder (for method chaining)
-   * @type RelationBuilder
+   * @returns {module:josm/builder~RelationBuilder} the relation builder (for method chaining)
    * @summary Declares the relation id and version.
+   * @memberof module:josm/builder~RelationBuilder
+   * @name withId
+   * @function
+   * @instance
    */
   function withId (id, version) {
     const builder = receiver(this)
@@ -1129,9 +1145,9 @@ function rememberTagsFromObject (builder, args) {
   exports.RelationBuilder.withId = withId
 
   /**
-   * <p>Declares the tags to be assigned to the new relation.</p>
+   * Declares the tags to be assigned to the new relation.
    *
-   * <p>The method can be used in a static and in an instance context.</p>
+   * The method can be used in a static and in an instance context.
    *
    * @example
    * const rbuilder = require('josm/builder').RelationBuilder
@@ -1146,11 +1162,13 @@ function rememberTagsFromObject (builder, args) {
    * }
    * const r2 = rbuilder.withTags(tags).create()
    *
-   * @memberOf RelationBuilder
-   * @param {object} tags  (optional) the tags
-   * @return a relation builder (for method chaining)
-   * @type RelationBuilder
+   * @param {object} [tags]  the tags
+   * @returns {module:josm/builder~RelationBuilder} a relation builder (for method chaining)
    * @summary Declares the tags to be assigned to the new relation.
+   * @memberof module:josm/builder~RelationBuilder
+   * @name withTags
+   * @function
+   * @instance
    */
   function withTags (tags) {
     const builder = receiver(this)
@@ -1161,12 +1179,12 @@ function rememberTagsFromObject (builder, args) {
   exports.RelationBuilder.withTags = withTags
 
   /**
-   * <p>Creates a new <em>proxy</em> relation. A proxy relation is a relation,
+   * Creates a new <em>proxy</em> relation. A proxy relation is a relation,
    * for which we only know its global id. In order to know more details
    * (members, tags, etc.), we would have to download it from the OSM server.
-   * </p>
+   * 
    *
-   * <p>The method can be used in a static and in an instance context.</p>
+   * The method can be used in a static and in an instance context.
    *
    * @example
    * const rbuilder = require('josm/builder').RelationBuilder
@@ -1174,11 +1192,13 @@ function rememberTagsFromObject (builder, args) {
    * // a new proxy relation for the global way with id 12345
    * const r1 = rbuilder.createProxy(12345)
    *
-   * @memberOf RelationBuilder
-   * @method
-   * @return the new proxy relation
-   * @type org.openstreetmap.josm.data.osm.Relation
+   * @returns {org.openstreetmap.josm.data.osm.Relation} the new proxy relation
    * @summary Creates a new <em>proxy</em> relation.
+   * @memberof module:josm/builder~RelationBuilder
+   * @function
+   * @name createProxy
+   * @instance
+   * @param {number} id the id for the proxy relation
    */
   function createProxy (id) {
     const builder = receiver(this)
@@ -1200,14 +1220,14 @@ function rememberTagsFromObject (builder, args) {
   exports.RelationBuilder.prototype.createProxy = createProxy
 
   /**
-   * <p>Declares the members of a relation.</p>
+   * Declares the members of a relation.
    *
-   * <p>Accepts either a vararg list of relation members, nodes, ways or
+   * Accepts either a vararg list of relation members, nodes, ways or
    * relations, an array of relation members, nodes ways or relations, or a
    * Java list of members, nodes, ways or relation.
-   * </p>
+   * 
    *
-   * <p>The method can be used in a static and in an instance context.</p>
+   * The method can be used in a static and in an instance context.
    *
    * @example
    * const rbuilder = require('josm/builder').RelationBuilder
@@ -1222,11 +1242,13 @@ function rememberTagsFromObject (builder, args) {
    * ).create()
    *
    *
-   * @memberOf RelationBuilder
    * @param nodes  the list of members. See description and examples.
-   * @return the relation builder (for method chaining)
-   * @type RelationBuilder
+   * @returns {module:josm/builder~RelationBuilder} the relation builder (for method chaining)
    * @summary Declares the members of a relation.
+   * @memberof module:josm/builder~RelationBuilder
+   * @function
+   * @name withMembers
+   * @instance
    */
   function withMembers () {
     const builder = receiver(this)
@@ -1275,9 +1297,9 @@ function rememberTagsFromObject (builder, args) {
   }
 
   /**
-   * <p>Creates a new relation.</p>
+   * Creates a new relation.
    *
-   * <p>Can be used in an instance or in a static context.</p>
+   * Can be used in an instance or in a static context.
    *
    * <strong>Optional named arguments in the parameters <code>args</code>
    * </strong>
@@ -1311,13 +1333,15 @@ function rememberTagsFromObject (builder, args) {
    *    members: [member('house', nb.create()), member(nb.create())]
    *  })
    *
-   * @memberOf RelationBuilder
-   * @method
-   * @param {number}  id (optional) a global way id. If missing and not set
+   * @param {number}  [id]  a global way id. If missing and not set
    *     before using <code>withId(..)</code>, creates a new local id.
-   * @param {object} args (optional) additional parameters for creating the way
-   * @type org.openstreetmap.josm.data.osm.Relation
+   * @param {object} [args]  additional parameters for creating the relation
+   * @returns {org.openstreetmap.josm.data.osm.Relation} the relation
    * @summary Creates a new relation.
+   * @memberof module:josm/builder~RelationBuilder
+   * @function
+   * @name create
+   * @instance
    */
   function create () {
     const builder = receiver(this)

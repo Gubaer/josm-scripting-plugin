@@ -149,25 +149,18 @@ function normalizeIds () {
 /**
  * <code>DataSetUtil</code> provides methods to build OSM primitive IDs and to
  * manipulate data in a {@class org.openstreetmap.josm.data.osm.DataSet}.
+ * 
  */
 class DataSetUtil {
-  // TODO(karl): how to properly document an ES6 constructor
   /**
-   * Creates an instane of <code>DataSetUtil</code> for a given
-   * {@class org.openstreetmap.josm.data.osm.DataSet}
-   *
-   * @param {@class org.openstreetmap.josm.data.osm.Node} ds the dataset. If
-   *  undefined or null, creates a new <code>DataSet</code>
-   *
+   * Creates an instane of <code>DataSetUtil</code> for a given {@class org.openstreetmap.josm.data.osm.DataSet}
+   * 
    * @example
    * const { DataSetUtil, DataSet } = require('josm/ds')
    * const dsutil = new DataSetUtil(new DataSet())
    *
-   *
-   * @summary Get an object from a dataset
-   * @memberOf DataSetUtil
-   * @method
-   * @instance
+   * @summary Build an utility object wrapping the dataset <code>ds</code>
+   * @param {org.openstreetmap.josm.data.osm.DataSet} [ds] the dataset. Creates a new dataset if missing
    */
   constructor (ds) {
     ds = ds || new DataSet()
@@ -217,11 +210,7 @@ class DataSetUtil {
    * const w2 = dsutil.wayBuilder().create(987)
    * const w3 = dsutil.get(w2)
    *
-   * @summary Get an object from a dataset
-   * @memberOf DataSetUtil
-   * @method
-   * @instance
-   * @name get
+   * @param args see description
    */
   get () {
     const id = buildId(...arguments)
@@ -231,11 +220,6 @@ class DataSetUtil {
   /**
   * Replies the node with id <code>id</code>, or null.
   *
-  * @param {number} id  the unique numeric id. Must not be 0.
-  * @memberOf DataSetUtil
-  * @method
-  * @instance
-  * @name node
   * @example
   * const { DataSet, DataSetUtil } = require('josm/ds')
   *
@@ -243,8 +227,8 @@ class DataSetUtil {
   * // get a node
   * const n  = dsutil.node(1234)
   *
-  * @summary Get a specific {@class org.openstreetmap.josm.data.osm.Node}
-  *     from the dataset.
+  * @param {number} id  the unique numeric id. Must not be 0.
+  * @returns {org.openstreetmap.josm.data.osm.Node} the node
   */
   node (id) {
     util.assert(util.isSomething(id), 'expected defined id, got "{0}"', id)
@@ -254,19 +238,14 @@ class DataSetUtil {
   /**
   * Replies the way with id <code>id</code>, or null
   *
-  * @param {number} id  the unique numeric id. Must not be 0.
-  * @memberOf DataSetUtil
-  * @method
-  * @instance
-  * @name way
   * @example
   * const { DataSet, DataSetUtil } = require('josm/ds')
   *
   * const dsutil = new DataSetUtil(new DataSet())
   * // get a way
   * const w  = dsutil.way(1234)
-  * @summary Get a specific {@class org.openstreetmap.josm.data.osm.Way}
-  *     from the dataset.
+  * @param {number} id  the unique numeric id. Must not be 0.
+  * @returns {org.openstreetmap.josm.data.osm.Way} the way
   */
   way (id) {
     util.assert(util.isSomething(id), 'expected defined id, got "{0}"', id)
@@ -276,19 +255,15 @@ class DataSetUtil {
   /**
   * Replies the relation with id <code>id</code>.
   *
-  * @param {number} id  the unique numeric id. Must not be 0.
-  * @memberOf DataSetUtil
-  * @method
-  * @instance
-  * @name relation
   * @example
   * const { DataSet, DataSetUtil } = require('josm/ds')
   *
   * const dsutil = new DataSetUtil(new DataSet())
   * // get a relation
   * const r  = dsutil.relation(1234)
-  * @summary Get a specific {@class org.openstreetmap.josm.data.osm.Relation}
-  *     from the dataset.
+  * 
+  * @param {number} id  the unique numeric id. Must not be 0.
+  * @returns {org.openstreetmap.josm.data.osm.Relation} the relation
   */
   relation (id) {
     util.assert(util.isSomething(id), 'expected defined id, got "{0}"', id)
@@ -297,6 +272,7 @@ class DataSetUtil {
 
   /**
    * Run a sequence of operations against the dataset in "batch mode".
+   * 
    * Listeners to data set events are only notified at the end of the batch.
    *
    * @example
@@ -312,11 +288,6 @@ class DataSetUtil {
    *
    * @param {function} delegate  the function implementing the batch process.
    *     Ignored if null or undefined.
-   * @memberOf DataSetUtil
-   * @method
-   * @instance
-   * @name batch
-   * @summary Run a sequence of command without notifying listeners.
    */
   batch (delegate) {
     if (!(util.isSomething(delegate))) {
@@ -389,11 +360,7 @@ class DataSetUtil {
    * ids.add(id1)
    * dsutil.remove(ids)
    *
-   * @memberOf DataSetMixin
-   * @method
-   * @instance
-   * @name remove
-   * @summary Remove one or more objects from the dataset.
+   * @param args see description
    */
   remove () {
     // we have exactly two arguments, id and type. If we succeed
@@ -424,27 +391,21 @@ class DataSetUtil {
   }
 
   /**
-   * Replies a node builder to create nodes in this dataset.
+   * Replies a node builder to create {@class org.openstreetmap.josm.data.osm.Node}s in this dataset.
    *
    * @example
    * const { DataSet, DataSetUtil } = require('josm/ds')
    * const dsutil = new DataSetUtil(new DataSet())
-   * const n = dsutil.nodeBuilder()
+   * const n = dsutil.nodeBuilder
    *    .withId(1234,4567)
    *    .withTags({amenity: 'restaurant'})
    *    .create()
    * dsutil.has(n)
    *
-   * @memberOf DataSetUtil
-   * @name nodeBuilder
-   * @field
-   * @type NodeBuilder
-   * @instance
+   * @property {module:josm/builder~NodeBuilder} nodeBuilder
    * @readOnly
-   * @summary the builder for creating
-   *         {@class org.openstreetmap.josm.data.osm.Node}s
    */
-  nodeBuilder () {
+  get nodeBuilder () {
     return NodeBuilder.forDataSet(this.ds)
   }
 
@@ -461,16 +422,10 @@ class DataSetUtil {
    *   .create(1234, {tags: {highway: "residential"}})
    * dsutil.has(w)
    *
-   * @memberOf DataSetUtil
-   * @name wayBuilder
-   * @field
-   * @type WayBuilder
-   * @instance
+   * @property {module:josm/builder~WayBuilder} wayBuilder
    * @readOnly
-   * @summary the builder for creating
-   *         {@class org.openstreetmap.josm.data.osm.Way}s
    */
-  wayBuilder () {
+  get wayBuilder () {
     return WayBuilder.forDataSet(this.ds)
   }
 
@@ -486,16 +441,10 @@ class DataSetUtil {
    *    .create({tags: {type: "network"}})
    * ds.has(r)  // --> true
    *
-   * @memberOf DataSetUtil
-   * @name relationBuilder
-   * @field
-   * @type RelationBuilder
-   * @instance
+   * @property  {module:josm/builder~RelationBuilder} relationBuilder
    * @readOnly
-   * @summary the builder for creating
-   *         {@class org.openstreetmap.josm.data.osm.Relation}s
    */
-  relationBuilder () {
+  get relationBuilder () {
     return RelationBuilder.forDataSet(this.ds)
   }
 
@@ -523,15 +472,10 @@ class DataSetUtil {
    *
    * // loads an OSM file, expli
    * const dsutil2 = DataSetUtil.load(
-   *  '/path/to/my/file.any-suffix', { format: 'osm' })
-   * @param {string|java.io.File}  source  the data source. Either a file
-   *         name as string or a java.io.File
-   * @param {object}  options  (optional) optional named parameters
-   * @memberOf DataSetUtil
-   * @method static
-   * @static
-   * @name load
-   * @summary Loads a DataSet from a file
+   *  '/path/to/my/file.any-suffix', { format 'osm' })
+   * 
+   * @param {string|java.io.File}  source  the data source
+   * @param {object} [options]  optional named parameters
    */
   static load (source, options) {
     function normalizeFile (source) {
@@ -650,14 +594,9 @@ class DataSetUtil {
    * // save the dataset
    * dsutil.save('/tmp/my-dataset.osm')
    *
-   * @param {string|java.io.File}  target  the target file. Either a file
-   *         name as string or a java.io.File
-   * @param {object}  options  (optional) optional named parameters
-   * @memberOf DataSetUtil
-   * @method
+   * @param {string|java.io.File}  target  the target file
+   * @param {object} [options] optional named parameters
    * @instance
-   * @name save
-   * @summary Saves a dataset to a file.
    */
   save (target, options) {
     function normalizeTarget (target) {
@@ -717,7 +656,7 @@ class DataSetUtil {
     }
   }
 
-  /**
+ /**
  * Queries the dataset
  * <p>
  * <strong>Signatures</strong>
@@ -788,12 +727,8 @@ class DataSetUtil {
  * })
  *
  * @param {string|function} expression  the match expression
- * @param {object} options (optional) additional named parameters
- * @memberOf DataSetUtil
- * @method
+ * @param {object} [options] additional named parameters
  * @instance
- * @name query
- * @summary Queries the dataset.
  */
   query (expression, options) {
     const SearchSetting = Java.type('org.openstreetmap.josm.data.osm.search.SearchSetting')

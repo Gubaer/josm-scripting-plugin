@@ -1,6 +1,6 @@
 /**
- * <p>This module provides functions to retrieve data from and upload data
- * to an OSM server.</p>
+ * This module provides functions to retrieve data from and upload data
+ * to an OSM server.
  *
  * @module josm/api
  */
@@ -23,12 +23,12 @@ const Preferences = Java.type('org.openstreetmap.josm.data.Preferences')
 const util = require('josm/util')
 
 /**
- * <p>Provides methods to open, close, get, update, etc. changesets on the OSM
- * API server.</p>
+ * Provides methods to open, close, get, update, etc. changesets on the OSM
+ * API server.
  *
- * <p><strong>Note:</strong> this class doesn't provide a constructor. Methods
+ * <strong>Note:</strong> this class doesn't provide a constructor. Methods
  * and properties
- * are "static".</p>
+ * are "static".
  *
  * @example
  * // load the changeset api
@@ -38,13 +38,13 @@ const util = require('josm/util')
  * const cs = api.open()
  *
  * @class
- * @name ChangesetApi
- * @memberof josm/api
+ * @summary Provides methods to open, close, get, and update changesets on the OSM API server
+ * @name ChangesetApi 
  */
 exports.ChangesetApi = {}
 
 /**
- * <p>Creates and opens a changeset</p>
+ * Creates and opens a changeset
  *
  * <ul>
  *   <li><code>open()</code>  - open a new changeset with no tags</li>
@@ -69,12 +69,13 @@ exports.ChangesetApi = {}
  * // open a new changeset with the tags given by the object
  * var cs3 = api.open({comment: 'a test comment'})
  *
- * @name open
- * @memberOf ChangesetApi
- * @method
  * @static
- * @type org.openstreetmap.josm.data.osm.Changeset
+ * @returns {org.openstreetmap.josm.data.osm.Changeset} the changeset
  * @summary Creates and opens a changeset
+ * @function
+ * @memberof module:josm/api~ChangesetApi
+ * @name open
+ * @param {org.openstreetmap.josm.data.osm.Changeset | object} [changeset] the changeset to open
  */
 exports.ChangesetApi.open = function () {
   let cs
@@ -114,7 +115,7 @@ exports.ChangesetApi.open = function () {
 }
 
 /**
- * <p>Closes a changeset</p>
+ * Closes a changeset
  *
  * <dl>
  *   <dt><code class="signature">close(id)</code></dt>
@@ -137,14 +138,12 @@ exports.ChangesetApi.open = function () {
  * cs2 = api.close(cs2)
  * util.assert(cs2.closed)  // the changeset is now closed
  *
- * @name close
- * @memberOf ChangesetApi
- * @param {number|org.openstreetmap.josm.data.osm.Changeset} changeset
- *         the changeset to close
- * @method
- * @static
- * @type org.openstreetmap.josm.data.osm.Changeset
+ * @param {number | org.openstreetmap.josm.data.osm.Changeset} changeset the changeset to close
+ * @returns {org.openstreetmap.josm.data.osm.Changeset} the changeset
  * @summary Closes a changeset
+ * @memberof module:josm/api~ChangesetApi
+ * @function
+ * @name close
  */
 exports.ChangesetApi.close = function () {
   let cs
@@ -179,7 +178,7 @@ exports.ChangesetApi.close = function () {
 }
 
 /**
- * <p>Updates a changeset</p>
+ * Updates a changeset
  *
  * <dl>
  *   <dt><code class="signature">update(aChangeset)</code></dt>
@@ -195,13 +194,13 @@ exports.ChangesetApi.close = function () {
  * cs2.put('comment', 'an updated comment');
  * cs2 = api.update(cs2);
  *
- * @name update
  * @param {org.openstreetmap.josm.data.osm.Changeset} changeset  the changeset to update
- * @memberOf ChangesetApi
- * @method
  * @static
- * @type org.openstreetmap.josm.data.osm.Changeset
+ * @returns {org.openstreetmap.josm.data.osm.Changeset} the changeset
  * @summary Updates a changeset
+ * @function
+ * @memberof module:josm/api~ChangesetApi
+ * @name update
  */
 exports.ChangesetApi.update = function () {
   let cs
@@ -231,7 +230,7 @@ exports.ChangesetApi.update = function () {
 }
 
 /**
- * <p>Get a changeset from the server</p>
+ * Get a changeset from the server
  *
  * <dl>
  *   <dt><code class="signature>get(aChangeset)</code></dt>
@@ -254,14 +253,14 @@ exports.ChangesetApi.update = function () {
  * const cs2 = new Changeset(12345)
  * cs2 = api.get(cs2)
  *
- * @name get
- * @memberOf ChangesetApi
- * @param {number|org.openstreetmap.josm.data.osm.Changeset} changeset
- *         the changeset to close
- * @method
+ * @param {number|org.openstreetmap.josm.data.osm.Changeset} changeset the changeset to close
  * @static
- * @type org.openstreetmap.josm.data.osm.Changeset
+ * @returns {org.openstreetmap.josm.data.osm.Changeset} the changeset
  * @summary Get a changeset from the server
+ * @memberof module:josm/api~ChangesetApi
+ * @name get
+ * @function
+ * @param {number | org.openstreetmap.josm.data.osm.Changeset} changeset
  */
 exports.ChangesetApi.get = function () {
   let cs
@@ -296,11 +295,11 @@ exports.ChangesetApi.get = function () {
 }
 
 /**
- * <p>Collection of static methods to download objects from and upload objects
- * to the OSM server.</p>
+ * Collection of static methods to download objects from and upload objects
+ * to the OSM server.
  *
- * <p><strong>Note:</strong> this class doesn't provide a constructor.
- * Methods and properties are "static".</p>
+ * <strong>Note:</strong> this class doesn't provide a constructor.
+ * Methods and properties are "static".
  *
  * @example
  * // load the changeset api
@@ -310,10 +309,11 @@ exports.ChangesetApi.get = function () {
  * const ds = api.downloadObject(12345, 'node')
  *
  * @class
+ * @summary Collection of static methods to download objects from and upload objects
+ *  to the OSM server
  * @name Api
- * @memberof josm/api
  */
-exports.Api = {}
+exports.Api = function () {}
 
 function normalizeType (type) {
   util.assert(util.isSomething(type), 'type must not be null or undefined')
@@ -440,11 +440,11 @@ function downloadObject3 () {
 }
 
 /**
- * <p>Downloads an object from the server.</p>
+ * Downloads an object from the server.
  *
- * <p>There are multiple options to specify what object to download.
+ * There are multiple options to specify what object to download.
  * In addition, the function accepts a set of optional named parameters
- * as last argument.</p>
+ * as last argument.
  *
  * <dl>
  *   <dt><code class="signature">downloadObject(id, type, ?options)</code></dt>
@@ -498,12 +498,13 @@ function downloadObject3 () {
  * var ds4 = api.downloadObject(12345, OsmPrimitiveType.WAY,
  *         {version: 5});
  *
- * @method
  * @static
- * @name downloadObject
- * @memberOf Api
- * @type org.openstreetmap.josm.data.osm.DataSet
+ * @returns {org.openstreetmap.josm.data.osm.DataSet} the downloaded primitives
  * @summary Downloads an object from the server.
+ * @memberof module:josm/api~Api
+ * @function
+ * @name downloadObjects
+ * @param args see description and examples
  */
 exports.Api.downloadObject = function () {
   switch (arguments.length) {
@@ -600,22 +601,22 @@ function downloadReferrer3 () {
 }
 
 /**
- * <p>Downloads the objects <em>referring</em> to another object from
- * the server.</p>
+ * Downloads the objects <em>referring</em> to another object from
+ * the server.
  *
- * <p>Downloads primitives from the OSM server which
+ * Downloads primitives from the OSM server which
  * refer to a specific primitive. Given a node, the referring ways and
  * relations are downloaded. Given a way or a relation, only referring
- * relations are downloaded.</p>
+ * relations are downloaded.
  *
- * <p>The default behaviour is to reply proxy objects only.</p>
+ * The default behaviour is to reply proxy objects only.
  *
- * <p>If you set the option <code>{full: true}</code>, every referring object
- * is downloaded in full.</p>
+ * If you set the option <code>{full: true}</code>, every referring object
+ * is downloaded in full.
  *
- * <p>There are multiple options to specify what referrers to download.
+ * There are multiple options to specify what referrers to download.
  * In addition, the function accepts a set of optional named parameters as
- * last argument.</p>
+ * last argument.
  *
  * <dl>
  *   <dt><code class="signature">downloadReferrer(id, type, ?options)
@@ -671,13 +672,14 @@ function downloadReferrer3 () {
  * // ... and downloads its referrers in full
  * const ds = api.downloadReferrer(node, { full: true })
  *
- * @method
  * @static
- * @name downloadReferrer
- * @memberOf Api
- * @type org.openstreetmap.josm.data.osm.DataSet
+ * @returns {org.openstreetmap.josm.data.osm.DataSet} the downloaded primitives
  * @summary Downloads the objects <em>referring</em> to another object from
  *     the server.
+ * @memberof module:josm/api~Api
+ * @function
+ * @name downloadReferrer
+ * @param args see description and examples
  */
 exports.Api.downloadReferrer = function () {
   switch (arguments.length) {
@@ -702,7 +704,7 @@ exports.Api.downloadReferrer = function () {
 }
 
 /**
- * <p>Downloads the objects within a bounding box.</p>
+ * Downloads the objects within a bounding box.
  *
  * @example
  * const api = require('josm/api').Api
@@ -716,13 +718,14 @@ exports.Api.downloadReferrer = function () {
  *     max: {lat: 46.9497642, lon: 7.4660683}
  * })
  *
- * @method
  * @static
- * @name downloadArea
- * @memberOf Api
- * @type org.openstreetmap.josm.data.osm.DataSet
+ * @returns {org.openstreetmap.josm.data.osm.DataSet} the downloaded primitives
  * @summary Downloads the objects within a bounding box
- */
+ * @param {org.openstreetmap.josm.data.Bounds|object} bounds the bounding box
+ * @memberof module:josm/api~Api
+ * @name downloadArea
+ * @function
+  */
 exports.Api.downloadArea = function () {
   const BoundingBoxDownloader =
     Java.type('org.openstreetmap.josm.io.BoundingBoxDownloader')
@@ -748,34 +751,34 @@ exports.Api.downloadArea = function () {
 }
 
 /**
- * <p>Uploads objects to the server.</p>
+ * Uploads objects to the server.
  *
- * <p>You can submit data either as
+ * You can submit data either as
  * {@class org.openstreetmap.josm.data.osm.DataSet},
  * {@class org.openstreetmap.josm.data.APIDataSet}, javascript array of
  * {@class org.openstreetmap.josm.data.osm.OsmPrimitive}s or
  * a {@class java.util.Collection} of
- * {@class org.openstreetmap.josm.data.osm.OsmPrimitive}s.</p>
+ * {@class org.openstreetmap.josm.data.osm.OsmPrimitive}s.
  *
- * <p>This method supports the same upload strategy as the JOSM upload dialog.
+ * This method supports the same upload strategy as the JOSM upload dialog.
  * Supply the named parameter <code>{strategy: ...}</code> to choose the
- * strategy.</p>
+ * strategy.
  *
  * <p class="documentation-warning">
  * Be careful when uploading data to the OSM server! Do not upload copyright
  * protected or test data.
- * </p>
+ * 
  *
- * <p>The method takes care to update the primitives in the uploaded data when
+ * The method takes care to update the primitives in the uploaded data when
  * the upload succeeds. For instance, uploaded new primitives become global
  * objects and get assigned their new id and version, successfully deleted
- * objects become invisible, etc.</p>
+ * objects become invisible, etc.
  *
- * <p>Even if the entire upload of a dataset fails, a subset therefore may
+ * Even if the entire upload of a dataset fails, a subset therefore may
  * have been uploaded successfully. In order to keep track, which pritives
  * have been uploaded successfully in case of an error, the method replies a
- * collection of the successfully uploaded objects.</p>
- * <p>Named options</p>
+ * collection of the successfully uploaded objects.
+ * Named options
  * <dl>
  *   <dt><code class="signature">strategy: string|
  *   {@class org.openstreetmap.josm.io.UploadStrategy}</code></dt>
@@ -819,17 +822,16 @@ exports.Api.downloadArea = function () {
  * // uploads the data in a new changeset in one chunk)
  * const processed = api.upload(ds, 'just testing');
  *
- * @param {(org.openstreetmap.josm.data.osm.DataSet|
- *         org.openstreetmap.josm.data.APIDataSet|array|java.util.Collection)}
- *         data the data to upload
+ * @param {org.openstreetmap.josm.data.osm.DataSet|
+ *         org.openstreetmap.josm.data.APIDataSet|array|java.util.Collection} data the data to upload
  * @param {string} comment the upload comment
- * @param {object} options (optional) various options (see above)
- * @method
+ * @param {object} [options] various options (see above)
  * @static
- * @name upload
- * @memberOf Api
- * @type java.util.Collection
+ * @returns {java.util.Collection} 
  * @summary Uploads objects
+ * @memberof module:josm/api~Api
+ * @name upload
+ * @function
  */
 exports.Api.upload = function (data, comment, options) {
   const UploadStrategy = Java.type('org.openstreetmap.josm.io.UploadStrategy')
@@ -927,22 +929,19 @@ exports.Api.upload = function (data, comment, options) {
 /* ApiConfig                                                                  */
 /* -------------------------------------------------------------------------- */
 /**
- * <p>ApiConfig provides methods and properties for configuring API parameters.
- * </p>
+ * ApiConfig provides methods and properties for configuring API parameters.
+ * 
  *
- * @class ApiConfig
- * @memberof josm/api
+ * @class
+ * @summary ApiConfig provides methods and properties for configuring API parameters
+ * @name ApiConfig
  */
-Object.defineProperty(exports, 'ApiConfig', {
-  value: {},
-  writable: false,
-  enumerable: true
-})
+exports.ApiConig = function() {}
 
 const DEFAULT_URL = 'http://api.openstreetmap.com/api/0.6'
 
 /**
- * <p>Get or set the API server URL.</p>
+ * Get or set the API server URL.
  *
  * <dl>
  *   <dt><code class="signature">get</code></dt>
@@ -962,12 +961,11 @@ const DEFAULT_URL = 'http://api.openstreetmap.com/api/0.6'
  * // set a new API url
  * conf.serverUrl = 'http://api06.dev.openstreetmap.org'
  *
- * @field
- * @memberOf ApiConfig
  * @static
  * @summary Get or set the API server URL.
- * @type string
+ * @property {string} serverUrl
  * @name serverUrl
+ * @memberof module:josm/api~ApiConfig
  */
 Object.defineProperty(exports.ApiConfig, 'serverUrl', {
   enumerable: true,
@@ -1004,18 +1002,18 @@ Object.defineProperty(exports.ApiConfig, 'serverUrl', {
 })
 
 /**
- * <p>Get the default server URL.</p>
+ * Get the default server URL.
+ * 
  * @example
  * const conf = require('josm/api').ApiConfig
  * conf.defaultServerUrl   // -> the default server url
  *
- * @field
- * @memberOf ApiConfig
  * @static
- * @summary Get the default server URL-
- * @type string
+ * @summary Get the default server URL
  * @name defaultServerUrl
+ * @property {string} defaultServerUrl the default server URL
  * @readOnly
+ * @memberof module:josm/api~ApiConfig
  */
 Object.defineProperty(exports.ApiConfig, 'defaultServerUrl', {
   value: DEFAULT_URL,
@@ -1034,9 +1032,9 @@ function normalizeAuthMethod (authMethod) {
 }
 
 /**
- * <p>Get or set the authentication method.</p>
+ * Get or set the authentication method.
  *
- * <p>JOSM uses two authentication methods:</p>
+ * JOSM uses two authentication methods:
  * <dl>
  *    <dt><code class="signature">basic</code></dt>
  *    <dd>Basic authentication with a username and a password</dd>
@@ -1052,12 +1050,12 @@ function normalizeAuthMethod (authMethod) {
  * // set OAuth as authentication method
  * conf.authMethod = 'oauth'
  *
- * @field
- * @memberOf ApiConfig
  * @static
  * @summary Get or set the authentication method.
  * @type string
  * @name authMethod
+ * @property {string} authMethod the authentication method
+ * @memberof module:josm/api~ApiConfig
  */
 Object.defineProperty(exports.ApiConfig, 'authMethod', {
   enumerate: true,
@@ -1076,8 +1074,8 @@ Object.defineProperty(exports.ApiConfig, 'authMethod', {
 })
 
 /**
- * <p>Gets the credentials, i.e. username and password for the basic
- * authentication method.</p>
+ * Gets the credentials, i.e. username and password for the basic
+ * authentication method.
  *
  * <strong>Named options</strong>
  * <dl>
@@ -1093,16 +1091,15 @@ Object.defineProperty(exports.ApiConfig, 'authMethod', {
  * // get username/password for the current OSM API server
  * const credentials = conf.getCredentials('basic')
  *
- * @param {string} authMethod  the authentication method. Either "basic" or
- *         "oauth".
+ * @param {string} authMethod  the authentication method. Either <code>basic</code> or <code>oauth</code>
  * @param {object} options  (optional) additional options (see above)
- * @method
- * @memberOf ApiConfig
  * @static
  * @summary Gets the credentials.
- * @type object
+ * @returns {object}  the credentials
  * @name getCredentials
- */
+ * @function
+ * @memberof module:josm/api~ApiConfig
+*/
 exports.ApiConfig.getCredentials = function (authMethod, options) {
   const CredentialsManager = Java.type('org.openstreetmap.josm.io.auth.CredentialsManager')
   const OsmApi = Java.type('org.openstreetmap.josm.io.OsmApi')
@@ -1179,16 +1176,16 @@ function normalizeOAuthCredentials (credentials) {
 }
 
 /**
- * <p>Set the credentials, i.e. username and password for the basic
- * authentication method.</p>
+ * Set the credentials, i.e. username and password for the basic
+ * authentication method.
  *
- * <p>Basic authentication credentials are either an instance of
+ * Basic authentication credentials are either an instance of
  * java.net.PasswordAuthentication or
- * an object <code>{user: string, password: string}</code>.</p>
+ * an object <code>{user: string, password: string}</code>.
  *
- * <p>OAuth authentication credentials are either an instance of
+ * OAuth authentication credentials are either an instance of
  * {@class org.openstreetmap.josm.data.oauth.OAuthToken} or
- * an object <code>{key: string, secret: string}</code>.</p>
+ * an object <code>{key: string, secret: string}</code>.
  * <strong>Named options</strong>
  * <dl>
  *    <dt><code class="signature">host:string</code></dt>
@@ -1208,12 +1205,12 @@ function normalizeOAuthCredentials (credentials) {
  * @param {(object|org.openstreetmap.josm.data.oauth.OAuthToken|java.net.PasswordAuthentication)}
  *         credentials  the credentials.
  * @param {object} options  (optional) additional options (see above)
- * @method
- * @memberOf ApiConfig
+ * @function
  * @static
  * @summary Set the credentials.
- * @type object
+ * @returns {object} the credentials
  * @name setCredentials
+ * @memberof module:josm/api~ApiConfig
  */
 exports.ApiConfig.setCredentials = function (authMethod, credentials, options) {
   const CredentialsManager = Java.type('org.openstreetmap.josm.io.auth.CredentialsManager')

@@ -190,6 +190,7 @@ exports.ChangesetApi.close = function() {
  * @summary Updates a changeset
  * @function
  * @memberof module:josm/api~ChangesetApi
+ * @name update
  */
 exports.ChangesetApi.update = function () {
     var cs;
@@ -243,6 +244,7 @@ exports.ChangesetApi.update = function () {
  * @returns {org.openstreetmap.josm.data.osm.Changeset} the changeset
  * @summary Get a changeset from the server
  * @memberof module:josm/api~ChangesetApi
+ * @name get
  */
 exports.ChangesetApi.get = function() {
     var cs;

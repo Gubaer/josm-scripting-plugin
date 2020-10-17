@@ -17,12 +17,11 @@ const util = require('josm/util')
 /**
  * Replies the number of currently open layers.
  *
- * @name length
- * @memberOf josm/layers
- * @type {number}
  * @readOnly
- * @field
+ * @property {number} length the number of layers
  * @summary Replies the number of currently open layers.
+ * @name length
+ * @static
  */
 Object.defineProperty(exports, 'length', {
   get: function () {
@@ -42,11 +41,10 @@ Object.defineProperty(exports, 'length', {
  *   the name of a layer as string, or a layer index as number.</dd>
  * </dl>
  *
+ * @property {org.openstreetmap.josm.layer.Layer} activeLayer the active layer
  * @name activeLayer
- * @memberOf josm/layers
- * @type {org.openstreetmap.josm.layer.Layer}
- * @field
  * @summary Set or get the active layer.
+ * @static
  */
 Object.defineProperty(exports, 'activeLayer', {
   get: function () {
@@ -108,10 +106,11 @@ function getLayerByIndex (idx) {
  * const layer2 = layers.get('data layer')
  *
  * @param {number|string} key the key to retrieve the layer
- * @memberof josm/layers
- * @name get
- * @method
  * @summary Replies one of the layers given a key.
+ * @function
+ * @returns {org.openstreetmap.josm.layer.Layer}
+ * @name get
+ * @static
  */
 exports.get = function (key) {
   if (util.isNothing(key)) return undefined
@@ -138,13 +137,12 @@ exports.get = function (key) {
  *
  * @param {org.openstreetmap.josm.gui.layer.Layer|string|number} layer a layer,
  *     a layer name, or a layer index
- * @return true, if the layer or at least one layer with the given name exists.
+ * @returns {boolean }true, if the layer or at least one layer with the given name exists.
  *     False, otherwise.
- * @type boolean
- * @memberof josm/layers
- * @method
- * @name has
  * @summary Checks whether <code>layer</code> is currently registered layer.
+ * @function
+ * @name has
+ * @static
  */
 exports.has = function (layer) {
   if (util.isNothing(layer)) return false
@@ -182,12 +180,12 @@ exports.has = function (layer) {
  *
  * @param {org.openstreetmap.josm.gui.layer.Layer
  *     |org.openstreetmap.josm.data.osm.DataSet} obj  a layer to add,
- *  or a dataset.  Ignored if null or undefined.
+ *      or a dataset.  Ignored if null or undefined.
  * @summary Adds a layer.
- * @memberof josm/layers
- * @method
- * @type org.openstreetmap.josm.gui.layer.Layer
+ * @returns {org.openstreetmap.josm.gui.layer.Layer} the added layer
  * @name add
+ * @function
+ * @static
  */
 exports.add = function (obj) {
   if (util.isNothing(obj)) return
@@ -235,10 +233,10 @@ function removeLayerByName (name) {
  * josm.layers.remove('myLayerName')
  *
  * @param {number|string} key  indicates the layer to remove
- * @memberof josm/layers
- * @name remove
- * @method
  * @summary Removes a layer.
+ * @function
+ * @name remove
+ * @static
  */
 exports.remove = function (key) {
   if (util.isNothing(key)) return
@@ -280,11 +278,12 @@ exports.remove = function (key) {
  * const ds = new DataSet()
  * const l3 = josm.layers.addDataLayer(ds)
  *
- * @name addDataLayer
- * @memberof josm/layers
- * @type org.openstreetmap.josm.gui.layer.OsmDataLayer
- * @method
+ * @returns {org.openstreetmap.josm.gui.layer.OsmDataLayer} the added layer
  * @summary Adds a data layer
+ * @function
+ * @name addDataLayer
+ * @param {string | org.openstreetmap.josm.data.osm.DataSet | object } args see description
+ * @static
  */
 exports.addDataLayer = function () {
   let name, ds

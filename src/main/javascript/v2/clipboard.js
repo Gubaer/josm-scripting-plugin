@@ -7,7 +7,7 @@
 /* global Java */
 
 /**
- * <p>Set or get the clipboard content as text</p>
+ * Set or get the clipboard content as text
  *
  * <dl>
  *   <dt><code class="signature">get</code></dt>
@@ -24,12 +24,10 @@
  * // set the clipboard content
  * clipboard.text = 'Hello World!'
  *
+ * @property {string} text clipboard content as text
  * @name text
- * @field
- * @instance
- * @memberof clipboard
  * @summary Set or get the clipboard content as text
- * @type {string}
+ * @static
  */
 Object.defineProperty(exports, 'text', {
   enumerable: true,
