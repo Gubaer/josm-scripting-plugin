@@ -71,7 +71,7 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
         }
     }
 
-    private ScriptEngineType engineType;
+    private final ScriptEngineType engineType;
     private String engineId;
     private String languageName = null;
     private String languageVersion = null;
@@ -112,6 +112,7 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
      * @return the scripting engine descriptor
      * @see #buildFromPreferences(Preferences)
      */
+    @SuppressWarnings("unused")
     static public ScriptEngineDescriptor buildFromPreferences(){
         return buildFromPreferences(Preferences.main());
     }
@@ -169,7 +170,7 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
         String engineId = preferenceValue.substring(i+1);
         switch(type){
             case EMBEDDED:
-                if (engineId == null) return DEFAULT_SCRIPT_ENGINE;
+                //if (engineId == null) return DEFAULT_SCRIPT_ENGINE;
                 engineId = engineId.trim().toLowerCase();
                 final ScriptEngineDescriptor desc =
                         EMBEDDED_SCRIPT_ENGINES.get(engineId);
@@ -332,7 +333,7 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
 
     /**
      * Replies true, if this is the descriptor for the default scripting engine.
-     * @return
+     * @return true, if this is the descriptor for the default scripting engine.
      */
     public boolean isDefault() {
         return this.equals(DEFAULT_SCRIPT_ENGINE);
@@ -341,7 +342,7 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
     /**
      * Replies the engine id
      *
-     * @return
+     * @return the engine id
      */
     public String getEngineId() {
         return engineId;
@@ -350,7 +351,7 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
     /**
      * Replies the engine type
      *
-     * @return
+     * @return engine type
      */
     public ScriptEngineType getEngineType() {
         return engineType;
@@ -455,8 +456,6 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
                 return false;
         } else if (!engineId.equals(other.engineId))
             return false;
-        if (engineType != other.engineType)
-            return false;
-        return true;
+        return engineType == other.engineType;
     }
 }
