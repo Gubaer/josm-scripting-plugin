@@ -185,6 +185,7 @@ public class ScriptingPlugin extends Plugin implements PreferenceKeys{
         // *before* the RunScriptAction singleton below. Ensures that
         // toolbar buttons for scripts are added to the toolbar as
         // expected.
+        //noinspection ResultOfMethodCallIgnored
         RunScriptDialog.getInstance();
     }
 

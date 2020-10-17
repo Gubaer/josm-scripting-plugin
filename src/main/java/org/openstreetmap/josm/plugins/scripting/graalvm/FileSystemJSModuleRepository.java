@@ -15,7 +15,7 @@ import java.util.Optional;
  */
 public class FileSystemJSModuleRepository extends BaseJSModuleRepository {
 
-    private File baseDir;
+    private final File baseDir;
 
     @Override
     protected boolean isRepoFile(String repoPath) {

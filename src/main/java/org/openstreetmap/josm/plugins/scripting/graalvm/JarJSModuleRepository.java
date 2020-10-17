@@ -114,7 +114,7 @@ public class JarJSModuleRepository extends BaseJSModuleRepository {
         return true;
     }
 
-    private CommonJSModuleJarURI jarUri;
+    private final CommonJSModuleJarURI jarUri;
 
     /**
      * Creates the repository for a given jar file.

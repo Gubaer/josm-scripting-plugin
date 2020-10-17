@@ -26,7 +26,7 @@ import java.util.stream.Stream;
  */
 @SuppressWarnings("unused")
 public class CommonJSModuleRepositoryRegistry implements IModuleResolver {
-    static private Logger logger =
+    static private final Logger logger =
         Logger.getLogger(CommonJSModuleRepositoryRegistry.class.getName());
 
     static private CommonJSModuleRepositoryRegistry instance;

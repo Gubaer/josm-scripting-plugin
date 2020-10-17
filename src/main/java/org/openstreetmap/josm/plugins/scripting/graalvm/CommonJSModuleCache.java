@@ -19,7 +19,7 @@ public class CommonJSModuleCache {
     static private CommonJSModuleCache instance = null;
 
     // the cache of required CommonJS modules
-    private Map<Context, Map<URI, Value>> cache = new HashMap<>();
+    private final Map<Context, Map<URI, Value>> cache = new HashMap<>();
 
     /**
      * Replies the singleton instance of the cache

@@ -31,22 +31,22 @@ import java.util.logging.Logger;
  */
 public class RequireFunction implements Function<String, Value> {
 
-    static private Logger logger
+    static private final Logger logger
         = Logger.getLogger(RequireFunction.class.getName());
 
     // the resource name of the mustache template for the wrapper function
-    static private final String REQUIRE_WRAPPER_RESSOURCE
+    static private final String REQUIRE_WRAPPER_RESOURCE
         = "/graalvm/require-wrapper.mustache";
 
     static private Mustache requireWrapperTemplate = null;
 
     static private void prepareWrapperTemplate() throws IOException {
         try(final InputStream is =
-            RequireFunction.class.getResourceAsStream(REQUIRE_WRAPPER_RESSOURCE)) {
+            RequireFunction.class.getResourceAsStream(REQUIRE_WRAPPER_RESOURCE)) {
             if (is == null) {
                 throw new IOException(MessageFormat.format(
                     "mustache template with resource name ''{0}'' not found",
-                    REQUIRE_WRAPPER_RESSOURCE
+                        REQUIRE_WRAPPER_RESOURCE
                 ));
             }
             requireWrapperTemplate = new DefaultMustacheFactory().compile(
@@ -62,7 +62,7 @@ public class RequireFunction implements Function<String, Value> {
         } catch(Throwable e) {
             final String message =  MessageFormat.format(
                 "failed to load and compile mustache template resource ''{0}''",
-                REQUIRE_WRAPPER_RESSOURCE
+                    REQUIRE_WRAPPER_RESOURCE
             );
             logger.log(Level.SEVERE, message, e);
         }
@@ -183,7 +183,7 @@ public class RequireFunction implements Function<String, Value> {
 
     /**
      * Lookup, load and evaluate the CommonJS module given by
-     * the module ID <code>moduleId</code>-
+     * the module ID <code>moduleId</code>
      *
      * @param moduleID the module ID
      * @return the value the modules exports
@@ -216,9 +216,9 @@ public class RequireFunction implements Function<String, Value> {
                 .resolve(moduleID);
         } else {
             logFine(() -> MessageFormat.format(
-                    "Resolving module ID with context. module ID=''{0}'', " +
-                    "context URI=''{1}''",
-                    moduleID, contextURI.toString()
+                "Resolving module ID with context. module ID=''{0}'', " +
+                "context URI=''{1}''",
+                moduleID, contextURI.toString()
             ));
             resolvedModuleURI = CommonJSModuleRepositoryRegistry.getInstance().resolve(
                 moduleID,

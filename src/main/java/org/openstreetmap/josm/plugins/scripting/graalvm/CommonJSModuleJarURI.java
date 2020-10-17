@@ -43,6 +43,7 @@ public class CommonJSModuleJarURI {
         ));
         // try to convert the uri to an URL. This will make sure, the URI
         // includes a valid jar entry path
+        //noinspection ResultOfMethodCallIgnored
         uri.toURL();
         return uri;
     }
@@ -121,6 +122,7 @@ public class CommonJSModuleJarURI {
         }
         try {
             // this makes sure the URI includes a jar entry path
+            //noinspection ResultOfMethodCallIgnored
             uri.toURL();
         } catch(MalformedURLException e) {
             throw new IllegalArgumentException(MessageFormat.format(

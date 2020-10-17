@@ -7,7 +7,7 @@ import static java.text.MessageFormat.format;
 
 /**
  * The ID of a CommonJS module.
- * <p>
+ * 
  * A module ID consists of a sequence of segments, separated by <code>/</code>.
  * I may include the segments <code>.</code> and <code>..</code>. It may also
  * start with this segments. It must not start with a leading <code>/</code>.

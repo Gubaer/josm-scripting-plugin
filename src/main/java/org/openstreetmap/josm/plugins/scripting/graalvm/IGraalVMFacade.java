@@ -24,7 +24,7 @@ public interface IGraalVMFacade {
      * the GraalVM.
      *
      * Replies a {@link org.graalvm.polyglot.Value} as result. We don't
-     * declare it in the facade API because we wan't to load
+     * declare it in the facade API because we want to load
      * <code></code>org.graalmv.*</code> dynamically.
      *
      * @param desc   the script engine descriptor
@@ -42,7 +42,7 @@ public interface IGraalVMFacade {
      * the GraalVM.
      *
      * Replies a {@link org.graalvm.polyglot.Value} as result. We don't
-     * declare it in the facade API because we wan't to load
+     * declare it in the facade API because we want to load
      * <code></code>org.graalmv.*</code> dynamically.
      *
      * @param desc   the script engine descriptor

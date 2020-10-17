@@ -15,7 +15,7 @@ import static java.text.MessageFormat.format;
 abstract public class BaseJSModuleRepository
         implements ICommonJSModuleRepository {
 
-    static private Logger logger =
+    static private final Logger logger =
          Logger.getLogger(BaseJSModuleRepository.class.getName());
 
     protected Logger getLogger() {
@@ -41,6 +41,7 @@ abstract public class BaseJSModuleRepository
      */
     abstract protected boolean isRepoFile(@NotNull final String repoPath);
 
+    @SuppressWarnings("unused")
     static public @NotNull String moduleIdToModulePath(
             @NotNull final ModuleID moduleId) {
         if (moduleId.isAbsolute()) {
