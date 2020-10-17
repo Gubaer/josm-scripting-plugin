@@ -124,6 +124,7 @@ The JOSM scripting plugin uses:
 * jsyntaxpane by Ayman Al-Sairafi
 * [Rhino](http://www.mozilla.org/rhino/) scripting engine by Mozilla Foundation
 * [RSyntaxTextArea](https://bobbylight.github.io/RSyntaxTextArea/)
+* [Graal.JS](https://github.com/graalvm/graaljs)
 
 ## License
 Published under GPL Version 3 and higher. See included LICENSE file.
