@@ -10,29 +10,27 @@ nav_order: 1
 
 The JOSM Scripting Plugin is a plugin for the [Open Street Map]{:target="external"} editor [JOSM]{:target="external"}.
 
-It includes a built-in scripting engine for Javascript based on [Mozilla Rhino]{:target="external"} and an 
-<!-- TODO: fix link -->
-[API for Javascript](apidoc/namespaces/josm.html)
-to manipulate JOSMs internal application objects.
+It includes the [Graal.JS](Graal.js){:target="external"} scripting engine for Javascript  and the [API V2](/api/v2) to manipulate JOSMs internal application objects with JavaScript.
 
-{% highlight javascript %}
-let command = require("josm/command")
-let nodeBuilder = require("josm/builder").NodeBuilder
+For historical reasons it also includes the [Rhino](Mozilla Rhino){:target="external"} scripting engine for Javascript  and the [API V1](/api/v1) to manipulate JOSMs internal application objects with JavaScript. This API is **deprecated**. The Rhino engine and the API V1 will be removed from the scripting plugin in Q3/2021.
+
+```js
+const command = require('josm/command')
+const { NodeBuilder } = require('josm/builder')
 josm.layers.activeLayer.apply(
     command.add(
-      nodeBuilder
-        .withTags({amenity: "restaurant"})
+      new NodeBuilder()
+        .withTags({amenity: 'restaurant'})
         .withPosition(12.34,45.67)
         .create()
   )
 )
-josm.alert("Added a node")
-{% endhighlight %}
+josm.alert('Added a node')
+```
 
 <img id="console-img" src="assets/img/scripting-console-sample.png"/>
 
-It also executes Python scripts and can <a href="doc/python.html">load and execute plugins</a>
-written in Python.
+It also executes Python scripts and can [load and execute plugins](doc/python.html) written in Python.
 
 In addition, it can execute scripts written in [Groovy], [Ruby], or any other language for which a JSR-223 compatible script engine is available.	
 
