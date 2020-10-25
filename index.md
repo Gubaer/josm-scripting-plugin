@@ -15,15 +15,15 @@ It includes the [Graal.JS](Graal.js){:target="external"} scripting engine for Ja
 For historical reasons it also includes the [Rhino](Mozilla Rhino){:target="external"} scripting engine for Javascript  and the [API V1](/api/v1) to manipulate JOSMs internal application objects with JavaScript. This API is **deprecated**. The Rhino engine and the API V1 will be removed from the scripting plugin in Q3/2021.
 
 ```js
+const josm = require('josm')
 const command = require('josm/command')
 const { NodeBuilder } = require('josm/builder')
-josm.layers.activeLayer.apply(
-    command.add(
-      new NodeBuilder()
-        .withTags({amenity: 'restaurant'})
-        .withPosition(12.34,45.67)
-        .create()
-  )
+const restaurant = new NodeBuilder()
+  .withTags({amenity: 'restaurant'})
+  .withPosition(12.34,45.67)
+  .create()
+command.add(restaurant).applyTo(
+  josm.layers.activeLayer
 )
 josm.alert('Added a node')
 ```
