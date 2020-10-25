@@ -200,4 +200,4 @@ exports.mixin.remove = function(){
     }
 };
 
-exports.mixin = util.mix(require("josm/mixin/OsmPrimitiveMixin").mixin,mixin);
+exports.mixin = util.mix(require("josm/mixin/OsmPrimitiveMixin").mixin,exports.mixin);

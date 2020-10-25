@@ -159,7 +159,7 @@ exports.mixin.east= {
  * @summary Get the projected north coordinate.
  * @instance
  */
-mixin.north = {
+exports.mixin.north = {
     get: function() {
         if (this.isIncomplete || this.getEastNorth() == null) return undefined;
         return this.getEastNorth().north();
@@ -200,7 +200,7 @@ mixin.north = {
  * @summary Get or set the node position.
  * @instance
  */
-mixin.pos =  {
+exports.mixin.pos =  {
     get: function() {
         if (this.isIncomplete || this.getCoor() == null) return undefined;
         return this.getCoor();

@@ -17,7 +17,7 @@ var Tags = org.openstreetmap.josm.plugins.scripting.js.api.Tags;
  * @forClass org.openstreetmap.josm.data.osm.Changeset
  */
 exports.forClass=org.openstreetmap.josm.data.osm.Changeset;
-exports.mixin = mixin;
+exports.mixin = {};
 
 /**
  * Replies the unique numeric id.

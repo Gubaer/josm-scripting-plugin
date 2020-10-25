@@ -281,7 +281,7 @@ exports.mixin.changesetId = {
  * @summary Get the timestamp this primitive was last modified on the server.
  * @instance
  */
-mixin.timestamp = {
+exports.mixin.timestamp = {
     get: function() {
         if (this.$isTimestampEmpty()) return undefined;
         return this.$getTimestamp();
