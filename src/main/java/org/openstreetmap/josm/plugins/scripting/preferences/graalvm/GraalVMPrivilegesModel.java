@@ -12,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static org.openstreetmap.josm.plugins.scripting.model.PreferenceKeys.*;
+import static org.openstreetmap.josm.plugins.scripting.preferences.graalvm.GraalVMPrivilegesModel.DefaultAccessPolicy.ALLOW_ALL;
 import static org.openstreetmap.josm.plugins.scripting.preferences.graalvm.GraalVMPrivilegesModel.DefaultAccessPolicy.DENY_ALL;
 import static org.openstreetmap.josm.plugins.scripting.preferences.graalvm.GraalVMPrivilegesModel.TernaryAccessPolicy.DERIVE;
 
@@ -191,7 +192,7 @@ public class GraalVMPrivilegesModel {
     private HostAccessPolicy hostAccessPolicy;
 
     public void resetToDefaults() {
-        defaultAccessPolicy = DENY_ALL;
+        defaultAccessPolicy = ALLOW_ALL;
 
         createProcessPolicy = DERIVE;
         createThreadPolicy = DERIVE;
@@ -207,9 +208,6 @@ public class GraalVMPrivilegesModel {
     public @NotNull GraalVMPrivilegesModel initFromPreferences(
         @NotNull final Preferences prefs) {
         Objects.requireNonNull(prefs);
-        defaultAccessPolicy = DefaultAccessPolicy.fromPreferenceValue(
-            prefs.get(GRAALVM_DEFAULT_ACCESS_POLICY)
-        );
         createProcessPolicy = TernaryAccessPolicy.fromPreferenceValue(
             prefs.get(GRAALVM_CREATE_PROCESS_POLICY)
         );
@@ -240,10 +238,6 @@ public class GraalVMPrivilegesModel {
 
     public void saveToPreferences(@NotNull final Preferences prefs) {
         Objects.requireNonNull(prefs);
-        prefs.put(
-            GRAALVM_DEFAULT_ACCESS_POLICY,
-            defaultAccessPolicy.toPreferenceValue()
-        );
         prefs.put(
             GRAALVM_CREATE_PROCESS_POLICY,
             createProcessPolicy.toPreferenceValue()
@@ -444,8 +438,9 @@ public class GraalVMPrivilegesModel {
             @NotNull final Context.Builder builder) {
         Objects.requireNonNull(builder);
 
-        // default access policy
-        builder.allowAllAccess(isDefaultAccessAllowed());
+        // NOTE: allowAllAccess has to be true. If false, the require()
+        // function can't be invoked from JavaScript scripts.
+        builder.allowAllAccess(true);
 
         // individual policies
         builder.allowCreateProcess(allowCreateProcess());

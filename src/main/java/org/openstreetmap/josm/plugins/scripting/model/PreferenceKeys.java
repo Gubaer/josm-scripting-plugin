@@ -90,14 +90,6 @@ public interface PreferenceKeys {
     String PREF_KEY_JYTHON_PLUGINS = "scripting.jython.plugins";
 
     /**
-     * The default access policy for the GraalVM.
-     *
-     * Either <code>allow-all</code> or <code>deny-all</code>. Default (if
-     * missing or illegal) is <code>deny-all</code>.
-     */
-    String GRAALVM_DEFAULT_ACCESS_POLICY = "scripting.graalvm.default-access-policy";
-
-    /**
      * The policy whether the GraalVM is granted the privilege to create and
      * execute external processes.
      *
