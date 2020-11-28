@@ -149,7 +149,7 @@ public class ImportPathsEditorPanel extends JPanel {
         public UpAction() {
             putValue(Action.NAME, tr("Up"));
             putValue(Action.SHORT_DESCRIPTION, tr("Move the selected path up by one position"));
-            putValue(Action.SMALL_ICON, saveImageGet("dialogs", "moveup"));
+            putValue(Action.SMALL_ICON, saveImageGet("dialogs/conflict", "moveup"));
             updateEnabledState();
         }
 

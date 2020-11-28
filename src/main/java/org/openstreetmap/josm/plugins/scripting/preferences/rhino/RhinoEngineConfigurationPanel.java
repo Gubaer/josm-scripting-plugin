@@ -308,7 +308,7 @@ public class RhinoEngineConfigurationPanel extends VerticallyScrollablePanel{
             putValue(Action.SHORT_DESCRIPTION,
                     tr("Move the selected repository up by one position"));
             putValue(Action.SMALL_ICON,
-                    ImageProvider.get("dialogs", "moveup"));
+                    ImageProvider.get("dialogs/conflict", "moveup"));
             updateEnabledState();
         }
 
@@ -338,7 +338,7 @@ public class RhinoEngineConfigurationPanel extends VerticallyScrollablePanel{
             putValue(Action.SHORT_DESCRIPTION,
                     tr("Move the selected repository down by one position"));
             putValue(Action.SMALL_ICON,
-                    ImageProvider.get("dialogs", "movedown"));
+                    ImageProvider.get("dialogs/conflict", "movedown"));
             updateEnabledState();
         }
         @Override
