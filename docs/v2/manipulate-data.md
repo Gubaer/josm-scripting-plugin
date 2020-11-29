@@ -98,16 +98,11 @@ console.println(`node coordinates: \
 
 ## Primitives and datasets
 
-JOSM manages interconnected primitives in **datasets**, a kind of container for nodes, ways, and relations. 
+JOSM manages interconnected primitives in [DataSet]{:target="apidoc"}, a kind of container for nodes, ways, and relations. 
 A primitive doesn't have to belong to a dataset, but if it does, it can belong to at most one dataset. 
 The dataset is said to be its **parent**.
 
-
-|           | **Java class** | 
-| data set  | [DataSet]{:target="apidoc"} |
-
 There are two major differences between detached primitives and those attached to a dataset:
-
 
 1.   more integrity constraints are checked for attached primitives
 
