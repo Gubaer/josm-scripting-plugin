@@ -62,12 +62,39 @@ console.println(`Created a node - id=${node.getUniqueId()}`)
 let relation  = RelationBuilder.withId(12345,6).create()
 // .. or ..
 let relation = RelationBuilder.create(12345, {version: 6})
-console(`Created a relation - id=${relation.getUniqueId()}`)
+console.println(`Created a relation - id=${relation.getUniqueId()}`)
 ```
 
 ## Setting and getting properties of OSM primitives
 
 The native JOSM classes provide public setter and getter methods to set and get property values on OSM primitives. 
+
+See javadoc for
+
+* [OsmPrimitive] and [AbstractPrimitive]
+* [Node]
+* [Way]
+* [Relation]
+
+A few examples:
+
+```js
+const console = require('josm/scriptingconsole')
+const { NodeBuilder, RelationBuilder } = require('josm/builder')
+const LatLon = Java.type('org.openstreetmap.josm.data.coor.LatLon')
+
+let node = NodeBuilder.create({lat: 12.45, lon: 45.56})
+
+// set whether a node is modified
+node.setModified(true)
+console.println(`node is modified: ${node.isModified()}`)
+
+// set the coordinates of a node
+node.setCoor(new LatLon(1.0, 2.0))
+console.println(`node coordinates: \
+  lat=${node.getCoor().lat()}, \
+  lon=${node.getCoor().lon()}`)
+```
 
 ## Primitives and datasets
 
@@ -84,13 +111,13 @@ There are two major differences between detached primitives and those attached t
 
 1.   more integrity constraints are checked for attached primitives
 
-    **Consequence:** what may work on a detached primitive, may fail on an attached
-    one
+      **Consequence:** what may work on a detached primitive, may fail on an attached
+      one
 
 2. data changes are notified to listeners listing on change events on the parent data set
 
-   **Consequence**: even simple property assignements on primitives may result in costly event
-  propagation and UI refreshing.
+    **Consequence**: even simple property assignements on primitives may result in costly event
+    propagation and UI refreshing.
 
   Consider to group batches of updates on attached primitives in a **batch** which 
   notifies listeners only once about data change events for the entire batch:
@@ -181,6 +208,7 @@ const restaurants = dsUtil.query('amenity=restaurant')
 [Relation]: https://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Relation.html
 [DataSet]: https://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/DataSet.html
 [OsmPrimitive]: https://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/OsmPrimitive.html
+[AbstractPrimitive]: https://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/AbstractPrimitive.html
 [NodeBuilder]: /api/v2/module-josm_builder.NodeBuilder.html
 [WayBuilder]: /api/v2/module-josm_builder.WayBuilder.html
 [RelationBuilder]: /api/v2/module-josm_builder.RelationBuilder.html
