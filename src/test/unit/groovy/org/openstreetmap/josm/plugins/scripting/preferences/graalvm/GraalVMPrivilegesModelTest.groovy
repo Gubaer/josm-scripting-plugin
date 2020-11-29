@@ -41,29 +41,9 @@ class GraalVMPrivilegesModelTest {
     @Test
     void "should properly init default access policy from preferences"() {
 
-        Preferences prefs = new Preferences()
         def model = new GraalVMPrivilegesModel()
-
-        // accept supported configuration value "allow-all"
-        prefs.put(GRAALVM_DEFAULT_ACCESS_POLICY, "allow-all")
-        model.initFromPreferences(prefs)
-        assertEquals(ALLOW_ALL, model.getDefaultAccessPolicy())
-
-        // accept supported configuration value "deny-all"
-        prefs.put(GRAALVM_DEFAULT_ACCESS_POLICY, "deny-all")
-        model.initFromPreferences(prefs)
-        assertEquals(DENY_ALL, model.getDefaultAccessPolicy())
-
-        // fall back to default value for an unsupported configuration value
-        prefs.put(GRAALVM_DEFAULT_ACCESS_POLICY, "not-supported")
-        model.initFromPreferences(prefs)
-        assertEquals(DENY_ALL, model.getDefaultAccessPolicy())
-
         // fall back to default value for a missing configuration value
-        prefs = new Preferences()
-        model.initFromPreferences(prefs)
-        assertEquals(DENY_ALL, model.getDefaultAccessPolicy())
-
+        assertEquals(ALLOW_ALL, model.getDefaultAccessPolicy())
     }
 
     @Test
@@ -283,15 +263,15 @@ class GraalVMPrivilegesModelTest {
             model.getEnvironmentAccessPolicy())
 
         // deny access if default access is deny-all
-        prefs.put(GRAALVM_DEFAULT_ACCESS_POLICY, "deny-all")
         prefs.put(GRAALVM_ENVIRONMENT_ACCESS_POLICY, "derive")
+        model.setDefaultAccessPolicy(GraalVMPrivilegesModel.DefaultAccessPolicy.DENY_ALL)
         model.initFromPreferences(prefs)
         assertFalse(model.allowEnvironmentAccess())
 
         // allow access if default access is allow-all
-        prefs.put(GRAALVM_DEFAULT_ACCESS_POLICY, "allow-all")
         prefs.put(GRAALVM_ENVIRONMENT_ACCESS_POLICY, "derive")
         model.initFromPreferences(prefs)
+        model.setDefaultAccessPolicy(GraalVMPrivilegesModel.DefaultAccessPolicy.ALLOW_ALL)
         assertTrue(model.allowEnvironmentAccess())
 
         // deny access if environment access policy is 'none'

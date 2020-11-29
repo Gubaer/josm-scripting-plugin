@@ -4,6 +4,7 @@
 {{! RequireFunction is populated in the scripting context                 }}
 (function() {
     const URI = Java.type('java.net.URI')
+    const RequireFunction = Java.type('org.openstreetmap.josm.plugins.scripting.graalvm.RequireFunction')
 
     const module = {
         exports: {},

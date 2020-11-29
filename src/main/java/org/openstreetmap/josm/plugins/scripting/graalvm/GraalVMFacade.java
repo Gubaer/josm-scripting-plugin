@@ -15,11 +15,15 @@ import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import static org.openstreetmap.josm.tools.I18n.tr;
 
 public class GraalVMFacade  implements IGraalVMFacade {
+    static private final Logger logger =
+        Logger.getLogger(GraalVMFacade.class.getName());
 
     private Context context;
 
@@ -31,32 +35,47 @@ public class GraalVMFacade  implements IGraalVMFacade {
         // WORKAROUND: populate the context with class objects provided by the
         // plugin itself. Java.type('...') doesn't work for this classes,
         // class loading problem?
-        context.getBindings("js").putMember(
-            "RequireFunction", RequireFunction.class);
-        context.getBindings("js").putMember("JSAction", JSAction.class);
-        context.getBindings("js").putMember(
-            "AddMultiCommand", AddMultiCommand.class);
-        context.getBindings("js").putMember(
-            "ChangeMultiCommand", ChangeMultiCommand.class);
-        context.getBindings("js").putMember(
-            "Change", Change.class);
-        context.getBindings("js").putMember(
-                "ScriptingConsole", ScriptingConsole.class);
+
+        // WORKAROUND for WORKAROUND: doesn't work either. For instance,
+        // ScriptingConsole.getInstance() is not available for scripts, if
+        // th context is populated this way.
+
+        // New workaround: scripting plugin jar has to be on the class path
+        // when JOSM is started
+        //
+//        context.getBindings("js").putMember(
+//            "RequireFunction", RequireFunction.class);
+//        context.getBindings("js").putMember("JSAction", JSAction.class);
+//        context.getBindings("js").putMember(
+//            "AddMultiCommand", AddMultiCommand.class);
+//        context.getBindings("js").putMember(
+//            "ChangeMultiCommand", ChangeMultiCommand.class);
+//        context.getBindings("js").putMember(
+//            "Change", Change.class);
+//        context.getBindings("js").putMember(
+//            "ScriptingConsole", ScriptingConsole.class);
     }
 
     private void grantPrivilegesToContext(final Context.Builder builder) {
-        new GraalVMPrivilegesModel()
-            .initFromPreferences(Preferences.main())
-            .prepareContextBuilder(builder);
+        // NOTE: allowAllAccess has to be true. If false, the require()
+        // function can't be invoked from JavaScript scripts.
+        builder
+            .allowHostAccess(HostAccess.ALL)
+            .allowHostClassLookup(className -> true);
 
-        builder.allowHostClassLookup(className -> true);
+        GraalVMPrivilegesModel.getInstance().prepareContextBuilder(builder);
     }
 
     private void setOptionsOnContext(final Context.Builder builder) {
         builder.option("js.strict", "true");
     }
 
-    private void initContext() {
+    /**
+     *
+     * @throws IllegalStateException throw, if no language and polyglot
+     *  implementation was found on the classpath
+     */
+    private void initContext() throws IllegalStateException{
         //TODO(karl): what about other languages?
         final Context.Builder builder = Context.newBuilder("js");
         grantPrivilegesToContext(builder);
@@ -140,6 +159,7 @@ public class GraalVMFacade  implements IGraalVMFacade {
             final String message = MessageFormat.format(
                 tr("failed to eval script"), script
             );
+            logger.log(Level.INFO, e.getMessage(), e);
             throw new GraalVMEvalException(message, e);
         }
     }

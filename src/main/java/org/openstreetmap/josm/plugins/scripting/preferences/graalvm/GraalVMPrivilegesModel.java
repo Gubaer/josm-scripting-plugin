@@ -4,6 +4,9 @@ package org.openstreetmap.josm.plugins.scripting.preferences.graalvm;
 import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.EnvironmentAccess;
 import org.openstreetmap.josm.data.Preferences;
+import org.openstreetmap.josm.spi.preferences.PreferenceChangeEvent;
+import org.openstreetmap.josm.spi.preferences.PreferenceChangedListener;
+import org.openstreetmap.josm.spi.preferences.Setting;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
@@ -13,15 +16,25 @@ import java.util.logging.Logger;
 
 import static org.openstreetmap.josm.plugins.scripting.model.PreferenceKeys.*;
 import static org.openstreetmap.josm.plugins.scripting.preferences.graalvm.GraalVMPrivilegesModel.DefaultAccessPolicy.ALLOW_ALL;
-import static org.openstreetmap.josm.plugins.scripting.preferences.graalvm.GraalVMPrivilegesModel.DefaultAccessPolicy.DENY_ALL;
 import static org.openstreetmap.josm.plugins.scripting.preferences.graalvm.GraalVMPrivilegesModel.TernaryAccessPolicy.DERIVE;
 
 @SuppressWarnings("unused")
 //TODO(karl): implement interactive editor for this model and add it to the preferences editor
-public class GraalVMPrivilegesModel {
+public class GraalVMPrivilegesModel implements PreferenceChangedListener {
 
     static public final Logger logger =
             Logger.getLogger(GraalVMPrivilegesModel.class.getName());
+
+    static private GraalVMPrivilegesModel instance = null;
+
+    static public GraalVMPrivilegesModel getInstance() {
+        if (instance == null) {
+            instance = new GraalVMPrivilegesModel();
+            instance.initFromPreferences(Preferences.main());
+            //TODO (karl): Register as preferences listener
+        }
+        return instance;
+    }
 
     public GraalVMPrivilegesModel() {
         resetToDefaults();
@@ -438,10 +451,6 @@ public class GraalVMPrivilegesModel {
             @NotNull final Context.Builder builder) {
         Objects.requireNonNull(builder);
 
-        // NOTE: allowAllAccess has to be true. If false, the require()
-        // function can't be invoked from JavaScript scripts.
-        builder.allowAllAccess(true);
-
         // individual policies
         builder.allowCreateProcess(allowCreateProcess());
         builder.allowCreateThread(allowCreateThread());
@@ -455,6 +464,59 @@ public class GraalVMPrivilegesModel {
         return builder;
     }
 
+    @Override
+    public void preferenceChanged(PreferenceChangeEvent event) {
+        final String key = event.getKey();
+        @SuppressWarnings("unchecked")
+        final Setting<String> value = (Setting<String>) event.getNewValue();
+        switch(key) {
+            case GRAALVM_CREATE_PROCESS_POLICY:
+                createProcessPolicy = TernaryAccessPolicy.fromPreferenceValue(
+                    value.getValue()
+                );
+                break;
+            case GRAALVM_CREATE_THREAD_POLICY:
+                createThreadPolicy = TernaryAccessPolicy.fromPreferenceValue(
+                    value.getValue()
+                );
+                break;
+
+            case GRAALVM_USE_EXPERIMENTAL_OPTIONS_POLICY:
+                useExperimentalOptionsPolicy = TernaryAccessPolicy.fromPreferenceValue(
+                    value.getValue()
+                );
+                break;
+            case GRAALVM_HOST_CLASS_LOADING_POLICY:
+                hostClassLoadingPolicy = TernaryAccessPolicy.fromPreferenceValue(
+                    value.getValue()
+                );
+                break;
+
+            case GRAALVM_IO_POLICY:
+                ioPolicy = TernaryAccessPolicy.fromPreferenceValue(
+                    value.getValue()
+                );
+                break;
+
+            case GRAALVM_NATIVE_ACCESS_POLICY:
+                nativeAccessPolicy = TernaryAccessPolicy.fromPreferenceValue(
+                    value.getValue()
+                );
+                break;
+
+            case GRAALVM_ENVIRONMENT_ACCESS_POLICY:
+                environmentAccessPolicy = EnvironmentAccessPolicy.fromPreferenceValue(
+                    value.getValue()
+                );
+                break;
+
+            case GRAALVM_HOST_ACCESS_POLICY:
+                hostAccessPolicy = HostAccessPolicy.fromPreferenceValue(
+                    value.getValue()
+                );
+                break;
+        }
+    }
 }
 
 

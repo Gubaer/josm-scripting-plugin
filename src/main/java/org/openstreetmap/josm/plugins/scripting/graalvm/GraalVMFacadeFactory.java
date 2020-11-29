@@ -1,7 +1,6 @@
 package org.openstreetmap.josm.plugins.scripting.graalvm;
 
-
-import java.lang.reflect.InvocationTargetException;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static org.openstreetmap.josm.tools.I18n.tr;
@@ -21,6 +20,8 @@ public class GraalVMFacadeFactory {
             Class.forName("org.graalvm.polyglot.Context");
             return true;
         } catch(ClassNotFoundException e) {
+            //TODO(karl): change to FINEST later, just for debugging
+            logger.log(Level.SEVERE, "class not found", e);
             return false;
         }
     }
@@ -39,24 +40,27 @@ public class GraalVMFacadeFactory {
                     + "Support for GraalVM is disabled."));
             return null;
         }
-        try {
-            Class<?> facadeClass = Class.forName(
-                "org.openstreetmap.josm.plugins.scripting.graalvm.GraalVMFacade"
-            );
-            final IGraalVMFacade facade =
-                    (IGraalVMFacade) facadeClass.getDeclaredConstructor()
-                            .newInstance();
-            logger.info(tr("Enabled support for GraalVM"));
-            return facade;
-        } catch(
-             ClassNotFoundException | InstantiationException
-           | IllegalAccessException | NoClassDefFoundError
-           | NoSuchMethodException | InvocationTargetException e
-        ) {
-            System.out.println(e);
-            e.printStackTrace();
-            return null;
-        }
+        final IGraalVMFacade facade = new GraalVMFacade();
+        return facade;
+
+//        try {
+//            Class<?> facadeClass = Class.forName(
+//                "org.openstreetmap.josm.plugins.scripting.graalvm.GraalVMFacade"
+//            );
+//            final IGraalVMFacade facade =
+//                    (IGraalVMFacade) facadeClass.getDeclaredConstructor()
+//                            .newInstance();
+//            logger.info(tr("Enabled support for GraalVM"));
+//            return facade;
+//        } catch(
+//             ClassNotFoundException | InstantiationException
+//           | IllegalAccessException | NoClassDefFoundError
+//           | NoSuchMethodException | InvocationTargetException e
+//        ) {
+//            System.out.println(e);
+//            e.printStackTrace();
+//            return null;
+//        }
     }
 
     /**
