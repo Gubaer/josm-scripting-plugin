@@ -206,7 +206,7 @@ exports.open = function () {
     }
   }
   // openFiles is async
-  OpenFileAction.openFiles(files).get()
+  OpenFileAction.openFiles(files)
 }
 
 /**
