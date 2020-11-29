@@ -48,7 +48,7 @@ JOSM preferences. The plugin looks for modules in two places:
   repository is either a directory in the local file system or in a jar/zip file in the local filesystem.
 
   
-<img src="/assets/img/v1/configure-script-repositories.png"/>
+<img src="/assets/img/v2/configure-script-repositories.png"/>
 
 
 

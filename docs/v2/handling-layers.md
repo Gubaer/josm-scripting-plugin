@@ -13,7 +13,8 @@ and properties of this object are defined in the module [`josm/layers`](josm/lay
 The following scripts prints the names of the currently opened layers:
 
 ```js
-const util = require("josm/util")
+const josm = require('josm')
+const util = require('josm/util')
 const numLayers = josm.layers.length
 for (let i=0; i < numLayers; i++) {
    util.println(`Layer ${i}: name = '${josm.layers.get(i)}'`)
@@ -27,20 +28,22 @@ You can **open** a file with OSM data in a new data layer with the method
 `josm.open()`:
 
 ```js
+const josm = require('josm')
 // Opens a new data layer for this file
-josm.open("/my/data/file.osm")
+josm.open('/my/data/file.osm')
 ```
 
 Alternatively, you can create a data layer for a dataset, in particual for a dataset
 which has been [downloaded](josm/api/Api) from the central OSM server.
 
 ```js
-const { Api } = require("josm/api")
+const josm = require('josm')
+const { Api } = require('josm/api')
 const dataset = Api.downloadArea({
       min: {lat: 46.9479186, lon: 7.4619484}, 
       max: {lat: 46.9497642, lon: 7.4660683}  
 })
-josm.layers.addDataLayer({ds: dataset, name: "Obstberg"})  
+josm.layers.addDataLayer({ds: dataset, name: 'Obstberg'})  
 ```
 
 
