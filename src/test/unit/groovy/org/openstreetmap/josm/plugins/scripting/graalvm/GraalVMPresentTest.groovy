@@ -69,7 +69,7 @@ class GraalVMPresentTest {
     }
 
     @Test
-    void "should instantiate a class in the java. namespace"() {
+    void "should instantiate a class in the java namespace"() {
         def script = """
         const String = Java.type('java.lang.String')
         const value = new String('hello')
