@@ -1,6 +1,6 @@
 plugins {
     //id 'org.openstreetmap.josm' version '0.5.0'
-    id 'org.openstreetmap.josm' version '0.7.0'
+    id 'org.openstreetmap.josm' version '0.7.1'
     id 'java'
     id 'groovy'
     id 'eclipse'
