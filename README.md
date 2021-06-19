@@ -20,7 +20,7 @@ The scripting plugin can be installed and kept up to date using JOSMs plugin man
 The scripting plugin includes an embedded scripting engine for JavaScript based on
 [Mozilla Rhino](http://www.mozilla.org/rhino/).
 It provides a custom JavaScript API to write scripts for the JOSM editor,refer to
-the [API documentation](http://gubaer.github.com/josm-scripting-plugin/).
+the [API documentation](http://gubaer.github.io/josm-scripting-plugin/apidoc/modules/josm.html).
 
 Furthermore, it can
 * load and execute [plugins written in Python](http://gubaer.github.com/josm-scripting-plugin/doc/python.html).
