@@ -110,7 +110,6 @@ public class MostRecentlyRunScriptsModel extends Observable
     }
     private final ComboBoxModel comboBoxModel = new ComboBoxModel();
 
-    @SuppressWarnings("serial")
     private class ComboBoxModel extends DefaultComboBoxModel<String> {
         void fireContentChanged() {
             super.fireContentsChanged(MostRecentlyRunScriptsModel.this,
@@ -126,7 +125,6 @@ public class MostRecentlyRunScriptsModel extends Observable
         }
     }
 
-    @SuppressWarnings("serial")
     static private class RunScriptAction extends AbstractAction {
         private final String script;
         RunScriptAction(int pos, String script) {
