@@ -202,18 +202,20 @@ public class ScriptingPlugin extends Plugin implements PreferenceKeys{
         scriptingMenu.setMnemonic('S');
         MostRecentlyRunScriptsModel.getInstance()
                 .loadFromPreferences(Preferences.main());
-        populateStandardentries(scriptingMenu);
+        populateStandardEntries(scriptingMenu);
         populateMruMenuEntries(scriptingMenu);
-        MostRecentlyRunScriptsModel.getInstance().addObserver(
-            (a, b) ->  {
-                scriptingMenu.removeAll();
-                populateStandardentries(scriptingMenu);
-                populateMruMenuEntries(scriptingMenu);
+        MostRecentlyRunScriptsModel.getInstance().getPropertyChangeSupport()
+            .addPropertyChangeListener((e) ->  {
+                if (e.getPropertyName().equals(MostRecentlyRunScriptsModel.PROP_SCRIPTS)) {
+                    scriptingMenu.removeAll();
+                    populateStandardEntries(scriptingMenu);
+                    populateMruMenuEntries(scriptingMenu);
+                }
              }
        );
     }
 
-    private void populateStandardentries(JMenu scriptingMenu) {
+    private void populateStandardEntries(JMenu scriptingMenu) {
         scriptingMenu.add(new JCheckBoxMenuItem(toggleConsoleAction));
         scriptingMenu.add(runScriptAction);
         scriptingMenu.add(new JSeparator());
