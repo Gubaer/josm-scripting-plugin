@@ -11,7 +11,7 @@
 /* global JSAction */
 
 const MainApplication = Java.type('org.openstreetmap.josm.gui.MainApplication')
-// const JSAction = Java.type('org.openstreetmap.josm.plugins.scripting.graalvm.JSAction')
+const JSAction = Java.type('org.openstreetmap.josm.plugins.scripting.graalvm.JSAction')
 const util = require('josm/util')
 
 /**
