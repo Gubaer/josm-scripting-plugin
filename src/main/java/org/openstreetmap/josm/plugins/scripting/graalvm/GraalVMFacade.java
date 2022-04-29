@@ -1,13 +1,8 @@
 package org.openstreetmap.josm.plugins.scripting.graalvm;
 
 import org.graalvm.polyglot.*;
-import org.openstreetmap.josm.data.Preferences;
-import org.openstreetmap.josm.plugins.scripting.js.api.AddMultiCommand;
-import org.openstreetmap.josm.plugins.scripting.js.api.Change;
-import org.openstreetmap.josm.plugins.scripting.js.api.ChangeMultiCommand;
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
 import org.openstreetmap.josm.plugins.scripting.preferences.graalvm.GraalVMPrivilegesModel;
-import org.openstreetmap.josm.plugins.scripting.ui.console.ScriptingConsole;
 
 import javax.validation.constraints.NotNull;
 import java.io.File;

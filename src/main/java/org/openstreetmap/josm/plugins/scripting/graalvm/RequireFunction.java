@@ -254,7 +254,7 @@ public class RequireFunction implements Function<String, Value> {
             final Source source = Source.newBuilder(
                     "js",                                  // language
                     new StringReader(wrapperSource),       // source
-                    moduleURI.toString() + "(wrapped)"     // source name
+                    moduleURI + "(wrapped)"                // source name
                 ).build();
             final Value module = context.eval(source);
             cache.remember(moduleURI, module, context);

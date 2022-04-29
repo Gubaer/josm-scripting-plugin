@@ -175,7 +175,7 @@ public class FileSystemJSModuleRepository extends BaseJSModuleRepository {
     @Override
     public boolean isBaseOf(@NotNull final URI moduleURI) {
         Objects.requireNonNull(moduleURI);
-        if (!moduleURI.getScheme().toLowerCase().equals("file")) {
+        if (!moduleURI.getScheme().equalsIgnoreCase("file")) {
             return false;
         }
         final Path moduleFilePath = new File(moduleURI).toPath().normalize();

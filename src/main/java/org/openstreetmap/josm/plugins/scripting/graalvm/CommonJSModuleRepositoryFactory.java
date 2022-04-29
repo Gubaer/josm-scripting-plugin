@@ -52,7 +52,7 @@ public class CommonJSModuleRepositoryFactory {
                 default:
                     throw new IllegalCommonJSModuleBaseURI(String.format(
                         "unsupported protocol for CommonJS module base. url=%s",
-                        url.toString()
+                        url
                         ));
             }
         } catch(MalformedURLException e) {

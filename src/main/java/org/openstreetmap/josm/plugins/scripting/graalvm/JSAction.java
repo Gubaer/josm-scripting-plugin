@@ -15,6 +15,7 @@ import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.concurrent.atomic.AtomicInteger;
 
+@SuppressWarnings("unused")
 public class JSAction extends JosmAction {
     private final static AtomicInteger counter = new AtomicInteger();
 

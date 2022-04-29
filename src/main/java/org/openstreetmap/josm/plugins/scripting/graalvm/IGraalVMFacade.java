@@ -36,7 +36,6 @@ public interface IGraalVMFacade {
     Object eval(@NotNull ScriptEngineDescriptor desc, @NotNull String script)
         throws GraalVMEvalException;
 
-
     /**
      * Evaluate a script file in language <code>desc.getLanguageName()</code> in
      * the GraalVM.

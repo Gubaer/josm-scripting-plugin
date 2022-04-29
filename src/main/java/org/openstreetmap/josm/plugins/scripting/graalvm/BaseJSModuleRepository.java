@@ -45,7 +45,7 @@ abstract public class BaseJSModuleRepository
     static public @NotNull String moduleIdToModulePath(
             @NotNull final ModuleID moduleId) {
         if (moduleId.isAbsolute()) {
-            return "/" + moduleId.toString();
+            return "/" + moduleId;
         } else {
             return moduleId.toString();
         }

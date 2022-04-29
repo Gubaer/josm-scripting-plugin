@@ -13,7 +13,7 @@ import static java.text.MessageFormat.format;
  * start with this segments. It must not start with a leading <code>/</code>.
  */
 public class ModuleID {
-    private String value;
+    final private String value;
 
     /**
      * Throws an exception, if <code>moduleId</code> isn't valid.

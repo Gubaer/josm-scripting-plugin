@@ -1,5 +1,6 @@
 package org.openstreetmap.josm.plugins.scripting.graalvm;
 
+@SuppressWarnings("unused")
 public class IllegalCommonJSModuleBaseURI extends Exception {
     public IllegalCommonJSModuleBaseURI(String s) {
         super(s);
