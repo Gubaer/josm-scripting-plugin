@@ -20,8 +20,7 @@ public class GraalVMFacadeFactory {
             Class.forName("org.graalvm.polyglot.Context");
             return true;
         } catch(ClassNotFoundException e) {
-            //TODO(karl): change to FINEST later, just for debugging
-            logger.log(Level.SEVERE, "class not found", e);
+            logger.log(Level.FINEST, "class not found", e);
             return false;
         }
     }
