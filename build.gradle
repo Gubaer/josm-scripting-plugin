@@ -6,15 +6,15 @@ plugins {
     id 'eclipse'
 }
 
-def currentPluginVersion(config) {
+static currentPluginVersion(config) {
     return config.releases.collect {it.pluginVersion}.max()
 }
 
-def currentPluginMainVersion(config) {
+static currentPluginMainVersion(config) {
     return config.releases.collect {it.josmVersion}.max()
 }
 
-def bestPluginVersion(config, josmVersion) {
+static bestPluginVersion(config, josmVersion) {
     return config.releases
         .findAll{it.josmVersion == josmVersion}
         .collect{it.pluginVersion}
@@ -70,7 +70,7 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
 }
 
-def ConfigObject releaseHistory = new ConfigSlurper().parse(file("releases.conf").text)
+ConfigObject releaseHistory = new ConfigSlurper().parse(file("releases.conf").text)
 
 version = currentPluginVersion(releaseHistory)
 archivesBaseName = "scripting"
@@ -90,7 +90,7 @@ josm {
         canLoadAtRuntime = true
 
         releaseHistory.releases.collect{it.josmVersion}.unique().sort().each {jv ->
-            def String dv = bestPluginVersion(releaseHistory, jv)
+            String dv = bestPluginVersion(releaseHistory, jv)
             oldVersionDownloadLink jv, dv, new URL("https://raw.github.com/Gubaer/josm-scripting-plugin/for-josm-${jv}/dist/scripting.jar")
         }
     }
@@ -264,7 +264,7 @@ task deploy {
     doLast {
         def config = new ConfigSlurper().parse(file("releases.conf").text)
         def deployBranch = "deploy"
-        def jar = "$projectDir/dist/${archivesBaseName}.jar";
+        def jar = "$projectDir/dist/${archivesBaseName}.jar"
         Git.ensureOnBranch(deployBranch)
         Git.add(jar)
         Git.commit(jar, "commited plugin build ${currentPluginVersion(config)}")
