@@ -45,8 +45,8 @@ configurations {
 dependencies {
     def graalvmVersion = project.properties["graalvm.version"]
 
-    implementation group: 'org.codehaus.groovy', name: 'groovy-all', version: '2.4.12'
-    implementation group: "org.python", name: "jython", version: "2.7.0"
+    implementation group: 'org.codehaus.groovy', name: 'groovy-all', version: '3.0.10'
+    implementation group: "org.python", name: "jython", version: "2.7.2"
     implementation group: 'javax.activation', name: 'activation', version: '1.1.1'
     implementation group: 'com.github.spullara.mustache.java', name: 'compiler', version: '0.9.6'
     implementation group: 'com.fifesoft', name: 'rsyntaxtextarea', version: '3.0.4'
@@ -60,20 +60,20 @@ dependencies {
     graalvm group: 'org.graalvm.js', name: 'js', version: graalvmVersion
 
 
-    packIntoJar group: "org.mozilla", name: "rhino", version: "1.7.11"
+    packIntoJar group: "org.mozilla", name: "rhino", version: "1.7.14"
     packIntoJar group: 'javax.validation', name: 'validation-api', version: '1.0.0.GA'
     packIntoJar group: 'javax.activation', name: 'activation', version: '1.1.1'
-    packIntoJar group: 'com.github.spullara.mustache.java', name: 'compiler', version: '0.9.6'
-    packIntoJar group: 'com.fifesoft', name: 'rsyntaxtextarea', version: '3.0.4'
+    packIntoJar group: 'com.github.spullara.mustache.java', name: 'compiler', version: '0.9.10'
+    packIntoJar group: 'com.fifesoft', name: 'rsyntaxtextarea', version: '3.2.0'
 
 
     testImplementation('org.openstreetmap.josm:josm-unittest:latest'){changing=true}
     testImplementation group: 'org.jmockit', name: 'jmockit', version: '1.40'
     testImplementation group: 'junit', name: 'junit', version: '4.12'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
-    testImplementation group: 'org.codehaus.groovy', name: 'groovy-all', version: '2.4.12'
-    testImplementation group: 'com.github.tomakehurst', name: 'wiremock', version: '2.18.0'
-    testImplementation group: 'org.awaitility', name: 'awaitility', version: '3.1.2'
+    testImplementation group: 'org.codehaus.groovy', name: 'groovy-all', version: '3.0.10'
+    testImplementation group: 'com.github.tomakehurst', name: 'wiremock', version: '2.27.2'
+    testImplementation group: 'org.awaitility', name: 'awaitility', version: '4.2.0'
 
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
 }
