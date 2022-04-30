@@ -46,11 +46,12 @@ class ScriptEngineDescriptorTest {
         def sd = new ScriptEngineDescriptor(ScriptEngineType.EMBEDDED, "rhino")
         assert sd.getEngineId() == "rhino"
         assert sd.getEngineType() == ScriptEngineType.EMBEDDED
-        assert sd.getLanguageName().empty()
-        assert sd.getLanguageVersion().empty()
-        assert sd.getEngineName().empty()
+        println("sd.getLanguageName() -> " + sd.getLanguageName())
+        assert sd.getLanguageName().empty
+        assert sd.getLanguageVersion().empty
+        assert sd.getEngineName().empty
         assert sd.getContentMimeTypes() == [] as Set
-        assert sd.getEngineVersion().empty()
+        assert sd.getEngineVersion().empty
 
         sd = new ScriptEngineDescriptor(ScriptEngineType.EMBEDDED, "rhino",
                 "Mozilla Rhino", "JavaScript","text/javascript")
@@ -59,7 +60,7 @@ class ScriptEngineDescriptorTest {
         assert sd.getLanguageName().get() == "JavaScript"
         assert sd.getEngineName().get() == "Mozilla Rhino"
         assert sd.getContentMimeTypes() == ["text/javascript"] as Set
-        assert sd.getEngineVersion().empty()
+        assert sd.getEngineVersion().empty
 
         sd = new ScriptEngineDescriptor(ScriptEngineType.EMBEDDED, "rhino",
                 "Mozilla Rhino", "JavaScript", "text/javascript",
