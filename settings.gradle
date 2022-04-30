@@ -1,0 +1,7 @@
+// TODO: only temporarily as long as the patched josm gradle plugin is used
+pluginManagement {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+}
