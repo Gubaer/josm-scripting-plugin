@@ -101,7 +101,12 @@ josm {
         iconPath = 'images/script-engine.png'
         website = new URL("https://gubaer.github.io/josm-scripting-plugin")
         canLoadAtRuntime = true
-        classpath "test"
+        
+        // add the GraalVM jars to the 'Class-Path' attribute in the JOSM
+        // plugin manifest.
+        configurations.graalvm.forEach {dependency ->
+            classpath dependency.name
+        }
 
         releaseHistory.releases.collect{it.josmVersion}.unique().sort().each {jv ->
             String dv = bestPluginVersion(releaseHistory, jv)
