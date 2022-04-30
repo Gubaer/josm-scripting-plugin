@@ -66,11 +66,6 @@ dependencies {
     packIntoJar group: 'com.github.spullara.mustache.java', name: 'compiler', version: '0.9.6'
     packIntoJar group: 'com.fifesoft', name: 'rsyntaxtextarea', version: '3.0.4'
 
-    // don't include graalvm in the jar for the time being. JOSMs plugin class loader
-    // doesn't properly load it from the plugin jar.
-     packIntoJar group: 'org.graalvm.sdk', name: 'graal-sdk', version: graalvmVersion
-     packIntoJar group: 'org.graalvm.truffle', name: 'truffle-api', version: graalvmVersion
-     packIntoJar group: 'org.graalvm.js', name: 'js', version: graalvmVersion
 
     testImplementation('org.openstreetmap.josm:josm-unittest:latest'){changing=true}
     testImplementation group: 'org.jmockit', name: 'jmockit', version: '1.40'
@@ -101,7 +96,7 @@ josm {
         iconPath = 'images/script-engine.png'
         website = new URL("https://gubaer.github.io/josm-scripting-plugin")
         canLoadAtRuntime = true
-        
+
         // add the GraalVM jars to the 'Class-Path' attribute in the JOSM
         // plugin manifest.
         configurations.graalvm.forEach {dependency ->
