@@ -99,7 +99,13 @@ josm {
 
         // add the GraalVM jars to the 'Class-Path' attribute in the JOSM
         // plugin manifest
-        // Deactivated for the time being because of class loading issues:
+        // Deactivated for the time being because of class loading issues.
+        // We can't load the graalvm jars as dependencies of the scripting
+        // plugin because this way the GraalVM doesn't find the truffle API
+        // Error message:
+        //    No language and polyglot implementation was found on the classpath.
+        //    Make sure the truffle-api.jar is on the classpath
+        //
         //  configurations.graalvm.forEach {dependency ->
         //      classpath "scripting/graalvm/${dependency.name}"
         //  }
