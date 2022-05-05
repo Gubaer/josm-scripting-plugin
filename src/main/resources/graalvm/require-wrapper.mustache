@@ -4,7 +4,11 @@
 {{! RequireFunction is populated in the scripting context                 }}
 (function() {
     const URI = Java.type('java.net.URI')
-    const RequireFunction = Java.type('org.openstreetmap.josm.plugins.scripting.graalvm.RequireFunction')
+    // NOTE:
+    //  the class 'org.openstreetmap.josm.plugins.scripting.graalvm.RequireFunction'
+    //  is automatically bound to the scripting context. It can be loaded using
+    //     const JSAction = Java.type('org.openstreetmap.josm.plugins.scripting.graalvm.RequireFunction')
+    //  because of class loading issues.
 
     const module = {
         exports: {},

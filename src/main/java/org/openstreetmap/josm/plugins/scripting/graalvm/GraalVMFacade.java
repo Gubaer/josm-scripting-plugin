@@ -1,8 +1,12 @@
 package org.openstreetmap.josm.plugins.scripting.graalvm;
 
 import org.graalvm.polyglot.*;
+import org.openstreetmap.josm.plugins.scripting.js.api.AddMultiCommand;
+import org.openstreetmap.josm.plugins.scripting.js.api.Change;
+import org.openstreetmap.josm.plugins.scripting.js.api.ChangeMultiCommand;
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
 import org.openstreetmap.josm.plugins.scripting.preferences.graalvm.GraalVMPrivilegesModel;
+import org.openstreetmap.josm.plugins.scripting.ui.console.ScriptingConsole;
 
 import javax.validation.constraints.NotNull;
 import java.io.File;
@@ -27,28 +31,25 @@ public class GraalVMFacade  implements IGraalVMFacade {
         final RequireFunction require = new RequireFunction();
         context.getBindings("js").putMember("require", require);
 
-        // WORKAROUND: populate the context with class objects provided by the
-        // plugin itself. Java.type('...') doesn't work for this classes,
-        // class loading problem?
-
-        // WORKAROUND for WORKAROUND: doesn't work either. For instance,
-        // ScriptingConsole.getInstance() is not available for scripts, if
-        // th context is populated this way.
-
-        // New workaround: scripting plugin jar has to be on the class path
-        // when JOSM is started
+        // Workaround: These are java classes provided in the scripting
+        // plugin jar which are used by JavaScript modules in the
+        // V2 library.
         //
-//        context.getBindings("js").putMember(
-//            "RequireFunction", RequireFunction.class);
-//        context.getBindings("js").putMember("JSAction", JSAction.class);
-//        context.getBindings("js").putMember(
-//            "AddMultiCommand", AddMultiCommand.class);
-//        context.getBindings("js").putMember(
-//            "ChangeMultiCommand", ChangeMultiCommand.class);
-//        context.getBindings("js").putMember(
-//            "Change", Change.class);
-//        context.getBindings("js").putMember(
-//            "ScriptingConsole", ScriptingConsole.class);
+        // TODO: replace with a binding to a generic function which
+        // can provide classes from the scripting plugin jar to
+        // JavaScript modules?
+        context.getBindings("js").putMember(
+            "RequireFunction", RequireFunction.class);
+        context.getBindings("js").putMember(
+            "JSAction", JSAction.class);
+        context.getBindings("js").putMember(
+            "AddMultiCommand", AddMultiCommand.class);
+        context.getBindings("js").putMember(
+            "ChangeMultiCommand", ChangeMultiCommand.class);
+        context.getBindings("js").putMember(
+            "Change", Change.class);
+        context.getBindings("js").putMember(
+            "ScriptingConsole", ScriptingConsole.class);
     }
 
     private void grantPrivilegesToContext(final Context.Builder builder) {
