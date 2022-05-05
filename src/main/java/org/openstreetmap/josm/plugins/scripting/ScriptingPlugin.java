@@ -10,7 +10,8 @@ import org.openstreetmap.josm.plugins.Plugin;
 import org.openstreetmap.josm.plugins.PluginClassLoader;
 import org.openstreetmap.josm.plugins.PluginHandler;
 import org.openstreetmap.josm.plugins.PluginInformation;
-import org.openstreetmap.josm.plugins.scripting.graalvm.*;
+import org.openstreetmap.josm.plugins.scripting.graalvm.CommonJSModuleRepositoryRegistry;
+import org.openstreetmap.josm.plugins.scripting.graalvm.JarJSModuleRepository;
 import org.openstreetmap.josm.plugins.scripting.js.JOSMModuleScriptProvider;
 import org.openstreetmap.josm.plugins.scripting.js.RhinoEngine;
 import org.openstreetmap.josm.plugins.scripting.model.PreferenceKeys;
@@ -38,8 +39,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static org.openstreetmap.josm.gui.help.HelpUtil.ht;
-import static org.openstreetmap.josm.plugins.scripting.python
-        .PythonPluginManagerFactory.isJythonPresent;
+import static org.openstreetmap.josm.plugins.scripting.python.PythonPluginManagerFactory.isJythonPresent;
 import static org.openstreetmap.josm.tools.I18n.tr;
 
 @SuppressWarnings("ClassInitializerMayBeStatic")
@@ -61,7 +61,7 @@ public class ScriptingPlugin extends Plugin implements PreferenceKeys{
         if (!f.exists()) {
             if (!f.mkdirs()) {
                 logger.warning(String.format("Failed to create directory '%s'",
-                    f.toString()));
+                    f));
             }
         }
     }
@@ -287,7 +287,7 @@ public class ScriptingPlugin extends Plugin implements PreferenceKeys{
                     "Failed to install default mime types "
                   + "in the plugin directory '%s'. Exception is: %s",
                   getPluginDirs().getUserDataDirectory(false).toString(),
-                  e.toString()
+                  e
             ));
             e.printStackTrace();
         }
