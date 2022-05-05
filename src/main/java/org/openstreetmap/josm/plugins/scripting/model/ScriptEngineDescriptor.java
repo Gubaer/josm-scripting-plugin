@@ -78,7 +78,6 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
     private String engineName = null;
     private String engineVersion = null;
     private final HashSet<String> contentMimeTypes = new HashSet<>();
-    private boolean deprecated = false;
 
     /**
      * The default script engine descriptor. Refers to the embedded script

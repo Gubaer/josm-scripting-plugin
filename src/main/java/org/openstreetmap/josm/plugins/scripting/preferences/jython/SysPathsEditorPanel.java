@@ -60,7 +60,7 @@ import org.openstreetmap.josm.tools.ImageProvider;
 import org.openstreetmap.josm.gui.util.WindowGeometry;
 
 public class SysPathsEditorPanel extends JPanel {
-    static private Logger logger = Logger.getLogger(
+    static private final Logger logger = Logger.getLogger(
             SysPathsEditorPanel.class.getName());
 
     static private Icon saveImageGet(String name) {
@@ -126,8 +126,7 @@ public class SysPathsEditorPanel extends JPanel {
         SysPathPopUp popup = new SysPathPopUp();
         lstPaths.setComponentPopupMenu(popup);
         // keyboard bindings
-        int condition = JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT;
-        InputMap inputMap = lstPaths.getInputMap(condition);
+        InputMap inputMap = lstPaths.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
         ActionMap actionMap = lstPaths.getActionMap();
 
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0), "delete");
@@ -153,7 +152,7 @@ public class SysPathsEditorPanel extends JPanel {
     /**
      * Replies the sys paths model used by this editor
      *
-     * @return
+     * @return the sys path model
      */
     public SysPathsModel getModel() {
         return mdlPaths;
@@ -164,7 +163,7 @@ public class SysPathsEditorPanel extends JPanel {
         static private final Logger logger = Logger.getLogger(SysPathsModel.class.getName());
 
         private final List<File> paths = new ArrayList<>();
-        private DefaultListSelectionModel selectionModel;
+        private final DefaultListSelectionModel selectionModel;
 
         public SysPathsModel(DefaultListSelectionModel selectionModel) {
             this.selectionModel = selectionModel;
@@ -178,7 +177,7 @@ public class SysPathsEditorPanel extends JPanel {
         public void setPaths(Collection<String> paths) {
             this.paths.clear();
             paths.stream()
-                .filter(path -> path != null)
+                .filter(Objects::nonNull)
                 .map(String::trim)
                 .map(File::new)
                 .collect(Collectors.toCollection(() -> this.paths));
@@ -281,9 +280,8 @@ public class SysPathsEditorPanel extends JPanel {
         static private final Logger logger =
                 Logger.getLogger(SysPathCellRenderer.class.getName());
 
-        private Icon jarIcon;
-        private Icon dirIcon;
-
+        private final Icon jarIcon;
+        private final Icon dirIcon;
 
         public SysPathCellRenderer() {
             setOpaque(true);
@@ -432,11 +430,11 @@ public class SysPathsEditorPanel extends JPanel {
 
         protected class DocumentAdapter implements DocumentListener {
             @Override
-            public void changedUpdate(DocumentEvent e) {validatePath();};
+            public void changedUpdate(DocumentEvent e) {validatePath();}
             @Override
-            public void insertUpdate(DocumentEvent e) {validatePath();};
+            public void insertUpdate(DocumentEvent e) {validatePath();}
             @Override
-            public void removeUpdate(DocumentEvent e) {validatePath();};
+            public void removeUpdate(DocumentEvent e) {validatePath();}
         }
 
         protected JPanel buildEntryPanel() {
@@ -494,7 +492,7 @@ public class SysPathsEditorPanel extends JPanel {
         }
 
         protected boolean isExistingJarFile(File f) {
-            try (JarFile jar = new JarFile(f)) {
+            try (JarFile ignored = new JarFile(f)) {
                 return true;
             } catch(IOException e) {
                 return false;
@@ -502,7 +500,7 @@ public class SysPathsEditorPanel extends JPanel {
         }
 
         protected void validatePath() {
-            boolean valid = true;
+            boolean valid;
             String s = tfPath.getText().trim();
             String msg = "";
             File f = new File(s);

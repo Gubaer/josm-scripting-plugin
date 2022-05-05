@@ -20,7 +20,6 @@ import org.openstreetmap.josm.data.Preferences;
 import org.openstreetmap.josm.gui.widgets.HtmlPanel;
 import org.openstreetmap.josm.gui.widgets.VerticallyScrollablePanel;
 
-@SuppressWarnings("serial")
 public class JythonConfigurationPanel extends VerticallyScrollablePanel{
     @SuppressWarnings("unused")
     private static final Logger logger =

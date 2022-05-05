@@ -1,36 +1,38 @@
 package org.openstreetmap.josm.plugins.scripting.model;
 
-import static org.openstreetmap.josm.tools.I18n.tr;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.util.*;
-import java.util.function.Predicate;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
-
-import javax.activation.MimetypesFileTypeMap;
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineFactory;
-import javax.script.ScriptEngineManager;
-import javax.swing.AbstractListModel;
-import javax.validation.constraints.NotNull;
-
 import org.openstreetmap.josm.data.Preferences;
 import org.openstreetmap.josm.plugins.scripting.ScriptingPlugin;
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor.ScriptEngineType;
 import org.openstreetmap.josm.plugins.scripting.preferences.ScriptEngineJarInfo;
 import org.openstreetmap.josm.plugins.scripting.util.Assert;
+
+import javax.activation.MimetypesFileTypeMap;
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineFactory;
+import javax.script.ScriptEngineManager;
+import javax.swing.*;
+import javax.validation.constraints.NotNull;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Objects;
+import java.util.function.Predicate;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
+
+import static org.openstreetmap.josm.tools.I18n.tr;
 /**
  * Provides a list model for the list of available JSR223 compatible
  * script engines.
  */
-@SuppressWarnings("serial")
+@SuppressWarnings("unused")
 public class JSR223ScriptEngineProvider
     extends AbstractListModel<ScriptEngineDescriptor>
     implements PreferenceKeys {
@@ -82,7 +84,7 @@ public class JSR223ScriptEngineProvider
             if (f.isFile() && f.canRead()){
                 try {
                     mimeTypesMap = new MimetypesFileTypeMap(
-                        new FileInputStream(f));
+                            Files.newInputStream(f.toPath()));
                     return;
                 } catch(IOException e) {
                     System.err.println(
@@ -136,8 +138,8 @@ public class JSR223ScriptEngineProvider
                     return null;
                 }
             })
-            .filter(url -> url != null)
-            .toArray((size) -> new URL[size]);
+            .filter(Objects::nonNull)
+            .toArray(URL[]::new);
 
         if (urls.length > 0){
             scriptClassLoader = new URLClassLoader(
@@ -158,9 +160,7 @@ public class JSR223ScriptEngineProvider
             new ScriptEngineManager(scriptClassLoader);
         factories.addAll(manager.getEngineFactories());
 
-        Collections.sort(factories,
-            (f1,f2) -> f1.getEngineName().compareTo(f2.getEngineName())
-        );
+        factories.sort(Comparator.comparing(ScriptEngineFactory::getEngineName));
         factories.stream().map(ScriptEngineDescriptor::new)
             .collect(Collectors.toCollection(() -> descriptors));
     }
@@ -196,7 +196,7 @@ public class JSR223ScriptEngineProvider
         return getScriptEngineFactories().stream()
             .filter(f -> f.getEngineName().equals(name))
             .findAny()
-            .map(value -> value.getScriptEngine())
+            .map(ScriptEngineFactory::getScriptEngine)
             .orElse(null);
     }
 
@@ -267,7 +267,7 @@ public class JSR223ScriptEngineProvider
         this.scriptEngineJars.clear();
         if (jars != null){
             jars.stream()
-                .filter(jar -> jar != null)
+                .filter(Objects::nonNull)
                 .filter(jar -> new ScriptEngineJarInfo(jar.toString())
                       .getStatusMessage()
                       .equals(ScriptEngineJarInfo.OK_MESSAGE)
@@ -286,8 +286,7 @@ public class JSR223ScriptEngineProvider
      * @return the engine
      */
     public ScriptEngine getScriptEngine(int i){
-        ScriptEngine engine = factories.get(i).getScriptEngine();
-        return engine;
+        return factories.get(i).getScriptEngine();
     }
 
     /**
@@ -308,7 +307,7 @@ public class JSR223ScriptEngineProvider
             .filter(factory ->
                 desc.getEngineId().equals(factory.getNames().get(0)))
             .findFirst()
-            .map(factory -> factory.getScriptEngine())
+            .map(ScriptEngineFactory::getScriptEngine)
             .orElse(null);
     }
 

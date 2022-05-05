@@ -13,8 +13,8 @@ public class ImportPathCellRenderer extends JLabel implements ListCellRenderer<F
     static private final Logger logger =
         Logger.getLogger(ImportPathCellRenderer.class.getName());
 
-    private Icon jarIcon;
-    private Icon dirIcon;
+    private final Icon jarIcon;
+    private final Icon dirIcon;
 
     public ImportPathCellRenderer() {
         setOpaque(true);

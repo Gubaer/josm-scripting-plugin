@@ -38,7 +38,6 @@ import org.openstreetmap.josm.plugins.scripting.model.CommonJSModuleRepository;
 import org.openstreetmap.josm.tools.ImageProvider;
 import org.openstreetmap.josm.gui.util.WindowGeometry;
 
-@SuppressWarnings("serial")
 public class ModuleRepositoryDialog extends JDialog {
 
     @SuppressWarnings("unused")
@@ -63,11 +62,11 @@ public class ModuleRepositoryDialog extends JDialog {
 
     protected class DocumentAdapter implements DocumentListener {
         @Override
-        public void changedUpdate(DocumentEvent e) {validateRepository();};
+        public void changedUpdate(DocumentEvent e) {validateRepository();}
         @Override
-        public void insertUpdate(DocumentEvent e) {validateRepository();};
+        public void insertUpdate(DocumentEvent e) {validateRepository();}
         @Override
-        public void removeUpdate(DocumentEvent e) {validateRepository();};
+        public void removeUpdate(DocumentEvent e) {validateRepository();}
     }
 
     protected JPanel buildEntryPanel() {
@@ -125,7 +124,7 @@ public class ModuleRepositoryDialog extends JDialog {
     }
 
     protected boolean isExistingJarFile(File f) {
-        try(JarFile jar = new JarFile(f)) {
+        try(JarFile ignored = new JarFile(f)) {
             return true;
         } catch(IOException e) {
             return false;
@@ -137,7 +136,7 @@ public class ModuleRepositoryDialog extends JDialog {
             "TextField.background");
 
     protected void validateRepository() {
-        boolean valid = true;
+        boolean valid;
         final String repository = tfRepositoryUrl.getText().trim();
         String msg = "";
         if (repository.isEmpty()) {

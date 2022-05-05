@@ -26,7 +26,7 @@ public class ScriptEngineJarInfo implements Comparable<ScriptEngineJarInfo>{
      * Invoke {@link #getStatusMessage()} to retrieve the respective status message.</p>
      */
     public void analyse(){
-        File jar = null;
+        File jar;
         jar = new File(jarFilePath);
         if (!jar.exists()) {
             statusMessage = tr("''{0}'' doesn''t exist.", jar);
@@ -56,7 +56,7 @@ public class ScriptEngineJarInfo implements Comparable<ScriptEngineJarInfo>{
     /**
      * <p>Creates a new info object for a script engine jar.</p>
      *
-     * @param jar the jar file. Empty string assumed, if null.
+     * @param fileName the jar file. Empty string assumed, if null.
      */
     public ScriptEngineJarInfo(String fileName) {
         if (fileName == null) fileName = "";
@@ -69,7 +69,6 @@ public class ScriptEngineJarInfo implements Comparable<ScriptEngineJarInfo>{
      * scripting jar file or {@link #OK_MESSAGE} if this jar file is OK.</p>
      *
      * @return the status message
-     * @throws IOException
      */
     public String getStatusMessage() {
         if (statusMessage == null) analyse();
@@ -131,10 +130,7 @@ public class ScriptEngineJarInfo implements Comparable<ScriptEngineJarInfo>{
             return false;
         ScriptEngineJarInfo other = (ScriptEngineJarInfo) obj;
         if (jarFilePath == null) {
-            if (other.jarFilePath != null)
-                return false;
-        } else if (!jarFilePath.equals(other.jarFilePath))
-            return false;
-        return true;
+            return other.jarFilePath == null;
+        } else return jarFilePath.equals(other.jarFilePath);
     }
 }

@@ -51,7 +51,7 @@ public class ScriptEngineJarTableModel extends AbstractTableModel implements Pre
      *    JTable table = new JTable(model);
      *    table.setSelectionModel(model.getSelectionModel());
      * </pre>
-     * @return
+     * @return the selection model
      */
     public ListSelectionModel getSelectionModel() {
         return selectionModel;
@@ -96,7 +96,7 @@ public class ScriptEngineJarTableModel extends AbstractTableModel implements Pre
             paths.stream()
                 .map(String::trim)
                 .filter(path -> ! path.isEmpty())
-                .map(path -> new ScriptEngineJarInfo(path))
+                .map(ScriptEngineJarInfo::new)
                 .collect(Collectors.toCollection(() -> jars));
         }
         fireTableDataChanged();

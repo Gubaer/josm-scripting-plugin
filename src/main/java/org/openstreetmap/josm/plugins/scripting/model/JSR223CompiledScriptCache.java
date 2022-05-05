@@ -36,9 +36,9 @@ public class JSR223CompiledScriptCache {
     }
 
     static private  class CacheEntry {
-        private File file;
-        private CompiledScript script;
-        private long timestamp;
+        private final File file;
+        private final CompiledScript script;
+        private final long timestamp;
 
         public CacheEntry(File file, CompiledScript script) {
             this.timestamp = file.lastModified();

@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
  * {@link JSR223ScriptEngineProvider}. It provides a combo box model for the
  * script engines provided by {@link JSR223ScriptEngineProvider}.
  */
+@SuppressWarnings("unused")
 public class ScriptEngineComboBoxModel extends AbstractListModel<ScriptEngineDescriptor>
     implements ComboBoxModel<ScriptEngineDescriptor>{
 

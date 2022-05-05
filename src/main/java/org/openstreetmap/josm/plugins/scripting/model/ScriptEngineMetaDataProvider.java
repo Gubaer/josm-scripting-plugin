@@ -8,6 +8,7 @@ import java.util.stream.Stream;
 /**
  * Provides meta-data about available script engines
  */
+@SuppressWarnings("unused")
 public class ScriptEngineMetaDataProvider {
 
     /**

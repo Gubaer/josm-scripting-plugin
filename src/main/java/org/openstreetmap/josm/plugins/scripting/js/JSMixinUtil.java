@@ -12,8 +12,7 @@ public class JSMixinUtil {
      * @return true, if this is a static property
      */
     static public boolean isStaticProperty(Scriptable property) {
-        final Object isStatic = ((Scriptable)property).get("static",
-                (Scriptable)property);
+        final Object isStatic = property.get("static", property);
         return isStatic != Scriptable.NOT_FOUND
                 && isStatic instanceof Boolean && ((Boolean)isStatic);
     }
@@ -31,7 +30,7 @@ public class JSMixinUtil {
         if (property != Scriptable.NOT_FOUND &&
                 property instanceof Scriptable) {
             if (isStaticProperty((Scriptable)property)) {
-                return (Scriptable)property;
+                return property;
             }
         }
         return Scriptable.NOT_FOUND;
@@ -50,7 +49,7 @@ public class JSMixinUtil {
         if (property != Scriptable.NOT_FOUND
                 && property instanceof Scriptable) {
             if (!isStaticProperty((Scriptable)property)) {
-                return (Scriptable)property;
+                return property;
             }
         }
         return Scriptable.NOT_FOUND;

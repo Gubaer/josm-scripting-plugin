@@ -15,8 +15,9 @@ import static org.openstreetmap.josm.plugins.scripting.preferences.common.IconUt
 import static org.openstreetmap.josm.plugins.scripting.ui.GridBagConstraintBuilder.gbc;
 import static org.openstreetmap.josm.tools.I18n.tr;
 
+@SuppressWarnings("unused")
 public class ImportPathsEditorPanel extends JPanel {
-    static private Logger logger = Logger.getLogger(
+    static private final Logger logger = Logger.getLogger(
             ImportPathsEditorPanel.class.getName());
 
     private JList<File> lstPaths;
@@ -66,8 +67,7 @@ public class ImportPathsEditorPanel extends JPanel {
         SysPathPopUp popup = new SysPathPopUp();
         lstPaths.setComponentPopupMenu(popup);
         // keyboard bindings
-        int condition = JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT;
-        InputMap inputMap = lstPaths.getInputMap(condition);
+        InputMap inputMap = lstPaths.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
         ActionMap actionMap = lstPaths.getActionMap();
 
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0), "delete");
@@ -93,7 +93,7 @@ public class ImportPathsEditorPanel extends JPanel {
     /**
      * Replies the sys paths model used by this editor
      *
-     * @return
+     * @return the import path model
      */
     public ImportPathModel getModel() {
         return mdlPaths;

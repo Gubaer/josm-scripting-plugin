@@ -49,9 +49,6 @@ public class RhinoEngineConfigurationPanel extends VerticallyScrollablePanel{
 
     private RepositoriesListModel mdlRepositories;
     private JList<URL> lstRepositories;
-    private RemoveAction actRemove;
-    private UpAction actUp;
-    private DownAction actDown;
 
     protected JPanel buildInfoPanel() {
         HtmlPanel info = new HtmlPanel();
@@ -95,11 +92,14 @@ public class RhinoEngineConfigurationPanel extends VerticallyScrollablePanel{
                 .constraints();
         panel.add(new JButton(
                 new AddAction()), gbc(gc).cell(0, 0).constraints());
+        RemoveAction actRemove;
         panel.add(new JButton(actRemove = new RemoveAction()),
                 gbc(gc).cell(0, 1).constraints());
+        UpAction actUp;
         panel.add(new JButton(actUp = new UpAction()),
                 gbc(gc).cell(0,2).constraints());
-        panel.add(new JButton(actDown  =new DownAction()),
+        DownAction actDown;
+        panel.add(new JButton(actDown =new DownAction()),
                 gbc(gc).cell(0,3).constraints());
         panel.add(new JPanel(),
                 gbc().cell(0, 4).fillboth().weight(1.0, 1.0).constraints());
@@ -136,7 +136,7 @@ public class RhinoEngineConfigurationPanel extends VerticallyScrollablePanel{
         implements PreferenceKeys {
 
         private final List<URL> repositories = new ArrayList<>();
-        private DefaultListSelectionModel selectionModel;
+        private final DefaultListSelectionModel selectionModel;
 
         public RepositoriesListModel(DefaultListSelectionModel selectionModel) {
             loadFromPreferences();
@@ -171,7 +171,7 @@ public class RhinoEngineConfigurationPanel extends VerticallyScrollablePanel{
 
         public void saveToPreferences(Preferences pref) {
             List<String> entries = repositories.stream()
-                    .map(url -> url.toString())
+                    .map(URL::toString)
                     .collect(Collectors.toList());
             pref.putList(PREF_KEY_COMMONJS_MODULE_REPOSITORIES,entries);
         }
@@ -224,8 +224,8 @@ public class RhinoEngineConfigurationPanel extends VerticallyScrollablePanel{
     static public class RepositoryCellRenderer extends JLabel
         implements ListCellRenderer<URL> {
 
-        private Icon jarIcon;
-        private Icon dirIcon;
+        private final Icon jarIcon;
+        private final Icon dirIcon;
         public RepositoryCellRenderer() {
             setOpaque(true);
             jarIcon = ImageProvider.get("jar");

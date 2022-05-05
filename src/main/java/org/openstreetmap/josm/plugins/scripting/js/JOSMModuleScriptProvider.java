@@ -9,6 +9,7 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -47,7 +48,7 @@ public class JOSMModuleScriptProvider implements ModuleScriptProvider,
         PreferenceChangedListener, PreferenceKeys{
     static private final Logger logger =
             Logger.getLogger(JOSMModuleScriptProvider.class.getName());
-    private static boolean DO_TRACE = false;
+    static private final boolean DO_TRACE = false;
 
     static private final JOSMModuleScriptProvider instance =
             new JOSMModuleScriptProvider();
@@ -65,8 +66,8 @@ public class JOSMModuleScriptProvider implements ModuleScriptProvider,
      */
     static public String normalizeModuleId(String moduleId) {
         return moduleId.trim()
-                .replace('\\', '/').replaceAll("^\\/+", "")
-                .replaceAll("\\/+$","")
+                .replace('\\', '/').replaceAll("^/+", "")
+                .replaceAll("/+$","")
                 .replaceAll("\\.[jJ][sS]$", "");
     }
 
@@ -141,6 +142,7 @@ public class JOSMModuleScriptProvider implements ModuleScriptProvider,
                 }
             }
         } catch(IllegalArgumentException e) {
+            //noinspection ConstantConditions
             Assert.assertArg(
                 false,
                 "Unexpected url, got {0}. Exception was: {1}",
@@ -172,7 +174,7 @@ public class JOSMModuleScriptProvider implements ModuleScriptProvider,
         trace("''{0}'': Looking up in directory <{1}>",
                 moduleId, dir.toString());
 
-        if (dir == null || !dir.isDirectory()) {
+        if (!dir.isDirectory()) {
             trace("''{0}'': <{1}> isn''t a directory. Failed to lookup module.",
                     moduleId, dir.toString());
             return null;
@@ -220,7 +222,7 @@ public class JOSMModuleScriptProvider implements ModuleScriptProvider,
             warning("''{0}'': Unexpected format of jar url, got <{1}>",
                     moduleId, fileUrl);
         }
-        parts[0] = parts[0].substring(5).replaceAll("^[\\\\\\/]+", "/");
+        parts[0] = parts[0].substring(5).replaceAll("^[\\\\/]+", "/");
         final File jarFile = new File(parts[0]);
         String jarPath = parts[1];
         if (!jarFile.exists() || !jarFile.canRead()) {
@@ -229,8 +231,8 @@ public class JOSMModuleScriptProvider implements ModuleScriptProvider,
             return null;
         }
 
-        jarPath = jarPath.replace('\\', '/').replaceAll("^\\/+", "")
-                .replaceAll("\\/+$", "");
+        jarPath = jarPath.replace('\\', '/').replaceAll("^/+", "")
+                .replaceAll("/+$", "");
 
         try (JarFile jf = new JarFile(jarFile)){
             final JarEntry eDir = jf.getJarEntry(jarPath + "/"
@@ -253,7 +255,7 @@ public class JOSMModuleScriptProvider implements ModuleScriptProvider,
             } else {
                 trace("''{0}'': HIT - found in entry <{1}> of jar  <{2}>",
                         moduleId, eFound.getName(), jf.getName());
-                final String moduleUrl = "jar:" + jarFile.toURI().toString()
+                final String moduleUrl = "jar:" + jarFile.toURI()
                         + "!/" + eFound.getName();
                 try {
                     return new URL(moduleUrl);
@@ -274,7 +276,8 @@ public class JOSMModuleScriptProvider implements ModuleScriptProvider,
 
     protected ModuleScript load(URL module, URL base)
             throws IOException, URISyntaxException{
-        try (Reader reader = new InputStreamReader(module.openStream(),"UTF8")){
+        try (Reader reader = new InputStreamReader(module.openStream(),
+                StandardCharsets.UTF_8)){
             Script script = Context.getCurrentContext()
                     .compileReader(reader, module.toString(),1,null);
             return new ModuleScript(script,
@@ -296,7 +299,7 @@ public class JOSMModuleScriptProvider implements ModuleScriptProvider,
                     default: return null;
                 }
             })
-            .filter(base -> base != null)
+            .filter(Objects::nonNull)
             .findFirst();
     }
 

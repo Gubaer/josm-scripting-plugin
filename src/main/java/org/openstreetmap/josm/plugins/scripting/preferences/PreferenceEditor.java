@@ -22,7 +22,6 @@ public class PreferenceEditor extends DefaultTabPreferenceSetting {
     static private final Logger logger =
             Logger.getLogger(PreferenceEditor.class.getName());
 
-    private JTabbedPane tpPreferenceTabs;
     private ScriptEnginesConfigurationPanel pnlScriptEngineConfiguration;
     private GraalVMConfigurationPanel pnlGraalVMConfiguration;
     private RhinoEngineConfigurationPanel pnlRhinoEngineConfiguration;
@@ -40,7 +39,7 @@ public class PreferenceEditor extends DefaultTabPreferenceSetting {
     @Override
     public void addGui(PreferenceTabbedPane gui) {
         JPanel pnl = new JPanel(new BorderLayout());
-        tpPreferenceTabs = new JTabbedPane();
+        JTabbedPane tpPreferenceTabs = new JTabbedPane();
         tpPreferenceTabs.add(tr("Script engines"),
              pnlScriptEngineConfiguration =
              new ScriptEnginesConfigurationPanel());

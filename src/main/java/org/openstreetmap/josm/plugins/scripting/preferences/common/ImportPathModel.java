@@ -13,6 +13,7 @@ import java.util.Objects;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+@SuppressWarnings("unused")
 public class ImportPathModel extends AbstractListModel<File> implements PreferenceKeys {
 
     @SuppressWarnings("unused")
@@ -20,7 +21,7 @@ public class ImportPathModel extends AbstractListModel<File> implements Preferen
         ImportPathModel.class.getName());
 
     private final List<File> paths = new ArrayList<>();
-    private DefaultListSelectionModel selectionModel;
+    private final DefaultListSelectionModel selectionModel;
 
     public ImportPathModel(DefaultListSelectionModel selectionModel) {
         this.selectionModel = selectionModel;
@@ -34,7 +35,7 @@ public class ImportPathModel extends AbstractListModel<File> implements Preferen
     public void setPaths(Collection<String> paths) {
         this.paths.clear();
         paths.stream()
-            .filter(path -> path != null)
+            .filter(Objects::nonNull)
             .map(String::trim)
             .map(File::new)
             .collect(Collectors.toCollection(() -> this.paths));

@@ -41,11 +41,11 @@ public class ImportPathDialog extends JDialog {
 
     protected class DocumentAdapter implements DocumentListener {
         @Override
-        public void changedUpdate(DocumentEvent e) {validatePath();};
+        public void changedUpdate(DocumentEvent e) {validatePath();}
         @Override
-        public void insertUpdate(DocumentEvent e) {validatePath();};
+        public void insertUpdate(DocumentEvent e) {validatePath();}
         @Override
-        public void removeUpdate(DocumentEvent e) {validatePath();};
+        public void removeUpdate(DocumentEvent e) {validatePath();}
     }
 
     protected JPanel buildEntryPanel() {
@@ -103,7 +103,7 @@ public class ImportPathDialog extends JDialog {
     }
 
     protected boolean isExistingJarFile(File f) {
-        try (JarFile jar = new JarFile(f)) {
+        try (JarFile ignored = new JarFile(f)) {
             return true;
         } catch(IOException e) {
             return false;
@@ -111,7 +111,7 @@ public class ImportPathDialog extends JDialog {
     }
 
     protected void validatePath() {
-        boolean valid = true;
+        boolean valid;
         String s = tfPath.getText().trim();
         String msg = "";
         File f = new File(s);

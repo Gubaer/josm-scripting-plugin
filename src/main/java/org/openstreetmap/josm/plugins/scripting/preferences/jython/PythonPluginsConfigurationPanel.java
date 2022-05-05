@@ -38,7 +38,6 @@ public class PythonPluginsConfigurationPanel extends JPanel {
 
     private PythonPluginsTable tblPlugins;
     private PythonPluginsModel mdlPlugins;
-    private PluginTablePopUp popupPluginTable;
 
     private AddAction actAdd;
     private DeleteAction actDelete;
@@ -76,8 +75,7 @@ public class PythonPluginsConfigurationPanel extends JPanel {
         mdlPlugins.getSelectionModel().addListSelectionListener(actDelete);
 
         // keyboard bindings
-        int condition = JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT;
-        InputMap inputMap = tblPlugins.getInputMap(condition);
+        InputMap inputMap = tblPlugins.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
         ActionMap actionMap = tblPlugins.getActionMap();
 
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0), "delete");
@@ -88,7 +86,7 @@ public class PythonPluginsConfigurationPanel extends JPanel {
     }
 
     protected void initAndWirePopup() {
-        popupPluginTable = new PluginTablePopUp();
+        PluginTablePopUp popupPluginTable = new PluginTablePopUp();
         tblPlugins.setComponentPopupMenu(popupPluginTable);
     }
 
@@ -115,7 +113,7 @@ public class PythonPluginsConfigurationPanel extends JPanel {
 
     static public class PythonPluginsModel extends AbstractTableModel
         implements PreferenceKeys {
-        private final List<String> plugins = new ArrayList<String>();
+        private final List<String> plugins = new ArrayList<>();
         private final DefaultListSelectionModel selectionModel =
                 new DefaultListSelectionModel();
 
