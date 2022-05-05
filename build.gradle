@@ -84,7 +84,10 @@ version = currentPluginVersion(releaseHistory)
 archivesBaseName = "scripting"
 
 task dumpGraalVMJars() {
-    println configurations.graalvm.asPath
+    doLast {
+        println "GRAALVM_CLASS_PATH=" + configurations.graalvm.asPath
+    }
+
 }
 
 josm {
