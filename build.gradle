@@ -98,10 +98,11 @@ josm {
         canLoadAtRuntime = true
 
         // add the GraalVM jars to the 'Class-Path' attribute in the JOSM
-        // plugin manifest.
-        configurations.graalvm.forEach {dependency ->
-            classpath dependency.name
-        }
+        // plugin manifest
+        // Deactivated for the time being because of class loading issues:
+        //  configurations.graalvm.forEach {dependency ->
+        //      classpath "scripting/graalvm/${dependency.name}"
+        //  }
 
         releaseHistory.releases.collect{it.josmVersion}.unique().sort().each {jv ->
             String dv = bestPluginVersion(releaseHistory, jv)
