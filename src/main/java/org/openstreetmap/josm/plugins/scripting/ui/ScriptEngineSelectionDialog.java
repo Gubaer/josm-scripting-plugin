@@ -34,8 +34,8 @@ import static org.openstreetmap.josm.tools.I18n.tr;
  *
  */
 public class ScriptEngineSelectionDialog extends JDialog {
-    private static final long serialVersionUID = 3359988700106524131L;
-    private static Logger logger =
+
+    private static final Logger logger =
         Logger.getLogger(ScriptEngineDescriptor.class.getName());
 
     /**
@@ -315,7 +315,7 @@ public class ScriptEngineSelectionDialog extends JDialog {
 
     private static class GraalVMEngineListModel
                     extends AbstractListModel<ScriptEngineDescriptor> {
-        private List<ScriptEngineDescriptor> descriptors;
+        private final List<ScriptEngineDescriptor> descriptors;
         GraalVMEngineListModel() {
             if (GraalVMFacadeFactory.isGraalVMPresent()) {
                 descriptors = GraalVMFacadeFactory
