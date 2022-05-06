@@ -23,6 +23,7 @@ import java.awt.event.MouseEvent;
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import static org.openstreetmap.josm.plugins.scripting.ui.GridBagConstraintBuilder.gbc;
 import static org.openstreetmap.josm.tools.I18n.tr;
@@ -30,7 +31,7 @@ import static org.openstreetmap.josm.tools.I18n.tr;
 /**
  * <strong>ScriptEngineSelectionDialog</strong> allows to select one of the
  *  plugable JSR223 compatible script engines, one of the embedded script
- *  engines, or one of the scripting languages supported by the GraalVM.
+ *  engines, or GraalJS supported by the GraalVM.
  *
  */
 public class ScriptEngineSelectionDialog extends JDialog {
@@ -280,9 +281,9 @@ public class ScriptEngineSelectionDialog extends JDialog {
         gc = gbc(gc).cell(1,0).weight(1.0,0.0).fillboth().constraints();
         HtmlPanel ht = new HtmlPanel();
         ht.setText("<html>"
-                + "Use one of the available scripting languages supported "
-                + "by the GraalVM"
-                + "(see <i>Preferences</i> to configure the GraalVM)."
+                + "Use GraalJS, the JavaScript engine provided by the "
+                + "GraalVM"
+                + "(see <i>Preferences</i> to configure GraalJS)."
                 + "</html>"
         );
         pnl.add(ht, gc);
@@ -315,12 +316,23 @@ public class ScriptEngineSelectionDialog extends JDialog {
 
     private static class GraalVMEngineListModel
                     extends AbstractListModel<ScriptEngineDescriptor> {
+
         private final List<ScriptEngineDescriptor> descriptors;
+
         GraalVMEngineListModel() {
             if (GraalVMFacadeFactory.isGraalVMPresent()) {
                 descriptors = GraalVMFacadeFactory
                     .getOrCreateGraalVMFacade()
-                    .getSupportedLanguages();
+                    .getSupportedLanguages()
+                    // only consider GraalJS support by the GraalVM. GraalVM
+                    // support for other languages (LLVM, Python, etc.) is not
+                    // yet possible for other languages.
+                    .stream().filter(desc -> desc
+                        .getLanguageName()
+                        .filter("javascript"::equalsIgnoreCase)
+                        .isPresent()
+                     )
+                    .collect(Collectors.toList());
             } else {
                 descriptors = Collections.emptyList();
             }
