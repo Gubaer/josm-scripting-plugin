@@ -20,6 +20,7 @@ import static org.openstreetmap.josm.tools.I18n.tr;
 /**
  * Displays summary information about the currently selected scripting engine.
  */
+@SuppressWarnings("unused")
 public class ScriptEngineInfoPanel extends JPanel implements
 PropertyChangeListener, HyperlinkListener{
     @SuppressWarnings("unused")
@@ -54,7 +55,7 @@ PropertyChangeListener, HyperlinkListener{
     }
 
     protected void refreshInfo(ScriptEngineDescriptor desc){
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         if (desc == null){
             sb.append("<html>");
             sb.append(tr("No script engine selected.")).append(" ");

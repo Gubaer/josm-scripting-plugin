@@ -24,6 +24,7 @@ import javax.swing.text.StyleConstants;
 
 import org.openstreetmap.josm.tools.ImageProvider;
 
+@SuppressWarnings("unused")
 public class ScriptLogPanel extends JPanel implements IScriptLog{
     @SuppressWarnings("unused")
     static private final Logger logger =

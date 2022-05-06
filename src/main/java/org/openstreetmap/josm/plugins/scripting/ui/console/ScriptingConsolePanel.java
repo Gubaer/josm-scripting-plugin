@@ -4,8 +4,6 @@ import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.graalvm.polyglot.PolyglotException;
 import org.openstreetmap.josm.gui.HelpAwareOptionPane;
 import org.openstreetmap.josm.gui.HelpAwareOptionPane.ButtonSpec;
-import org.openstreetmap.josm.plugins.scripting.graalvm.GraalVMEvalException;
-import org.openstreetmap.josm.plugins.scripting.graalvm.GraalVMFacadeFactory;
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
 import org.openstreetmap.josm.plugins.scripting.ui.ScriptExecutor;
 import org.openstreetmap.josm.tools.ImageProvider;
@@ -28,7 +26,7 @@ import static org.openstreetmap.josm.tools.I18n.tr;
 /**
  * The panel displaying the script editor and the console log in a split pane.
  */
-@SuppressWarnings({"serial", "WeakerAccess"})
+@SuppressWarnings({"WeakerAccess"})
 public class ScriptingConsolePanel extends JPanel {
     @SuppressWarnings("unused")
     private static final Logger logger =

@@ -29,7 +29,7 @@ import org.openstreetmap.josm.plugins.scripting.util.Assert;
 import org.openstreetmap.josm.tools.ImageProvider;
 import org.openstreetmap.josm.gui.util.WindowGeometry;
 
-@SuppressWarnings("serial")
+@SuppressWarnings("unused")
 public class ScriptingConsole extends JFrame {
     @SuppressWarnings("unused")
     static private final Logger logger = Logger.getLogger(
@@ -216,13 +216,13 @@ public class ScriptingConsole extends JFrame {
     /* --------------------------------------------------------------------- */
     /* listening to scripting console events                                 */
     /* --------------------------------------------------------------------- */
-    public static interface ScriptingConsoleListener {
+    public interface ScriptingConsoleListener {
         /**
          * Notifies listeners when the scripting console instance changes.
          * If {@code newValue} is null, no scripting console is open.
          *
-         * @param oldValue
-         * @param newValue
+         * @param oldValue old value
+         * @param newValue new value
          */
         void scriptingConsoleChanged(ScriptingConsole oldValue,
                 ScriptingConsole newValue);
