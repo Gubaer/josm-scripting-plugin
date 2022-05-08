@@ -6,7 +6,6 @@ import org.openstreetmap.josm.plugins.PluginException;
 import org.openstreetmap.josm.plugins.PluginInformation;
 import org.openstreetmap.josm.plugins.scripting.ScriptingPlugin;
 import org.openstreetmap.josm.plugins.scripting.util.Assert;
-import org.openstreetmap.josm.plugins.scripting.util.ExceptionUtil;
 
 import javax.swing.*;
 import java.io.File;
@@ -172,9 +171,11 @@ public class RhinoEngine {
                     throw (RuntimeException) throwable;
                 }
                 // no other checked exceptions expected - log a warning
-                logger.warning("Unexpected exception wrapped in "
-                      + "InvocationTargetException: " + throwable.toString());
-                logger.warning(ExceptionUtil.stackTraceAsString(throwable));
+                logger.log(Level.WARNING, String.format(
+                    "Unexpected exception wrapped in InvocationTargetException: %s",
+                    throwable.toString()),
+                    throwable
+                );
             } catch(InterruptedException e){
                 Thread.currentThread().interrupt();
             }

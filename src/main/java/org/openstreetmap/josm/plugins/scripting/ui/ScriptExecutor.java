@@ -14,7 +14,6 @@ import org.openstreetmap.josm.plugins.scripting.model.JSR223CompiledScriptCache;
 import org.openstreetmap.josm.plugins.scripting.model.JSR223ScriptEngineProvider;
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
 import org.openstreetmap.josm.plugins.scripting.util.Assert;
-import org.openstreetmap.josm.plugins.scripting.util.ExceptionUtil;
 
 import javax.script.Compilable;
 import javax.script.ScriptEngine;
@@ -193,10 +192,10 @@ public class ScriptExecutor {
                     throw (RuntimeException) throwable;
                 }
                 // no other checked exceptions expected - log a warning
-                logger.warning(
-                    "Unexpected exception wrapped in "
-                  + "InvocationTargetException: " + throwable.toString());
-                logger.warning(ExceptionUtil.stackTraceAsString(throwable));
+                logger.log(Level.WARNING, String.format(
+                    "Unexpected exception wrapped in InvocationTargetException: %s",
+                    throwable.toString()
+                ), throwable);
             } catch(InterruptedException e){
                 Thread.currentThread().interrupt();
             }
