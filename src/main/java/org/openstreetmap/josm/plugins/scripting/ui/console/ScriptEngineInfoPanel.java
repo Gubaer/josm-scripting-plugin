@@ -87,7 +87,7 @@ PropertyChangeListener, HyperlinkListener{
                 + "using engine <strong>{1}</strong>.",
                 desc.getLanguageName().orElse(tr("unknown")),
                 ScriptEngineCellRenderer.defaultEngineName(
-                    desc.getEngineName()))
+                    desc.getEngineName().orElse(null)))
             );
             sb.append(" ");
             appendSelectScriptEngineLink(sb, "Change");
