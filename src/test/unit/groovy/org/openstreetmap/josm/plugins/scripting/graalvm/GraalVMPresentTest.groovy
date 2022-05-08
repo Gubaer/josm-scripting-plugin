@@ -18,39 +18,39 @@ class GraalVMPresentTest {
 
     @Test
     void shouldDetectGraalVMPresent() {
-        final boolean isPresent = GraalVMFacadeFactory.isGraalVMPresent();
-        assertTrue(isPresent);
+        final boolean isPresent = GraalVMFacadeFactory.isGraalVMPresent()
+        assertTrue(isPresent)
     }
 
     @Test
     void shouldCreateAGraalVMFacade(){
         final IGraalVMFacade facade =
-                GraalVMFacadeFactory.getOrCreateGraalVMFacade();
-        assertNotNull(facade);
+            GraalVMFacadeFactory.getOrCreateGraalVMFacade()
+        assertNotNull(facade)
     }
 
     @Test
     void shouldDetectANonEmptyListOfLanguages() {
-        def facade = GraalVMFacadeFactory.getOrCreateGraalVMFacade();
-        def infos = facade.getScriptEngineDescriptors();
-        assertFalse(infos.isEmpty());
+        def facade = GraalVMFacadeFactory.getOrCreateGraalVMFacade()
+        def infos = facade.getScriptEngineDescriptors()
+        assertFalse(infos.isEmpty())
     }
 
     @Test
     void shouldProvideANonEmptyStreamOfGraalVMScriptEngines() {
         def engines =
-                ScriptEngineMetaDataProvider.getAvailableGraalVMScriptEngines()
-                        .collect(Collectors.toList());
-        assertFalse(engines.isEmpty());
+            ScriptEngineMetaDataProvider.getAvailableGraalVMScriptEngines()
+                .collect(Collectors.toList())
+        assertFalse(engines.isEmpty())
 
         def allEnginesAreGraalVMEngines =
-                engines.stream().allMatch() { engine ->
-                    engine.getEngineType() == ScriptEngineDescriptor.ScriptEngineType.GRAALVM
-                };
-        assertTrue(allEnginesAreGraalVMEngines);
+            engines.stream().allMatch() { engine ->
+                engine.getEngineType() == ScriptEngineDescriptor.ScriptEngineType.GRAALVM
+            }
+        assertTrue(allEnginesAreGraalVMEngines)
     }
 
-    def getJavaScriptScriptEngineDescriptor() {
+    static def getJavaScriptScriptEngineDescriptor() {
         return GraalVMFacadeFactory.getOrCreateGraalVMFacade()
             .getScriptEngineDescriptors()
         .find {desc ->
@@ -125,7 +125,7 @@ class GraalVMPresentTest {
             facade.eval(js, script) as Value
             fail(
               "should have failed, 'a' should not be defined in the context")
-        } catch(GraalVMEvalException e) {
+        } catch(GraalVMEvalException ignored) {
             //OK. Expected this test to throw
         }
     }
