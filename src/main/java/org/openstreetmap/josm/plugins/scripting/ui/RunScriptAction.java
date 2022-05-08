@@ -1,14 +1,13 @@
 package org.openstreetmap.josm.plugins.scripting.ui;
 
-import static org.openstreetmap.josm.tools.I18n.tr;
+import org.openstreetmap.josm.actions.JosmAction;
+import org.openstreetmap.josm.gui.help.HelpUtil;
+import org.openstreetmap.josm.tools.Shortcut;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
-import org.openstreetmap.josm.actions.JosmAction;
-import org.openstreetmap.josm.gui.MainApplication;
-import org.openstreetmap.josm.gui.help.HelpUtil;
-import org.openstreetmap.josm.tools.Shortcut;
+import static org.openstreetmap.josm.tools.I18n.tr;
 
 public class RunScriptAction extends JosmAction {
     private static final long serialVersionUID = 1L;

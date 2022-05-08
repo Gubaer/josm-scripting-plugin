@@ -3,6 +3,7 @@ package org.openstreetmap.josm.plugins.scripting.ui;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 
+@SuppressWarnings("unused")
 public class GridBagConstraintBuilder {
 
     private GridBagConstraints gbc = new GridBagConstraints();
@@ -26,6 +27,7 @@ public class GridBagConstraintBuilder {
         }
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     public GridBagConstraintBuilder reset() {
         gbc = new GridBagConstraints();
         gbc.gridheight = 1;

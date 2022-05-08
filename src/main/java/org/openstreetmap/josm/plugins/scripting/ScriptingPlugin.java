@@ -101,7 +101,7 @@ public class ScriptingPlugin extends Plugin implements PreferenceKeys{
             JOSMModuleScriptProvider provider = JOSMModuleScriptProvider
                     .getInstance();
             Optional<URL> url = provider.lookup(START_MODULE_NAME);
-            if (!url.isPresent()) {
+            if (url.isEmpty()) {
                 logger.info(String.format("No startup module '%s' found.",
                         START_MODULE_NAME));
             } else {

@@ -52,13 +52,12 @@ import org.openstreetmap.josm.tools.Utils;
 /**
  * <p>Provides a modal dialog for selecting and running a script.</p>
  */
-@SuppressWarnings("serial")
 public class RunScriptDialog extends JDialog implements PreferenceKeys {
     @SuppressWarnings("unused")
     static private final Logger logger =
             Logger.getLogger(RunScriptDialog.class.getName());
 
-    static private RunScriptDialog instance =
+    static private final RunScriptDialog instance =
         new RunScriptDialog(MainApplication.getMainFrame());
     static public RunScriptDialog getInstance() {
         return instance;

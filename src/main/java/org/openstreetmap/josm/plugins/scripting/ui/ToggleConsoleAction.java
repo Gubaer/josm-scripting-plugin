@@ -11,7 +11,6 @@ import java.util.logging.Logger;
 
 import static org.openstreetmap.josm.tools.I18n.tr;
 
-@SuppressWarnings("serial")
 public class ToggleConsoleAction extends JosmAction
     implements ScriptingConsoleListener {
 

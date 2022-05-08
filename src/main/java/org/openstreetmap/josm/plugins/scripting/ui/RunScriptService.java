@@ -139,13 +139,14 @@ public class RunScriptService {
 
     /**
      * Checks whether the script given by <tt>fileName</tt> can be run.
-     * If not, prompts the user with a error message.
+     * If not, prompts the user with an error message.
      *
      * @param fileName the file name
      * @param parent the parent component relative to which the prompt
      * with the error message is displayed
      * @return true, if the script can be run; false, otherwise
      */
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public boolean canRunScript(String fileName, Component parent) {
         if (fileName.isEmpty()){
             warnEmptyFile(parent);
@@ -160,14 +161,14 @@ public class RunScriptService {
             return false;
         }
 
-        try(Reader reader = buildTextFileReader(f)) {
+        try(Reader ignored = buildTextFileReader(f)) {
             // just try to open the reader ...
+            return true;
         } catch(IOException e){
             // ... and if it fails, warn about it
             warnOpenScriptFileFailed(f, e, parent);
             return false;
         }
-        return true;
     }
 
     /**

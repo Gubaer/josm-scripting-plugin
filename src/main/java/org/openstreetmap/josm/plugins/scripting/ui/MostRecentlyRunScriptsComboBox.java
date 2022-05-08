@@ -3,7 +3,6 @@ package org.openstreetmap.josm.plugins.scripting.ui;
 import javax.swing.JComboBox;
 import javax.swing.text.JTextComponent;
 
-@SuppressWarnings("serial")
 public class MostRecentlyRunScriptsComboBox extends JComboBox<String>{
 
     public MostRecentlyRunScriptsComboBox(MostRecentlyRunScriptsModel model) {
