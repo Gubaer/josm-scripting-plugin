@@ -96,14 +96,9 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
      * An unmodifiable map of embedded script engines (currently only one entry
      * for the embedded engine based on Mozilla Rhino)
      */
-    static public final Map<String, ScriptEngineDescriptor>
-        EMBEDDED_SCRIPT_ENGINES;
-    static {
-         HashMap<String, ScriptEngineDescriptor> m = new HashMap<>();
-         m.put(DEFAULT_SCRIPT_ENGINE.getEngineId(), DEFAULT_SCRIPT_ENGINE);
-         EMBEDDED_SCRIPT_ENGINES = Collections.unmodifiableMap(m);
-    }
-
+    static public final Map<String, ScriptEngineDescriptor> EMBEDDED_SCRIPT_ENGINES = Map.of(
+            DEFAULT_SCRIPT_ENGINE.getEngineId(),
+            DEFAULT_SCRIPT_ENGINE);
 
     /**
      * <p>Replies a script engine descriptor derived from a preference value
