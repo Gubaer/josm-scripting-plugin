@@ -4,11 +4,13 @@ import static org.openstreetmap.josm.tools.I18n.tr;
 
 import java.text.MessageFormat;
 import java.util.*;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.script.ScriptEngineFactory;
 import javax.validation.constraints.NotNull;
 
+import com.oracle.truffle.api.library.Message;
 import org.openstreetmap.josm.data.Preferences;
 
 /**
@@ -179,10 +181,12 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
                 }
                 return desc;
             case PLUGGED:
-                //don't lowercase. Lookup in ScriptEngineManager could be case
+                //don't lowercase. Lookup in ScriptEngineManager could be case-
                 //sensitive
                 engineId = engineId.trim();
-                System.out.println("buildFromPreferences: engineId=" + engineId);
+                logger.log(Level.FINE, MessageFormat.format(
+                    "buildFromPreferences: engineId={1}",
+                    engineId));
                 if (!JSR223ScriptEngineProvider.getInstance()
                         .hasEngineWithName(engineId)) {
                     System.out.println(tr("Warning: preference with key ''{0}''"
