@@ -43,7 +43,7 @@ public class ScriptExecutor {
     static private final Logger logger =
          Logger.getLogger(ScriptExecutor.class.getName());
 
-    private Component parent;
+    private final Component parent;
 
     /**
      * Creates a new script executor
@@ -55,7 +55,7 @@ public class ScriptExecutor {
         this.parent = parent;
     }
 
-    private void warnScriptingEngineNotFound(ScriptEngineDescriptor desc) {
+    private void warnScriptingEngineNotFound() {
         HelpAwareOptionPane.showOptionDialog(
             this.parent,
             "<html>"
@@ -97,7 +97,10 @@ public class ScriptExecutor {
             }
         }
 
-        logger.log(Level.SEVERE, tr("Script execution has failed."), e);
+        logger.log(Level.SEVERE, String.format(
+            tr("Script execution has failed. Details: %s"),
+            details
+        ), e);
         ScriptErrorDialog.showErrorDialog(e);
     }
 
@@ -223,7 +226,7 @@ public class ScriptExecutor {
         final ScriptEngine engine = JSR223ScriptEngineProvider
                 .getInstance().getScriptEngine(desc);
         if (engine == null) {
-            warnScriptingEngineNotFound(desc);
+            warnScriptingEngineNotFound();
             return;
         }
         Runnable task = () -> {
@@ -264,7 +267,7 @@ public class ScriptExecutor {
         final ScriptEngine engine = JSR223ScriptEngineProvider.getInstance()
                 .getScriptEngine(desc);
         if (engine == null) {
-            warnScriptingEngineNotFound(desc);
+            warnScriptingEngineNotFound();
             return;
         }
         Runnable task = () -> {
@@ -293,12 +296,18 @@ public class ScriptExecutor {
         if (!desc.getEngineType().equals(
             ScriptEngineDescriptor.ScriptEngineType.GRAALVM)) {
             throw new IllegalArgumentException(MessageFormat.format(
-                "Expected GRAALVM descriptor, got {0}", desc.getEngineType()
+                "Expected GraalVM descriptor, got {0}", desc.getEngineType()
             ));
         }
         if (script == null) return;
-        final IGraalVMFacade facade =
-            GraalVMFacadeFactory.createGraalVMFacade();
+        final IGraalVMFacade facade = GraalVMFacadeFactory.createGraalVMFacade();
+        if (facade == null) {
+            // should not happen. Make sure this method is only invoked
+            // if GraalVM is present. Log a warning and return, don't prompt
+            // the user with an error message.
+            logger.warning(tr("GraalVM not present, can''t run script with GraalVM"));
+            return;
+        }
         Runnable task = () -> {
             try {
                 facade.eval(desc, script);
