@@ -24,6 +24,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -87,10 +88,10 @@ public class JSR223ScriptEngineProvider
                             Files.newInputStream(f.toPath()));
                     return;
                 } catch(IOException e) {
-                    System.err.println(
-                        tr("Warning: failed to load mime types from "
-                         + "file ''{0}''.", f));
-                    e.printStackTrace();
+                    logger.log(Level.WARNING,
+                        tr("failed to load mime types from file ''{0}''.", f),
+                        e
+                    );
                 }
             }
         }
@@ -98,14 +99,14 @@ public class JSR223ScriptEngineProvider
         try (final InputStream is = getClass()
                 .getResourceAsStream(DEFAULT_MIME_TYPES)){
             if (is == null){
-                System.err.println(tr("Warning: failed to load default mime "
-                        + "types from  resource ''{0}''.", DEFAULT_MIME_TYPES));
+                logger.warning(tr("failed to load default mime "
+                    + "types from  resource ''{0}''.", DEFAULT_MIME_TYPES));
                 return;
             }
             mimeTypesMap = new MimetypesFileTypeMap(is);
         } catch(IOException e) {
-            System.err.println(tr("Warning: failed to load default mime "
-                    + "types from  resource ''{0}''.", DEFAULT_MIME_TYPES));
+            logger.warning(tr("failed to load default mime "
+                + "types from  resource ''{0}''.", DEFAULT_MIME_TYPES));
             e.printStackTrace();
         }
     }
