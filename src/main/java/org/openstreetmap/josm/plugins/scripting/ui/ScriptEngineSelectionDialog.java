@@ -38,7 +38,7 @@ import static org.openstreetmap.josm.tools.I18n.tr;
 public class ScriptEngineSelectionDialog extends JDialog {
 
     private static final Logger logger =
-        Logger.getLogger(ScriptEngineDescriptor.class.getName());
+        Logger.getLogger(ScriptEngineSelectionDialog.class.getName());
 
     /**
      * Launches a modal dialog for selecting a script engine.
@@ -405,7 +405,7 @@ public class ScriptEngineSelectionDialog extends JDialog {
             } else if (rbPluggableScriptingEngine.isSelected()) {
                 selectedEngine = lstPluggedEngines.getSelectedValue();
             } else if (rbGraalVMScriptingEngine.isSelected()) {
-                selectedEngine = lstPluggedEngines.getSelectedValue();
+                selectedEngine = lstGraalVMEngines.getSelectedValue();
             }
             setVisible(false);
         }

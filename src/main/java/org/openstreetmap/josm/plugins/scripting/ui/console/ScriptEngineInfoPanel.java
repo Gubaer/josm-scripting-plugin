@@ -26,7 +26,7 @@ public class ScriptEngineInfoPanel extends JPanel implements
 PropertyChangeListener, HyperlinkListener{
     @SuppressWarnings("unused")
     static private final Logger logger =
-            Logger.getLogger(ScriptEngineInfoPanel.class.getName());
+        Logger.getLogger(ScriptEngineInfoPanel.class.getName());
 
     private JEditorPane jepInfo;
     private ScriptEditorModel model;
@@ -97,8 +97,8 @@ PropertyChangeListener, HyperlinkListener{
     }
 
     protected void promptForScriptEngine() {
-        ScriptEngineDescriptor desc = ScriptEngineSelectionDialog.select(
-                this, model.getScriptEngineDescriptor());
+        final var desc = ScriptEngineSelectionDialog.select(
+            this, model.getScriptEngineDescriptor());
         if (desc != null){
             logger.log(Level.FINE, String.format(
                 "Interactively selected script engine. id=%s, language=%s",
@@ -106,6 +106,8 @@ PropertyChangeListener, HyperlinkListener{
                 desc.getLanguageName()
             ));
             model.setScriptEngineDescriptor(desc);
+        } else {
+            logger.log(Level.FINE, "No script engine selected");
         }
     }
 
