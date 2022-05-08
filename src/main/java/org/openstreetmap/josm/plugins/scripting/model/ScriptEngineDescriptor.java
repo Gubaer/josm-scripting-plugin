@@ -1,17 +1,15 @@
 package org.openstreetmap.josm.plugins.scripting.model;
 
-import static org.openstreetmap.josm.tools.I18n.tr;
+import org.openstreetmap.josm.data.Preferences;
 
+import javax.script.ScriptEngineFactory;
+import javax.validation.constraints.NotNull;
 import java.text.MessageFormat;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.script.ScriptEngineFactory;
-import javax.validation.constraints.NotNull;
-
-import com.oracle.truffle.api.library.Message;
-import org.openstreetmap.josm.data.Preferences;
+import static org.openstreetmap.josm.tools.I18n.tr;
 
 /**
  * Describes a scripting engine used in the scripting plugin.
