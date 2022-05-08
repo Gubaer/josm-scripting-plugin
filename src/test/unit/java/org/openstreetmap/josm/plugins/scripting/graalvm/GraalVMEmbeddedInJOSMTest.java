@@ -52,11 +52,11 @@ public class GraalVMEmbeddedInJOSMTest {
     protected ScriptEngineDescriptor getDescriptorForJavaScript() {
         assertTrue(GraalVMFacadeFactory.isGraalVMPresent());
         final Optional<ScriptEngineDescriptor> descriptor =
-                facade.getSupportedLanguages()
-                        .stream()
-                        .filter(info -> info.getEngineId().equals("js"))
-                        .findAny();
-        if (! descriptor.isPresent()) {
+            facade.getSupportedLanguages()
+                .stream()
+                .filter(info -> info.getEngineId().equals("js"))
+                .findAny();
+        if (descriptor.isEmpty()) {
             fail("no script engine descriptor for language 'js' found");
         }
         return descriptor.get();
