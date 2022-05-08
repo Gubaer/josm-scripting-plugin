@@ -153,7 +153,7 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
             // versions. No attempt to recover from these values, when this
             // code goes productive, former preference values are automatically
             // reset to the current default scripting engine.
-            System.out.println(tr("Warning: preference with key ''{0}'' "
+            logger.warning(tr("preference with key ''{0}'' "
                 + "consist of an unsupported value. Expected pattern "
                 + "''type/id'', got ''{1}''. Assuming default scripting engine.",
                 PREF_KEY_SCRIPTING_ENGINE, preferenceValue));
@@ -170,29 +170,29 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
                 final ScriptEngineDescriptor desc =
                         EMBEDDED_SCRIPT_ENGINES.get(engineId);
                 if (desc == null) {
-                    System.out.println(tr("Warning: preference with key ''{0}''"
-                            + " refers to an unsupported embedded scripting "
-                            + "engine with id ''{1}''. "
-                            + "Assuming default scripting engine.",
-                            PREF_KEY_SCRIPTING_ENGINE, engineId));
+                    logger.warning(tr("preference with key ''{0}'' "
+                        + "refers to an unsupported embedded scripting "
+                        + "engine with id ''{1}''. "
+                        + "Assuming default scripting engine.",
+                        PREF_KEY_SCRIPTING_ENGINE, engineId));
                     return DEFAULT_SCRIPT_ENGINE;
                 }
                 return desc;
             case PLUGGED:
-                //don't lowercase. Lookup in ScriptEngineManager could be case-
-                //sensitive
+                // don't lowercase. Lookup in ScriptEngineManager could be
+                // case-sensitive
                 engineId = engineId.trim();
                 logger.log(Level.FINE, MessageFormat.format(
                     "buildFromPreferences: engineId={1}",
                     engineId));
                 if (!JSR223ScriptEngineProvider.getInstance()
                         .hasEngineWithName(engineId)) {
-                    System.out.println(tr("Warning: preference with key ''{0}''"
-                            + " refers to an unsupported JSR223 compatible "
-                            + " scripting engine with id ''{1}''. "
-                            + " Assuming default scripting engine.",
-                            PREF_KEY_SCRIPTING_ENGINE,
-                            engineId));
+                    logger.warning(tr("Warning: preference with key ''{0}''"
+                        + " refers to an unsupported JSR223 compatible "
+                        + " scripting engine with id ''{1}''. "
+                        + " Assuming default scripting engine.",
+                        PREF_KEY_SCRIPTING_ENGINE,
+                        engineId));
                     return DEFAULT_SCRIPT_ENGINE;
                 }
                 return new ScriptEngineDescriptor(ScriptEngineType.PLUGGED,
