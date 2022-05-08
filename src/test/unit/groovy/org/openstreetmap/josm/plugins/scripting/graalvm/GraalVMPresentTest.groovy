@@ -32,7 +32,7 @@ class GraalVMPresentTest {
     @Test
     void shouldDetectANonEmptyListOfLanguages() {
         def facade = GraalVMFacadeFactory.getOrCreateGraalVMFacade();
-        def infos = facade.getSupportedLanguages();
+        def infos = facade.getScriptEngineDescriptors();
         assertFalse(infos.isEmpty());
     }
 
@@ -52,7 +52,7 @@ class GraalVMPresentTest {
 
     def getJavaScriptScriptEngineDescriptor() {
         return GraalVMFacadeFactory.getOrCreateGraalVMFacade()
-            .getSupportedLanguages()
+            .getScriptEngineDescriptors()
         .find {desc ->
             desc.engineId == "js"
         }

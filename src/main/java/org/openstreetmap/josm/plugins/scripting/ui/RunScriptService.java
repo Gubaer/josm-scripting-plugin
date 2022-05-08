@@ -90,7 +90,7 @@ public class RunScriptService {
             final String mimeType) {
         return  GraalVMFacadeFactory.isGraalVMPresent()
             ? GraalVMFacadeFactory.getOrCreateGraalVMFacade()
-                .getSupportedLanguages()
+                .getScriptEngineDescriptors()
                 .stream()
                 .filter(desc ->
                         desc.getContentMimeTypes().contains(mimeType))

@@ -97,7 +97,7 @@ public class GraalVMFacade  implements IGraalVMFacade {
         initContext();
     }
 
-    private ScriptEngineDescriptor buildLanguageInfo(
+    private ScriptEngineDescriptor buildDescriptorForGraalVMBasedEngine(
             final Engine engine,
             final Language info) {
 
@@ -120,15 +120,18 @@ public class GraalVMFacade  implements IGraalVMFacade {
         return desc;
     }
 
-    private List<ScriptEngineDescriptor> buildSupportedLanguageInfos(
+    public List<ScriptEngineDescriptor> buildDescriptorsForGraalVMBasedEngines(
         @NotNull final Engine engine) {
         return engine.getLanguages().values().stream().map(value ->
-            buildLanguageInfo(engine, value)
+            buildDescriptorForGraalVMBasedEngine(engine, value)
         ).collect(Collectors.toList());
     }
 
-    public @NotNull List<ScriptEngineDescriptor> getSupportedLanguages() {
-        return buildSupportedLanguageInfos(context.getEngine());
+    /**
+     * @inheritDoc
+     */
+    public @NotNull List<ScriptEngineDescriptor> getScriptEngineDescriptors() {
+        return buildDescriptorsForGraalVMBasedEngines(context.getEngine());
     }
 
     private void ensureEngineIdPresent(String engineId) {

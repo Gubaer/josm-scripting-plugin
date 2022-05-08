@@ -318,7 +318,7 @@ public class ScriptEngineSelectionDialog extends JDialog {
             if (GraalVMFacadeFactory.isGraalVMPresent()) {
                 descriptors = GraalVMFacadeFactory
                     .getOrCreateGraalVMFacade()
-                    .getSupportedLanguages()
+                    .getScriptEngineDescriptors()
                     // only consider GraalJS support by the GraalVM. GraalVM
                     // support for other languages (LLVM, Python, etc.) is not
                     // yet possible for other languages.

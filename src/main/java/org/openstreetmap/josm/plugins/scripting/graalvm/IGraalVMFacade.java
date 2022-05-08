@@ -17,7 +17,7 @@ public interface IGraalVMFacade {
      * supported
      */
     @NotNull
-    List<ScriptEngineDescriptor> getSupportedLanguages();
+    List<ScriptEngineDescriptor> getScriptEngineDescriptors();
 
     /**
      * Evaluate a script in language <code>desc.getLanguageName()</code>in
