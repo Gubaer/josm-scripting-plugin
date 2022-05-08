@@ -313,18 +313,17 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
     public ScriptEngineDescriptor(@NotNull ScriptEngineFactory factory) {
         Objects.requireNonNull(factory);
         this.engineType = ScriptEngineType.PLUGGED;
-        final List<String> engineNames = factory.getNames();
+        final var engineNames = factory.getNames();
         if (engineNames == null || engineNames.isEmpty()) {
             logger.warning(MessageFormat.format("script engine factory ''{0}''"
-                    + " doesn''t provide an engine id. "
-                    + "Using engine name ''{1}'' instead.",
-                    factory.getEngineName()));
+                + " doesn''t provide an engine id. "
+                + "Using engine name ''{1}'' instead.",
+                factory.getEngineName()));
             this.engineId = factory.getEngineName();
         } else {
             // use the first of the provided names as ID
             this.engineId = engineNames.get(0);
         }
-        this.engineId = factory.getNames().get(0);
         initParametersForJSR223Engine(factory);
     }
 
