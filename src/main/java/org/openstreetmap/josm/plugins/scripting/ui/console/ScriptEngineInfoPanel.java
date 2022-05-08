@@ -13,6 +13,7 @@ import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Objects;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static org.openstreetmap.josm.tools.I18n.tr;
@@ -54,13 +55,18 @@ PropertyChangeListener, HyperlinkListener{
         build();
     }
 
+    private static void appendSelectScriptEngineLink(final StringBuilder sb,
+                                                     final String label) {
+        sb.append("<a href=\"urn:select-script-engine\">")
+                .append(tr(label)).append("</a>");
+    }
+
     protected void refreshInfo(ScriptEngineDescriptor desc){
         StringBuilder sb = new StringBuilder();
         if (desc == null){
             sb.append("<html>");
             sb.append(tr("No script engine selected.")).append(" ");
-            sb.append("<a href=\"urn:select-script-engine\">")
-                .append(tr("Select...")).append("</a>");
+            appendSelectScriptEngineLink(sb, "Select");
             sb.append("<html>");
         } else if (desc.isDefault()) {
             sb.append("<html>");
@@ -73,8 +79,7 @@ PropertyChangeListener, HyperlinkListener{
                     )
             );
             sb.append(" ");
-            sb.append("<a href=\"urn:change-script-engine\">")
-                .append(tr("Change...")).append("</a>");
+            appendSelectScriptEngineLink(sb, "Change");
             sb.append("</html>");
         } else {
             sb.append("<html>");
@@ -85,8 +90,7 @@ PropertyChangeListener, HyperlinkListener{
                     desc.getEngineName()))
             );
             sb.append(" ");
-            sb.append("<a href=\"urn:change-script-engine\">")
-                .append(tr("Change...")).append("</a>");
+            appendSelectScriptEngineLink(sb, "Change");
             sb.append("</html>");
         }
         jepInfo.setText(sb.toString());
@@ -96,12 +100,17 @@ PropertyChangeListener, HyperlinkListener{
         ScriptEngineDescriptor desc = ScriptEngineSelectionDialog.select(
                 this, model.getScriptEngineDescriptor());
         if (desc != null){
+            logger.log(Level.FINE, String.format(
+                "Interactively selected script engine. id=%s, language=%s",
+                desc.getEngineId(),
+                desc.getLanguageName()
+            ));
             model.setScriptEngineDescriptor(desc);
         }
     }
 
     /* --------------------------------------------------------------------- */
-    /* interface PropertyChagneListener                                      */
+    /* interface PropertyChangeListener                                      */
     /* --------------------------------------------------------------------- */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
