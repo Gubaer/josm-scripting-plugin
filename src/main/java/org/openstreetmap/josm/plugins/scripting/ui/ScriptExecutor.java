@@ -122,7 +122,7 @@ public class ScriptExecutor {
             this.parent,
             "<html>"
             + tr(
-                "<p>Failed to execute the script file ''{0}''.</p><p/>"
+                "<p>Failed to execute the script file ''{0}''.</p>"
                 + "<p><strong>Error message:</strong>{1}</p>"
                 + "<p><strong>At:</strong>line {2}, column {3}</p>",
                 scriptFile.toString(),
@@ -130,8 +130,7 @@ public class ScriptExecutor {
                 e.lineNumber(),
                 e.columnNumber()
             )
-            + "</html>"
-            ,
+            + "</html>",
             tr("Script execution failed"),
             JOptionPane.ERROR_MESSAGE,
             HelpUtil.ht("/Plugin/Scripting")
@@ -346,14 +345,16 @@ public class ScriptExecutor {
         } catch(JavaScriptException e){
             warnJavaScriptExceptionCaught(e);
         } catch(RhinoException e){
-            logger.log(Level.SEVERE, "", e);
+            logger.log(Level.SEVERE, String.format("failed to execute script file. file='%s'",
+                scriptFile.getAbsolutePath()), e);
             notifyRhinoException(scriptFile, e);
         } catch(IOException e){
-            logger.log(Level.SEVERE, "", e);
+            logger.log(Level.SEVERE, String.format("failed to execute script file. file='%s'",
+                scriptFile.getAbsolutePath()), e);
             notifyIOExeption(scriptFile, e);
         } catch(RuntimeException e){
-            logger.log(Level.SEVERE, "", e);
-            //TODO: notify with file name
+            logger.log(Level.SEVERE, String.format("failed to execute script file. file='%s'",
+                scriptFile.getAbsolutePath()), e);
             notifyRuntimeException(e);
         }
     }
@@ -371,13 +372,13 @@ public class ScriptExecutor {
             engine.enterSwingThreadContext();
             engine.evaluateOnSwingThread(script);
         } catch(JavaScriptException e){
-            logger.log(Level.SEVERE, "", e);
+            logger.log(Level.SEVERE, "failed to execute script", e);
             warnJavaScriptExceptionCaught(e);
         } catch(RhinoException e){
-            logger.log(Level.SEVERE, "", e);
+            logger.log(Level.SEVERE, "failed to execute script", e);
             notifyRhinoException(e);
         } catch(RuntimeException e){
-            logger.log(Level.SEVERE, "", e);
+            logger.log(Level.SEVERE, "failed to execute script", e);
             notifyRuntimeException(e);
         }
     }
