@@ -9,8 +9,8 @@ import static java.text.MessageFormat.format;
  * The ID of a CommonJS module.
  * 
  * A module ID consists of a sequence of segments, separated by <code>/</code>.
- * I may include the segments <code>.</code> and <code>..</code>. It may also
- * start with this segments. It must not start with a leading <code>/</code>.
+ * It may include and/or start with the segments <code>.</code> and <code>..</code>.
+ * It must not start with a leading <code>/</code>.
  */
 public class ModuleID {
     final private String value;
@@ -97,7 +97,7 @@ public class ModuleID {
     }
 
     /**
-     * Returns the a normalized module ID equal to this module ID.
+     * Returns the normalized module ID equal to this module ID.
      *
      * Normalized:
      * <ul>
@@ -111,8 +111,8 @@ public class ModuleID {
     public @NotNull ModuleID normalized() {
         if (value.endsWith(".js")) {
             return new ModuleID(value
-                    .substring(0, value.length() - 3)
-                    .replaceAll("/+", "/"));
+                .substring(0, value.length() - 3)
+                .replaceAll("/+", "/"));
         } else {
             return new ModuleID(value.replaceAll("/+", "/"));
         }
