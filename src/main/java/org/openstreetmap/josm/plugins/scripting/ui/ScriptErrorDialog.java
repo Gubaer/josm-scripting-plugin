@@ -13,12 +13,12 @@ public class ScriptErrorDialog  {
     private static JPanel buildTopPanel() {
         final JPanel pnl = new JPanel(new BorderLayout());
         final JEditorPane pane = EditorPaneBuilder.buildInfoEditorPane();
-        final String infoTxt = tr("<html>" +
+        final String infoTxt = "<html>" + tr(
             "An error occurred when executing a script. This is most likely " +
             "a bug in the script, and not in JOSM.<p>" +
             "Please get in touch with the script author before you file " +
-            "a bug in JOSMs bug tracker." +
-            "</html>");
+            "a bug in JOSMs bug tracker."
+            ) + "</html>";
         pane.setText(infoTxt);
         pnl.add(pane, BorderLayout.CENTER);
         return pnl;
@@ -75,8 +75,8 @@ public class ScriptErrorDialog  {
     public static void showErrorDialog(@NotNull String title,
                                        @NotNull Throwable forException) {
         final JOptionPane pane = new JOptionPane(
-                buildContentPanel(forException),
-                JOptionPane.ERROR_MESSAGE
+            buildContentPanel(forException),
+            JOptionPane.ERROR_MESSAGE
         );
         final JDialog dialog = pane.createDialog(title);
         dialog.setSize(600,400);
