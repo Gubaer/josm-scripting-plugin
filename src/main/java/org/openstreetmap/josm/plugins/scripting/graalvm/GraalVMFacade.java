@@ -101,20 +101,15 @@ public class GraalVMFacade  implements IGraalVMFacade {
             final Engine engine,
             final Language info) {
 
-        //WORKAROUND: implementation name is sometimes empty. Replace
-        // with a default name in this cases
-        String engineName = info.getImplementationName();
-        if (engineName == null || engineName.trim().isEmpty()) {
-            engineName = "GraalVM";
-        }
+        // for graalvm languages the engine name and engine are constants
         final ScriptEngineDescriptor desc = new ScriptEngineDescriptor(
-                ScriptEngineDescriptor.ScriptEngineType.GRAALVM,
-                info.getId(),                 // engineId
-                engineName,                   // engineName
-                info.getName(),               // languageName
-                info.getDefaultMimeType(),    // contentType
-                engine.getVersion(),          // engineVersion
-                info.getVersion()             // languageVersion
+            ScriptEngineDescriptor.ScriptEngineType.GRAALVM,
+            info.getId(),                 // engineId
+            info.getName(),               // engineName
+            info.getName(),               // languageName
+            info.getDefaultMimeType(),    // contentType
+            engine.getVersion(),          // engineVersion
+            info.getVersion()             // languageVersion
         );
         desc.setContentMimeTypes(info.getMimeTypes());
         return desc;

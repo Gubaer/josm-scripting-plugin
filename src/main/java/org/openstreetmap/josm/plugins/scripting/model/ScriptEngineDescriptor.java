@@ -1,6 +1,7 @@
 package org.openstreetmap.josm.plugins.scripting.model;
 
 import org.openstreetmap.josm.data.Preferences;
+import org.openstreetmap.josm.plugins.scripting.graalvm.GraalVMFacadeFactory;
 
 import javax.script.ScriptEngineFactory;
 import javax.validation.constraints.NotNull;
@@ -72,7 +73,7 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
     }
 
     private final ScriptEngineType engineType;
-    private String engineId;
+    private final String engineId;
     private String languageName = null;
     private String languageVersion = null;
     private String engineName = null;
@@ -85,11 +86,11 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
      */
     static public final ScriptEngineDescriptor DEFAULT_SCRIPT_ENGINE =
         new ScriptEngineDescriptor(
-            ScriptEngineType.EMBEDDED,
-            "rhino",
-            "JavaScript",
-            "Mozilla Rhino",
-            "text/javascript"
+            ScriptEngineType.EMBEDDED,  // engineType
+            "rhino",                    // engineId
+            "Mozilla Rhino",            // engineName
+            "JavaScript",               // languageName
+            "text/javascript"           // contentType
         );
 
     /**
@@ -165,10 +166,9 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
         String engineId = preferenceValue.substring(i+1);
         switch(type){
             case EMBEDDED:
-                //if (engineId == null) return DEFAULT_SCRIPT_ENGINE;
                 engineId = engineId.trim().toLowerCase();
                 final ScriptEngineDescriptor desc =
-                        EMBEDDED_SCRIPT_ENGINES.get(engineId);
+                    EMBEDDED_SCRIPT_ENGINES.get(engineId);
                 if (desc == null) {
                     logger.warning(tr("preference with key ''{0}'' "
                         + "refers to an unsupported embedded scripting "
@@ -178,6 +178,7 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
                     return DEFAULT_SCRIPT_ENGINE;
                 }
                 return desc;
+
             case PLUGGED:
                 // don't lowercase. Lookup in ScriptEngineManager could be
                 // case-sensitive
@@ -187,7 +188,7 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
                     engineId));
                 if (!JSR223ScriptEngineProvider.getInstance()
                         .hasEngineWithName(engineId)) {
-                    logger.warning(tr("Warning: preference with key ''{0}''"
+                    logger.warning(tr("preference with key ''{0}''"
                         + " refers to an unsupported JSR223 compatible "
                         + " scripting engine with id ''{1}''. "
                         + " Assuming default scripting engine.",
@@ -195,13 +196,41 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
                         engineId));
                     return DEFAULT_SCRIPT_ENGINE;
                 }
-                return new ScriptEngineDescriptor(ScriptEngineType.PLUGGED,
-                        engineId);
+                return new ScriptEngineDescriptor(ScriptEngineType.PLUGGED, engineId);
 
             case GRAALVM:
-                // TODO(karl): handle GraalVM
+                if (!GraalVMFacadeFactory.isGraalVMPresent()) {
+                    logger.warning(tr("preferences with key ''{0}'' refers to an "
+                        + "GraalVM engine, but currently the GraalVM isn''t present "
+                        + "on the classpath. Assuming default scripting engine.",
+                        PREF_KEY_SCRIPTING_ENGINE
+                    ));
+                    return DEFAULT_SCRIPT_ENGINE;
+                }
+                final String id = engineId;
+                final var engine = GraalVMFacadeFactory.getOrCreateGraalVMFacade()
+                    .getScriptEngineDescriptors().stream().filter(d ->
+                        d.getEngineId().equalsIgnoreCase(id)
+                    )
+                    .findFirst();
+                if (engine.isEmpty()) {
+                    logger.warning(tr("preference with key ''{0}'' refers to an GraalVM engine "
+                        + "with id''{1}''. The GraalVM for this language is currently not "
+                        + "present. Assuming default scripting engine.",
+                        PREF_KEY_SCRIPTING_ENGINE,
+                        id
+                    ));
+                    return DEFAULT_SCRIPT_ENGINE;
+                } else {
+                    return engine.get();
+                }
+
+            default:
+                // shouldn't happen
+                throw new IllegalStateException(String.format(
+                    "unexpected scripting engine type '%s'", type
+                ));
         }
-        return DEFAULT_SCRIPT_ENGINE;
     }
 
     protected void initParametersForJSR223Engine(String engineId) {
@@ -310,19 +339,33 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
      *
      * @param factory the factory. Must not be null.
      */
-    public ScriptEngineDescriptor(@NotNull ScriptEngineFactory factory) {
+    public ScriptEngineDescriptor(@NotNull final ScriptEngineFactory factory) {
         Objects.requireNonNull(factory);
+        //TODO: temporary debug statement, remove later
+        logger.fine(String.format("ScriptEngineFactory: "
+            + "engineName=%s, "
+            + "names=<%s>",
+            factory.getEngineName(),
+            factory.getNames() == null
+                ? ""
+                : String.join(",", factory.getNames())
+        ));
         this.engineType = ScriptEngineType.PLUGGED;
         final var engineNames = factory.getNames();
         if (engineNames == null || engineNames.isEmpty()) {
             logger.warning(MessageFormat.format("script engine factory ''{0}''"
-                + " doesn''t provide an engine id. "
-                + "Using engine name ''{1}'' instead.",
+                + " doesn''t provide engine names. Using engine factory name ''{0}'' instead.",
                 factory.getEngineName()));
             this.engineId = factory.getEngineName();
+            this.engineName = factory.getEngineName();
         } else {
-            // use the first of the provided names as ID
+            // use the first of the provided names as ID and engine name
             this.engineId = engineNames.get(0);
+            if (factory.getEngineName() != null) {
+                this.engineName = factory.getEngineName();
+            } else {
+                this.engineName = engineNames.get(0);
+            }
         }
         initParametersForJSR223Engine(factory);
     }

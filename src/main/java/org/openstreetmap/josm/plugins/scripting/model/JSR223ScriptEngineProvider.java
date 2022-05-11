@@ -100,14 +100,13 @@ public class JSR223ScriptEngineProvider
                 .getResourceAsStream(DEFAULT_MIME_TYPES)){
             if (is == null){
                 logger.warning(tr("failed to load default mime "
-                    + "types from  resource ''{0}''.", DEFAULT_MIME_TYPES));
+                    + "types from resource ''{0}''.", DEFAULT_MIME_TYPES));
                 return;
             }
             mimeTypesMap = new MimetypesFileTypeMap(is);
         } catch(IOException e) {
-            logger.warning(tr("failed to load default mime "
-                + "types from  resource ''{0}''.", DEFAULT_MIME_TYPES));
-            e.printStackTrace();
+            logger.log(Level.WARNING, tr("failed to load default mime "
+                + "types from  resource ''{0}''.", DEFAULT_MIME_TYPES),e);
         }
     }
 
@@ -134,8 +133,10 @@ public class JSR223ScriptEngineProvider
                 } catch(MalformedURLException e) {
                     // shouldn't happen because the entries in
                     // 'scriptEngineJars' are existing, valid files.
-                    // Ignore the exception.
-                    e.printStackTrace();
+                    // Ignore the exception, but log it.
+                    logger.log(Level.WARNING,tr(
+                        "found malformed URL to script engine jar. URL=''{0}''"
+                        ), e);
                     return null;
                 }
             })
@@ -144,8 +145,8 @@ public class JSR223ScriptEngineProvider
 
         if (urls.length > 0){
             scriptClassLoader = new URLClassLoader(
-                    urls,
-                    getClass().getClassLoader()
+                urls,
+                getClass().getClassLoader()
             );
         } else {
             scriptClassLoader = getClass().getClassLoader();
@@ -154,7 +155,7 @@ public class JSR223ScriptEngineProvider
 
     protected void loadScriptEngineFactories() {
         Objects.requireNonNull(scriptClassLoader,
-                "expected scriptClassLoader != null");
+            "expected scriptClassLoader != null");
         factories.clear();
         descriptors.clear();
         final ScriptEngineManager manager =
@@ -193,7 +194,7 @@ public class JSR223ScriptEngineProvider
     public ScriptEngine getEngineByName(@NotNull String name) {
         Objects.requireNonNull(name);
         // Note: getScriptEngineManager().get(name) doesn't work as
-        // expected. This is a work around.
+        // expected. This is a workaround.
         return getScriptEngineFactories().stream()
             .filter(f -> f.getEngineName().equals(name))
             .findAny()
@@ -291,7 +292,7 @@ public class JSR223ScriptEngineProvider
     }
 
     /**
-     * Replies a script engine for the first first script engine factory
+     * Replies a script engine for the first script engine factory
      * whose name matches with the name in the descriptor <code>desc</code>,
      * or null, if no such scripting engine is found.
      *

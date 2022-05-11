@@ -5,8 +5,8 @@ import org.openstreetmap.josm.tools.ImageProvider;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Optional;
 
+import static org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor.ScriptEngineType.GRAALVM;
 import static org.openstreetmap.josm.tools.I18n.tr;
 
 /**
@@ -15,21 +15,32 @@ import static org.openstreetmap.josm.tools.I18n.tr;
 public class ScriptEngineCellRenderer
     implements ListCellRenderer<ScriptEngineDescriptor> {
 
-    static public String defaultEngineName(String name) {
-        return Optional.ofNullable(name)
+    static public final String DISPLAYED_GRAAL_ENGINE_NAME = "GraalVM";
+
+//    static public String defaultEngineName(String name) {
+//        return Optional.ofNullable(name)
+//            .map(String::trim)
+//            .filter(String::isEmpty)
+//            .orElse(tr("unknown engine"));
+//    }
+
+    static public String defaultEngineName(ScriptEngineDescriptor desc) {
+        if (desc.getEngineType() == GRAALVM) {
+            return DISPLAYED_GRAAL_ENGINE_NAME;
+        }
+        return desc.getEngineName()
             .map(String::trim)
-            .filter(String::isEmpty)
-            .orElse(tr("unknown engine"));
+            .filter(s -> ! s.isEmpty())
+            .orElse(tr("unknown"));
     }
 
     private final JLabel lbl = new JLabel();
 
     private String getDisplayName(ScriptEngineDescriptor descriptor){
         if (descriptor == null) return tr("Select an engine");
-        final String engineName = defaultEngineName(
-            descriptor.getEngineName().orElse(null));
+        final String engineName = defaultEngineName(descriptor);
         final String languageName = descriptor.getLanguageName()
-                .orElse(tr("unknown language"));
+                .orElse(tr("unknown"));
         // used in the context of a combo box
         return tr("{1} (with engine {0})", engineName, languageName);
     }
@@ -46,7 +57,7 @@ public class ScriptEngineCellRenderer
         sb.append("<html>");
         if (descriptor.getEngineName().isPresent()) {
             addNameValuePairToToolTip(sb, tr("Name:"),
-                defaultEngineName(descriptor.getEngineName().orElse(null)));
+                defaultEngineName(descriptor));
         }
         if (descriptor.getEngineVersion().isPresent()) {
             addNameValuePairToToolTip(sb, tr("Version:"),

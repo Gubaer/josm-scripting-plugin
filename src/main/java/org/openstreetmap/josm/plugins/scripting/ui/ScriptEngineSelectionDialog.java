@@ -125,6 +125,7 @@ public class ScriptEngineSelectionDialog extends JDialog {
 
         gc = gbc(gc).cell(1, 0).weight(1.0, 1.0).fillboth().constraints();
         HtmlPanel ht = new HtmlPanel();
+        //TODO(karl): translate
         ht.setText("<html>"
                 + "Use the embedded scripting engine for "
                 + "<strong>JavaScript</strong> (ECMAScript 5.0) based on "
@@ -226,6 +227,7 @@ public class ScriptEngineSelectionDialog extends JDialog {
 
         gc = gbc(gc).cell(1,0).weight(1.0,0.0).fillboth().constraints();
         HtmlPanel ht = new HtmlPanel();
+        //TODO(karl): i18n
         ht.setText("<html>"
                 + "Use one of the available pluggable scripting engines "
                 + "(see <i>Preferences</i> to configure additional engines)."
@@ -275,6 +277,7 @@ public class ScriptEngineSelectionDialog extends JDialog {
 
         gc = gbc(gc).cell(1,0).weight(1.0,0.0).fillboth().constraints();
         HtmlPanel ht = new HtmlPanel();
+        //TODO(karl): i18n
         ht.setText("<html>"
                 + "Use GraalJS, the JavaScript engine provided by the "
                 + "GraalVM"

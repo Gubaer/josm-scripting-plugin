@@ -55,10 +55,8 @@ PropertyChangeListener, HyperlinkListener{
         build();
     }
 
-    private static void appendSelectScriptEngineLink(final StringBuilder sb,
-                                                     final String label) {
-        sb.append("<a href=\"urn:select-script-engine\">")
-                .append(tr(label)).append("</a>");
+    private static String buildSelectScriptEngineLink(final String label) {
+        return String.format("<a href=\"urn:select-script-engine\">%s</a>", label);
     }
 
     protected void refreshInfo(ScriptEngineDescriptor desc){
@@ -66,31 +64,30 @@ PropertyChangeListener, HyperlinkListener{
         if (desc == null){
             sb.append("<html>");
             sb.append(tr("No script engine selected.")).append(" ");
-            appendSelectScriptEngineLink(sb, "Select");
-            sb.append("<html>");
+            sb.append(buildSelectScriptEngineLink(tr("Select")));
+            sb.append("</html>");
         } else if (desc.isDefault()) {
             sb.append("<html>");
             sb.append(
-                    tr("Executing scripts with the built-in scripting engine "
-                    +"for language <strong>{0}</strong> based on "
-                    + "<strong>{1}</strong>.",
-                    desc.getLanguageName().orElse(tr("unknown")),
-                    desc.getEngineName().orElse(tr("unknown"))
-                    )
+                tr("Executing scripts with the built-in scripting engine "
+                +"for language <strong>{0}</strong> based on "
+                + "<strong>{1}</strong>.",
+                desc.getLanguageName().orElse(tr("unknown")),
+                desc.getEngineName().orElse(tr("unknown"))
+                )
             );
             sb.append(" ");
-            appendSelectScriptEngineLink(sb, "Change");
+            sb.append(buildSelectScriptEngineLink(tr("Change")));
             sb.append("</html>");
         } else {
             sb.append("<html>");
             sb.append(tr("Executing scripts in language <strong>{0}</strong> "
                 + "using engine <strong>{1}</strong>.",
                 desc.getLanguageName().orElse(tr("unknown")),
-                ScriptEngineCellRenderer.defaultEngineName(
-                    desc.getEngineName().orElse(null)))
+                ScriptEngineCellRenderer.defaultEngineName(desc))
             );
             sb.append(" ");
-            appendSelectScriptEngineLink(sb, "Change");
+            sb.append(buildSelectScriptEngineLink(tr("Change")));
             sb.append("</html>");
         }
         jepInfo.setText(sb.toString());
