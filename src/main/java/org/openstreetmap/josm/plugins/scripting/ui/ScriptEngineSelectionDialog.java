@@ -31,9 +31,8 @@ import static org.openstreetmap.josm.tools.I18n.tr;
 
 /**
  * <strong>ScriptEngineSelectionDialog</strong> allows to select one of the
- *  plugable JSR223 compatible script engines, one of the embedded script
+ *  pluggable JSR223 compatible script engines, one of the embedded script
  *  engines, or GraalJS supported by the GraalVM.
- *
  */
 public class ScriptEngineSelectionDialog extends JDialog {
 
@@ -125,12 +124,11 @@ public class ScriptEngineSelectionDialog extends JDialog {
 
         gc = gbc(gc).cell(1, 0).weight(1.0, 1.0).fillboth().constraints();
         HtmlPanel ht = new HtmlPanel();
-        //TODO(karl): translate
-        ht.setText("<html>"
-                + "Use the embedded scripting engine for "
-                + "<strong>JavaScript</strong> (ECMAScript 5.0) based on "
-                + "<strong>Mozilla Rhino</strong>."
-                + " </html>"
+        ht.setText("<html>" + tr(
+              "Use the embedded scripting engine for "
+            + "<strong>JavaScript</strong> (ECMAScript 5.0) based on "
+            + "<strong>Mozilla Rhino</strong>.")
+            + " </html>"
         );
         pnl.add(ht, gc);
         return pnl;
@@ -227,11 +225,10 @@ public class ScriptEngineSelectionDialog extends JDialog {
 
         gc = gbc(gc).cell(1,0).weight(1.0,0.0).fillboth().constraints();
         HtmlPanel ht = new HtmlPanel();
-        //TODO(karl): i18n
-        ht.setText("<html>"
-                + "Use one of the available pluggable scripting engines "
-                + "(see <i>Preferences</i> to configure additional engines)."
-                + " </html>"
+        ht.setText("<html>" + tr(
+              "Use one of the available pluggable scripting engines "
+            + "(see <i>Preferences</i> to configure additional engines)."
+            ) + " </html>"
         );
         pnl.add(ht, gc);
 
@@ -277,13 +274,12 @@ public class ScriptEngineSelectionDialog extends JDialog {
 
         gc = gbc(gc).cell(1,0).weight(1.0,0.0).fillboth().constraints();
         HtmlPanel ht = new HtmlPanel();
-        //TODO(karl): i18n
-        ht.setText("<html>"
-                + "Use GraalJS, the JavaScript engine provided by the "
-                + "GraalVM"
-                + "(see <i>Preferences</i> to configure GraalJS)."
-                + "</html>"
+        ht.setText("<html>" + tr(
+                  "Use GraalJS, the JavaScript engine provided by the "
+                + "GraalVM (see <i>Preferences</i> to configure GraalJS)."
+                ) + "</html>"
         );
+        pnl.add(ht, gc);
         pnl.add(ht, gc);
 
         lstGraalVMEngines.setCellRenderer(new ScriptEngineCellRenderer());
