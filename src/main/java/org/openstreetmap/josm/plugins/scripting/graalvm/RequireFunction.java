@@ -139,7 +139,7 @@ public class RequireFunction implements Function<String, Value> {
                     buffer.write(data, 0, numRead);
                 }
                 buffer.flush();
-                return new String(buffer.toByteArray(), StandardCharsets.UTF_8);
+                return buffer.toString(StandardCharsets.UTF_8);
             }
         }
     }
@@ -225,7 +225,7 @@ public class RequireFunction implements Function<String, Value> {
                 contextURI);
         }
 
-        if (!resolvedModuleURI.isPresent()) {
+        if (resolvedModuleURI.isEmpty()) {
             final String message = MessageFormat.format(
                 "failed to resolve module with module ID ''{0}'' from "
               + "context ''{1}''",
