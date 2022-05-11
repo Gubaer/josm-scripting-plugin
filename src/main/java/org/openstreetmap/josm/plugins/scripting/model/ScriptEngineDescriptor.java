@@ -341,15 +341,6 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
      */
     public ScriptEngineDescriptor(@NotNull final ScriptEngineFactory factory) {
         Objects.requireNonNull(factory);
-        //TODO: temporary debug statement, remove later
-        logger.fine(String.format("ScriptEngineFactory: "
-            + "engineName=%s, "
-            + "names=<%s>",
-            factory.getEngineName(),
-            factory.getNames() == null
-                ? ""
-                : String.join(",", factory.getNames())
-        ));
         this.engineType = ScriptEngineType.PLUGGED;
         final var engineNames = factory.getNames();
         if (engineNames == null || engineNames.isEmpty()) {
