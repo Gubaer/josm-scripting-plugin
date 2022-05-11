@@ -29,7 +29,7 @@ abstract public class MultiCommand extends Command{
 
     protected List<OsmPrimitive> normalize(Collection<OsmPrimitive> toAdd) {
         return toAdd.stream()
-            .filter(p -> p != null)
+            .filter(Objects::nonNull)
             .distinct()
             .collect(Collectors.toList());
     }

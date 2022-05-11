@@ -31,6 +31,7 @@ public class Change {
     private static final Logger logger =
             Logger.getLogger(Change.class.getName());
 
+    @SuppressWarnings("unused")
     public static abstract class PropertyChange<T> {
         protected T newValue;
         public  boolean appliesTo(OsmPrimitive primitive) {
@@ -205,7 +206,7 @@ public class Change {
 
         @Override
         public String explain(OsmPrimitive primitive) {
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             sb.append("nodes=[");
             if (newValue != null) {
                 sb.append(newValue.stream()
@@ -245,7 +246,7 @@ public class Change {
 
         @Override
         public String explain(OsmPrimitive primitive) {
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             sb.append("members=[");
             if (newValue != null) {
                 sb.append(newValue.stream()
@@ -358,15 +359,11 @@ public class Change {
      * @return the explanation
      */
     public String explain(OsmPrimitive primitive) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(primitive.getDisplayName(DefaultNameFormatter.getInstance()));
-        sb.append(": ");
-        sb.append(
+        return primitive.getDisplayName(DefaultNameFormatter.getInstance()) +
+            ": " +
             changes.stream()
                 .filter(change -> change.appliesTo(primitive))
                 .map(change -> change.explain(primitive))
-                .collect(Collectors.joining(", "))
-        );
-        return sb.toString();
+                .collect(Collectors.joining(", "));
     }
 }

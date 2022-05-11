@@ -2,10 +2,7 @@ package org.openstreetmap.josm.plugins.scripting.js.api;
 
 import static org.openstreetmap.josm.tools.I18n.trn;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 import javax.validation.constraints.NotNull;
 
@@ -45,8 +42,8 @@ public class AddMultiCommand extends MultiCommand {
         primitives = new OsmPrimitive[normalized.size()];
         normalized.toArray(primitives);
         // make sure nodes will be added before ways, nodes and ways before relations
-        Arrays.sort(primitives, 
-            (p1, p2) -> p1.getPrimitiveId().getType().compareTo(p2.getPrimitiveId().getType())
+        Arrays.sort(primitives,
+                Comparator.comparing(p -> p.getPrimitiveId().getType())
         );
     }
 
