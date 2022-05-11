@@ -17,11 +17,14 @@ public class FileSystemJSModuleRepository extends BaseJSModuleRepository {
 
     private final File baseDir;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected boolean isRepoFile(String repoPath) {
         final Path moduleFilePath = Paths.get(
-                baseDir.toString(),
-                Paths.get("/", repoPath).toString());
+            baseDir.toString(),
+            Paths.get("/", repoPath).toString());
         logFine(() -> MessageFormat.format(
             "isRepoFile: checking path ''{0}''", moduleFilePath
         ));
@@ -96,29 +99,24 @@ public class FileSystemJSModuleRepository extends BaseJSModuleRepository {
                 && moduleFile.canRead();
     }
 
-    private void ensureBaseDirExistAndReadable(String id) {
+    private boolean checkBaseDirExistAndReadable(String id) {
         if (! (baseDir.exists() && baseDir.canRead() && baseDir.isDirectory())) {
             logFine(() -> MessageFormat.format(
                 "failed to resolve module id ''{0}''. base dir ''{1}'' "
               + "doesn''t exist, isn''t readable, or isn''t a directory",
                 id, baseDir.getAbsolutePath()
             ));
-            //TODO (karl): throw something else? ResolutionException?
-            throw new IllegalStateException(
-                MessageFormat.format(
-                    "failed to resolve module id ''{0}'' in repo ''{1}''. "
-                  + "repo base dir doesn''t exist, isn''t readable, or isn''t "
-                  + "a directory",
-                    id, baseDir.getAbsolutePath()
-                )
-            );
+            return false;
         }
+        return true;
     }
 
     private Optional<URI> internalResolve(ModuleID id,
                                           URI contextURI) {
         // make sure baseDir is an existing and readable directory
-        ensureBaseDirExistAndReadable(id.toString());
+        if (!checkBaseDirExistAndReadable(id.toString())) {
+            return Optional.empty();
+        }
         id = id.normalized();
 
         // we already know, that contextURI is a non-null file:// URI
@@ -134,7 +132,7 @@ public class FileSystemJSModuleRepository extends BaseJSModuleRepository {
              baseDir.toPath().relativize(contextFilePath).toString());
 
         final Optional<String> moduleRepoPath = resolve(id, contextRepoPath);
-        if (!moduleRepoPath.isPresent()) {
+        if (moduleRepoPath.isEmpty()) {
             final Object[] params = {
                 id.toString()
             };
