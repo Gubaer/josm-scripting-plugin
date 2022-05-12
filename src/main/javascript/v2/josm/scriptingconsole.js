@@ -6,13 +6,14 @@
  */
 
 /* global Java */
+/* global ScriptingConsole */
 
 // -- imports
 const MessageFormat = Java.type('java.text.MessageFormat')
-const ScriptingConsole = Java.type('org.openstreetmap.josm.plugins.scripting.ui.console.ScriptingConsole')
+// const ScriptingConsole = Java.type('org.openstreetmap.josm.plugins.scripting.ui.console.ScriptingConsole')
 
 function consoleWriter () {
-  return ScriptingConsole.getInstance().getScriptLog().getLogWriter()
+    return ScriptingConsole.getInstance().getScriptLog().getLogWriter()
 }
 
 /**
