@@ -17,13 +17,6 @@ public class ScriptEngineCellRenderer
 
     static public final String DISPLAYED_GRAAL_ENGINE_NAME = "GraalVM";
 
-//    static public String defaultEngineName(String name) {
-//        return Optional.ofNullable(name)
-//            .map(String::trim)
-//            .filter(String::isEmpty)
-//            .orElse(tr("unknown engine"));
-//    }
-
     static public String defaultEngineName(ScriptEngineDescriptor desc) {
         if (desc.getEngineType() == GRAALVM) {
             return DISPLAYED_GRAAL_ENGINE_NAME;
@@ -40,7 +33,7 @@ public class ScriptEngineCellRenderer
         if (descriptor == null) return tr("Select an engine");
         final String engineName = defaultEngineName(descriptor);
         final String languageName = descriptor.getLanguageName()
-                .orElse(tr("unknown"));
+            .orElse(tr("unknown"));
         // used in the context of a combo box
         return tr("{1} (with engine {0})", engineName, languageName);
     }
@@ -93,7 +86,8 @@ public class ScriptEngineCellRenderer
     public ScriptEngineCellRenderer() {
         lbl.setOpaque(true);
         lbl.setBorder(BorderFactory.createEmptyBorder(1, 3, 1, 3));
-        lbl.setIcon(ImageProvider.get("script-engine"));
+        lbl.setIcon(ImageProvider.get("script-engine",
+            ImageProvider.ImageSizes.SMALLICON));
     }
 
     @Override
@@ -101,8 +95,7 @@ public class ScriptEngineCellRenderer
             JList<? extends ScriptEngineDescriptor> list,
             ScriptEngineDescriptor descriptor, int index, boolean isSelected,
             boolean cellHasFocus) {
-        boolean enabled = list.isEnabled();
-        renderColors(isSelected, enabled);
+        renderColors(isSelected, list.isEnabled());
         lbl.setText(getDisplayName(descriptor));
         lbl.setToolTipText(getTooltipText(descriptor));
         return lbl;
