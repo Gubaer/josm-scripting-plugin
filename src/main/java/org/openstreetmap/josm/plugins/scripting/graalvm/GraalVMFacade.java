@@ -26,6 +26,15 @@ public class GraalVMFacade  implements IGraalVMFacade {
 
     private Context context;
 
+    static private final List<Class<?>> POPULATED_CLASSES = List.of(
+        RequireFunction.class,
+        JSAction.class,
+        AddMultiCommand.class,
+        ChangeMultiCommand.class,
+        Change.class,
+        ScriptingConsole.class
+    );
+
     private void populateContext(final Context context) {
         // populate the context with the require function
         final RequireFunction require = new RequireFunction();
@@ -38,18 +47,9 @@ public class GraalVMFacade  implements IGraalVMFacade {
         // TODO: replace with a binding to a generic function which
         // can provide classes from the scripting plugin jar to
         // JavaScript modules?
-        context.getBindings("js").putMember(
-            "RequireFunction", RequireFunction.class);
-        context.getBindings("js").putMember(
-            "JSAction", JSAction.class);
-        context.getBindings("js").putMember(
-            "AddMultiCommand", AddMultiCommand.class);
-        context.getBindings("js").putMember(
-            "ChangeMultiCommand", ChangeMultiCommand.class);
-        context.getBindings("js").putMember(
-            "Change", Change.class);
-        context.getBindings("js").putMember(
-            "ScriptingConsole", ScriptingConsole.class);
+        POPULATED_CLASSES.stream().forEach(clazz ->
+            context.getBindings("js").putMember(clazz.getName(), clazz)
+        );
     }
 
     private void grantPrivilegesToContext(final Context.Builder builder) {
