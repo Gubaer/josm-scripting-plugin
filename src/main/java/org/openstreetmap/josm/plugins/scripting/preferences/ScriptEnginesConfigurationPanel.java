@@ -430,7 +430,8 @@ public class ScriptEnginesConfigurationPanel extends VerticallyScrollablePanel{
         public RemoveJarAction() {
             putValue(NAME, tr("Remove"));
             putValue(SHORT_DESCRIPTION, tr("Remove the selected jar files"));
-            putValue(SMALL_ICON, ImageProvider.get("dialogs","delete"));
+            putValue(SMALL_ICON, ImageProvider.get("dialogs","delete",
+                ImageProvider.ImageSizes.SMALLICON));
             updateEnabledState();
         }
 
@@ -455,7 +456,8 @@ public class ScriptEnginesConfigurationPanel extends VerticallyScrollablePanel{
             putValue(NAME, tr("Add"));
             putValue(SHORT_DESCRIPTION,
                 tr("Add a jar file providing a script engine"));
-            putValue(SMALL_ICON, ImageProvider.get("add"));
+            putValue(SMALL_ICON, ImageProvider.get("add",
+                ImageProvider.ImageSizes.SMALLICON));
         }
 
         @Override
@@ -468,11 +470,11 @@ public class ScriptEnginesConfigurationPanel extends VerticallyScrollablePanel{
     private class DownloadEngineAction extends AbstractAction {
 
         public DownloadEngineAction() {
-            //putValue(NAME, tr("Download"));
             putValue(
-                    SHORT_DESCRIPTION,
-                    tr("Download and install scripting engine"));
-            putValue(SMALL_ICON, ImageProvider.get("download"));
+                SHORT_DESCRIPTION,
+                tr("Download and install scripting engine"));
+            putValue(SMALL_ICON, ImageProvider.get("download",
+                ImageProvider.ImageSizes.SMALLICON));
         }
 
         @Override
