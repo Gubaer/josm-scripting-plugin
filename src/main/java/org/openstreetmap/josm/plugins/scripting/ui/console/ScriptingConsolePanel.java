@@ -1,7 +1,6 @@
 package org.openstreetmap.josm.plugins.scripting.ui.console;
 
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
-import org.graalvm.polyglot.PolyglotException;
 import org.openstreetmap.josm.gui.HelpAwareOptionPane;
 import org.openstreetmap.josm.gui.HelpAwareOptionPane.ButtonSpec;
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
@@ -209,7 +208,7 @@ public class ScriptingConsolePanel extends JPanel {
                         .runScriptWithGraalEngine(
                             model.getScriptEngineDescriptor(),
                             source);
-                } catch(PolyglotException ex) {
+                } catch(Throwable ex) {
                     logger.log(Level.SEVERE, ex.getMessage(), ex);
                     throw ex;
                 }
