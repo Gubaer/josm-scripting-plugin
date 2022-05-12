@@ -58,7 +58,6 @@ public class ScriptEditor extends JPanel implements PropertyChangeListener {
         editor = new RSyntaxTextArea();
         add(new RTextScrollPane(editor), BorderLayout.CENTER);
         // for context type text/plain
-        // TODO (karl): make configurable in the preferences
         editor.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_NONE);
         editor.setCodeFoldingEnabled(false);
         editor.setWhitespaceVisible(true);
