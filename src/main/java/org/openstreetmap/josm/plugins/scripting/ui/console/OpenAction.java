@@ -51,7 +51,7 @@ public class OpenAction extends AbstractAction {
     OpenAction() {
         putValue(NAME, tr("Open"));
         putValue(SHORT_DESCRIPTION, tr("Open a script file"));
-        putValue(SMALL_ICON, ImageProvider.get("open"));
+        putValue(SMALL_ICON, ImageProvider.get("open", ImageProvider.ImageSizes.MENU));
     }
 
     @Override

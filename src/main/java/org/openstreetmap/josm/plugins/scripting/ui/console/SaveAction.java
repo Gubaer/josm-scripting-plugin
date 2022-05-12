@@ -20,7 +20,7 @@ public class SaveAction extends AbstractAction implements
     SaveAction() {
         putValue(NAME, tr("Save"));
         putValue(SHORT_DESCRIPTION, tr("Save script to current file"));
-        putValue(SMALL_ICON, ImageProvider.get("save"));
+        putValue(SMALL_ICON, ImageProvider.get("save", ImageProvider.ImageSizes.MENU));
         updateEnabledState();
     }
 

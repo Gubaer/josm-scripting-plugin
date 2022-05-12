@@ -29,7 +29,7 @@ public class SaveAsAction extends AbstractAction {
     SaveAsAction() {
         putValue(NAME, tr("Save as ..."));
         putValue(SHORT_DESCRIPTION, tr("Save to a script file"));
-        putValue(SMALL_ICON, ImageProvider.get("save_as"));
+        putValue(SMALL_ICON, ImageProvider.get("save_as", ImageProvider.ImageSizes.MENU));
     }
 
     @Override
