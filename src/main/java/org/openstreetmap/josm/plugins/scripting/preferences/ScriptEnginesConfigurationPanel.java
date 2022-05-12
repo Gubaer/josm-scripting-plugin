@@ -99,8 +99,13 @@ public class ScriptEnginesConfigurationPanel extends VerticallyScrollablePanel{
          */
         public boolean hasLocalJarFile() {
             File jar = getLocalJarFile();
-            System.out.println("jar file: " + jar);
-            if (jar == null) return false;
+            if (jar == null) {
+                logger.warning(String.format(
+                    "no jar file for scripting engine '%s' locally available",
+                    getName()
+                ));
+                return false;
+            }
             return jar.isFile() && jar.canRead();
         }
 
@@ -141,20 +146,20 @@ public class ScriptEnginesConfigurationPanel extends VerticallyScrollablePanel{
         try (InputStream in = ScriptEnginesConfigurationPanel.class
                 .getResourceAsStream(RES_SCRIPT_ENGINE_JARS)) {
             if (in == null) {
-                System.err.println(tr("Error: resource file ''{0}'' not found",
+                logger.severe(tr("resource file ''{0}'' not found",
                 RES_SCRIPT_ENGINE_JARS));
             }
 
             prop.load(in);
         } catch(IOException e) {
             logger.log(Level.SEVERE,
-                tr("Error: failed to load resource file ''{0}''",
+                tr("failed to load resource file ''{0}''",
                 RES_SCRIPT_ENGINE_JARS), e);
         }
         String value = prop.getProperty("engines");
         if (value == null) {
             logger.warning(tr(
-                "property  ''{0}'' in resource file ''{1}'' not found",
+                "property ''{0}'' in resource file ''{1}'' not found",
                 "engines", RES_SCRIPT_ENGINE_JARS));
             return;
         }
