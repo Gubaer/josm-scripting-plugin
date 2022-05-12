@@ -1,32 +1,60 @@
 package org.openstreetmap.josm.plugins.scripting.preferences.graalvm;
 
+import org.openstreetmap.josm.plugins.scripting.graalvm.GraalVMFacadeFactory;
 import org.openstreetmap.josm.plugins.scripting.ui.EditorPaneBuilder;
 
 import javax.swing.*;
+import javax.swing.event.HyperlinkEvent;
+import javax.swing.event.HyperlinkListener;
 import java.awt.*;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static org.openstreetmap.josm.tools.I18n.tr;
 
-public class GraalVMConfigurationPanel extends JPanel {
+/**
+ * The preferences configuration panel for the GraalVM. Supports interactive
+ * configuration of a list of CommonJS module repositories.
+ */
+public class GraalVMConfigurationPanel extends JPanel implements HyperlinkListener {
     @SuppressWarnings("unused")
     private static final Logger logger =
             Logger.getLogger(GraalVMConfigurationPanel.class.getName());
 
     private CommonJSRepoConfigurationPanel pnlCommonJSRepoConfiguration;
 
+    static private final String MESSAGE_01 = tr(
+          "The scripting plugin can run JavaScript scripts using "
+        + "<a href=\"https://github.com/oracle/graaljs\">GraalJS</a>, "
+        + "the JavaScript engine provided by the <a href=\"https://www.graalvm.org/\">GraalVM</a>."
+        + "To be available in the scripting plugin, GraalJS has "
+        + "to be on the classpath when JOSM starts. ");
+
+    static private final String MESSAGE_02 = tr(
+        "JOSM has been started with GraalJS on the classpath. You can use GraalJS "
+        + "in the scripting plugin.");
+
+    //TODO(karl): add link to documentation
+    static private final String MESSAGE_03 = tr(
+            "JOSM has <strong>not</strong> been started with GraalJS on the classpath. "
+        + "<a href=\"https://gubaer.github.io/josm-scripting-plugin/\">This documentation</a> "
+        + "explains how you can start it with GraalJS on the classpath.");
+
     protected JPanel buildInfoPanel() {
         final JEditorPane pane = EditorPaneBuilder.buildInfoEditorPane();
-        final String text =
-            "<html>"
-            + tr(
-                   "<p>A copy of the GraalVM for JavaScript is included in the plugin "
-                 + "distribution and can be selected to execute a script written "
-                 + "in JavaScript/ECMAScript."
-                 + "</p>"
-            )
-            + "</html>";
-        pane.setText(text);
+        pane.addHyperlinkListener(this);
+
+        String message = String.format("<p>%s</p>", MESSAGE_01);
+        if (GraalVMFacadeFactory.isGraalVMPresent()) {
+            message += String.format("<p>%s</p>", MESSAGE_02);
+        } else {
+            message += String.format("<p>%s</p>", MESSAGE_03);
+        }
+
+        message = String.format("<html>%s</html>", message);
+        pane.setText(message);
         final JPanel pnl = new JPanel(new BorderLayout());
         pnl.add(pane, BorderLayout.CENTER);
         return pnl;
@@ -51,7 +79,30 @@ public class GraalVMConfigurationPanel extends JPanel {
         build();
     }
 
+    /**
+     * Persist preferences to the JOSM preferences file.
+     */
     public void persistToPreferences() {
         pnlCommonJSRepoConfiguration.persistToPreferences();
+    }
+
+    @Override
+    public void hyperlinkUpdate(HyperlinkEvent evt) {
+        if (!HyperlinkEvent.EventType.ACTIVATED.equals(evt.getEventType())) {
+            // hovering, etc.
+            return;
+        }
+        if (Desktop.isDesktopSupported()) {
+            var desktop = Desktop.getDesktop();
+            try {
+                desktop.browse(evt.getURL().toURI());
+            } catch(URISyntaxException | IOException e) {
+                logger.log(Level.WARNING, String.format(
+                    "failed to open default browser with URL '%s'", evt.getURL()
+                ), e);
+            }
+        } else {
+            logger.warning("java.awt.Desktop isn't available. Can't open default system browser.");
+        }
     }
 }
