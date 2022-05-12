@@ -263,7 +263,8 @@ public class ModuleRepositoryDialog extends JDialog {
     private class CancelAction extends AbstractAction {
         public CancelAction() {
             putValue(Action.NAME, tr("Cancel"));
-            putValue(Action.SMALL_ICON, ImageProvider.get("cancel"));
+            putValue(Action.SMALL_ICON, ImageProvider.get("cancel",
+                ImageProvider.ImageSizes.SMALLICON));
         }
         @Override
         public void actionPerformed(ActionEvent evt) {
@@ -274,8 +275,8 @@ public class ModuleRepositoryDialog extends JDialog {
     private class OKAction extends AbstractAction {
         public OKAction() {
             putValue(Action.NAME, tr("OK"));
-            putValue(Action.SMALL_ICON, ImageProvider.get("ok"));
-
+            putValue(Action.SMALL_ICON, ImageProvider.get("ok",
+                ImageProvider.ImageSizes.SMALLICON));
         }
         @Override
         public void actionPerformed(ActionEvent evt) {
