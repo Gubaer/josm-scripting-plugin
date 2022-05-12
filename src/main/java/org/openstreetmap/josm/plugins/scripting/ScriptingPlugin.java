@@ -311,7 +311,6 @@ public class ScriptingPlugin extends Plugin implements PreferenceKeys{
      *      loaded using the class loader of the 3d-party plugin
      */
     @SuppressWarnings("unused") // public API, used from JavaScript
-    //TODO(karl): will not work anymore with GraalVM
     static public NativeJavaClass loadClassFrom3dPartyPlugin(
             @NotNull final String pluginName,
             @NotNull final String className)

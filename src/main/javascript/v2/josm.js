@@ -7,6 +7,7 @@
 
 /* global require */
 /* global Java */
+/* ScriptingPlugin */
 
 const Version = Java.type('org.openstreetmap.josm.data.Version')
 const JOptionPane = Java.type('javax.swing.JOptionPane')
@@ -252,31 +253,3 @@ Object.defineProperty(exports, 'menu', {
   enumerable: true,
   value: MenuBar
 })
-
-/**
-* Loads a class using the class loader of a 3d-party plugin
-*
-* @summary Loads a class using the class loader of a 3d-party plugin
-* @param {string} pluginName  the name of the plugin
-* @param {string} className the class name
-*
-* @example
-* const console = require('josm/scriptingconsole')
-* const cls = josm.loadClassFrom3dPartyPlugin(
-*    'contourmerge',
-*    'org.openstreetmap.josm.plugins.contourmerge.ContourMergePlugin'
-* )
-* // isEnabled() is a static method of the class ContourMergePlugin
-* console.println(cls.isEnabled())
-*/
-// TODO(karl): still supported in API v2?
-exports.loadClassFrom3dPartyPlugin = function (pluginName, className) {
-  const ScriptingPlugin = Java.type(
-    'org.openstreetmap.josm.plugins.scripting.ScriptingPlugin'
-  )
-  const cls = ScriptingPlugin.loadClassFrom3dPartyPlugin(
-    pluginName,
-    className
-  )
-  return cls
-}
