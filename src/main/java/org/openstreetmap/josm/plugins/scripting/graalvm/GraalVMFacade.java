@@ -47,7 +47,7 @@ public class GraalVMFacade  implements IGraalVMFacade {
         // TODO: replace with a binding to a generic function which
         // can provide classes from the scripting plugin jar to
         // JavaScript modules?
-        POPULATED_CLASSES.stream().forEach(clazz ->
+        POPULATED_CLASSES.forEach(clazz ->
             context.getBindings("js").putMember(clazz.getName(), clazz)
         );
     }
