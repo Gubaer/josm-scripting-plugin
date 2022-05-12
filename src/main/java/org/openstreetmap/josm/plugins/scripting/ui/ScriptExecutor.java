@@ -309,6 +309,7 @@ public class ScriptExecutor {
         }
         Runnable task = () -> {
             try {
+                facade.resetContext();
                 facade.eval(desc, script);
             } catch(GraalVMEvalException e){
                 warnExecutingScriptFailed(e);
