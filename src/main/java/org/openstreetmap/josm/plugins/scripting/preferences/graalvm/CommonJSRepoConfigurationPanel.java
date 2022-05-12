@@ -235,7 +235,8 @@ public class CommonJSRepoConfigurationPanel extends JPanel  {
             //putValue(Action.NAME, tr("Add"));
             putValue(Action.SHORT_DESCRIPTION,
                     tr("Add an additional repository"));
-            putValue(Action.SMALL_ICON, ImageProvider.get("dialogs", "add"));
+            putValue(Action.SMALL_ICON, ImageProvider.get("dialogs", "add",
+                ImageProvider.ImageSizes.SMALLICON));
         }
 
         @Override
@@ -260,13 +261,9 @@ public class CommonJSRepoConfigurationPanel extends JPanel  {
             implements ListSelectionListener {
 
         public RemoveAction() {
-            putValue(Action.SHORT_DESCRIPTION, tr("Remove a repository"));
-            //Note: can't use
-            //  putValue(Action.SMALL_ICON, ImageProvider.get("dialogs", "delete"));
-            //Icon dimensions are to large, button ends up larger than for the
-            //other action buttons
-            new ImageProvider("dialogs", "delete")
-                  .getResource().attachImageIcon(this, true);
+            putValue(SHORT_DESCRIPTION, tr("Remove a repository"));
+            putValue(SMALL_ICON, ImageProvider.get("dialogs", "delete",
+                ImageProvider.ImageSizes.SMALLICON));
             updateEnabledState();
         }
 
@@ -294,10 +291,10 @@ public class CommonJSRepoConfigurationPanel extends JPanel  {
             putValue(Action.SHORT_DESCRIPTION,
                 tr("Move the selected repository up by one position"));
             putValue(Action.SMALL_ICON,
-                ImageProvider.get("dialogs/conflict", "moveup"));
+                ImageProvider.get("dialogs/conflict", "moveup",
+                    ImageProvider.ImageSizes.SMALLICON));
             updateEnabledState();
         }
-
 
         protected void updateEnabledState() {
             int selIdx = lstRepositories.getSelectedIndex();
@@ -320,11 +317,11 @@ public class CommonJSRepoConfigurationPanel extends JPanel  {
             implements ListSelectionListener {
 
         public DownAction() {
-            //putValue(Action.NAME, tr("Down"));
             putValue(Action.SHORT_DESCRIPTION,
                 tr("Move the selected repository down by one position"));
             putValue(Action.SMALL_ICON,
-                ImageProvider.get("dialogs/conflict", "movedown"));
+                ImageProvider.get("dialogs/conflict", "movedown",
+                    ImageProvider.ImageSizes.SMALLICON));
             updateEnabledState();
         }
         @Override
