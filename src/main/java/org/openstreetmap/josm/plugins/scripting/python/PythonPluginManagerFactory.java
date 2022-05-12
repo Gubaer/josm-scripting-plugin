@@ -1,9 +1,10 @@
 package org.openstreetmap.josm.plugins.scripting.python;
 
-import static org.openstreetmap.josm.tools.I18n.tr;
-
 import java.lang.reflect.InvocationTargetException;
+import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import static org.openstreetmap.josm.tools.I18n.tr;
 
 /**
  * Dynamically loads and instantiates a {@link IPythonPluginManager},
@@ -43,8 +44,7 @@ public class PythonPluginManagerFactory {
             | IllegalAccessException | NoClassDefFoundError
             | NoSuchMethodException | InvocationTargetException e
         ) {
-            System.out.println(e);
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.getMessage(), e);
             return null;
         }
     }
