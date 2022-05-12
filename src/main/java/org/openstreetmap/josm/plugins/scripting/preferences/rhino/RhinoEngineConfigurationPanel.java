@@ -1,13 +1,18 @@
 package org.openstreetmap.josm.plugins.scripting.preferences.rhino;
 
-import static org.openstreetmap.josm.plugins.scripting.ui.GridBagConstraintBuilder.gbc;
-import static org.openstreetmap.josm.tools.I18n.tr;
+import org.openstreetmap.josm.data.Preferences;
+import org.openstreetmap.josm.gui.widgets.VerticallyScrollablePanel;
+import org.openstreetmap.josm.plugins.scripting.model.CommonJSModuleRepository;
+import org.openstreetmap.josm.plugins.scripting.model.PreferenceKeys;
+import org.openstreetmap.josm.plugins.scripting.ui.EditorPaneBuilder;
+import org.openstreetmap.josm.plugins.scripting.util.Assert;
+import org.openstreetmap.josm.tools.ImageProvider;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
+import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.validation.constraints.NotNull;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -19,29 +24,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import javax.swing.AbstractAction;
-import javax.swing.AbstractListModel;
-import javax.swing.Action;
-import javax.swing.DefaultListSelectionModel;
-import javax.swing.Icon;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.ListCellRenderer;
-import javax.swing.UIManager;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.validation.constraints.NotNull;
-
-import org.openstreetmap.josm.data.Preferences;
-import org.openstreetmap.josm.gui.widgets.HtmlPanel;
-import org.openstreetmap.josm.gui.widgets.VerticallyScrollablePanel;
-import org.openstreetmap.josm.plugins.scripting.model.CommonJSModuleRepository;
-import org.openstreetmap.josm.plugins.scripting.model.PreferenceKeys;
-import org.openstreetmap.josm.plugins.scripting.util.Assert;
-import org.openstreetmap.josm.tools.ImageProvider;
+import static org.openstreetmap.josm.plugins.scripting.ui.GridBagConstraintBuilder.gbc;
+import static org.openstreetmap.josm.tools.I18n.tr;
 
 public class RhinoEngineConfigurationPanel extends VerticallyScrollablePanel{
     private static final Logger logger =
@@ -51,8 +35,8 @@ public class RhinoEngineConfigurationPanel extends VerticallyScrollablePanel{
     private JList<URL> lstRepositories;
 
     protected JPanel buildInfoPanel() {
-        HtmlPanel info = new HtmlPanel();
-        info.setText(
+        final var pane = EditorPaneBuilder.buildInfoEditorPane();
+        pane.setText(
             "<html>"
             + tr("The scripting plugin includes an embedded scripting "
                 + "engine for JavaScript based on Mozilla Rhino. "
@@ -66,7 +50,9 @@ public class RhinoEngineConfigurationPanel extends VerticallyScrollablePanel{
             )
             + "</html>"
         );
-        return info;
+        final var pnl = new JPanel(new BorderLayout());
+        pnl.add(pane, BorderLayout.CENTER);
+        return pnl;
     }
 
     protected JPanel buildTablePanel() {
@@ -228,8 +214,8 @@ public class RhinoEngineConfigurationPanel extends VerticallyScrollablePanel{
         private final Icon dirIcon;
         public RepositoryCellRenderer() {
             setOpaque(true);
-            jarIcon = ImageProvider.get("jar");
-            dirIcon = ImageProvider.get("directory");
+            jarIcon = ImageProvider.get("jar", ImageProvider.ImageSizes.SMALLICON);
+            dirIcon = ImageProvider.get("directory", ImageProvider.ImageSizes.SMALLICON);
         }
         @Override
         public Component getListCellRendererComponent(
@@ -257,8 +243,9 @@ public class RhinoEngineConfigurationPanel extends VerticallyScrollablePanel{
         public AddAction() {
             //putValue(Action.NAME, tr("Add"));
             putValue(Action.SHORT_DESCRIPTION,
-                    tr("Add an additional repository"));
-            putValue(Action.SMALL_ICON, ImageProvider.get("dialogs", "add"));
+                tr("Add an additional repository"));
+            putValue(Action.SMALL_ICON, ImageProvider.get("dialogs", "add",
+                ImageProvider.ImageSizes.SMALLICON));
         }
         @Override
         public void actionPerformed(ActionEvent arg0) {
@@ -277,9 +264,9 @@ public class RhinoEngineConfigurationPanel extends VerticallyScrollablePanel{
         implements ListSelectionListener {
 
         public RemoveAction() {
-            //putValue(Action.NAME, tr("Remove"));
             putValue(Action.SHORT_DESCRIPTION, tr("Remove a repository"));
-            putValue(Action.SMALL_ICON, ImageProvider.get("dialogs", "delete"));
+            putValue(Action.SMALL_ICON, ImageProvider.get("dialogs", "delete",
+                ImageProvider.ImageSizes.SMALLICON));
             updateEnabledState();
         }
 
@@ -304,11 +291,11 @@ public class RhinoEngineConfigurationPanel extends VerticallyScrollablePanel{
         implements ListSelectionListener {
 
         public UpAction() {
-            //putValue(Action.NAME, tr("Up"));
             putValue(Action.SHORT_DESCRIPTION,
-                    tr("Move the selected repository up by one position"));
+                tr("Move the selected repository up by one position"));
             putValue(Action.SMALL_ICON,
-                    ImageProvider.get("dialogs/conflict", "moveup"));
+                ImageProvider.get("dialogs/conflict", "moveup",
+                    ImageProvider.ImageSizes.SMALLICON));
             updateEnabledState();
         }
 
@@ -334,11 +321,11 @@ public class RhinoEngineConfigurationPanel extends VerticallyScrollablePanel{
         implements ListSelectionListener {
 
         public DownAction() {
-            //putValue(Action.NAME, tr("Down"));
             putValue(Action.SHORT_DESCRIPTION,
-                    tr("Move the selected repository down by one position"));
+                tr("Move the selected repository down by one position"));
             putValue(Action.SMALL_ICON,
-                    ImageProvider.get("dialogs/conflict", "movedown"));
+                ImageProvider.get("dialogs/conflict", "movedown",
+                    ImageProvider.ImageSizes.SMALLICON));
             updateEnabledState();
         }
         @Override

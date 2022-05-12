@@ -71,7 +71,7 @@ public class ModuleRepositoryDialog extends JDialog {
 
     protected JPanel buildEntryPanel() {
         JPanel pnl = new JPanel(new GridBagLayout());
-        pnl.add(new JLabel("Repository URL:"), gbc().cell(0, 0)
+        pnl.add(new JLabel(tr("Repository URL:")), gbc().cell(0, 0)
                 .anchor(GridBagConstraints.WEST).insets(0,2,0,2)
                 .constraints());
         pnl.add(tfRepositoryUrl = new JTextField(), gbc().cell(1,0).fillboth()
