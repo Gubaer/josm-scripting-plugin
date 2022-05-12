@@ -1,6 +1,7 @@
 package org.openstreetmap.josm.plugins.scripting.graalvm;
 
 import org.graalvm.polyglot.*;
+import org.openstreetmap.josm.plugins.scripting.ScriptingPlugin;
 import org.openstreetmap.josm.plugins.scripting.js.api.AddMultiCommand;
 import org.openstreetmap.josm.plugins.scripting.js.api.Change;
 import org.openstreetmap.josm.plugins.scripting.js.api.ChangeMultiCommand;
@@ -48,7 +49,7 @@ public class GraalVMFacade  implements IGraalVMFacade {
         // can provide classes from the scripting plugin jar to
         // JavaScript modules?
         POPULATED_CLASSES.forEach(clazz ->
-            context.getBindings("js").putMember(clazz.getName(), clazz)
+            context.getBindings("js").putMember(clazz.getSimpleName(), clazz)
         );
     }
 
