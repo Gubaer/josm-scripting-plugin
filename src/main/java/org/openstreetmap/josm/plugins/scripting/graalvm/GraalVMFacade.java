@@ -72,7 +72,7 @@ public class GraalVMFacade  implements IGraalVMFacade {
      *  implementation was found on the classpath
      */
     private void initContext() throws IllegalStateException{
-        //TODO(karl): what about other languages?
+        // currently GraalVM is only used for JavaScript
         final Context.Builder builder = Context.newBuilder("js");
         grantPrivilegesToContext(builder);
         setOptionsOnContext(builder);
@@ -101,15 +101,14 @@ public class GraalVMFacade  implements IGraalVMFacade {
             final Engine engine,
             final Language info) {
 
-        // for graalvm languages the engine name and engine are constants
         final ScriptEngineDescriptor desc = new ScriptEngineDescriptor(
             ScriptEngineDescriptor.ScriptEngineType.GRAALVM,
-            info.getId(),                 // engineId
-            info.getName(),               // engineName
-            info.getName(),               // languageName
-            info.getDefaultMimeType(),    // contentType
-            engine.getVersion(),          // engineVersion
-            info.getVersion()             // languageVersion
+            info.getId(),                    // engineId
+            engine.getImplementationName(),  // engineName
+            info.getName(),                  // languageName
+            info.getDefaultMimeType(),       // contentType
+            engine.getVersion(),             // engineVersion
+            info.getVersion()                // languageVersion
         );
         desc.setContentMimeTypes(info.getMimeTypes());
         return desc;
