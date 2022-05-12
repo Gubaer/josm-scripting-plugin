@@ -9,10 +9,10 @@ import java.util.logging.Logger;
 import static org.openstreetmap.josm.tools.I18n.tr;
 
 public class GraalVMConfigurationPanel extends JPanel {
+    @SuppressWarnings("unused")
     private static final Logger logger =
             Logger.getLogger(GraalVMConfigurationPanel.class.getName());
 
-    private JTabbedPane tpPreferencesTabs;
     private CommonJSRepoConfigurationPanel pnlCommonJSRepoConfiguration;
 
     protected JPanel buildInfoPanel() {
@@ -34,10 +34,9 @@ public class GraalVMConfigurationPanel extends JPanel {
 
     protected JPanel buildTabs() {
         JPanel pnl = new JPanel(new BorderLayout());
-        tpPreferencesTabs = new JTabbedPane();
+        JTabbedPane tpPreferencesTabs = new JTabbedPane();
         tpPreferencesTabs.add(tr("CommonJS module repositories"),
-                pnlCommonJSRepoConfiguration =
-                        new CommonJSRepoConfigurationPanel());
+            pnlCommonJSRepoConfiguration = new CommonJSRepoConfigurationPanel());
         pnl.add(tpPreferencesTabs, BorderLayout.CENTER);
         return pnl;
     }

@@ -4,7 +4,6 @@ import org.openstreetmap.josm.gui.util.WindowGeometry;
 import org.openstreetmap.josm.plugins.scripting.graalvm.CommonJSModuleRepositoryFactory;
 import org.openstreetmap.josm.plugins.scripting.graalvm.ICommonJSModuleRepository;
 import org.openstreetmap.josm.plugins.scripting.graalvm.IllegalCommonJSModuleBaseURI;
-import org.openstreetmap.josm.plugins.scripting.graalvm.JarJSModuleRepository;
 import org.openstreetmap.josm.plugins.scripting.model.CommonJSModuleRepository;
 import org.openstreetmap.josm.plugins.scripting.ui.EditorPaneBuilder;
 import org.openstreetmap.josm.tools.ImageProvider;
@@ -25,7 +24,6 @@ import java.util.logging.Logger;
 import static org.openstreetmap.josm.plugins.scripting.ui.GridBagConstraintBuilder.gbc;
 import static org.openstreetmap.josm.tools.I18n.tr;
 
-@SuppressWarnings("serial")
 public class ModuleRepositoryDialog extends JDialog {
 
     @SuppressWarnings("unused")
@@ -185,7 +183,7 @@ public class ModuleRepositoryDialog extends JDialog {
 
         if (valid){
             tfRepositoryUrl.setBackground(BG_COLOR_VALID);
-            actOK.setEnabled(!repository.isEmpty());
+            actOK.setEnabled(true);
         } else {
             tfRepositoryUrl.setBackground(BG_COLOR_ERROR);
             actOK.setEnabled(false);

@@ -149,7 +149,7 @@ public class CommonJSRepoConfigurationPanel extends JPanel  {
                         final String message = String.format(
                               "failed to create CommonJS module repository for "
                             + "url %s. Ignoring it.",
-                            url.toString()
+                            url
                         );
                         logger.log(Level.WARNING, message, e);
                         return null;
