@@ -10,7 +10,11 @@ import static org.openstreetmap.josm.tools.I18n.tr;
  * Dynamically loads and instantiates a {@link IPythonPluginManager},
  * provided the Jython interpreter is on the class path.
  *
+ * @deprecated Starting with plugin version 0.2.0 Jython plugins
+ * are not supported anymore.
  */
+@SuppressWarnings("removal")
+@Deprecated(forRemoval = true, since = "0.2.0")
 public class PythonPluginManagerFactory {
 
     static final private Logger logger = Logger.getLogger(

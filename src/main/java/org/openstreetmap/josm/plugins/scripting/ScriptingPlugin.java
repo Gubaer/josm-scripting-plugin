@@ -17,13 +17,10 @@ import org.openstreetmap.josm.plugins.scripting.js.RhinoEngine;
 import org.openstreetmap.josm.plugins.scripting.model.PreferenceKeys;
 import org.openstreetmap.josm.plugins.scripting.preferences.ConfigureAction;
 import org.openstreetmap.josm.plugins.scripting.preferences.PreferenceEditor;
-import org.openstreetmap.josm.plugins.scripting.python.IPythonPluginManager;
-import org.openstreetmap.josm.plugins.scripting.python.PythonPluginManagerFactory;
 import org.openstreetmap.josm.plugins.scripting.ui.MostRecentlyRunScriptsModel;
 import org.openstreetmap.josm.plugins.scripting.ui.RunScriptAction;
 import org.openstreetmap.josm.plugins.scripting.ui.RunScriptDialog;
 import org.openstreetmap.josm.plugins.scripting.ui.ToggleConsoleAction;
-import org.openstreetmap.josm.spi.preferences.Config;
 
 import javax.swing.*;
 import javax.validation.constraints.NotNull;
@@ -39,7 +36,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static org.openstreetmap.josm.gui.help.HelpUtil.ht;
-import static org.openstreetmap.josm.plugins.scripting.python.PythonPluginManagerFactory.isJythonPresent;
 import static org.openstreetmap.josm.tools.I18n.tr;
 
 @SuppressWarnings("ClassInitializerMayBeStatic")
@@ -52,8 +48,6 @@ public class ScriptingPlugin extends Plugin implements PreferenceKeys{
 
     private static ScriptingPlugin instance;
     private static Scriptable startModule;
-
-    private IPythonPluginManager pythonPluginManager;
 
     private void initLocalInstallation() {
         final File f = new File(getPluginDirs()
@@ -119,28 +113,10 @@ public class ScriptingPlugin extends Plugin implements PreferenceKeys{
                     jsOnStart();
                 }
             }
-            if (isJythonPresent()) {
-                loadPythonPlugins();
-            }
         } catch(JavaScriptException e) {
             logger.log(Level.WARNING,
                 tr("FATAL: Failed to initialize scripting plugin"),e);
         }
-    }
-
-    private void loadPythonPlugins() {
-        pythonPluginManager = PythonPluginManagerFactory
-                .createPythonPluginManager();
-        if (pythonPluginManager == null) return;
-
-        pythonPluginManager.updatePluginSpecificSysPaths(
-            Config.getPref().getList(PREF_KEY_JYTHON_SYS_PATHS)
-        );
-
-        Config.getPref().getList(PREF_KEY_JYTHON_PLUGINS)
-            .stream()
-            .filter(plugin -> ! plugin.trim().isEmpty())
-            .forEach(plugin -> pythonPluginManager.loadPlugin(plugin));
     }
 
     private void jsOnStart() {
@@ -240,10 +216,6 @@ public class ScriptingPlugin extends Plugin implements PreferenceKeys{
     @Override
     public void mapFrameInitialized(MapFrame oldFrame, MapFrame newFrame) {
         jsOnMapFrameChanged(oldFrame, newFrame);
-
-        if (pythonPluginManager != null) {
-            pythonPluginManager.notifyMapFrameChanged(oldFrame, newFrame);
-        }
     }
 
     /**

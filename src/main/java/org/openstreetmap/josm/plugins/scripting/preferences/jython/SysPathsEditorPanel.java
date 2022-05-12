@@ -1,17 +1,18 @@
 package org.openstreetmap.josm.plugins.scripting.preferences.jython;
 
-import static org.openstreetmap.josm.plugins.scripting.ui.GridBagConstraintBuilder.gbc;
-import static org.openstreetmap.josm.tools.I18n.tr;
+import org.openstreetmap.josm.data.Preferences;
+import org.openstreetmap.josm.gui.util.WindowGeometry;
+import org.openstreetmap.josm.gui.widgets.HtmlPanel;
+import org.openstreetmap.josm.plugins.scripting.model.PreferenceKeys;
+import org.openstreetmap.josm.tools.ImageProvider;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
+import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.validation.constraints.NotNull;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.io.File;
@@ -24,41 +25,14 @@ import java.util.jar.JarFile;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import javax.swing.AbstractAction;
-import javax.swing.AbstractListModel;
-import javax.swing.Action;
-import javax.swing.ActionMap;
-import javax.swing.BorderFactory;
-import javax.swing.DefaultListSelectionModel;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.InputMap;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JDialog;
-import javax.swing.JFileChooser;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
-import javax.swing.KeyStroke;
-import javax.swing.ListCellRenderer;
-import javax.swing.UIManager;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.validation.constraints.NotNull;
+import static org.openstreetmap.josm.plugins.scripting.ui.GridBagConstraintBuilder.gbc;
+import static org.openstreetmap.josm.tools.I18n.tr;
 
-import org.openstreetmap.josm.data.Preferences;
-import org.openstreetmap.josm.gui.widgets.HtmlPanel;
-import org.openstreetmap.josm.plugins.scripting.model.PreferenceKeys;
-import org.openstreetmap.josm.tools.ImageProvider;
-import org.openstreetmap.josm.gui.util.WindowGeometry;
-
+/**
+ * @deprecated Starting with plugin version 0.2.0 Jython plugins
+ * are not supported anymore.
+ */
+@Deprecated(forRemoval = true, since = "0.2.0")
 public class SysPathsEditorPanel extends JPanel {
     static private final Logger logger = Logger.getLogger(
             SysPathsEditorPanel.class.getName());

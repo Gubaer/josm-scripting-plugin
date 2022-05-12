@@ -34,6 +34,11 @@ import org.openstreetmap.josm.gui.widgets.HtmlPanel;
 import org.openstreetmap.josm.plugins.scripting.model.PreferenceKeys;
 import org.openstreetmap.josm.tools.ImageProvider;
 
+/**
+ * @deprecated Starting with plugin version 0.2.0 Jython plugins
+ * are not supported anymore.
+ */
+@Deprecated(forRemoval = true, since = "0.2.0")
 public class PythonPluginsConfigurationPanel extends JPanel {
 
     private PythonPluginsTable tblPlugins;

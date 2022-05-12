@@ -1,7 +1,5 @@
 package org.openstreetmap.josm.plugins.scripting.preferences.jython;
 
-import static org.openstreetmap.josm.plugins.scripting.python
-    .PythonPluginManagerFactory.isJythonPresent;
 import static org.openstreetmap.josm.plugins.scripting.ui
     .GridBagConstraintBuilder.gbc;
 import static org.openstreetmap.josm.tools.I18n.tr;
@@ -20,7 +18,18 @@ import org.openstreetmap.josm.data.Preferences;
 import org.openstreetmap.josm.gui.widgets.HtmlPanel;
 import org.openstreetmap.josm.gui.widgets.VerticallyScrollablePanel;
 
+/**
+ * @deprecated Starting with plugin version 0.2.0 Jython plugins
+ * are not supported anymore.
+ */
+@SuppressWarnings({"removal", "unused"})
+@Deprecated(forRemoval = true, since = "0.2.0")
 public class JythonConfigurationPanel extends VerticallyScrollablePanel{
+
+    private static boolean isJythonPresent() {
+        return false;
+    }
+
     @SuppressWarnings("unused")
     private static final Logger logger =
         Logger.getLogger(JythonConfigurationPanel.class.getName());

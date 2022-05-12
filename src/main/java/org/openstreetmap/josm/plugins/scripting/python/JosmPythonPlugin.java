@@ -16,7 +16,11 @@ import org.openstreetmap.josm.gui.MapFrame;
  *    def onMapFrameChanged(self, oldFrame, newFrame):
  *         print "onMapFrameChanged: entering ..."
  * </pre>
+ *
+ * @deprecated Starting with plugin version 0.2.0 Jython plugins
+ * are not supported anymore.
  */
+@Deprecated(forRemoval = true, since = "0.2.0")
 public interface JosmPythonPlugin {
 
     /**

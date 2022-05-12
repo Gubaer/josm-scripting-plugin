@@ -35,8 +35,12 @@ import org.python.util.PythonInterpreter;
  * {@link PreferenceKeys#PREF_KEY_JYTHON_SYS_PATHS} or using
  * </p>
  *
+ * @deprecated Starting with plugin version 0.2.0 Jython plugins
+ * are not supported anymore.
  */
-public class PythonPluginManager implements
+@SuppressWarnings("removal")
+@Deprecated(forRemoval = true, since = "0.2.0")
+ public class PythonPluginManager implements
     PreferenceKeys, IPythonPluginManager{
     static private final Logger logger = Logger.getLogger(
             PythonPluginManager.class.getName());

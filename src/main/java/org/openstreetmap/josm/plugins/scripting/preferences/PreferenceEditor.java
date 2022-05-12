@@ -1,20 +1,17 @@
 package org.openstreetmap.josm.plugins.scripting.preferences;
 
-import static org.openstreetmap.josm.tools.I18n.tr;
-
-import java.awt.BorderLayout;
-import java.util.logging.Logger;
-
-import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
-
 import org.openstreetmap.josm.gui.preferences.DefaultTabPreferenceSetting;
 import org.openstreetmap.josm.gui.preferences.PreferenceTabbedPane;
 import org.openstreetmap.josm.gui.preferences.PreferenceTabbedPane.PreferencePanel;
 import org.openstreetmap.josm.plugins.scripting.preferences.graalvm.GraalVMConfigurationPanel;
-import org.openstreetmap.josm.plugins.scripting.preferences.jython.JythonConfigurationPanel;
 import org.openstreetmap.josm.plugins.scripting.preferences.rhino.RhinoEngineConfigurationPanel;
 import org.openstreetmap.josm.plugins.scripting.ui.GridBagConstraintBuilder;
+
+import javax.swing.*;
+import java.awt.*;
+import java.util.logging.Logger;
+
+import static org.openstreetmap.josm.tools.I18n.tr;
 
 public class PreferenceEditor extends DefaultTabPreferenceSetting {
     static public final String ICON_NAME = "script-engine";
@@ -25,7 +22,6 @@ public class PreferenceEditor extends DefaultTabPreferenceSetting {
     private ScriptEnginesConfigurationPanel pnlScriptEngineConfiguration;
     private GraalVMConfigurationPanel pnlGraalVMConfiguration;
     private RhinoEngineConfigurationPanel pnlRhinoEngineConfiguration;
-    private JythonConfigurationPanel pnlJythonConfiguration;
 
     public PreferenceEditor(){
         super(
@@ -49,11 +45,7 @@ public class PreferenceEditor extends DefaultTabPreferenceSetting {
         tpPreferenceTabs.add(tr("Embedded Rhino engine"),
                 pnlRhinoEngineConfiguration =
                 new RhinoEngineConfigurationPanel());
-        tpPreferenceTabs.add(tr("Jython engine"),
-                pnlJythonConfiguration = new JythonConfigurationPanel());
         pnl.add(tpPreferenceTabs, BorderLayout.CENTER);
-
-        pnlJythonConfiguration.loadFromPreferences();
 
         PreferencePanel pp = gui.createPreferenceTab(this);
         pp.add(pnl, GridBagConstraintBuilder.gbc().cell(0, 2)
@@ -64,7 +56,6 @@ public class PreferenceEditor extends DefaultTabPreferenceSetting {
     public boolean ok() {
         pnlScriptEngineConfiguration.persistToPreferences();
         pnlRhinoEngineConfiguration.persistToPreferences();
-        pnlJythonConfiguration.persistToPreferences();
         pnlGraalVMConfiguration.persistToPreferences();
         return false;
     }
