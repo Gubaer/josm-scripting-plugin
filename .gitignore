@@ -2,7 +2,7 @@ bin
 build.properties
 jsdoc.log
 version-information.MF
-build
+/build
 .classpath
 .buildpath
 .gradle

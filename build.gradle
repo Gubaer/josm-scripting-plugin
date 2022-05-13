@@ -18,21 +18,6 @@ tasks.withType(Jar).all {
     duplicatesStrategy 'exclude'
 }
 
-static currentPluginVersion(config) {
-    return config.releases.collect {it.pluginVersion}.max()
-}
-
-static currentPluginMainVersion(config) {
-    return config.releases.collect {it.josmVersion}.max()
-}
-
-static bestPluginVersion(config, josmVersion) {
-    return config.releases
-        .findAll{it.josmVersion == josmVersion}
-        .collect{it.pluginVersion}
-        .max()
-}
-
 repositories {
     mavenLocal()
     mavenCentral()
@@ -78,46 +63,36 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
 }
 
-ConfigObject releaseHistory = new ConfigSlurper().parse(file("releases.conf").text)
+def releases = Releases.fromFile(file("releases.conf"))
 
-version = currentPluginVersion(releaseHistory)
+version = releases.currentPluginVersion()
 archivesBaseName = "scripting"
 
 task dumpGraalVMJars() {
     doLast {
         println "GRAALVM_CLASS_PATH=" + configurations.graalvm.asPath
     }
-
 }
 
 josm {
     josmCompileVersion = "latest"
     manifest {
-        description = 'Runs scripts in JOSM'
-        minJosmVersion = currentPluginMainVersion(releaseHistory)
-        mainClass = 'org.openstreetmap.josm.plugins.scripting.ScriptingPlugin'
-        iconPath = 'images/script-engine.png'
-        website = new URL("https://gubaer.github.io/josm-scripting-plugin")
-        canLoadAtRuntime = true
+        minJosmVersion = releases.highestJosmVersion()
 
-        // add the GraalVM jars to the 'Class-Path' attribute in the JOSM
-        // plugin manifest
-        // Deactivated for the time being because of class loading issues.
-        // We can't load the graalvm jars as dependencies of the scripting
-        // plugin because this way the GraalVM doesn't find the truffle API
-        // Error message:
-        //    No language and polyglot implementation was found on the classpath.
-        //    Make sure the truffle-api.jar is on the classpath
+        // for the time being still uses the original releases.conf file, checks in
+        // jar files for a release and assigns them a label for the correct
+        // JOSM version.
         //
-        //  configurations.graalvm.forEach {dependency ->
-        //      classpath "scripting/graalvm/${dependency.name}"
-        //  }
-
-        releaseHistory.releases.collect{it.josmVersion}.unique().sort().each {jv ->
-            String dv = bestPluginVersion(releaseHistory, jv)
-            oldVersionDownloadLink jv, dv, new URL("https://raw.github.com/Gubaer/josm-scripting-plugin/for-josm-${jv}/dist/scripting.jar")
+        // Will later be migrated to one of the release mechanisms which is
+        // provided by the JOSM gradle plugin.
+        //
+        releases.josmVersions.each {josmVersion ->
+            final dv = releases.highestPluginVersionForJosmVersion(josmVersion)
+            oldVersionDownloadLink josmVersion, dv,
+                new URL("https://raw.github.com/Gubaer/josm-scripting-plugin/for-josm-${josmVersion}/dist/scripting.jar")
         }
     }
+
     i18n {
         copyrightHolder = "Gubaer"
         //pathTransformer = getGithubPathTransformer('Gubaer/josm-scripting-plugin')
@@ -126,24 +101,26 @@ josm {
 
 jar {
     from("src/main/javascript/v1") {
-      into("js/v1")
-      include("**/*.js")
+        into("js/v1")
+        include("**/*.js")
     }
 
     from("src/main/javascript/v2") {
-      into("js/v2")
-      include("**/*.js")
+        into("js/v2")
+        include("**/*.js")
     }
 }
 
 compileJava {
-  sourceCompatibility = JavaVersion.VERSION_11
-  targetCompatibility = JavaVersion.VERSION_11
-  options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation" << "-Werror"
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+    options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation" << "-Werror"
 }
 
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+import org.openstreetmap.josm.plugins.scripting.build.Releases
+import org.openstreetmap.josm.plugins.scripting.build.Git
 
 import java.nio.file.Files
 
@@ -231,9 +208,9 @@ task testJSR223EngineAbsent(type: Test) {
     // make sure neither a graalvm, nor groovy or python are on the
     // classpath
     classpath = classpath
-            .filter {! it.toString().toLowerCase().contains("graalvm")}
-            .filter {! it.toString().toLowerCase().contains("groovy")}
-            .filter {! it.toString().toLowerCase().contains("python")}
+        .filter {! it.toString().toLowerCase().contains("graalvm")}
+        .filter {! it.toString().toLowerCase().contains("groovy")}
+        .filter {! it.toString().toLowerCase().contains("python")}
 
     scanForTestClasses= false
     include "**/jsr223/JSR223CompatibleEngineAbsentTest.class"
@@ -297,48 +274,3 @@ task deploy {
         Git.pushTags()
     }
 }
-
-class Git {
-
-    static private def executeAndLog(cmd) {
-        def proc = cmd.execute()
-        proc.waitFor()
-        println "Exit Value: ${proc.exitValue()}"
-        println "Output: ${proc.in.text}"
-        println "Error: ${proc.err.text}"
-        if (proc.exitValue() != 0) {
-            throw new Error("git command failed. command was <$cmd>")
-        }
-    }
-
-    static def ensureOnBranch(branch) {
-        def proc = "git rev-parse --abbrev-ref HEAD".execute()
-        def ret = proc.in.text.trim()
-        if (ret != branch) {
-            throw new Error("currently on branch '$ret', but expected branch '$branch'")
-        }
-    }
-
-    static def add(file) {
-        executeAndLog(["git", "add", file])
-    }
-
-    static def commit(file, message) {
-        executeAndLog(["git", "commit", "-m", message, file])
-    }
-
-    static def push(remote, branch) {
-        executeAndLog("git push $remote $branch")
-    }
-
-    static def tagHead(tag) {
-        executeAndLog(["git", "tag", "-f", tag, "HEAD"])
-    }
-
-    static def pushTags() {
-        executeAndLog("git push --tags -f")
-    }
-}
-
-sourceCompatibility = JavaVersion.VERSION_11
-targetCompatibility = JavaVersion.VERSION_11
