@@ -65,7 +65,7 @@ dependencies {
 
 def releases = Releases.fromFile(file("releases.conf"))
 
-version = releases.currentPluginVersion()
+version = releases.currentPluginVersion
 archivesBaseName = "scripting"
 
 task dumpGraalVMJars() {
@@ -77,7 +77,7 @@ task dumpGraalVMJars() {
 josm {
     josmCompileVersion = "latest"
     manifest {
-        minJosmVersion = releases.highestJosmVersion()
+        minJosmVersion = releases.highestJosmVersion
 
         // for the time being still uses the original releases.conf file, checks in
         // jar files for a release and assigns them a label for the correct
@@ -262,13 +262,12 @@ tasks.dist.into("$projectDir/dist")
 task deploy {
     dependsOn dist
     doLast {
-        def config = new ConfigSlurper().parse(file("releases.conf").text)
         def deployBranch = "deploy"
         def jar = "$projectDir/dist/${archivesBaseName}.jar"
         Git.ensureOnBranch(deployBranch)
         Git.add(jar)
-        Git.commit(jar, "commited plugin build ${currentPluginVersion(config)}")
-        def tag = "for-josm-${currentPluginMainVersion(config)}"
+        Git.commit(jar, "commited plugin build ${releases.currentPluginVersion}")
+        def tag = "for-josm-${releases.highestJosmVersion}"
         Git.tagHead(tag)
         Git.push("origin", deployBranch)
         Git.pushTags()

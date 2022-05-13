@@ -93,7 +93,7 @@ class Releases {
      *
      * @return the highest JOSM version for which a release is available
      */
-    String highestJosmVersion() {
+    String getHighestJosmVersion() {
         config.releases.collect {it.josmVersion}.max().toString()
     }
 
@@ -118,7 +118,7 @@ class Releases {
      *
      * @return the current plugin version
      */
-    String currentPluginVersion() {
+    String getCurrentPluginVersion() {
         return config.releases.collect {it.pluginVersion}
             .sort(this.&comparePluginVersions)
             .reverse()

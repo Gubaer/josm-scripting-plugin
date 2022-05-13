@@ -48,16 +48,16 @@ class ReleasesTest extends GroovyTestCase{
     @Test
     def "can find highest josm version"() {
         def releases = new Releases(configuration01)
-        assertEquals("14256", releases.highestJosmVersion())
+        assertEquals("14256", releases.getHighestJosmVersion())
     }
 
     @Test
     def "can find current plugin version version"() {
         def releases = new Releases(configuration01)
-        assertEquals("0.2.0", releases.currentPluginVersion())
+        assertEquals("0.2.0", releases.getCurrentPluginVersion())
 
         releases = new Releases(configuration02)
-        assertEquals("30796", releases.currentPluginVersion())
+        assertEquals("30796", releases.getCurrentPluginVersion())
     }
 
     @Test
