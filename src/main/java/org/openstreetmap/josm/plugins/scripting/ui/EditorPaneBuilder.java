@@ -30,10 +30,18 @@ public class EditorPaneBuilder {
                 "bold",
                 f.isItalic() ? "italic" : "normal") +
                 "}";
-        ss.addRule(rule);
         ss.addRule("a { text-decoration: underline; color: blue}");
         ss.addRule("code { font-family: monospace }");
         ss.addRule("p { padding-bottom: 10pt }");
+        ss.addRule(
+            "p.warning {"
+            + "background: #ffcccb;"
+            + "padding: 10pt;"
+            + "border-style: solid;"
+            + "border-color: red;"
+            + "border-width: 2pt;"
+            + "}"
+        );
         final HTMLEditorKit kit = new HTMLEditorKit();
         kit.setStyleSheet(ss);
         jepInfo.setEditorKit(kit);

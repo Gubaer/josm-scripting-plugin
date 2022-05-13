@@ -39,12 +39,12 @@ public class PreferenceEditor extends DefaultTabPreferenceSetting {
         tpPreferenceTabs.add(tr("Script engines"),
              pnlScriptEngineConfiguration =
              new ScriptEnginesConfigurationPanel());
+        tpPreferenceTabs.add(tr("Rhino engine (deprecated)"),
+                pnlRhinoEngineConfiguration =
+                        new RhinoEngineConfigurationPanel());
         tpPreferenceTabs.add(tr("GraalVM"),
                 pnlGraalVMConfiguration =
                         new GraalVMConfigurationPanel());
-        tpPreferenceTabs.add(tr("Embedded Rhino engine"),
-                pnlRhinoEngineConfiguration =
-                new RhinoEngineConfigurationPanel());
         pnl.add(tpPreferenceTabs, BorderLayout.CENTER);
 
         PreferencePanel pp = gui.createPreferenceTab(this);

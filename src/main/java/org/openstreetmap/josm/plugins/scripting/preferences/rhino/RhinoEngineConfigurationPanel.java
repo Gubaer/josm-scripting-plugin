@@ -47,6 +47,13 @@ public class RhinoEngineConfigurationPanel extends VerticallyScrollablePanel{
                 + "but you can add additional directories and jar files."
                 + "<br><br>"
                 + "Configure them in the list below."
+                + "<p class=\"warning\">"
+                + "Support for the Mozilla Rhino engine in the scripting "
+                + "plugin is <strong>deprecated</strong>. The Mozilla Rhino "
+                + "engine will be removed at the end of 2022. Consider "
+                + "to migrate your scripts to the GraalJS and the JavaScript "
+                + "API V2 of the scripting plugin."
+                + "</p>"
             )
             + "</html>"
         );
