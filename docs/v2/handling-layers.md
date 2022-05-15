@@ -23,7 +23,7 @@ for (let i=0; i < numLayers; i++) {
 
 ## Working with data layers
 
-Data layers are instances of the JOSM native class [OsmDataLayer](org.openstreetmap.josm.gui.layer.OsmDataLayer).
+Data layers are instances of the JOSM native class [OsmDataLayer].
 You can **open** a file with OSM data in a new data layer with the method
 `josm.open()`:
 
@@ -34,19 +34,19 @@ josm.open('/my/data/file.osm')
 ```
 
 Alternatively, you can create a data layer for a dataset, in particual for a dataset
-which has been [downloaded](josm/api/Api) from the central OSM server.
+which has been [downloaded][josm/api/Api] from the central OSM server.
 
 ```js
 const josm = require('josm')
 const { Api } = require('josm/api')
 const dataset = Api.downloadArea({
-      min: {lat: 46.9479186, lon: 7.4619484}, 
-      max: {lat: 46.9497642, lon: 7.4660683}  
+      min: {lat: 46.9479186, lon: 7.4619484},
+      max: {lat: 46.9497642, lon: 7.4660683}
 })
-josm.layers.addDataLayer({ds: dataset, name: 'Obstberg'})  
+josm.layers.addDataLayer({ds: dataset, name: 'Obstberg'})
 ```
 
 
 [josm/layers]: /api/v2/module-josm_layers.html
-[org.openstreetmap.josm.gui.layer.OsmDataLayer]: todo
-[josm/api/Api]: todo
+[OsmDataLayer]: https://josm.openstreetmap.de/doc/org/openstreetmap/josm/gui/layer/OsmDataLayer.html
+[josm/api/Api]: /api/v2/module-josm_api-Api.html
