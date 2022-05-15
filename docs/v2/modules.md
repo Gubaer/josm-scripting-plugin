@@ -39,18 +39,18 @@ const { sayHello } = require("helloworld")
 sayHello()
 ```
 
-The places, where the Scripting Plugin is looking for modules, can be configured in the 
+The places, where the Scripting Plugin is looking for modules, can be configured in the
 JOSM preferences. The plugin looks for modules in two places:
 
 * First, it tries to load modules from the plugin jar file in the directory `/js/v2`.
 
 * Then, it tries to load it from one of the configured *plugin repositories*. Each
-  repository is either a directory in the local file system or in a jar/zip file in the local filesystem.
+  repository is either a directory in the local file system or in a jar/zip file in the local file system.
 
-  
+
 <img src="/assets/img/v2/configure-script-repositories.png"/>
 
 
 
 [CommonJS module]: http://www.commonjs.org/specs/modules/1.0/
-[josm/util]: /api/v1/module-josm_util.html
+[josm/util]: /api/v2/module-josm_util.html
