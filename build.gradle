@@ -120,7 +120,6 @@ compileJava {
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.openstreetmap.josm.plugins.scripting.build.Releases
-import org.openstreetmap.josm.plugins.scripting.build.Git
 
 import java.nio.file.Files
 
@@ -259,17 +258,26 @@ processResources {
 }
 
 tasks.dist.into("$projectDir/dist")
-task deploy {
+//task deploy {
+//    dependsOn dist
+//    doLast {
+//        def deployBranch = "deploy"
+//        def jar = "$projectDir/dist/${archivesBaseName}.jar"
+//        Git.ensureOnBranch(deployBranch)
+//        Git.add(jar)
+//        Git.commit(jar, "commited plugin build ${releases.currentPluginVersion}")
+//        def tag = "for-josm-${releases.highestJosmVersion}"
+//        Git.tagHead(tag)
+//        Git.push("origin", deployBranch)
+//        Git.pushTags()
+//    }
+//}
+
+import org.openstreetmap.josm.plugins.scripting.build.GitDeployTask
+tasks.register("deploy", GitDeployTask) {
     dependsOn dist
-    doLast {
-        def deployBranch = "deploy"
-        def jar = "$projectDir/dist/${archivesBaseName}.jar"
-        Git.ensureOnBranch(deployBranch)
-        Git.add(jar)
-        Git.commit(jar, "commited plugin build ${releases.currentPluginVersion}")
-        def tag = "for-josm-${releases.highestJosmVersion}"
-        Git.tagHead(tag)
-        Git.push("origin", deployBranch)
-        Git.pushTags()
-    }
+    deployBranch = "deploy"
+    currentPluginVersion = releases.currentPluginVersion
+    forJosmVersion = releases.highestJosmVersion
 }
+
