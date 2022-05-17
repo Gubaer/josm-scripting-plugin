@@ -179,7 +179,7 @@ The easiest way to get a hold of a primitive in a dataset is to access it by its
 const { DataSetUtil } = require('josm/ds')
 
 // creates a data set util with empty new data set
-dsutil = new DataSetUtil()
+const dsutil = new DataSetUtil()
 // populate the data set with some objects
 dsutil.nodeBuilder.withId(1).withPosition(1.0,2.0).create()
 dsutil.nodeBuilder.withId(2).withPosition(1.0,2.0).create()
@@ -187,19 +187,19 @@ dsutil.wayBuilder.withId(3).withNodes(dsutil.node(1), dsutil.node(2)).create()
 dsutil.relationBuilder.withId(4).create()
 
 let node
-node = ds.get("node", 1);
+node = dsutil.get("node", 1);
 // .. or
-node = ds.node(1)
+node = dsutil.node(1)
 
 let way
-way = ds.get("way", 3)
+way = dsutil.get("way", 3)
 // ... or
-way = ds.way(3)
+way = dsutil.way(3)
 
 let relation
-relation = ds.get("relation", 4)
+relation = dsutil.get("relation", 4)
 // ... or
-relation = ds.relation(4)
+relation = dsutil.relation(4)
 ```
 
 In addition, you can *search* in a dataset using the method `query()`.
@@ -211,16 +211,32 @@ In addition, you can *search* in a dataset using the method `query()`.
 
 ```js
 const { DataSetUtil } = require('josm/ds')
-let ds = .... // a dataset
-dsUtil = new DataSetUtil(ds)
+const console = require('josm/scriptingconsole')
+
+// create a dsutil with an empty new dataset
+let dsutil = new DataSetUtil()
+dsutil.nodeBuilder.withId(1)
+  .withPosition(1.0,2.0)
+  .withTags({'amenity': 'restaurant'})
+  .create()
+
+dsutil.nodeBuilder.withId(2)
+  .withPosition(1.0,2.0)
+  .withTags({'amenity': 'hotel'})
+  .create()
+
+let restaurants
 
 // query the dataset with a predicate
-const restaurants = dsUtil.query((primitive) => {
-    return primitive.tags.amenity == "restaurant"
+restaurants = dsutil.query(primitive => {
+    return primitive.get('amenity') === "restaurant"
 })
+console.println(`num restaurants: ${restaurants.length}`)
+
 
 // query the dataset with a JOSM search expression
-const restaurants = dsUtil.query('amenity=restaurant')
+restaurants = dsutil.query('amenity=restaurant')
+console.println(`num restaurants: ${restaurants.length}`)
 ```
 
 [Node]: https://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html
