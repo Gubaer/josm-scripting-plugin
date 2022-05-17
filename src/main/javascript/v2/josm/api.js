@@ -25,35 +25,35 @@ const LatLon = Java.type('org.openstreetmap.josm.data.coor.LatLon')
 const util = require('josm/util')
 
 /**
- * Creates a {@class org.openstreetmap.josm.data.coor.LatLon} from a 
+ * Creates a {@class org.openstreetmap.josm.data.coor.LatLon} from a
  * javascript object.
- * 
+ *
  * @example
  * const { buildLatLon } = require('josm/api')
  * const pos = buildLatLon({lat: 1, lon: 2});
- * 
- * @param {object} obj  a javascript object with two number properties 
- *    <code>lat:</code> and <code>lon:</code> 
+ *
+ * @param {object} obj  a javascript object with two number properties
+ *    <code>lat:</code> and <code>lon:</code>
  * @name buildLatLon
  * @static
- * @returns {org.openstreetmap.josm.data.coor.LatLon}  
- * @summary Create a {@class org.openstreetmap.josm.data.coor.LatLon} 
+ * @returns {org.openstreetmap.josm.data.coor.LatLon}
+ * @summary Create a {@class org.openstreetmap.josm.data.coor.LatLon}
  *      from a javascript object.
  * @function
  */
 exports.buildLatLon = function (obj) {
   util.assert(util.isSomething(obj), 'obj: must not be null or undefined');
-  util.assert(typeof obj === 'object', 
+  util.assert(typeof obj === 'object',
       'obj: expected an object, got {0}', obj);
-  util.assert(util.isNumber(obj.lat), 
+  util.assert(util.isNumber(obj.lat),
       'obj.lat: expected a number, got {0}', obj.lat);
-  util.assert(util.isNumber(obj.lon), 
-      'obj.lon: expected a number, got {0}', obj.lon);    
-  util.assert(LatLon.isValidLat(obj.lat), 
-      'obj.lat: expected a valid lat in the range [-90,90], got {0}', 
+  util.assert(util.isNumber(obj.lon),
+      'obj.lon: expected a number, got {0}', obj.lon);
+  util.assert(LatLon.isValidLat(obj.lat),
+      'obj.lat: expected a valid lat in the range [-90,90], got {0}',
       obj.lat);
-  util.assert(LatLon.isValidLon(obj.lon), 
-      'obj.lon: expected a valid lon in the range [-180,180], got {0}', 
+  util.assert(LatLon.isValidLon(obj.lon),
+      'obj.lon: expected a valid lon in the range [-180,180], got {0}',
       obj.lon);
   return new LatLon(obj.lat, obj.lon);
 }
@@ -72,7 +72,7 @@ exports.buildLatLon = function (obj) {
  * })
  *
  * @param {object} obj  a javascript object
- * @return {org.openstreetmap.josm.data.Bounds} the bounds 
+ * @return {org.openstreetmap.josm.data.Bounds} the bounds
  * @name buildBounds
  * @function
  * @static
@@ -136,7 +136,7 @@ exports.buildBounds = function (obj) {
  *
  * @class
  * @summary Provides methods to open, close, get, and update changesets on the OSM API server
- * @name ChangesetApi 
+ * @name ChangesetApi
  */
 exports.ChangesetApi = {}
 
@@ -861,9 +861,10 @@ exports.Api.downloadArea = function () {
  * strategy.
  *
  * <p class='documentation-warning'>
- * Be careful when uploading data to the OSM server! Do not upload copyright
+ * Be careful when uploading data to the OSM server! Do not upload copyright-
  * protected or test data.
- * 
+ * </p>
+ *
  *
  * The method takes care to update the primitives in the uploaded data when
  * the upload succeeds. For instance, uploaded new primitives become global
@@ -927,7 +928,7 @@ exports.Api.downloadArea = function () {
  * @param {string} comment the upload comment
  * @param {object} [options] various options (see above)
  * @static
- * @returns {java.util.Collection} 
+ * @returns {java.util.Collection}
  * @summary Uploads objects
  * @memberof module:josm/api~Api
  * @name upload
@@ -1030,7 +1031,7 @@ exports.Api.upload = function (data, comment, options) {
 /* -------------------------------------------------------------------------- */
 /**
  * ApiConfig provides methods and properties for configuring API parameters.
- * 
+ *
  *
  * @class
  * @summary ApiConfig provides methods and properties for configuring API parameters
@@ -1103,7 +1104,7 @@ Object.defineProperty(exports.ApiConfig, 'serverUrl', {
 
 /**
  * Get the default server URL.
- * 
+ *
  * @example
  * const { ApiConfig } = require('josm/api')
  * ApiConfig.defaultServerUrl   // -> the default server url
@@ -1296,7 +1297,7 @@ function normalizeOAuthCredentials (credentials) {
  *
  * @example
  * const { ApiConfig } = require('josm/api')
- * 
+ *
  * // set the credentials
  * ApiConfig.setCredentials('basic', { user:'test', password:'apassword' })
  *
