@@ -102,7 +102,7 @@ class GraalVMPresentTest {
     void "must not access a class in a foreign namespace"() {
         def script = """
         const DefaultMustacheFactory = Java.type(
-            'com.github.spullara.mustache.java.DefaultMustacheFactory')    
+            'com.github.spullara.mustache.java.DefaultMustacheFactory')
         DefaultMustacheFactory
         """
         def js = getJavaScriptScriptEngineDescriptor()
@@ -123,34 +123,10 @@ class GraalVMPresentTest {
         script = "a"
         try {
             facade.eval(js, script) as Value
-            fail(
-              "should have failed, 'a' should not be defined in the context")
+            fail("should have failed, 'a' should not be defined in the context")
         } catch(GraalVMEvalException ignored) {
             //OK. Expected this test to throw
         }
     }
 
-    @Test
-    @Ignore // should throw, but doesn't
-    //TODO(karl): fix this test
-    void "must not create a process"() {
-        def script = """
-            const Runtime = Java.type('java.lang.Runtime')
-            const InputStreamReader = Java.type('java.io.InputStreamReader')
-            const BufferedReader = Java.type('java.io.BufferedReader')
-            
-            const process = Runtime.getRuntime().exec("/bin/sh -c 'echo hello'")
-            const reader = new BufferedReader(new InputStreamReader(
-                process.getInputStream()))
-            const response = reader.readLine()
-            reader.close()
-            response
-        """
-        def js = getJavaScriptScriptEngineDescriptor()
-        def facade = GraalVMFacadeFactory.getOrCreateGraalVMFacade()
-
-        // should throw, but doesn't
-        def response = facade.eval(js, script) as Value
-        assertEquals("hello", response.asString())
-    }
 }

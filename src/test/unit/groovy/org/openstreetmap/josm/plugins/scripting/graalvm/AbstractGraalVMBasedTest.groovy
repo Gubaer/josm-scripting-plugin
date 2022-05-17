@@ -40,9 +40,9 @@ class AbstractGraalVMBasedTest {
         def registry = CommonJSModuleRepositoryRegistry.getInstance()
         registry.setBuiltInRepository( new JarJSModuleRepository(jarFile, "/js/v2"))
         registry.addUserDefinedRepository(
-                new FileSystemJSModuleRepository(
-                        new File(projectDirEnv, "src/test/unit/javascript/v2")
-                )
+            new FileSystemJSModuleRepository(
+                new File(projectDirEnv, "src/test/unit/javascript/v2")
+            )
         )
 
         //noinspection GroovyResultOfObjectAllocationIgnored
@@ -52,6 +52,6 @@ class AbstractGraalVMBasedTest {
             throw new IllegalStateException("GraalJS must be present on the classpath")
         }
         Logging.getLogger().setFilter(
-                record -> record.getLevel().intValue() >= Level.WARNING.intValue())
+            record -> record.getLevel().intValue() >= Level.WARNING.intValue())
     }
 }
