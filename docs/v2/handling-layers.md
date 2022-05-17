@@ -14,10 +14,10 @@ The following scripts prints the names of the currently opened layers:
 
 ```js
 const josm = require('josm')
-const util = require('josm/util')
+const console = require('josm/scriptingconsole')
 const numLayers = josm.layers.length
 for (let i=0; i < numLayers; i++) {
-   util.println(`Layer ${i}: name = '${josm.layers.get(i)}'`)
+   console.println(`Layer ${i}: name = '${josm.layers.get(i)}'`)
 }
 ```
 
