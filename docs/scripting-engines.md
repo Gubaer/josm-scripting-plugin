@@ -1,6 +1,7 @@
 ---
   layout: page
   tile: Available Scripting Engines
+  nav_order: 4
 ---
 
 # Available Scripting Engines
@@ -27,20 +28,20 @@ change in future plugin releases. Please <a href="https://github.com/Gubaer/josm
 <dl>
   <dt><a href="scripting-environment.html">Scripting environment</a></dt>
   <dd>Global objects in scripts, loading CommonJS modules</dd>
-  
+
   <dt><a href="scripting.html">Scripting JOSM classes</a></dt>
   <dd>How to access JOSM classe and use mixins implemented in JavaScript</dd>
-  
+
   <dt><a href="manipulating-data.html">Manipulating data</a></dt>
   <dd>How to create data primitives like nodes, ways, or relations. How to add them to datasets, remove
   them from datasets, and find them in datasets.</dd>
-  
+
   <dt><a href="handling-layers.html">Handling layers</a></dt>
   <dd>How to create, access, and remove layers.</dd>
-  
+
   <dt><a href="api.html">Downloading and uploading data</a></dt>
   <dd>How to download and upload data to and from the OSM server.</dd>
-  
+
   <dt><a href="menu.html">Extending the JOSM menu and the JOSM toolbar</a></dt>
   <dd>How to extend the JOSM menu and the JOSM toolbar with actions implemented in JavaScript.</dd>
  </dl>
@@ -50,10 +51,10 @@ change in future plugin releases. Please <a href="https://github.com/Gubaer/josm
 <dl>
  <dt><a href="pluggable.html">Adding and removing a pluggable scripting engine</a></dt>
  <dd>How to add or remove a pluggable scripting engine.</dd>
- 
+
  <dd>Selecting a pluggable scripting engine</dd>
  <dd>How to select a pluggable scripting engine</dd>
- 
+
  <dt>Sample scripts</dt>
  <dd>Sample scripts in JavaScript, Python, Groovy, and Ruby are available
  on <a href="https://github.com/Gubaer/josm-scripting-plugin/tree/master/scripts">GitHub</a>.</dd>
