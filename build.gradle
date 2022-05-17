@@ -220,6 +220,7 @@ task testWithGraalVMJDK(type: Test) {
     scanForTestClasses= false
     executable getGraalVMJavaBinary()
     environment "JAVA_HOME", getGraalVMHome()
+
     include "**/graalvm/GraalVMPresentTest.class"
     include "**/graalvm/GraalVMEvalTest.class"
     include "**/graalvm/GraalVMEmbeddedInJOSMTest.class"
@@ -265,7 +266,7 @@ tasks.check.dependsOn(tasks.testGraalVMSupportNotPresent)
 tasks.check.dependsOn(tasks.testGraalVMSupportPresent)
 tasks.check.dependsOn(tasks.testJSR223EngineAbsent)
 tasks.check.dependsOn(tasks.testJSR223EnginePresent)
-//TODO(karl): reactive - fix hard coded path to graalvm jdk first
+
 //tasks.check.dependsOn(tasks.testWithGraalVMJDK)
 
 sourceSets {
