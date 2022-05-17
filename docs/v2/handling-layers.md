@@ -33,7 +33,7 @@ const josm = require('josm')
 josm.open('/my/data/file.osm')
 ```
 
-Alternatively, you can create a data layer for a dataset, in particual for a dataset
+Alternatively, you can create a data layer for a dataset, in particular for a dataset
 which has been [downloaded][josm/api/Api] from the central OSM server.
 
 ```js
