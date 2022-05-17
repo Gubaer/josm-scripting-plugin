@@ -152,7 +152,7 @@
 		<ul class="dummy">
 			<li>
 				<a href="josm_api.js.html">josm/api.js</a>,
-				 <a href="josm_api.js.html#sunlight-1-line-1031">line 1031</a>
+				 <a href="josm_api.js.html#sunlight-1-line-1036">line 1036</a>
 			</li>
 		</ul>
 	</dd>
@@ -215,9 +215,9 @@
 JOSM uses two authentication methods:
 <dl>
    <dt><code class='signature'>basic</code></dt>
-   <dd>Basic authentication with a username and a password</dd>
+   <dd class="param-desc">Basic authentication with a username and a password</dd>
    <dt><code class='signature'>oauth</code></dt>
-   <dd>Authentication with the <a href='http://oauth.net/'>OAuth</a>
+   <dd class="param-desc">Authentication with the <a href='http://oauth.net/'>OAuth</a>
        protocol.</dd>
 </dl>
     </div>
@@ -325,7 +325,7 @@ JOSM uses two authentication methods:
 		<ul class="dummy">
 			<li>
 				<a href="josm_api.js.html">josm/api.js</a>,
-				 <a href="josm_api.js.html#sunlight-1-line-1134">line 1134</a>
+				 <a href="josm_api.js.html#sunlight-1-line-1140">line 1140</a>
 			</li>
 		</ul>
 	</dd>
@@ -460,7 +460,7 @@ ApiConfig.authMethod = &#x27;oauth&#x27;</pre>
 		<ul class="dummy">
 			<li>
 				<a href="josm_api.js.html">josm/api.js</a>,
-				 <a href="josm_api.js.html#sunlight-1-line-1104">line 1104</a>
+				 <a href="josm_api.js.html#sunlight-1-line-1110">line 1110</a>
 			</li>
 		</ul>
 	</dd>
@@ -501,10 +501,11 @@ ApiConfig.defaultServerUrl   // -&gt; the default server url</pre>
 
 <dl>
   <dt><code class='signature'>get</code></dt>
-  <dd>Replies the currently configured server URL or undefinend, if no
+  <dd class="param-desc">Replies the currently configured server URL or undefinend, if no
   server URL is configured.</dd>
+
   <dt><code class='signature'>set</code></dt>
-  <dd>Sets the current server URL. If null or undefined, removes the
+  <dd class="param-desc">Sets the current server URL. If null or undefined, removes the
   current configuration. Accepts either a string or a <a href="http://docs.oracle.com/javase/6/docs/api/java/net/URL.html" alt="java.net.URL" target="javadoc">URL</a>.
   Only accepts http or https URLs.
   </dd>
@@ -603,7 +604,7 @@ ApiConfig.defaultServerUrl   // -&gt; the default server url</pre>
 		<ul class="dummy">
 			<li>
 				<a href="josm_api.js.html">josm/api.js</a>,
-				 <a href="josm_api.js.html#sunlight-1-line-1043">line 1043</a>
+				 <a href="josm_api.js.html#sunlight-1-line-1048">line 1048</a>
 			</li>
 		</ul>
 	</dd>
@@ -653,10 +654,11 @@ ApiConfig.serverUrl = &#x27;http://api06.dev.openstreetmap.org&#x27;</pre>
         Gets the credentials, i.e. username and password for the basic
 authentication method.
 
-<strong>Named options</strong>
+<p><strong>Named options</strong></p>
+
 <dl>
    <dt><code class='signature'>host:string</code></dt>
-   <dd>The host name of the API server for which credentials are retrieved.
+   <dd class="param-desc">The host name of the API server for which credentials are retrieved.
    If missing, the host name of the currently configured OSM API server
    is used.</dd>
 </dl>
@@ -780,7 +782,7 @@ authentication method.
 		<ul class="dummy">
 			<li>
 				<a href="josm_api.js.html">josm/api.js</a>,
-				 <a href="josm_api.js.html#sunlight-1-line-1176">line 1176</a>
+				 <a href="josm_api.js.html#sunlight-1-line-1182">line 1182</a>
 			</li>
 		</ul>
 	</dd>
@@ -866,10 +868,12 @@ an object <code>{user: string, password: string}</code>.
 OAuth authentication credentials are either an instance of
 <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/oauth/OAuthToken.html" alt="org.openstreetmap.josm.data.oauth.OAuthToken" target="javadoc">OAuthToken</a> or
 an object <code>{key: string, secret: string}</code>.
+<p>
 <strong>Named options</strong>
+</p>
 <dl>
    <dt><code class='signature'>host:string</code></dt>
-   <dd>The host name of the API server for which credentials are set.
+   <dd class="param-desc">The host name of the API server for which credentials are set.
    If missing, the host name of the currently configured OSM API server
    is used.</dd>
 </dl>
@@ -940,10 +944,10 @@ an object <code>{key: string, secret: string}</code>.
 <span class="param-type">object</span>
 |
 
-<span class="param-type">org.openstreetmap.josm.data.oauth.OAuthToken</span>
+<span class="param-type"><a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/oauth/OAuthToken.html" alt="org.openstreetmap.josm.data.oauth.OAuthToken" target="javadoc">OAuthToken</a></span>
 |
 
-<span class="param-type">java.net.PasswordAuthentication</span>
+<span class="param-type"><a href="http://docs.oracle.com/javase/6/docs/api/java/net/PasswordAuthentication.html" alt="java.net.PasswordAuthentication" target="javadoc">PasswordAuthentication</a></span>
 
 
 
@@ -1023,7 +1027,7 @@ an object <code>{key: string, secret: string}</code>.
 		<ul class="dummy">
 			<li>
 				<a href="josm_api.js.html">josm/api.js</a>,
-				 <a href="josm_api.js.html#sunlight-1-line-1278">line 1278</a>
+				 <a href="josm_api.js.html#sunlight-1-line-1285">line 1285</a>
 			</li>
 		</ul>
 	</dd>
@@ -1139,7 +1143,7 @@ ApiConfig.setCredentials(&#x27;basic&#x27;, { user:&#x27;test&#x27;, password:&#
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a>
 	
-		on Sun May 15th 2022
+		on Tue May 17th 2022
 	
 	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>

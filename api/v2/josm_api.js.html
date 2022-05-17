@@ -104,35 +104,35 @@ const LatLon = Java.type('org.openstreetmap.josm.data.coor.LatLon')
 const util = require('josm/util')
 
 /**
- * Creates a {@class org.openstreetmap.josm.data.coor.LatLon} from a 
+ * Creates a {@class org.openstreetmap.josm.data.coor.LatLon} from a
  * javascript object.
- * 
+ *
  * @example
  * const { buildLatLon } = require('josm/api')
  * const pos = buildLatLon({lat: 1, lon: 2});
- * 
- * @param {object} obj  a javascript object with two number properties 
- *    &lt;code>lat:&lt;/code> and &lt;code>lon:&lt;/code> 
+ *
+ * @param {object} obj  a javascript object with two number properties
+ *    &lt;code>lat:&lt;/code> and &lt;code>lon:&lt;/code>
  * @name buildLatLon
  * @static
- * @returns {org.openstreetmap.josm.data.coor.LatLon}  
- * @summary Create a {@class org.openstreetmap.josm.data.coor.LatLon} 
+ * @returns {org.openstreetmap.josm.data.coor.LatLon}
+ * @summary Create a {@class org.openstreetmap.josm.data.coor.LatLon}
  *      from a javascript object.
  * @function
  */
 exports.buildLatLon = function (obj) {
   util.assert(util.isSomething(obj), 'obj: must not be null or undefined');
-  util.assert(typeof obj === 'object', 
+  util.assert(typeof obj === 'object',
       'obj: expected an object, got {0}', obj);
-  util.assert(util.isNumber(obj.lat), 
+  util.assert(util.isNumber(obj.lat),
       'obj.lat: expected a number, got {0}', obj.lat);
-  util.assert(util.isNumber(obj.lon), 
-      'obj.lon: expected a number, got {0}', obj.lon);    
-  util.assert(LatLon.isValidLat(obj.lat), 
-      'obj.lat: expected a valid lat in the range [-90,90], got {0}', 
+  util.assert(util.isNumber(obj.lon),
+      'obj.lon: expected a number, got {0}', obj.lon);
+  util.assert(LatLon.isValidLat(obj.lat),
+      'obj.lat: expected a valid lat in the range [-90,90], got {0}',
       obj.lat);
-  util.assert(LatLon.isValidLon(obj.lon), 
-      'obj.lon: expected a valid lon in the range [-180,180], got {0}', 
+  util.assert(LatLon.isValidLon(obj.lon),
+      'obj.lon: expected a valid lon in the range [-180,180], got {0}',
       obj.lon);
   return new LatLon(obj.lat, obj.lon);
 }
@@ -151,7 +151,7 @@ exports.buildLatLon = function (obj) {
  * })
  *
  * @param {object} obj  a javascript object
- * @return {org.openstreetmap.josm.data.Bounds} the bounds 
+ * @return {org.openstreetmap.josm.data.Bounds} the bounds
  * @name buildBounds
  * @function
  * @static
@@ -215,7 +215,7 @@ exports.buildBounds = function (obj) {
  *
  * @class
  * @summary Provides methods to open, close, get, and update changesets on the OSM API server
- * @name ChangesetApi 
+ * @name ChangesetApi
  */
 exports.ChangesetApi = {}
 
@@ -295,10 +295,10 @@ exports.ChangesetApi.open = function () {
  *
  * &lt;dl>
  *   &lt;dt>&lt;code class='signature'>close(id)&lt;/code>&lt;/dt>
- *   &lt;dd>closes the changeset with the given id&lt;/dd>
+ *   &lt;dd class="param-desc">closes the changeset with the given id&lt;/dd>
  *
  *   &lt;dt>&lt;code class='signature'>close(aChangeset)&lt;/code>&lt;dt>
- *   &lt;dd>Xloses the changeset given by &lt;code>aChangeset&lt;/code>&lt;/dd>
+ *   &lt;dd class="param-desc">Xloses the changeset given by &lt;code>aChangeset&lt;/code>&lt;/dd>
  * &lt;/dl>
  *
  * @example
@@ -358,7 +358,7 @@ exports.ChangesetApi.close = function () {
  *
  * &lt;dl>
  *   &lt;dt>&lt;code class='signature'>update(aChangeset)&lt;/code>&lt;/dt>
- *   &lt;dd>Updates the changeset &lt;code>aChangeset&lt;/code>&lt;/dd>
+ *   &lt;dd class="param-desc">Updates the changeset &lt;code>aChangeset&lt;/code>&lt;/dd>
  * &lt;/dl>
  *
  * @example
@@ -410,12 +410,12 @@ exports.ChangesetApi.update = function () {
  *
  * &lt;dl>
  *   &lt;dt>&lt;code class='signature>get(aChangeset)&lt;/code>&lt;/dt>
- *   &lt;dd>Gets the changeset specified by &lt;code>aChangeset&lt;/code>. aChangset
+ *   &lt;dd class="param-desc">Gets the changeset specified by &lt;code>aChangeset&lt;/code>. aChangset
  *   must be an instance of &lt;code>Changeset&lt;/code>.
  *   aChangeset.id &amp;gt 0 expected.&lt;/dd>
  *
  *   &lt;dt>&lt;code class='signature'>get(id)&lt;/code>&lt;/dt>
- *   &lt;dd>gets the changeset for the id. id must be a number &amp;gt 0.&lt;/dd>
+ *   &lt;dd class="param-desc">gets the changeset for the id. id must be a number &amp;gt 0.&lt;/dd>
  * &lt;/dl>
  *
  * @example
@@ -624,14 +624,14 @@ function downloadObject3 () {
  *
  * &lt;dl>
  *   &lt;dt>&lt;code class='signature'>downloadObject(id, type, ?options)&lt;/code>&lt;/dt>
- *   &lt;dd>&lt;code>id&lt;/code> is the global numeric id.
+ *   &lt;dd class="param-desc">&lt;code>id&lt;/code> is the global numeric id.
  *   &lt;code>type&lt;/code> is either one of the strings 'node', 'way',
  *   or 'relation', or one of the  enumeration OsmPrimitiveType.NODE,
  *   OsmPrimitiveType.WAY, or OsmPrimitiveType.RELATION
  *   &lt;/dd>
  *
  *   &lt;dt>&lt;code class='signature'>downloadObject(id, ?options)&lt;/code>&lt;/dt>
- *   &lt;dd>&lt;code>id&lt;/code> is a &lt;code>PrimitiveId&lt;/code> or an object
+ *   &lt;dd class="param-desc">&lt;code>id&lt;/code> is a &lt;code>PrimitiveId&lt;/code> or an object
  *   with the (mandatory) properties &lt;code>id&lt;/code> and &lt;code>type&lt;/code>,
  *   i.e. an object &lt;code>{id: ..., type: ...}&lt;/code>.
  *   &lt;code>id&lt;/code> is again a number, &lt;code>type&lt;/code> is again either one
@@ -640,17 +640,18 @@ function downloadObject3 () {
  *   or OsmPrimitiveType.RELATION.
  *   &lt;/dd>
  * &lt;/dl>
+ *
  * In both cases, &lt;code>?options&lt;/code> is an (optional) object with the
  * following two (optional) properties:
  * &lt;dl>
  *   &lt;dt>&lt;code class='signature'>full&lt;/code>: boolean&lt;/dt>
- *   &lt;dd>If &lt;code>true&lt;/code>, the object and its immediate children are
+ *   &lt;dd class="param-desc">If &lt;code>true&lt;/code>, the object and its immediate children are
  *   downloaded, i.e. the nodes of a way and
  *   the relation members of a relation. Default if missing is
  *   &lt;code>false&lt;/code>.&lt;/dd>
  *
  *   &lt;dt>&lt;code class='signature'>version&lt;/code>: number&lt;/dt>
- *   &lt;dd>If present, the specified version of the object is downloaded.
+ *   &lt;dd class="param-desc">If present, the specified version of the object is downloaded.
  *   If missing, the current version is downloaded. If present, the
  *   option &lt;code>full&lt;/code> is ignored.&lt;/dd>
  * &lt;/dl>
@@ -796,7 +797,7 @@ function downloadReferrer3 () {
  * &lt;dl>
  *   &lt;dt>&lt;code class='signature'>downloadReferrer(id, type, ?options)
  *       &lt;/code>&lt;/dt>
- *   &lt;dd>&lt;code>id&lt;/code> is the global numeric id.
+ *   &lt;dd class="param-desc">&lt;code>id&lt;/code> is the global numeric id.
  *   &lt;code>type&lt;/code> is either one of the strings 'node', 'way', or
  *   'relation', or one of the  enumeration
  *   {@class org.openstreetmap.josm.data.osm.OsmPrimitiveType}.NODE,
@@ -805,7 +806,7 @@ function downloadReferrer3 () {
  *   &lt;/dd>
  *
  *   &lt;dt>&lt;code class='signature'>downloadReferrer(id, ?options)&lt;/code>&lt;/dt>
- *   &lt;dd>&lt;code>id&lt;/code> is a &lt;code>PrimitiveId&lt;/code> or an object
+ *   &lt;dd class="param-desc">&lt;code>id&lt;/code> is a &lt;code>PrimitiveId&lt;/code> or an object
  *   with the (mandatory) properties &lt;code>id&lt;/code> and &lt;code>type&lt;/code>,
  *   i.e. an object &lt;code>{id: ..., type: ...}&lt;/code>.
  *   &lt;code>id&lt;/code> is again a number, &lt;code>type&lt;/code> is again either one
@@ -816,11 +817,12 @@ function downloadReferrer3 () {
  *   or {@class org.openstreetmap.josm.data.osm.OsmPrimitiveType}.RELATION.
  *   &lt;/dd>
  * &lt;/dl>
+ *
  * In both cases, &lt;code>?options&lt;/code> is an (optional) object with the
  * following  (optional) property:
  * &lt;dl>
  *   &lt;dt>&lt;code class='signature'>full&lt;/code>:boolean&lt;/dt>
- *   &lt;dd>If &lt;code>true&lt;/code>, the the &lt;strong>full&lt;/strong> objects are
+ *   &lt;dd class="param-desc">If &lt;code>true&lt;/code>, the the &lt;strong>full&lt;/strong> objects are
  *   retrieved using multi-gets. If missing or &lt;code>false&lt;/code>,
  *   only proxy objects are downloaded. Default: false&lt;/dd>
  * &lt;/dl>
@@ -940,9 +942,10 @@ exports.Api.downloadArea = function () {
  * strategy.
  *
  * &lt;p class='documentation-warning'>
- * Be careful when uploading data to the OSM server! Do not upload copyright
+ * Be careful when uploading data to the OSM server! Do not upload copyright-
  * protected or test data.
- * 
+ * &lt;/p>
+ *
  *
  * The method takes care to update the primitives in the uploaded data when
  * the upload succeeds. For instance, uploaded new primitives become global
@@ -953,11 +956,13 @@ exports.Api.downloadArea = function () {
  * have been uploaded successfully. In order to keep track, which pritives
  * have been uploaded successfully in case of an error, the method replies a
  * collection of the successfully uploaded objects.
- * Named options
+ * &lt;p>
+ * &lt;strong>Named options&lt;/strong>
+ * &lt;/p>
  * &lt;dl>
  *   &lt;dt>&lt;code class='signature'>strategy: string|
  *   {@class org.openstreetmap.josm.io.UploadStrategy}&lt;/code>&lt;/dt>
- *   &lt;dd>Indicates how the data is uploaded. Either one of the strings
+ *   &lt;dd class="param-desc">Indicates how the data is uploaded. Either one of the strings
  *     &lt;ul>
  *          &lt;li>individualobjects&lt;/li>
  *          &lt;li>chunked&lt;/li>
@@ -970,18 +975,18 @@ exports.Api.downloadArea = function () {
  *
  *    &lt;dt>&lt;code class='signature'>changeset:
  *        number|{@class org.openstreetmap.josm.data.osm.Changeset}&lt;/code>&lt;/dt>
- *    &lt;dd>The changeset to which the data is uploaded. Either a number
+ *    &lt;dd class="param-desc">The changeset to which the data is uploaded. Either a number
  *       (the changeset id) or a
  *       {@class org.openstreetmap.josm.data.osm.Changeset} instance.
  *       Default: creates a new changeset.&lt;/dd>
  *
  *    &lt;dt>&lt;code class='signature'>chunkSize: number&lt;/code>&lt;/dt>
- *    &lt;dd>The size of an upload chunk, if the data is uploaded with the
+ *    &lt;dd class="param-desc">The size of an upload chunk, if the data is uploaded with the
  *    upload strategy
  *    {@class org.openstreetmap.josm.io.UploadStrategy}.CHUNKED_DATASET_STRATEGY.&lt;/dd>
  *
  *    &lt;dt>&lt;code class='signature'>closeChangeset: boolean&lt;/code>&lt;/dt>
- *    &lt;dd>If true, closes the changeset after the upload. Default: true&lt;/dd>
+ *    &lt;dd class="param-desc">If true, closes the changeset after the upload. Default: true&lt;/dd>
  * &lt;/dl>
  *
  * @example
@@ -1006,7 +1011,7 @@ exports.Api.downloadArea = function () {
  * @param {string} comment the upload comment
  * @param {object} [options] various options (see above)
  * @static
- * @returns {java.util.Collection} 
+ * @returns {java.util.Collection}
  * @summary Uploads objects
  * @memberof module:josm/api~Api
  * @name upload
@@ -1109,7 +1114,7 @@ exports.Api.upload = function (data, comment, options) {
 /* -------------------------------------------------------------------------- */
 /**
  * ApiConfig provides methods and properties for configuring API parameters.
- * 
+ *
  *
  * @class
  * @summary ApiConfig provides methods and properties for configuring API parameters
@@ -1124,10 +1129,11 @@ const DEFAULT_URL = 'http://api.openstreetmap.com/api/0.6'
  *
  * &lt;dl>
  *   &lt;dt>&lt;code class='signature'>get&lt;/code>&lt;/dt>
- *   &lt;dd>Replies the currently configured server URL or undefinend, if no
+ *   &lt;dd class="param-desc">Replies the currently configured server URL or undefinend, if no
  *   server URL is configured.&lt;/dd>
+ *
  *   &lt;dt>&lt;code class='signature'>set&lt;/code>&lt;/dt>
- *   &lt;dd>Sets the current server URL. If null or undefined, removes the
+ *   &lt;dd class="param-desc">Sets the current server URL. If null or undefined, removes the
  *   current configuration. Accepts either a string or a {@class java.net.URL}.
  *   Only accepts http or https URLs.
  *   &lt;/dd>
@@ -1182,7 +1188,7 @@ Object.defineProperty(exports.ApiConfig, 'serverUrl', {
 
 /**
  * Get the default server URL.
- * 
+ *
  * @example
  * const { ApiConfig } = require('josm/api')
  * ApiConfig.defaultServerUrl   // -> the default server url
@@ -1216,9 +1222,9 @@ function normalizeAuthMethod (authMethod) {
  * JOSM uses two authentication methods:
  * &lt;dl>
  *    &lt;dt>&lt;code class='signature'>basic&lt;/code>&lt;/dt>
- *    &lt;dd>Basic authentication with a username and a password&lt;/dd>
+ *    &lt;dd class="param-desc">Basic authentication with a username and a password&lt;/dd>
  *    &lt;dt>&lt;code class='signature'>oauth&lt;/code>&lt;/dt>
- *    &lt;dd>Authentication with the &lt;a href='http://oauth.net/'>OAuth&lt;/a>
+ *    &lt;dd class="param-desc">Authentication with the &lt;a href='http://oauth.net/'>OAuth&lt;/a>
  *        protocol.&lt;/dd>
  * &lt;/dl>
  *
@@ -1256,10 +1262,11 @@ Object.defineProperty(exports.ApiConfig, 'authMethod', {
  * Gets the credentials, i.e. username and password for the basic
  * authentication method.
  *
- * &lt;strong>Named options&lt;/strong>
+ * &lt;p>&lt;strong>Named options&lt;/strong>&lt;/p>
+ *
  * &lt;dl>
  *    &lt;dt>&lt;code class='signature'>host:string&lt;/code>&lt;/dt>
- *    &lt;dd>The host name of the API server for which credentials are retrieved.
+ *    &lt;dd class="param-desc">The host name of the API server for which credentials are retrieved.
  *    If missing, the host name of the currently configured OSM API server
  *    is used.&lt;/dd>
  * &lt;/dl>
@@ -1365,17 +1372,19 @@ function normalizeOAuthCredentials (credentials) {
  * OAuth authentication credentials are either an instance of
  * {@class org.openstreetmap.josm.data.oauth.OAuthToken} or
  * an object &lt;code>{key: string, secret: string}&lt;/code>.
+ * &lt;p>
  * &lt;strong>Named options&lt;/strong>
+ * &lt;/p>
  * &lt;dl>
  *    &lt;dt>&lt;code class='signature'>host:string&lt;/code>&lt;/dt>
- *    &lt;dd>The host name of the API server for which credentials are set.
+ *    &lt;dd class="param-desc">The host name of the API server for which credentials are set.
  *    If missing, the host name of the currently configured OSM API server
  *    is used.&lt;/dd>
  * &lt;/dl>
  *
  * @example
  * const { ApiConfig } = require('josm/api')
- * 
+ *
  * // set the credentials
  * ApiConfig.setCredentials('basic', { user:'test', password:'apassword' })
  *
@@ -1463,7 +1472,7 @@ exports.ApiConfig.setCredentials = function (authMethod, credentials, options) {
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a>
 	
-		on Sun May 15th 2022
+		on Tue May 17th 2022
 	
 	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>

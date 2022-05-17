@@ -214,7 +214,7 @@ exports.AddCommand.prototype.createJOSMCommand = function (layer) {
  * &lt;strong>Signatures&lt;/strong>
  * &lt;dl>
  *   &lt;dt>&lt;code class="signature">add(obj, obj, ...)&lt;/code> &lt;/dt>
- *   &lt;dd>&lt;code>obj&lt;/code> are {@class org.openstreetmap.josm.data.osm.Node}s,
+ *   &lt;dd class="param-desc">&lt;code>obj&lt;/code> are {@class org.openstreetmap.josm.data.osm.Node}s,
  *   {@class org.openstreetmap.josm.data.osm.Way}s, or
  *   {@class org.openstreetmap.josm.data.osm.Relations}s. Or javascript array
  *   or Java collections thereof.&lt;/dd>
@@ -294,7 +294,7 @@ exports.DeleteCommand.prototype.createJOSMCommand = function (layer) {
  * &lt;strong>Signatures&lt;/strong>
  * &lt;dl>
  *   &lt;dt>&lt;code class="signature">delete(obj,obj,..., ?options)&lt;/code> &lt;/dt>
- *   &lt;dd>&lt;code>obj&lt;/code> are {@class org.openstreetmap.josm.data.osm.Node}s,
+ *   &lt;dd class="param-desc">&lt;code>obj&lt;/code> are {@class org.openstreetmap.josm.data.osm.Node}s,
  *   {@class org.openstreetmap.josm.data.osm.Way}s, or
  *   {@class org.openstreetmap.josm.data.osm.Relations}s. Or javascript array
  *   or Java collections thereof.&lt;/dd>
@@ -484,11 +484,12 @@ exports.ChangeCommand.prototype.createJOSMCommand = function (layer) {
  * Creates a command to change a collection of objects in  a data layer.
  *
  * &lt;strong>Signatures&lt;/strong>
+ *
  * &lt;dl>
  *   &lt;dt>&lt;code class="signature">change(obj,obj,..., options)&lt;/code> &lt;/dt>
- *   &lt;dd>&lt;code>obj&lt;/code> are {@class org.openstreetmap.josm.data.osm.Node}s,
+ *   &lt;dd class="param-desc">&lt;code>obj&lt;/code> are {@class org.openstreetmap.josm.data.osm.Node}s,
  *   {@class org.openstreetmap.josm.data.osm.Way}s, or
- *   {@class org.openstreetmap.josm.data.osm.Relations}s. Or javascript array
+ *   {@class org.openstreetmap.josm.data.osm.Relation}s. Or javascript array
  *   or Java collections thereof.&lt;/dd>
  * &lt;/dl>
  *
@@ -496,46 +497,46 @@ exports.ChangeCommand.prototype.createJOSMCommand = function (layer) {
  * the following named parameters:
  * &lt;dl>
  *   &lt;dt>&lt;code class="signature">lat:number&lt;/code>&lt;/dt>
- *   &lt;dd>Changes the latitude of the target nodes to &lt;code>lat&lt;/code>.&lt;/dd>
+ *   &lt;dd class="param-desc">Changes the latitude of the target nodes to &lt;code>lat&lt;/code>.&lt;/dd>
  *
  *   &lt;dt>&lt;code class="signature">lon:number&lt;/code>&lt;/dt>
- *   &lt;dd>Changes the longitude of the target nodes to &lt;code>lon&lt;/code>.&lt;/dd>
+ *   &lt;dd class="param-desc">Changes the longitude of the target nodes to &lt;code>lon&lt;/code>.&lt;/dd>
  *
  *   &lt;dt>&lt;code class="signature">pos:
  *       {@class org.openstreetmap.josm.data.coor.LatLon}|object&lt;/code>&lt;/dt>
- *   &lt;dd>Changes the position of the target nodes to &lt;code>pos&lt;/code>.
+ *   &lt;dd class="param-desc">Changes the position of the target nodes to &lt;code>pos&lt;/code>.
  *   pos is either a {@class org.openstreetmap.josm.data.coor.LatLon} or an
  *   object &lt;code>{lat:..., lon:...}&lt;/code>
  *   &lt;/dd>
  *
  *   &lt;dt>&lt;code class="signature">tags:{@class java.util.Map}|object&lt;/code>&lt;/dt>
- *   &lt;dd>Changes the tags of the target objects to &lt;code>tags&lt;/code>.&lt;/dd>
+ *   &lt;dd class="param-desc">Changes the tags of the target objects to &lt;code>tags&lt;/code>.&lt;/dd>
  *
  *   &lt;dt>&lt;code class="signature">nodes:{@class java.util.List}|array&lt;/code>&lt;/dt>
- *   &lt;dd>Changes the nodes of the target way sto &lt;code>nodes&lt;/code>.&lt;/dd>
+ *   &lt;dd class="param-desc">Changes the nodes of the target way sto &lt;code>nodes&lt;/code>.&lt;/dd>
  *
  *   &lt;dt>&lt;code class="signature">members:{@class java.util.List}|array&lt;/code>
  *   &lt;/dt>
- *   &lt;dd>Changes the nodes of the target relations to &lt;code>members&lt;/code>.&lt;/dd>
+ *   &lt;dd class="param-desc">Changes the nodes of the target relations to &lt;code>members&lt;/code>.&lt;/dd>
  * &lt;/dl>
  *
  * @example
- * const cmd = require("josm/command")
- * const layers = require("josm/layer")
- * const layer = layers.get("Data Layer 1")
+ * const {change} = require("josm/command")
+ * const layers = require("josm/layers")
+ * const my_layer = layers.get("Data Layer 1")
  *
  * // change the position of a node
- * cmd.change(n1,n1, {lat: 123.45, lon: 44.234}).applyTo(layer)
+ * change(n1, {lat: 123.45, lon: 44.234}).applyTo(my_layer)
  *
  * // change the nodes of a way
- * layer.apply(
- *    cmd.change(w2, {nodes: [n1,n2,3]})
+ * my_layer.apply(
+ *    change(w2, {nodes: [n1,n2,3]})
  * )
  *
  * // change the tags of a collection of primitives
- * cmd.change(n1,n3, w1,r1, {
- *    tags: {'mycustommtag': 'value'}
- * }).applyTo(layer)
+ * change(n1, n3, w1, r1, {
+ *    tags: {'mycustomtag': 'value'}
+ * }).applyTo(my_layer)
  *
  * @function
  * @summary Creates a command to change a collection of objects
@@ -805,7 +806,7 @@ exports.combineSelectedWays = function () {
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a>
 	
-		on Sun May 15th 2022
+		on Tue May 17th 2022
 	
 	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>

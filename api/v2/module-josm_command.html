@@ -194,7 +194,7 @@ and redone on <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/g
 <strong>Signatures</strong>
 <dl>
   <dt><code class="signature">add(obj, obj, ...)</code> </dt>
-  <dd><code>obj</code> are <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html" alt="org.openstreetmap.josm.data.osm.Node" target="javadoc">Node</a>s,
+  <dd class="param-desc"><code>obj</code> are <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html" alt="org.openstreetmap.josm.data.osm.Node" target="javadoc">Node</a>s,
   <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Way.html" alt="org.openstreetmap.josm.data.osm.Way" target="javadoc">Way</a>s, or
   <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Relations.html" alt="org.openstreetmap.josm.data.osm.Relations" target="javadoc">Relations</a>s. Or javascript array
   or Java collections thereof.</dd>
@@ -247,7 +247,7 @@ and redone on <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/g
 <span class="param-type">Array.&lt;primitive></span>
 |
 
-<span class="param-type">java.lang.Collection</span>
+<span class="param-type"><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Collection.html" alt="java.lang.Collection" target="javadoc">Collection</a></span>
 
 
 
@@ -399,11 +399,12 @@ layer.apply(
         Creates a command to change a collection of objects in  a data layer.
 
 <strong>Signatures</strong>
+
 <dl>
   <dt><code class="signature">change(obj,obj,..., options)</code> </dt>
-  <dd><code>obj</code> are <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html" alt="org.openstreetmap.josm.data.osm.Node" target="javadoc">Node</a>s,
+  <dd class="param-desc"><code>obj</code> are <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html" alt="org.openstreetmap.josm.data.osm.Node" target="javadoc">Node</a>s,
   <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Way.html" alt="org.openstreetmap.josm.data.osm.Way" target="javadoc">Way</a>s, or
-  <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Relations.html" alt="org.openstreetmap.josm.data.osm.Relations" target="javadoc">Relations</a>s. Or javascript array
+  <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Relation.html" alt="org.openstreetmap.josm.data.osm.Relation" target="javadoc">Relation</a>s. Or javascript array
   or Java collections thereof.</dd>
 </dl>
 
@@ -411,27 +412,27 @@ The mandatory last argument is an object with named parameters. It accepts
 the following named parameters:
 <dl>
   <dt><code class="signature">lat:number</code></dt>
-  <dd>Changes the latitude of the target nodes to <code>lat</code>.</dd>
+  <dd class="param-desc">Changes the latitude of the target nodes to <code>lat</code>.</dd>
 
   <dt><code class="signature">lon:number</code></dt>
-  <dd>Changes the longitude of the target nodes to <code>lon</code>.</dd>
+  <dd class="param-desc">Changes the longitude of the target nodes to <code>lon</code>.</dd>
 
   <dt><code class="signature">pos:
       <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/coor/LatLon.html" alt="org.openstreetmap.josm.data.coor.LatLon" target="javadoc">LatLon</a>|object</code></dt>
-  <dd>Changes the position of the target nodes to <code>pos</code>.
+  <dd class="param-desc">Changes the position of the target nodes to <code>pos</code>.
   pos is either a <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/coor/LatLon.html" alt="org.openstreetmap.josm.data.coor.LatLon" target="javadoc">LatLon</a> or an
   object <code>{lat:..., lon:...}</code>
   </dd>
 
   <dt><code class="signature">tags:<a href="http://docs.oracle.com/javase/6/docs/api/java/util/Map.html" alt="java.util.Map" target="javadoc">Map</a>|object</code></dt>
-  <dd>Changes the tags of the target objects to <code>tags</code>.</dd>
+  <dd class="param-desc">Changes the tags of the target objects to <code>tags</code>.</dd>
 
   <dt><code class="signature">nodes:<a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html" alt="java.util.List" target="javadoc">List</a>|array</code></dt>
-  <dd>Changes the nodes of the target way sto <code>nodes</code>.</dd>
+  <dd class="param-desc">Changes the nodes of the target way sto <code>nodes</code>.</dd>
 
   <dt><code class="signature">members:<a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html" alt="java.util.List" target="javadoc">List</a>|array</code>
   </dt>
-  <dd>Changes the nodes of the target relations to <code>members</code>.</dd>
+  <dd class="param-desc">Changes the nodes of the target relations to <code>members</code>.</dd>
 </dl>
     </div>
     
@@ -532,22 +533,22 @@ the following named parameters:
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">const cmd = require(&quot;josm/command&quot;)
-const layers = require(&quot;josm/layer&quot;)
-const layer = layers.get(&quot;Data Layer 1&quot;)
+    <pre class="sunlight-highlight-javascript">const {change} = require(&quot;josm/command&quot;)
+const layers = require(&quot;josm/layers&quot;)
+const my_layer = layers.get(&quot;Data Layer 1&quot;)
 
 // change the position of a node
-cmd.change(n1,n1, {lat: 123.45, lon: 44.234}).applyTo(layer)
+change(n1, {lat: 123.45, lon: 44.234}).applyTo(my_layer)
 
 // change the nodes of a way
-layer.apply(
-   cmd.change(w2, {nodes: [n1,n2,3]})
+my_layer.apply(
+   change(w2, {nodes: [n1,n2,3]})
 )
 
 // change the tags of a collection of primitives
-cmd.change(n1,n3, w1,r1, {
-   tags: {&#x27;mycustommtag&#x27;: &#x27;value&#x27;}
-}).applyTo(layer)</pre>
+change(n1, n3, w1, r1, {
+   tags: {&#x27;mycustomtag&#x27;: &#x27;value&#x27;}
+}).applyTo(my_layer)</pre>
 
 
     
@@ -627,7 +628,7 @@ because otherwise they could not be combined.
 		<ul class="dummy">
 			<li>
 				<a href="josm_command.js.html">josm/command.js</a>,
-				 <a href="josm_command.js.html#sunlight-1-line-649">line 649</a>
+				 <a href="josm_command.js.html#sunlight-1-line-650">line 650</a>
 			</li>
 		</ul>
 	</dd>
@@ -744,7 +745,7 @@ because otherwise they could not be combined.
             <td class="type">
             
                 
-<span class="param-type">org.openstreetmap.josm.data.osm.Way</span>
+<span class="param-type"><a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Way.html" alt="org.openstreetmap.josm.data.osm.Way" target="javadoc">Way</a></span>
 |
 
 <span class="param-type">array</span>
@@ -803,7 +804,7 @@ because otherwise they could not be combined.
 		<ul class="dummy">
 			<li>
 				<a href="josm_command.js.html">josm/command.js</a>,
-				 <a href="josm_command.js.html#sunlight-1-line-594">line 594</a>
+				 <a href="josm_command.js.html#sunlight-1-line-595">line 595</a>
 			</li>
 		</ul>
 	</dd>
@@ -866,7 +867,7 @@ cmd.combineWays(ds.way(1), ds.way(2), ds.way(3))
 <strong>Signatures</strong>
 <dl>
   <dt><code class="signature">delete(obj,obj,..., ?options)</code> </dt>
-  <dd><code>obj</code> are <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html" alt="org.openstreetmap.josm.data.osm.Node" target="javadoc">Node</a>s,
+  <dd class="param-desc"><code>obj</code> are <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html" alt="org.openstreetmap.josm.data.osm.Node" target="javadoc">Node</a>s,
   <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Way.html" alt="org.openstreetmap.josm.data.osm.Way" target="javadoc">Way</a>s, or
   <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Relations.html" alt="org.openstreetmap.josm.data.osm.Relations" target="javadoc">Relations</a>s. Or javascript array
   or Java collections thereof.</dd>
@@ -919,7 +920,7 @@ cmd.combineWays(ds.way(1), ds.way(2), ds.way(3))
 <span class="param-type">Array.&lt;primitive></span>
 |
 
-<span class="param-type">java.lang.Collection</span>
+<span class="param-type"><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Collection.html" alt="java.lang.Collection" target="javadoc">Collection</a></span>
 
 
 
@@ -1108,7 +1109,7 @@ layer.apply(
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a>
 	
-		on Sun May 15th 2022
+		on Tue May 17th 2022
 	
 	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>

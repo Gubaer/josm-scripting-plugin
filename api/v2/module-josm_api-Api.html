@@ -269,7 +269,7 @@ const ds = Api.downloadObject(12345, &#x27;node&#x27;)</pre>
             <td class="type">
             
                 
-<span class="param-type">org.openstreetmap.josm.data.Bounds</span>
+<span class="param-type"><a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/Bounds.html" alt="org.openstreetmap.josm.data.Bounds" target="javadoc">Bounds</a></span>
 |
 
 <span class="param-type">object</span>
@@ -328,7 +328,7 @@ const ds = Api.downloadObject(12345, &#x27;node&#x27;)</pre>
 		<ul class="dummy">
 			<li>
 				<a href="josm_api.js.html">josm/api.js</a>,
-				 <a href="josm_api.js.html#sunlight-1-line-802">line 802</a>
+				 <a href="josm_api.js.html#sunlight-1-line-804">line 804</a>
 			</li>
 		</ul>
 	</dd>
@@ -418,14 +418,14 @@ as last argument.
 
 <dl>
   <dt><code class='signature'>downloadObject(id, type, ?options)</code></dt>
-  <dd><code>id</code> is the global numeric id.
+  <dd class="param-desc"><code>id</code> is the global numeric id.
   <code>type</code> is either one of the strings 'node', 'way',
   or 'relation', or one of the  enumeration OsmPrimitiveType.NODE,
   OsmPrimitiveType.WAY, or OsmPrimitiveType.RELATION
   </dd>
 
   <dt><code class='signature'>downloadObject(id, ?options)</code></dt>
-  <dd><code>id</code> is a <code>PrimitiveId</code> or an object
+  <dd class="param-desc"><code>id</code> is a <code>PrimitiveId</code> or an object
   with the (mandatory) properties <code>id</code> and <code>type</code>,
   i.e. an object <code>{id: ..., type: ...}</code>.
   <code>id</code> is again a number, <code>type</code> is again either one
@@ -434,17 +434,18 @@ as last argument.
   or OsmPrimitiveType.RELATION.
   </dd>
 </dl>
+
 In both cases, <code>?options</code> is an (optional) object with the
 following two (optional) properties:
 <dl>
   <dt><code class='signature'>full</code>: boolean</dt>
-  <dd>If <code>true</code>, the object and its immediate children are
+  <dd class="param-desc">If <code>true</code>, the object and its immediate children are
   downloaded, i.e. the nodes of a way and
   the relation members of a relation. Default if missing is
   <code>false</code>.</dd>
 
   <dt><code class='signature'>version</code>: number</dt>
-  <dd>If present, the specified version of the object is downloaded.
+  <dd class="param-desc">If present, the specified version of the object is downloaded.
   If missing, the current version is downloaded. If present, the
   option <code>full</code> is ignored.</dd>
 </dl>
@@ -647,7 +648,7 @@ last argument.
 <dl>
   <dt><code class='signature'>downloadReferrer(id, type, ?options)
       </code></dt>
-  <dd><code>id</code> is the global numeric id.
+  <dd class="param-desc"><code>id</code> is the global numeric id.
   <code>type</code> is either one of the strings 'node', 'way', or
   'relation', or one of the  enumeration
   <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/OsmPrimitiveType.html" alt="org.openstreetmap.josm.data.osm.OsmPrimitiveType" target="javadoc">OsmPrimitiveType</a>.NODE,
@@ -656,7 +657,7 @@ last argument.
   </dd>
 
   <dt><code class='signature'>downloadReferrer(id, ?options)</code></dt>
-  <dd><code>id</code> is a <code>PrimitiveId</code> or an object
+  <dd class="param-desc"><code>id</code> is a <code>PrimitiveId</code> or an object
   with the (mandatory) properties <code>id</code> and <code>type</code>,
   i.e. an object <code>{id: ..., type: ...}</code>.
   <code>id</code> is again a number, <code>type</code> is again either one
@@ -667,11 +668,12 @@ last argument.
   or <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/OsmPrimitiveType.html" alt="org.openstreetmap.josm.data.osm.OsmPrimitiveType" target="javadoc">OsmPrimitiveType</a>.RELATION.
   </dd>
 </dl>
+
 In both cases, <code>?options</code> is an (optional) object with the
 following  (optional) property:
 <dl>
   <dt><code class='signature'>full</code>:boolean</dt>
-  <dd>If <code>true</code>, the the <strong>full</strong> objects are
+  <dd class="param-desc">If <code>true</code>, the the <strong>full</strong> objects are
   retrieved using multi-gets. If missing or <code>false</code>,
   only proxy objects are downloaded. Default: false</dd>
 </dl>
@@ -765,7 +767,7 @@ following  (optional) property:
 		<ul class="dummy">
 			<li>
 				<a href="josm_api.js.html">josm/api.js</a>,
-				 <a href="josm_api.js.html#sunlight-1-line-699">line 699</a>
+				 <a href="josm_api.js.html#sunlight-1-line-700">line 700</a>
 			</li>
 		</ul>
 	</dd>
@@ -871,8 +873,9 @@ Supply the named parameter <code>{strategy: ...}</code> to choose the
 strategy.
 
 <p class='documentation-warning'>
-Be careful when uploading data to the OSM server! Do not upload copyright
+Be careful when uploading data to the OSM server! Do not upload copyright-
 protected or test data.
+</p>
 
 
 The method takes care to update the primitives in the uploaded data when
@@ -884,11 +887,13 @@ Even if the entire upload of a dataset fails, a subset therefore may
 have been uploaded successfully. In order to keep track, which pritives
 have been uploaded successfully in case of an error, the method replies a
 collection of the successfully uploaded objects.
-Named options
+<p>
+<strong>Named options</strong>
+</p>
 <dl>
   <dt><code class='signature'>strategy: string|
   <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/io/UploadStrategy.html" alt="org.openstreetmap.josm.io.UploadStrategy" target="javadoc">UploadStrategy</a></code></dt>
-  <dd>Indicates how the data is uploaded. Either one of the strings
+  <dd class="param-desc">Indicates how the data is uploaded. Either one of the strings
     <ul>
          <li>individualobjects</li>
          <li>chunked</li>
@@ -901,18 +906,18 @@ Named options
 
    <dt><code class='signature'>changeset:
        number|<a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Changeset.html" alt="org.openstreetmap.josm.data.osm.Changeset" target="javadoc">Changeset</a></code></dt>
-   <dd>The changeset to which the data is uploaded. Either a number
+   <dd class="param-desc">The changeset to which the data is uploaded. Either a number
       (the changeset id) or a
       <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Changeset.html" alt="org.openstreetmap.josm.data.osm.Changeset" target="javadoc">Changeset</a> instance.
       Default: creates a new changeset.</dd>
 
    <dt><code class='signature'>chunkSize: number</code></dt>
-   <dd>The size of an upload chunk, if the data is uploaded with the
+   <dd class="param-desc">The size of an upload chunk, if the data is uploaded with the
    upload strategy
    <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/io/UploadStrategy.html" alt="org.openstreetmap.josm.io.UploadStrategy" target="javadoc">UploadStrategy</a>.CHUNKED_DATASET_STRATEGY.</dd>
 
    <dt><code class='signature'>closeChangeset: boolean</code></dt>
-   <dd>If true, closes the changeset after the upload. Default: true</dd>
+   <dd class="param-desc">If true, closes the changeset after the upload. Default: true</dd>
 </dl>
     </div>
     
@@ -956,16 +961,16 @@ Named options
             <td class="type">
             
                 
-<span class="param-type">org.openstreetmap.josm.data.osm.DataSet</span>
+<span class="param-type"><a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/DataSet.html" alt="org.openstreetmap.josm.data.osm.DataSet" target="javadoc">DataSet</a></span>
 |
 
-<span class="param-type">org.openstreetmap.josm.data.APIDataSet</span>
+<span class="param-type"><a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/APIDataSet.html" alt="org.openstreetmap.josm.data.APIDataSet" target="javadoc">APIDataSet</a></span>
 |
 
 <span class="param-type">array</span>
 |
 
-<span class="param-type">java.util.Collection</span>
+<span class="param-type"><a href="http://docs.oracle.com/javase/6/docs/api/java/util/Collection.html" alt="java.util.Collection" target="javadoc">Collection</a></span>
 
 
 
@@ -1095,7 +1100,7 @@ Named options
 		<ul class="dummy">
 			<li>
 				<a href="josm_api.js.html">josm/api.js</a>,
-				 <a href="josm_api.js.html#sunlight-1-line-849">line 849</a>
+				 <a href="josm_api.js.html#sunlight-1-line-851">line 851</a>
 			</li>
 		</ul>
 	</dd>
@@ -1218,7 +1223,7 @@ const processed = Api.upload(ds, &#x27;just testing&#x27;)</pre>
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a>
 	
-		on Sun May 15th 2022
+		on Tue May 17th 2022
 	
 	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>
