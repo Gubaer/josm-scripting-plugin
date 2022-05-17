@@ -1,5 +1,5 @@
 /*
- * Suite of unit tests.
+ * Suite of unit tests for the API V2.
  *
  * How to run
  * ==========
@@ -26,22 +26,8 @@ const tests = [
   'josm/node-builder-test.js',
   'josm/way-builder-test.js',
   'josm/relation-builder-test.js',
-  'josm/command-test.js'
-  // 'DataSetWrapperTest',
-  // 'josm/apiTest',
-  // 'josm/ChangesetMixinTest',
-  // 'josm/commandTest',
-  // 'josm/DataSetMixinTest',
-  // 'josm/LatLonMixinTest',
-  // 'josm/NodeBuilderTest',
-  // 'josm/NodeMixinTest',
-  // 'josm/OsmPrimitiveMixinTest',
-  // 'josm/RelationBuilderTest',
-  // 'josm/RelationMixinTest',
-  // 'josm/UploadStrategyMixinTest',
-  // 'josm/utilTest',
-  // 'josm/WayBuilderTest',
-  // 'josm/WayMixinTest',
+  'josm/command-test.js',
+  'josm/ds-test.js'
 ]
 
 function run () {

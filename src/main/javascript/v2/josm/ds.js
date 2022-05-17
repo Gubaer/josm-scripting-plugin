@@ -59,20 +59,55 @@ function normalizeId (id) {
     if (Number.isInteger(id)) {
       return id
     } else {
-      util.assert(false, 'expected integer number, got "{0}"', id)
+      util.assert(false, 'expected integer , got "{0}"', id)
     }
   } else if (util.isString(id)) {
-    util.println(`id before parseInt: ${id}`)
+    const idSaved = id
     id = parseInt(id.trim())
     if (isNaN(id)) {
-      util.assert(false, 'expected valid string encoding of id, got "{0}"', id)
+      util.assert(false, 'expected integer as string, got "{0}"', idSaved)
     }
   } else {
-    util.assert(false, 'expected number (an int value) or a string, got "{0}"',
-      id)
+    util.assert(false, 'expected an integer or a string, got "{0}"', id)
   }
 }
 
+/**
+* Creates an ID for an OSM primitive.
+*
+* <strong>Signatures</strong>
+* <dl>
+*   <dt><code class="signature">buildId(id, type)</code></dt>
+*   <dd>Replies an object given by its unique numeric id and a type.
+*   The type is either a string <code>node</code>, <code>way</code>, or
+*   <code>relation</code>, or one of the symbols
+*   {@class org.openstreetmap.josm.data.osm.OsmPrimitiveType}.NODE,
+*   {@class org.openstreetmap.josm.data.osm.OsmPrimitiveType}.WAY, or
+*   {@class org.openstreetmap.josm.data.osm.OsmPrimitiveType}.RELATION.</dd>
+*
+*   <dt><code class="signature">buildId(id)</code></dt>
+*   <dd>Replies an object given an ID. <code>id</code> is either an instance
+*   of
+*   {@class org.openstreetmap.josm.data.osm.PrimitiveId} or an object with
+*   the properties <code>id</code> and <code>type</code>, i.e.
+*   <code>{id: 1234, type: 'node'}</code>.</dd>
+* </dl>
+*
+* @example
+* const { buildId, OsmPrimitiveType} = require('josm/ds')
+*
+* // build a node id
+* const id1 = buildId(1234, 'node')
+*
+* // build a way id
+* const id2 = buildId(3333, OsmPrimitiveType.WAY)
+*
+* // build a relation id
+* const id3 = buildId({id: 5423, type: 'relation'})
+*
+*
+* @param args see description
+*/
 function buildId (id, type) {
   function buildId2 (id, type) {
     id = normalizeId(id)
@@ -84,8 +119,13 @@ function buildId (id, type) {
   }
 
   function buildId1 (id) {
-    util.assert(id instanceof PrimitiveId, 'expected PrimtiveId, got "{0}"', id)
-    return id
+    if (id instanceof PrimitiveId) {
+      return id
+    }
+    if (util.hasProp(id, 'id') && util.hasProp(id, 'type')) {
+      return buildId2(id.id, id.type)
+    }
+    util.assert(false, 'expected PrimitiveId or {id: ..., type: ...}, got "{0}"', id)
   }
 
   util.assert(arguments.length > 0, 'expected at least 1 argument, got 0')
