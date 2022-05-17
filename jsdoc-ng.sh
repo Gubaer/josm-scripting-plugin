@@ -1,5 +1,5 @@
 #!/bin/bash
-# 
+#
 # Creates the jsdoc documentation
 #
 
@@ -20,7 +20,10 @@ print_help() {
   echo "     print help information"
 }
 
+# default output directory
 OUTPUT_DIR="out-ng"
+
+# default API version
 API_VERSION="v1"
 
 while [ $# -gt 0 ] ;
