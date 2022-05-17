@@ -259,7 +259,7 @@ public class CommonJSModuleRepositoryRegistry implements IModuleResolver {
     }
 
     /**
-     * Save the the base URIs for the user defined CommonJS module
+     * Save the base URIs for the user defined CommonJS module
      * repositories to preferences.
      *
      * @param pref the preferences
