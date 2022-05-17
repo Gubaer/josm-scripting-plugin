@@ -153,8 +153,10 @@ task testScriptApiV2(type: Test) {
         showStandardStreams = true
     }
     environment "JOSM_SCRIPTING_PLUGIN_HOME", project.projectDir
-    executable "/home/karl/software/graalvm/bin/java"
-    environment "JAVA_HOME", "/home/karl/software/graalvm"
+    executable new File(project.projectDir, "software/graalvm-ce-java11-${project.property("graalvm.version")}/bin/java")
+        .absolutePath
+    environment "JAVA_HOME", new File(project.projectDir, "software/graalvm-ce-java11-${project.property("graalvm.version")}")
+        .absolutePath
     scanForTestClasses= false
     include "**/APIV2TestSuite.class"
 
@@ -207,8 +209,10 @@ task testWithGraalVMJDK(type: Test) {
     useJUnit()
     environment "JOSM_SCRIPTING_PLUGIN_HOME", project.projectDir
     scanForTestClasses= false
-    executable "/home/karl/software/graalvm/bin/java"
-    environment "JAVA_HOME", "/home/karl/software/graalvm"
+    executable new File(project.projectDir, "software/graalvm-ce-java11-${project.property("graalvm.version")}/bin/java")
+            .absolutePath
+    environment "JAVA_HOME", new File(project.projectDir, "software/graalvm-ce-java11-${project.property("graalvm.version")}")
+            .absolutePath
     include "**/graalvm/GraalVMPresentTest.class"
     include "**/graalvm/GraalVMEvalTest.class"
     include "**/graalvm/GraalVMEmbeddedInJOSMTest.class"
@@ -299,3 +303,5 @@ tasks.register("deploy", GitDeployTask) {
     forJosmVersion = releases.highestJosmVersion
 }
 
+import org.openstreetmap.josm.plugins.scripting.build.GraalVMDownloadTask
+tasks.register("downloadGraalVM", GraalVMDownloadTask)
