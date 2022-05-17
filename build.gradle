@@ -123,6 +123,15 @@ import org.openstreetmap.josm.plugins.scripting.build.Releases
 
 import java.nio.file.Files
 
+
+def getGraalVMHome() {
+    return new File(project.projectDir, "software/graalvm-ce-java11-${project.property("graalvm.version")}")
+}
+
+def getGraalVMJavaBinary() {
+    return new File(getGraalVMHome(), "bin/java")
+}
+
 test {
     useJUnit()
     environment "JOSM_SCRIPTING_PLUGIN_HOME", project.projectDir
@@ -147,16 +156,15 @@ task testScriptApiV1 (type: Test) {
 }
 
 task testScriptApiV2(type: Test) {
+    dependsOn "downloadGraalVM"
     useJUnit()
     testLogging {
         outputs.upToDateWhen {false}
         showStandardStreams = true
     }
     environment "JOSM_SCRIPTING_PLUGIN_HOME", project.projectDir
-    executable new File(project.projectDir, "software/graalvm-ce-java11-${project.property("graalvm.version")}/bin/java")
-        .absolutePath
-    environment "JAVA_HOME", new File(project.projectDir, "software/graalvm-ce-java11-${project.property("graalvm.version")}")
-        .absolutePath
+    executable getGraalVMJavaBinary()
+    environment "JAVA_HOME", getGraalVMHome()
     scanForTestClasses= false
     include "**/APIV2TestSuite.class"
 
@@ -206,13 +214,12 @@ task testGraalVMSupportPresent(type: Test) {
 }
 
 task testWithGraalVMJDK(type: Test) {
+    dependsOn "downloadGraalVM"
     useJUnit()
     environment "JOSM_SCRIPTING_PLUGIN_HOME", project.projectDir
     scanForTestClasses= false
-    executable new File(project.projectDir, "software/graalvm-ce-java11-${project.property("graalvm.version")}/bin/java")
-            .absolutePath
-    environment "JAVA_HOME", new File(project.projectDir, "software/graalvm-ce-java11-${project.property("graalvm.version")}")
-            .absolutePath
+    executable getGraalVMJavaBinary()
+    environment "JAVA_HOME", getGraalVMHome()
     include "**/graalvm/GraalVMPresentTest.class"
     include "**/graalvm/GraalVMEvalTest.class"
     include "**/graalvm/GraalVMEmbeddedInJOSMTest.class"

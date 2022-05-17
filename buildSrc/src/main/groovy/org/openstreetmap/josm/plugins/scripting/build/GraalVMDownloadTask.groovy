@@ -41,7 +41,9 @@ abstract class GraalVMDownloadTask extends DefaultTask {
     static final DEFAULT_GRAALVM_VERSION = "22.1.0"
     static final DEFAULT_GRAALVM_PLATTFORM = GraalVMPlattform.LINUX_AMD64
 
+
     @Input
+    @Optional
     abstract Property<String> getDownloadBaseUrl()
 
     @Input
@@ -52,17 +54,12 @@ abstract class GraalVMDownloadTask extends DefaultTask {
     @Optional
     abstract Property<String> getGraalVMPlattform()
 
-    GraalVMDownloadTask() {
-        downloadBaseUrl.convention(DEFAULT_DOWNLOAD_BASE_URL)
-        graalVMPlattform.convention(DEFAULT_GRAALVM_PLATTFORM.name)
-    }
-
     def buildDistributionFileName() {
         def plattform = GraalVMPlattform.fromString(configuredGraalVMPlattform)
         if (plattform == null) {
             throw new InvalidUserDataException("unsupported GraalVM plattform '${configuredGraalVMPlattform}'")
         }
-        def fileName = "graalvm-ce-java11-${graalVMPlattform.get()}-${configuredGraalVMVersion}"
+        def fileName = "graalvm-ce-java11-$configuredGraalVMPlattform-${configuredGraalVMVersion}"
 
         if (plattform.isWindows()) {
             fileName += ".zip"
@@ -96,12 +93,24 @@ abstract class GraalVMDownloadTask extends DefaultTask {
         return DEFAULT_GRAALVM_PLATTFORM
     }
 
+    @Internal
+    def getConfiguredGraalDownloadUrl() {
+        if (downloadBaseUrl.isPresent()) {
+            return downloadBaseUrl.get()
+        }
+        def url = project.property("graalvm.download-base-url")
+        if (url != null) {
+            return url
+        }
+        return DEFAULT_DOWNLOAD_BASE_URL
+    }
+
     def buildDownloadUrl() {
         def plattform = GraalVMPlattform.fromString(configuredGraalVMPlattform)
         if (plattform == null) {
-            throw new InvalidUserDataException("unsupported GraalVM plattform '${configuredGraalVMPlattform}'")
+            throw new InvalidUserDataException("unsupported GraalVM plattform '$configuredGraalVMPlattform'")
         }
-        def url = "${downloadBaseUrl.get()}/vm-${configuredGraalVMVersion}/${buildDistributionFileName()}"
+        def url = "$configuredGraalDownloadUrl/vm-${configuredGraalVMVersion}/${buildDistributionFileName()}"
         return new URL(url)
     }
 
@@ -137,7 +146,6 @@ abstract class GraalVMDownloadTask extends DefaultTask {
 
     def installGraalVM(final File tempFile) {
         def installDir = new File(project.projectDir, "software")
-        logger.info("Installing '${tempFile}' into '${installDir}' ...")
         def command = "tar xvf ${tempFile.absolutePath} --directory ${installDir.absolutePath}"
         def process = command.execute()
         process.out.close()
@@ -175,5 +183,6 @@ abstract class GraalVMDownloadTask extends DefaultTask {
         installDir = new File(installBaseDir, distribFile.name)
         logger.info("Successfully downloaded GraalVM '$configuredGraalVMVersion'")
         logger.info("Successfully installed GraalVM '$configuredGraalVMVersion' in '${installDir.absolutePath}' ...")
+        distribFile.delete()
     }
 }
