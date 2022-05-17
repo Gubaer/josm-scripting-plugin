@@ -149,12 +149,12 @@ function normalizeIds () {
 /**
  * <code>DataSetUtil</code> provides methods to build OSM primitive IDs and to
  * manipulate data in a {@class org.openstreetmap.josm.data.osm.DataSet}.
- * 
+ *
  */
 class DataSetUtil {
   /**
    * Creates an instane of <code>DataSetUtil</code> for a given {@class org.openstreetmap.josm.data.osm.DataSet}
-   * 
+   *
    * @example
    * const { DataSetUtil, DataSet } = require('josm/ds')
    * const dsutil = new DataSetUtil(new DataSet())
@@ -261,7 +261,7 @@ class DataSetUtil {
   * const dsutil = new DataSetUtil(new DataSet())
   * // get a relation
   * const r  = dsutil.relation(1234)
-  * 
+  *
   * @param {number} id  the unique numeric id. Must not be 0.
   * @returns {org.openstreetmap.josm.data.osm.Relation} the relation
   */
@@ -272,7 +272,7 @@ class DataSetUtil {
 
   /**
    * Run a sequence of operations against the dataset in "batch mode".
-   * 
+   *
    * Listeners to data set events are only notified at the end of the batch.
    *
    * @example
@@ -473,7 +473,7 @@ class DataSetUtil {
    * // loads an OSM file, expli
    * const dsutil2 = DataSetUtil.load(
    *  '/path/to/my/file.any-suffix', { format 'osm' })
-   * 
+   *
    * @param {string|java.io.File}  source  the data source
    * @param {object} [options]  optional named parameters
    */
