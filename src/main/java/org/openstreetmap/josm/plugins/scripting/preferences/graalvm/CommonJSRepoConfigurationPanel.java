@@ -204,8 +204,8 @@ public class CommonJSRepoConfigurationPanel extends JPanel  {
 
         public RepositoryCellRenderer() {
             setOpaque(true);
-            jarIcon = ImageProvider.get("jar");
-            dirIcon = ImageProvider.get("directory");
+            jarIcon = ImageProvider.get("jar", ImageProvider.ImageSizes.SMALLICON);
+            dirIcon = ImageProvider.get("directory",  ImageProvider.ImageSizes.SMALLICON);
         }
 
         @Override
