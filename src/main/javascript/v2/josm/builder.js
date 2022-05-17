@@ -237,7 +237,7 @@ function rememberTagsFromObject (builder, args) {
    * // create a new node builder building to a data set
    * const DataSet = Java.type('org.openstreetmap.josm.data.osm.DataSet')
    * const ds = new DataSet()
-   * 
+   *
    * // ... using a static method ...
    * const nb1 = builder.NodeBuilder.forDataSet(ds)
    * // ... or the instance method
@@ -306,9 +306,9 @@ function rememberTagsFromObject (builder, args) {
    * // create a new global way with version 3 at a specific position
    * // and with some tags
    * const n3 = nb.create(12345, {
-   *     version: 3, 
+   *     version: 3,
    *     lat: 23.45,
-   *     lon: 87.23, 
+   *     lon: 87.23,
    *     tags: {amenity: 'restaurant'}
    * })
    *
@@ -399,7 +399,7 @@ function rememberTagsFromObject (builder, args) {
    * {@class org.openstreetmap.josm.data.osm.Node}. A proxy node is a node,
    * for which we only know its global id. In order to know more details
    * (position, tags, etc.), we would have to download it from the OSM server.
-   * 
+   *
    *
    * The method can be used in a static and in an instance context.
    *
@@ -704,7 +704,7 @@ function rememberTagsFromObject (builder, args) {
    * non-identical nodes</strong> have to be supplied.
    * The same node can occure more than once in the list, but a consecutive
    * sequence of the same node is collapsed to one node.
-   * 
+   *
    *
    * The method can be used in a static and in an instance context.
    *
@@ -836,16 +836,16 @@ function rememberTagsFromObject (builder, args) {
    * Optional named arguments in the parameters <code>options</code>:
    * <dl>
    *   <dt><code class='signature'>id</code>:number</dt>
-   *   <dd>the id of a global way (number > 0)</dd>
+   *   <dd class="param-desc">the id of a global way (number > 0)</dd>
    *
    *   <dt><code class='signature'>version</code>:number</dt>
-   *   <dd>the version of a global way (number > 0)</dd>
+   *   <dd class="param-desc">the version of a global way (number > 0)</dd>
    *
    *   <dt><code class='signature'>nodes</code>:array|list</dt>
-   *   <dd>an array or a list of nodes</dd>
+   *   <dd class="param-desc">an array or a list of nodes</dd>
    *
    *   <dt><code class='signature'>tags</code>:object</dt>
-   *   <dd>an object with tags. Null values and undefined values are ignored.
+   *   <dd class="param-desc">an object with tags. Null values and undefined values are ignored.
    *   Any other value is converted to a string. Leading and trailing white
    *   space in keys is removed.</dd>
    * </dl>
@@ -1047,13 +1047,13 @@ function rememberTagsFromObject (builder, args) {
    *
    * <dl>
    *   <dt>member(role, obj)</dt>
-   *   <dd>Create a relation member with role <var>role</var> and member object
+   *   <dd class="param-desc">Create a relation member with role <var>role</var> and member object
    *   <var>obj</var>. <var>role</var> can be null or undefined, obj must neither
    *   be null nor undefinde. <var>role</var> is a string, <var>obj</var> is an
    *   OSM node, a way, or a relation.
    *   </dd>
    *   <dt>member(obj)</dt>
-   *  <dd>Create a relation member for the member object <var>obj</var>.
+   *  <dd class="param-desc">Create a relation member for the member object <var>obj</var>.
    *   <var>obj</var> must neither be null nor undefinde. <var>obj</var> is an
    *   OSM node, a way, or a relation. The created relation member has no role.
    *   </dd>
@@ -1182,7 +1182,7 @@ function rememberTagsFromObject (builder, args) {
    * Creates a new <em>proxy</em> relation. A proxy relation is a relation,
    * for which we only know its global id. In order to know more details
    * (members, tags, etc.), we would have to download it from the OSM server.
-   * 
+   *
    *
    * The method can be used in a static and in an instance context.
    *
@@ -1225,7 +1225,7 @@ function rememberTagsFromObject (builder, args) {
    * Accepts either a vararg list of relation members, nodes, ways or
    * relations, an array of relation members, nodes ways or relations, or a
    * Java list of members, nodes, ways or relation.
-   * 
+   *
    *
    * The method can be used in a static and in an instance context.
    *

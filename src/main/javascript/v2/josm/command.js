@@ -135,7 +135,7 @@ exports.AddCommand.prototype.createJOSMCommand = function (layer) {
  * <strong>Signatures</strong>
  * <dl>
  *   <dt><code class="signature">add(obj, obj, ...)</code> </dt>
- *   <dd><code>obj</code> are {@class org.openstreetmap.josm.data.osm.Node}s,
+ *   <dd class="param-desc"><code>obj</code> are {@class org.openstreetmap.josm.data.osm.Node}s,
  *   {@class org.openstreetmap.josm.data.osm.Way}s, or
  *   {@class org.openstreetmap.josm.data.osm.Relations}s. Or javascript array
  *   or Java collections thereof.</dd>
@@ -215,7 +215,7 @@ exports.DeleteCommand.prototype.createJOSMCommand = function (layer) {
  * <strong>Signatures</strong>
  * <dl>
  *   <dt><code class="signature">delete(obj,obj,..., ?options)</code> </dt>
- *   <dd><code>obj</code> are {@class org.openstreetmap.josm.data.osm.Node}s,
+ *   <dd class="param-desc"><code>obj</code> are {@class org.openstreetmap.josm.data.osm.Node}s,
  *   {@class org.openstreetmap.josm.data.osm.Way}s, or
  *   {@class org.openstreetmap.josm.data.osm.Relations}s. Or javascript array
  *   or Java collections thereof.</dd>
@@ -408,7 +408,7 @@ exports.ChangeCommand.prototype.createJOSMCommand = function (layer) {
  *
  * <dl>
  *   <dt><code class="signature">change(obj,obj,..., options)</code> </dt>
- *   <dd><code>obj</code> are {@class org.openstreetmap.josm.data.osm.Node}s,
+ *   <dd class="param-desc"><code>obj</code> are {@class org.openstreetmap.josm.data.osm.Node}s,
  *   {@class org.openstreetmap.josm.data.osm.Way}s, or
  *   {@class org.openstreetmap.josm.data.osm.Relation}s. Or javascript array
  *   or Java collections thereof.</dd>
@@ -418,27 +418,27 @@ exports.ChangeCommand.prototype.createJOSMCommand = function (layer) {
  * the following named parameters:
  * <dl>
  *   <dt><code class="signature">lat:number</code></dt>
- *   <dd>Changes the latitude of the target nodes to <code>lat</code>.</dd>
+ *   <dd class="param-desc">Changes the latitude of the target nodes to <code>lat</code>.</dd>
  *
  *   <dt><code class="signature">lon:number</code></dt>
- *   <dd>Changes the longitude of the target nodes to <code>lon</code>.</dd>
+ *   <dd class="param-desc">Changes the longitude of the target nodes to <code>lon</code>.</dd>
  *
  *   <dt><code class="signature">pos:
  *       {@class org.openstreetmap.josm.data.coor.LatLon}|object</code></dt>
- *   <dd>Changes the position of the target nodes to <code>pos</code>.
+ *   <dd class="param-desc">Changes the position of the target nodes to <code>pos</code>.
  *   pos is either a {@class org.openstreetmap.josm.data.coor.LatLon} or an
  *   object <code>{lat:..., lon:...}</code>
  *   </dd>
  *
  *   <dt><code class="signature">tags:{@class java.util.Map}|object</code></dt>
- *   <dd>Changes the tags of the target objects to <code>tags</code>.</dd>
+ *   <dd class="param-desc">Changes the tags of the target objects to <code>tags</code>.</dd>
  *
  *   <dt><code class="signature">nodes:{@class java.util.List}|array</code></dt>
- *   <dd>Changes the nodes of the target way sto <code>nodes</code>.</dd>
+ *   <dd class="param-desc">Changes the nodes of the target way sto <code>nodes</code>.</dd>
  *
  *   <dt><code class="signature">members:{@class java.util.List}|array</code>
  *   </dt>
- *   <dd>Changes the nodes of the target relations to <code>members</code>.</dd>
+ *   <dd class="param-desc">Changes the nodes of the target relations to <code>members</code>.</dd>
  * </dl>
  *
  * @example

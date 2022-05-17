@@ -65,18 +65,18 @@ Object.defineProperty(exports, 'layers', {
  * <strong>Signatures</strong>
  * <dl>
  *   <dt><code class="signature">alert(message)</code><dt>
- *   <dd>Displays an information message with an OK button.</dd>
+ *   <dd class="param-desc">Displays an information message with an OK button.</dd>
  *
  *   <dt><code class="signature">alert(message, ?options)</code><dt>
- *   <dd>Displays a message. The look and feel of the alert window depends on
+ *   <dd class="param-desc">Displays a message. The look and feel of the alert window depends on
  *   the <var>options</var>. The following options are supported:
  *   <dl>
  *      <dt><code>title</code>:string</dt>
- *      <dd>(optional) the window title. A string is expected. Empty string
+ *      <dd class="param-desc">(optional) the window title. A string is expected. Empty string
  *      if missing.</dt>
  *
- *      <dd><code>messageType</code></dt>
- *      <dd>(optional) the message type. Use one of the following values:
+ *      <dd class="param-desc"><code>messageType</code></dt>
+ *      <dd class="param-desc">(optional) the message type. Use one of the following values:
  *         <ul>
  *            <li>{@class javax.swing.JOptionPane}.INFORMATION_MESSAGE,
  *            "info","information"</li>
@@ -167,12 +167,12 @@ exports.alert = function () {
 
 /**
  * Opens one or more files in JOSM.
- * 
+ *
  * Accepts a variable number of files. Each argument is either a string
  * (a file name) or a {@class java.io.File}.
- * 
+ *
  * Creates and opens layers in JOSM, depending on the kind of file opened:
- * 
+ *
  * <ul>
  *   <li>creates a data layer for data files</li>
  *   <li>creates a gpx layer for gpx files</li>
@@ -212,7 +212,7 @@ exports.open = function () {
 
 /**
  * Replies the global command history.
- * 
+ *
  *
  * Use this object to undo/redo commands, or to clear the command
  * history.
@@ -238,7 +238,7 @@ Object.defineProperty(exports, 'commands', {
 
 /**
  * Replies an accessor for JOSMs menu bar.
- * 
+ *
  *
  * Use this object to inspect or modify the menu bar, i.e. to add additional
  * menu items.

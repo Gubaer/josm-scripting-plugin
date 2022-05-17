@@ -34,10 +34,10 @@ Object.defineProperty(exports, 'length', {
  *
  * <dl>
  *   <dt>get</dt>
- *   <dd>Replies the active layer or undefined.</dd>
+ *   <dd class="param-desc">Replies the active layer or undefined.</dd>
  *
  *   <dt>set</dt>
- *   <dd>Assign either an existing {@class org.openstreetmap.josm.layer.Layer},
+ *   <dd class="param-desc">Assign either an existing {@class org.openstreetmap.josm.layer.Layer},
  *   the name of a layer as string, or a layer index as number.</dd>
  * </dl>
  *
@@ -257,17 +257,17 @@ exports.remove = function (key) {
  * <string>Signatures</string>
  * <dl>
  *   <dt><code class="signature">addDataLayer()</code></dt>
- *   <dd>create data layer with a new dataset and default name</dd>
+ *   <dd class="param-desc">create data layer with a new dataset and default name</dd>
  *   <dt><code class="signature">addDataLayer(ds)</code></dt>
- *   <dd>create data layer with dataset ds and default name</dd>
+ *   <dd class="param-desc">create data layer with dataset ds and default name</dd>
  *   <dt><code class="signature">addDataLayer(name)</code></dt>
- *   <dd>create data layer with a new  dataset and name <code>name</code></dd>
+ *   <dd class="param-desc">create data layer with a new  dataset and name <code>name</code></dd>
  *   <dt><code class="signature">addDataLayer({name: ..., ds: ...})</code></dt>
- *   <dd>create data layer with a new  dataset and name <code>name</code></dd>
+ *   <dd class="param-desc">create data layer with a new  dataset and name <code>name</code></dd>
  * </dl>
  * @example
  * const DataSet = Java.type('org.openstreetmap.josm.data.osm.DataSet')
- * 
+ *
  * // creates a new data layer
  * const l1 = josm.layers.addDataLayer()
  *

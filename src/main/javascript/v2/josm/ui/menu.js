@@ -111,7 +111,7 @@ exports.MenuBar.get = function (key) {
  * @property {array} menuNames the names of the menues in the menu bar
  * @readOnly
  * @summary Replies an array with the symbolic menu names.
- * 
+ *
  */
 Object.defineProperty(exports.MenuBar, 'menuNames', {
   enumerable: true,
@@ -132,29 +132,29 @@ Object.defineProperty(exports.MenuBar, 'menuNames', {
  * parameters.
  * <dl>
  *   <dt><code class="signature">name:string</code></dt>
- *   <dd>The optional name of the action. Default: an auto generated named.</dd>
+ *   <dd class="param-desc">The optional name of the action. Default: an auto generated named.</dd>
  *
  *   <dt><code class="signature">tooltip:string</code></dt>
- *   <dd>The optional tooltip of the action. Default: empty string.</dd>
+ *   <dd class="param-desc">The optional tooltip of the action. Default: empty string.</dd>
  *
  *   <dt><code class="signature">iconName:string</code></dt>
- *   <dd>The optional name of an icon. Default: null.</dd>
+ *   <dd class="param-desc">The optional name of an icon. Default: null.</dd>
  *
  *   <dt><code class="signature">toolbarId:string</code></dt>
- *   <dd>The optional name of the tooblar, this action is going to be added to
+ *   <dd class="param-desc">The optional name of the tooblar, this action is going to be added to
  *   later. Note, that it isn't added automatically, when this action is
  *   created. Default: null.</dd>
  *
  *   <dt><code class="signature">onExecute:function</code></dt>
- *   <dd>The (optional) function which is called when the action is executed.
+ *   <dd class="param-desc">The (optional) function which is called when the action is executed.
  *   Default: null.</dd>
  *
  *   <dt><code class="signature">onInitEnabled:function</code></dt>
- *   <dd>The (optional) function which is called when the <em>enabled</em>
+ *   <dd class="param-desc">The (optional) function which is called when the <em>enabled</em>
  *   state of the function is evaluated the first time. Default: null.</dd>
  *
  *   <dt><code class="signature">onUpdateEnabled:function</code></dt>
- *   <dd>The (optional) function which is called when the <em>enabled</em>
+ *   <dd class="param-desc">The (optional) function which is called when the <em>enabled</em>
  *   state of the function is reevaluated, in particular, when layer change
  *   events or selection change events occur. Default: null.</dd>
  * </dl>

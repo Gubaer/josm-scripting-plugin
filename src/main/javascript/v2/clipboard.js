@@ -11,12 +11,12 @@
  *
  * <dl>
  *   <dt><code class="signature">get</code></dt>
- *   <dd>Replies the clipboard content as text or <code>undefined</code>,
+ *   <dd class="param-desc">Replies the clipboard content as text or <code>undefined</code>,
  *   if no clipboard content is available or if it can't be converted to a
  *   string.</dd>
  *
  *   <dt><code class="signature">set</code></dt>
- *   <dd>Sets the clipboard content</dd>
+ *   <dd class="param-desc">Sets the clipboard content</dd>
  * </dl>
  *
  * @example

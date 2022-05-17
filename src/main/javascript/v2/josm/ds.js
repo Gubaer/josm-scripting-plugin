@@ -78,7 +78,7 @@ function normalizeId (id) {
 * <strong>Signatures</strong>
 * <dl>
 *   <dt><code class="signature">buildId(id, type)</code></dt>
-*   <dd>Replies an object given by its unique numeric id and a type.
+*   <dd class="param-desc">Replies an object given by its unique numeric id and a type.
 *   The type is either a string <code>node</code>, <code>way</code>, or
 *   <code>relation</code>, or one of the symbols
 *   {@class org.openstreetmap.josm.data.osm.OsmPrimitiveType}.NODE,
@@ -86,7 +86,7 @@ function normalizeId (id) {
 *   {@class org.openstreetmap.josm.data.osm.OsmPrimitiveType}.RELATION.</dd>
 *
 *   <dt><code class="signature">buildId(id)</code></dt>
-*   <dd>Replies an object given an ID. <code>id</code> is either an instance
+*   <dd class="param-desc">Replies an object given an ID. <code>id</code> is either an instance
 *   of
 *   {@class org.openstreetmap.josm.data.osm.PrimitiveId} or an object with
 *   the properties <code>id</code> and <code>type</code>, i.e.
@@ -214,7 +214,7 @@ class DataSetUtil {
    * <strong>Signatures</strong>
    * <dl>
    *   <dt><code class="signature">get(id, type)</code></dt>
-   *   <dd>Replies an object given by its unique numeric id and a type.
+   *   <dd class="param-desc">Replies an object given by its unique numeric id and a type.
    *   The type is either a string  "node", "way", or "relation", or one of
    *   the symbols
    *   {@class org.openstreetmap.josm.data.osm.OsmPrimitiveType}.NODE,
@@ -222,7 +222,7 @@ class DataSetUtil {
    *   {@class org.openstreetmap.josm.data.osm.OsmPrimitiveType}.RELATION.</dd>
    *
    *   <dt><code class="signature">get(id)</code></dt>
-   *   <dd>Replies an object given an ID. <code>id</code> is either an instance
+   *   <dd class="param-desc">Replies an object given an ID. <code>id</code> is either an instance
    *   of
    *   {@class org.openstreetmap.josm.data.osm.PrimitiveId} or an object with
    *   the properties <code>id</code> and <code>type</code>, i.e.
@@ -349,7 +349,7 @@ class DataSetUtil {
    * <strong>Signatures</strong>
    * <dl>
    *   <dt><code class="signature">remove(id, type)</code></dt>
-   *   <dd>Removes a single object given by its unique numeric ID (nid) and a
+   *   <dd class="param-desc">Removes a single object given by its unique numeric ID (nid) and a
    *   type. The type is either a string  "node", "way", or "relation", or one
    *   of the symbols
    *   {@class org.openstreetmap.josm.data.osm.OsmPrimitiveType}.NODE,
@@ -357,7 +357,7 @@ class DataSetUtil {
    *   {@class org.openstreetmap.josm.data.osm.OsmPrimitiveType}.RELATION.</dd>
    *
    *   <dt><code class="signature">remove(id, id, ...)</code></dt>
-   *   <dd>Removes a collection of objects given by the ids. <code>id</code> is
+   *   <dd class="param-desc">Removes a collection of objects given by the ids. <code>id</code> is
    *   either an instance of
    *   {@class org.openstreetmap.josm.data.osm.PrimitiveId} or an object with
    *   the properties <code>id</code> and <code>type</code>, i.e.
@@ -365,7 +365,7 @@ class DataSetUtil {
    *   null and undefined are ignored.</dd>
    *
    *   <dt><code class="signature">remove(array|collection)</code></dt>
-   *   <dd>Removes a collection of objects given by the an array or a
+   *   <dd class="param-desc">Removes a collection of objects given by the an array or a
    *   java.util.Collection of ids.
    *   The collection elemeents are either instances of
    *   {@class org.openstreetmap.josm.data.osm.PrimitiveId} or an object with
@@ -497,7 +497,7 @@ class DataSetUtil {
    * <code>options</code> can contain the following named options:
    * <dl>
    *   <dt><code class="signature">format</code></dt>
-   *   <dd>one of the strings <code>osm</code> (Open Street Map XML data),
+   *   <dd class="param-desc">one of the strings <code>osm</code> (Open Street Map XML data),
    *   <code>osc</code> (Open Street Map change format), or
    *   <code>osm.gz</code> (Open Street Map XML data,
    *   compressed with gzip).  format is normalized by removing leading and
@@ -608,16 +608,16 @@ class DataSetUtil {
    * <code>options</code> can contain the following named options:
    * <dl>
    *   <dt><code class="signature">version</code>: string</dt>
-   *   <dd>the value of the attribute <code>version</code> in the OSM file
+   *   <dd class="param-desc">the value of the attribute <code>version</code> in the OSM file
    *   header. Default: "0.6"</dd>
    *
    *   <dt><codeclass="signature">changeset</code>: Changeset</dt>
-   *   <dd>the changeset whose id is included in the attribute
+   *   <dd class="param-desc">the changeset whose id is included in the attribute
    *   <code>changeset</code> on every OSM object. If undefined, includes the
    *   individual <code>changeset</code> attribute of the OSM object.
    *   Default: undefined</dd>
    *   <dt><codeclass="signature">osmConform</code>: bool</dt>
-   *   <dd>if true, prevents modification attributes to be written
+   *   <dd class="param-desc">if true, prevents modification attributes to be written
    *   Default: true</dd>
    * </dl>
    *
@@ -703,14 +703,14 @@ class DataSetUtil {
  * <dl>
  *   <dt><code class="signature">query(josmSearchExpression,?options)</code>
  *   </dt>
- *   <dd>Queries the dataset using the JOSM search expression
+ *   <dd class="param-desc">Queries the dataset using the JOSM search expression
  *   <code>josmSearchExpression</code>.
  *   <code>josmSearchExpression</code> is a string as you would enter it in
  *   the JOSM search dialog. <code>options</code> is an (optional) object
  *   with named parameters, see below.</dd>
  *
  *   <dt><code class="signature">query(predicate,?options)</code></dt>
- *   <dd>Queries the dataset using a javascript predicate function
+ *   <dd class="param-desc">Queries the dataset using a javascript predicate function
  *   <code>predicate</code>.  <code>predicate</code> is a javascript
  *   function which accepts a object as parameter and replies
  *   true, when it matches for the object ans false otherwise.
@@ -724,12 +724,12 @@ class DataSetUtil {
  *   <dt><code class="signature">allElements</code> : boolean
  *   (Deprecated parameter names:
  *       <code class="signature">all</code>)</dt>
- *   <dd>If true, searches <em>all</em> objects in the dataset. If false,
+ *   <dd class="param-desc">If true, searches <em>all</em> objects in the dataset. If false,
  *   ignores incomplete or deleted
  *   objects. Default: false.</dd>
  *
  *   <dt><code class="signature">caseSensitive</code> : boolean</dt>
- *   <dd><strong>Only applicable for searches with a JOSM search
+ *   <dd class="param-desc"><strong>Only applicable for searches with a JOSM search
  *   expression</strong>. If true,  searches case sensitive. If false,
  *   searches case insensitive. Default: false.</dd>
  *
@@ -737,13 +737,13 @@ class DataSetUtil {
  *       parameter names:
  *        <code class="signature">withRegexp</code>,
  *       <code class="signature">regexpSearch</code>)</dt>
- *   <dd><strong>Only applicable for searches with a JOSM search
+ *   <dd class="param-desc"><strong>Only applicable for searches with a JOSM search
  *   expression</strong>. If true,  the search expression contains regular
  *   expressions. If false, it includes only plain strings for searching.
  *   Default: false.</dd>
  *
  *   <dt><code class="signature">mapCSSSearch</code></dt>
- *   <dd><strong>Only applies for searches with a JOSM search
+ *   <dd class="param-desc"><strong>Only applies for searches with a JOSM search
  *   expression</strong>.
  *    Default: false.</dd>
  * </dl>
