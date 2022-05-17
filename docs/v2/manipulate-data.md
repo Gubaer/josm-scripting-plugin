@@ -8,15 +8,15 @@ nav_order: 3
 
 # Manipulating data
 
-JOSM is a powerful tool to create maps, although the structure of the map data is quite simple. There are only three basic types of objects, or *OSM primitives*, as they are called in JOSM:
+JOSM is a powerful tool for creating maps, although the map data structure is quite simple. There are only three basic types of objects, or *OSM primitives*::
 
   1. **nodes** &ndash; individual points at a specific position
   2. **ways**  &ndash; sequences of nodes
   3. **relations** &ndash;  arbitrary ordered lists of nodes, ways, or other relations
 
-Most of the scripts run by the Scripting Plugin will have to manipulate these primitives in one way or the other. A script manipulates the same java objects representing data primitives, as JOSM does. The public methods and fields of the respective Java classes are available for scripting. In addition, there are JavaScript properties and functions mixed into the Java classes. They don't replace the native fields and methods, but they extend them with properties and and functions which are more "natural" to a script in a JavaScript-environment.
+Most of the scripts run by the Scripting Plugin will have to manipulate these primitives in one way or the other. A script manipulates the same java objects representing data primitives as JOSM does. The public methods and fields of the respective Java classes are available for scripting.
 
-The following table lists the names of the basic Java classes for data primitives and the names of the corresponding JavaScript *mixins*.
+The API V2 provides a [**builder class**][josm/builder]{:target="apidoc"} for each OSM primitive. The following table lists the names of the Java classes for OSM primitives with their JavaScript builder classes.
 
 | **Kind of primitive** | **Java class** | **JavaScript builder class** |
 | node | [Node]{:target="apidoc"}<br/>(extending [OsmPrimitive]{:target="apidoc"}) | [NodeBuilder]{:target="apidoc"} |
@@ -26,8 +26,7 @@ The following table lists the names of the basic Java classes for data primitive
 
 
 ## Creating OSM primitives
-Nodes, ways, and relations can be created by invoking one of the native constructors 
-of the respective Java classes. Here are two basic examples: 
+Invoke a constructor of the Java class to create a node, a way, or a relation.
 
 ```js
 const Node = Java.type('org.openstreetmap.josm.data.osm.Node')
@@ -44,37 +43,39 @@ const relation = new Relation(12345, 6)
 console.println(`Created a relation - id=${relation.getUniqueId()}`)
 ```
 
-The JOSM Scripting Plugin includes three [builders][josm/builder]{:target="apidoc"} to create OSM primitives in JavaScript, see the overview table above. The primitives from the previous example could be created as follows:
+The JOSM Scripting Plugin includes three [builders][josm/builder]{:target="apidoc"} to create OSM primitives in JavaScript, see the overview table above. You can use a matching builder to create the primitives from the previous example:
 
 
 ```js
 const console = require('josm/scriptingconsole')
 const { NodeBuilder, RelationBuilder } = require('josm/builder')
-    
+
+let node
 // Create a new node at position [12.45, 45.56]
-let node = NodeBuilder.withPosition(12.45,45.56).create()
+node = NodeBuilder.withPosition(12.45,45.56).create()
 
 // ... or ...
-let node = NodeBuilder.create({lat: 12.45, lon: 45.56})
+node = NodeBuilder.create({lat: 12.45, lon: 45.56})
 console.println(`Created a node - id=${node.getUniqueId()}`)
 
+let relation
 // Create a new  relation with global id 12345 and global version 6
-let relation  = RelationBuilder.withId(12345,6).create()
+relation  = RelationBuilder.withId(12345,6).create()
 // .. or ..
-let relation = RelationBuilder.create(12345, {version: 6})
+relation = RelationBuilder.create(12345, {version: 6})
 console.println(`Created a relation - id=${relation.getUniqueId()}`)
 ```
 
 ## Setting and getting properties of OSM primitives
 
-The native JOSM classes provide public setter and getter methods to set and get property values on OSM primitives. 
+The native JOSM classes provide public setter and getter methods to set and get property values on OSM primitives.
 
 See javadoc for
 
-* [OsmPrimitive] and [AbstractPrimitive]
-* [Node]
-* [Way]
-* [Relation]
+* [OsmPrimitive]{:target="apidoc"} and [AbstractPrimitive]{:target="apidoc"}
+* [Node]{:target="apidoc"}
+* [Way]{:target="apidoc"}
+* [Relation]{:target="apidoc"}
 
 A few examples:
 
@@ -98,86 +99,110 @@ console.println(`node coordinates: \
 
 ## Primitives and datasets
 
-JOSM manages interconnected primitives in [DataSet]{:target="apidoc"}, a kind of container for nodes, ways, and relations. 
-A primitive doesn't have to belong to a dataset, but if it does, it can belong to at most one dataset. 
+JOSM manages interconnected primitives in [DataSet]{:target="apidoc"}, a kind of container for nodes, ways, and relations.
+A primitive doesn't have to belong to a dataset, but if it does, it can belong to at most one dataset.
 The dataset is said to be its **parent**.
 
-There are two major differences between detached primitives and those attached to a dataset:
+There are two main differences between detached primitives and those attached to a dataset:
 
 1.   more integrity constraints are checked for attached primitives
 
-      **Consequence:** what may work on a detached primitive, may fail on an attached
+      **Consequence:** what may work on a detached primitive may fail on an attached
       one
 
-2. data changes are notified to listeners listing on change events on the parent data set
+2. data changes are notified to listeners listening to change events on the parent data set
 
-    **Consequence**: even simple property assignements on primitives may result in costly event
+    **Consequence**: even simple property assignments on primitives may result in costly event
     propagation and UI refreshing.
 
-  Consider to group batches of updates on attached primitives in a **batch** which 
-  notifies listeners only once about data change events for the entire batch:
+    Consider to group batches of updates on attached primitives in a **batch** which
+    notifies listeners only once about data change events for the entire batch:
 
-  ```js
-  const { DataSetUtil } = require('josm/ds')
-  const ds = ... // assume ds is an already initialized data set
-  // runs the updates on two primitives in a "batch"
-  new DataSetUtil(ds).batch((ds) => {
-     //TODO: check and fix
-     ds.node(12345).lat = 12.34
-     ds.relation(67890).tags.name = 'a new name'
-  })
-  ``` 
+    ```js
+    const { NodeBuilder, RelationBuilder } = require('josm/builder')
+    const { DataSetUtil, DataSet } = require('josm/ds')
+    const LatLon = Java.type('org.openstreetmap.josm.data.coor.LatLon')
+
+    let dsutil = new DataSetUtil(new DataSet())
+    dsutil.nodeBuilder
+       .withId(1)
+       .create({lat: 12.45, lon: 45.56})
+    dsutil.relationBuilder
+        .withId(2)
+        .withTags({'name': 'a-relation'})
+        .create()
+
+    // runs the updates on two primitives in a "batch"
+    dsutil.batch(() => {
+        // set new coordinates on the n ode
+        dsutil.node(1).setCoor(new LatLon(11.11, 22.22))
+        // assign new name to the relation
+        dsutil.relation(2).put('name', 'a-new-name')
+    })
+    ```
 
 ## Primitives and layers
 
-JOSM provides an UI to display primitives and manipulate them interactively in **data layers**.  
+JOSM provides a UI to display primitives and manipulate them interactively in **data layers**.
 If primitives are modified interactively, the respective changes can be **undone** and **redone**.
 
-If you manipulate primitives attached to a dataset which is itself attached to a data layer, 
-you are better off to apply **data commands** to the primitives, instead of manipulating them directly.
+Suppose you manipulate primitives attached to a dataset attached to a data layer.
+In that case, you are better off applying **data commands** to the primitives instead of manipulating them directly.
 For this purpose, the Scripting Plugin provides a [command API][josm/command]{:target="apidoc"}.
 
 ```js
+const josm = require('josm')
 const { change } = require('josm/command')
 const { DataSetUtil } = require('josm/ds')
-const layer = josm.layers.get('my data layer')
 
-const ds = new DataSetUtil(layer.data)
+const dsutil = new DataSetUtil()
+dsutil.nodeBuilder.withId(1).withPosition(1.0, 2.0).create()
+dsutil.nodeBuilder.withId(2).withPosition(3.0, 4.0).withTags({'width': '3m'}).create()
+dsutil.wayBuilder.withId(3).withNodes(dsutil.node(1), dsutil.node(2)).create()
+dsutil.relationBuilder.withId(4).create()
 
-// creates and applies two undoable/redoable commands 
-layer.apply(
-  command.change(ds.node(12345), {lat: 12.45}),
-  command.change(ds.relation(67890), {tags: {name: 'a new name'}})
+const layer = josm.layers.addDataLayer({name: 'my data layer', ds: dsutil.ds})
 
-  // to remove a tag, set its value to null
-  command.change(ds.way(87632), {tags: {width: null}})    
-)
+// creates and applies three undoable/redoable commands
+change(dsutil.node(1), {lat: 12.45}).applyTo(layer)
+change(dsutil.relation(4), {tags: {name: 'a new name'}}).applyTo(layer)
+
+// to remove a tag, set its value to null
+change(dsutil.way(3), {tags: {width: null}}).applyTo(layer)
 ```
 
-## Find primitives in dataset
+## Find primitives in a dataset
 
-The easiest way to get hold on a primitive in a dataset is to access it by its unique numeric id.
+The easiest way to get a hold of a primitive in a dataset is to access it by its unique numeric id.
 
 ```js
 const { DataSetUtil } = require('josm/ds')
-let ds = .... // a dataset
 
-ds = new DataSetUtil(ds)
+// creates a data set util with empty new data set
+dsutil = new DataSetUtil()
+// populate the data set with some objects
+dsutil.nodeBuilder.withId(1).withPosition(1.0,2.0).create()
+dsutil.nodeBuilder.withId(2).withPosition(1.0,2.0).create()
+dsutil.wayBuilder.withId(3).withNodes(dsutil.node(1), dsutil.node(2)).create()
+dsutil.relationBuilder.withId(4).create()
 
-const node = ds.get("node", 12345);
+let node
+node = ds.get("node", 1);
 // .. or
-const node = ds.node(12345)
+node = ds.node(1)
 
-const way = ds.get("way", 12345)
+let way
+way = ds.get("way", 3)
 // ... or
-const way = ds.way(12345)
+way = ds.way(3)
 
-const relation = ds.get("relation", -27222) // this is a local id
+let relation
+relation = ds.get("relation", 4)
 // ... or
-const relation = ds.relation(-27222)
+relation = ds.relation(4)
 ```
 
-In addition, you can *search* in a dataset using the method `query()`. 
+In addition, you can *search* in a dataset using the method `query()`.
 `query()` accepts two types of search expressions:
 
 1.  a search expression as you would enter it in the JOSM search field
@@ -189,7 +214,7 @@ const { DataSetUtil } = require('josm/ds')
 let ds = .... // a dataset
 dsUtil = new DataSetUtil(ds)
 
-// query the dataset with a predicate 
+// query the dataset with a predicate
 const restaurants = dsUtil.query((primitive) => {
     return primitive.tags.amenity == "restaurant"
 })
@@ -204,8 +229,8 @@ const restaurants = dsUtil.query('amenity=restaurant')
 [DataSet]: https://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/DataSet.html
 [OsmPrimitive]: https://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/OsmPrimitive.html
 [AbstractPrimitive]: https://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/AbstractPrimitive.html
-[NodeBuilder]: /api/v2/module-josm_builder.NodeBuilder.html
-[WayBuilder]: /api/v2/module-josm_builder.WayBuilder.html
-[RelationBuilder]: /api/v2/module-josm_builder.RelationBuilder.html
+[NodeBuilder]: /api/v2/module-josm_builder-NodeBuilder.html
+[WayBuilder]: /api/v2/module-josm_builder-WayBuilder.html
+[RelationBuilder]: /api/v2/module-josm_builder-RelationBuilder.html
 [josm/builder]: /api/v2/module-josm_builder.html
 [josm/command]: /api/v2/module-josm_command.html
