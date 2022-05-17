@@ -17,7 +17,7 @@ Consider to migrate your scripts to [GraalJS][graaljs] and [API V2](v2/v2).
 
 ## The JavaScript API V1
 
-The JOSM Scripting Plugin ships with JavaScript API. API V1 can be used together with Mozilla Rhino as scripting engine.
+The JOSM Scripting Plugin ships with a JavaScript API. API V1 can be used together with Mozilla Rhino as a scripting engine.
 
 API V1 has the following main features:
 
@@ -32,7 +32,7 @@ API V1 has the following main features:
 * create undoable/redoable change objects to update nodes, ways, and relations
 * write to the scripting console
 
-Refer to the [API V1](v1/v1) documentation for further details.
+Refer to the [API V1](v1/v1) documentation.
 
 
 ## Using a pluggable scripting engine
