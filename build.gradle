@@ -135,11 +135,29 @@ test {
     testLogging.events TestLogEvent.FAILED, TestLogEvent.PASSED
 }
 
-task testScriptApi (type: Test) {
+task testScriptApiV1 (type: Test) {
     useJUnit()
     environment "JOSM_SCRIPTING_PLUGIN_HOME", project.projectDir
     scanForTestClasses = false
     include "org.openstreetmap.josm.plugins.scripting.v1.ScriptApiTest.class"
+    testLogging {
+        events TestLogEvent.FAILED, TestLogEvent.PASSED
+        exceptionFormat = TestExceptionFormat.FULL
+    }
+}
+
+task testScriptApiV2(type: Test) {
+    useJUnit()
+    testLogging {
+        outputs.upToDateWhen {false}
+        showStandardStreams = true
+    }
+    environment "JOSM_SCRIPTING_PLUGIN_HOME", project.projectDir
+    executable "/home/karl/software/graalvm/bin/java"
+    environment "JAVA_HOME", "/home/karl/software/graalvm"
+    scanForTestClasses= false
+    include "**/APIV2TestSuite.class"
+
     testLogging {
         events TestLogEvent.FAILED, TestLogEvent.PASSED
         exceptionFormat = TestExceptionFormat.FULL
@@ -231,7 +249,7 @@ task testJSR223EnginePresent(type: Test) {
     }
 }
 
-tasks.check.dependsOn(tasks.testScriptApi)
+tasks.check.dependsOn(tasks.testScriptApiV1)
 tasks.check.dependsOn(tasks.testGraalVMSupportNotPresent)
 tasks.check.dependsOn(tasks.testGraalVMSupportPresent)
 tasks.check.dependsOn(tasks.testJSR223EngineAbsent)
