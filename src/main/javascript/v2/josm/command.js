@@ -405,11 +405,12 @@ exports.ChangeCommand.prototype.createJOSMCommand = function (layer) {
  * Creates a command to change a collection of objects in  a data layer.
  *
  * <strong>Signatures</strong>
+ *
  * <dl>
  *   <dt><code class="signature">change(obj,obj,..., options)</code> </dt>
  *   <dd><code>obj</code> are {@class org.openstreetmap.josm.data.osm.Node}s,
  *   {@class org.openstreetmap.josm.data.osm.Way}s, or
- *   {@class org.openstreetmap.josm.data.osm.Relations}s. Or javascript array
+ *   {@class org.openstreetmap.josm.data.osm.Relation}s. Or javascript array
  *   or Java collections thereof.</dd>
  * </dl>
  *
@@ -441,22 +442,22 @@ exports.ChangeCommand.prototype.createJOSMCommand = function (layer) {
  * </dl>
  *
  * @example
- * const cmd = require("josm/command")
- * const layers = require("josm/layer")
- * const layer = layers.get("Data Layer 1")
+ * const {change} = require("josm/command")
+ * const layers = require("josm/layers")
+ * const my_layer = layers.get("Data Layer 1")
  *
  * // change the position of a node
- * cmd.change(n1,n1, {lat: 123.45, lon: 44.234}).applyTo(layer)
+ * change(n1, {lat: 123.45, lon: 44.234}).applyTo(my_layer)
  *
  * // change the nodes of a way
- * layer.apply(
- *    cmd.change(w2, {nodes: [n1,n2,3]})
+ * my_layer.apply(
+ *    change(w2, {nodes: [n1,n2,3]})
  * )
  *
  * // change the tags of a collection of primitives
- * cmd.change(n1,n3, w1,r1, {
- *    tags: {'mycustommtag': 'value'}
- * }).applyTo(layer)
+ * change(n1, n3, w1, r1, {
+ *    tags: {'mycustomtag': 'value'}
+ * }).applyTo(my_layer)
  *
  * @function
  * @summary Creates a command to change a collection of objects
