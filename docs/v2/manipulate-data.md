@@ -8,7 +8,7 @@ nav_order: 3
 
 # Manipulating data
 
-JOSM is a powerful tool for creating maps, although the map data structure is quite simple. There are only three basic types of objects, or *OSM primitives*::
+JOSM is a powerful tool for creating maps, although the map data structure is quite simple. There are only three basic types of objects, or *OSM primitives*:
 
   1. **nodes** &ndash; individual points at a specific position
   2. **ways**  &ndash; sequences of nodes

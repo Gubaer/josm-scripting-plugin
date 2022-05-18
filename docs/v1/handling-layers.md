@@ -40,8 +40,8 @@ which has been [Api]{:target="apidoc"} from the OSM server.
 ```js
 var api = require("josm/api").Api;
 var dataset = api.downloadArea({
-      min: {lat: 46.9479186, lon: 7.4619484}, 
-      max: {lat: 46.9497642, lon: 7.4660683}  
+      min: {lat: 46.9479186, lon: 7.4619484},
+      max: {lat: 46.9497642, lon: 7.4660683}
 });
 josm.layers.addDataLayer({ds: dataset, name: "Obstberg"});
 ```
