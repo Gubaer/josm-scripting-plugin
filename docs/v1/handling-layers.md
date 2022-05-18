@@ -2,6 +2,7 @@
 layout: page
 title: Working with layers
 parent: API V1
+has_toc: true
 nav_order: 2
 ---
 
