@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
-	<title>DocStrap Module: josm/api</title>
+	<title>JOSM Scripting Plugin - JavaScript API V1 Module: josm/api</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -20,7 +20,7 @@
 <div class="navbar navbar-default navbar-fixed-top navbar-inverse">
 <div class="container">
 	<div class="navbar-header">
-		<a class="navbar-brand" href="index.html">DocStrap</a>
+		<a class="navbar-brand" href="index.html">JOSM Scripting Plugin - JavaScript API V1</a>
 		<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#topNavigation">
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
@@ -86,14 +86,19 @@
     
 </header>
 
-
-
 <article>
+    
+    
+    <div style="padding: 1rem; margin: 1rem; background-color: #f77e7e">
+    API V1 is <strong>deprecated</strong> and will be removed in 2021. Consider to migrate your scripts to
+    <a href="/api/v2">API V2</a>.
+    
+    </div>
     <div class="container-overview">
     
         
-            <div class="description"><p>This module provides functions to retrieve data from and upload data<br>
-to an OSM server.</p></div>
+            <div class="description">This module provides functions to retrieve data from and upload data
+to an OSM server.</div>
         
 
         
@@ -184,7 +189,7 @@ to an OSM server.</p></div>
 <dd>
     
     <div class="description">
-        <p>ApiConfig provides methods and properties for configuring API parameters.</p>
+        ApiConfig provides methods and properties for configuring API parameters.
     </div>
     
 
@@ -279,7 +284,7 @@ to an OSM server.</p></div>
 		<ul class="dummy">
 			<li>
 				<a href="josm_api.js.html">josm/api.js</a>,
-				 <a href="josm_api.js.html#sunlight-1-line-901">line 901</a>
+				 <a href="josm_api.js.html#sunlight-1-line-903">line 903</a>
 			</li>
 		</ul>
 	</dd>
@@ -303,14 +308,15 @@ to an OSM server.</p></div>
     <h4 id=".authMethod"><span class="type-signature">&lt;static> </span>authMethod<span class="type-signature"> :string</span></h4>
 
     
-    <p class="summary"><p>Get or set the authentication method.</p></p>
+    <p class="summary">Get or set the authentication method.</p>
     
 </dt>
 <dd>
     
     <div class="description">
-        <p>Get or set the authentication method.</p>
-<p>JOSM uses two authentication methods:</p>
+        Get or set the authentication method.
+
+JOSM uses two authentication methods:
 <dl>
    <dt><code class="signature">basic</code></dt>
    <dd>Basic authentication with a username and a password</dd>
@@ -381,7 +387,7 @@ to an OSM server.</p></div>
 
             
 
-            <td class="description last"><p>the authentication method</p></td>
+            <td class="description last">the authentication method</td>
         </tr>
 
     
@@ -423,7 +429,7 @@ to an OSM server.</p></div>
 		<ul class="dummy">
 			<li>
 				<a href="josm_api.js.html">josm/api.js</a>,
-				 <a href="josm_api.js.html#sunlight-1-line-1008">line 1008</a>
+				 <a href="josm_api.js.html#sunlight-1-line-1010">line 1010</a>
 			</li>
 		</ul>
 	</dd>
@@ -457,13 +463,13 @@ conf.authMethod = &quot;oauth&quot;;</pre>
     <h4 id=".defaultServerUrl"><span class="type-signature">&lt;static, readonly> </span>defaultServerUrl<span class="type-signature"></span></h4>
 
     
-    <p class="summary"><p>Get the default server URL</p></p>
+    <p class="summary">Get the default server URL</p>
     
 </dt>
 <dd>
     
     <div class="description">
-        <p>Get the default server URL.</p>
+        Get the default server URL.
     </div>
     
 
@@ -516,7 +522,7 @@ conf.authMethod = &quot;oauth&quot;;</pre>
 
             
 
-            <td class="description last"><p>the default server URL</p></td>
+            <td class="description last">the default server URL</td>
         </tr>
 
     
@@ -558,7 +564,7 @@ conf.authMethod = &quot;oauth&quot;;</pre>
 		<ul class="dummy">
 			<li>
 				<a href="josm_api.js.html">josm/api.js</a>,
-				 <a href="josm_api.js.html#sunlight-1-line-979">line 979</a>
+				 <a href="josm_api.js.html#sunlight-1-line-981">line 981</a>
 			</li>
 		</ul>
 	</dd>
@@ -589,13 +595,14 @@ conf.defaultServerUrl;   // -&gt; the default server url</pre>
     <h4 id=".serverUrl"><span class="type-signature">&lt;static> </span>serverUrl<span class="type-signature"></span></h4>
 
     
-    <p class="summary"><p>Get or set the API server URL.</p></p>
+    <p class="summary">Get or set the API server URL.</p>
     
 </dt>
 <dd>
     
     <div class="description">
-        <p>Get or set the API server URL.</p>
+        Get or set the API server URL.
+
 <dl>
   <dt><code class="signature">get</code></dt>
   <dd>Replies the currently configured server URL or undefinend, if no
@@ -700,7 +707,7 @@ conf.defaultServerUrl;   // -&gt; the default server url</pre>
 		<ul class="dummy">
 			<li>
 				<a href="josm_api.js.html">josm/api.js</a>,
-				 <a href="josm_api.js.html#sunlight-1-line-917">line 917</a>
+				 <a href="josm_api.js.html#sunlight-1-line-919">line 919</a>
 			</li>
 		</ul>
 	</dd>
@@ -740,16 +747,17 @@ conf.serverUrl = &quot;http://api06.dev.openstreetmap.org&quot;;</pre>
     <h4 class="name" id=".getCredentials"><span class="type-signature">&lt;static> </span>getCredentials(authMethod, options)</h4>
     
     
-    <p class="summary"><p>Gets the credentials.</p></p>
+    <p class="summary">Gets the credentials.</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Gets the credentials, i.e. username and password for the basic<br>
-authentication method.</p>
-<p><strong>Named options</strong></p>
+        Gets the credentials, i.e. username and password for the basic
+authentication method.
+
+<strong>Named options</strong>
 <dl>
    <dt><code class="signature">host:string</code></dt>
    <dd>The host name of the API server for which credentials are retrieved.
@@ -807,7 +815,7 @@ authentication method.</p>
 
             
 
-            <td class="description last"><p>the authentication method. Either <code>basic</code> or <code>oauth</code></p></td>
+            <td class="description last">the authentication method. Either <code>basic</code> or <code>oauth</code></td>
         </tr>
 
     
@@ -831,7 +839,7 @@ authentication method.</p>
 
             
 
-            <td class="description last"><p>(optional) additional options (see above)</p></td>
+            <td class="description last">(optional) additional options (see above)</td>
         </tr>
 
     
@@ -876,7 +884,7 @@ authentication method.</p>
 		<ul class="dummy">
 			<li>
 				<a href="josm_api.js.html">josm/api.js</a>,
-				 <a href="josm_api.js.html#sunlight-1-line-1049">line 1049</a>
+				 <a href="josm_api.js.html#sunlight-1-line-1051">line 1051</a>
 			</li>
 		</ul>
 	</dd>
@@ -905,7 +913,7 @@ authentication method.</p>
     
             
 <div class="param-desc">
-    <p>the credentials</p>
+    the credentials
 </div>
 
 
@@ -945,22 +953,24 @@ var credentials = conf.getCredentials(&quot;basic&quot;);</pre>
     <h4 class="name" id=".setCredentials"><span class="type-signature">&lt;static> </span>setCredentials(authMethod, credentials, options)</h4>
     
     
-    <p class="summary"><p>Set the credentials.</p></p>
+    <p class="summary">Set the credentials.</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Set the credentials, i.e. username and password for the basic<br>
-authentication method.</p>
-<p>Basic authentication credentials are either an instance of<br>
-java.net.PasswordAuthentication or<br>
-an object <code>{user: string, password: string}</code>.</p>
-<p>OAuth authentication credentials are either an instance of<br>
-<a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/oauth/OAuthToken.html" alt="org.openstreetmap.josm.data.oauth.OAuthToken" target="javadoc">OAuthToken</a> or<br>
-an object <code>{key: string, secret: string}</code>.<br>
-<strong>Named options</strong></p>
+        Set the credentials, i.e. username and password for the basic
+authentication method.
+
+Basic authentication credentials are either an instance of
+java.net.PasswordAuthentication or
+an object <code>{user: string, password: string}</code>.
+
+OAuth authentication credentials are either an instance of
+<a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/oauth/OAuthToken.html" alt="org.openstreetmap.josm.data.oauth.OAuthToken" target="javadoc">OAuthToken</a> or
+an object <code>{key: string, secret: string}</code>.
+<strong>Named options</strong>
 <dl>
    <dt><code class="signature">host:string</code></dt>
    <dd>The host name of the API server for which credentials are set.
@@ -1018,8 +1028,8 @@ an object <code>{key: string, secret: string}</code>.<br>
 
             
 
-            <td class="description last"><p>the authentication method. Either &quot;basic&quot; or<br>
-&quot;oauth&quot;.</p></td>
+            <td class="description last">the authentication method. Either "basic" or
+        "oauth".</td>
         </tr>
 
     
@@ -1035,10 +1045,10 @@ an object <code>{key: string, secret: string}</code>.<br>
 <span class="param-type">object</span>
 |
 
-<span class="param-type">org.openstreetmap.josm.data.oauth.OAuthToken</span>
+<span class="param-type"><a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/oauth/OAuthToken.html" alt="org.openstreetmap.josm.data.oauth.OAuthToken" target="javadoc">OAuthToken</a></span>
 |
 
-<span class="param-type">java.net.PasswordAuthentication</span>
+<span class="param-type"><a href="http://docs.oracle.com/javase/6/docs/api/java/net/PasswordAuthentication.html" alt="java.net.PasswordAuthentication" target="javadoc">PasswordAuthentication</a></span>
 
 
 
@@ -1049,7 +1059,7 @@ an object <code>{key: string, secret: string}</code>.<br>
 
             
 
-            <td class="description last"><p>the credentials.</p></td>
+            <td class="description last">the credentials.</td>
         </tr>
 
     
@@ -1073,7 +1083,7 @@ an object <code>{key: string, secret: string}</code>.<br>
 
             
 
-            <td class="description last"><p>(optional) additional options (see above)</p></td>
+            <td class="description last">(optional) additional options (see above)</td>
         </tr>
 
     
@@ -1118,7 +1128,7 @@ an object <code>{key: string, secret: string}</code>.<br>
 		<ul class="dummy">
 			<li>
 				<a href="josm_api.js.html">josm/api.js</a>,
-				 <a href="josm_api.js.html#sunlight-1-line-1145">line 1145</a>
+				 <a href="josm_api.js.html#sunlight-1-line-1147">line 1147</a>
 			</li>
 		</ul>
 	</dd>
@@ -1147,7 +1157,7 @@ an object <code>{key: string, secret: string}</code>.<br>
     
             
 <div class="param-desc">
-    <p>the credentials</p>
+    the credentials
 </div>
 
 
@@ -1234,7 +1244,7 @@ conf.setCredentials(&quot;basic&quot;, {user:&quot;test&quot;, password:&quot;ap
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a>
 	
-		on Sat Oct 3rd 2020
+		on Wed May 18th 2022
 	
 	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>

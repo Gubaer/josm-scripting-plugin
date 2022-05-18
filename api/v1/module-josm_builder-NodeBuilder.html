@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
-	<title>DocStrap Class: NodeBuilder</title>
+	<title>JOSM Scripting Plugin - JavaScript API V1 Class: NodeBuilder</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -20,7 +20,7 @@
 <div class="navbar navbar-default navbar-fixed-top navbar-inverse">
 <div class="container">
 	<div class="navbar-header">
-		<a class="navbar-brand" href="index.html">DocStrap</a>
+		<a class="navbar-brand" href="index.html">JOSM Scripting Plugin - JavaScript API V1</a>
 		<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#topNavigation">
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
@@ -93,9 +93,14 @@
     
 </header>
 
-
-
 <article>
+    
+    
+    <div style="padding: 1rem; margin: 1rem; background-color: #f77e7e">
+    API V1 is <strong>deprecated</strong> and will be removed in 2021. Consider to migrate your scripts to
+    <a href="/api/v2">API V2</a>.
+    
+    </div>
     <div class="container-overview">
     
         
@@ -109,12 +114,14 @@
 
     
     <div class="description">
-        <p>Creates a new node builder.</p>
-<p>NodeBuilder helps to create OSM nodes.</p>
-<p>Methods of NodeBuilder can be used in a static and in an instance context.<br>
-It isn't necessary to create an instance of NodeBuilder, unless it is<br>
-configured with a <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/DataSet.html" alt="org.openstreetmap.josm.data.osm.DataSet" target="javadoc">DataSet</a>,<br>
-which created nodes are added to.</p>
+        Creates a new node builder.
+
+NodeBuilder helps to create OSM nodes.
+
+Methods of NodeBuilder can be used in a static and in an instance context.
+It isn't necessary to create an instance of NodeBuilder, unless it is
+configured with a <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/DataSet.html" alt="org.openstreetmap.josm.data.osm.DataSet" target="javadoc">DataSet</a>,
+which created nodes are added to.
     </div>
     
 
@@ -157,7 +164,7 @@ which created nodes are added to.</p>
             <td class="type">
             
                 
-<span class="param-type">org.openstreetmap.josm.data.osm.DataSet</span>
+<span class="param-type"><a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/DataSet.html" alt="org.openstreetmap.josm.data.osm.DataSet" target="javadoc">DataSet</a></span>
 
 
 
@@ -178,8 +185,8 @@ which created nodes are added to.</p>
 
             
 
-            <td class="description last"><p>the dataset<br>
-which created objects are added to</p></td>
+            <td class="description last">the dataset
+     which created objects are added to</td>
         </tr>
 
     
@@ -305,17 +312,19 @@ which created objects are added to</p></td>
     <h4 class="name" id=".create"><span class="type-signature">&lt;static> </span>create( [id] [, options])</h4>
     
     
-    <p class="summary"><p>Creates a new  {@class org.openstreetmap.josm.data.osm.Node}</p></p>
+    <p class="summary">Creates a new  <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html" alt="org.openstreetmap.josm.data.osm.Node" target="javadoc">Node</a></p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Creates a new  <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html" alt="org.openstreetmap.josm.data.osm.Node" target="javadoc">Node</a>.</p>
-<p>Can be used in an instance or in a static context..</p>
-<p><strong>Optional named arguments in the parameters <code>args</code><br>
-</strong></p>
+        Creates a new  <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html" alt="org.openstreetmap.josm.data.osm.Node" target="javadoc">Node</a>.
+
+Can be used in an instance or in a static context..
+
+<strong>Optional named arguments in the parameters <code>args</code>
+</strong>
 <ul>
   <li><code>version</code> - the version of a global node (number > 0)</li>
   <li><code>lat</code> - a valide latitude (number in the range
@@ -392,8 +401,8 @@ which created objects are added to</p></td>
 
             
 
-            <td class="description last"><p>a global node id. If missing and<br>
-not set before using <code>withId(..)</code>, creates a new local id.</p></td>
+            <td class="description last">a global node id. If missing and
+    not set before using <code>withId(..)</code>, creates a new local id.</td>
         </tr>
 
     
@@ -427,7 +436,7 @@ not set before using <code>withId(..)</code>, creates a new local id.</p></td>
 
             
 
-            <td class="description last"><p>additional options for creating the node</p></td>
+            <td class="description last">additional options for creating the node</td>
         </tr>
 
     
@@ -501,7 +510,7 @@ not set before using <code>withId(..)</code>, creates a new local id.</p></td>
     
             
 <div class="param-desc">
-    <p>the created node</p>
+    the created node
 </div>
 
 
@@ -549,18 +558,20 @@ var n3 = nb.create(12345, {version: 3, lat: 23.45,
     <h4 class="name" id=".createProxy"><span class="type-signature">&lt;static> </span>createProxy(id)</h4>
     
     
-    <p class="summary"><p>Creates a new <em>proxy</em> {@class org.openstreetmap.josm.data.osm.Node}</p></p>
+    <p class="summary">Creates a new <em>proxy</em> <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html" alt="org.openstreetmap.josm.data.osm.Node" target="javadoc">Node</a></p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Creates a new <em>proxy</em><br>
-<a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html" alt="org.openstreetmap.josm.data.osm.Node" target="javadoc">Node</a>. A proxy node is a node,<br>
-for which we only know its global id. In order to know more details<br>
-(position, tags, etc.), we would have to download it from the OSM server.</p>
-<p>The method can be used in a static and in an instance context.</p>
+        Creates a new <em>proxy</em>
+<a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html" alt="org.openstreetmap.josm.data.osm.Node" target="javadoc">Node</a>. A proxy node is a node,
+for which we only know its global id. In order to know more details
+(position, tags, etc.), we would have to download it from the OSM server.
+
+
+The method can be used in a static and in an instance context.
     </div>
     
 
@@ -612,7 +623,7 @@ for which we only know its global id. In order to know more details<br>
 
             
 
-            <td class="description last"><p>the node id (not null, number &gt; 0 expected)</p></td>
+            <td class="description last">the node id (not null, number > 0 expected)</td>
         </tr>
 
     
@@ -686,7 +697,7 @@ for which we only know its global id. In order to know more details<br>
     
             
 <div class="param-desc">
-    <p>the new proxy node</p>
+    the new proxy node
 </div>
 
 
@@ -726,16 +737,16 @@ var n1 = nbuilder.createProxy(12345);</pre>
     <h4 class="name" id="forDataSet"><span class="type-signature">&lt;static> </span>exports.NodeBuilder#forDataSet(ds)</h4>
     
     
-    <p class="summary"><p>Creates a new NodeBuilder for a specific<br>
-{@class org.openstreetmap.josm.data.osm.DataSet}.</p></p>
+    <p class="summary">Creates a new NodeBuilder for a specific
+        <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/DataSet.html" alt="org.openstreetmap.josm.data.osm.DataSet" target="javadoc">DataSet</a>.</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Creates or configures a NodeBuilder which will add created nodes<br>
-to the dataset <code>ds</code>.</p>
+        Creates or configures a NodeBuilder which will add created nodes
+to the dataset <code>ds</code>.
     </div>
     
 
@@ -776,7 +787,7 @@ to the dataset <code>ds</code>.</p>
             <td class="type">
             
                 
-<span class="param-type">org.openstreetmap.josm.data.osm.DataSet</span>
+<span class="param-type"><a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/DataSet.html" alt="org.openstreetmap.josm.data.osm.DataSet" target="javadoc">DataSet</a></span>
 
 
 
@@ -787,8 +798,8 @@ to the dataset <code>ds</code>.</p>
 
             
 
-            <td class="description last"><p>the dataset which<br>
-created objects are added to</p></td>
+            <td class="description last">the dataset which
+        created objects are added to</td>
         </tr>
 
     
@@ -862,7 +873,7 @@ created objects are added to</p></td>
     
             
 <div class="param-desc">
-    <p>the node builder</p>
+    the node builder
 </div>
 
 
@@ -907,15 +918,16 @@ nb = nb.forDataSet(ds);</pre>
     <h4 class="name" id=".withId"><span class="type-signature">&lt;static> </span>withId(id, version)</h4>
     
     
-    <p class="summary"><p>Declares the node id and version.</p></p>
+    <p class="summary">Declares the node id and version.</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Declares the global node id and the global node version.</p>
-<p>The method can be used in a static and in an instance context.</p>
+        Declares the global node id and the global node version.
+
+The method can be used in a static and in an instance context.
     </div>
     
 
@@ -967,7 +979,7 @@ nb = nb.forDataSet(ds);</pre>
 
             
 
-            <td class="description last"><p>(mandatory) the global node id. A number &gt; 0.</p></td>
+            <td class="description last">(mandatory) the global node id. A number > 0.</td>
         </tr>
 
     
@@ -991,9 +1003,9 @@ nb = nb.forDataSet(ds);</pre>
 
             
 
-            <td class="description last"><p>(optional) the global node version. If present,<br>
-a number &gt; 0. If missing,<br>
-the version 1 is assumed.</p></td>
+            <td class="description last">(optional) the global node version. If present,
+    a number > 0. If missing,
+the version 1 is assumed.</td>
         </tr>
 
     
@@ -1067,7 +1079,7 @@ the version 1 is assumed.</p></td>
     
             
 <div class="param-desc">
-    <p>the node builder (for method chaining)</p>
+    the node builder (for method chaining)
 </div>
 
 
@@ -1098,15 +1110,16 @@ the version 1 is assumed.</p></td>
     <h4 class="name" id=".withPosition"><span class="type-signature">&lt;static> </span>withPosition(lat, lon)</h4>
     
     
-    <p class="summary"><p>Declares the node position.</p></p>
+    <p class="summary">Declares the node position.</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Declares the node position.</p>
-<p>The method can be used in a static and in an instance context.</p>
+        Declares the node position.
+
+The method can be used in a static and in an instance context.
     </div>
     
 
@@ -1158,7 +1171,7 @@ the version 1 is assumed.</p></td>
 
             
 
-            <td class="description last"><p>the latitude. A number in the range [-90..90].</p></td>
+            <td class="description last">the latitude. A number in the range [-90..90].</td>
         </tr>
 
     
@@ -1182,7 +1195,7 @@ the version 1 is assumed.</p></td>
 
             
 
-            <td class="description last"><p>the longitude. A number in the range [-180..180].</p></td>
+            <td class="description last">the longitude. A number in the range [-180..180].</td>
         </tr>
 
     
@@ -1256,7 +1269,7 @@ the version 1 is assumed.</p></td>
     
             
 <div class="param-desc">
-    <p>a node builder (for method chaining)</p>
+    a node builder (for method chaining)
 </div>
 
 
@@ -1299,15 +1312,16 @@ var n2 = nbuilder.withPosition(23.3,87.33).create();</pre>
     <h4 class="name" id=".withTags"><span class="type-signature">&lt;static> </span>withTags( [tags])</h4>
     
     
-    <p class="summary"><p>Declares the node tags.</p></p>
+    <p class="summary">Declares the node tags.</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Declares the tags to be assigned to the new node.</p>
-<p>The method can be used in a static and in an instance context.</p>
+        Declares the tags to be assigned to the new node.
+
+The method can be used in a static and in an instance context.
     </div>
     
 
@@ -1371,7 +1385,7 @@ var n2 = nbuilder.withPosition(23.3,87.33).create();</pre>
 
             
 
-            <td class="description last"><p>the tags</p></td>
+            <td class="description last">the tags</td>
         </tr>
 
     
@@ -1445,7 +1459,7 @@ var n2 = nbuilder.withPosition(23.3,87.33).create();</pre>
     
             
 <div class="param-desc">
-    <p>the node builder (for method chaining)</p>
+    the node builder (for method chaining)
 </div>
 
 
@@ -1539,7 +1553,7 @@ var n2 = nbuilder.withTags(tags).local();</pre>
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a>
 	
-		on Sat Oct 3rd 2020
+		on Wed May 18th 2022
 	
 	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>

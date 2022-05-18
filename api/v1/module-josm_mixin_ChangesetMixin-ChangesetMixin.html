@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
-	<title>DocStrap Mixin: ChangesetMixin</title>
+	<title>JOSM Scripting Plugin - JavaScript API V1 Mixin: ChangesetMixin</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -20,7 +20,7 @@
 <div class="navbar navbar-default navbar-fixed-top navbar-inverse">
 <div class="container">
 	<div class="navbar-header">
-		<a class="navbar-brand" href="index.html">DocStrap</a>
+		<a class="navbar-brand" href="index.html">JOSM Scripting Plugin - JavaScript API V1</a>
 		<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#topNavigation">
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
@@ -93,14 +93,19 @@
     
 </header>
 
-
-
 <article>
+    
+    
+    <div style="padding: 1rem; margin: 1rem; background-color: #f77e7e">
+    API V1 is <strong>deprecated</strong> and will be removed in 2021. Consider to migrate your scripts to
+    <a href="/api/v2">API V2</a>.
+    
+    </div>
     <div class="container-overview">
     
         
-            <div class="description"><p>This mixin is auto-loaded by the scripting plugin and mixed into the<br>
-native java class <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Changeset.html" alt="org.openstreetmap.josm.data.osm.Changeset" target="javadoc">Changeset</a>.</p></div>
+            <div class="description">This mixin is auto-loaded by the scripting plugin and mixed into the
+native java class <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Changeset.html" alt="org.openstreetmap.josm.data.osm.Changeset" target="javadoc">Changeset</a>.</div>
         
 
         
@@ -177,13 +182,13 @@ native java class <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/jo
     <h4 id="bounds"><span class="type-signature">&lt;readonly> </span>bounds<span class="type-signature"></span></h4>
 
     
-    <p class="summary"><p>Get the bounding box the bounding box.</p></p>
+    <p class="summary">Get the bounding box the bounding box.</p>
     
 </dt>
 <dd>
     
     <div class="description">
-        <p>Get the bounding box the bounding box.</p>
+        Get the bounding box the bounding box.
 <dl>
   <dt>get:</dt>
   <dd>Replies a <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/Bounds.html" alt="org.openstreetmap.josm.data.Bounds" target="javadoc">Bounds</a> or undefined,
@@ -241,7 +246,7 @@ native java class <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/jo
 
             
 
-            <td class="description last"><p>the bounding box</p></td>
+            <td class="description last">the bounding box</td>
         </tr>
 
     
@@ -307,17 +312,19 @@ native java class <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/jo
     <h4 id="closedAt"><span class="type-signature"></span>closedAt<span class="type-signature"></span></h4>
 
     
-    <p class="summary"><p>Set or get the date this changeset was closed.</p></p>
+    <p class="summary">Set or get the date this changeset was closed.</p>
     
 </dt>
 <dd>
     
     <div class="description">
-        <p>Set or get the date this changeset was closed.</p>
+        Set or get the date this changeset was closed.
+
 <dl>
   <dt>get:</dt>
   <dd>Replies a <a href="http://docs.oracle.com/javase/6/docs/api/java/utilDate.html" alt="java.utilDate" target="javadoc">utilDate</a> or undefined, if the date isn't
   known.</dd>
+
   <dt>set:</dt>
   <dd>Assign null or undefined to clear the date. Assign a
   <a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html" alt="java.util.Date" target="javadoc">Date</a> to set the date. Note, that you can't assign a
@@ -375,7 +382,7 @@ native java class <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/jo
 
             
 
-            <td class="description last"><p>date the changeset was closed</p></td>
+            <td class="description last">date the changeset was closed</td>
         </tr>
 
     
@@ -441,17 +448,18 @@ native java class <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/jo
     <h4 id="createdAt"><span class="type-signature"></span>createdAt<span class="type-signature"></span></h4>
 
     
-    <p class="summary"><p>Set or get the date this changeset was created.</p></p>
+    <p class="summary">Set or get the date this changeset was created.</p>
     
 </dt>
 <dd>
     
     <div class="description">
-        <p>Set or get the date this changeset was created.</p>
+        Set or get the date this changeset was created.
 <dl>
   <dt>get:</dt>
   <dd>Replies a <a href="http://docs.oracle.com/javase/6/docs/api/java/utilDate.html" alt="java.utilDate" target="javadoc">utilDate</a> or undefined, if the date isn't
   known.</dd>
+
   <dt>set:</dt>
   <dd>Assign null or undefined to clear the date. Assign a
   <a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html" alt="java.util.Date" target="javadoc">Date</a> to set the date. Note, that you can't
@@ -509,7 +517,7 @@ native java class <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/jo
 
             
 
-            <td class="description last"><p>date the changeset was created</p></td>
+            <td class="description last">date the changeset was created</td>
         </tr>
 
     
@@ -575,13 +583,13 @@ native java class <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/jo
     <h4 id="id"><span class="type-signature">&lt;readonly> </span>id<span class="type-signature"></span></h4>
 
     
-    <p class="summary"><p>Replies the unique numeric id.</p></p>
+    <p class="summary">Replies the unique numeric id.</p>
     
 </dt>
 <dd>
     
     <div class="description">
-        <p>Replies the unique numeric id.</p>
+        Replies the unique numeric id.
     </div>
     
 
@@ -700,13 +708,13 @@ native java class <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/jo
     <h4 id="isOpen"><span class="type-signature"></span>isOpen<span class="type-signature"></span></h4>
 
     
-    <p class="summary"><p>Get or set whether this changeset is open.</p></p>
+    <p class="summary">Get or set whether this changeset is open.</p>
     
 </dt>
 <dd>
     
     <div class="description">
-        <p>Get or set whether this changeset is open.</p>
+        Get or set whether this changeset is open.
     </div>
     
 
@@ -825,17 +833,19 @@ native java class <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/jo
     <h4 id="max"><span class="type-signature"></span>max<span class="type-signature"></span></h4>
 
     
-    <p class="summary"><p>Get or set the coordinates of the upper right corner</p></p>
+    <p class="summary">Get or set the coordinates of the upper right corner</p>
     
 </dt>
 <dd>
     
     <div class="description">
-        <p>Set or get the coordinates of the upper right corner of the bounding box.</p>
+        Set or get the coordinates of the upper right corner of the bounding box.
+
 <dl>
   <dt>get:</dt>
   <dd>Replies a <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/coor/LatLon.html" alt="org.openstreetmap.josm.data.coor.LatLon" target="javadoc">LatLon</a> or
   undefined, if max isn't known.</dd>
+
   <dt>set:</dt>
   <dd>Assign null or undefined to clear the coordinates. Assign a
   <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/coor/LatLon.html" alt="org.openstreetmap.josm.data.coor.LatLon" target="javadoc">LatLon</a> or
@@ -894,7 +904,7 @@ native java class <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/jo
 
             
 
-            <td class="description last"><p>the upper right corner</p></td>
+            <td class="description last">the upper right corner</td>
         </tr>
 
     
@@ -960,17 +970,20 @@ native java class <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/jo
     <h4 id="min"><span class="type-signature"></span>min<span class="type-signature"></span></h4>
 
     
-    <p class="summary"><p>Get or set the coordinates of the lower left corner</p></p>
+    <p class="summary">Get or set the coordinates of the lower left corner</p>
     
 </dt>
 <dd>
     
     <div class="description">
-        <p>Set or get the coordinates of the lower left corner of the bounding box.</p>
+        Set or get the coordinates of the lower left corner of the bounding box.
+
+
 <dl>
   <dt>get:</dt>
   <dd>Replies a <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/coor/LatLon.html" alt="org.openstreetmap.josm.data.coor.LatLon" target="javadoc">LatLon</a> or
   undefined, if min isn't known.</dd>
+
   <dt>set:</dt>
   <dd>Assign null or undefined to clear the coordinates. Assign a
   <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/coor/LatLon.html" alt="org.openstreetmap.josm.data.coor.LatLon" target="javadoc">LatLon</a> or
@@ -1029,7 +1042,7 @@ native java class <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/jo
 
             
 
-            <td class="description last"><p>the lower left corner</p></td>
+            <td class="description last">the lower left corner</td>
         </tr>
 
     
@@ -1095,23 +1108,26 @@ native java class <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/jo
     <h4 id="tags"><span class="type-signature"></span>tags<span class="type-signature"></span></h4>
 
     
-    <p class="summary"><p>Get or set the tags.</p></p>
+    <p class="summary">Get or set the tags.</p>
     
 </dt>
 <dd>
     
     <div class="description">
-        <p>Get or set the tags of the changeset.<br>
-<strong>get:</strong> - replies the tags as javascript object.</p>
-<p><strong>set:</strong></p>
+        Get or set the tags of the changeset.
+<strong>get:</strong> - replies the tags as javascript object.
+
+ <strong>set:</strong>
    <ul>
      <li>assign null or undefined to remove all tags</li>
      <li>assign an object to set its properties as tags.</li>
      <li>assign an java.util.Map to set its elements as tags</li>
    </ul>
-<p>null values and undefined tag values aren't assigned. tag keys are<br>
-normalized, i.e. leading and trailing white space is removed. Both, tag<br>
-keys and tag values, are converted to strings.</p>
+ 
+
+ null values and undefined tag values aren't assigned. tag keys are
+ normalized, i.e. leading and trailing white space is removed. Both, tag
+ keys and tag values, are converted to strings.
     </div>
     
 
@@ -1164,7 +1180,7 @@ keys and tag values, are converted to strings.</p>
 
             
 
-            <td class="description last"><p>the tags</p></td>
+            <td class="description last">the tags</td>
         </tr>
 
     
@@ -1299,7 +1315,7 @@ cs.tags = tags;</pre>
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a>
 	
-		on Sat Oct 3rd 2020
+		on Wed May 18th 2022
 	
 	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>

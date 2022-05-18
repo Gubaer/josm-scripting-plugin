@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
-	<title>DocStrap Module: josm/layers</title>
+	<title>JOSM Scripting Plugin - JavaScript API V1 Module: josm/layers</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -20,7 +20,7 @@
 <div class="navbar navbar-default navbar-fixed-top navbar-inverse">
 <div class="container">
 	<div class="navbar-header">
-		<a class="navbar-brand" href="index.html">DocStrap</a>
+		<a class="navbar-brand" href="index.html">JOSM Scripting Plugin - JavaScript API V1</a>
 		<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#topNavigation">
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
@@ -86,13 +86,18 @@
     
 </header>
 
-
-
 <article>
+    
+    
+    <div style="padding: 1rem; margin: 1rem; background-color: #f77e7e">
+    API V1 is <strong>deprecated</strong> and will be removed in 2021. Consider to migrate your scripts to
+    <a href="/api/v2">API V2</a>.
+    
+    </div>
     <div class="container-overview">
     
         
-            <div class="description"><p>Provides access to the JOSM layers.</p></div>
+            <div class="description">Provides access to the JOSM layers.</div>
         
 
         
@@ -169,16 +174,18 @@
     <h4 id=".activeLayer"><span class="type-signature">&lt;static> </span>activeLayer<span class="type-signature"></span></h4>
 
     
-    <p class="summary"><p>Set or get the active layer.</p></p>
+    <p class="summary">Set or get the active layer.</p>
     
 </dt>
 <dd>
     
     <div class="description">
-        <p>Set or get the active layer.</p>
+        Set or get the active layer.
+
 <dl>
   <dt>get</dt>
   <dd>Replies the active layer or undefined.</dd>
+
   <dt>set</dt>
   <dd>Assign either an existing <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/layer/Layer.html" alt="org.openstreetmap.josm.layer.Layer" target="javadoc">Layer</a>,
   the name of a layer as string,
@@ -236,7 +243,7 @@
 
             
 
-            <td class="description last"><p>the active layer</p></td>
+            <td class="description last">the active layer</td>
         </tr>
 
     
@@ -302,13 +309,13 @@
     <h4 id=".length"><span class="type-signature">&lt;static, readonly> </span>length<span class="type-signature"></span></h4>
 
     
-    <p class="summary"><p>Replies the number of currently open layers.</p></p>
+    <p class="summary">Replies the number of currently open layers.</p>
     
 </dt>
 <dd>
     
     <div class="description">
-        <p>Replies the number of currently open layers.</p>
+        Replies the number of currently open layers.
     </div>
     
 
@@ -361,7 +368,7 @@
 
             
 
-            <td class="description last"><p>the number of layers</p></td>
+            <td class="description last">the number of layers</td>
         </tr>
 
     
@@ -433,17 +440,18 @@
     <h4 class="name" id=".add"><span class="type-signature">&lt;static> </span>add(obj)</h4>
     
     
-    <p class="summary"><p>Adds a layer.</p></p>
+    <p class="summary">Adds a layer.</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Adds a layer.</p>
-<p>Either pass in a layer object or a data set. In the later case, an<br>
-<a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/gui/layer/OsmDataLayer.html" alt="org.openstreetmap.josm.gui.layer.OsmDataLayer" target="javadoc">OsmDataLayer</a> is<br>
-automatically created.</p>
+        Adds a layer.
+
+Either pass in a layer object or a data set. In the later case, an
+<a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/gui/layer/OsmDataLayer.html" alt="org.openstreetmap.josm.gui.layer.OsmDataLayer" target="javadoc">OsmDataLayer</a> is
+automatically created.
     </div>
     
 
@@ -484,10 +492,10 @@ automatically created.</p>
             <td class="type">
             
                 
-<span class="param-type">org.openstreetmap.josm.gui.layer.Layer</span>
+<span class="param-type"><a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/gui/layer/Layer.html" alt="org.openstreetmap.josm.gui.layer.Layer" target="javadoc">Layer</a></span>
 |
 
-<span class="param-type">org.openstreetmap.josm.data.osm.DataSet</span>
+<span class="param-type"><a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/DataSet.html" alt="org.openstreetmap.josm.data.osm.DataSet" target="javadoc">DataSet</a></span>
 
 
 
@@ -498,8 +506,8 @@ automatically created.</p>
 
             
 
-            <td class="description last"><p>a layer to add,<br>
-or a dataset.  Ignored if null or undefined.</p></td>
+            <td class="description last">a layer to add,
+     or a dataset.  Ignored if null or undefined.</td>
         </tr>
 
     
@@ -573,7 +581,7 @@ or a dataset.  Ignored if null or undefined.</p></td>
     
             
 <div class="param-desc">
-    <p>the added layer</p>
+    the added layer
 </div>
 
 
@@ -620,16 +628,17 @@ layer.add(ds);</pre>
     <h4 class="name" id=".addDataLayer"><span class="type-signature">&lt;static> </span>addDataLayer(args)</h4>
     
     
-    <p class="summary"><p>Adds a data layer</p></p>
+    <p class="summary">Adds a data layer</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Creates and adds a new data layer. The new layer becomes the new edit<br>
-layer.</p>
-<p><string>Signatures</string></p>
+        Creates and adds a new data layer. The new layer becomes the new edit
+layer.
+
+<string>Signatures</string>
 <dl>
   <dt><code class="signature">addDataLayer()</code></dt>
   <dd>create data layer with a new dataset and default name</dd>
@@ -683,7 +692,7 @@ layer.</p>
 <span class="param-type">string</span>
 |
 
-<span class="param-type">org.openstreetmap.josm.data.osm.DataSet</span>
+<span class="param-type"><a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/DataSet.html" alt="org.openstreetmap.josm.data.osm.DataSet" target="javadoc">DataSet</a></span>
 |
 
 <span class="param-type">object</span>
@@ -697,7 +706,7 @@ layer.</p>
 
             
 
-            <td class="description last"><p>see description</p></td>
+            <td class="description last">see description</td>
         </tr>
 
     
@@ -771,7 +780,7 @@ layer.</p>
     
             
 <div class="param-desc">
-    <p>the added layer</p>
+    the added layer
 </div>
 
 
@@ -816,14 +825,14 @@ layer = josm.layers.addDataLayer(ds);</pre>
     <h4 class="name" id=".get"><span class="type-signature">&lt;static> </span>get(key)</h4>
     
     
-    <p class="summary"><p>Replies one of the layers given a key.</p></p>
+    <p class="summary">Replies one of the layers given a key.</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Replies one of the layers given a key.</p>
+        Replies one of the layers given a key.
 <ul>
   <li>If <code>key</code> is a number, replies the layer with index key, or
   undefined, if no layer for this index exists.</li>
@@ -885,7 +894,7 @@ layer = josm.layers.addDataLayer(ds);</pre>
 
             
 
-            <td class="description last"><p>the key to retrieve the layer</p></td>
+            <td class="description last">the key to retrieve the layer</td>
         </tr>
 
     
@@ -998,14 +1007,14 @@ var layer2 = layers.get(&quot;data layer&quot;);</pre>
     <h4 class="name" id=".has"><span class="type-signature">&lt;static> </span>has(layer)</h4>
     
     
-    <p class="summary"><p>Checks whether <code>layer</code> is currently registered layer.</p></p>
+    <p class="summary">Checks whether <code>layer</code> is currently registered layer.</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Checks whether <code>layer</code> is a currently registered layer.</p>
+        Checks whether <code>layer</code> is a currently registered layer.
     </div>
     
 
@@ -1046,7 +1055,7 @@ var layer2 = layers.get(&quot;data layer&quot;);</pre>
             <td class="type">
             
                 
-<span class="param-type">org.openstreetmap.josm.gui.layer.Layer</span>
+<span class="param-type"><a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/gui/layer/Layer.html" alt="org.openstreetmap.josm.gui.layer.Layer" target="javadoc">Layer</a></span>
 |
 
 <span class="param-type">string</span>
@@ -1063,8 +1072,8 @@ var layer2 = layers.get(&quot;data layer&quot;);</pre>
 
             
 
-            <td class="description last"><p>a layer,<br>
-a layer name, or a layer index</p></td>
+            <td class="description last">a layer,
+    a layer name, or a layer index</td>
         </tr>
 
     
@@ -1138,8 +1147,8 @@ a layer name, or a layer index</p></td>
     
             
 <div class="param-desc">
-    <p>true, if the layer or at least one layer with the given name exists.<br>
-False, otherwise.</p>
+    true, if the layer or at least one layer with the given name exists.
+    False, otherwise.
 </div>
 
 
@@ -1186,14 +1195,14 @@ b = layers.has(l);</pre>
     <h4 class="name" id=".remove"><span class="type-signature">&lt;static> </span>remove(key)</h4>
     
     
-    <p class="summary"><p>Removes a layer.</p></p>
+    <p class="summary">Removes a layer.</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Removes a layer with the given key.</p>
+        Removes a layer with the given key.
 <ul>
   <li>If <code>key</code> is a <code>Number</code>, removes the layer with
   the index key. If the index doesn't isn't a valid layer index, nothing
@@ -1256,7 +1265,7 @@ b = layers.has(l);</pre>
 
             
 
-            <td class="description last"><p>indicates the layer to remove</p></td>
+            <td class="description last">indicates the layer to remove</td>
         </tr>
 
     
@@ -1396,7 +1405,7 @@ layers.remove(&quot;myLayerName&quot;);</pre>
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a>
 	
-		on Sat Oct 3rd 2020
+		on Wed May 18th 2022
 	
 	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>

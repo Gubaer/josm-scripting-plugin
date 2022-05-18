@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
-	<title>DocStrap Mixin: RelationMixin</title>
+	<title>JOSM Scripting Plugin - JavaScript API V1 Mixin: RelationMixin</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -20,7 +20,7 @@
 <div class="navbar navbar-default navbar-fixed-top navbar-inverse">
 <div class="container">
 	<div class="navbar-header">
-		<a class="navbar-brand" href="index.html">DocStrap</a>
+		<a class="navbar-brand" href="index.html">JOSM Scripting Plugin - JavaScript API V1</a>
 		<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#topNavigation">
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
@@ -93,18 +93,24 @@
     
 </header>
 
-
-
 <article>
+    
+    
+    <div style="padding: 1rem; margin: 1rem; background-color: #f77e7e">
+    API V1 is <strong>deprecated</strong> and will be removed in 2021. Consider to migrate your scripts to
+    <a href="/api/v2">API V2</a>.
+    
+    </div>
     <div class="container-overview">
     
         
-            <div class="description"><p>This mixin  provides additional properties and methods which you can<br>
-invoke on an instance of<br>
-<a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Relation.html" alt="org.openstreetmap.josm.data.osm.Relation" target="javadoc">Relation</a>.</p>
-<p>You can access relation members using</p>
+            <div class="description">This mixin  provides additional properties and methods which you can
+invoke on an instance of
+<a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Relation.html" alt="org.openstreetmap.josm.data.osm.Relation" target="javadoc">Relation</a>.
+
+You can access relation members using
 <pre>relation[i]</pre>,
-<p>see examples below.</p></div>
+see examples below.</div>
         
 
         
@@ -211,13 +217,13 @@ for (var i=0; i &lt; relation.length; i++) {
     <h4 id="length"><span class="type-signature">&lt;readonly> </span>length<span class="type-signature"></span></h4>
 
     
-    <p class="summary"><p>Replies the number of relation members.</p></p>
+    <p class="summary">Replies the number of relation members.</p>
     
 </dt>
 <dd>
     
     <div class="description">
-        <p>Replies the number of relation members.</p>
+        Replies the number of relation members.
     </div>
     
 
@@ -270,7 +276,7 @@ for (var i=0; i &lt; relation.length; i++) {
 
             
 
-            <td class="description last"><p>the number of relation members</p></td>
+            <td class="description last">the number of relation members</td>
         </tr>
 
     
@@ -336,16 +342,18 @@ for (var i=0; i &lt; relation.length; i++) {
     <h4 id="members"><span class="type-signature"></span>members<span class="type-signature"></span></h4>
 
     
-    <p class="summary"><p>Set or get the relation members</p></p>
+    <p class="summary">Set or get the relation members</p>
     
 </dt>
 <dd>
     
     <div class="description">
-        <p>The relation members</p>
+        The relation members
+
 <dl>
   <dt>get</dt>
   <dd>replies the current list of relation members as javascript array.</dd>
+
   <dt>set</dt>
   <dd>Assign the list of relation members. Assign null or undefined to
    remove all members.
@@ -417,7 +425,7 @@ for (var i=0; i &lt; relation.length; i++) {
 
             
 
-            <td class="description last"><p>the relation members</p></td>
+            <td class="description last">the relation members</td>
         </tr>
 
     
@@ -503,15 +511,16 @@ var members = relation.members;</pre>
     <h4 class="name" id="add"><span class="type-signature"></span>add(members)</h4>
     
     
-    <p class="summary"><p>Adds one or more member to the relation.</p></p>
+    <p class="summary">Adds one or more member to the relation.</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Adds additional members at the end of the relation members list.</p>
-<p><strong>Signatures</strong></p>
+        Adds additional members at the end of the relation members list.
+
+<strong>Signatures</strong>
 <dl>
   <dt><code class="signature">add(m1, m2, ...)</code></dt>
   <dd>Adds a variable number of members. null or undefined are ignored.
@@ -578,7 +587,7 @@ var members = relation.members;</pre>
 
             
 
-            <td class="description last"><p>see description</p></td>
+            <td class="description last">see description</td>
         </tr>
 
     
@@ -678,15 +687,15 @@ relation.add(m);</pre>
     <h4 class="name" id="getIdAt"><span class="type-signature"></span>getIdAt(idx)</h4>
     
     
-    <p class="summary"><p>Replies the object id of a member.</p></p>
+    <p class="summary">Replies the object id of a member.</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Replies the unique object id for the member object at position<br>
-<var>idx</var>.</p>
+        Replies the unique object id for the member object at position
+<var>idx</var>.
     </div>
     
 
@@ -738,8 +747,8 @@ relation.add(m);</pre>
 
             
 
-            <td class="description last"><p>the index. a number &gt;= 0 and &lt; the current<br>
-number of members</p></td>
+            <td class="description last">the index. a number &gt;= 0 and &lt; the current
+        number of members</td>
         </tr>
 
     
@@ -813,8 +822,8 @@ number of members</p></td>
     
             
 <div class="param-desc">
-    <p>the unique object id for the member object at position<br>
-<var>idx</var></p>
+    the unique object id for the member object at position
+        <var>idx</var>
 </div>
 
 
@@ -857,15 +866,15 @@ var id = relation.getIdAt(0);</pre>
     <h4 class="name" id="getObjectAt"><span class="type-signature"></span>getObjectAt(idx)</h4>
     
     
-    <p class="summary"><p>Replies the object of a member.</p></p>
+    <p class="summary">Replies the object of a member.</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Replies the object represented by the member at position<br>
-<code>idx</code>.</p>
+        Replies the object represented by the member at position
+<code>idx</code>.
     </div>
     
 
@@ -917,8 +926,8 @@ var id = relation.getIdAt(0);</pre>
 
             
 
-            <td class="description last"><p>the index. a number &gt;= 0 and &lt; the current<br>
-number of members</p></td>
+            <td class="description last">the index. a number &gt;= 0 and &lt; the current
+        number of members</td>
         </tr>
 
     
@@ -992,7 +1001,7 @@ number of members</p></td>
     
             
 <div class="param-desc">
-    <p>the object represented by the member at position <code>idx</code></p>
+    the object represented by the member at position <code>idx</code>
 </div>
 
 
@@ -1036,14 +1045,14 @@ var node = relation.getObjectAt(0)  // ==&gt; n1</pre>
     <h4 class="name" id="getRoleAt"><span class="type-signature"></span>getRoleAt(idx)</h4>
     
     
-    <p class="summary"><p>Replies the role of a member.</p></p>
+    <p class="summary">Replies the role of a member.</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Replies the member role for the member at position <code>idx</code>.</p>
+        Replies the member role for the member at position <code>idx</code>.
     </div>
     
 
@@ -1095,8 +1104,8 @@ var node = relation.getObjectAt(0)  // ==&gt; n1</pre>
 
             
 
-            <td class="description last"><p>the index. a number &gt;= 0 and &lt; the current<br>
-number of members</p></td>
+            <td class="description last">the index. a number &gt;= 0 and &lt; the current
+        number of members</td>
         </tr>
 
     
@@ -1170,7 +1179,7 @@ number of members</p></td>
     
             
 <div class="param-desc">
-    <p>the member role for the member at position <var>idx</var></p>
+    the member role for the member at position <var>idx</var>
 </div>
 
 
@@ -1213,14 +1222,14 @@ var role = relation.getRoleAt(0)  // ==&gt; &quot;&quot;, the empty role ;</pre>
     <h4 class="name" id="insertAt"><span class="type-signature"></span>insertAt(idx, object)</h4>
     
     
-    <p class="summary"><p>Inserts one or more members at a position.</p></p>
+    <p class="summary">Inserts one or more members at a position.</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Inserts a member at position <code>idx</code>.</p>
+        Inserts a member at position <code>idx</code>.
     </div>
     
 
@@ -1272,8 +1281,8 @@ var role = relation.getRoleAt(0)  // ==&gt; &quot;&quot;, the empty role ;</pre>
 
             
 
-            <td class="description last"><p>the index. a number &gt;= 0 and &lt;= the current<br>
-number of members</p></td>
+            <td class="description last">the index. a number &gt;= 0 and &lt;= the current
+        number of members</td>
         </tr>
 
     
@@ -1297,8 +1306,8 @@ number of members</p></td>
 
             
 
-            <td class="description last"><p>the object, either a RelationMember, or a Node, a Way, or a<br>
-Relation. Must not be null or undefined.</p></td>
+            <td class="description last">the object, either a RelationMember, or a Node, a Way, or a
+        Relation. Must not be null or undefined.</td>
         </tr>
 
     
@@ -1396,14 +1405,14 @@ relation.insertAt(1, rb.member(&#x27;role.1&#x27;, wb.create()));</pre>
     <h4 class="name" id="setAt"><span class="type-signature"></span>setAt(idx, object)</h4>
     
     
-    <p class="summary"><p>Sets one or more members at a position.</p></p>
+    <p class="summary">Sets one or more members at a position.</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Sets a member at position <code>idx</code>.</p>
+        Sets a member at position <code>idx</code>.
     </div>
     
 
@@ -1455,8 +1464,8 @@ relation.insertAt(1, rb.member(&#x27;role.1&#x27;, wb.create()));</pre>
 
             
 
-            <td class="description last"><p>the index. a number &gt;= 0 and &lt; the current<br>
-number of members</p></td>
+            <td class="description last">the index. a number &gt;= 0 and &lt; the current
+        number of members</td>
         </tr>
 
     
@@ -1480,8 +1489,8 @@ number of members</p></td>
 
             
 
-            <td class="description last"><p>either a RelationMember, or a Node, a Way,<br>
-or a Relation. Must not be null or undefined.</p></td>
+            <td class="description last">either a RelationMember, or a Node, a Way,
+        or a Relation. Must not be null or undefined.</td>
         </tr>
 
     
@@ -1626,7 +1635,7 @@ relation.setAt(1, rb.member(&#x27;role.1&#x27;, wb.create()));</pre>
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a>
 	
-		on Sat Oct 3rd 2020
+		on Wed May 18th 2022
 	
 	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>

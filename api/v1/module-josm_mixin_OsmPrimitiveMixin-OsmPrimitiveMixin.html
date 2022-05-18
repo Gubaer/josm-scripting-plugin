@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
-	<title>DocStrap Mixin: OsmPrimitiveMixin</title>
+	<title>JOSM Scripting Plugin - JavaScript API V1 Mixin: OsmPrimitiveMixin</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -20,7 +20,7 @@
 <div class="navbar navbar-default navbar-fixed-top navbar-inverse">
 <div class="container">
 	<div class="navbar-header">
-		<a class="navbar-brand" href="index.html">DocStrap</a>
+		<a class="navbar-brand" href="index.html">JOSM Scripting Plugin - JavaScript API V1</a>
 		<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#topNavigation">
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
@@ -93,15 +93,20 @@
     
 </header>
 
-
-
 <article>
+    
+    
+    <div style="padding: 1rem; margin: 1rem; background-color: #f77e7e">
+    API V1 is <strong>deprecated</strong> and will be removed in 2021. Consider to migrate your scripts to
+    <a href="/api/v2">API V2</a>.
+    
+    </div>
     <div class="container-overview">
     
         
-            <div class="description"><p>OsmPrimitiveMixin provides additional properties and methods which you<br>
-can invoke on an instance of<br>
-<a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/OsmPrimitive.html" alt="org.openstreetmap.josm.data.osm.OsmPrimitive" target="javadoc">OsmPrimitive</a>.</p></div>
+            <div class="description">OsmPrimitiveMixin provides additional properties and methods which you
+can invoke on an instance of
+<a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/OsmPrimitive.html" alt="org.openstreetmap.josm.data.osm.OsmPrimitive" target="javadoc">OsmPrimitive</a>.</div>
         
 
         
@@ -178,13 +183,13 @@ can invoke on an instance of<br>
     <h4 id=".isNode"><span class="type-signature">&lt;static, readonly> </span>isNode<span class="type-signature"></span></h4>
 
     
-    <p class="summary"><p>Replies true if this object is a node</p></p>
+    <p class="summary">Replies true if this object is a node</p>
     
 </dt>
 <dd>
     
     <div class="description">
-        <p>Replies true if this object is a node</p>
+        Replies true if this object is a node
     </div>
     
 
@@ -237,7 +242,7 @@ can invoke on an instance of<br>
 
             
 
-            <td class="description last"><p>true if this object is a node</p></td>
+            <td class="description last">true if this object is a node</td>
         </tr>
 
     
@@ -303,13 +308,13 @@ can invoke on an instance of<br>
     <h4 id=".isRelation"><span class="type-signature">&lt;static, readonly> </span>isRelation<span class="type-signature"></span></h4>
 
     
-    <p class="summary"><p>Replies true if this object is a relation</p></p>
+    <p class="summary">Replies true if this object is a relation</p>
     
 </dt>
 <dd>
     
     <div class="description">
-        <p>Replies true if this object is a relation</p>
+        Replies true if this object is a relation
     </div>
     
 
@@ -362,7 +367,7 @@ can invoke on an instance of<br>
 
             
 
-            <td class="description last"><p>true if this object is a relation</p></td>
+            <td class="description last">true if this object is a relation</td>
         </tr>
 
     
@@ -428,13 +433,13 @@ can invoke on an instance of<br>
     <h4 id=".isWay"><span class="type-signature">&lt;static, readonly> </span>isWay<span class="type-signature"></span></h4>
 
     
-    <p class="summary"><p>Replies true if this object is a way</p></p>
+    <p class="summary">Replies true if this object is a way</p>
     
 </dt>
 <dd>
     
     <div class="description">
-        <p>Replies true if this object is a way</p>
+        Replies true if this object is a way
     </div>
     
 
@@ -487,7 +492,7 @@ can invoke on an instance of<br>
 
             
 
-            <td class="description last"><p>true if this object is a way</p></td>
+            <td class="description last">true if this object is a way</td>
         </tr>
 
     
@@ -553,16 +558,18 @@ can invoke on an instance of<br>
     <h4 id="changesetId"><span class="type-signature"></span>changesetId<span class="type-signature"></span></h4>
 
     
-    <p class="summary"><p>set or get the changeset id this primitive was last modified in.</p></p>
+    <p class="summary">set or get the changeset id this primitive was last modified in.</p>
     
 </dt>
 <dd>
     
     <div class="description">
-        <p>Set or get the changeset id this primitive was last modified in.</p>
-<p><strong>get:</strong> - replies the changeset id or undefined, if no<br>
-changeset id is known (i.e.  for local primitives or proxy primitives).</p>
-<p><strong>set:</strong> - assign a changset id, a number &amp;gt, 0.</p>
+        Set or get the changeset id this primitive was last modified in.
+
+<strong>get:</strong> - replies the changeset id or undefined, if no
+changeset id is known (i.e.  for local primitives or proxy primitives).
+
+<strong>set:</strong> - assign a changset id, a number &gt, 0.
     </div>
     
 
@@ -615,7 +622,7 @@ changeset id is known (i.e.  for local primitives or proxy primitives).</p>
 
             
 
-            <td class="description last"><p>the changset id</p></td>
+            <td class="description last">the changset id</td>
         </tr>
 
     
@@ -691,14 +698,14 @@ n1.changesetId = 6;</pre>
     <h4 id="dataSet"><span class="type-signature">&lt;readonly> </span>dataSet<span class="type-signature"></span></h4>
 
     
-    <p class="summary"><p>Replies the parent dataset.</p></p>
+    <p class="summary">Replies the parent dataset.</p>
     
 </dt>
 <dd>
     
     <div class="description">
-        <p>Replies the parent dataset or undefined, if this primitive is not<br>
-attached to a dataset.</p>
+        Replies the parent dataset or undefined, if this primitive is not
+attached to a dataset.
     </div>
     
 
@@ -751,7 +758,7 @@ attached to a dataset.</p>
 
             
 
-            <td class="description last"><p>the parent dataset</p></td>
+            <td class="description last">the parent dataset</td>
         </tr>
 
     
@@ -832,14 +839,14 @@ n2.dataSet;   // -&gt; undefined</pre>
     <h4 id="id"><span class="type-signature">&lt;readonly> </span>id<span class="type-signature"></span></h4>
 
     
-    <p class="summary"><p>The unique numeric id</p></p>
+    <p class="summary">The unique numeric id</p>
     
 </dt>
 <dd>
     
     <div class="description">
-        <p>The unique numeric id, positive for global primitives, negative for local<br>
-primitives.</p>
+        The unique numeric id, positive for global primitives, negative for local
+primitives.
     </div>
     
 
@@ -892,7 +899,7 @@ primitives.</p>
 
             
 
-            <td class="description last"><p>the numberic id</p></td>
+            <td class="description last">the numberic id</td>
         </tr>
 
     
@@ -968,13 +975,13 @@ var id = node.id;   // -&gt; a negative value</pre>
     <h4 id="isGlobal"><span class="type-signature">&lt;readonly> </span>isGlobal<span class="type-signature"></span></h4>
 
     
-    <p class="summary"><p>Replies true, if this is a global primitive</p></p>
+    <p class="summary">Replies true, if this is a global primitive</p>
     
 </dt>
 <dd>
     
     <div class="description">
-        <p>Replies true, if this is a global primitive</p>
+        Replies true, if this is a global primitive
     </div>
     
 
@@ -1027,7 +1034,7 @@ var id = node.id;   // -&gt; a negative value</pre>
 
             
 
-            <td class="description last"><p>true, if this is a global primitive</p></td>
+            <td class="description last">true, if this is a global primitive</td>
         </tr>
 
     
@@ -1106,14 +1113,14 @@ node.isGlobal;   // -&gt; true</pre>
     <h4 id="isIncomplete"><span class="type-signature">&lt;readonly> </span>isIncomplete<span class="type-signature"></span></h4>
 
     
-    <p class="summary"><p>Replies true if this is a proxy object</p></p>
+    <p class="summary">Replies true if this is a proxy object</p>
     
 </dt>
 <dd>
     
     <div class="description">
-        <p>Replies true if this a proxy object, in JOSM terminology called an<br>
-incomplete object.</p>
+        Replies true if this a proxy object, in JOSM terminology called an
+incomplete object.
     </div>
     
 
@@ -1166,7 +1173,7 @@ incomplete object.</p>
 
             
 
-            <td class="description last"><p>true if this is a proxy object</p></td>
+            <td class="description last">true if this is a proxy object</td>
         </tr>
 
     
@@ -1232,13 +1239,13 @@ incomplete object.</p>
     <h4 id="isLocal"><span class="type-signature">&lt;readonly> </span>isLocal<span class="type-signature"></span></h4>
 
     
-    <p class="summary"><p>Replies true, if this is a local primitive.</p></p>
+    <p class="summary">Replies true, if this is a local primitive.</p>
     
 </dt>
 <dd>
     
     <div class="description">
-        <p>Replies true, if this is a local primitive.</p>
+        Replies true, if this is a local primitive.
     </div>
     
 
@@ -1291,7 +1298,7 @@ incomplete object.</p>
 
             
 
-            <td class="description last"><p>true, if this is a local primitive</p></td>
+            <td class="description last">true, if this is a local primitive</td>
         </tr>
 
     
@@ -1370,14 +1377,15 @@ node.isLocal;   // -&gt; false</pre>
     <h4 id="isModified"><span class="type-signature"></span>isModified<span class="type-signature"></span></h4>
 
     
-    <p class="summary"><p>Sets or gets whether this object is <em>modified</em>.</p></p>
+    <p class="summary">Sets or gets whether this object is <em>modified</em>.</p>
     
 </dt>
 <dd>
     
     <div class="description">
-        <p>Sets or gets whether this object is <em>modified</em>.</p>
-<p>Supported alias: <code>modified</code>.</p>
+        Sets or gets whether this object is <em>modified</em>.
+
+Supported alias: <code>modified</code>.
     </div>
     
 
@@ -1430,7 +1438,7 @@ node.isLocal;   // -&gt; false</pre>
 
             
 
-            <td class="description last"><p>true, if modified</p></td>
+            <td class="description last">true, if modified</td>
         </tr>
 
     
@@ -1504,13 +1512,13 @@ node.isModified = true;   // sets the modified flag  to true</pre>
     <h4 id="keys"><span class="type-signature">&lt;readonly> </span>keys<span class="type-signature"></span></h4>
 
     
-    <p class="summary"><p>Replies an array with the tag keys.</p></p>
+    <p class="summary">Replies an array with the tag keys.</p>
     
 </dt>
 <dd>
     
     <div class="description">
-        <p>Replies an array with the tag keys.</p>
+        Replies an array with the tag keys.
     </div>
     
 
@@ -1563,7 +1571,7 @@ node.isModified = true;   // sets the modified flag  to true</pre>
 
             
 
-            <td class="description last"><p>the tag keys</p></td>
+            <td class="description last">the tag keys</td>
         </tr>
 
     
@@ -1638,23 +1646,27 @@ var keys = node.keys;</pre>
     <h4 id="tags"><span class="type-signature"></span>tags<span class="type-signature"></span></h4>
 
     
-    <p class="summary"><p>Get or set the tags of the object.</p></p>
+    <p class="summary">Get or set the tags of the object.</p>
     
 </dt>
 <dd>
     
     <div class="description">
-        <p>Get or set the tags of the object.</p>
-<p><strong>get:</strong> - replies the tags as javascript object.</p>
-<p><strong>set:</strong></p>
+        Get or set the tags of the object.
+
+<strong>get:</strong> - replies the tags as javascript object.
+
+ <strong>set:</strong>
    <ul>
      <li>assign null or undefined to remove all tags</li>
      <li>assign an object to set its properties as tags.</li>
      <li>assign an java.util.Map to set its elements as tags</li>
    </ul>
-<p>null values and undefined tag values aren't assigned. tag keys are<br>
-normalized, i.e. leading and trailing white space is removed. Both, tag<br>
-keys and tag values, are converted to strings.</p>
+ 
+
+ null values and undefined tag values aren't assigned. tag keys are
+ normalized, i.e. leading and trailing white space is removed. Both, tag
+ keys and tag values, are converted to strings.
     </div>
     
 
@@ -1707,7 +1719,7 @@ keys and tag values, are converted to strings.</p>
 
             
 
-            <td class="description last"><p>the tags</p></td>
+            <td class="description last">the tags</td>
         </tr>
 
     
@@ -1793,15 +1805,15 @@ node.tags = tags;</pre>
     <h4 id="timestamp"><span class="type-signature">&lt;readonly> </span>timestamp<span class="type-signature"></span></h4>
 
     
-    <p class="summary"><p>Get the timestamp this primitive was last modified on the server.</p></p>
+    <p class="summary">Get the timestamp this primitive was last modified on the server.</p>
     
 </dt>
 <dd>
     
     <div class="description">
-        <p>Get the timestamp this primitive was last modified on the server.<br>
-Undefined, if this timestamp isn't known, i.e. for local primitives or<br>
-for proxy primitives.</p>
+        Get the timestamp this primitive was last modified on the server.
+Undefined, if this timestamp isn't known, i.e. for local primitives or
+for proxy primitives.
     </div>
     
 
@@ -1854,7 +1866,7 @@ for proxy primitives.</p>
 
             
 
-            <td class="description last"><p>the timestamp of last modification</p></td>
+            <td class="description last">the timestamp of last modification</td>
         </tr>
 
     
@@ -1929,18 +1941,20 @@ n1.timestamp;  // the timestamp of last modification</pre>
     <h4 id="user"><span class="type-signature"></span>user<span class="type-signature"></span></h4>
 
     
-    <p class="summary"><p>Set or get the user.</p></p>
+    <p class="summary">Set or get the user.</p>
     
 </dt>
 <dd>
     
     <div class="description">
-        <p>Set or get the user.</p>
-<p><strong>get:</strong> - replies a User object or undefined, if not<br>
-user is set.</p>
-<p><strong>set:</strong> - assign a user, either as instance of User,<br>
-supplying a user name or the unique global user id as number. Assign null<br>
-or undefined to assign no user.</p>
+        Set or get the user.
+
+<strong>get:</strong> - replies a User object or undefined, if not
+user is set.
+
+<strong>set:</strong> - assign a user, either as instance of User,
+supplying a user name or the unique global user id as number. Assign null
+or undefined to assign no user.
     </div>
     
 
@@ -1993,7 +2007,7 @@ or undefined to assign no user.</p>
 
             
 
-            <td class="description last"><p>the user who last modified the primitive</p></td>
+            <td class="description last">the user who last modified the primitive</td>
         </tr>
 
     
@@ -2075,15 +2089,16 @@ n1.user = 12345;</pre>
     <h4 id="version"><span class="type-signature">&lt;readonly> </span>version<span class="type-signature"></span></h4>
 
     
-    <p class="summary"><p>The version of the object.</p></p>
+    <p class="summary">The version of the object.</p>
     
 </dt>
 <dd>
     
     <div class="description">
-        <p>The version of the object.</p>
-<p>Only global objects have a version. The version for local and proxy<br>
-objects is <var>undefined</var>.</p>
+        The version of the object.
+
+Only global objects have a version. The version for local and proxy
+objects is <var>undefined</var>.
     </div>
     
 
@@ -2136,7 +2151,7 @@ objects is <var>undefined</var>.</p>
 
             
 
-            <td class="description last"><p>the primitive version</p></td>
+            <td class="description last">the primitive version</td>
         </tr>
 
     
@@ -2220,15 +2235,16 @@ node.version;  // -&amp;gt; undefined</pre>
     <h4 id="~isDeleted"><span class="type-signature">&lt;inner> </span>isDeleted<span class="type-signature"></span></h4>
 
     
-    <p class="summary"><p>Set or get wheter this primitive is deleted.</p></p>
+    <p class="summary">Set or get wheter this primitive is deleted.</p>
     
 </dt>
 <dd>
     
     <div class="description">
-        <p>Set or get wheter this primitive is deleted.</p>
-<p>In order to invoke the native method <code>isDeleted()</code>,<br>
-prefix the name with $, i.e.</p>
+        Set or get wheter this primitive is deleted.
+
+In order to invoke the native method <code>isDeleted()</code>,
+prefix the name with $, i.e.
 <pre>
    node.$isDeleted(); // -> same as node.isDeleted  without parantheses
 </pre>
@@ -2284,7 +2300,7 @@ prefix the name with $, i.e.</p>
 
             
 
-            <td class="description last"><p>true, if this primitive is deleted</p></td>
+            <td class="description last">true, if this primitive is deleted</td>
         </tr>
 
     
@@ -2356,14 +2372,14 @@ prefix the name with $, i.e.</p>
     <h4 class="name" id=".get"><span class="type-signature">&lt;static> </span>get(name)</h4>
     
     
-    <p class="summary"><p>Replies the value of a tag.</p></p>
+    <p class="summary">Replies the value of a tag.</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Replies the value of a tag, or undefined, if the tag isn't set.</p>
+        Replies the value of a tag, or undefined, if the tag isn't set.
     </div>
     
 
@@ -2415,9 +2431,9 @@ prefix the name with $, i.e.</p>
 
             
 
-            <td class="description last"><p>the tag name. Must not be null or undefined.<br>
-Non-string values are converted to a string. Leading and trailing<br>
-whitespace is removed.</p></td>
+            <td class="description last">the tag name. Must not be null or undefined.
+  Non-string values are converted to a string. Leading and trailing
+  whitespace is removed.</td>
         </tr>
 
     
@@ -2491,7 +2507,7 @@ whitespace is removed.</p></td>
     
             
 <div class="param-desc">
-    <p>the tag value</p>
+    the tag value
 </div>
 
 
@@ -2533,20 +2549,22 @@ node.get(&quot;name&quot;);     // -&gt; Obstberg</pre>
     <h4 class="name" id=".has"><span class="type-signature">&lt;static> </span>has(key)</h4>
     
     
-    <p class="summary"><p>Checks whether a primitive has a tag.</p></p>
+    <p class="summary">Checks whether a primitive has a tag.</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Replies true, if the object has a tag with key <var>key</var>.</p>
-<p><strong>Signatures</strong></p>
+        Replies true, if the object has a tag with key <var>key</var>.
+
+<strong>Signatures</strong>
 <dl>
   <dt><strong>has(key)</strong></dt>
   <dd> <var>key</var> is a string. Replies true, if the
   object has a tag with this key. Before matching, leading and trailing
   white space is removed from <var>key</var>.</dd>
+
   <dt><strong>has(regexp)</strong></dt>
   <dd><var>regexp</var> is a regular expression. Replies true, if the
   object has at least one tag whose key matches with <var>regexp</var>.</dd>
@@ -2605,7 +2623,7 @@ node.get(&quot;name&quot;);     // -&gt; Obstberg</pre>
 
             
 
-            <td class="description last"><p>the tag key we are looking up</p></td>
+            <td class="description last">the tag key we are looking up</td>
         </tr>
 
     
@@ -2679,7 +2697,7 @@ node.get(&quot;name&quot;);     // -&gt; Obstberg</pre>
     
             
 <div class="param-desc">
-    <p>true, if there is a tag with this key</p>
+    true, if there is a tag with this key
 </div>
 
 
@@ -2727,17 +2745,18 @@ node.has(/^name(:.*)?$/i);    // -&gt; false</pre>
     <h4 class="name" id=".remove"><span class="type-signature">&lt;static> </span>remove(name)</h4>
     
     
-    <p class="summary"><p>Removes a tag.</p></p>
+    <p class="summary">Removes a tag.</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p><strong>Deprecated</strong>. There is a name conflict with the<br>
-<code>remove()</code> method for removing a node in <code>WayMixin</code>.<br>
-Use <code>removeTag()</code> instead.</p>
-<p>Removes a tag.</p>
+        <strong>Deprecated</strong>. There is a name conflict with the 
+<code>remove()</code> method for removing a node in <code>WayMixin</code>. 
+Use <code>removeTag()</code> instead.
+
+Removes a tag.
     </div>
     
 
@@ -2789,9 +2808,9 @@ Use <code>removeTag()</code> instead.</p>
 
             
 
-            <td class="description last"><p>the tag name. Must not be null or undefined.<br>
-Non-string values are converted to a string. Leading and trailing<br>
-whitespace is removed.</p></td>
+            <td class="description last">the tag name. Must not be null or undefined.
+  Non-string values are converted to a string. Leading and trailing
+  whitespace is removed.</td>
         </tr>
 
     
@@ -2883,14 +2902,14 @@ node.has(&quot;amenity&quot;); // -&gt; false</pre>
     <h4 class="name" id=".removeTag"><span class="type-signature">&lt;static> </span>removeTag(name)</h4>
     
     
-    <p class="summary"><p>Removes a tag.</p></p>
+    <p class="summary">Removes a tag.</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Removes a tag.</p>
+        Removes a tag.
     </div>
     
 
@@ -2942,9 +2961,9 @@ node.has(&quot;amenity&quot;); // -&gt; false</pre>
 
             
 
-            <td class="description last"><p>the tag name. Must not be null or undefined.<br>
-Non-string values are converted to a string. Leading and trailing<br>
-whitespace is removed.</p></td>
+            <td class="description last">the tag name. Must not be null or undefined.
+  Non-string values are converted to a string. Leading and trailing
+  whitespace is removed.</td>
         </tr>
 
     
@@ -3036,15 +3055,16 @@ node.has(&quot;amenity&quot;); // -&gt; false</pre>
     <h4 class="name" id=".set"><span class="type-signature">&lt;static> </span>set(tag)</h4>
     
     
-    <p class="summary"><p>Set a tag or a collection of tags.</p></p>
+    <p class="summary">Set a tag or a collection of tags.</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Set a tag or a collection of tags.</p>
-<p><strong>Signatures</strong></p>
+        Set a tag or a collection of tags.
+
+<strong>Signatures</strong>
 <dl>
   <dt><strong>set(name,value)</strong></dt>
   <dd>sets a tag given a name and a value.<br/>
@@ -3053,6 +3073,7 @@ node.has(&quot;amenity&quot;); // -&gt; false</pre>
   <var>value</var>: if null or undefined, the tag is removed. Any other
   value is converted to a string
   </dd>
+
   <dt><strong>set(tags)</strong></dt>
   <dd><var>tags</var> is either a java object whose properties are set as
   tags, or a java.util.Map.</dd>
@@ -3108,7 +3129,7 @@ node.has(&quot;amenity&quot;); // -&gt; false</pre>
 
             
 
-            <td class="description last"><p>key/value pair, see description</p></td>
+            <td class="description last">key/value pair, see description</td>
         </tr>
 
     
@@ -3253,7 +3274,7 @@ node.get(&quot;name&quot;);     // -&gt; Obstberg</pre>
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a>
 	
-		on Sat Oct 3rd 2020
+		on Wed May 18th 2022
 	
 	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>

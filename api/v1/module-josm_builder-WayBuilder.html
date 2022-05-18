@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
-	<title>DocStrap Class: WayBuilder</title>
+	<title>JOSM Scripting Plugin - JavaScript API V1 Class: WayBuilder</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -20,7 +20,7 @@
 <div class="navbar navbar-default navbar-fixed-top navbar-inverse">
 <div class="container">
 	<div class="navbar-header">
-		<a class="navbar-brand" href="index.html">DocStrap</a>
+		<a class="navbar-brand" href="index.html">JOSM Scripting Plugin - JavaScript API V1</a>
 		<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#topNavigation">
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
@@ -93,9 +93,14 @@
     
 </header>
 
-
-
 <article>
+    
+    
+    <div style="padding: 1rem; margin: 1rem; background-color: #f77e7e">
+    API V1 is <strong>deprecated</strong> and will be removed in 2021. Consider to migrate your scripts to
+    <a href="/api/v2">API V2</a>.
+    
+    </div>
     <div class="container-overview">
     
         
@@ -109,13 +114,15 @@
 
     
     <div class="description">
-        <p>Creates a new builder for OSM ways</p>
-<p>WayBuilder helps to create OSM<br>
-<a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Way.html" alt="org.openstreetmap.josm.data.osm.Way" target="javadoc">Way</a>s.</p>
-<p>Methods of WayBuilder can be used in a static and in an instance context.<br>
-It isn't necessary to create an instance of WayBuilder, unless it is<br>
-configured with a <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/DataSet.html" alt="org.openstreetmap.josm.data.osm.DataSet" target="javadoc">DataSet</a>,<br>
-which created ways are added to.</p>
+        Creates a new builder for OSM ways
+
+WayBuilder helps to create OSM
+<a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Way.html" alt="org.openstreetmap.josm.data.osm.Way" target="javadoc">Way</a>s.
+
+Methods of WayBuilder can be used in a static and in an instance context.
+It isn't necessary to create an instance of WayBuilder, unless it is
+configured with a <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/DataSet.html" alt="org.openstreetmap.josm.data.osm.DataSet" target="javadoc">DataSet</a>,
+which created ways are added to.
     </div>
     
 
@@ -158,7 +165,7 @@ which created ways are added to.</p>
             <td class="type">
             
                 
-<span class="param-type">org.openstreetmap.josm.data.osm.DataSet</span>
+<span class="param-type"><a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/DataSet.html" alt="org.openstreetmap.josm.data.osm.DataSet" target="javadoc">DataSet</a></span>
 
 
 
@@ -179,9 +186,9 @@ which created ways are added to.</p>
 
             
 
-            <td class="description last"><p>a JOSM<br>
-dataset which created ways are added to. If missing, the created ways<br>
-aren't added to a dataset.</p></td>
+            <td class="description last">a JOSM
+   dataset which created ways are added to. If missing, the created ways
+   aren't added to a dataset.</td>
         </tr>
 
     
@@ -305,23 +312,28 @@ aren't added to a dataset.</p></td>
     <h4 class="name" id=".create"><span class="type-signature">&lt;static> </span>create( [id] [, options])</h4>
     
     
-    <p class="summary"><p>Creates a new way</p></p>
+    <p class="summary">Creates a new way</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Creates a new way.</p>
-<p>Can be used in an instance or in a static context.</p>
-<p>Optional named arguments in the parameters <code>options</code>:</p>
+        Creates a new way.
+
+Can be used in an instance or in a static context.
+
+Optional named arguments in the parameters <code>options</code>:
 <dl>
   <dt><code class="signature">id</code>:number</dt>
   <dd>the id of a global way (number > 0)</dd>
+
   <dt><code class="signature">version</code>:number</dt>
   <dd>the version of a global way (number > 0)</dd>
+
   <dt><code class="signature">nodes</code>:array|list</dt>
   <dd>an array or a list of nodes</dd>
+
   <dt><code class="signature">tags</code>:object</dt>
   <dd>an object with tags. Null values and undefined values are ignored.
   Any other value is converted to a string. Leading and trailing white
@@ -390,8 +402,8 @@ aren't added to a dataset.</p></td>
 
             
 
-            <td class="description last"><p>a global way id. If missing and not set<br>
-before using <code>withId(..)</code>, creates a new local id.</p></td>
+            <td class="description last">a global way id. If missing and not set
+   before using <code>withId(..)</code>, creates a new local id.</td>
         </tr>
 
     
@@ -425,7 +437,7 @@ before using <code>withId(..)</code>, creates a new local id.</p></td>
 
             
 
-            <td class="description last"><p>additional parameters for creating the way</p></td>
+            <td class="description last">additional parameters for creating the way</td>
         </tr>
 
     
@@ -499,7 +511,7 @@ before using <code>withId(..)</code>, creates a new local id.</p></td>
     
             
 <div class="param-desc">
-    <p>the created way</p>
+    the created way
 </div>
 
 
@@ -549,17 +561,18 @@ var w3 = wb.create(12345, {
     <h4 class="name" id=".createProxy"><span class="type-signature">&lt;static> </span>createProxy()</h4>
     
     
-    <p class="summary"><p>Creates a new proxy way</p></p>
+    <p class="summary">Creates a new proxy way</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Creates a new <em>proxy</em> way. A proxy way is a way, for which we<br>
-only know its global id. In order to know more details (nodes, tags, etc.),<br>
-we would have to download it from the OSM server.</p>
-<p>The method can be used in a static and in an instance context.</p>
+        Creates a new <em>proxy</em> way. A proxy way is a way, for which we
+only know its global id. In order to know more details (nodes, tags, etc.),
+we would have to download it from the OSM server.
+
+The method can be used in a static and in an instance context.
     </div>
     
 
@@ -635,7 +648,7 @@ we would have to download it from the OSM server.</p>
     
             
 <div class="param-desc">
-    <p>the new proxy way</p>
+    the new proxy way
 </div>
 
 
@@ -675,15 +688,15 @@ var w1 = wbuilder.createProxy(12345);</pre>
     <h4 class="name" id=".forDataSet"><span class="type-signature">&lt;static> </span>forDataSet(ds)</h4>
     
     
-    <p class="summary"><p>Creates a new WayBuilder with an underlying dataset.</p></p>
+    <p class="summary">Creates a new WayBuilder with an underlying dataset.</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Creates or configures a WayBuilder which will add created nodes<br>
-to the dataset <code>ds</code>.</p>
+        Creates or configures a WayBuilder which will add created nodes
+to the dataset <code>ds</code>.
     </div>
     
 
@@ -724,7 +737,7 @@ to the dataset <code>ds</code>.</p>
             <td class="type">
             
                 
-<span class="param-type">org.openstreetmap.josm.data.osm.DataSet</span>
+<span class="param-type"><a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/DataSet.html" alt="org.openstreetmap.josm.data.osm.DataSet" target="javadoc">DataSet</a></span>
 
 
 
@@ -735,8 +748,8 @@ to the dataset <code>ds</code>.</p>
 
             
 
-            <td class="description last"><p>the dataset which<br>
-created objects are added to</p></td>
+            <td class="description last">the dataset which
+        created objects are added to</td>
         </tr>
 
     
@@ -810,7 +823,7 @@ created objects are added to</p></td>
     
             
 <div class="param-desc">
-    <p>the way builder</p>
+    the way builder
 </div>
 
 
@@ -855,15 +868,16 @@ nb = wb.forDataSet(ds);</pre>
     <h4 class="name" id=".withId"><span class="type-signature">&lt;static> </span>withId(id [, version])</h4>
     
     
-    <p class="summary"><p>Declares the global way id and the global way version.</p></p>
+    <p class="summary">Declares the global way id and the global way version.</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Declares the global way id and the global way version.</p>
-<p>The method can be used in a static and in an instance context.</p>
+        Declares the global way id and the global way version.
+
+The method can be used in a static and in an instance context.
     </div>
     
 
@@ -925,7 +939,7 @@ nb = wb.forDataSet(ds);</pre>
 
             
 
-            <td class="description last"><p>(mandatory) the global way id. A number &gt; 0.</p></td>
+            <td class="description last">(mandatory) the global way id. A number > 0.</td>
         </tr>
 
     
@@ -959,8 +973,8 @@ nb = wb.forDataSet(ds);</pre>
 
             
 
-            <td class="description last"><p>the global way version. If present,<br>
-a number &gt; 0. If missing, the version 1 is assumed.</p></td>
+            <td class="description last">the global way version. If present,
+   a number > 0. If missing, the version 1 is assumed.</td>
         </tr>
 
     
@@ -1034,7 +1048,7 @@ a number &gt; 0. If missing, the version 1 is assumed.</p></td>
     
             
 <div class="param-desc">
-    <p>the way builder (for method chaining)</p>
+    the way builder (for method chaining)
 </div>
 
 
@@ -1073,22 +1087,25 @@ a number &gt; 0. If missing, the version 1 is assumed.</p></td>
     <h4 class="name" id=".withNodes"><span class="type-signature">&lt;static> </span>withNodes(nodes)</h4>
     
     
-    <p class="summary"><p>Declares the nodes of the way.</p></p>
+    <p class="summary">Declares the nodes of the way.</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Declares the nodes of the way.</p>
-<p>Accepts either a vararg list of<br>
-<a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html" alt="org.openstreetmap.josm.data.osm.Node" target="javadoc">Node</a>,<br>
-an array of <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html" alt="org.openstreetmap.josm.data.osm.Node" target="javadoc">Node</a>s or a Java list<br>
-of <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html" alt="org.openstreetmap.josm.data.osm.Node" target="javadoc">Node</a>s. At least <strong>two<br>
-non-identical nodes</strong> have to be supplied.<br>
-The same node can occure more than once in the list, but a consecutive<br>
-sequence of the same node is collapsed to one node.</p>
-<p>The method can be used in a static and in an instance context.</p>
+        Declares the nodes of the way.
+
+Accepts either a vararg list of
+<a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html" alt="org.openstreetmap.josm.data.osm.Node" target="javadoc">Node</a>,
+an array of <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html" alt="org.openstreetmap.josm.data.osm.Node" target="javadoc">Node</a>s or a Java list
+of <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html" alt="org.openstreetmap.josm.data.osm.Node" target="javadoc">Node</a>s. At least <strong>two
+non-identical nodes</strong> have to be supplied.
+The same node can occure more than once in the list, but a consecutive
+sequence of the same node is collapsed to one node.
+
+
+The method can be used in a static and in an instance context.
     </div>
     
 
@@ -1134,7 +1151,7 @@ sequence of the same node is collapsed to one node.</p>
 
             
 
-            <td class="description last"><p>the list of nodes. See description and examples.</p></td>
+            <td class="description last">the list of nodes. See description and examples.</td>
         </tr>
 
     
@@ -1208,7 +1225,7 @@ sequence of the same node is collapsed to one node.</p>
     
             
 <div class="param-desc">
-    <p>the way builder (for method chaining)</p>
+    the way builder (for method chaining)
 </div>
 
 
@@ -1250,15 +1267,16 @@ var way = builder.withNodes(
     <h4 class="name" id=".withTags"><span class="type-signature">&lt;static> </span>withTags( [tags])</h4>
     
     
-    <p class="summary"><p>Declares the tags to be assigned to the new way.</p></p>
+    <p class="summary">Declares the tags to be assigned to the new way.</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Declares the tags to be assigned to the new way.</p>
-<p>The method can be used in a static and in an instance context.</p>
+        Declares the tags to be assigned to the new way.
+
+The method can be used in a static and in an instance context.
     </div>
     
 
@@ -1322,7 +1340,7 @@ var way = builder.withNodes(
 
             
 
-            <td class="description last"><p>the tags</p></td>
+            <td class="description last">the tags</td>
         </tr>
 
     
@@ -1396,7 +1414,7 @@ var way = builder.withNodes(
     
             
 <div class="param-desc">
-    <p>the way builder (for method chaining)</p>
+    the way builder (for method chaining)
 </div>
 
 
@@ -1491,7 +1509,7 @@ var n2 = wbuilder.withTags(tags).create();</pre>
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a>
 	
-		on Sat Oct 3rd 2020
+		on Wed May 18th 2022
 	
 	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>

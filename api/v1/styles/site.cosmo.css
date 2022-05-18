@@ -1442,6 +1442,9 @@ dt {
 dd {
   margin-left: 0;
 }
+dd.param-desc {
+  margin-left: 0.8cm;
+}
 @media (min-width: 768px) {
   .dl-horizontal dt {
     float: left;

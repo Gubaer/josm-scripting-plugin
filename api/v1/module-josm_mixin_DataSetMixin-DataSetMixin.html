@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
-	<title>DocStrap Mixin: DataSetMixin</title>
+	<title>JOSM Scripting Plugin - JavaScript API V1 Mixin: DataSetMixin</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -20,7 +20,7 @@
 <div class="navbar navbar-default navbar-fixed-top navbar-inverse">
 <div class="container">
 	<div class="navbar-header">
-		<a class="navbar-brand" href="index.html">DocStrap</a>
+		<a class="navbar-brand" href="index.html">JOSM Scripting Plugin - JavaScript API V1</a>
 		<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#topNavigation">
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
@@ -93,14 +93,19 @@
     
 </header>
 
-
-
 <article>
+    
+    
+    <div style="padding: 1rem; margin: 1rem; background-color: #f77e7e">
+    API V1 is <strong>deprecated</strong> and will be removed in 2021. Consider to migrate your scripts to
+    <a href="/api/v2">API V2</a>.
+    
+    </div>
     <div class="container-overview">
     
         
-            <div class="description"><p>This mixin provides additional properties and methods which you can<br>
-invoke on an instance of <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/DataSet.html" alt="org.openstreetmap.josm.data.osm.DataSet" target="javadoc">DataSet</a>.</p></div>
+            <div class="description">This mixin provides additional properties and methods which you can
+invoke on an instance of <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/DataSet.html" alt="org.openstreetmap.josm.data.osm.DataSet" target="javadoc">DataSet</a>.</div>
         
 
         
@@ -198,14 +203,13 @@ invoke on an instance of <a href="http://josm.openstreetmap.de/doc/org/openstree
     <h4 id="nodeBuilder"><span class="type-signature">&lt;readonly> </span>nodeBuilder<span class="type-signature"></span></h4>
 
     
-    <p class="summary"><p>the builder for creating<br>
-{@class org.openstreetmap.josm.data.osm.Node}s</p></p>
+    <p class="summary">the builder for creating <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html" alt="org.openstreetmap.josm.data.osm.Node" target="javadoc">Node</a>s</p>
     
 </dt>
 <dd>
     
     <div class="description">
-        <p>Replies a node builder to create nodes in this dataset.</p>
+        Replies a node builder to create nodes in this dataset.
     </div>
     
 
@@ -247,7 +251,7 @@ invoke on an instance of <a href="http://josm.openstreetmap.de/doc/org/openstree
             <td class="type">
             
                 
-<span class="param-type">NodeBuilder</span>
+<span class="param-type"><a href="module-josm_builder-NodeBuilder.html">module:josm/builder~NodeBuilder</a></span>
 
 
 
@@ -258,7 +262,7 @@ invoke on an instance of <a href="http://josm.openstreetmap.de/doc/org/openstree
 
             
 
-            <td class="description last"><p>a node builder for this dataset</p></td>
+            <td class="description last">a node builder for this dataset</td>
         </tr>
 
     
@@ -333,14 +337,13 @@ ds.has(n);  // --&gt; true</pre>
     <h4 id="relationBuilder"><span class="type-signature">&lt;readonly> </span>relationBuilder<span class="type-signature"></span></h4>
 
     
-    <p class="summary"><p>the builder for creating<br>
-{@class org.openstreetmap.josm.data.osm.Relation}s</p></p>
+    <p class="summary">the builder for creating <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Relation.html" alt="org.openstreetmap.josm.data.osm.Relation" target="javadoc">Relation</a>s</p>
     
 </dt>
 <dd>
     
     <div class="description">
-        <p>Replies a relation builder to create relations in this dataset.</p>
+        Replies a relation builder to create relations in this dataset.
     </div>
     
 
@@ -382,7 +385,7 @@ ds.has(n);  // --&gt; true</pre>
             <td class="type">
             
                 
-<span class="param-type">RelationBuilder</span>
+<span class="param-type"><a href="module-josm_builder-RelationBuilder.html">module:josm/builder~RelationBuilder</a></span>
 
 
 
@@ -393,7 +396,7 @@ ds.has(n);  // --&gt; true</pre>
 
             
 
-            <td class="description last"><p>the relation builder for this dataset</p></td>
+            <td class="description last">the relation builder for this dataset</td>
         </tr>
 
     
@@ -435,7 +438,7 @@ ds.has(n);  // --&gt; true</pre>
 		<ul class="dummy">
 			<li>
 				<a href="josm_mixin_DataSetMixin.js.html">josm/mixin/DataSetMixin.js</a>,
-				 <a href="josm_mixin_DataSetMixin.js.html#sunlight-1-line-578">line 578</a>
+				 <a href="josm_mixin_DataSetMixin.js.html#sunlight-1-line-576">line 576</a>
 			</li>
 		</ul>
 	</dd>
@@ -467,13 +470,13 @@ ds.has(r);  // --&gt; true</pre>
     <h4 id="selection"><span class="type-signature"></span>selection<span class="type-signature"></span></h4>
 
     
-    <p class="summary"><p>to manipulate the selected objects in the dataset</p></p>
+    <p class="summary">to manipulate the selected objects in the dataset</p>
     
 </dt>
 <dd>
     
     <div class="description">
-        <p>Replies the dataset selection object.</p>
+        Replies the dataset selection object.
     </div>
     
 
@@ -515,7 +518,7 @@ ds.has(r);  // --&gt; true</pre>
             <td class="type">
             
                 
-<span class="param-type">DataSetSelectionFacade</span>
+<span class="param-type"><a href="module-josm_mixin_DataSetMixin-DataSetSelectionFacade.html">module:josm/mixin/DataSetMixin~DataSetSelectionFacade</a></span>
 
 
 
@@ -526,7 +529,7 @@ ds.has(r);  // --&gt; true</pre>
 
             
 
-            <td class="description last"><p>a handler for the selected objects in the dataset</p></td>
+            <td class="description last">a handler for the selected objects in the dataset</td>
         </tr>
 
     
@@ -568,7 +571,7 @@ ds.has(r);  // --&gt; true</pre>
 		<ul class="dummy">
 			<li>
 				<a href="josm_mixin_DataSetMixin.js.html">josm/mixin/DataSetMixin.js</a>,
-				 <a href="josm_mixin_DataSetMixin.js.html#sunlight-1-line-600">line 600</a>
+				 <a href="josm_mixin_DataSetMixin.js.html#sunlight-1-line-597">line 597</a>
 			</li>
 		</ul>
 	</dd>
@@ -592,14 +595,13 @@ ds.has(r);  // --&gt; true</pre>
     <h4 id="wayBuilder"><span class="type-signature">&lt;readonly> </span>wayBuilder<span class="type-signature"></span></h4>
 
     
-    <p class="summary"><p>the builder for creating<br>
-{@class org.openstreetmap.josm.data.osm.Way}s</p></p>
+    <p class="summary">the builder for creating <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Way.html" alt="org.openstreetmap.josm.data.osm.Way" target="javadoc">Way</a>s</p>
     
 </dt>
 <dd>
     
     <div class="description">
-        <p>Replies a way builder to create ways in this dataset.</p>
+        Replies a way builder to create ways in this dataset.
     </div>
     
 
@@ -641,7 +643,7 @@ ds.has(r);  // --&gt; true</pre>
             <td class="type">
             
                 
-<span class="param-type">WayBuilder</span>
+<span class="param-type"><a href="module-josm_builder-WayBuilder.html">module:josm/builder~WayBuilder</a></span>
 
 
 
@@ -652,7 +654,7 @@ ds.has(r);  // --&gt; true</pre>
 
             
 
-            <td class="description last"><p>the way builder for this dataset</p></td>
+            <td class="description last">the way builder for this dataset</td>
         </tr>
 
     
@@ -694,7 +696,7 @@ ds.has(r);  // --&gt; true</pre>
 		<ul class="dummy">
 			<li>
 				<a href="josm_mixin_DataSetMixin.js.html">josm/mixin/DataSetMixin.js</a>,
-				 <a href="josm_mixin_DataSetMixin.js.html#sunlight-1-line-556">line 556</a>
+				 <a href="josm_mixin_DataSetMixin.js.html#sunlight-1-line-555">line 555</a>
 			</li>
 		</ul>
 	</dd>
@@ -732,17 +734,19 @@ ds.has(w);  // --&gt; true</pre>
     <h4 class="name" id=".load"><span class="type-signature">&lt;static> </span>load(source [, options])</h4>
     
     
-    <p class="summary"><p>Loads a dataset from a file.</p></p>
+    <p class="summary">Loads a dataset from a file.</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Loads a dataset from a file.</p>
-<p>Derives the format of the file from the file suffix, unless the named<br>
-option <code>options.format</code> is set.</p>
-<p><code>options</code> can contain the following named options:</p>
+        Loads a dataset from a file.
+
+Derives the format of the file from the file suffix, unless the named
+option <code>options.format</code> is set.
+
+<code>options</code> can contain the following named options:
 <dl>
   <dt><code class="signature">format</code></dt>
   <dd>one of the strings "osm" (Open Street Map XML data), "osc"
@@ -796,7 +800,7 @@ option <code>options.format</code> is set.</p>
 <span class="param-type">string</span>
 |
 
-<span class="param-type">java.io.File</span>
+<span class="param-type"><a href="http://docs.oracle.com/javase/6/docs/api/java/io/File.html" alt="java.io.File" target="javadoc">File</a></span>
 
 
 
@@ -815,8 +819,8 @@ option <code>options.format</code> is set.</p>
 
             
 
-            <td class="description last"><p>the data source. Either a file<br>
-name as string or a java.io.File</p></td>
+            <td class="description last">the data source. Either a file
+        name as string or a java.io.File</td>
         </tr>
 
     
@@ -850,7 +854,7 @@ name as string or a java.io.File</p></td>
 
             
 
-            <td class="description last"><p>optional named parameters</p></td>
+            <td class="description last">optional named parameters</td>
         </tr>
 
     
@@ -895,7 +899,7 @@ name as string or a java.io.File</p></td>
 		<ul class="dummy">
 			<li>
 				<a href="josm_mixin_DataSetMixin.js.html">josm/mixin/DataSetMixin.js</a>,
-				 <a href="josm_mixin_DataSetMixin.js.html#sunlight-1-line-772">line 772</a>
+				 <a href="josm_mixin_DataSetMixin.js.html#sunlight-1-line-769">line 769</a>
 			</li>
 		</ul>
 	</dd>
@@ -941,19 +945,21 @@ var ds2 = DataSet.load(&quot;/tmp/my-data.ogz&quot;, {format: &quot;osm.gz&quot;
     <h4 class="name" id=".save"><span class="type-signature">&lt;static> </span>save(target [, options])</h4>
     
     
-    <p class="summary"><p>Saves a dataset to a file.</p></p>
+    <p class="summary">Saves a dataset to a file.</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Saves the dataset to a file (in OSM XML format).</p>
-<p><code>options</code> can contain the following named options:</p>
+        Saves the dataset to a file (in OSM XML format).
+
+<code>options</code> can contain the following named options:
 <dl>
   <dt><code class="signature">version</code>: string</dt>
   <dd>the value of the attribute <code>version</code> in the OSM file
   header. Default: "0.6"</dd>
+
   <dt><codeclass="signature">changeset</code>: Changeset</dt>
   <dd>the changeset whose id is included in the attribute
   <code>changeset</code> on every OSM object. If undefined, includes the
@@ -1005,7 +1011,7 @@ var ds2 = DataSet.load(&quot;/tmp/my-data.ogz&quot;, {format: &quot;osm.gz&quot;
 <span class="param-type">string</span>
 |
 
-<span class="param-type">java.io.File</span>
+<span class="param-type"><a href="http://docs.oracle.com/javase/6/docs/api/java/io/File.html" alt="java.io.File" target="javadoc">File</a></span>
 
 
 
@@ -1024,8 +1030,8 @@ var ds2 = DataSet.load(&quot;/tmp/my-data.ogz&quot;, {format: &quot;osm.gz&quot;
 
             
 
-            <td class="description last"><p>the target file. Either a file<br>
-name as string or a java.io.File</p></td>
+            <td class="description last">the target file. Either a file
+        name as string or a java.io.File</td>
         </tr>
 
     
@@ -1059,7 +1065,7 @@ name as string or a java.io.File</p></td>
 
             
 
-            <td class="description last"><p>optional named parameters</p></td>
+            <td class="description last">optional named parameters</td>
         </tr>
 
     
@@ -1104,7 +1110,7 @@ name as string or a java.io.File</p></td>
 		<ul class="dummy">
 			<li>
 				<a href="josm_mixin_DataSetMixin.js.html">josm/mixin/DataSetMixin.js</a>,
-				 <a href="josm_mixin_DataSetMixin.js.html#sunlight-1-line-883">line 883</a>
+				 <a href="josm_mixin_DataSetMixin.js.html#sunlight-1-line-880">line 880</a>
 			</li>
 		</ul>
 	</dd>
@@ -1148,15 +1154,16 @@ ds.save(&quot;/tmp/data.osm&quot;);</pre>
     <h4 class="name" id="add"><span class="type-signature"></span>add(primitives)</h4>
     
     
-    <p class="summary"><p>Adds one or more objects to the dataset.</p></p>
+    <p class="summary">Adds one or more objects to the dataset.</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Adds one or more primitives to the dataset.</p>
-<p><strong>Signatures</strong></p>
+        Adds one or more primitives to the dataset.
+
+<strong>Signatures</strong>
 <dl>
   <dt><code class="signature">add(o1,o2, ...)</code></dt>
   <dd>Adds a variable number of objects. null or undefined are ignored.
@@ -1164,6 +1171,7 @@ ds.save(&quot;/tmp/data.osm&quot;);</pre>
   <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html" alt="org.openstreetmap.josm.data.osm.Node" target="javadoc">Node</a>,
   <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Way.html" alt="org.openstreetmap.josm.data.osm.Way" target="javadoc">Way</a>,
   or <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Relation.html" alt="org.openstreetmap.josm.data.osm.Relation" target="javadoc">Relation</a>.</dd>
+
   <dt><code class="signature">add(array|collection)</code></dt>
   <dd>Adds an  javascript array or a java collection of objects. null or
   undefined are ignored. A list element is an instance of
@@ -1218,7 +1226,7 @@ ds.save(&quot;/tmp/data.osm&quot;);</pre>
 <span class="param-type">Array.&lt;primitive></span>
 |
 
-<span class="param-type">java.util.Collection</span>
+<span class="param-type"><a href="http://docs.oracle.com/javase/6/docs/api/java/util/Collection.html" alt="java.util.Collection" target="javadoc">Collection</a></span>
 
 
 
@@ -1229,7 +1237,7 @@ ds.save(&quot;/tmp/data.osm&quot;);</pre>
 
             
 
-            <td class="description last"><p>primitives to add</p></td>
+            <td class="description last">primitives to add</td>
         </tr>
 
     
@@ -1330,15 +1338,15 @@ relation.add(l);</pre>
     <h4 class="name" id="batch"><span class="type-signature"></span>batch(delegate)</h4>
     
     
-    <p class="summary"><p>Run a sequence of command without notifying listeners.</p></p>
+    <p class="summary">Run a sequence of command without notifying listeners.</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Run a sequence of operations against the dataset in &quot;batch mode&quot;.<br>
-Listeners to data set events are only notified at the end of the batch.</p>
+        Run a sequence of operations against the dataset in "batch mode".
+Listeners to data set events are only notified at the end of the batch.
     </div>
     
 
@@ -1390,8 +1398,8 @@ Listeners to data set events are only notified at the end of the batch.</p>
 
             
 
-            <td class="description last"><p>the function implementing the batch processes.<br>
-Ignored if null or undefined.</p></td>
+            <td class="description last">the function implementing the batch processes.
+    Ignored if null or undefined.</td>
         </tr>
 
     
@@ -1484,15 +1492,16 @@ ds.batch(function() {
     <h4 class="name" id="each"><span class="type-signature"></span>each(delegate [, options])</h4>
     
     
-    <p class="summary"><p>Iterates over the dataset.</p></p>
+    <p class="summary">Iterates over the dataset.</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Iterates over the objects in the dataset.</p>
-<p><strong>Signatures</strong></p>
+        Iterates over the objects in the dataset.
+
+<strong>Signatures</strong>
 <dl>
   <dt><code class="signature">each(delegate,?options)</code></dt>
   <dd>Iterates over the objects in the dataset and invokes
@@ -1505,8 +1514,9 @@ ds.batch(function() {
   see below.
   </dd>
 </dl>
-<p>The parameter <code>options</code> consists of the following (optional)<br>
-named parameters:</p>
+
+The parameter <code>options</code> consists of the following (optional)
+named parameters:
 <dl>
   <dt><code class="signature">all</code> : boolean</dt>
   <dd>If true, searches <em>all</em> objects in the dataset. If false,
@@ -1574,7 +1584,7 @@ named parameters:</p>
 
             
 
-            <td class="description last"><p>the function invoked on every element</p></td>
+            <td class="description last">the function invoked on every element</td>
         </tr>
 
     
@@ -1608,7 +1618,7 @@ named parameters:</p>
 
             
 
-            <td class="description last"><p>additional named parameters</p></td>
+            <td class="description last">additional named parameters</td>
         </tr>
 
     
@@ -1653,7 +1663,7 @@ named parameters:</p>
 		<ul class="dummy">
 			<li>
 				<a href="josm_mixin_DataSetMixin.js.html">josm/mixin/DataSetMixin.js</a>,
-				 <a href="josm_mixin_DataSetMixin.js.html#sunlight-1-line-725">line 725</a>
+				 <a href="josm_mixin_DataSetMixin.js.html#sunlight-1-line-722">line 722</a>
 			</li>
 		</ul>
 	</dd>
@@ -1689,16 +1699,17 @@ named parameters:</p>
     <h4 class="name" id="get"><span class="type-signature"></span>get(params)</h4>
     
     
-    <p class="summary"><p>Get an object from the dataset.</p></p>
+    <p class="summary">Get an object from the dataset.</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Replies an OSM object from the dataset, or undefined, if no such object<br>
-exists.</p>
-<p><strong>Signatures</strong></p>
+        Replies an OSM object from the dataset, or undefined, if no such object
+exists.
+
+<strong>Signatures</strong>
 <dl>
   <dt><code class="signature">get(id, type)</code></dt>
   <dd>Replies an object given by its unique numeric id and a type.
@@ -1707,6 +1718,7 @@ exists.</p>
   <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/OsmPrimitiveType.html" alt="org.openstreetmap.josm.data.osm.OsmPrimitiveType" target="javadoc">OsmPrimitiveType</a>.NODE,
   <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/OsmPrimitiveType.html" alt="org.openstreetmap.josm.data.osm.OsmPrimitiveType" target="javadoc">OsmPrimitiveType</a>.WAY, or
   <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/OsmPrimitiveType.html" alt="org.openstreetmap.josm.data.osm.OsmPrimitiveType" target="javadoc">OsmPrimitiveType</a>.RELATION.</dd>
+
   <dt><code class="signature">get(id)</code></dt>
   <dd>Replies an object given an ID. <code>id</code> is either an instance
   of
@@ -1759,7 +1771,7 @@ exists.</p>
 
             
 
-            <td class="description last"><p>see description</p></td>
+            <td class="description last">see description</td>
         </tr>
 
     
@@ -1868,15 +1880,16 @@ var o5 = ds.get(way);</pre>
     <h4 class="name" id="has"><span class="type-signature"></span>has(params)</h4>
     
     
-    <p class="summary"><p>Check whether an object is in the dataset.</p></p>
+    <p class="summary">Check whether an object is in the dataset.</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Replies true, if the dataset contains an object.</p>
-<p><strong>Signatures</strong></p>
+        Replies true, if the dataset contains an object.
+
+<strong>Signatures</strong>
 <dl>
   <dt><code class="signature">has(id, type)</code></dt>
   <dd>Replies true, if an object given by its unique numeric ID and a type
@@ -1885,6 +1898,7 @@ var o5 = ds.get(way);</pre>
   <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/OsmPrimitiveType.html" alt="org.openstreetmap.josm.data.osm.OsmPrimitiveType" target="javadoc">OsmPrimitiveType</a>.NODE,
   <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/OsmPrimitiveType.html" alt="org.openstreetmap.josm.data.osm.OsmPrimitiveType" target="javadoc">OsmPrimitiveType</a>.WAY, or
   <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/OsmPrimitiveType.html" alt="org.openstreetmap.josm.data.osm.OsmPrimitiveType" target="javadoc">OsmPrimitiveType</a>.RELATION.</dd>
+
   <dt><code class="signature">has(id)</code></dt>
   <dd>Replies true, if an object with the id <code>id</code> exists in the
   dataset. <code>id</code> is either
@@ -1937,7 +1951,7 @@ var o5 = ds.get(way);</pre>
 
             
 
-            <td class="description last"><p>see description and examples</p></td>
+            <td class="description last">see description and examples</td>
         </tr>
 
     
@@ -2046,15 +2060,15 @@ ret = ds.has(way);</pre>
     <h4 class="name" id="node"><span class="type-signature"></span>node(id)</h4>
     
     
-    <p class="summary"><p>Get a specific {@class org.openstreetmap.josm.data.osm.Node}<br>
-from the dataset.</p></p>
+    <p class="summary">Get a specific <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html" alt="org.openstreetmap.josm.data.osm.Node" target="javadoc">Node</a>
+    from the dataset.</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Replies the node with id <code>id</code>.</p>
+        Replies the node with id <code>id</code>.
     </div>
     
 
@@ -2106,7 +2120,7 @@ from the dataset.</p></p>
 
             
 
-            <td class="description last"><p>the unique numeric id. Must not be 0.</p></td>
+            <td class="description last">the unique numeric id. Must not be 0.</td>
         </tr>
 
     
@@ -2180,7 +2194,7 @@ from the dataset.</p></p>
     
             
 <div class="param-desc">
-    <p>the node</p>
+    the node
 </div>
 
 
@@ -2211,15 +2225,16 @@ from the dataset.</p></p>
     <h4 class="name" id="query"><span class="type-signature"></span>query(expression [, options])</h4>
     
     
-    <p class="summary"><p>Queries the dataset.</p></p>
+    <p class="summary">Queries the dataset.</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Queries the dataset</p>
-<p><strong>Signatures</strong></p>
+        Queries the dataset
+
+<strong>Signatures</strong>
 <dl>
   <dt><code class="signature">query(josmSearchExpression,?options)</code>
   </dt>
@@ -2228,6 +2243,7 @@ from the dataset.</p></p>
   <code>josmSearchExpression</code> is a string as you would enter it in
   the JOSM search dialog. <code>options</code> is an (optional) object
   with named parameters, see below.</dd>
+
   <dt><code class="signature">query(predicate,?options)</code></dt>
   <dd>Queries the dataset using a javascript predicate function
   <code>predicate</code>.  <code>predicate</code> is a javascript
@@ -2236,8 +2252,9 @@ from the dataset.</p></p>
   <code>options</code> is an (optional) object with named parameters,
   see below.</dd>
 </dl>
-<p>The parameter <code>options</code> consist of the following (optional)<br>
-named parameters:</p>
+
+The parameter <code>options</code> consist of the following (optional)
+named parameters:
 <dl>
   <dt><code class="signature">allElements</code> : boolean
   (Deprecated parameter names:
@@ -2245,10 +2262,12 @@ named parameters:</p>
   <dd>If true, searches <em>all</em> objects in the dataset. If false,
   ignores incomplete or deleted
   objects. Default: false.</dd>
+
   <dt><code class="signature">caseSensitive</code> : boolean</dt>
   <dd><strong>Only applicable for searches with a JOSM search
   expression</strong>. If true,  searches case sensitive. If false,
   searches case insensitive. Default: false.</dd>
+
   <dt><code class="signature">regexSearch</code> : boolean (Deprecated
       parameter names:
        <code class="signature">withRegexp</code>,
@@ -2257,6 +2276,7 @@ named parameters:</p>
   expression</strong>. If true,  the search expression contains regular
   expressions. If false, it includes only plain strings for searching.
   Default: false.</dd>
+
   <dt><code class="signature">mapCSSSearch</code></dt>
   <dd><strong>Only applies for searches with a JOSM search
   expression</strong>.
@@ -2326,7 +2346,7 @@ named parameters:</p>
 
             
 
-            <td class="description last"><p>the match expression</p></td>
+            <td class="description last">the match expression</td>
         </tr>
 
     
@@ -2360,7 +2380,7 @@ named parameters:</p>
 
             
 
-            <td class="description last"><p>additional named parameters</p></td>
+            <td class="description last">additional named parameters</td>
         </tr>
 
     
@@ -2405,7 +2425,7 @@ named parameters:</p>
 		<ul class="dummy">
 			<li>
 				<a href="josm_mixin_DataSetMixin.js.html">josm/mixin/DataSetMixin.js</a>,
-				 <a href="josm_mixin_DataSetMixin.js.html#sunlight-1-line-615">line 615</a>
+				 <a href="josm_mixin_DataSetMixin.js.html#sunlight-1-line-612">line 612</a>
 			</li>
 		</ul>
 	</dd>
@@ -2441,15 +2461,15 @@ named parameters:</p>
     <h4 class="name" id="relation"><span class="type-signature"></span>relation(id)</h4>
     
     
-    <p class="summary"><p>Get a specific {@class org.openstreetmap.josm.data.osm.Relation}<br>
-from the dataset.</p></p>
+    <p class="summary">Get a specific <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Relation.html" alt="org.openstreetmap.josm.data.osm.Relation" target="javadoc">Relation</a>
+    from the dataset.</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Replies the relation with id <code>id</code>.</p>
+        Replies the relation with id <code>id</code>.
     </div>
     
 
@@ -2501,7 +2521,7 @@ from the dataset.</p></p>
 
             
 
-            <td class="description last"><p>the unique numeric id. Must not be 0.</p></td>
+            <td class="description last">the unique numeric id. Must not be 0.</td>
         </tr>
 
     
@@ -2602,15 +2622,16 @@ from the dataset.</p></p>
     <h4 class="name" id="remove"><span class="type-signature"></span>remove(primitives)</h4>
     
     
-    <p class="summary"><p>Remove one or more objects from the dataset.</p></p>
+    <p class="summary">Remove one or more objects from the dataset.</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Removes objects from the dataset.</p>
-<p><strong>Signatures</strong></p>
+        Removes objects from the dataset.
+
+<strong>Signatures</strong>
 <dl>
   <dt><code class="signature">remove(id, type)</code></dt>
   <dd>Removes a single object given by its unique numeric ID (nid) and a
@@ -2619,6 +2640,7 @@ from the dataset.</p></p>
   <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/OsmPrimitiveType.html" alt="org.openstreetmap.josm.data.osm.OsmPrimitiveType" target="javadoc">OsmPrimitiveType</a>.NODE,
   <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/OsmPrimitiveType.html" alt="org.openstreetmap.josm.data.osm.OsmPrimitiveType" target="javadoc">OsmPrimitiveType</a>.WAY, or
   <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/OsmPrimitiveType.html" alt="org.openstreetmap.josm.data.osm.OsmPrimitiveType" target="javadoc">OsmPrimitiveType</a>.RELATION.</dd>
+
   <dt><code class="signature">remove(id, id, ...)</code></dt>
   <dd>Removes a collection of objects given by the ids. <code>id</code> is
   either an instance of
@@ -2626,6 +2648,7 @@ from the dataset.</p></p>
   the properties <code>id</code> and <code>type</code>, i.e.
   <code>{id: 1234, type: "node"}</code>.
   null and undefined are ignored.</dd>
+
   <dt><code class="signature">remove(array|collection)</code></dt>
   <dd>Removes a collection of objects given by the an array or a
   java.util.Collection of ids.
@@ -2681,7 +2704,7 @@ from the dataset.</p></p>
 
             
 
-            <td class="description last"><p>see description and examples</p></td>
+            <td class="description last">see description and examples</td>
         </tr>
 
     
@@ -2792,15 +2815,15 @@ ds.remove(ids);</pre>
     <h4 class="name" id="way"><span class="type-signature"></span>way(id)</h4>
     
     
-    <p class="summary"><p>Get a specific {@class org.openstreetmap.josm.data.osm.Way}<br>
-from the dataset.</p></p>
+    <p class="summary">Get a specific <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Way.html" alt="org.openstreetmap.josm.data.osm.Way" target="javadoc">Way</a>
+    from the dataset.</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Replies the way with id <code>id</code>.</p>
+        Replies the way with id <code>id</code>.
     </div>
     
 
@@ -2852,7 +2875,7 @@ from the dataset.</p></p>
 
             
 
-            <td class="description last"><p>the unique numeric id. Must not be 0.</p></td>
+            <td class="description last">the unique numeric id. Must not be 0.</td>
         </tr>
 
     
@@ -2926,7 +2949,7 @@ from the dataset.</p></p>
     
             
 <div class="param-desc">
-    <p>the way</p>
+    the way
 </div>
 
 
@@ -3004,7 +3027,7 @@ from the dataset.</p></p>
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a>
 	
-		on Sat Oct 3rd 2020
+		on Wed May 18th 2022
 	
 	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>

@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
-	<title>DocStrap Class: DataSetSelectionFacade</title>
+	<title>JOSM Scripting Plugin - JavaScript API V1 Class: DataSetSelectionFacade</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -20,7 +20,7 @@
 <div class="navbar navbar-default navbar-fixed-top navbar-inverse">
 <div class="container">
 	<div class="navbar-header">
-		<a class="navbar-brand" href="index.html">DocStrap</a>
+		<a class="navbar-brand" href="index.html">JOSM Scripting Plugin - JavaScript API V1</a>
 		<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#topNavigation">
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
@@ -93,9 +93,14 @@
     
 </header>
 
-
-
 <article>
+    
+    
+    <div style="padding: 1rem; margin: 1rem; background-color: #f77e7e">
+    API V1 is <strong>deprecated</strong> and will be removed in 2021. Consider to migrate your scripts to
+    <a href="/api/v2">API V2</a>.
+    
+    </div>
     <div class="container-overview">
     
         
@@ -104,14 +109,14 @@
     <h4 class="name" id="DataSetSelectionFacade"><span class="type-signature"></span>new DataSetSelectionFacade(ds)</h4>
     
     
-    <p class="summary"><p>Creates a facade</p></p>
+    <p class="summary">Creates a facade</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Creates a facade</p>
+        Creates a facade
     </div>
     
 
@@ -152,7 +157,7 @@
             <td class="type">
             
                 
-<span class="param-type">org.openstreetmap.josm.data.osm.DataSet</span>
+<span class="param-type"><a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/DataSet.html" alt="org.openstreetmap.josm.data.osm.DataSet" target="javadoc">DataSet</a></span>
 
 
 
@@ -163,8 +168,8 @@
 
             
 
-            <td class="description last"><p>the dataset.<br>
-Must not be null or undefined.</p></td>
+            <td class="description last">the dataset.
+    Must not be null or undefined.</td>
         </tr>
 
     
@@ -209,7 +214,7 @@ Must not be null or undefined.</p></td>
 		<ul class="dummy">
 			<li>
 				<a href="josm_mixin_DataSetMixin.js.html">josm/mixin/DataSetMixin.js</a>,
-				 <a href="josm_mixin_DataSetMixin.js.html#sunlight-1-line-969">line 969</a>
+				 <a href="josm_mixin_DataSetMixin.js.html#sunlight-1-line-966">line 966</a>
 			</li>
 		</ul>
 	</dd>
@@ -261,13 +266,13 @@ Must not be null or undefined.</p></td>
     <h4 id="nodes"><span class="type-signature">&lt;readonly> </span>nodes<span class="type-signature"></span></h4>
 
     
-    <p class="summary"><p>an array with the selected nodes</p></p>
+    <p class="summary">an array with the selected nodes</p>
     
 </dt>
 <dd>
     
     <div class="description">
-        <p>Replies an array with the selected nodes.</p>
+        Replies an array with the selected nodes.
     </div>
     
 
@@ -320,7 +325,7 @@ Must not be null or undefined.</p></td>
 
             
 
-            <td class="description last"><p>the selected nodes</p></td>
+            <td class="description last">the selected nodes</td>
         </tr>
 
     
@@ -362,7 +367,7 @@ Must not be null or undefined.</p></td>
 		<ul class="dummy">
 			<li>
 				<a href="josm_mixin_DataSetMixin.js.html">josm/mixin/DataSetMixin.js</a>,
-				 <a href="josm_mixin_DataSetMixin.js.html#sunlight-1-line-1195">line 1195</a>
+				 <a href="josm_mixin_DataSetMixin.js.html#sunlight-1-line-1192">line 1192</a>
 			</li>
 		</ul>
 	</dd>
@@ -386,13 +391,13 @@ Must not be null or undefined.</p></td>
     <h4 id="objects"><span class="type-signature">&lt;readonly> </span>objects<span class="type-signature"></span></h4>
 
     
-    <p class="summary"><p>an array with the selected object</p></p>
+    <p class="summary">an array with the selected object</p>
     
 </dt>
 <dd>
     
     <div class="description">
-        <p>Replies an array with the selected objects.</p>
+        Replies an array with the selected objects.
     </div>
     
 
@@ -445,7 +450,7 @@ Must not be null or undefined.</p></td>
 
             
 
-            <td class="description last"><p>the selected primitives</p></td>
+            <td class="description last">the selected primitives</td>
         </tr>
 
     
@@ -487,7 +492,7 @@ Must not be null or undefined.</p></td>
 		<ul class="dummy">
 			<li>
 				<a href="josm_mixin_DataSetMixin.js.html">josm/mixin/DataSetMixin.js</a>,
-				 <a href="josm_mixin_DataSetMixin.js.html#sunlight-1-line-1243">line 1243</a>
+				 <a href="josm_mixin_DataSetMixin.js.html#sunlight-1-line-1240">line 1240</a>
 			</li>
 		</ul>
 	</dd>
@@ -511,13 +516,13 @@ Must not be null or undefined.</p></td>
     <h4 id="relations"><span class="type-signature">&lt;readonly> </span>relations<span class="type-signature"></span></h4>
 
     
-    <p class="summary"><p>an array with the selected relations</p></p>
+    <p class="summary">an array with the selected relations</p>
     
 </dt>
 <dd>
     
     <div class="description">
-        <p>Replies an array with the selected relations.</p>
+        Replies an array with the selected relations.
     </div>
     
 
@@ -570,7 +575,7 @@ Must not be null or undefined.</p></td>
 
             
 
-            <td class="description last"><p>the selected relations</p></td>
+            <td class="description last">the selected relations</td>
         </tr>
 
     
@@ -612,7 +617,7 @@ Must not be null or undefined.</p></td>
 		<ul class="dummy">
 			<li>
 				<a href="josm_mixin_DataSetMixin.js.html">josm/mixin/DataSetMixin.js</a>,
-				 <a href="josm_mixin_DataSetMixin.js.html#sunlight-1-line-1227">line 1227</a>
+				 <a href="josm_mixin_DataSetMixin.js.html#sunlight-1-line-1224">line 1224</a>
 			</li>
 		</ul>
 	</dd>
@@ -636,13 +641,13 @@ Must not be null or undefined.</p></td>
     <h4 id="ways"><span class="type-signature">&lt;readonly> </span>ways<span class="type-signature"></span></h4>
 
     
-    <p class="summary"><p>an array with the selected ways</p></p>
+    <p class="summary">an array with the selected ways</p>
     
 </dt>
 <dd>
     
     <div class="description">
-        <p>Replies an array with the selected ways.</p>
+        Replies an array with the selected ways.
     </div>
     
 
@@ -695,7 +700,7 @@ Must not be null or undefined.</p></td>
 
             
 
-            <td class="description last"><p>the selected ways</p></td>
+            <td class="description last">the selected ways</td>
         </tr>
 
     
@@ -737,7 +742,7 @@ Must not be null or undefined.</p></td>
 		<ul class="dummy">
 			<li>
 				<a href="josm_mixin_DataSetMixin.js.html">josm/mixin/DataSetMixin.js</a>,
-				 <a href="josm_mixin_DataSetMixin.js.html#sunlight-1-line-1211">line 1211</a>
+				 <a href="josm_mixin_DataSetMixin.js.html#sunlight-1-line-1208">line 1208</a>
 			</li>
 		</ul>
 	</dd>
@@ -767,25 +772,28 @@ Must not be null or undefined.</p></td>
     <h4 class="name" id="add"><span class="type-signature"></span>add(primitives)</h4>
     
     
-    <p class="summary"><p>Adds selected objects</p></p>
+    <p class="summary">Adds selected objects</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Adds selected objects.</p>
-<p><strong>Signatures</strong></p>
+        Adds selected objects.
+
+<strong>Signatures</strong>
 <dl>
   <dt><code class="signature">add(p1,p2,...)</code></dt>
   <dd>Selects a variable number of primitives. </dd>
+
   <dt><code class="signature">add(array|collection)</code></dt>
   <dd>Select a variable number of primitives given by an array or a
   java collection of primitives.</dd>
 </dl>
-<p>Each primitive {@code p} is either an instance of aa node, a way, or<br>
-a relation, or an instance of<br>
-<a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/PrimitiveId.html" alt="org.openstreetmap.josm.data.osm.PrimitiveId" target="javadoc">PrimitiveId</a>.</p>
+
+Each primitive {@code p} is either an instance of aa node, a way, or
+a relation, or an instance of
+<a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/PrimitiveId.html" alt="org.openstreetmap.josm.data.osm.PrimitiveId" target="javadoc">PrimitiveId</a>.
     </div>
     
 
@@ -832,7 +840,7 @@ a relation, or an instance of<br>
 <span class="param-type">array</span>
 |
 
-<span class="param-type">java.util.Collection</span>
+<span class="param-type"><a href="http://docs.oracle.com/javase/6/docs/api/java/util/Collection.html" alt="java.util.Collection" target="javadoc">Collection</a></span>
 
 
 
@@ -843,7 +851,7 @@ a relation, or an instance of<br>
 
             
 
-            <td class="description last"><p>see description</p></td>
+            <td class="description last">see description</td>
         </tr>
 
     
@@ -888,7 +896,7 @@ a relation, or an instance of<br>
 		<ul class="dummy">
 			<li>
 				<a href="josm_mixin_DataSetMixin.js.html">josm/mixin/DataSetMixin.js</a>,
-				 <a href="josm_mixin_DataSetMixin.js.html#sunlight-1-line-1018">line 1018</a>
+				 <a href="josm_mixin_DataSetMixin.js.html#sunlight-1-line-1015">line 1015</a>
 			</li>
 		</ul>
 	</dd>
@@ -924,25 +932,28 @@ a relation, or an instance of<br>
     <h4 class="name" id="clear"><span class="type-signature"></span>clear(primitives)</h4>
     
     
-    <p class="summary"><p>Unselects a collection of objects</p></p>
+    <p class="summary">Unselects a collection of objects</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Unselects a collection of objects.</p>
-<p><strong>Signatures</strong></p>
+        Unselects a collection of objects.
+
+<strong>Signatures</strong>
 <dl>
   <dt><code class="signature">clear(p1,p2, ...)</code></dt>
   <dd>Unselect a variable number primitives.</dd>
+
   <dt><code class="signature">clear(array|collection)</code></dt>
   <dd>Unselect a variable number of primitives given by an array or a
   java collection of primitives.</dd>
 </dl>
-<p>Each primitive {@code p} is either an instance of aa node, a way, or<br>
-a relation, or an instance of<br>
-<a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/PrimitiveId.html" alt="org.openstreetmap.josm.data.osm.PrimitiveId" target="javadoc">PrimitiveId</a>.</p>
+
+Each primitive {@code p} is either an instance of aa node, a way, or
+a relation, or an instance of
+<a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/PrimitiveId.html" alt="org.openstreetmap.josm.data.osm.PrimitiveId" target="javadoc">PrimitiveId</a>.
     </div>
     
 
@@ -989,7 +1000,7 @@ a relation, or an instance of<br>
 <span class="param-type">array</span>
 |
 
-<span class="param-type">java.util.Collection</span>
+<span class="param-type"><a href="http://docs.oracle.com/javase/6/docs/api/java/util/Collection.html" alt="java.util.Collection" target="javadoc">Collection</a></span>
 
 
 
@@ -1000,7 +1011,7 @@ a relation, or an instance of<br>
 
             
 
-            <td class="description last"><p>see description</p></td>
+            <td class="description last">see description</td>
         </tr>
 
     
@@ -1045,7 +1056,7 @@ a relation, or an instance of<br>
 		<ul class="dummy">
 			<li>
 				<a href="josm_mixin_DataSetMixin.js.html">josm/mixin/DataSetMixin.js</a>,
-				 <a href="josm_mixin_DataSetMixin.js.html#sunlight-1-line-1048">line 1048</a>
+				 <a href="josm_mixin_DataSetMixin.js.html#sunlight-1-line-1045">line 1045</a>
 			</li>
 		</ul>
 	</dd>
@@ -1081,14 +1092,14 @@ a relation, or an instance of<br>
     <h4 class="name" id="clearAll"><span class="type-signature"></span>clearAll()</h4>
     
     
-    <p class="summary"><p>Clear the selection</p></p>
+    <p class="summary">Clear the selection</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Clear the selection.</p>
+        Clear the selection.
     </div>
     
 
@@ -1135,7 +1146,7 @@ a relation, or an instance of<br>
 		<ul class="dummy">
 			<li>
 				<a href="josm_mixin_DataSetMixin.js.html">josm/mixin/DataSetMixin.js</a>,
-				 <a href="josm_mixin_DataSetMixin.js.html#sunlight-1-line-1078">line 1078</a>
+				 <a href="josm_mixin_DataSetMixin.js.html#sunlight-1-line-1075">line 1075</a>
 			</li>
 		</ul>
 	</dd>
@@ -1171,25 +1182,28 @@ a relation, or an instance of<br>
     <h4 class="name" id="isSelected"><span class="type-signature"></span>isSelected(primitive)</h4>
     
     
-    <p class="summary"><p>true, if an object is currently selected</p></p>
+    <p class="summary">true, if an object is currently selected</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Replies true, if an object is currently selected.</p>
-<p><strong>Signatures</strong></p>
+        Replies true, if an object is currently selected.
+
+<strong>Signatures</strong>
 <dl>
   <dt><code class="signature">isSelected(id, type)</code></dt>
   <dd>Replies true, if the object with numeric id <code>id</code> and
   type <code>type</code> is selected.</dd>
+
   <dt><code class="signature">isSelected(id)</code></dt>
   <dd>Replies true, if the object with id <code>id</code> is selected.
   <code>id</code> is either an instance of
   <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/PrimitiveId.html" alt="org.openstreetmap.josm.data.osm.PrimitiveId" target="javadoc">PrimitiveId</a> or an object with
   the properties <code>id</code> and <code>type</code>,
   i.e. <code>{id: 1234, type: "node"}</code></dd>
+
   <dt><code class="signature">isSelected(obj)</code></dt>
   <dd>Replies true, if the object <code>obj</code> is selected. obj is
     either a
@@ -1251,7 +1265,7 @@ a relation, or an instance of<br>
 
             
 
-            <td class="description last"><p>see description</p></td>
+            <td class="description last">see description</td>
         </tr>
 
     
@@ -1296,7 +1310,7 @@ a relation, or an instance of<br>
 		<ul class="dummy">
 			<li>
 				<a href="josm_mixin_DataSetMixin.js.html">josm/mixin/DataSetMixin.js</a>,
-				 <a href="josm_mixin_DataSetMixin.js.html#sunlight-1-line-1123">line 1123</a>
+				 <a href="josm_mixin_DataSetMixin.js.html#sunlight-1-line-1120">line 1120</a>
 			</li>
 		</ul>
 	</dd>
@@ -1325,7 +1339,7 @@ a relation, or an instance of<br>
     
             
 <div class="param-desc">
-    <p>true, if the primitive is selected</p>
+    true, if the primitive is selected
 </div>
 
 
@@ -1356,25 +1370,28 @@ a relation, or an instance of<br>
     <h4 class="name" id="set"><span class="type-signature"></span>set(primitives)</h4>
     
     
-    <p class="summary"><p>Set the selected objects as selected.</p></p>
+    <p class="summary">Set the selected objects as selected.</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Set the selected objects as selected.</p>
-<p><strong>Signatures</strong></p>
+        Set the selected objects as selected.
+
+<strong>Signatures</strong>
 <dl>
   <dt><code class="signature">set(p1,p2, ...)</code></dt>
   <dd>Selects a variable number of primitives.</dd>
+
   <dt><code class="signature">set(array|collection)</code></dt>
   <dd>Select a variable number of primitives given by an array or a
   java collection of primitives.</dd>
 </dl>
-<p>Each primitive {@code p} is either an instance of aa node, a way, or<br>
-a relation, or an instance of<br>
-<a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/PrimitiveId.html" alt="org.openstreetmap.josm.data.osm.PrimitiveId" target="javadoc">PrimitiveId</a>.</p>
+
+Each primitive {@code p} is either an instance of aa node, a way, or
+a relation, or an instance of
+<a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/PrimitiveId.html" alt="org.openstreetmap.josm.data.osm.PrimitiveId" target="javadoc">PrimitiveId</a>.
     </div>
     
 
@@ -1421,7 +1438,7 @@ a relation, or an instance of<br>
 <span class="param-type">array</span>
 |
 
-<span class="param-type">java.uitl.Collection</span>
+<span class="param-type"><a href="http://docs.oracle.com/javase/6/docs/api/java/uitl/Collection.html" alt="java.uitl.Collection" target="javadoc">Collection</a></span>
 
 
 
@@ -1432,7 +1449,7 @@ a relation, or an instance of<br>
 
             
 
-            <td class="description last"><p>see description</p></td>
+            <td class="description last">see description</td>
         </tr>
 
     
@@ -1477,7 +1494,7 @@ a relation, or an instance of<br>
 		<ul class="dummy">
 			<li>
 				<a href="josm_mixin_DataSetMixin.js.html">josm/mixin/DataSetMixin.js</a>,
-				 <a href="josm_mixin_DataSetMixin.js.html#sunlight-1-line-984">line 984</a>
+				 <a href="josm_mixin_DataSetMixin.js.html#sunlight-1-line-981">line 981</a>
 			</li>
 		</ul>
 	</dd>
@@ -1513,25 +1530,28 @@ a relation, or an instance of<br>
     <h4 class="name" id="toggle"><span class="type-signature"></span>toggle()</h4>
     
     
-    <p class="summary"><p>Toggle the selection state of a collection of objects</p></p>
+    <p class="summary">Toggle the selection state of a collection of objects</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Toggle the selection state of a collection of objects.</p>
-<p><strong>Signatures</strong></p>
+        Toggle the selection state of a collection of objects.
+
+<strong>Signatures</strong>
 <dl>
   <dt><code class="signature">toggle(p1,p2, ...)</code></dt>
   <dd>Toggle the selection state of a variable number of primitives.</dd>
+
   <dt><code class="signature">toggle(array|collection)</code></dt>
   <dd>Toggle the selection state of variable number of primitives given by
   an array or a java collection of ids.</dd>
 </dl>
-<p>Each primitive {@code p} is either an instance of aa node, a way, or<br>
-a relation, or an instance of<br>
-<a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/PrimitiveId.html" alt="org.openstreetmap.josm.data.osm.PrimitiveId" target="javadoc">PrimitiveId</a>.</p>
+
+Each primitive {@code p} is either an instance of aa node, a way, or
+a relation, or an instance of
+<a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/PrimitiveId.html" alt="org.openstreetmap.josm.data.osm.PrimitiveId" target="javadoc">PrimitiveId</a>.
     </div>
     
 
@@ -1578,7 +1598,7 @@ a relation, or an instance of<br>
 		<ul class="dummy">
 			<li>
 				<a href="josm_mixin_DataSetMixin.js.html">josm/mixin/DataSetMixin.js</a>,
-				 <a href="josm_mixin_DataSetMixin.js.html#sunlight-1-line-1093">line 1093</a>
+				 <a href="josm_mixin_DataSetMixin.js.html#sunlight-1-line-1090">line 1090</a>
 			</li>
 		</ul>
 	</dd>
@@ -1661,7 +1681,7 @@ a relation, or an instance of<br>
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a>
 	
-		on Sat Oct 3rd 2020
+		on Wed May 18th 2022
 	
 	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>

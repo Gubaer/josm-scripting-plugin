@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
-	<title>DocStrap Module: josm</title>
+	<title>JOSM Scripting Plugin - JavaScript API V1 Module: josm</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -20,7 +20,7 @@
 <div class="navbar navbar-default navbar-fixed-top navbar-inverse">
 <div class="container">
 	<div class="navbar-header">
-		<a class="navbar-brand" href="index.html">DocStrap</a>
+		<a class="navbar-brand" href="index.html">JOSM Scripting Plugin - JavaScript API V1</a>
 		<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#topNavigation">
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
@@ -86,14 +86,19 @@
     
 </header>
 
-
-
 <article>
+    
+    
+    <div style="padding: 1rem; margin: 1rem; background-color: #f77e7e">
+    API V1 is <strong>deprecated</strong> and will be removed in 2021. Consider to migrate your scripts to
+    <a href="/api/v2">API V2</a>.
+    
+    </div>
     <div class="container-overview">
     
         
-            <div class="description"><p>This module is auto-loaded by the scripting plugin. It provides the<br>
-implementation of the global <code>josm</code> object.</p></div>
+            <div class="description">This module is auto-loaded by the scripting plugin. It provides the
+implementation of the global <code>josm</code> object.</div>
         
 
         
@@ -170,15 +175,16 @@ implementation of the global <code>josm</code> object.</p></div>
     <h4 id=".commands"><span class="type-signature">&lt;static, readonly> </span>commands<span class="type-signature"></span></h4>
 
     
-    <p class="summary"><p>the global command history</p></p>
+    <p class="summary">the global command history</p>
     
 </dt>
 <dd>
     
     <div class="description">
-        <p>Replies the global command history.</p>
-<p>Use this object to undo/redo commands, or to clear the command<br>
-history.</p>
+        Replies the global command history.
+
+Use this object to undo/redo commands, or to clear the command
+ history.
     </div>
     
 
@@ -307,13 +313,13 @@ josm.commands.redo(2);</pre>
     <h4 id=".layers"><span class="type-signature">&lt;static, readonly> </span>layers<span class="type-signature"></span></h4>
 
     
-    <p class="summary"><p>accessor for JOSM layers</p></p>
+    <p class="summary">accessor for JOSM layers</p>
     
 </dt>
 <dd>
     
     <div class="description">
-        <p>Replies the layers object.</p>
+        Replies the layers object.
     </div>
     
 
@@ -366,7 +372,7 @@ josm.commands.redo(2);</pre>
 
             
 
-            <td class="description last"><p>the layers object</p></td>
+            <td class="description last">the layers object</td>
         </tr>
 
     
@@ -408,7 +414,7 @@ josm.commands.redo(2);</pre>
 		<ul class="dummy">
 			<li>
 				<a href="josm.js.html">josm.js</a>,
-				 <a href="josm.js.html#sunlight-1-line-38">line 38</a>
+				 <a href="josm.js.html#sunlight-1-line-37">line 37</a>
 			</li>
 		</ul>
 	</dd>
@@ -441,15 +447,16 @@ josm.alert(&quot;num layers: &quot; + josm.layers.get(0).name);</pre>
     <h4 id=".menu"><span class="type-signature">&lt;static, readonly> </span>menu<span class="type-signature"></span></h4>
 
     
-    <p class="summary"><p>Replies an accessor for JOSMs menu bar.</p></p>
+    <p class="summary">Replies an accessor for JOSMs menu bar.</p>
     
 </dt>
 <dd>
     
     <div class="description">
-        <p>Replies an accessor for JOSMs menu bar.</p>
-<p>Use this object to inspect or modify the menu bar, i.e. to add additional<br>
-menu items.</p>
+        Replies an accessor for JOSMs menu bar.
+
+Use this object to inspect or modify the menu bar, i.e. to add additional
+menu items.
     </div>
     
 
@@ -502,7 +509,7 @@ menu items.</p>
 
             
 
-            <td class="description last"><p>accessor for JOSMs menu bar</p></td>
+            <td class="description last">accessor for JOSMs menu bar</td>
         </tr>
 
     
@@ -568,13 +575,13 @@ menu items.</p>
     <h4 id=".version"><span class="type-signature">&lt;static, readonly> </span>version<span class="type-signature"></span></h4>
 
     
-    <p class="summary"><p>JOSM version string</p></p>
+    <p class="summary">JOSM version string</p>
     
 </dt>
 <dd>
     
     <div class="description">
-        <p>Replies the current JOSM version string.</p>
+        Replies the current JOSM version string.
     </div>
     
 
@@ -627,7 +634,7 @@ menu items.</p>
 
             
 
-            <td class="description last"><p>the JOSM version</p></td>
+            <td class="description last">the JOSM version</td>
         </tr>
 
     
@@ -669,7 +676,7 @@ menu items.</p>
 		<ul class="dummy">
 			<li>
 				<a href="josm.js.html">josm.js</a>,
-				 <a href="josm.js.html#sunlight-1-line-19">line 19</a>
+				 <a href="josm.js.html#sunlight-1-line-18">line 18</a>
 			</li>
 		</ul>
 	</dd>
@@ -705,18 +712,21 @@ menu items.</p>
     <h4 class="name" id=".alert"><span class="type-signature">&lt;static> </span>alert(message)</h4>
     
     
-    <p class="summary"><p>display a message</p></p>
+    <p class="summary">display a message</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Displays an alert window with a message</p>
-<p><strong>Signatures</strong></p>
+        Displays an alert window with a message
+
+<strong>Signatures</strong>
+
 <dl>
   <dt><code class="signature">alert(message)</code><dt>
   <dd>Displays an information message with an OK button.</dd>
+
   <dt><code class="signature">alert(message, ?options)</code><dt>
   <dd>Displays a message. The look and feel of the alert window depends on
   the <var>options</var>. The following options are supported:
@@ -724,26 +734,26 @@ menu items.</p>
      <dt><code>title</code>:string</dt>
      <dd>(optional) the window title. A string is expected. Empty string
      if missing.</dt>
-<pre><code> &lt;dd&gt;&lt;code&gt;messageType&lt;/code&gt;&lt;/dt&gt;
- &lt;dd&gt;(optional) the message type. Use one of the following values:
-    &lt;ul&gt;
-       &lt;li&gt;<a href="http://docs.oracle.com/javase/6/docs/api/ javax/swing/JOptionPane.html" alt="javax.swing.JOptionPane" target="javadoc">JOptionPane</a>.INFORMATION_MESSAGE,
-       &quot;info&quot;,&quot;information&quot;&lt;/li&gt;
-       &lt;li&gt;<a href="http://docs.oracle.com/javase/6/docs/api/ javax/swing/JOptionPane.html" alt="javax.swing.JOptionPane" target="javadoc">JOptionPane</a>.ERROR_MESSAGE,
-                &quot;error&quot;&lt;/li&gt;
-       &lt;li&gt;<a href="http://docs.oracle.com/javase/6/docs/api/ javax/swing/JOptionPane.html" alt="javax.swing.JOptionPane" target="javadoc">JOptionPane</a>.WARNING_MESSAGE,
-               &quot;warning&quot;, &quot;warn&quot;&lt;/li&gt;
-       &lt;li&gt;<a href="http://docs.oracle.com/javase/6/docs/api/ javax/swing/JOptionPane.html" alt="javax.swing.JOptionPane" target="javadoc">JOptionPane</a>.QUESTION_MESSAGE,
-               &quot;question&quot;&lt;/li&gt;
-       &lt;li&gt;<a href="http://docs.oracle.com/javase/6/docs/api/ javax/swing/JOptionPane.html" alt="javax.swing.JOptionPane" target="javadoc">JOptionPane</a>.PLAIN_MESSAGE,
-               &quot;plain&quot;&lt;/li&gt;
-    &lt;/ul&gt;
-    Default value is
-    <a href="http://docs.oracle.com/javase/6/docs/api/ javax/swing/JOptionPane.html" alt="javax.swing.JOptionPane" target="javadoc">JOptionPane</a>.INFORMATION_MESSAGE.
-    String values are not case sensitive and leading and
-    trailing white space is removed.
- &lt;/dd&gt;
-</code></pre>
+
+     <dd><code>messageType</code></dt>
+     <dd>(optional) the message type. Use one of the following values:
+        <ul>
+           <li><a href="http://docs.oracle.com/javase/6/docs/api/ javax/swing/JOptionPane.html" alt="javax.swing.JOptionPane" target="javadoc">JOptionPane</a>.INFORMATION_MESSAGE,
+           "info","information"</li>
+           <li><a href="http://docs.oracle.com/javase/6/docs/api/ javax/swing/JOptionPane.html" alt="javax.swing.JOptionPane" target="javadoc">JOptionPane</a>.ERROR_MESSAGE,
+                    "error"</li>
+           <li><a href="http://docs.oracle.com/javase/6/docs/api/ javax/swing/JOptionPane.html" alt="javax.swing.JOptionPane" target="javadoc">JOptionPane</a>.WARNING_MESSAGE,
+                   "warning", "warn"</li>
+           <li><a href="http://docs.oracle.com/javase/6/docs/api/ javax/swing/JOptionPane.html" alt="javax.swing.JOptionPane" target="javadoc">JOptionPane</a>.QUESTION_MESSAGE,
+                   "question"</li>
+           <li><a href="http://docs.oracle.com/javase/6/docs/api/ javax/swing/JOptionPane.html" alt="javax.swing.JOptionPane" target="javadoc">JOptionPane</a>.PLAIN_MESSAGE,
+                   "plain"</li>
+        </ul>
+        Default value is
+        <a href="http://docs.oracle.com/javase/6/docs/api/ javax/swing/JOptionPane.html" alt="javax.swing.JOptionPane" target="javadoc">JOptionPane</a>.INFORMATION_MESSAGE.
+        String values are not case sensitive and leading and
+        trailing white space is removed.
+     </dd>
   </dl>
   </dd>
 </dl>
@@ -798,7 +808,7 @@ menu items.</p>
 
             
 
-            <td class="description last"><p>the message</p></td>
+            <td class="description last">the message</td>
         </tr>
 
     
@@ -892,14 +902,14 @@ josm.alert(&quot;Got an error&quot;, {
     <h4 class="name" id=".loadClassFrom3dPartyPlugin"><span class="type-signature">&lt;static> </span>loadClassFrom3dPartyPlugin(pluginName, className)</h4>
     
     
-    <p class="summary"><p>Loads a class using the class loader of a 3d-party plugin</p></p>
+    <p class="summary">Loads a class using the class loader of a 3d-party plugin</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Loads a class using the class loader of a 3d-party plugin</p>
+        Loads a class using the class loader of a 3d-party plugin
     </div>
     
 
@@ -951,7 +961,7 @@ josm.alert(&quot;Got an error&quot;, {
 
             
 
-            <td class="description last"><p>the name of the plugin</p></td>
+            <td class="description last">the name of the plugin</td>
         </tr>
 
     
@@ -975,7 +985,7 @@ josm.alert(&quot;Got an error&quot;, {
 
             
 
-            <td class="description last"><p>the class name</p></td>
+            <td class="description last">the class name</td>
         </tr>
 
     
@@ -1068,15 +1078,17 @@ console.println(cls.isEnabled());</pre>
     <h4 class="name" id=".open"><span class="type-signature">&lt;static> </span>open(files)</h4>
     
     
-    <p class="summary"><p>Opens one or more files in JOSM</p></p>
+    <p class="summary">Opens one or more files in JOSM</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Opens one or more files in JOSM.</p>
-<p>Creates and opens layers in JOSM, depending on the kind of file opened:</p>
+        Opens one or more files in JOSM.
+
+Creates and opens layers in JOSM, depending on the kind of file opened:
+
 <ul>
   <li>creates a data layer for data files</li>
   <li>creates a gpx layer for gpx files</li>
@@ -1125,7 +1137,7 @@ console.println(cls.isEnabled());</pre>
             <td class="type">
             
                 
-<span class="param-type">java.io.File</span>
+<span class="param-type"><a href="http://docs.oracle.com/javase/6/docs/api/java/io/File.html" alt="java.io.File" target="javadoc">File</a></span>
 |
 
 <span class="param-type">string</span>
@@ -1149,7 +1161,7 @@ console.println(cls.isEnabled());</pre>
 
             
 
-            <td class="description last"><p>files to open</p></td>
+            <td class="description last">files to open</td>
         </tr>
 
     
@@ -1284,7 +1296,7 @@ josm.open(&quot;/my/data/file.osm&quot;);</pre>
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a>
 	
-		on Sat Oct 3rd 2020
+		on Wed May 18th 2022
 	
 	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>

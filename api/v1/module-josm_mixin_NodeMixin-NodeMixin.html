@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
-	<title>DocStrap Mixin: NodeMixin</title>
+	<title>JOSM Scripting Plugin - JavaScript API V1 Mixin: NodeMixin</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -20,7 +20,7 @@
 <div class="navbar navbar-default navbar-fixed-top navbar-inverse">
 <div class="container">
 	<div class="navbar-header">
-		<a class="navbar-brand" href="index.html">DocStrap</a>
+		<a class="navbar-brand" href="index.html">JOSM Scripting Plugin - JavaScript API V1</a>
 		<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#topNavigation">
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
@@ -93,9 +93,14 @@
     
 </header>
 
-
-
 <article>
+    
+    
+    <div style="padding: 1rem; margin: 1rem; background-color: #f77e7e">
+    API V1 is <strong>deprecated</strong> and will be removed in 2021. Consider to migrate your scripts to
+    <a href="/api/v2">API V2</a>.
+    
+    </div>
     <div class="container-overview">
     
         
@@ -191,7 +196,7 @@ instance of
     <h4 id="east"><span class="type-signature">&lt;readonly> </span>east<span class="type-signature"></span></h4>
 
     
-    <p class="summary"><p>Get the projected east coordinate.</p></p>
+    <p class="summary">Get the projected east coordinate.</p>
     
 </dt>
 <dd>
@@ -251,7 +256,7 @@ coordinate isn't known.</p>
 
             
 
-            <td class="description last"><p>projected east coordinate</p></td>
+            <td class="description last">projected east coordinate</td>
         </tr>
 
     
@@ -327,17 +332,19 @@ n.east;</pre>
     <h4 id="lat"><span class="type-signature"></span>lat<span class="type-signature"></span></h4>
 
     
-    <p class="summary"><p>Get or set the node latitude.</p></p>
+    <p class="summary">Get or set the node latitude.</p>
     
 </dt>
 <dd>
     
     <div class="description">
         <p>Get or set the node latitude.</p>
+
 <dl>
   <dt>get</dt>
   <dd>Replies the current latitude, or undefined, if the latitude isn't
   known.</dd>
+
   <dt>set</dt>
   <dd>Assign the latitude. Expects a number in the range [-90,90].
   Raises an error, if the node is a proxy node.</dd>
@@ -394,7 +401,7 @@ n.east;</pre>
 
             
 
-            <td class="description last"><p>latitude</p></td>
+            <td class="description last">latitude</td>
         </tr>
 
     
@@ -471,17 +478,19 @@ n.lat;  // -&gt; 23.245</pre>
     <h4 id="lon"><span class="type-signature"></span>lon<span class="type-signature"></span></h4>
 
     
-    <p class="summary"><p>Get or set the node longitude.</p></p>
+    <p class="summary">Get or set the node longitude.</p>
     
 </dt>
 <dd>
     
     <div class="description">
         <p>Get or set the node longitude.</p>
+
 <dl>
   <dt>get</dt>
   <dd>Replies the current longitude, or undefined, if the longitude isn't
   known.</dd>
+
   <dt>set</dt>
   <dd>Assign the longitude. Expects a number in the range [-180,180].
   Raises an error, if the node is a proxy node.</dd>
@@ -538,7 +547,7 @@ n.lat;  // -&gt; 23.245</pre>
 
             
 
-            <td class="description last"><p>longitude</p></td>
+            <td class="description last">longitude</td>
         </tr>
 
     
@@ -615,7 +624,7 @@ n.lon;  // -&gt; -120.78;</pre>
     <h4 id="north"><span class="type-signature">&lt;readonly> </span>north<span class="type-signature"></span></h4>
 
     
-    <p class="summary"><p>Get the projected north coordinate.</p></p>
+    <p class="summary">Get the projected north coordinate.</p>
     
 </dt>
 <dd>
@@ -675,7 +684,7 @@ north coordinate isn't known.</p>
 
             
 
-            <td class="description last"><p>projected north coordinate</p></td>
+            <td class="description last">projected north coordinate</td>
         </tr>
 
     
@@ -751,18 +760,20 @@ n.north;</pre>
     <h4 id="pos"><span class="type-signature"></span>pos<span class="type-signature"></span></h4>
 
     
-    <p class="summary"><p>Get or set the node position.</p></p>
+    <p class="summary">Get or set the node position.</p>
     
 </dt>
 <dd>
     
     <div class="description">
         <p>Get or set the node position.</p>
+
 <dl>
  <dt>get</dt>
  <dd>replies an instance of
   <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/coor/LatLon.html" alt="org.openstreetmap.josm.data.coor.LatLon" target="javadoc">LatLon</a> or
   undefined, if the position isn't known.</dd>
+
  <dt>set</dt>
  <dd>Assign the position. Either an instance of
  <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/coor/LatLon.html" alt="org.openstreetmap.josm.data.coor.LatLon" target="javadoc">LatLon</a>
@@ -820,7 +831,7 @@ n.north;</pre>
 
             
 
-            <td class="description last"><p>position of the node</p></td>
+            <td class="description last">position of the node</td>
         </tr>
 
     
@@ -951,7 +962,7 @@ n.pos;  // -&gt; a LatLon with the position</pre>
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a>
 	
-		on Sat Oct 3rd 2020
+		on Wed May 18th 2022
 	
 	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>

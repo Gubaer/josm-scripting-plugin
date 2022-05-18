@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
-	<title>DocStrap Class: ChangesetApi</title>
+	<title>JOSM Scripting Plugin - JavaScript API V1 Class: ChangesetApi</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -20,7 +20,7 @@
 <div class="navbar navbar-default navbar-fixed-top navbar-inverse">
 <div class="container">
 	<div class="navbar-header">
-		<a class="navbar-brand" href="index.html">DocStrap</a>
+		<a class="navbar-brand" href="index.html">JOSM Scripting Plugin - JavaScript API V1</a>
 		<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#topNavigation">
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
@@ -93,9 +93,14 @@
     
 </header>
 
-
-
 <article>
+    
+    
+    <div style="padding: 1rem; margin: 1rem; background-color: #f77e7e">
+    API V1 is <strong>deprecated</strong> and will be removed in 2021. Consider to migrate your scripts to
+    <a href="/api/v2">API V2</a>.
+    
+    </div>
     <div class="container-overview">
     
         
@@ -109,10 +114,11 @@
 
     
     <div class="description">
-        <p>Provides methods to open, close, get, update, etc. changesets on the OSM<br>
-API server.</p>
-<p><strong>Note:</strong> this class doesn't provide a constructor. Methods<br>
-and properties are static.</p>
+        Provides methods to open, close, get, update, etc. changesets on the OSM
+API server.
+
+<strong>Note:</strong> this class doesn't provide a constructor. Methods
+and properties are static.
     </div>
     
 
@@ -212,6 +218,106 @@ var cs = api.open();</pre>
     
 
     
+        <h3 class="subsection-title">Members</h3>
+
+        <dl>
+            
+<hr>
+<dt class="name" id=".get">
+    <h4 id=".get"><span class="type-signature">&lt;static> </span>get<span class="type-signature"></span></h4>
+
+    
+    <p class="summary">Get a changeset from the server</p>
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        Get a changeset from the server
+
+<dl>
+  <dt><code class="signature>get(aChangeset)</code></dt>
+  <dd>Gets the changeset specified by <code>aChangeset</code>. aChangset
+  must be an instance of <code>Changeset</code>.
+  aChangeset.id &gt; 0 expected.</dd>
+
+  <dt><code class="signature">get(id)</code></dt>
+  <dd>gets the changeset for the id. id must be a number &gt; 0.</dd>
+</dl>
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_api.js.html">josm/api.js</a>,
+				 <a href="josm_api.js.html#sunlight-1-line-218">line 218</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">var api = require(&quot;josm/api&quot;).ChangesetApi;
+var Changeset = org.openstreetmap.josm.data.osm.Changeset;
+
+// get the changeset with id 12345
+var cs1 = api.get(12345);
+
+// get the changeset with id 12345
+var cs2 = new Changeset(12345);
+cs2 = api.get(cs2);</pre>
+
+
+    
+</dd>
+
+        </dl>
+    
 
     
         <h3 class="subsection-title">Methods</h3>
@@ -223,17 +329,19 @@ var cs = api.open();</pre>
     <h4 class="name" id=".exports.ChangesetApi.close"><span class="type-signature">&lt;static> </span>exports.ChangesetApi.close(changeset)</h4>
     
     
-    <p class="summary"><p>Closes a changeset</p></p>
+    <p class="summary">Closes a changeset</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Closes a changeset</p>
+        Closes a changeset
+
 <dl>
   <dt><code class="signature">close(id)</code></dt>
   <dd>closes the changeset with the given id</dd>
+
   <dt><code class="signature">close(aChangeset)</code><dt>
   <dd>Xloses the changeset given by <code>aChangeset</code></dd>
 </dl>
@@ -280,7 +388,7 @@ var cs = api.open();</pre>
 <span class="param-type">number</span>
 |
 
-<span class="param-type">org.openstreetmap.josm.data.osm.Changeset</span>
+<span class="param-type"><a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Changeset.html" alt="org.openstreetmap.josm.data.osm.Changeset" target="javadoc">Changeset</a></span>
 
 
 
@@ -291,7 +399,7 @@ var cs = api.open();</pre>
 
             
 
-            <td class="description last"><p>the changeset to close</p></td>
+            <td class="description last">the changeset to close</td>
         </tr>
 
     
@@ -365,7 +473,7 @@ var cs = api.open();</pre>
     
             
 <div class="param-desc">
-    <p>the changeset</p>
+    the changeset
 </div>
 
 
@@ -400,6 +508,187 @@ api.close(12345);
 var cs2 = new Changeset(12345);
 cs2 = api.close(cs2);
 util.assert(cs2.closed);  // the changeset is now closed</pre>
+
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id=".update"><span class="type-signature">&lt;static> </span>update(changeset)</h4>
+    
+    
+    <p class="summary">Updates a changeset</p>
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Updates a changeset
+
+<dl>
+  <dt><code class="signature">update(aChangeset)</code></dt>
+  <dd>Updates the changeset <code>aChangeset</code></dd>
+</dl>
+    </div>
+    
+
+    
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>changeset</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Changeset.html" alt="org.openstreetmap.josm.data.osm.Changeset" target="javadoc">Changeset</a></span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the changeset to update</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_api.js.html">josm/api.js</a>,
+				 <a href="josm_api.js.html#sunlight-1-line-170">line 170</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    the changeset
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">org.openstreetmap.josm.data.osm.Changeset</span>
+
+
+
+    </dd>
+</dl>
+
+
+        
+
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">var api = require(&quot;josm/api&quot;).ChangesetApi;
+var Changeset = org.openstreetmap.josm.data.osm.Changeset;
+
+// update the comment of a changeset
+var cs2 = new Changeset(12345);
+cs2.put(&quot;comment&quot;, &quot;an updated comment&quot;);
+cs2 = api.update(cs2);</pre>
 
 
     
@@ -459,7 +748,7 @@ util.assert(cs2.closed);  // the changeset is now closed</pre>
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a>
 	
-		on Sat Oct 3rd 2020
+		on Wed May 18th 2022
 	
 	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>

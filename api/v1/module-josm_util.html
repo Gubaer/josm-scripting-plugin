@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
-	<title>DocStrap Module: josm/util</title>
+	<title>JOSM Scripting Plugin - JavaScript API V1 Module: josm/util</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -20,7 +20,7 @@
 <div class="navbar navbar-default navbar-fixed-top navbar-inverse">
 <div class="container">
 	<div class="navbar-header">
-		<a class="navbar-brand" href="index.html">DocStrap</a>
+		<a class="navbar-brand" href="index.html">JOSM Scripting Plugin - JavaScript API V1</a>
 		<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#topNavigation">
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
@@ -86,9 +86,14 @@
     
 </header>
 
-
-
 <article>
+    
+    
+    <div style="padding: 1rem; margin: 1rem; background-color: #f77e7e">
+    API V1 is <strong>deprecated</strong> and will be removed in 2021. Consider to migrate your scripts to
+    <a href="/api/v2">API V2</a>.
+    
+    </div>
     <div class="container-overview">
     
         
@@ -171,7 +176,7 @@
     <h4 class="name" id=".assert"><span class="type-signature">&lt;static> </span>assert(condition [, message] [, values])</h4>
     
     
-    <p class="summary"><p>Assert a condition and throw an Error if the condition isn't met.</p></p>
+    <p class="summary">Assert a condition and throw an Error if the condition isn't met.</p>
     
 </dt>
 <dd>
@@ -179,23 +184,27 @@
     
     <div class="description">
         <p>Assert a condition and throw an Error if the condition isn't met.</p>
+
 <p><strong>Usage:</strong>
 <dl>
   <dt><code>assert()</code></dt>
   <dd>Does nothing</dd>
+
    <dt><code>assert(cond)</code></dt>
    <dd>Checks the condition <code>cond</code>. If it is false, throws an
    Error.</dd>
+
    <dt><code>assert(cond, msg)</code></dt>
    <dd>Checks the condition <code>cond</code>. If it is false, throws an
    Error, whose <code>description</code> property
    is set to <code>msg</code>.</dd>
-<pre><code> &lt;dt&gt;&lt;code&gt;assert(cond, msg, objs...)&lt;/code&gt;&lt;/dt&gt;
-</code></pre>
+
+     <dt><code>assert(cond, msg, objs...)</code></dt>
    <dd>Checks the condition <code>cond</code>. If it is false, throws an
    Error, whose <code>description</code> property
    is set to the formatted message <code>msg</code>. Internally uses
    <code>java.text.MessageFormat</code> to format the message.</dd>
+
 </dl>
     </div>
     
@@ -292,7 +301,7 @@
 
             
 
-            <td class="description last"><p>the message</p></td>
+            <td class="description last">the message</td>
         </tr>
 
     
@@ -328,7 +337,7 @@
 
             
 
-            <td class="description last"><p>an optional list of values</p></td>
+            <td class="description last">an optional list of values</td>
         </tr>
 
     
@@ -423,14 +432,14 @@ util.assert(false, &quot;My message: {0}&quot;, &quot;test&quot;);</pre>
     <h4 class="name" id=".assertNumber"><span class="type-signature">&lt;static> </span>assertNumber(value [, msg] [, values])</h4>
     
     
-    <p class="summary"><p>Asserts that <code>val</code> is a number.</p></p>
+    <p class="summary">Asserts that <code>val</code> is a number.</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Asserts that <code>val</code> is a number.</p>
+        Asserts that <code>val</code> is a number.
     </div>
     
 
@@ -492,7 +501,7 @@ util.assert(false, &quot;My message: {0}&quot;, &quot;test&quot;);</pre>
 
             
 
-            <td class="description last"><p>the value to check</p></td>
+            <td class="description last">the value to check</td>
         </tr>
 
     
@@ -526,7 +535,7 @@ util.assert(false, &quot;My message: {0}&quot;, &quot;test&quot;);</pre>
 
             
 
-            <td class="description last"><p>message if the assertion fails</p></td>
+            <td class="description last">message if the assertion fails</td>
         </tr>
 
     
@@ -562,7 +571,7 @@ util.assert(false, &quot;My message: {0}&quot;, &quot;test&quot;);</pre>
 
             
 
-            <td class="description last"><p>values used in <code>msg</code> placeholders</p></td>
+            <td class="description last">values used in <code>msg</code> placeholders</td>
         </tr>
 
     
@@ -643,14 +652,14 @@ util.assert(false, &quot;My message: {0}&quot;, &quot;test&quot;);</pre>
     <h4 class="name" id=".assertSomething"><span class="type-signature">&lt;static> </span>assertSomething(val [, msg] [, values])</h4>
     
     
-    <p class="summary"><p>Asserts that <code>val</code> is defined and non-null.</p></p>
+    <p class="summary">Asserts that <code>val</code> is defined and non-null.</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Asserts that <code>val</code> is defined and non-null.</p>
+        Asserts that <code>val</code> is defined and non-null.
     </div>
     
 
@@ -712,7 +721,7 @@ util.assert(false, &quot;My message: {0}&quot;, &quot;test&quot;);</pre>
 
             
 
-            <td class="description last"><p>the value to check</p></td>
+            <td class="description last">the value to check</td>
         </tr>
 
     
@@ -746,7 +755,7 @@ util.assert(false, &quot;My message: {0}&quot;, &quot;test&quot;);</pre>
 
             
 
-            <td class="description last"><p>message if the assertion fails</p></td>
+            <td class="description last">message if the assertion fails</td>
         </tr>
 
     
@@ -782,8 +791,8 @@ util.assert(false, &quot;My message: {0}&quot;, &quot;test&quot;);</pre>
 
             
 
-            <td class="description last"><p>additional values used in <code>msg</code><br>
-placeholders</p></td>
+            <td class="description last">additional values used in <code>msg</code>
+placeholders</td>
         </tr>
 
     
@@ -875,14 +884,14 @@ util.assertSomething(5);       // -&gt; OK</pre>
     <h4 class="name" id=".countProperties"><span class="type-signature">&lt;static> </span>countProperties(o)</h4>
     
     
-    <p class="summary"><p>Replies the number of properties owned by <code>o</code>.</p></p>
+    <p class="summary">Replies the number of properties owned by <code>o</code>.</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Replies the number of properties owned by <code>o</code>.</p>
+        Replies the number of properties owned by <code>o</code>.
     </div>
     
 
@@ -934,7 +943,7 @@ util.assertSomething(5);       // -&gt; OK</pre>
 
             
 
-            <td class="description last"><p>the object</p></td>
+            <td class="description last">the object</td>
         </tr>
 
     
@@ -1008,7 +1017,7 @@ util.assertSomething(5);       // -&gt; OK</pre>
     
             
 <div class="param-desc">
-    <p>the number of properties owned by <code>o</code>.</p>
+    the number of properties owned by <code>o</code>.
 </div>
 
 
@@ -1053,7 +1062,7 @@ c = util.countProperties(o);       // -&gt;  undefined</pre>
     <h4 class="name" id=".each"><span class="type-signature">&lt;static> </span>each(collection, delegate)</h4>
     
     
-    <p class="summary"><p>Iteraties over the elements of a collection</p></p>
+    <p class="summary">Iteraties over the elements of a collection</p>
     
 </dt>
 <dd>
@@ -1108,7 +1117,7 @@ c = util.countProperties(o);       // -&gt;  undefined</pre>
 <span class="param-type">arguments</span>
 |
 
-<span class="param-type">java.util.Collection</span>
+<span class="param-type"><a href="http://docs.oracle.com/javase/6/docs/api/java/util/Collection.html" alt="java.util.Collection" target="javadoc">Collection</a></span>
 
 
 
@@ -1119,8 +1128,8 @@ c = util.countProperties(o);       // -&gt;  undefined</pre>
 
             
 
-            <td class="description last"><p>the collection of<br>
-elements</p></td>
+            <td class="description last">the collection of
+  elements</td>
         </tr>
 
     
@@ -1144,7 +1153,7 @@ elements</p></td>
 
             
 
-            <td class="description last"><p>the function to call on each elemennt</p></td>
+            <td class="description last">the function to call on each elemennt</td>
         </tr>
 
     
@@ -1225,14 +1234,14 @@ elements</p></td>
     <h4 class="name" id=".hasProperties"><span class="type-signature">&lt;static> </span>hasProperties(o)</h4>
     
     
-    <p class="summary"><p>Replies true, if <code>o</code> owns at least one property.</p></p>
+    <p class="summary">Replies true, if <code>o</code> owns at least one property.</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Replies true, if <code>o</code> owns at least one property.</p>
+        Replies true, if <code>o</code> owns at least one property.
     </div>
     
 
@@ -1284,7 +1293,7 @@ elements</p></td>
 
             
 
-            <td class="description last"><p>the object</p></td>
+            <td class="description last">the object</td>
         </tr>
 
     
@@ -1358,7 +1367,7 @@ elements</p></td>
     
             
 <div class="param-desc">
-    <p>true, if <code>o</code> owns at least one property.</p>
+    true, if <code>o</code> owns at least one property.
 </div>
 
 
@@ -1403,14 +1412,14 @@ c = util.hasProperties(o);       // -&gt;  false</pre>
     <h4 class="name" id=".isArguments"><span class="type-signature">&lt;static> </span>isArguments(value)</h4>
     
     
-    <p class="summary"><p>Replies true if <code>val</code> is a list of arguments.</p></p>
+    <p class="summary">Replies true if <code>val</code> is a list of arguments.</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Replies true if <code>val</code> is a list of arguments.</p>
+        Replies true if <code>val</code> is a list of arguments.
     </div>
     
 
@@ -1462,7 +1471,7 @@ c = util.hasProperties(o);       // -&gt;  false</pre>
 
             
 
-            <td class="description last"><p>the value to check</p></td>
+            <td class="description last">the value to check</td>
         </tr>
 
     
@@ -1536,7 +1545,7 @@ c = util.hasProperties(o);       // -&gt;  false</pre>
     
             
 <div class="param-desc">
-    <p>true, if val is a list of arguments</p>
+    true, if val is a list of arguments
 </div>
 
 
@@ -1567,14 +1576,14 @@ c = util.hasProperties(o);       // -&gt;  false</pre>
     <h4 class="name" id=".isArray"><span class="type-signature">&lt;static> </span>isArray(value)</h4>
     
     
-    <p class="summary"><p>Replies true if <code>val</code> is an array.</p></p>
+    <p class="summary">Replies true if <code>val</code> is an array.</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Replies true if <code>val</code> is an array.</p>
+        Replies true if <code>val</code> is an array.
     </div>
     
 
@@ -1626,7 +1635,7 @@ c = util.hasProperties(o);       // -&gt;  false</pre>
 
             
 
-            <td class="description last"><p>the value to check</p></td>
+            <td class="description last">the value to check</td>
         </tr>
 
     
@@ -1700,7 +1709,7 @@ c = util.hasProperties(o);       // -&gt;  false</pre>
     
             
 <div class="param-desc">
-    <p>true, if val is an array</p>
+    true, if val is an array
 </div>
 
 
@@ -1731,15 +1740,15 @@ c = util.hasProperties(o);       // -&gt;  false</pre>
     <h4 class="name" id=".isCollection"><span class="type-signature">&lt;static> </span>isCollection(value)</h4>
     
     
-    <p class="summary"><p>Is a value a collection?</p></p>
+    <p class="summary">Is a value a collection?</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Replies true, if a value is an array, an arguments list or a Java<br>
-collection.</p>
+        Replies true, if a value is an array, an arguments list or a Java
+collection.
     </div>
     
 
@@ -1791,7 +1800,7 @@ collection.</p>
 
             
 
-            <td class="description last"><p>the value to check</p></td>
+            <td class="description last">the value to check</td>
         </tr>
 
     
@@ -1865,7 +1874,7 @@ collection.</p>
     
             
 <div class="param-desc">
-    <p>true, if <code>value</code> is a collection</p>
+    true, if <code>value</code> is a collection
 </div>
 
 
@@ -1896,14 +1905,14 @@ collection.</p>
     <h4 class="name" id=".isDef"><span class="type-signature">&lt;static> </span>isDef(value)</h4>
     
     
-    <p class="summary"><p>Returns true if  <code>val</code> is defined.</p></p>
+    <p class="summary">Returns true if  <code>val</code> is defined.</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Returns true if  <code>val</code> is defined.</p>
+        Returns true if  <code>val</code> is defined.
     </div>
     
 
@@ -1955,7 +1964,7 @@ collection.</p>
 
             
 
-            <td class="description last"><p>the value to check</p></td>
+            <td class="description last">the value to check</td>
         </tr>
 
     
@@ -2029,7 +2038,7 @@ collection.</p>
     
             
 <div class="param-desc">
-    <p>true if  <code>val</code> is defined</p>
+    true if  <code>val</code> is defined
 </div>
 
 
@@ -2060,14 +2069,14 @@ collection.</p>
     <h4 class="name" id=".isFunction"><span class="type-signature">&lt;static> </span>isFunction(f)</h4>
     
     
-    <p class="summary"><p>Replies true, if f is a function.</p></p>
+    <p class="summary">Replies true, if f is a function.</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Replies true, if f is a function.</p>
+        Replies true, if f is a function.
     </div>
     
 
@@ -2119,7 +2128,7 @@ collection.</p>
 
             
 
-            <td class="description last"><p>the object</p></td>
+            <td class="description last">the object</td>
         </tr>
 
     
@@ -2193,7 +2202,7 @@ collection.</p>
     
             
 <div class="param-desc">
-    <p>true, if f is a function.</p>
+    true, if f is a function.
 </div>
 
 
@@ -2224,14 +2233,14 @@ collection.</p>
     <h4 class="name" id=".isNumber"><span class="type-signature">&lt;static> </span>isNumber(value)</h4>
     
     
-    <p class="summary"><p>Returns true if  <code>val</code> is a number.</p></p>
+    <p class="summary">Returns true if  <code>val</code> is a number.</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Returns true if  <code>val</code> is a number.</p>
+        Returns true if  <code>val</code> is a number.
     </div>
     
 
@@ -2283,7 +2292,7 @@ collection.</p>
 
             
 
-            <td class="description last"><p>the value to check</p></td>
+            <td class="description last">the value to check</td>
         </tr>
 
     
@@ -2357,7 +2366,7 @@ collection.</p>
     
             
 <div class="param-desc">
-    <p>true if  <code>val</code> is a number</p>
+    true if  <code>val</code> is a number
 </div>
 
 
@@ -2388,14 +2397,14 @@ collection.</p>
     <h4 class="name" id=".isString"><span class="type-signature">&lt;static> </span>isString(value)</h4>
     
     
-    <p class="summary"><p>Returns true if  <code>val</code> is a string.</p></p>
+    <p class="summary">Returns true if  <code>val</code> is a string.</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Returns true if  <code>val</code> is a string.</p>
+        Returns true if  <code>val</code> is a string.
     </div>
     
 
@@ -2447,7 +2456,7 @@ collection.</p>
 
             
 
-            <td class="description last"><p>the value to check</p></td>
+            <td class="description last">the value to check</td>
         </tr>
 
     
@@ -2521,7 +2530,7 @@ collection.</p>
     
             
 <div class="param-desc">
-    <p>true, if val is a string or a String object</p>
+    true, if val is a string or a String object
 </div>
 
 
@@ -2552,7 +2561,7 @@ collection.</p>
     <h4 class="name" id=".javaEquals"><span class="type-signature">&lt;static> </span>javaEquals(o1, o2)</h4>
     
     
-    <p class="summary"><p>Are two java objects equal.</p></p>
+    <p class="summary">Are two java objects equal.</p>
     
 </dt>
 <dd>
@@ -2612,7 +2621,7 @@ o1.equals(o2).</p>
 
             
 
-            <td class="description last"><p>a java object or null</p></td>
+            <td class="description last">a java object or null</td>
         </tr>
 
     
@@ -2636,7 +2645,7 @@ o1.equals(o2).</p>
 
             
 
-            <td class="description last"><p>a java object or null</p></td>
+            <td class="description last">a java object or null</td>
         </tr>
 
     
@@ -2737,14 +2746,14 @@ o1.equals(o2).</p>
     <h4 class="name" id=".mix"><span class="type-signature">&lt;static> </span>mix()</h4>
     
     
-    <p class="summary"><p>Mixes the properties of a list of objects into one object.</p></p>
+    <p class="summary">Mixes the properties of a list of objects into one object.</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Mixes the properties of a list of objects into one object.</p>
+        Mixes the properties of a list of objects into one object.
     </div>
     
 
@@ -2820,8 +2829,8 @@ o1.equals(o2).</p>
     <ul>
             <li>
 <div class="param-desc">
-    <p>a new object which includes the combined properties of the<br>
-argument objects</p>
+    a new object which includes the combined properties of the
+        argument objects
 </div>
 
 
@@ -2857,7 +2866,7 @@ argument objects</p>
     <h4 class="name" id=".print"><span class="type-signature">&lt;static> </span>print(message [, args])</h4>
     
     
-    <p class="summary"><p>Prints a message to stdout (without newline).</p></p>
+    <p class="summary">Prints a message to stdout (without newline).</p>
     
 </dt>
 <dd>
@@ -2865,6 +2874,7 @@ argument objects</p>
     
     <div class="description">
         <p>Prints a message to stdout (without newline).</p>
+
 <p>Supports the same string templates as <a href="http://docs.oracle.com/javase/6/docs/api/java/text/MessageFormat.html" alt="java.text.MessageFormat" target="javadoc">MessageFormat</a></p>
     </div>
     
@@ -3053,7 +3063,7 @@ util.print(&quot; a pair of curly braces &#x27;{&#x27;}&quot;);</pre>
     <h4 class="name" id=".println"><span class="type-signature">&lt;static> </span>println(message [, args])</h4>
     
     
-    <p class="summary"><p>Prints a message to stdout (including newline).</p></p>
+    <p class="summary">Prints a message to stdout (including newline).</p>
     
 </dt>
 <dd>
@@ -3061,6 +3071,7 @@ util.print(&quot; a pair of curly braces &#x27;{&#x27;}&quot;);</pre>
     
     <div class="description">
         <p>Prints a message to stdout (including newline).</p>
+
 <p>Supports the same string templates as <a href="http://docs.oracle.com/javase/6/docs/api/java/text/MessageFormat.html" alt="java.text.MessageFormat" target="javadoc">MessageFormat</a>.</p>
     </div>
     
@@ -3249,14 +3260,14 @@ util.println(&quot; a pair of curly braces &#x27;{&#x27;}&quot;);</pre>
     <h4 class="name" id="~isNothing"><span class="type-signature">&lt;inner> </span>isNothing(value)</h4>
     
     
-    <p class="summary"><p>Checks whether a value is null or undefined.</p></p>
+    <p class="summary">Checks whether a value is null or undefined.</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Checks whether a value is null or undefined.</p>
+        Checks whether a value is null or undefined.
     </div>
     
 
@@ -3308,7 +3319,7 @@ util.println(&quot; a pair of curly braces &#x27;{&#x27;}&quot;);</pre>
 
             
 
-            <td class="description last"><p>the value to check</p></td>
+            <td class="description last">the value to check</td>
         </tr>
 
     
@@ -3382,7 +3393,7 @@ util.println(&quot; a pair of curly braces &#x27;{&#x27;}&quot;);</pre>
     
             
 <div class="param-desc">
-    <p>false, if <code>value</code> is null or undefined; true, otherwise</p>
+    false, if <code>value</code> is null or undefined; true, otherwise
 </div>
 
 
@@ -3413,14 +3424,14 @@ util.println(&quot; a pair of curly braces &#x27;{&#x27;}&quot;);</pre>
     <h4 class="name" id="~isSomething"><span class="type-signature">&lt;inner> </span>isSomething(value)</h4>
     
     
-    <p class="summary"><p>Checks whether a value is neither null nor undefined.</p></p>
+    <p class="summary">Checks whether a value is neither null nor undefined.</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Checks whether a value is neither null nor undefined.</p>
+        Checks whether a value is neither null nor undefined.
     </div>
     
 
@@ -3472,7 +3483,7 @@ util.println(&quot; a pair of curly braces &#x27;{&#x27;}&quot;);</pre>
 
             
 
-            <td class="description last"><p>the value to check</p></td>
+            <td class="description last">the value to check</td>
         </tr>
 
     
@@ -3546,7 +3557,7 @@ util.println(&quot; a pair of curly braces &#x27;{&#x27;}&quot;);</pre>
     
             
 <div class="param-desc">
-    <p>false, if <code>value</code> is null or undefined; true, otherwise</p>
+    false, if <code>value</code> is null or undefined; true, otherwise
 </div>
 
 
@@ -3577,7 +3588,7 @@ util.println(&quot; a pair of curly braces &#x27;{&#x27;}&quot;);</pre>
     <h4 class="name" id="~trim"><span class="type-signature">&lt;inner> </span>trim(s)</h4>
     
     
-    <p class="summary"><p>Trims leading and trailing whitespace from <code>s</code>.</p></p>
+    <p class="summary">Trims leading and trailing whitespace from <code>s</code>.</p>
     
 </dt>
 <dd>
@@ -3585,6 +3596,7 @@ util.println(&quot; a pair of curly braces &#x27;{&#x27;}&quot;);</pre>
     
     <div class="description">
         <p>Trims leading and trailing whitespace from <code>s</code>.</p>
+
 <p>Replies s, if s is null or undefined. Any other value is converted to a
 string, then leading and trailing white space is removed.</p>
     </div>
@@ -3638,7 +3650,7 @@ string, then leading and trailing white space is removed.</p>
 
             
 
-            <td class="description last"><p>the string to be trimmed</p></td>
+            <td class="description last">the string to be trimmed</td>
         </tr>
 
     
@@ -3786,7 +3798,7 @@ string, then leading and trailing white space is removed.</p>
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a>
 	
-		on Sat Oct 3rd 2020
+		on Wed May 18th 2022
 	
 	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>

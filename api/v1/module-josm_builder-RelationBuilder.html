@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
-	<title>DocStrap Class: RelationBuilder</title>
+	<title>JOSM Scripting Plugin - JavaScript API V1 Class: RelationBuilder</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -20,7 +20,7 @@
 <div class="navbar navbar-default navbar-fixed-top navbar-inverse">
 <div class="container">
 	<div class="navbar-header">
-		<a class="navbar-brand" href="index.html">DocStrap</a>
+		<a class="navbar-brand" href="index.html">JOSM Scripting Plugin - JavaScript API V1</a>
 		<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#topNavigation">
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
@@ -93,9 +93,14 @@
     
 </header>
 
-
-
 <article>
+    
+    
+    <div style="padding: 1rem; margin: 1rem; background-color: #f77e7e">
+    API V1 is <strong>deprecated</strong> and will be removed in 2021. Consider to migrate your scripts to
+    <a href="/api/v2">API V2</a>.
+    
+    </div>
     <div class="container-overview">
     
         
@@ -109,14 +114,16 @@
 
     
     <div class="description">
-        <p>Creates a new builder for OSM relations</p>
-<p>RelationBuilder helps to create OSM<br>
-<a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Relation.html" alt="org.openstreetmap.josm.data.osm.Relation" target="javadoc">Relation</a>s.</p>
-<p>Methods of RelationBuilder can be used in a static and in an instance<br>
-context.<br>
-It isn't necessary to create an instance of RelationBuilder, unless it is<br>
-configured with a <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/DataSet.html" alt="org.openstreetmap.josm.data.osm.DataSet" target="javadoc">DataSet</a>,<br>
-which created ways are added to.</p>
+        Creates a new builder for OSM relations
+
+RelationBuilder helps to create OSM
+<a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Relation.html" alt="org.openstreetmap.josm.data.osm.Relation" target="javadoc">Relation</a>s.
+
+Methods of RelationBuilder can be used in a static and in an instance
+context.
+It isn't necessary to create an instance of RelationBuilder, unless it is
+configured with a <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/DataSet.html" alt="org.openstreetmap.josm.data.osm.DataSet" target="javadoc">DataSet</a>,
+which created ways are added to.
     </div>
     
 
@@ -157,7 +164,7 @@ which created ways are added to.</p>
             <td class="type">
             
                 
-<span class="param-type">org.openstreetmap.josm.data.osm.DataSet</span>
+<span class="param-type"><a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/DataSet.html" alt="org.openstreetmap.josm.data.osm.DataSet" target="javadoc">DataSet</a></span>
 
 
 
@@ -168,9 +175,9 @@ which created ways are added to.</p>
 
             
 
-            <td class="description last"><p>(optional) a JOSM<br>
-dataset which created ways are added to. If missing, the created ways<br>
-aren't added to a dataset.</p></td>
+            <td class="description last">(optional) a JOSM
+    dataset which created ways are added to. If missing, the created ways
+    aren't added to a dataset.</td>
         </tr>
 
     
@@ -294,16 +301,16 @@ var r3 = rbuilder.createProxy(123456);</pre>
     <h4 class="name" id=".forDataSet"><span class="type-signature">&lt;static> </span>forDataSet(ds)</h4>
     
     
-    <p class="summary"><p>Creates a new RelationBuilder which adds created relations to a<br>
-dataset</p></p>
+    <p class="summary">Creates a new RelationBuilder which adds created relations to a
+    dataset</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Creates or configures a RelationBuilder which will add created nodes<br>
-to the dataset <code>ds</code>.</p>
+        Creates or configures a RelationBuilder which will add created nodes
+to the dataset <code>ds</code>.
     </div>
     
 
@@ -344,7 +351,7 @@ to the dataset <code>ds</code>.</p>
             <td class="type">
             
                 
-<span class="param-type">org.openstreetmap.josm.data.osm.DataSet</span>
+<span class="param-type"><a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/DataSet.html" alt="org.openstreetmap.josm.data.osm.DataSet" target="javadoc">DataSet</a></span>
 
 
 
@@ -355,8 +362,8 @@ to the dataset <code>ds</code>.</p>
 
             
 
-            <td class="description last"><p>a JOSM<br>
-dataset which created ways are added to.</p></td>
+            <td class="description last">a JOSM
+    dataset which created ways are added to.</td>
         </tr>
 
     
@@ -430,7 +437,7 @@ dataset which created ways are added to.</p></td>
     
             
 <div class="param-desc">
-    <p>the relation builder</p>
+    the relation builder
 </div>
 
 
@@ -475,14 +482,15 @@ nb = wb.forDataSet(ds);</pre>
     <h4 class="name" id=".member"><span class="type-signature">&lt;static> </span>member( [role], primitive)</h4>
     
     
-    <p class="summary"><p>Utility function - creates a relation member</p></p>
+    <p class="summary">Utility function - creates a relation member</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Create a RelationMember</p>
+        Create a RelationMember
+
 <dl>
   <dt>member(role, obj)</dt>
   <dd>Create a relation member with role <var>role</var> and member object
@@ -559,7 +567,7 @@ nb = wb.forDataSet(ds);</pre>
 
             
 
-            <td class="description last"><p>the member role</p></td>
+            <td class="description last">the member role</td>
         </tr>
 
     
@@ -591,7 +599,7 @@ nb = wb.forDataSet(ds);</pre>
 
             
 
-            <td class="description last"><p>the member primitive</p></td>
+            <td class="description last">the member primitive</td>
         </tr>
 
     
@@ -665,7 +673,7 @@ nb = wb.forDataSet(ds);</pre>
     
             
 <div class="param-desc">
-    <p>the relation member</p>
+    the relation member
 </div>
 
 
@@ -708,17 +716,19 @@ var m2 = member(nb.create());</pre>
     <h4 class="name" id="create"><span class="type-signature"></span>create( [id] [, args])</h4>
     
     
-    <p class="summary"><p>Creates a new relation.</p></p>
+    <p class="summary">Creates a new relation.</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Creates a new relation.</p>
-<p>Can be used in an instance or in a static context.</p>
-<p><strong>Optional named arguments in the parameters <code>args</code><br>
-</strong></p>
+        Creates a new relation.
+
+Can be used in an instance or in a static context.
+
+<strong>Optional named arguments in the parameters <code>args</code>
+</strong>
 <ul>
   <li><var>id</var> - the id of a global relation (number > 0)</li>
   <li><var>version</var> - the version of a global relation (number > 0)
@@ -793,8 +803,8 @@ var m2 = member(nb.create());</pre>
 
             
 
-            <td class="description last"><p>a global way id. If missing and not set<br>
-before using <code>withId(..)</code>, creates a new local id.</p></td>
+            <td class="description last">a global way id. If missing and not set
+    before using <code>withId(..)</code>, creates a new local id.</td>
         </tr>
 
     
@@ -828,7 +838,7 @@ before using <code>withId(..)</code>, creates a new local id.</p></td>
 
             
 
-            <td class="description last"><p>additional parameters for creating the relation</p></td>
+            <td class="description last">additional parameters for creating the relation</td>
         </tr>
 
     
@@ -902,7 +912,7 @@ before using <code>withId(..)</code>, creates a new local id.</p></td>
     
             
 <div class="param-desc">
-    <p>the relation</p>
+    the relation
 </div>
 
 
@@ -954,17 +964,19 @@ var r3 = rb.create(12345, {
     <h4 class="name" id="createProxy"><span class="type-signature"></span>createProxy(id)</h4>
     
     
-    <p class="summary"><p>Creates a new <em>proxy</em> relation.</p></p>
+    <p class="summary">Creates a new <em>proxy</em> relation.</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Creates a new <em>proxy</em> relation. A proxy relation is a relation,<br>
-for which we only know its global id. In order to know more details<br>
-(members, tags, etc.), we would have to download it from the OSM server.</p>
-<p>The method can be used in a static and in an instance context.</p>
+        Creates a new <em>proxy</em> relation. A proxy relation is a relation,
+for which we only know its global id. In order to know more details
+(members, tags, etc.), we would have to download it from the OSM server.
+
+
+The method can be used in a static and in an instance context.
     </div>
     
 
@@ -1016,7 +1028,7 @@ for which we only know its global id. In order to know more details<br>
 
             
 
-            <td class="description last"><p>the id for the proxy relation</p></td>
+            <td class="description last">the id for the proxy relation</td>
         </tr>
 
     
@@ -1090,7 +1102,7 @@ for which we only know its global id. In order to know more details<br>
     
             
 <div class="param-desc">
-    <p>the new proxy relation</p>
+    the new proxy relation
 </div>
 
 
@@ -1130,15 +1142,16 @@ var r1 = rbuilder.createProxy(12345);</pre>
     <h4 class="name" id="withId"><span class="type-signature"></span>withId(id, version)</h4>
     
     
-    <p class="summary"><p>Declares the relation id and version.</p></p>
+    <p class="summary">Declares the relation id and version.</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Declares the global relation id and the global relation version.</p>
-<p>The method can be used in a static and in an instance context.</p>
+        Declares the global relation id and the global relation version.
+
+The method can be used in a static and in an instance context.
     </div>
     
 
@@ -1190,7 +1203,7 @@ var r1 = rbuilder.createProxy(12345);</pre>
 
             
 
-            <td class="description last"><p>(mandatory) the global relation id. A number &gt; 0.</p></td>
+            <td class="description last">(mandatory) the global relation id. A number > 0.</td>
         </tr>
 
     
@@ -1214,8 +1227,8 @@ var r1 = rbuilder.createProxy(12345);</pre>
 
             
 
-            <td class="description last"><p>(optional) the global relation version. If present,<br>
-a number &gt; 0. If missing, the version 1 is assumed.</p></td>
+            <td class="description last">(optional) the global relation version. If present,
+   a number > 0. If missing, the version 1 is assumed.</td>
         </tr>
 
     
@@ -1289,7 +1302,7 @@ a number &gt; 0. If missing, the version 1 is assumed.</p></td>
     
             
 <div class="param-desc">
-    <p>the relation builder (for method chaining)</p>
+    the relation builder (for method chaining)
 </div>
 
 
@@ -1328,18 +1341,21 @@ a number &gt; 0. If missing, the version 1 is assumed.</p></td>
     <h4 class="name" id="withMembers"><span class="type-signature"></span>withMembers(nodes)</h4>
     
     
-    <p class="summary"><p>Declares the members of a relation.</p></p>
+    <p class="summary">Declares the members of a relation.</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Declares the members of a relation.</p>
-<p>Accepts either a vararg list of relation members, nodes, ways or<br>
-relations, an array of relation members, nodes ways or relations, or a<br>
-Java list of members, nodes, ways or relation.</p>
-<p>The method can be used in a static and in an instance context.</p>
+        Declares the members of a relation.
+
+Accepts either a vararg list of relation members, nodes, ways or
+relations, an array of relation members, nodes ways or relations, or a
+Java list of members, nodes, ways or relation.
+
+
+The method can be used in a static and in an instance context.
     </div>
     
 
@@ -1385,7 +1401,7 @@ Java list of members, nodes, ways or relation.</p>
 
             
 
-            <td class="description last"><p>the list of members. See description and examples.</p></td>
+            <td class="description last">the list of members. See description and examples.</td>
         </tr>
 
     
@@ -1459,7 +1475,7 @@ Java list of members, nodes, ways or relation.</p>
     
             
 <div class="param-desc">
-    <p>the relation builder (for method chaining)</p>
+    the relation builder (for method chaining)
 </div>
 
 
@@ -1505,15 +1521,16 @@ var r1 = rbuilder.withMembers(
     <h4 class="name" id="withTags"><span class="type-signature"></span>withTags( [tags])</h4>
     
     
-    <p class="summary"><p>Declares the tags to be assigned to the new relation.</p></p>
+    <p class="summary">Declares the tags to be assigned to the new relation.</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Declares the tags to be assigned to the new relation.</p>
-<p>The method can be used in a static and in an instance context.</p>
+        Declares the tags to be assigned to the new relation.
+
+The method can be used in a static and in an instance context.
     </div>
     
 
@@ -1577,7 +1594,7 @@ var r1 = rbuilder.withMembers(
 
             
 
-            <td class="description last"><p>the tags</p></td>
+            <td class="description last">the tags</td>
         </tr>
 
     
@@ -1651,7 +1668,7 @@ var r1 = rbuilder.withMembers(
     
             
 <div class="param-desc">
-    <p>a relation builder (for method chaining)</p>
+    a relation builder (for method chaining)
 </div>
 
 
@@ -1745,7 +1762,7 @@ var r2 = rbuilder.withTags(tags).create();</pre>
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a>
 	
-		on Sat Oct 3rd 2020
+		on Wed May 18th 2022
 	
 	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>

@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
-	<title>DocStrap Class: Api</title>
+	<title>JOSM Scripting Plugin - JavaScript API V1 Class: Api</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -20,7 +20,7 @@
 <div class="navbar navbar-default navbar-fixed-top navbar-inverse">
 <div class="container">
 	<div class="navbar-header">
-		<a class="navbar-brand" href="index.html">DocStrap</a>
+		<a class="navbar-brand" href="index.html">JOSM Scripting Plugin - JavaScript API V1</a>
 		<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#topNavigation">
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
@@ -93,9 +93,14 @@
     
 </header>
 
-
-
 <article>
+    
+    
+    <div style="padding: 1rem; margin: 1rem; background-color: #f77e7e">
+    API V1 is <strong>deprecated</strong> and will be removed in 2021. Consider to migrate your scripts to
+    <a href="/api/v2">API V2</a>.
+    
+    </div>
     <div class="container-overview">
     
         
@@ -109,10 +114,11 @@
 
     
     <div class="description">
-        <p>Collection of static methods to download objects from and upload objects<br>
-to the OSM server.</p>
-<p><strong>Note:</strong> this class doesn't provide a constructor.<br>
-Methods and properties are &quot;static&quot;.</p>
+        Collection of static methods to download objects from and upload objects
+to the OSM server.
+
+<strong>Note:</strong> this class doesn't provide a constructor.
+Methods and properties are "static".
     </div>
     
 
@@ -159,7 +165,7 @@ Methods and properties are &quot;static&quot;.</p>
 		<ul class="dummy">
 			<li>
 				<a href="josm_api.js.html">josm/api.js</a>,
-				 <a href="josm_api.js.html#sunlight-1-line-278">line 278</a>
+				 <a href="josm_api.js.html#sunlight-1-line-280">line 280</a>
 			</li>
 		</ul>
 	</dd>
@@ -221,13 +227,13 @@ var ds = api.downloadObject(12345, &quot;node&quot;);</pre>
     <h4 id=".downloadArea"><span class="type-signature">&lt;static> </span>downloadArea<span class="type-signature"></span></h4>
 
     
-    <p class="summary"><p>Downloads the objects within a bounding box</p></p>
+    <p class="summary">Downloads the objects within a bounding box</p>
     
 </dt>
 <dd>
     
     <div class="description">
-        <p>Downloads the objects within a bounding box.</p>
+        Downloads the objects within a bounding box.
     </div>
     
 
@@ -269,7 +275,7 @@ var ds = api.downloadObject(12345, &quot;node&quot;);</pre>
 		<ul class="dummy">
 			<li>
 				<a href="josm_api.js.html">josm/api.js</a>,
-				 <a href="josm_api.js.html#sunlight-1-line-677">line 677</a>
+				 <a href="josm_api.js.html#sunlight-1-line-679">line 679</a>
 			</li>
 		</ul>
 	</dd>
@@ -314,17 +320,19 @@ var ds1 = api.downloadArea({
     <h4 class="name" id=".downloadObjects"><span class="type-signature">&lt;static> </span>downloadObjects()</h4>
     
     
-    <p class="summary"><p>Downloads an object from the server.</p></p>
+    <p class="summary">Downloads an object from the server.</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Downloads an object from the server.</p>
-<p>There are multiple options to specify what object to download.<br>
-In addition, the function accepts a set of optional named parameters<br>
-as last argument.</p>
+        Downloads an object from the server.
+
+There are multiple options to specify what object to download.
+In addition, the function accepts a set of optional named parameters
+as last argument.
+
 <dl>
   <dt><code class="signature">downloadObject(id, type, ?options)</code></dt>
   <dd><code>id</code> is the global numeric id.
@@ -332,6 +340,7 @@ as last argument.</p>
   or "relation", or one of the  enumeration OsmPrimitiveType.NODE,
   OsmPrimitiveType.WAY, or OsmPrimitiveType.RELATION
   </dd>
+
   <dt><code class="signature">downloadObject(id, ?options)</code></dt>
   <dd><code>id</code> is a <code>PrimitiveId</code> or an object
   with the (mandatory) properties <code>id</code> and <code>type</code>,
@@ -350,6 +359,7 @@ following two (optional) properties:
   downloaded, i.e. the nodes of a way and
   the relation members of a relation. Default if missing is
   <code>false</code>.</dd>
+
   <dt><code class="signature">version</code>: number</dt>
   <dd>If present, the specified version of the object is downloaded.
   If missing, the current version is downloaded. If present, the
@@ -401,7 +411,7 @@ following two (optional) properties:
 		<ul class="dummy">
 			<li>
 				<a href="josm_api.js.html">josm/api.js</a>,
-				 <a href="josm_api.js.html#sunlight-1-line-422">line 422</a>
+				 <a href="josm_api.js.html#sunlight-1-line-424">line 424</a>
 			</li>
 		</ul>
 	</dd>
@@ -430,7 +440,7 @@ following two (optional) properties:
     
             
 <div class="param-desc">
-    <p>the downloaded primitives</p>
+    the downloaded primitives
 </div>
 
 
@@ -483,26 +493,31 @@ var ds4 = api.downloadObject(12345, OsmPrimitiveType.WAY,
     <h4 class="name" id=".downloadReferrer"><span class="type-signature">&lt;static> </span>downloadReferrer()</h4>
     
     
-    <p class="summary"><p>Downloads the objects <em>referring</em> to another object from<br>
-the server.</p></p>
+    <p class="summary">Downloads the objects <em>referring</em> to another object from
+    the server.</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Downloads the objects <em>referring</em> to another object from<br>
-the server.</p>
-<p>Downloads primitives from the OSM server which<br>
-refer to a specific primitive. Given a node, the referring ways and<br>
-relations are downloaded. Given a way or a relation, only referring<br>
-relations are downloaded.</p>
-<p>The default behaviour is to reply proxy objects only.</p>
-<p>If you set the option <code>{full: true}</code>, every referring object<br>
-is downloaded in full.</p>
-<p>There are multiple options to specify what referrers to download.<br>
-In addition, the function accepts a set of optional named parameters as<br>
-last argument.</p>
+        Downloads the objects <em>referring</em> to another object from
+the server.
+
+Downloads primitives from the OSM server which
+refer to a specific primitive. Given a node, the referring ways and
+relations are downloaded. Given a way or a relation, only referring
+relations are downloaded.
+
+The default behaviour is to reply proxy objects only.
+
+If you set the option <code>{full: true}</code>, every referring object
+is downloaded in full.
+
+There are multiple options to specify what referrers to download.
+In addition, the function accepts a set of optional named parameters as
+last argument.
+
 <dl>
   <dt><code class="signature">downloadReferrer(id, type, ?options)
       </code></dt>
@@ -513,6 +528,7 @@ last argument.</p>
   <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/OsmPrimitiveType.html" alt="org.openstreetmap.josm.data.osm.OsmPrimitiveType" target="javadoc">OsmPrimitiveType</a>.WAY,
   or <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/OsmPrimitiveType.html" alt="org.openstreetmap.josm.data.osm.OsmPrimitiveType" target="javadoc">OsmPrimitiveType</a>.RELATION.
   </dd>
+
   <dt><code class="signature">downloadReferrer(id, ?options)</code></dt>
   <dd><code>id</code> is a <code>PrimitiveId</code> or an object
   with the (mandatory) properties <code>id</code> and <code>type</code>,
@@ -579,7 +595,7 @@ following  (optional) property:
 		<ul class="dummy">
 			<li>
 				<a href="josm_api.js.html">josm/api.js</a>,
-				 <a href="josm_api.js.html#sunlight-1-line-580">line 580</a>
+				 <a href="josm_api.js.html#sunlight-1-line-582">line 582</a>
 			</li>
 		</ul>
 	</dd>
@@ -608,7 +624,7 @@ following  (optional) property:
     
             
 <div class="param-desc">
-    <p>the downloaded primitives</p>
+    the downloaded primitives
 </div>
 
 
@@ -711,7 +727,7 @@ var ds3 = api.downloadReferrer(id, {full: true});
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a>
 	
-		on Sat Oct 3rd 2020
+		on Wed May 18th 2022
 	
 	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>

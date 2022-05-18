@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
-	<title>DocStrap Mixin: WayMixin</title>
+	<title>JOSM Scripting Plugin - JavaScript API V1 Mixin: WayMixin</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -20,7 +20,7 @@
 <div class="navbar navbar-default navbar-fixed-top navbar-inverse">
 <div class="container">
 	<div class="navbar-header">
-		<a class="navbar-brand" href="index.html">DocStrap</a>
+		<a class="navbar-brand" href="index.html">JOSM Scripting Plugin - JavaScript API V1</a>
 		<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#topNavigation">
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
@@ -93,15 +93,21 @@
     
 </header>
 
-
-
 <article>
+    
+    
+    <div style="padding: 1rem; margin: 1rem; background-color: #f77e7e">
+    API V1 is <strong>deprecated</strong> and will be removed in 2021. Consider to migrate your scripts to
+    <a href="/api/v2">API V2</a>.
+    
+    </div>
     <div class="container-overview">
     
         
-            <div class="description"><p>This mixin  provides additional properties and methods which you can<br>
-invoke on an instance of <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Way.html" alt="org.openstreetmap.josm.data.osm.Way" target="javadoc">Way</a>.</p>
-<p>You can access nodes using indexed properties, i.e.</p>
+            <div class="description">This mixin  provides additional properties and methods which you can
+invoke on an instance of <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Way.html" alt="org.openstreetmap.josm.data.osm.Way" target="javadoc">Way</a>.
+
+You can access nodes using indexed properties, i.e.
 <pre>way[i]</pre>, see example below.</div>
         
 
@@ -190,14 +196,14 @@ invoke on an instance of <a href="http://josm.openstreetmap.de/doc/org/openstree
     <h4 id="first"><span class="type-signature"></span>first<span class="type-signature"></span></h4>
 
     
-    <p class="summary"><p>The first node</p></p>
+    <p class="summary">The first node</p>
     
 </dt>
 <dd>
     
     <div class="description">
-        <p>The first node or undefined, if this way doesn't have nodes<br>
-(i.e. because it is a proxy way).</p>
+        The first node or undefined, if this way doesn't have nodes
+(i.e. because it is a proxy way).
     </div>
     
 
@@ -250,7 +256,7 @@ invoke on an instance of <a href="http://josm.openstreetmap.de/doc/org/openstree
 
             
 
-            <td class="description last"><p>the node or undefined</p></td>
+            <td class="description last">the node or undefined</td>
         </tr>
 
     
@@ -316,14 +322,14 @@ invoke on an instance of <a href="http://josm.openstreetmap.de/doc/org/openstree
     <h4 id="last"><span class="type-signature"></span>last<span class="type-signature"></span></h4>
 
     
-    <p class="summary"><p>The last node</p></p>
+    <p class="summary">The last node</p>
     
 </dt>
 <dd>
     
     <div class="description">
-        <p>The last node or undefined, if this way doesn't have nodes<br>
-(i.e. because it is a proxy way).</p>
+        The last node or undefined, if this way doesn't have nodes
+(i.e. because it is a proxy way).
     </div>
     
 
@@ -376,7 +382,7 @@ invoke on an instance of <a href="http://josm.openstreetmap.de/doc/org/openstree
 
             
 
-            <td class="description last"><p>the node or undefined</p></td>
+            <td class="description last">the node or undefined</td>
         </tr>
 
     
@@ -442,13 +448,13 @@ invoke on an instance of <a href="http://josm.openstreetmap.de/doc/org/openstree
     <h4 id="length"><span class="type-signature">&lt;readonly> </span>length<span class="type-signature"></span></h4>
 
     
-    <p class="summary"><p>Replies the number of nodes.</p></p>
+    <p class="summary">Replies the number of nodes.</p>
     
 </dt>
 <dd>
     
     <div class="description">
-        <p>Replies the number of nodes.</p>
+        Replies the number of nodes.
     </div>
     
 
@@ -501,7 +507,7 @@ invoke on an instance of <a href="http://josm.openstreetmap.de/doc/org/openstree
 
             
 
-            <td class="description last"><p>number of nodes</p></td>
+            <td class="description last">number of nodes</td>
         </tr>
 
     
@@ -567,13 +573,14 @@ invoke on an instance of <a href="http://josm.openstreetmap.de/doc/org/openstree
     <h4 id="nodes"><span class="type-signature"></span>nodes<span class="type-signature"></span></h4>
 
     
-    <p class="summary"><p>Set or get the nodes of a way.</p></p>
+    <p class="summary">Set or get the nodes of a way.</p>
     
 </dt>
 <dd>
     
     <div class="description">
-        <p>Set or get the nodes of a way.</p>
+        Set or get the nodes of a way.
+
 <dl>
   <dt>get</dt>
   <dd>Replies the nodes as array.</dd>
@@ -633,7 +640,7 @@ invoke on an instance of <a href="http://josm.openstreetmap.de/doc/org/openstree
 
             
 
-            <td class="description last"><p>the nodes</p></td>
+            <td class="description last">the nodes</td>
         </tr>
 
     
@@ -714,14 +721,14 @@ way.nodes;  // -&gt; [n1,n2,n3]</pre>
     <h4 class="name" id="contains"><span class="type-signature"></span>contains(node)</h4>
     
     
-    <p class="summary"><p>Checks if a node is part of a way.</p></p>
+    <p class="summary">Checks if a node is part of a way.</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Checks if a node is part of a way.</p>
+        Checks if a node is part of a way.
     </div>
     
 
@@ -762,7 +769,7 @@ way.nodes;  // -&gt; [n1,n2,n3]</pre>
             <td class="type">
             
                 
-<span class="param-type">org.openstreetmap.josm.data.osm.Node</span>
+<span class="param-type"><a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html" alt="org.openstreetmap.josm.data.osm.Node" target="javadoc">Node</a></span>
 
 
 
@@ -773,7 +780,7 @@ way.nodes;  // -&gt; [n1,n2,n3]</pre>
 
             
 
-            <td class="description last"><p>the node to check</p></td>
+            <td class="description last">the node to check</td>
         </tr>
 
     
@@ -847,7 +854,7 @@ way.nodes;  // -&gt; [n1,n2,n3]</pre>
     
             
 <div class="param-desc">
-    <p>true, if the node is part of the way</p>
+    true, if the node is part of the way
 </div>
 
 
@@ -878,19 +885,21 @@ way.nodes;  // -&gt; [n1,n2,n3]</pre>
     <h4 class="name" id="remove"><span class="type-signature"></span>remove(nodes)</h4>
     
     
-    <p class="summary"><p>Removes one or more nodes from the way.</p></p>
+    <p class="summary">Removes one or more nodes from the way.</p>
     
 </dt>
 <dd>
 
     
     <div class="description">
-        <p>Removes one or more nodes from the way.</p>
-<p><strong>Signatures</strong></p>
+        Removes one or more nodes from the way.
+
+<strong>Signatures</strong>
 <dl>
   <dt><code class="signature">remove(n1,n2, ...)</code></dt>
   <dd>Removes the nodes. <code>n</code><em>i</em> are instances of
       <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html" alt="org.openstreetmap.josm.data.osm.Node" target="javadoc">Node</a>.</dd>
+
    <dt><code class="signature">remove(array|collection)</code></dt>
   <dd>Removes the nodes. <code>array</code> is a javascript array of
   <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html" alt="org.openstreetmap.josm.data.osm.Node" target="javadoc">Node</a>s,
@@ -937,13 +946,13 @@ way.nodes;  // -&gt; [n1,n2,n3]</pre>
             <td class="type">
             
                 
-<span class="param-type">org.openstreetmap.josm.data.osm.Node</span>
+<span class="param-type"><a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html" alt="org.openstreetmap.josm.data.osm.Node" target="javadoc">Node</a></span>
 |
 
 <span class="param-type">array</span>
 |
 
-<span class="param-type">java.util.Collection</span>
+<span class="param-type"><a href="http://docs.oracle.com/javase/6/docs/api/java/util/Collection.html" alt="java.util.Collection" target="javadoc">Collection</a></span>
 
 
 
@@ -954,7 +963,7 @@ way.nodes;  // -&gt; [n1,n2,n3]</pre>
 
             
 
-            <td class="description last"><p>the nodes to remove</p></td>
+            <td class="description last">the nodes to remove</td>
         </tr>
 
     
@@ -1082,7 +1091,7 @@ way.nodes;  // -&gt; [n1,n2,n3]</pre>
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a>
 	
-		on Sat Oct 3rd 2020
+		on Wed May 18th 2022
 	
 	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>
