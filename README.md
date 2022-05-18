@@ -95,7 +95,7 @@ $ ./gradlew build
 ### Required software
 ```bash
 # install nvm
-$ wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
+$ wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
 # install npm and node
 $ nvm install --lts
 # install the fs-extra module
