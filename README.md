@@ -113,7 +113,16 @@ $ cd docstrap && npm install
 $ ./jsdoc.sh --api-version v1
 
 # generate the API documentation for the v2 API in a temporary directory
-$ ./jsdoc.sh --api-version v2 --outputdir /tmp/api-v2
+$ ./jsdoc.sh --api-version v2 --output-dir /tmp/api-v2
+
+# generate the complete API documentation into the 'gh-pages' branch
+# and publish it
+# First checkout the 'gh-pages' branch into ../josm-scripting-plugin.gh-pages
+$ ./jsdoc.sh \
+    --api-version all \
+    --output-dir ../josm-scripting-plugin.gh-pages/api
+$ cd ../josm-scripting-plugin.gh-pages
+$ git commit -a -m "Regenerate API doc"
 ```
 
 ## Build status
