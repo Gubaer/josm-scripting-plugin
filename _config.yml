@@ -21,6 +21,11 @@ theme: just-the-docs
 #plugins:
 #  - jekyll-feed
 
+aux_links:
+  "GitHub":
+    - "https://github.com/Gubaer/josm-scripting-plugin"
+aux_links_new_tab: false
+
 # Exclude from processing.
 exclude:
   - Gemfile
