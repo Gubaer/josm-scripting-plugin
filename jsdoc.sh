@@ -74,7 +74,7 @@ prepare_output_dir $OUTPUT_DIR
 
 
 # the path to the jsdoc templates and project specific js modules
-TEMPLATE_PATH=../docstrap/template
+TEMPLATE_PATH=$(pwd)/docstrap/template
 
 # add the template path to the node path if not yet present
 if [ "$(echo $NODE_PATH | tr ":" "\n" | grep $TEMPLATE_PATH)" == "" ] ; then
