@@ -5,7 +5,7 @@ parent: API V2
 nav_order: 2
 ---
 
-# Handling layers
+# Working with layers
 
 The global object `josm.layers` represents the current layers in josm. The methods
 and properties of this object are defined in the module [`josm/layers`](josm/layers).
