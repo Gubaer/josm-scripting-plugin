@@ -99,7 +99,7 @@ console.println(`node coordinates: \
 
 ## Primitives and datasets
 
-JOSM manages interconnected primitives in [DataSet]{:target="apidoc"}, a kind of container for nodes, ways, and relations.
+JOSM manages interconnected primitives in a [DataSet]{:target="apidoc"}, a kind of container for nodes, ways, and relations.
 A primitive doesn't have to belong to a dataset, but if it does, it can belong to at most one dataset.
 The dataset is said to be its **parent**.
 
@@ -134,9 +134,9 @@ There are two main differences between detached primitives and those attached to
 
     // runs the updates on two primitives in a "batch"
     dsutil.batch(() => {
-        // set new coordinates on the n ode
+        // set new coordinates on the node
         dsutil.node(1).setCoor(new LatLon(11.11, 22.22))
-        // assign new name to the relation
+        // assign a new name to the relation
         dsutil.relation(2).put('name', 'a-new-name')
     })
     ```
@@ -146,14 +146,14 @@ There are two main differences between detached primitives and those attached to
 JOSM provides a UI to display primitives and manipulate them interactively in **data layers**.
 If primitives are modified interactively, the respective changes can be **undone** and **redone**.
 
-Suppose you manipulate primitives attached to a dataset attached to a data layer.
+Suppose you manipulate primitives attached to a dataset displayed in a layer.
 In that case, you are better off applying **data commands** to the primitives instead of manipulating them directly.
 For this purpose, the Scripting Plugin provides a [command API][josm/command]{:target="apidoc"}.
 
 ```js
 const josm = require('josm')
 const { change } = require('josm/command')
-const { DataSetUtil } = require('josm/ds')
+const { DataSetUtil, OsmPrimitiveType} = require('josm/ds')
 
 const dsutil = new DataSetUtil()
 dsutil.nodeBuilder.withId(1).withPosition(1.0, 2.0).create()
@@ -187,17 +187,17 @@ dsutil.wayBuilder.withId(3).withNodes(dsutil.node(1), dsutil.node(2)).create()
 dsutil.relationBuilder.withId(4).create()
 
 let node
-node = dsutil.get("node", 1);
+node = dsutil.get(1, 'node');
 // .. or
 node = dsutil.node(1)
 
 let way
-way = dsutil.get("way", 3)
+way = dsutil.get(3, 'way')
 // ... or
 way = dsutil.way(3)
 
 let relation
-relation = dsutil.get("relation", 4)
+relation = dsutil.get(4, OsmPrimitiveType.RELATION)
 // ... or
 relation = dsutil.relation(4)
 ```
