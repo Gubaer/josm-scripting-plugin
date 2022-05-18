@@ -1,5 +1,5 @@
 #!/bin/bash
-# 
+#
 # Creates the jsdoc documentation
 #
 
@@ -20,7 +20,10 @@ print_help() {
   echo "     print help information"
 }
 
+# default output directory
 OUTPUT_DIR="out"
+
+# default API version
 API_VERSION="v1"
 
 while [ $# -gt 0 ] ;
@@ -46,8 +49,8 @@ do
         exit 1
       fi
       API_VERSION=$1
-      if [[ "$API_VERSION" != "v1" && "$API_VERSION" != "v2" ]] ; then
-        echo "error: illegal api version '$API_VERSION', expected 'v1' or 'v2'" 1>&2
+      if [[ "$API_VERSION" != "v1" && "$API_VERSION" != "v2" && "$API_VERSION" != "all" ]] ; then
+        echo "error: illegal api version '$API_VERSION', expected 'v11, 'v2', or 'all'" 1>&2
         print_help
         exit 1
       fi
@@ -69,10 +72,9 @@ done
 
 prepare_output_dir $OUTPUT_DIR
 
-echo "Generating documentation for API version '$API_VERSION' in '$OUTPUT_DIR/$API_VERSION' ..."
 
 # the path to the jsdoc templates and project specific js modules
-TEMPLATE_PATH=$(pwd)/doc/v1/templates
+TEMPLATE_PATH=../docstrap/template
 
 # add the template path to the node path if not yet present
 if [ "$(echo $NODE_PATH | tr ":" "\n" | grep $TEMPLATE_PATH)" == "" ] ; then
@@ -86,7 +88,28 @@ if [ "$JSDOC" == "" ] ; then
 	exit 1
 fi
 
-jsdoc \
-  -c jsdoc.${API_VERSION}.conf \
-  -t doc/v1/templates \
-  -d $OUTPUT_DIR/$API_VERSION
+case "$API_VERSION" in
+  v1 | v2)
+    echo "Generating documentation for API version '$API_VERSION' in '$OUTPUT_DIR/$API_VERSION' ..."
+    jsdoc \
+        -c jsdoc.${API_VERSION}.conf \
+        -t $TEMPLATE_PATH \
+        -d $OUTPUT_DIR/$API_VERSION
+
+    ;;
+
+  all)
+    echo "Generating documentation for API version 'v1' in '$OUTPUT_DIR/v1' ..."
+    jsdoc \
+        -c jsdoc.v1.conf \
+        -t $TEMPLATE_PATH \
+        -d $OUTPUT_DIR/v1
+
+    echo "Generating documentation for API version 'v2' in '$OUTPUT_DIR/v2' ..."
+    jsdoc \
+        -c jsdoc.v2.conf \
+        -t $TEMPLATE_PATH \
+        -d $OUTPUT_DIR/v2
+
+    ;;
+esac
