@@ -313,3 +313,10 @@ tasks.register("deploy", GitDeployTask) {
 
 import org.openstreetmap.josm.plugins.scripting.build.GraalVMDownloadTask
 tasks.register("downloadGraalVM", GraalVMDownloadTask)
+
+
+import org.openstreetmap.josm.plugins.scripting.convert.ReleaseFileConverter
+tasks.register("convertReleaseFile", ReleaseFileConverter) {
+    inputFile = file("releases.conf")
+    outputFile = file("releases.generated.yml")
+}
