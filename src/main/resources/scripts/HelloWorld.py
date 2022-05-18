@@ -2,8 +2,9 @@
 # HelloWorld.py  - displays the number of actually open layers
 #
 from javax.swing import JOptionPane
-from org.openstreetmap.josm import Main
-from org.openstreetmap.josm import MainApplication
+from org.openstreetmap.josm.gui import MainApplication
 
-numlayers = MainApplication.getLayerManager().getLayers().size()
-JOptionPane.showMessageDialog(Main.parent, "[Python] Hello World! You have %s layer(s)." % numlayers)
+num_layers = MainApplication.getLayerManager().getLayers().size()
+JOptionPane.showMessageDialog(
+    MainApplication.getMainFrame(),
+    "[Python] Hello World! You have %s layer(s)." % num_layers)
