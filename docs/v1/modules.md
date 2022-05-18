@@ -24,7 +24,8 @@ util.println("Hello world!");
 
 You can implement and use your own modules.
 
-Here's an example of a simple CommonJS-module which exports the function `sayHello()`.
+Here's an example of a simple CommonJS-module that exports the function `sayHello()`.
+
 
 ```js
 // file: helloworld.js
@@ -40,17 +41,16 @@ var hello = require("helloworld");
 hello.sayHello();
 ```
 
-The places, where the Scripting Plugin is looking for modules, can be configured in the 
-JOSM preferences. The plugin looks for modules in two places:
+In the JOSM preferences, you can configure where the Scripting Plugin is looking
+for modules. The plugin looks for modules in two places:
 
-* First, it tries to load modules from the plugin jar file in the directory `/js`.
+* First, it tries to load modules from the plugin jar file in the `/js` directory.
 
 * Then, it tries to load it from one of the configured *plugin repositories*. Each repository is
   either a directory in the local file system or in a jar/zip file in the local filesystem.
 
-  
-<img src="/assets/img/v1/configure-script-repositories.png"/>
 
+<img src="/assets/img/v1/configure-script-repositories.png"/>
 
 
 [CommonJS module]: http://www.commonjs.org/specs/modules/1.0/

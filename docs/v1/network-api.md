@@ -19,20 +19,20 @@ The module [josm/api]{:target="apidoc"} provides two classes for downloading dat
 
 The class [Api]{:target="apidoc"} provides several methods to download data using the [OSM API]{:target="apidoc"}.
 
-Here's a sample scripts which downloads data in a bounding box:
+Here's a sample script which downloads data in a bounding box:
 
 ```js
 var api = require("josm/api").Api;
 var dataset = api.downloadArea({
-      min: {lat: 46.9479186, lon: 7.4619484}, 
-      max: {lat: 46.9497642, lon: 7.4660683}  
+      min: {lat: 46.9479186, lon: 7.4619484},
+      max: {lat: 46.9497642, lon: 7.4660683}
 });
-josm.layers.addDataLayer({ds: dataset, name: "Obstberg"});  
+josm.layers.addDataLayer({ds: dataset, name: "Obstberg"});
 ```
 
 ## Uploading data
 
-The class [Api]{:target="apidoc"} provides the method `upload()` to upload data to the server. It can be used to upload data using one of 
+The class [Api]{:target="apidoc"} provides the method `upload()` to upload data to the server. Use it to upload data using one of
 the upload strategies JOSM supports:
 
 *   uploading each object individually
