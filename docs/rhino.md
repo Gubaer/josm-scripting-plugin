@@ -34,22 +34,5 @@ API V1 has the following main features:
 
 Refer to the [API V1](v1/v1) documentation.
 
-
-## Using a pluggable scripting engine
-
-<dl>
- <dt><a href="pluggable.html">Adding and removing a pluggable scripting engine</a></dt>
- <dd>How to add or remove a pluggable scripting engine.</dd>
-
- <dd>Selecting a pluggable scripting engine</dd>
- <dd>How to select a pluggable scripting engine</dd>
-
- <dt>Sample scripts</dt>
- <dd>Sample scripts in JavaScript, Python, Groovy, and Ruby are available
- on <a href="https://github.com/Gubaer/josm-scripting-plugin/tree/master/scripts">GitHub</a>.</dd>
-</dl>
-
-
-
 [graaljs]: https://github.com/oracle/graaljs
 [Mozilla Rhino]: http://www.mozilla.org/rhino/
