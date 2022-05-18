@@ -44,7 +44,7 @@ In the scripting console you can select a scripting engine to run a script.
 3. Enter the script in the script console. The example in the following screen shot is a simple Python script. The Scripting Plugin executes it with the Jython scripting engine.
 
 
-<img id="configure-scripting-engines" src="/assets/img/v2/implementing-a-script"/>
+<img id="configure-scripting-engines" src="/assets/img/v2/implementing-a-script.png"/>
 
 ## Running a script
 
