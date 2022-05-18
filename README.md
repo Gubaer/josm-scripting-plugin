@@ -102,6 +102,8 @@ $ nvm install --lts
 $ npm install fs-extra
 # install jsdoc
 $ npm install -g jsdoc
+# install dependencies for docstrap
+$ cd docstrap && npm install
 ```
 
 ### Generate the API documentation
