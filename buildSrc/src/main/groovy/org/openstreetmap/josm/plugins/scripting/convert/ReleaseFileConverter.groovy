@@ -1,6 +1,6 @@
 package org.openstreetmap.josm.plugins.scripting.convert
 
-import com.fasterxml.jackson.core.JsonGenerator
+
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
 import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator
@@ -8,7 +8,6 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.TaskAction
-
 
 /**
  * Converts a releases file in the legacy format into a releases format into
@@ -28,10 +27,10 @@ abstract class ReleaseFileConverter extends DefaultTask{
         logger.info("Reading release config file '${inputFile.get().absolutePath}' ...")
         var slurper = new ConfigSlurper().parse(file.toURI().toURL())
         var yamlFactory = YAMLFactory.builder()
-                .enable(YAMLGenerator.Feature.INDENT_ARRAYS)
-                .enable(YAMLGenerator.Feature.MINIMIZE_QUOTES)
-                .disable(YAMLGenerator.Feature.WRITE_DOC_START_MARKER)
-                .build();
+            .enable(YAMLGenerator.Feature.INDENT_ARRAYS)
+            .enable(YAMLGenerator.Feature.MINIMIZE_QUOTES)
+            .disable(YAMLGenerator.Feature.WRITE_DOC_START_MARKER)
+            .build()
         var mapper = new ObjectMapper(yamlFactory)
         var root = [
             "releases": slurper.releases.collect {release ->
