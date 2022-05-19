@@ -1,18 +1,18 @@
 # Translations for the JOSM plugin 'scripting' (pl)
-# Copyright (C) 2019 Gubaer
+# Copyright (C) 2022 Gubaer
 # This file is distributed under the same license as the josm-plugin_scripting package.
 # FIRST AUTHOR, YEAR.
 #
 # Translators:
-# Piotr Strębski, 2018
 # Right Path, 2018
 # Simon Legner, 2019
+# Piotr Strębski, 2021
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: josm-plugin_scripting 30795\n"
+"Project-Id-Version: josm-plugin_scripting v0.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-07-09 12:32+0000\n"
+"POT-Creation-Date: 2022-05-19 18:29+0200\n"
 "PO-Revision-Date: 2018-01-17 21:36+0000\n"
 "Language-Team: Polish (https://www.transifex.com/josm/teams/2544/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -52,13 +52,6 @@ msgstr ""
 
 msgid ""
 "<p>Failed to execute a script.</p><p/><p><strong>Error "
-"message:</strong>{0}</p>"
-msgstr ""
-"<p>Nieudane wykonanie skryptu.</p><p/><p><strong>Treść "
-"błędu:</strong>{0}</p>"
-
-msgid ""
-"<p>Failed to execute a script.</p><p/><p><strong>Error "
 "message:</strong>{0}</p><p><strong>At:</strong>line {1}, column {2}</p>"
 msgstr ""
 "<p>Błąd wykonania skryptu.</p><p/><p><strong>Komunikat "
@@ -70,13 +63,6 @@ msgid ""
 msgstr ""
 "<p>Błąd wykonania pliku skryptu ''{0}''.</p><p/><p><strong>Komunikat "
 "błędu:</strong>{1}</p>"
-
-msgid ""
-"<p>Failed to execute the script file ''{0}''.</p><p/><p><strong>Error "
-"message:</strong>{1}</p><p><strong>At:</strong>line {2}, column {3}</p>"
-msgstr ""
-"<p>Błąd wykonania pliku skryptu ''{0}''.</p><p/><p><strong>Komunikat "
-"błędu:</strong>{1}</p><p><strong>W:</strong>wiersz {2}, kolumna {3}</p>"
 
 msgid ""
 "<p>The script can''t be executed, because a scripting engine with name "
@@ -103,9 +89,6 @@ msgstr ""
 "związku z czym obsługa skryptów pythona jest nadal wyłączona.<br><br>Uruchom"
 " JOSM z wiersza polecenia: <br>java -cp \"josm-jar.jar:/path/to/jython.jar\""
 " org.openstreetmap.josm.gui.MainApplication"
-
-msgid "Accept script descriptor and close dialog"
-msgstr "Zaakceptuj deskryptor skryptów i zamknij okno dialogowe"
 
 msgid "Accept the selected scripting engine"
 msgstr "Zaakceptuj wybrany silnik skryptów"
@@ -154,12 +137,6 @@ msgstr[3] "Dodano {0} elementów"
 msgid "Always on top"
 msgstr "Zawsze na wierzchu"
 
-msgid "An error occured in the script."
-msgstr "W skrypcie wystąpił błąd"
-
-msgid "Automatically derive a script engine from the file name."
-msgstr "Automatycznie wykryj silnik skryptu na podstawie nazwy pliku."
-
 msgid "Available engines:"
 msgstr "Dostępne silniki:"
 
@@ -169,21 +146,12 @@ msgstr "Dostępne silniki skryptów"
 msgid "Cancel"
 msgstr "Anuluj"
 
-msgid "Cancel and close dialog"
-msgstr "Anuluj i zamknij okno dialogowe"
-
-msgid "Change..."
-msgstr "Zmień..."
-
 msgid "Changed {0} primitive"
 msgid_plural "Changed {0} primitives"
 msgstr[0] "Zmieniono {0} element"
 msgstr[1] "Zmieniono {0} elementy"
 msgstr[2] "Zmieniono {0} elementów"
 msgstr[3] "Zmieniono {0} elementów"
-
-msgid "Choose a script engine"
-msgstr "Wybierz silnik skryptów"
 
 msgid "Clear log"
 msgstr "Wyczyść dziennik"
@@ -218,25 +186,12 @@ msgstr "Utwórz lub edytuj ścieżkę"
 msgid "Current file:"
 msgstr "Bieżący plik:"
 
-msgid "Define a new script"
-msgstr "Określ nowy skrypt"
-
 msgid "Deleted {0} primitive"
 msgid_plural "Deleted {0} primitives"
 msgstr[0] "Usunięto {0} element"
 msgstr[1] "Usunięto {0} elementy"
 msgstr[2] "Usunięto {0} elementów"
 msgstr[3] "Usunięto {0} elementów"
-
-msgid ""
-"Didn''t find a suitable syntax kit for the script engine "
-"<strong>{0}</strong>."
-msgstr ""
-"Nie odnaleziono zestawu składni odpowiedniego dla silnika skryptu "
-"<strong>{0}</strong>."
-
-msgid "Display name:"
-msgstr "Wyświetlana nazwa:"
 
 msgid "Down"
 msgstr "W dół"
@@ -248,12 +203,6 @@ msgstr "Pobierz i zainstaluj silnik skryptów"
 msgid "Edit"
 msgstr "Edycja"
 
-msgid "Edit a script"
-msgstr "Edytuj skrypt"
-
-msgid "Embedded Rhino engine"
-msgstr "Wbudowany silnik Rhino"
-
 msgid "Empty file name"
 msgstr "Pusta nazwa pliku"
 
@@ -262,16 +211,6 @@ msgstr "Podaj dodatkowe pliki JAR zawierające silniki skryptów."
 
 msgid "Enter the name of a script file"
 msgstr "Podaj nazwę pliku skryptu"
-
-msgid "Error: failed to load local map from mime-types to syntax kits"
-msgstr ""
-"Błąd: nie udało się załadować lokalnej mapy z typów mime do zestawów składni"
-
-msgid "Error: failed to load resource file ''{0}''"
-msgstr "Błąd: nie udało się wczytać pliku zasobu \"{0}\""
-
-msgid "Error: resource file ''{0}'' not found"
-msgstr "Błąd: nie odnaleziono pliku zasobu \"{0}\""
 
 msgid "Execute the script"
 msgstr "Wykonaj skrypt"
@@ -289,9 +228,6 @@ msgid ""
 msgstr ""
 "Wykonywanie skryptu przy użyciu wbudowanego silnika skryptów dla języka "
 "<strong>{0}</strong> na podstawie <strong>{1}</strong>."
-
-msgid "FATAL: Failed to initialize scripting plugin.\n"
-msgstr "BŁĄD KRYTYCZNY: Błąd inicjacji wtyczki skryptów.\n"
 
 msgid "Failed to create URL referring to the module repository ''{0}''"
 msgstr "Błąd tworzenia URL odwołującego się do modułu repozytorium \"{0}\""
@@ -347,15 +283,6 @@ msgstr "Plik nie jest do odczytu"
 msgid "File:"
 msgstr "Plik:"
 
-msgid "Full local path to the script file"
-msgstr "Pełna ścieżka lokalna do pliku skryptu"
-
-msgid "Generate a globally unique ID"
-msgstr "Generuj globalnie unikalne ID"
-
-msgid "ID:"
-msgstr "ID:"
-
 msgid "IO error"
 msgstr "Błąd wejścia/wyjścia"
 
@@ -370,9 +297,6 @@ msgstr "Pliki JAR"
 
 msgid "JOSM currently supports the following script engines:"
 msgstr "JOSM obsługuje obecnie następujące silniki skryptów:"
-
-msgid "Jython engine"
-msgstr "Silnik Jython"
 
 msgid ""
 "Jython interpreter isn''t on the class path. Support for Python plugins is "
@@ -394,15 +318,6 @@ msgstr "Pokaż okno wyboru plików"
 msgid "Launch file selection dialog"
 msgstr "Launch file selection dialog"
 
-msgid ""
-"Loading default map from mime-types to syntax kits from resource ''{0}''"
-msgstr ""
-"Ładowanie domyślnej mapy z typów mime do zestawów składni ze źródła \"{0}\""
-
-msgid "Loading local map from mime-types to syntax kits from resource ''{0}''"
-msgstr ""
-"Ładowanie lokalnej mapy z typów mime do zestawów składni ze źródła \"{0}\""
-
 msgid "MIME-Types:"
 msgstr "Typy MIME:"
 
@@ -423,11 +338,6 @@ msgstr "Nie wybrano silnika skryptu."
 
 msgid "No syntax kit"
 msgstr "Brak zestawu składni"
-
-msgid "No syntax kit is configured for either of the following content types:"
-msgstr ""
-"Nie skonfigurowano zestawu składni dla żadnego z następujących typów "
-"zawartości:"
 
 msgid "OK"
 msgstr "OK"
@@ -451,20 +361,12 @@ msgstr ""
 "Wpisz lub wklej prawidłowy plik lub URL do pliku jar. Linki HTTP nie są "
 "obsługiwane."
 
-msgid ""
-"Refer to the online help how to configure syntax kits for specific content "
-"types."
-msgstr ""
-"Sprawdź w pomocy online, jak skonfigurować zestawy składni dla określonych "
-"typów zawartości."
-
 msgid "Remove"
 msgstr "Usuń"
 
 msgid "Remove a path"
 msgstr "Usuń ścieżkę"
 
-#. putValue(Action.NAME, tr("Remove"));
 msgid "Remove a repository"
 msgstr "Usuń repozytorium"
 
@@ -481,6 +383,10 @@ msgstr "Uruchom"
 #. icon name
 msgid "Run a script"
 msgstr "Uruchom skrypt"
+
+#. Display filename as tooltip instead of generic one
+msgid "Run script ''{0}''"
+msgstr "Uruchom skrypt ''{0}''"
 
 msgid "Run the script"
 msgstr "Uruchom skrypt"
@@ -500,29 +406,17 @@ msgstr "Zapisz skrypt do bieżącego pliku"
 msgid "Save to a script file"
 msgstr "Zapisz do pliku skryptu"
 
-msgid "Script Engine"
-msgstr "Silnik skryptu"
-
-msgid "Script Error"
-msgstr "Błąd skryptu"
-
 msgid "Script engine not found"
 msgstr "Nie odnaleziono silnika skryptu"
 
 msgid "Script engines"
 msgstr "Silniki skryptów"
 
-msgid "Script engines:"
-msgstr "Silniki skryptów:"
-
 msgid "Script execution failed"
 msgstr "Błąd wykonania skryptu"
 
 msgid "Script execution has failed."
 msgstr "Wykonanie skryptu wywołało błąd."
-
-msgid "Script file:"
-msgstr "Plik skryptu:"
 
 #. icon name
 msgid "Scripting"
@@ -555,15 +449,8 @@ msgstr "Wybierz plik skryptu"
 msgid "Select a script file and click on <strong>Run</strong>."
 msgstr "Wybierz plik skryptu i kliknij <strong>Uruchom</strong>."
 
-#. used in the context of a combo box
 msgid "Select an engine"
 msgstr "Wybierz silnik"
-
-msgid "Select one of the available script engines for executing this script."
-msgstr "Wybierz jeden z dostępnych silników skryptu, aby wykonać ten skrypt."
-
-msgid "Select..."
-msgstr "Wybierz..."
 
 msgid "Show scripting console"
 msgstr "Wyświetl konsolę skryptów"
@@ -572,12 +459,6 @@ msgstr "Wyświetl konsolę skryptów"
 #. icon name
 msgid "Show/hide the scripting console"
 msgstr "Wyświetl/ukryj konsolę skryptów"
-
-msgid "Syntax highlighting is going to be disabled."
-msgstr "Kolorowanie składni zostanie wyłączone."
-
-msgid "The display name of the script. Used in menu entries."
-msgstr "Wyświetlana nazwa skryptu. Używana we wpisach menu."
 
 msgid ""
 "The jar file ''{0}'' doesn''t provide a script engine. The entry ''{1}'' is "
@@ -600,24 +481,6 @@ msgstr ""
 "<strong>Pythonie</strong>. Poniżej można skonfigurować, gdzie mają być "
 "poszukiwane wtyczki oraz które mają być ładowane i uruchamiane przy starcie."
 
-msgid ""
-"The scripting plugin includes an embedded scripting engine for JavaScript "
-"based on Mozilla Rhino. It can load CommonJS modules either from the local "
-"filesystem or from jar/zip files.<br><br>Per default, it loads CommonJS "
-"modules from the directory <strong>/js</strong> in the plugin jar, but you "
-"can add additional directories and jar files.<br><br>Configure them in the "
-"list below."
-msgstr ""
-"Wtyczka skryptów zawiera wbudowany silnik skryptów dla JavaScript bazujący "
-"na Mozilla Rhino. Można załadować moduły CommonJS zarówno z lokalnego "
-"komputera, jak i z plików jar/zip.<br><br>Domyślnie moduły CommonJS ładowane"
-" są z folderu <strong>/js</strong> w pliku jar wtyczki, ale można dodać "
-"dodatkowe foldery i pliki jar.<br><br>Można je skonfigurować na liście "
-"poniżej."
-
-msgid "The unique internal ID used to identify the script."
-msgstr "Unikalne wewnętrzne ID, używane do identyfikowania skryptu."
-
 msgid "URL ''{0}'' doesn''t refer to an existing local directory or jar file"
 msgstr ""
 "URL \"{0}\" nie odwołuje się do istniejącego lokalnego folderu lub pliku jar"
@@ -631,56 +494,6 @@ msgstr "W górę"
 msgid "Version:"
 msgstr "Wersja:"
 
-msgid "Warning: failed to load default mime types from  resource ''{0}''."
-msgstr "Ostrzeżenie: błąd ładowania domyślnych typów MIME z zasobu \"{0}\""
-
-msgid "Warning: failed to load mime types from file ''{0}''."
-msgstr "Ostrzeżenie: błąd ładowania typów MIME z pliku \"{0}\""
-
-msgid "Warning: failed to open resource file ''{0}''"
-msgstr "Ostrzeżenie: nie udało się załadować pliku zasobów \"{0}\""
-
-#. NOTE: might be a legal preferences value for former plugin
-#. versions. No attempt to recover from these values, when this
-#. code goes productive, former preference values are automatically
-#. reset to the current default scripting engine.
-msgid ""
-"Warning: preference with key ''{0}'' consist of an unsupported value. "
-"Expected pattern ''type/id'', got ''{1}''. Assuming default scripting "
-"engine."
-msgstr ""
-"Ostrzeżenie: ustawienie z kluczem ''{0}'' zawiera niewspieraną wartość. "
-"Spodziewany schemat \"typ/id\", otrzymano \"{1}\". Przyjęto domyślny silnik "
-"skryptu."
-
-msgid ""
-"Warning: preference with key ''{0}'' refers to an unsupported JSR223 "
-"compatible  scripting engine with id ''{1}''.  Assuming default scripting "
-"engine."
-msgstr ""
-"Ostrzeżenie: ustawienie z kluczem ''{0}'' odwołuje się do niewspieranego, "
-"zgodnego z JSR223, silnika skryptu o id \"{1}\". Przyjęto domyślny silnik "
-"skryptu."
-
-msgid ""
-"Warning: preference with key ''{0}'' refers to an unsupported embedded "
-"scripting engine with id ''{1}''. Assuming default scripting engine."
-msgstr ""
-"Ostrzeżenie: ustawienie z kluczem ''{0}'' odwołuje się do niewspieranego "
-"wbudowanego silnika skryptu o id \"{1}\". Przyjęto domyślny silnik skryptu."
-
-msgid "Warning: property  ''{0}'' in resource file ''{1}'' not found"
-msgstr ""
-"Ostrzeżenie: właściwość  ''{0}'' w pliku zasobów ''{1}'' nie została "
-"znaleziona"
-
-msgid ""
-"Warning: syntax kit ''{0}'' can''t be loaded. Ignoring mapping for mime type"
-" ''{1}''."
-msgstr ""
-"Ostrzeżenie: zestaw składni ''{0}'' nie może zostać załadowany. Ignorowanie "
-"mapowania dla typu mime ''{1}''."
-
 msgid "cancel"
 msgstr "anuluj"
 
@@ -690,6 +503,7 @@ msgstr "klasa ładowania wtyczki \"{0}\" nie została znaleziona"
 msgid "unknown"
 msgstr "nieznany"
 
+#. used in the context of a combo box
 msgid "{1} (with engine {0})"
 msgstr "{1} (z silnikiem {0})"
 

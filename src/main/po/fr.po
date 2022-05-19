@@ -1,16 +1,17 @@
 # Translations for the JOSM plugin 'scripting' (fr)
-# Copyright (C) 2019 Gubaer
+# Copyright (C) 2022 Gubaer
 # This file is distributed under the same license as the josm-plugin_scripting package.
 # FIRST AUTHOR, YEAR.
 #
 # Translators:
 # Simon Legner, 2019
+# David Georges, 2019
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: josm-plugin_scripting 30795\n"
+"Project-Id-Version: josm-plugin_scripting v0.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-07-09 12:32+0000\n"
+"POT-Creation-Date: 2022-05-19 18:29+0200\n"
 "PO-Revision-Date: 2018-01-17 21:36+0000\n"
 "Language-Team: French (https://www.transifex.com/josm/teams/2544/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -18,6 +19,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+msgid "''{0}'' doesn''t exist."
+msgstr "''{0}'' n'existe pas"
+
+msgid "''{0}'' isn''t a valid URL"
+msgstr "''{0}'' n'est pas une URL valide"
+
+msgid "''{0}'' isn''t an existing jar file"
+msgstr "''{0}'' n'est pas un fichier JAR existant"
 
 msgid "Add"
 msgstr "Ajouter"
@@ -34,6 +44,9 @@ msgstr "Effacer le journal"
 msgid "Close"
 msgstr "Fermer"
 
+msgid "Configure..."
+msgstr "Configuration …"
+
 msgid "Down"
 msgstr "Descendre"
 
@@ -41,12 +54,27 @@ msgstr "Descendre"
 msgid "Edit"
 msgstr "Modifier"
 
+msgid "Execute the script"
+msgstr "Exécuter le script"
+
 #. create the file menu
 msgid "File"
 msgstr "Fichier"
 
-msgid "ID:"
-msgstr "Identifiant :"
+msgid "File not found"
+msgstr "Fichier non trouvé"
+
+msgid "File:"
+msgstr "Fichier:"
+
+msgid "JAR file"
+msgstr "Fichier JAR"
+
+msgid "JAR files"
+msgstr "Fichiers JAR"
+
+msgid "Language:"
+msgstr "Langue :"
 
 msgid "Name:"
 msgstr "Nom :"
@@ -60,8 +88,25 @@ msgstr "État"
 msgid "Remove"
 msgstr "Supprimer"
 
+msgid "Run"
+msgstr "Lancer"
+
+#. title
+#. icon name
+msgid "Run a script"
+msgstr "Lancer un script"
+
+msgid "Run the script"
+msgstr "Lancer le script"
+
+msgid "Run..."
+msgstr "Lancer…"
+
 msgid "Save"
 msgstr "Enregistrer"
+
+msgid "Save as ..."
+msgstr "Enregistrer sous …"
 
 msgid "Up"
 msgstr "Monter"
@@ -69,5 +114,12 @@ msgstr "Monter"
 msgid "Version:"
 msgstr "Version :"
 
+msgid "cancel"
+msgstr "annuler"
+
 msgid "unknown"
 msgstr "inconnu"
+
+#. Plugin description for josm-scripting-plugin
+msgid "Runs scripts in JOSM"
+msgstr "Lancer les scripts dans JOSM"

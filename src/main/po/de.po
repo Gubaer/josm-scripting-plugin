@@ -1,20 +1,22 @@
 # Translations for the JOSM plugin 'scripting' (de)
-# Copyright (C) 2019 Gubaer
+# Copyright (C) 2022 Gubaer
 # This file is distributed under the same license as the josm-plugin_scripting package.
 # FIRST AUTHOR, YEAR.
 #
 # Translators:
 # Ettore Atalan, 2018
 # Florian Schäfer, 2018
-# Gubaer, 2018
 # transger, 2018
 # Simon Legner, 2019
+# fe748ff052bc70ef0fdd62d122a817e2, 2020
+# Markus Maurer, 2020
+# Gubaer, 2022
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: josm-plugin_scripting 30795\n"
+"Project-Id-Version: josm-plugin_scripting v0.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-07-09 12:32+0000\n"
+"POT-Creation-Date: 2022-05-19 18:29+0200\n"
 "PO-Revision-Date: 2018-01-17 21:36+0000\n"
 "Language-Team: German (https://www.transifex.com/josm/teams/2544/de/)\n"
 "MIME-Version: 1.0\n"
@@ -48,6 +50,9 @@ msgstr ""
 msgid "''{0}'' isn''t a valid URL"
 msgstr "''{0}'' ist keine gültige URL"
 
+msgid "''{0}'' isn''t a valid base URL:"
+msgstr "\"{0}\" ist keine gültige Basis-URL"
+
 msgid "''{0}'' isn''t an existing jar file"
 msgstr "''{0'}'' ist keine existierende jar-Datei"
 
@@ -55,13 +60,6 @@ msgid "''{0}'' isn''t readable. Can''t load a script engine from this file."
 msgstr ""
 "''{0}'' kann nicht gelesen werden. Die Ausführungsumgebung kann nicht aus "
 "dieser Datei geladen werden."
-
-msgid ""
-"<p>Failed to execute a script.</p><p/><p><strong>Error "
-"message:</strong>{0}</p>"
-msgstr ""
-"<p>Beim Ausführen des Skripts ist ein Fehler "
-"aufgetreten.</p><p/><p><strong>Fehlermeldung:</strong>{0}</p>"
 
 msgid ""
 "<p>Failed to execute a script.</p><p/><p><strong>Error "
@@ -79,12 +77,21 @@ msgstr ""
 "aufgetreten.</p><p/><p><strong>Fehlermeldung:</strong>{1}</p>"
 
 msgid ""
-"<p>Failed to execute the script file ''{0}''.</p><p/><p><strong>Error "
+"<p>Failed to execute the script file ''{0}''.</p><p><strong>Error "
 "message:</strong>{1}</p><p><strong>At:</strong>line {2}, column {3}</p>"
 msgstr ""
-"<p>Konnte die Skriptdatei ''{0}'' nicht "
-"ausführen.</p><p/><p><strong>Fehlermeldung:</strong>{1}</p><p><strong>In:</strong>"
-" Zeile {2}, Spalte {3}</p>"
+"<p>Bei der Ausführung der Skript-Datei ''{0}'' ist ein Fehler "
+"aufgetreten.</p><p><strong>Fehlermeldung:</strong>{1}</p><p><strong>Position:Zeile"
+" {2}, Spalte {3}</p>"
+
+msgid ""
+"<p>The embedded GraalVM can load <strong>CommonJS modules</strong> with the "
+"function <code>require()</code>. It resolves CommonJS modules in the "
+"directories or jar files configured below.</p>"
+msgstr ""
+"<p>GraalVM kann <strong>CommonJS-Module</strong> mit der "
+"Funktion<code>require()</code> laden. Sie sucht nach CommonJS-Modulen in den"
+" Verzeichnissen und jar-Dateien, die unten aufgeführt sind.</p>"
 
 msgid ""
 "<p>The script can''t be executed, because a scripting engine with name "
@@ -113,9 +120,6 @@ msgstr ""
 "auf der Kommandozeile: <br>java -cp \"josm-jar.jar:/path/to/jython.jar\" "
 "org.openstreetmap.josm.gui.MainApplication"
 
-msgid "Accept script descriptor and close dialog"
-msgstr "Skriptkennzeichner akzeptieren und Dialog schließen"
-
 msgid "Accept the selected scripting engine"
 msgstr "Die ausgewählte Ausführungsumgebung übernehmen"
 
@@ -123,7 +127,7 @@ msgid "Add"
 msgstr "Hinzufügen"
 
 msgid "Add a button for this script script file to the toolbar."
-msgstr ""
+msgstr "Füge ein Button für dieses Skript zur Toolbar hinzu."
 
 msgid "Add a jar file providing a script engine"
 msgstr "Eine jar-Datei hinzufügen, die eine Ausführungsumgebung bereitstellt"
@@ -164,12 +168,6 @@ msgstr[1] "{0} Objekte hinzugefügt"
 msgid "Always on top"
 msgstr "Immer im Vordergrund"
 
-msgid "An error occured in the script."
-msgstr "In dem Skript ist ein Fehler aufgetreten."
-
-msgid "Automatically derive a script engine from the file name."
-msgstr "Wähle eine Ausführungsumgebung, die zu diesem Dateinamen passt."
-
 msgid "Available engines:"
 msgstr "Verfügbare Ausführungsumgebungen:"
 
@@ -179,19 +177,13 @@ msgstr "Verfügbare Ausführungsumgebungen"
 msgid "Cancel"
 msgstr "Abbrechen"
 
-msgid "Cancel and close dialog"
-msgstr "Abbrechen und Dialog schließen"
-
-msgid "Change..."
-msgstr "Ändern…"
+msgid "Change"
+msgstr "Ändern"
 
 msgid "Changed {0} primitive"
 msgid_plural "Changed {0} primitives"
 msgstr[0] "{0} Objekte hinzugefügt"
 msgstr[1] "{0} Objekte geändert"
-
-msgid "Choose a script engine"
-msgstr "Wähle eine Ausführungsumgebung"
 
 msgid "Clear log"
 msgstr "Protokoll leeren"
@@ -204,6 +196,9 @@ msgstr "Schließen"
 
 msgid "Close the scripting console"
 msgstr "Die Skripting-Konsole schließen"
+
+msgid "CommonJS module repositories"
+msgstr "Ablagen für CommonJS-Module"
 
 #. title
 msgid "Configure script engines and scripts"
@@ -226,23 +221,17 @@ msgstr "Einen Pfad anlegen oder editieren"
 msgid "Current file:"
 msgstr "Aktuelle Datei:"
 
-msgid "Define a new script"
-msgstr "Ein neues Skript definieren"
-
 msgid "Deleted {0} primitive"
 msgid_plural "Deleted {0} primitives"
 msgstr[0] "{0} Objekte gelöscht"
 msgstr[1] "{0} Objekte gelöscht"
 
 msgid ""
-"Didn''t find a suitable syntax kit for the script engine "
+"Didn''t find a suitable syntax style for the script engine "
 "<strong>{0}</strong>."
 msgstr ""
-"Konnte keinen passenden Syntax-Kit für die Ausführungsumgebung "
-"<strong>{0}</strong> finden"
-
-msgid "Display name:"
-msgstr "Anzeigename:"
+"Konnte keinen passenden Syntax-Stil für die Ausführungsumgebung "
+"<strong>{0}</strong> finden."
 
 msgid "Down"
 msgstr "Runter"
@@ -254,12 +243,6 @@ msgstr "Ausführungsumgebung herunterladen und installieren"
 msgid "Edit"
 msgstr "Bearbeiten"
 
-msgid "Edit a script"
-msgstr "Ein Skript bearbeiten"
-
-msgid "Embedded Rhino engine"
-msgstr "Eingebettete Ausführungsumgebung Rhino"
-
 msgid "Empty file name"
 msgstr "Leerer Dateiname"
 
@@ -269,15 +252,6 @@ msgstr ""
 
 msgid "Enter the name of a script file"
 msgstr "Geben Sie den Namen der Skript-Datei ein."
-
-msgid "Error: failed to load local map from mime-types to syntax kits"
-msgstr ""
-
-msgid "Error: failed to load resource file ''{0}''"
-msgstr "Fehler: Konnte die Ressourcendatei ''{0}'' nicht laden"
-
-msgid "Error: resource file ''{0}'' not found"
-msgstr "Fehler: Ressourcendatei ''{0}'' nicht gefunden"
 
 msgid "Execute the script"
 msgstr "Skript ausführen"
@@ -296,12 +270,15 @@ msgstr ""
 "Skripts werden mit der eingebauten Ausführungsumgebung <strong>{0}</strong> "
 "in der Sprache <strong>{1}</strong> ausgeführt."
 
-msgid "FATAL: Failed to initialize scripting plugin.\n"
+msgid "FATAL: Failed to initialize scripting plugin"
 msgstr ""
-"SCHWERWIEGEND: Das Scripting Plugin konnte nicht initialisiert werden.\n"
+"SCHWERWIEGEND: Das Scripting-Plugin konnte nicht initialisiert werden."
 
 msgid "Failed to create URL referring to the module repository ''{0}''"
 msgstr "Auf Modul-Ablage ''{0}'' verweisende URL konnte nicht erstellt werden"
+
+msgid "Failed to execute a script."
+msgstr "Ein Skript konnte nicht ausgeführt werden."
 
 msgid "Failed to instantiate plugin ''{0}''."
 msgstr "Das Plugin ''{0}'' konnte nicht instanziiert werden."
@@ -354,14 +331,20 @@ msgstr "Datei nicht lesbar"
 msgid "File:"
 msgstr "Datei:"
 
-msgid "Full local path to the script file"
-msgstr "Vollständiger lokaler Pfad der Skript-Datei"
+#. should not happen. Make sure this method is only invoked
+#. if GraalVM is present. Log a warning and return, don't prompt
+#. the user with an error message.
+msgid "GraalVM not present, can''t run script with GraalVM"
+msgstr ""
+"Die GraalVM ist nicht vorhanden, Skripte können nicht mit der GraalVM "
+"ausgeführt werden."
 
-msgid "Generate a globally unique ID"
-msgstr "Erzeuge eine global eindeutige ID"
-
-msgid "ID:"
-msgstr "ID:"
+msgid ""
+"GraalVM polyglot API isn''t on the class path. Support for GraalVM is "
+"disabled."
+msgstr ""
+"Das Polyglot-API der GraalVM ist nicht auf dem Klassenpfad. Die "
+"Unterstützung für GraalVM ist deaktiviert."
 
 msgid "IO error"
 msgstr "Ein-/Ausgabefehler"
@@ -377,9 +360,6 @@ msgstr "JAR-Dateien"
 
 msgid "JOSM currently supports the following script engines:"
 msgstr "JOSM unterstützt zurzeit folgende Ausführungsumgebungen:"
-
-msgid "Jython engine"
-msgstr "Ausführungsumgebung Jython"
 
 msgid ""
 "Jython interpreter isn''t on the class path. Support for Python plugins is "
@@ -400,13 +380,6 @@ msgstr "Dateiauswahldialog öffnen"
 #. don't translate
 msgid "Launch file selection dialog"
 msgstr "Dialog zur Dateiauswahl öffnen"
-
-msgid ""
-"Loading default map from mime-types to syntax kits from resource ''{0}''"
-msgstr ""
-
-msgid "Loading local map from mime-types to syntax kits from resource ''{0}''"
-msgstr ""
 
 msgid "MIME-Types:"
 msgstr "MIME-Typen:"
@@ -429,9 +402,6 @@ msgstr "Keine Ausführungsumgebung ausgewählt."
 msgid "No syntax kit"
 msgstr "Kein Syntax-Kit"
 
-msgid "No syntax kit is configured for either of the following content types:"
-msgstr "Für die folgenden MIME-Types ist kein Syntax-Kit konfiguriert:"
-
 msgid "OK"
 msgstr "OK"
 
@@ -453,13 +423,8 @@ msgstr ""
 msgid ""
 "Please enter or paste a valid file or jar URL. HTTP URLs are not supported."
 msgstr ""
-
-msgid ""
-"Refer to the online help how to configure syntax kits for specific content "
-"types."
-msgstr ""
-"Lesen Sie in der Online-Hilfe, wie Sie Syntax-Kits für bestimmte "
-"Inhaltstypen konfigurieren."
+"Bitte eine gültige Datei- oder JAR-URL angeben. HTTP URLs werden nicht "
+"unterstützt."
 
 msgid "Remove"
 msgstr "Entfernen"
@@ -467,7 +432,6 @@ msgstr "Entfernen"
 msgid "Remove a path"
 msgstr "Entferne ein Verzeichnis"
 
-#. putValue(Action.NAME, tr("Remove"));
 msgid "Remove a repository"
 msgstr "Entferne eine Ablage"
 
@@ -487,7 +451,7 @@ msgstr "Ein Skript ausführen"
 
 #. Display filename as tooltip instead of generic one
 msgid "Run script ''{0}''"
-msgstr ""
+msgstr "Skript \"{0}\" ausführen"
 
 msgid "Run the script"
 msgstr "Das Skript ausführen"
@@ -507,29 +471,17 @@ msgstr "Speichere das Skript in der aktuellen Datei"
 msgid "Save to a script file"
 msgstr "In eine Skriptdatei speichern"
 
-msgid "Script Engine"
-msgstr "Ausführungsumgebung"
-
-msgid "Script Error"
-msgstr "Skript-Fehler"
-
 msgid "Script engine not found"
 msgstr "Ausführungsumgebung für Skripts nicht gefunden"
 
 msgid "Script engines"
 msgstr "Ausführungsumgebungen"
 
-msgid "Script engines:"
-msgstr "Ausführungsumgebungen:"
-
 msgid "Script execution failed"
 msgstr "Das Ausführen des Skripts schlug fehl"
 
 msgid "Script execution has failed."
 msgstr "Das Ausführen des Skripts ist fehlgeschlagen."
-
-msgid "Script file:"
-msgstr "Skriptdatei:"
 
 #. icon name
 msgid "Scripting"
@@ -543,6 +495,9 @@ msgstr "Skripting: Ein Skript ausführen"
 
 msgid "Scripting: Show/hide scripting console"
 msgstr "Skripting: Skripting-Konsole anzeigen/verstecken"
+
+msgid "Select"
+msgstr "Auswählen"
 
 msgid "Select a directory or a jar file"
 msgstr "Wähle ein Verzeichnis oder eine jar-Datei"
@@ -562,16 +517,8 @@ msgstr "Skriptdatei auswählen"
 msgid "Select a script file and click on <strong>Run</strong>."
 msgstr "Wähle eine Skript-Datei und klicke Ausführen."
 
-#. used in the context of a combo box
 msgid "Select an engine"
 msgstr "Eine Ausführungsumgebung wählen"
-
-msgid "Select one of the available script engines for executing this script."
-msgstr ""
-"Wähle eine der verfügbaren Ausführungsumgebungen, um das Skript auszuführen."
-
-msgid "Select..."
-msgstr "Auswählen…"
 
 msgid "Show scripting console"
 msgstr "Skripting-Konsole anzeigen"
@@ -580,12 +527,6 @@ msgstr "Skripting-Konsole anzeigen"
 #. icon name
 msgid "Show/hide the scripting console"
 msgstr "Die Skripting-Konsole anzeigen/verstecken"
-
-msgid "Syntax highlighting is going to be disabled."
-msgstr "Syntaxhervorhebung wird deaktiviert."
-
-msgid "The display name of the script. Used in menu entries."
-msgstr "Der Anzeigename des Skripts. Wird in Menüeinträgen verwendet."
 
 msgid ""
 "The jar file ''{0}'' doesn''t provide a script engine. The entry ''{1}'' is "
@@ -611,26 +552,6 @@ msgstr ""
 "das Skripting-Plugin lokal installierten Python-Plugins sucht und welche "
 "Python-Plugins geladen und gestartet werden sollen."
 
-msgid ""
-"The scripting plugin includes an embedded scripting engine for JavaScript "
-"based on Mozilla Rhino. It can load CommonJS modules either from the local "
-"filesystem or from jar/zip files.<br><br>Per default, it loads CommonJS "
-"modules from the directory <strong>/js</strong> in the plugin jar, but you "
-"can add additional directories and jar files.<br><br>Configure them in the "
-"list below."
-msgstr ""
-"Das Skripting-Plugin beinhaltet eine eingebettete Ausführungsumgebung für "
-"JavaScript, basierend auf Mozilla Rhino. Es kann CommonJS-Module entweder "
-"vom lokalen Dateisystem oder von jar/zip-Dateien laden.<br><br>Standardmäßig"
-" lädt es CommonJS-Module aus dem Verzeichnis <strong>/js</strong> in der "
-"jar-Datei des Plugins. Aber man kann zusätzliche Verzeichnisse und jar-"
-"Dateien hinzufügen.<br><br>Konfiguriere die Orte in der Liste unten."
-
-msgid "The unique internal ID used to identify the script."
-msgstr ""
-"Die eindeutige interne ID, die verwendet wird, um das Skript zu "
-"identifizieren."
-
 msgid "URL ''{0}'' doesn''t refer to an existing local directory or jar file"
 msgstr ""
 "Die URL ''{0}'' verweist nicht auf ein lokales Verzeichnis oder eine lokale "
@@ -645,64 +566,16 @@ msgstr "Hoch"
 msgid "Version:"
 msgstr "Version:"
 
-msgid "Warning: failed to load default mime types from  resource ''{0}''."
-msgstr ""
-"Warnung: Konnte die Standard-MIME-Typen nicht aus der internen Ressource "
-"''{0}'' laden."
-
-msgid "Warning: failed to load mime types from file ''{0}''."
-msgstr "Warnung: Konnte keine MIME-Typen aus der Datei ''{0}'' laden."
-
-msgid "Warning: failed to open resource file ''{0}''"
-msgstr "Warnung: Konnte die interne Ressourcendatei ''{0}'' nicht öffnen"
-
-#. NOTE: might be a legal preferences value for former plugin
-#. versions. No attempt to recover from these values, when this
-#. code goes productive, former preference values are automatically
-#. reset to the current default scripting engine.
-msgid ""
-"Warning: preference with key ''{0}'' consist of an unsupported value. "
-"Expected pattern ''type/id'', got ''{1}''. Assuming default scripting "
-"engine."
-msgstr ""
-
-msgid ""
-"Warning: preference with key ''{0}'' refers to an unsupported JSR223 "
-"compatible  scripting engine with id ''{1}''.  Assuming default scripting "
-"engine."
-msgstr ""
-"Warnung: Die Einstellung mit dem Schlüssel ''{0}'' bezeichnet eine mit "
-"JSR223 kompatible, hier nicht unterstützte Ausführungsumgebung ''{1}''. Die "
-"Standard-Ausführungsumgebung wird stattdessen genutzt."
-
-msgid ""
-"Warning: preference with key ''{0}'' refers to an unsupported embedded "
-"scripting engine with id ''{1}''. Assuming default scripting engine."
-msgstr ""
-"Warnung: Einstellung mit Schlüssel ''{0}'' verweist auf eine nicht "
-"unterstützte eingebettete Ausführungsumgebung mit ID ''{1}''.  Verwende "
-"stattdessen die Standard-Ausführungsumgebung."
-
-msgid "Warning: property  ''{0}'' in resource file ''{1}'' not found"
-msgstr ""
-"Warnung: Eigenschaft ''{0}'' wurde in Ressourcendatei ''{1}'' nicht gefunden"
-
-msgid ""
-"Warning: syntax kit ''{0}'' can''t be loaded. Ignoring mapping for mime type"
-" ''{1}''."
-msgstr ""
-"Warnung: Der Syntax-Kit ''{0}'' kann nicht geladen werden. Die konfigurierte"
-" Sprachunterstützung für den MIME-Type ''{1}'' wird ignoriert."
-
 msgid "cancel"
 msgstr "abbrechen"
 
 msgid "plugin class loader for plugin ''{0}'' not found"
-msgstr ""
+msgstr "Erweiterung Klassenlader für Erweiterung ''{0}'' nicht gefunden"
 
 msgid "unknown"
 msgstr "unbekannt"
 
+#. used in the context of a combo box
 msgid "{1} (with engine {0})"
 msgstr "{1} (mit Ausführungsumgebung {0})"
 

@@ -1,5 +1,5 @@
 # Translations for the JOSM plugin 'scripting' (ru)
-# Copyright (C) 2019 Gubaer
+# Copyright (C) 2022 Gubaer
 # This file is distributed under the same license as the josm-plugin_scripting package.
 # FIRST AUTHOR, YEAR.
 #
@@ -7,12 +7,13 @@
 # Florian Schäfer, 2018
 # Aleksey Kabanov, 2018
 # Simon Legner, 2019
+# Artem.ru, 2021
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: josm-plugin_scripting 30795\n"
+"Project-Id-Version: josm-plugin_scripting v0.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-07-09 12:32+0000\n"
+"POT-Creation-Date: 2022-05-19 18:29+0200\n"
 "PO-Revision-Date: 2018-01-17 21:36+0000\n"
 "Language-Team: Russian (https://www.transifex.com/josm/teams/2544/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -46,13 +47,6 @@ msgstr ""
 
 msgid ""
 "<p>Failed to execute a script.</p><p/><p><strong>Error "
-"message:</strong>{0}</p>"
-msgstr ""
-"<p>Не удалось выполнить скрипт.</p><p/><p><strong>Сообщение об "
-"ошибке:</strong>{0}</p>"
-
-msgid ""
-"<p>Failed to execute a script.</p><p/><p><strong>Error "
 "message:</strong>{0}</p><p><strong>At:</strong>line {1}, column {2}</p>"
 msgstr ""
 "<p>Не удалось выполнить скрипт.</p><p/><p><strong>Сообщение об "
@@ -64,13 +58,6 @@ msgid ""
 msgstr ""
 "<p>Не удалось выполнить файл скрипта ''{0}''.</p><p/><p><strong>Сообщение об"
 " ошибке:</strong>{1}</p>"
-
-msgid ""
-"<p>Failed to execute the script file ''{0}''.</p><p/><p><strong>Error "
-"message:</strong>{1}</p><p><strong>At:</strong>line {2}, column {3}</p>"
-msgstr ""
-"<p>Не удалось выполнить файл скрипта ''{0}''.</p><p/><p><strong>Сообщение об"
-" ошибке:</strong>{1}</p><p><strong>В:</strong>строке {2}, столбце {3}</p>"
 
 msgid ""
 "<p>The script can''t be executed, because a scripting engine with name "
@@ -113,9 +100,6 @@ msgstr[3] "Добавлено {0} примитива"
 msgid "Always on top"
 msgstr "Всегда наверху"
 
-msgid "An error occured in the script."
-msgstr "Произошла ошибка в скрипте."
-
 msgid "Available engines:"
 msgstr "Доступные движки:"
 
@@ -124,12 +108,6 @@ msgstr "Доступные движки скриптов"
 
 msgid "Cancel"
 msgstr "Отмена"
-
-msgid "Cancel and close dialog"
-msgstr "Отменить и закрыть диалог"
-
-msgid "Change..."
-msgstr "Изменить..."
 
 msgid "Changed {0} primitive"
 msgid_plural "Changed {0} primitives"
@@ -172,9 +150,6 @@ msgstr[1] "Удалены {0} примитива"
 msgstr[2] "Удалено {0} примитивов"
 msgstr[3] "Удалено {0} примитива"
 
-msgid "Display name:"
-msgstr "Отображаемое имя:"
-
 msgid "Down"
 msgstr "Вниз"
 
@@ -185,29 +160,14 @@ msgstr "Скачать и установить движок скриптов"
 msgid "Edit"
 msgstr "Правка"
 
-msgid "Edit a script"
-msgstr "Изменить скрипт"
-
-msgid "Embedded Rhino engine"
-msgstr "Встроенный движок Rhino"
-
 msgid "Empty file name"
 msgstr "Пустое имя файла"
 
 msgid "Enter the name of a script file"
 msgstr "Введите имя файла скрипта"
 
-msgid "Error: failed to load resource file ''{0}''"
-msgstr "Ошибка: не удалось загрузить файл ресурсов ''{0}''"
-
-msgid "Error: resource file ''{0}'' not found"
-msgstr "Ошибка: файл ресурсов ''{0}'' не найден"
-
 msgid "Execute the script"
 msgstr "Выполнить скрипт"
-
-msgid "FATAL: Failed to initialize scripting plugin.\n"
-msgstr "ФАТАЛЬНАЯ ОШИБКА: не удалось инициализировать модуль scripting.\n"
 
 msgid "Failed to load file ''{0}''."
 msgstr "Не удалось загрузить файл ''{0}''."
@@ -247,15 +207,6 @@ msgstr "Файл не читается"
 msgid "File:"
 msgstr "Файл:"
 
-msgid "Full local path to the script file"
-msgstr "Полный локальный путь к файлу скрипта"
-
-msgid "Generate a globally unique ID"
-msgstr "Генерировать глобально уникальный ID"
-
-msgid "ID:"
-msgstr "ID:"
-
 msgid "IO error"
 msgstr "Ошибка ввода/вывода"
 
@@ -267,9 +218,6 @@ msgstr "JAR-файл"
 
 msgid "JAR files"
 msgstr "JAR-файлы"
-
-msgid "Jython engine"
-msgstr "Движок Jython"
 
 msgid "Language version:"
 msgstr "Версия языка:"
@@ -321,7 +269,6 @@ msgstr "Удалить"
 msgid "Remove a path"
 msgstr "Удалить путь"
 
-#. putValue(Action.NAME, tr("Remove"));
 msgid "Remove a repository"
 msgstr "Удалить репозиторий"
 
@@ -357,14 +304,8 @@ msgstr "Сохранить скрипт в текущий файл"
 msgid "Save to a script file"
 msgstr "Сохранить в файл скрипта"
 
-msgid "Script Error"
-msgstr "Ошибка скрипта"
-
 msgid "Script engines"
 msgstr "Скриптовые движки"
-
-msgid "Script file:"
-msgstr "Файл скрипта:"
 
 #. icon name
 msgid "Scripting"
@@ -391,32 +332,19 @@ msgstr "Выберите файл скрипта"
 msgid "Select a script file and click on <strong>Run</strong>."
 msgstr "Выберите файл скрипта и нажмите <strong>Выполнить</strong>."
 
-#. used in the context of a combo box
 msgid "Select an engine"
 msgstr "Выберите движок"
-
-msgid "Select..."
-msgstr "Выбрать..."
 
 #. title
 #. icon name
 msgid "Show/hide the scripting console"
 msgstr "Показать/скрыть консоль модуля scripting"
 
-msgid "Syntax highlighting is going to be disabled."
-msgstr "Синтаксическая подсветка будет отключена"
-
-msgid "The display name of the script. Used in menu entries."
-msgstr "Отображаемое имя скрипта. Используется в пунктах меню."
-
 msgid "The script file ''{0}'' doesn''t exist."
 msgstr "Файл скрипта ''{0}'' не существует."
 
 msgid "The script file ''{0}'' isn''t readable."
 msgstr "Файл скрипта ''{0}'' не читается."
-
-msgid "The unique internal ID used to identify the script."
-msgstr "Уникальный внутренний идентификатор скрипта."
 
 msgid "URL ''{0}'' doesn''t refer to an existing local directory or jar file"
 msgstr ""
@@ -431,19 +359,8 @@ msgstr "Вверх"
 msgid "Version:"
 msgstr "Версия:"
 
-msgid "Warning: failed to load default mime types from  resource ''{0}''."
-msgstr ""
-"Предупреждение: не удалось загрузить mime-типы по умолчанию из ресурса "
-"''{0}''."
-
-msgid "Warning: failed to load mime types from file ''{0}''."
-msgstr "Предупреждение: не удалось загрузить mime-типы из файла ''{0}''."
-
-msgid "Warning: failed to open resource file ''{0}''"
-msgstr "Предупреждение: не удалось открыть файл ресурсов ''{0}''"
-
-msgid "Warning: property  ''{0}'' in resource file ''{1}'' not found"
-msgstr "Предупреждение: свойство ''{0}'' в файле ресурсов ''{1}'' не найдено"
+msgid "cancel"
+msgstr "отмена"
 
 msgid "unknown"
 msgstr "неизвестно"

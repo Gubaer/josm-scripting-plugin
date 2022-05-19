@@ -1,18 +1,18 @@
 # Translations for the JOSM plugin 'scripting' (cs)
-# Copyright (C) 2019 Gubaer
+# Copyright (C) 2022 Gubaer
 # This file is distributed under the same license as the josm-plugin_scripting package.
 # FIRST AUTHOR, YEAR.
 #
 # Translators:
 # Simon Legner, 2018
-# Jiří Podhorecký, 2018
+# trendspotter, 2018
 # Jaroslav Lichtblau, 2019
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: josm-plugin_scripting 30795\n"
+"Project-Id-Version: josm-plugin_scripting v0.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-07-09 12:32+0000\n"
+"POT-Creation-Date: 2022-05-19 18:29+0200\n"
 "PO-Revision-Date: 2018-01-17 21:36+0000\n"
 "Language-Team: Czech (https://www.transifex.com/josm/teams/2544/cs/)\n"
 "MIME-Version: 1.0\n"
@@ -32,9 +32,6 @@ msgstr "''{0}'' není ani existující adresář ani jar soubor"
 
 msgid "''{0}'' isn''t an existing jar file"
 msgstr "''{0}'' není existující soubor jar"
-
-msgid "Accept script descriptor and close dialog"
-msgstr "Přijmout deskriptor skriptu a zavřít dialog"
 
 msgid "Accept the selected scripting engine"
 msgstr "Přijměte vybraný skriptovací engine"
@@ -70,15 +67,6 @@ msgstr "Dostupné skriptovací enginy"
 msgid "Cancel"
 msgstr "Zrušit"
 
-msgid "Cancel and close dialog"
-msgstr "Zrušit a zavřít dialog"
-
-msgid "Change..."
-msgstr "Změnit..."
-
-msgid "Choose a script engine"
-msgstr "Vybrat skriptovací engine"
-
 msgid "Clear log"
 msgstr "Vyčistit protokol"
 
@@ -109,16 +97,6 @@ msgstr "Vytvořit nebo upravit repozitář modulu CommonJS"
 msgid "Create or edit a path"
 msgstr "Vytvořit nebo upravit cestu"
 
-msgid ""
-"Didn''t find a suitable syntax kit for the script engine "
-"<strong>{0}</strong>."
-msgstr ""
-"Nenalezena vhodná syntaktická sada pro skriptovací engine "
-"<strong>{0}</strong>."
-
-msgid "Display name:"
-msgstr "Zobrazovaný název:"
-
 msgid "Down"
 msgstr "Dolu"
 
@@ -129,32 +107,14 @@ msgstr "Stáhnout a instalovat skriptovací engine"
 msgid "Edit"
 msgstr "Upravit"
 
-msgid "Edit a script"
-msgstr "Upravit skript"
-
-msgid "Embedded Rhino engine"
-msgstr "Vložený engine Rhino"
-
 msgid "Empty file name"
 msgstr "Prázdný název souboru"
 
 msgid "Enter the name of a script file"
 msgstr "Zadat název souboru skriptu"
 
-msgid "Error: failed to load local map from mime-types to syntax kits"
-msgstr "Chyba: nelze načíst lokální mapu z typů mime do syntaktických sad"
-
-msgid "Error: failed to load resource file ''{0}''"
-msgstr "Chyba: Nelze načíst soubor prostředků ''{0}''"
-
-msgid "Error: resource file ''{0}'' not found"
-msgstr "Chyba: soubor prostředků ''{0}'' nebyl nalezen"
-
 msgid "Execute the script"
 msgstr "Spustit skript"
-
-msgid "FATAL: Failed to initialize scripting plugin.\n"
-msgstr "FATAL: Nepodařilo se inicializovat plugin pro skriptování\n"
 
 msgid "Failed to instantiate plugin ''{0}''."
 msgstr "Nepodařilo se vytvořit instanci pluginu ''{0}''."
@@ -194,15 +154,6 @@ msgstr "Soubor není čitelný"
 msgid "File:"
 msgstr "Soubor: "
 
-msgid "Full local path to the script file"
-msgstr "Plná místní cesta k souboru skriptu"
-
-msgid "Generate a globally unique ID"
-msgstr "Vytvořit globálně jedinečné ID"
-
-msgid "ID:"
-msgstr "ID:"
-
 msgid "IO error"
 msgstr "IO chyba"
 
@@ -214,9 +165,6 @@ msgstr "JAR soubory"
 
 msgid "JOSM currently supports the following script engines:"
 msgstr "JOSM momentálně podporuje následující skriptovací enginy:"
-
-msgid "Jython engine"
-msgstr "Jython engine"
 
 msgid ""
 "Jython interpreter isn''t on the class path. Support for Python plugins is "
@@ -234,15 +182,6 @@ msgstr "Spustit výběr souborů"
 #. don't translate
 msgid "Launch file selection dialog"
 msgstr "Launch file selection dialog"
-
-msgid ""
-"Loading default map from mime-types to syntax kits from resource ''{0}''"
-msgstr ""
-"Načítání výchozí mapy z typů mime do syntaktických sad z prostředku ''{0}''"
-
-msgid "Loading local map from mime-types to syntax kits from resource ''{0}''"
-msgstr ""
-"Načítání místní mapy z mime-type do syntaktických sad ze zdroje ''{0}''"
 
 msgid "Move the selected path up by one position"
 msgstr "Přesunout vybranou cestu nahoru o jednu pozici"
@@ -262,10 +201,6 @@ msgstr "Nebyl vybrán žádný skriptovací engine."
 msgid "No syntax kit"
 msgstr "Žádná syntaktická sada"
 
-msgid "No syntax kit is configured for either of the following content types:"
-msgstr ""
-"Žádná syntaktická sada není nakonfigurována pro následující typy obsahu:"
-
 msgid "OK"
 msgstr "OK"
 
@@ -278,20 +213,12 @@ msgstr "Otevřít soubor skriptu"
 msgid "Please enter a file name first."
 msgstr "Nejprve zadejte název souboru."
 
-msgid ""
-"Refer to the online help how to configure syntax kits for specific content "
-"types."
-msgstr ""
-"Informace o konfiguraci syntaktických sad pro konkrétní typy obsahu "
-"naleznete v nápovědě online."
-
 msgid "Remove"
 msgstr "Odstranit"
 
 msgid "Remove a path"
 msgstr "Odstranit cestu"
 
-#. putValue(Action.NAME, tr("Remove"));
 msgid "Remove a repository"
 msgstr "Odstranit úložiště"
 
@@ -324,29 +251,17 @@ msgstr "Uložit skript do aktuálního souboru"
 msgid "Save to a script file"
 msgstr "Uložit do souboru skriptu"
 
-msgid "Script Engine"
-msgstr "Skriptovací engine"
-
-msgid "Script Error"
-msgstr "Chyba skriptu"
-
 msgid "Script engine not found"
 msgstr "Skriptovací engine nebyl nalezen"
 
 msgid "Script engines"
 msgstr "Skriptovací enginy"
 
-msgid "Script engines:"
-msgstr "Skriptovací engines:"
-
 msgid "Script execution failed"
 msgstr "Spuštění skriptu se nezdařilo"
 
 msgid "Script execution has failed."
 msgstr "Spuštění skriptu se nezdařilo."
-
-msgid "Script file:"
-msgstr "Soubor skriptu:"
 
 #. icon name
 msgid "Scripting"
@@ -373,13 +288,6 @@ msgstr "Vybrat skript"
 msgid "Select a script file"
 msgstr "Vybrat soubor skriptu"
 
-msgid "Select one of the available script engines for executing this script."
-msgstr ""
-"Vyberte jeden z dostupných skriptovacích enginů pro spuštění tohoto skriptu."
-
-msgid "Select..."
-msgstr "Vybrat..."
-
 msgid "Show scripting console"
 msgstr "Zobrazit skriptovací konzoli"
 
@@ -387,12 +295,6 @@ msgstr "Zobrazit skriptovací konzoli"
 #. icon name
 msgid "Show/hide the scripting console"
 msgstr "Zobrazit / skrýt skriptovací konzoli"
-
-msgid "Syntax highlighting is going to be disabled."
-msgstr "Zvýrazněná syntaxe bude zakázána."
-
-msgid "The display name of the script. Used in menu entries."
-msgstr "Zobrazovaný název skriptu. Používá se v položkách nabídky."
 
 msgid ""
 "The jar file ''{0}'' doesn''t provide a script engine. The entry ''{1}'' is "
@@ -415,15 +317,13 @@ msgstr "Nahoru"
 msgid "Version:"
 msgstr "Verzia:"
 
-msgid "Warning: failed to open resource file ''{0}''"
-msgstr "Upozornění: nelze otevřít soubor prostředků ''{0}''"
-
 msgid "cancel"
 msgstr "zrušit"
 
 msgid "unknown"
 msgstr "neznámý"
 
+#. used in the context of a combo box
 msgid "{1} (with engine {0})"
 msgstr "{1} (s enginem {0})"
 

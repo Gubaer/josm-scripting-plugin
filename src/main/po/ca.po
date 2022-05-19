@@ -1,5 +1,5 @@
 # Translations for the JOSM plugin 'scripting' (ca)
-# Copyright (C) 2019 Gubaer
+# Copyright (C) 2022 Gubaer
 # This file is distributed under the same license as the josm-plugin_scripting package.
 # FIRST AUTHOR, YEAR.
 #
@@ -8,9 +8,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: josm-plugin_scripting 30795\n"
+"Project-Id-Version: josm-plugin_scripting v0.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-07-09 12:32+0000\n"
+"POT-Creation-Date: 2022-05-19 18:29+0200\n"
 "PO-Revision-Date: 2018-01-17 21:36+0000\n"
 "Language-Team: Catalan (https://www.transifex.com/josm/teams/2544/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -44,9 +44,6 @@ msgstr "Edita"
 #. create the file menu
 msgid "File"
 msgstr "Fitxer"
-
-msgid "ID:"
-msgstr "ID:"
 
 msgid "Name:"
 msgstr "Nom:"

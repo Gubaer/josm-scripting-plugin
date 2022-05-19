@@ -1,20 +1,20 @@
 # Translations for the JOSM plugin 'scripting' (es)
-# Copyright (C) 2019 Gubaer
+# Copyright (C) 2022 Gubaer
 # This file is distributed under the same license as the josm-plugin_scripting package.
 # FIRST AUTHOR, YEAR.
 #
 # Translators:
 # Daniel Quisbert, 2018
-# jesuslopez, 2018
+# Jesús López, 2018
 # Fundación OpenStreetMap Chile, 2018
-# Jorge Sanz, 2019
 # Simon Legner, 2019
+# Jorge Sanz, 2021
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: josm-plugin_scripting 30795\n"
+"Project-Id-Version: josm-plugin_scripting v0.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-07-09 12:32+0000\n"
+"POT-Creation-Date: 2022-05-19 18:29+0200\n"
 "PO-Revision-Date: 2018-01-17 21:36+0000\n"
 "Language-Team: Spanish (https://www.transifex.com/josm/teams/2544/es/)\n"
 "MIME-Version: 1.0\n"
@@ -47,13 +47,6 @@ msgstr ""
 "archivo."
 
 msgid ""
-"<p>Failed to execute the script file ''{0}''.</p><p/><p><strong>Error "
-"message:</strong>{1}</p><p><strong>At:</strong>line {2}, column {3}</p>"
-msgstr ""
-"<p>Falló al ejecutar el archivo script ''{0}''.</p><p/><p><strong>Mensaje de"
-" error:</strong>{1}</p><p><strong>En:</strong>linea {2}, columna {3}</p>"
-
-msgid ""
 "<strong>Support for python plugins is disabled.</strong><br>The scripting "
 "plugin can load and run plugins written in <strong>Python</strong>. In order"
 " to use this feature the Jython interpreter has to be on the class path when"
@@ -71,14 +64,16 @@ msgstr ""
 "siguiente línea de comando: <br>java -cp \"josm-"
 "jar.jar:/path/to/jython.jar\" org.openstreetmap.josm.gui.MainApplication"
 
-msgid "Accept script descriptor and close dialog"
-msgstr "Aceptar script descriptor y cerrar diálogo"
-
 msgid "Accept the selected scripting engine"
 msgstr "Aceptar el motor de scripting seleccionado"
 
 msgid "Add"
 msgstr "Añadir"
+
+msgid "Add a button for this script script file to the toolbar."
+msgstr ""
+"Agregue un botón para este archivo de secuencia de comandos en la barra de "
+"herramientas."
 
 msgid "Add a jar file providing a script engine"
 msgstr "Añadir un archivo jar que proporciona un motor de script"
@@ -110,9 +105,6 @@ msgstr[1] "Añadidas {0} primitivas"
 msgid "Always on top"
 msgstr "Siempre encima"
 
-msgid "An error occured in the script."
-msgstr "Ocurrió un error en el script "
-
 msgid "Available engines:"
 msgstr "Motores disponibles:"
 
@@ -122,14 +114,10 @@ msgstr "Motores de script disponibles"
 msgid "Cancel"
 msgstr "Cancelar"
 
-msgid "Cancel and close dialog"
-msgstr "Cancelar y cerrar diálogo"
-
-msgid "Change..."
-msgstr "Cambiando..."
-
-msgid "Choose a script engine"
-msgstr "Elija un motor de script"
+msgid "Changed {0} primitive"
+msgid_plural "Changed {0} primitives"
+msgstr[0] "Se cambio la primitiva {0}"
+msgstr[1] "Se cambiaron las primitivas {0}"
 
 msgid "Clear log"
 msgstr "Limpiar registro"
@@ -164,16 +152,10 @@ msgstr "Crear o editar una ruta"
 msgid "Current file:"
 msgstr "Archivo actual:"
 
-msgid "Define a new script"
-msgstr "Definir un nuevo script"
-
 msgid "Deleted {0} primitive"
 msgid_plural "Deleted {0} primitives"
 msgstr[0] "Borrada {0} primitiva"
 msgstr[1] "Borradas {0} primitivas"
-
-msgid "Display name:"
-msgstr "Nombre a mostrar:"
 
 msgid "Down"
 msgstr "Bajar"
@@ -185,20 +167,11 @@ msgstr "Descargar e instalar motor de scripting"
 msgid "Edit"
 msgstr "Editar"
 
-msgid "Edit a script"
-msgstr "Editar un script"
-
 msgid "Empty file name"
 msgstr "Nombre de archivo vacío"
 
 msgid "Enter the name of a script file"
 msgstr "Ingrese el nombre de un archivo script"
-
-msgid "Error: failed to load resource file ''{0}''"
-msgstr "Error: falló al cargar el archivo de recurso ''{0}''"
-
-msgid "Error: resource file ''{0}'' not found"
-msgstr "Error: archivo de recurso ''{0}'' no encontrado"
 
 msgid "Execute the script"
 msgstr "Ejecutar el script"
@@ -225,15 +198,6 @@ msgstr "Archivo no legible"
 msgid "File:"
 msgstr "Archivo:"
 
-msgid "Full local path to the script file"
-msgstr "Ruta local completa al archivo de script"
-
-msgid "Generate a globally unique ID"
-msgstr "Generar un ID único global"
-
-msgid "ID:"
-msgstr "ID:"
-
 msgid "IO error"
 msgstr "IO error"
 
@@ -248,9 +212,6 @@ msgstr "Archivos JAR"
 
 msgid "JOSM currently supports the following script engines:"
 msgstr "JOSM actualmente soporta lo siguientes motores de script:"
-
-msgid "Jython engine"
-msgstr "Motor Jython"
 
 msgid "Language version:"
 msgstr "Versión del lenguaje:"
@@ -332,12 +293,8 @@ msgstr "Seleccionar un script"
 msgid "Select a script file"
 msgstr "Seleccionar un archivo script"
 
-#. used in the context of a combo box
 msgid "Select an engine"
 msgstr "Seleccione un motor"
-
-msgid "Select..."
-msgstr "Seleccionar..."
 
 msgid "Up"
 msgstr "Subir"
@@ -351,6 +308,7 @@ msgstr "Cancelar"
 msgid "unknown"
 msgstr "desconocido"
 
+#. used in the context of a combo box
 msgid "{1} (with engine {0})"
 msgstr "{1} (con motor {0})"
 

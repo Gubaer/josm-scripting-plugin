@@ -1,18 +1,18 @@
 # Translations for the JOSM plugin 'scripting' (uk)
-# Copyright (C) 2019 Gubaer
+# Copyright (C) 2022 Gubaer
 # This file is distributed under the same license as the josm-plugin_scripting package.
 # FIRST AUTHOR, YEAR.
 #
 # Translators:
 # fayçal fatihi, 2018
-# Andrey Golovin, 2018
 # Simon Legner, 2019
+# Andrey Golovin, 2020
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: josm-plugin_scripting 30795\n"
+"Project-Id-Version: josm-plugin_scripting v0.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-07-09 12:32+0000\n"
+"POT-Creation-Date: 2022-05-19 18:29+0200\n"
 "PO-Revision-Date: 2018-01-17 21:36+0000\n"
 "Language-Team: Ukrainian (https://www.transifex.com/josm/teams/2544/uk/)\n"
 "MIME-Version: 1.0\n"
@@ -21,31 +21,200 @@ msgstr ""
 "Language: uk\n"
 "Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);\n"
 
+msgid ""
+"''onLoad()'' for plugin ''{0}'' failed. Plugin isn''t properly initialized."
+msgstr "''onLoad()'' втулку ''{0}'' зазнав збій. Втулок не ініціалізовано."
+
+msgid "''{0}'' doesn''t exist."
+msgstr "''{0}'' не існує."
+
+msgid "''{0}'' is a directory. Expecting a jar file instead."
+msgstr "''{0}'' – тека. Натомість очікувався файл *.jar."
+
+msgid "''{0}'' is neither a ''jar'' nor a ''file'' URL"
+msgstr "''{0}'' а ні файл ''jar'', а ні ''file'' в URL"
+
+msgid "''{0}'' is neither an existing directory nor an existing jar file"
+msgstr "''{0}'' а ні наявна тека, а ні файл *.jar"
+
+msgid "''{0}'' isn''t a valid URL"
+msgstr "''{0}'' помилковий URL"
+
+msgid "''{0}'' isn''t an existing jar file"
+msgstr "''{0}'' відсутній файл *.jar"
+
+msgid "''{0}'' isn''t readable. Can''t load a script engine from this file."
+msgstr "''{0}'' не читається. Неможливо завантажити рушій з цього файлу."
+
+msgid ""
+"<p>Failed to execute a script.</p><p/><p><strong>Error "
+"message:</strong>{0}</p><p><strong>At:</strong>line {1}, column {2}</p>"
+msgstr ""
+"<p>Не вдалося виконати "
+"сценарій.</p><p/><p><strong>Помилка:</strong>{0}</p><p>В:рядок {1}, стовпець"
+" {2}</p>"
+
+msgid ""
+"<p>Failed to execute the script file ''{0}''.</p><p/><p><strong>Error "
+"message:</strong>{1}</p>"
+msgstr ""
+"<p>Не вдалося виконати сценарій "
+"''{0}''.</p><p/><p><strong>Помилка:</strong>{1}</p>"
+
+msgid ""
+"<p>The script can''t be executed, because a scripting engine with name "
+"''{0}'' isn''t configured.</p><p>Refer to the online help for information "
+"about how to install/configure a scripting engine for JOSM.</p>"
+msgstr ""
+"<p>Сценарій не може бути виконаний, через відсутність в налаштуваннях рушія "
+"''{0}''.</p><p>Зверніться до довідки за інформацією про "
+"встановлення/налаштування рушіїв для сценаріїв в JOSM.</p>"
+
+msgid ""
+"<strong>Support for python plugins is disabled.</strong><br>The scripting "
+"plugin can load and run plugins written in <strong>Python</strong>. In order"
+" to use this feature the Jython interpreter has to be on the class path when"
+" you start JOSM. Currently, it isn''t and python plugin support is therefore"
+" disabled.<br><br>Launch JOSM with the following command line: <br>java -cp "
+"\"josm-jar.jar:/path/to/jython.jar\" "
+"org.openstreetmap.josm.gui.MainApplication"
+msgstr ""
+"<strong>Підтримка втулків python відключена.</strong><br>Втулок scripting "
+"може завантажувати та запускати втулки написані на <strong>Python</strong>. "
+"Щоб скористатися цією функцією, інтерпретатор Jython повинен бути вказаний в"
+" шляху класу під час запуску JOSM. Наразі це не так, і підтримку втулків "
+"python відключено.<br><br>Запустіть JOSM за допомогою наступного рядка: "
+"<br>java -cp \"josm-jar.jar:/path/to/jython.jar\" "
+"org.openstreetmap.josm.gui.MainApplication"
+
+msgid "Accept the selected scripting engine"
+msgstr "Застосувати обраний рушій сценаріїв"
+
 msgid "Add"
 msgstr "Додати"
+
+msgid "Add a button for this script script file to the toolbar."
+msgstr "Додати кнопку для файлу цього сценарію на панель інструментів."
+
+msgid "Add a jar file providing a script engine"
+msgstr "Додати файл *.jar, що містить рушій сценаріїв"
+
+msgid ""
+"Add a list of fully qualified names of Python plugin classes the scripting "
+"plugin shall load and install at startup time. <br>Example: "
+"''my_module.MyPlugin'' or ''my_package.my_module.MyPlugin''"
+msgstr ""
+"Додайте повний перелік назв класів втулків Python, які втулок scripting має "
+"завантажувати та встановлювати під час запуску.<br>Наприклад: "
+"''my_module.MyPlugin'' або ''my_package.my_module.MyPlugin''"
+
+msgid "Add a path or jar file"
+msgstr "Додати шлях чи файл *.jar"
+
+msgid "Add a plugin"
+msgstr "Додати втулок"
+
+msgid "Add an additional repository"
+msgstr "Додати додатковий репозиторій"
+
+msgid ""
+"Add directories and/or jar files where the Jython engine shall look for "
+"Python packages or modules."
+msgstr ""
+"Додати теки та/або файли *.jar де рушій Jython має шукати пакунки та модулі "
+"Python."
 
 msgid "Add toolbar button"
 msgstr "Додати кнопку на панель"
 
+msgid "Added {0} primitive"
+msgid_plural "Added {0} primitives"
+msgstr[0] "Додано {0} об’єкт"
+msgstr[1] "Додано {0} об’єкти"
+msgstr[2] "Додано {0} об’єктів"
+msgstr[3] "Додано {0} об’єктів"
+
+msgid "Always on top"
+msgstr "Завжди зверху"
+
+msgid "Available engines:"
+msgstr "Доступні рушії:"
+
+msgid "Available script engines"
+msgstr "Доступні рушії сценаріїв"
+
 msgid "Cancel"
 msgstr "Скасувати"
+
+msgid "Changed {0} primitive"
+msgid_plural "Changed {0} primitives"
+msgstr[0] "Змінено {0} об’єкт"
+msgstr[1] "Змінено {0} об’єкти"
+msgstr[2] "Змінено {0} об’єктів"
+msgstr[3] "Змінено {0} об’єктів"
+
+msgid "Clear log"
+msgstr "Очистити лог"
+
+msgid "Clear the log content"
+msgstr "Очистити вміст логу"
 
 msgid "Close"
 msgstr "Закрити"
 
+msgid "Close the scripting console"
+msgstr "Закрити консоль сценарію"
+
+#. title
+msgid "Configure script engines and scripts"
+msgstr "Налаштування рушія та сценаріїв"
+
+#. title
+#. icon name
+msgid "Configure scripting preferences"
+msgstr "Налаштування параметрів сценаріїв"
+
+msgid "Configure..."
+msgstr "Налаштування…"
+
+msgid "Create or edit a CommonJS module repository"
+msgstr "Створити або змінити репозиторій модуля CommonJS"
+
+msgid "Create or edit a path"
+msgstr "Створити або змінити шлях"
+
+msgid "Current file:"
+msgstr "Поточний файл:"
+
+msgid "Deleted {0} primitive"
+msgid_plural "Deleted {0} primitives"
+msgstr[0] "Вилучено {0} об’єкт"
+msgstr[1] "Вилучено {0} об’єкти"
+msgstr[2] "Вилучено {0} об’єктів"
+msgstr[3] "Вилучено {0} об’єктів"
+
 msgid "Down"
 msgstr "Вниз"
+
+msgid "Download and install scripting engine"
+msgstr "Завантажити та встановити рушій"
 
 #. create the edit menu
 msgid "Edit"
 msgstr "Правити"
 
+msgid "Empty file name"
+msgstr "Не зазначено назву файлу"
+
+msgid "Enter additional JAR files which provide script engines."
+msgstr "Додайте файли JAR, які містять додаткові рушії сценаріїв."
+
+msgid "Enter the name of a script file"
+msgstr "Вкажіть файл сценарію"
+
 #. create the file menu
 msgid "File"
 msgstr "Файл"
-
-msgid "ID:"
-msgstr "Ідентифікатор:"
 
 msgid "OK"
 msgstr "Так"

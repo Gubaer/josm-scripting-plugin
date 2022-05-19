@@ -1,17 +1,18 @@
 # Translations for the JOSM plugin 'scripting' (hu)
-# Copyright (C) 2019 Gubaer
+# Copyright (C) 2022 Gubaer
 # This file is distributed under the same license as the josm-plugin_scripting package.
 # FIRST AUTHOR, YEAR.
 #
 # Translators:
 # Gábor Babos, 2018
 # Simon Legner, 2019
+# misibacsi, 2019
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: josm-plugin_scripting 30795\n"
+"Project-Id-Version: josm-plugin_scripting v0.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-07-09 12:32+0000\n"
+"POT-Creation-Date: 2022-05-19 18:29+0200\n"
 "PO-Revision-Date: 2018-01-17 21:36+0000\n"
 "Language-Team: Hungarian (https://www.transifex.com/josm/teams/2544/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -20,20 +21,59 @@ msgstr ""
 "Language: hu\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+msgid "''{0}'' doesn''t exist."
+msgstr "''{0}'' nem létezik."
+
+msgid "''{0}'' is a directory. Expecting a jar file instead."
+msgstr "''{0}'' egy mappa. Ide létező jar fájl szükséges."
+
+msgid "''{0}'' is neither a ''jar'' nor a ''file'' URL"
+msgstr "''{0}'' sem ''jar'' sem ''fájl'' URL"
+
+msgid "''{0}'' is neither an existing directory nor an existing jar file"
+msgstr "''{0}'' se nem mappa, se nem létező jar fájl"
+
+msgid "''{0}'' isn''t a valid URL"
+msgstr "''{0}'' szabálytalan URL"
+
+msgid "''{0}'' isn''t an existing jar file"
+msgstr "''{0}'' nem létező jar fájl"
+
 msgid "Add"
 msgstr "Hozzáadás"
+
+msgid "Add a path or jar file"
+msgstr "Útvonal vagy jar fájl megadása"
+
+msgid "Add a plugin"
+msgstr "Bővítmény hozzáadása"
 
 msgid "Add toolbar button"
 msgstr "Eszköztár gomb hozzáadása"
 
-msgid "An error occured in the script."
-msgstr "Hiba történt a parancsfájlban."
+msgid "Always on top"
+msgstr "Mindig felül"
 
 msgid "Cancel"
 msgstr "Mégse"
 
+msgid "Clear log"
+msgstr "Napló törlése"
+
+msgid "Clear the log content"
+msgstr "Napló tartalmának törlése"
+
 msgid "Close"
 msgstr "Bezárás"
+
+msgid "Configure..."
+msgstr "Beállítás..."
+
+msgid "Create or edit a path"
+msgstr "Útvonal létrehozása vagy módosítása"
+
+msgid "Current file:"
+msgstr "Aktuális fájl:"
 
 msgid "Down"
 msgstr "Le"
@@ -42,9 +82,23 @@ msgstr "Le"
 msgid "Edit"
 msgstr "Szerkesztés"
 
-msgid "FATAL: Failed to initialize scripting plugin.\n"
-msgstr ""
-"VÉGZETES: nem sikerült a parancsfájl beépülő moduljának inicializálása.\n"
+msgid "Empty file name"
+msgstr "Üres fájlnév"
+
+msgid "Enter the name of a script file"
+msgstr "Parancsfájl nevének megadása"
+
+msgid "Execute the script"
+msgstr "Parancsfájl végrehajtása"
+
+msgid "Failed to load file ''{0}''."
+msgstr "Hiba ''{0}'' fájl betöltésekor"
+
+msgid "Failed to load icon ''{0}''"
+msgstr "Hiba ''{0}'' ikon betöltésekor"
+
+msgid "Failed to load icon ''{0}/{1}''"
+msgstr "Hiba ''{0}/{1}'' ikon betöltésekor"
 
 msgid "Failed to read the script from file ''{0}''."
 msgstr "Nem sikerült a parancsfájlt kiolvasni a következő fájlból: „{0}”"
@@ -52,12 +106,33 @@ msgstr "Nem sikerült a parancsfájlt kiolvasni a következő fájlból: „{0}�
 msgid "Failed to read the script from the file ''{0}''."
 msgstr "Nem sikerült kiolvasni a parancsfájlt ebből a fájlból: „{0}”."
 
+msgid "Failed to save file ''{0}''."
+msgstr "Hiba ''{0}'' fájl mentésekor"
+
 #. create the file menu
 msgid "File"
 msgstr "Fájl"
 
-msgid "ID:"
-msgstr "Azonosító:"
+msgid "File not found"
+msgstr "A fájl nem található"
+
+msgid "File not readable"
+msgstr "A fájl nem olvasható"
+
+msgid "File:"
+msgstr "Fájl:"
+
+msgid "IO error"
+msgstr "I/O hiba"
+
+msgid "JAR file"
+msgstr "JAR fájl"
+
+msgid "JAR files"
+msgstr "JAR fájl"
+
+msgid "Name:"
+msgstr "Név:"
 
 msgid "OK"
 msgstr "OK"
@@ -65,19 +140,50 @@ msgstr "OK"
 msgid "Open"
 msgstr "Megnyit"
 
+msgid "Open a script file"
+msgstr "Parancsfájl megnyitása."
+
+msgid "Please enter a file name first."
+msgstr "Előbb fájlnevet kell megadni."
+
 msgid "Remove"
 msgstr "Eltávolítás"
+
+msgid "Remove selected plugins"
+msgstr "Kijelölt bővítmények eltávolítása"
+
+msgid "Remove the selected jar files"
+msgstr "Kijelölt jar fájlok eltávolítása"
+
+msgid "Run"
+msgstr "Futtat"
 
 #. title
 #. icon name
 msgid "Run a script"
 msgstr "Parancsfájl futtatása"
 
+#. Display filename as tooltip instead of generic one
+msgid "Run script ''{0}''"
+msgstr "''{0}'' parancsfájl futtatása"
+
+msgid "Run the script"
+msgstr "Parancsfájl futtatása"
+
+msgid "Run..."
+msgstr "Futtat..."
+
 msgid "Save"
 msgstr "Mentés"
 
-msgid "Script Error"
-msgstr "Parancsfájlhiba"
+msgid "Save as ..."
+msgstr "Mentés másként…"
+
+msgid "Save script to current file"
+msgstr "Parancsfájl mentése az aktuális fájlba"
+
+msgid "Save to a script file"
+msgstr "Parancsfájlba mentés"
 
 msgid "Script engine not found"
 msgstr "Nem található parancsfájl-végrehajtó"
@@ -92,6 +198,32 @@ msgstr "A parancsfájl végrehajtása sikertelen."
 msgid "Scripting"
 msgstr "Parancsfájlkezelés"
 
+msgid "Scripting Console"
+msgstr "Parancskonzol"
+
+msgid "Select a directory or a jar file"
+msgstr "Mappa vagy jar fájl kiválasztása"
+
+msgid "Select a directory or jar/zip file"
+msgstr "Mappa vagy jar/zip fájl kiválasztása"
+
+msgid "Select a jar file"
+msgstr "Jar fájl kijelölése"
+
+msgid "Select a script"
+msgstr "Parancsfájl kijelölése"
+
+msgid "Select a script file"
+msgstr "Parancsfájl kijelölése"
+
+msgid "Show scripting console"
+msgstr "Parancskonzol mutatása"
+
+#. title
+#. icon name
+msgid "Show/hide the scripting console"
+msgstr "Parancskonzol mutatása/elrejtése"
+
 msgid "The script file ''{0}'' doesn''t exist."
 msgstr "Nem létezik ez a parancsfájl: „{0}”."
 
@@ -104,5 +236,12 @@ msgstr "Fel"
 msgid "Version:"
 msgstr "Verzió:"
 
+msgid "cancel"
+msgstr "mégse"
+
 msgid "unknown"
 msgstr "ismeretlen"
+
+#. Plugin description for josm-scripting-plugin
+msgid "Runs scripts in JOSM"
+msgstr "Parancsfájlok futtatása JOSM-ben"

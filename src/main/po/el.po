@@ -1,5 +1,5 @@
 # Translations for the JOSM plugin 'scripting' (el)
-# Copyright (C) 2019 Gubaer
+# Copyright (C) 2022 Gubaer
 # This file is distributed under the same license as the josm-plugin_scripting package.
 # FIRST AUTHOR, YEAR.
 #
@@ -9,9 +9,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: josm-plugin_scripting 30795\n"
+"Project-Id-Version: josm-plugin_scripting v0.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-07-09 12:32+0000\n"
+"POT-Creation-Date: 2022-05-19 18:29+0200\n"
 "PO-Revision-Date: 2018-01-17 21:36+0000\n"
 "Language-Team: Greek (https://www.transifex.com/josm/teams/2544/el/)\n"
 "MIME-Version: 1.0\n"
@@ -46,13 +46,6 @@ msgstr ""
 
 msgid ""
 "<p>Failed to execute a script.</p><p/><p><strong>Error "
-"message:</strong>{0}</p>"
-msgstr ""
-"<p>Αποτυχία εκτέλεσης ενός σεναρίου.</p><p/><p><strong>Μήνυμα "
-"σφάλματος:</strong>{0}</p>"
-
-msgid ""
-"<p>Failed to execute a script.</p><p/><p><strong>Error "
 "message:</strong>{0}</p><p><strong>At:</strong>line {1}, column {2}</p>"
 msgstr ""
 "<p>Αποτυχία εκτέλεσης ενός σεναρίου.</p><p/><p><strong>Μήνυμα "
@@ -66,14 +59,6 @@ msgstr ""
 " σφάλματος:</strong>{1}</p>"
 
 msgid ""
-"<p>Failed to execute the script file ''{0}''.</p><p/><p><strong>Error "
-"message:</strong>{1}</p><p><strong>At:</strong>line {2}, column {3}</p>"
-msgstr ""
-"<p>Αποτυχία εκτέλεσης του αρχείου σεναρίου ''{0}''.</p><p/><p><strong>Μήνυμα"
-" σφάλματος:</strong>{1}</p><p><strong>Στην:</strong>γραμμή {2}, στήλη "
-"{3}</p>"
-
-msgid ""
 "<p>The script can''t be executed, because a scripting engine with name "
 "''{0}'' isn''t configured.</p><p>Refer to the online help for information "
 "about how to install/configure a scripting engine for JOSM.</p>"
@@ -82,9 +67,6 @@ msgstr ""
 "'{0}' δεν έχει διαμορφωθεί.</p><p>Ανατρέξτε στην βοήθεια σε σύνδεση για "
 "πληροφορίες σχετικά με τον τρόπο εγκατάστασης/ρύθμισης μιας μηχανής σεναρίου"
 " για το JOSM.</p>"
-
-msgid "Accept script descriptor and close dialog"
-msgstr "Αποδοχή της περιγραφής σεναρίου και κλείσιμο του διαλόγου"
 
 msgid "Accept the selected scripting engine"
 msgstr "Αποδοχή της επιλεγμένης μηχανής σεναρίου"
@@ -107,12 +89,6 @@ msgstr "Προσθέστε το κουμπί της γραμμής εργαλε�
 msgid "Always on top"
 msgstr "Πάντα στην κορυφή"
 
-msgid "An error occured in the script."
-msgstr "Παρουσιάστηκε σφάλμα στο σενάριο."
-
-msgid "Automatically derive a script engine from the file name."
-msgstr "Αυτόματη εξαγωγή μιας μηχανής σεναρίου από το όνομα του αρχείου."
-
 msgid "Available engines:"
 msgstr "Διαθέσιμες μηχανές:"
 
@@ -121,15 +97,6 @@ msgstr "Διαθέσιμες μηχανές κειμένου"
 
 msgid "Cancel"
 msgstr "Ακύρωση"
-
-msgid "Cancel and close dialog"
-msgstr "Ακύρωση και κλείσιμο διαλόγου"
-
-msgid "Change..."
-msgstr "Αλλαγή..."
-
-msgid "Choose a script engine"
-msgstr "Επιλογή μηχανής σεναρίου"
 
 msgid "Clear log"
 msgstr "Διαγραφή αρχείου καταγραφής"
@@ -161,12 +128,6 @@ msgstr "Δημιουργία ή επεξεργασία μιας διαδρομή
 msgid "Current file:"
 msgstr "Τρέχον αρχείο:"
 
-msgid "Define a new script"
-msgstr "Ορίστε ένα νέο σενάριο"
-
-msgid "Display name:"
-msgstr "Εμφάνιση ονόματος:"
-
 msgid "Down"
 msgstr "Κάτω"
 
@@ -177,12 +138,6 @@ msgstr "Λήψη και εγκατάσταση μιας μηχανής σενα�
 msgid "Edit"
 msgstr "Επεξεργασία"
 
-msgid "Edit a script"
-msgstr "Επεξεργασία ενός σεναρίου"
-
-msgid "Embedded Rhino engine"
-msgstr "Ενσωματωμένη μηχανή Rhino"
-
 msgid "Empty file name"
 msgstr "Κενό όνομα αρχείου"
 
@@ -191,12 +146,6 @@ msgstr "Εισαγάγετε πρόσθετα αρχεία JAR που παρέχ
 
 msgid "Enter the name of a script file"
 msgstr "Καταχώρηση του ονόματος ενός αρχείου σεναρίου"
-
-msgid "Error: failed to load resource file ''{0}''"
-msgstr "Σφάλμα: απέτυχε η φόρτωση του αρχείου πόρων ''{0}''"
-
-msgid "Error: resource file ''{0}'' not found"
-msgstr "Σφάλμα: το αρχείο πόρων ''{0}'' δεν βρέθηκε"
 
 msgid "Execute the script"
 msgstr "Εκτέλεση του σεναρίου"
@@ -214,9 +163,6 @@ msgid ""
 msgstr ""
 "Εκτελώντας σεναρίων με την ενσωματωμένη μηχανή σεναρίων για τη γλώσσα "
 "<strong>{0}</strong> βασισμένο στο <strong>{1}</strong>."
-
-msgid "FATAL: Failed to initialize scripting plugin.\n"
-msgstr "ΚΡΙΣΙΜΟ: Αδύνατη η αρχικοποίηση του πρόσθετου σεναρίου.\n"
 
 msgid "Failed to create URL referring to the module repository ''{0}''"
 msgstr ""
@@ -267,15 +213,6 @@ msgstr "Το αρχείο δεν είναι αναγνώσιμο"
 msgid "File:"
 msgstr "Αρχείο:"
 
-msgid "Full local path to the script file"
-msgstr "Πλήρης τοπική διαδρομή προς το αρχείο σεναρίου"
-
-msgid "Generate a globally unique ID"
-msgstr "Δημιουργία μιας παγκοσμίως μοναδική ταυτότητα"
-
-msgid "ID:"
-msgstr "Αναγνωριστικό:"
-
 msgid "IO error"
 msgstr "Σφάλμα IO"
 
@@ -290,9 +227,6 @@ msgstr "Αρχεία JAR"
 
 msgid "JOSM currently supports the following script engines:"
 msgstr "Το JOSM υποστηρίζει προς το παρόν τις ακόλουθες μηχανές σεναρίων:"
-
-msgid "Jython engine"
-msgstr "Μηχανή Jython"
 
 msgid "Language version:"
 msgstr "Έκδοση γλώσσας:"
@@ -352,7 +286,6 @@ msgstr "Αφαίρεση"
 msgid "Remove a path"
 msgstr "Αφαίρεση μιας διαδρομής"
 
-#. putValue(Action.NAME, tr("Remove"));
 msgid "Remove a repository"
 msgstr "Αφαίρεση μιας αποθήκης"
 
@@ -388,29 +321,17 @@ msgstr "Αποθήκευση σεναρίου στο τρέχον αρχείο"
 msgid "Save to a script file"
 msgstr "Αποθήκευση στο αρχείο σεναρίου"
 
-msgid "Script Engine"
-msgstr "Μηχανή Σεναρίου"
-
-msgid "Script Error"
-msgstr "Σφάλμα Σεναρίου"
-
 msgid "Script engine not found"
 msgstr "Η μηχανή σεναρίου δεν βρέθηκε"
 
 msgid "Script engines"
 msgstr "Μηχανές σεναρίου"
 
-msgid "Script engines:"
-msgstr "Μηχανές σεναρίου:"
-
 msgid "Script execution failed"
 msgstr "Αποτυχία εκτέλεσης σεναρίου"
 
 msgid "Script execution has failed."
 msgstr "Η εκτέλεση σεναρίου απέτυχε"
-
-msgid "Script file:"
-msgstr "Αρχείο σεναρίου:"
 
 #. icon name
 msgid "Scripting"
@@ -442,17 +363,8 @@ msgstr ""
 "Επιλογή ενός αρχείου σεναρίου και κάντε κλικ στο <strong> Εκτέλεση "
 "</strong>."
 
-#. used in the context of a combo box
 msgid "Select an engine"
 msgstr "Επιλογή μιας μηχανής"
-
-msgid "Select one of the available script engines for executing this script."
-msgstr ""
-"Επιλογή μιας από τις διαθέσιμες μηχανές σεναρίου για την εκτέλεση αυτού του "
-"σεναρίου."
-
-msgid "Select..."
-msgstr "Επιλογή..."
 
 msgid "Show scripting console"
 msgstr "Εμφάνιση κονσόλας σεναρίων"
@@ -461,11 +373,6 @@ msgstr "Εμφάνιση κονσόλας σεναρίων"
 #. icon name
 msgid "Show/hide the scripting console"
 msgstr "Εμφάνιση/απόκρυψη της κονσόλας σεναρίων"
-
-msgid "The display name of the script. Used in menu entries."
-msgstr ""
-"Το εμφανιζόμενο όνομα του σεναρίου. Χρησιμοποιείται στις καταχωρήσεις του "
-"μενού."
 
 msgid ""
 "The jar file ''{0}'' doesn''t provide a script engine. The entry ''{1}'' is "
@@ -491,27 +398,6 @@ msgstr ""
 "τοπικά αναπτυγμένα πρόσθετα και ποια πρόσθετα θα πρέπει να φορτωθούν και να "
 "ξεκινήσουν κατά την εκκίνηση."
 
-msgid ""
-"The scripting plugin includes an embedded scripting engine for JavaScript "
-"based on Mozilla Rhino. It can load CommonJS modules either from the local "
-"filesystem or from jar/zip files.<br><br>Per default, it loads CommonJS "
-"modules from the directory <strong>/js</strong> in the plugin jar, but you "
-"can add additional directories and jar files.<br><br>Configure them in the "
-"list below."
-msgstr ""
-"Το πρόσθετο σεναρίων περιλαμβάνει μία ενσωματωμένη μηχανή σεναρίων για "
-"JavaScript που βασίζεται στον Mozilla Rhino. Μπορεί να φορτώσει μονάδες "
-"CommonJS είτε από το τοπικό σύστημα αρχείων είτε από αρχεία jar/zip. "
-"<br><br>Κατά προεπιλογή, φορτώνει μονάδες CommonJS από τον "
-"κατάλογο<strong>/js</strong>στο πρόσθετο jar, αλλά μπορείτε να προσθέσετε "
-"επιπλέον καταλόγους και αρχεία jar. <br><br> Οι ρυθμίσεις τους στη λίστα "
-"παρακάτω."
-
-msgid "The unique internal ID used to identify the script."
-msgstr ""
-"Η μοναδική εσωτερική τευτότητα χρησιμοποιείται για την αναγνώριση του "
-"σεναρίου."
-
 msgid "URL ''{0}'' doesn''t refer to an existing local directory or jar file"
 msgstr ""
 "Η διεύθυνση ''{0}'' δεν αναφέρεται σε υπάρχοντα τοπικό κατάλογο ή αρχείο jar"
@@ -525,49 +411,13 @@ msgstr "Πάνω"
 msgid "Version:"
 msgstr "Εκδόσεις:"
 
-msgid "Warning: failed to open resource file ''{0}''"
-msgstr "Προειδοποίηση: αποτυχία ανοίγματος του αρχείου πόρων ''{0}''"
-
-#. NOTE: might be a legal preferences value for former plugin
-#. versions. No attempt to recover from these values, when this
-#. code goes productive, former preference values are automatically
-#. reset to the current default scripting engine.
-msgid ""
-"Warning: preference with key ''{0}'' consist of an unsupported value. "
-"Expected pattern ''type/id'', got ''{1}''. Assuming default scripting "
-"engine."
-msgstr ""
-"Προειδοποίηση: η προτίμηση με το κλειδί ''{0}'' αποτελείται από μια μη "
-"υποστηριζόμενη τιμή. Το αναμενόμενο μοτίβο ''type/id'', πήρε ''{1}''. "
-"Υποθέτοντας τον προεπιλεγμένο μηχανισμό σεναρίων."
-
-msgid ""
-"Warning: preference with key ''{0}'' refers to an unsupported JSR223 "
-"compatible  scripting engine with id ''{1}''.  Assuming default scripting "
-"engine."
-msgstr ""
-"Προειδοποίηση: η προτίμηση με το κλειδί ''{0}'' αναφέρεται σε μη "
-"υποστηριζόμενη συμβατή με το JSR223 μηχανή σεναρίου με ταυτότητα ''{1}''. "
-"Υποθέτοντας τον προεπιλεγμένο μηχανισμό σεναρίων."
-
-msgid ""
-"Warning: preference with key ''{0}'' refers to an unsupported embedded "
-"scripting engine with id ''{1}''. Assuming default scripting engine."
-msgstr ""
-"Προειδοποίηση: η προτίμηση με το κλειδί ''{0}'' αναφέρεται σε μη "
-"υποστηριζόμενη ενσωματωμένη μηχανή σεναρίου με ταυτότητα ''{1}''. "
-"Υποθέτοντας τον προεπιλεγμένο μηχανισμό σεναρίων."
-
-msgid "Warning: property  ''{0}'' in resource file ''{1}'' not found"
-msgstr ""
-"Προειδοποίηση: η ιδιότητα ''{0}'' στο αρχείο πόρων ''{1}'' δεν βρέθηκε"
-
 msgid "cancel"
 msgstr "ακύρωση"
 
 msgid "unknown"
 msgstr "άγνωστο"
 
+#. used in the context of a combo box
 msgid "{1} (with engine {0})"
 msgstr "{1} (με μηχανή {0})"
 

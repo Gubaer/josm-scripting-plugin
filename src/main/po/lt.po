@@ -1,5 +1,5 @@
 # Translations for the JOSM plugin 'scripting' (lt)
-# Copyright (C) 2019 Gubaer
+# Copyright (C) 2022 Gubaer
 # This file is distributed under the same license as the josm-plugin_scripting package.
 # FIRST AUTHOR, YEAR.
 #
@@ -10,9 +10,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: josm-plugin_scripting 30795\n"
+"Project-Id-Version: josm-plugin_scripting v0.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-07-09 12:32+0000\n"
+"POT-Creation-Date: 2022-05-19 18:29+0200\n"
 "PO-Revision-Date: 2018-01-17 21:36+0000\n"
 "Language-Team: Lithuanian (https://www.transifex.com/josm/teams/2544/lt/)\n"
 "MIME-Version: 1.0\n"
@@ -55,9 +55,6 @@ msgstr "Pridėti įrankių juostos mygtuką"
 msgid "Always on top"
 msgstr "Visada viršuje"
 
-msgid "An error occured in the script."
-msgstr "Įvyko klaida scenarijuje."
-
 msgid "Available engines:"
 msgstr "Galimi varikliai:"
 
@@ -66,12 +63,6 @@ msgstr "Galimi scenarijų varikliai"
 
 msgid "Cancel"
 msgstr "Atsisakyti"
-
-msgid "Cancel and close dialog"
-msgstr "Atšaukti ir uždaryti dialogą"
-
-msgid "Change..."
-msgstr "Pakeisti..."
 
 msgid "Clear log"
 msgstr "Išvalyti žurnalą"
@@ -101,9 +92,6 @@ msgstr "Atsiųsti ir įdiegti scenarijaus variklį"
 msgid "Edit"
 msgstr "Taisa"
 
-msgid "Edit a script"
-msgstr "Redaguoti scenarijų"
-
 msgid "Empty file name"
 msgstr "Tuščias failo pavadinimas"
 
@@ -126,15 +114,6 @@ msgstr "Failas neskaitomas"
 msgid "File:"
 msgstr "Failas:"
 
-msgid "Full local path to the script file"
-msgstr "Pilnas kelias iki scenarijaus failo"
-
-msgid "Generate a globally unique ID"
-msgstr "Generuoti visuotiškai unikalų ID"
-
-msgid "ID:"
-msgstr "ID:"
-
 msgid "IO error"
 msgstr "IO klaida"
 
@@ -146,9 +125,6 @@ msgstr "JAR failas"
 
 msgid "JAR files"
 msgstr "JAR failai"
-
-msgid "Jython engine"
-msgstr "Jython variklis"
 
 msgid "Language version:"
 msgstr "Kalbos versija:"
@@ -206,12 +182,6 @@ msgstr "Išsaugoti"
 msgid "Save as ..."
 msgstr "Išsaugoti kaip..."
 
-msgid "Script Engine"
-msgstr "Scenarijaus Variklis"
-
-msgid "Script Error"
-msgstr "Scenarijaus Klaida"
-
 msgid "Select a jar file"
 msgstr "Pasirinkti jar failą"
 
@@ -230,6 +200,7 @@ msgstr "atšaukti"
 msgid "unknown"
 msgstr "nežinoma"
 
+#. used in the context of a combo box
 msgid "{1} (with engine {0})"
 msgstr "{1} (su varikliu {0})"
 

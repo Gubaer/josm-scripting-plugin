@@ -1,17 +1,17 @@
 # Translations for the JOSM plugin 'scripting' (it)
-# Copyright (C) 2019 Gubaer
+# Copyright (C) 2022 Gubaer
 # This file is distributed under the same license as the josm-plugin_scripting package.
 # FIRST AUTHOR, YEAR.
 #
 # Translators:
-# demetrio, 2018
 # Simon Legner, 2019
+# demetrio, 2021
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: josm-plugin_scripting 30795\n"
+"Project-Id-Version: josm-plugin_scripting v0.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-07-09 12:32+0000\n"
+"POT-Creation-Date: 2022-05-19 18:29+0200\n"
 "PO-Revision-Date: 2018-01-17 21:36+0000\n"
 "Language-Team: Italian (https://www.transifex.com/josm/teams/2544/it/)\n"
 "MIME-Version: 1.0\n"
@@ -45,13 +45,6 @@ msgstr ""
 
 msgid ""
 "<p>Failed to execute a script.</p><p/><p><strong>Error "
-"message:</strong>{0}</p>"
-msgstr ""
-"<p>Impossibile eseguire uno script.</p><p/><p><strong>Messaggio di "
-"errore:</strong>{0}</p>"
-
-msgid ""
-"<p>Failed to execute a script.</p><p/><p><strong>Error "
 "message:</strong>{0}</p><p><strong>At:</strong>line {1}, column {2}</p>"
 msgstr ""
 "<p>Impossibile eseguire uno script.</p><p/><p><strong>Messaggio di "
@@ -63,14 +56,6 @@ msgid ""
 msgstr ""
 "<p>Impossibile eseguire il file di script "
 "''{0}''.</p><p/><p><strong>Messaggio di errore:</strong>{1}</p>"
-
-msgid ""
-"<p>Failed to execute the script file ''{0}''.</p><p/><p><strong>Error "
-"message:</strong>{1}</p><p><strong>At:</strong>line {2}, column {3}</p>"
-msgstr ""
-"<p>Impossibile eseguire il file di script "
-"''{0}''.</p><p/><p><strong>Messaggio di "
-"errore:</strong>{1}</p><p><strong>A:</strong>linea {2}, colonna {3}</p>"
 
 msgid "Accept the selected scripting engine"
 msgstr "Accetta il motore di scripting selezionato"
@@ -98,9 +83,6 @@ msgstr[1] "Aggiunte le primitive {0}"
 msgid "Always on top"
 msgstr "Sempre in primo piano"
 
-msgid "An error occured in the script."
-msgstr "È stato generato un errore nello script."
-
 msgid "Available engines:"
 msgstr "Motori disponibili:"
 
@@ -110,19 +92,10 @@ msgstr "Motori di Script disponibili"
 msgid "Cancel"
 msgstr "Annulla"
 
-msgid "Cancel and close dialog"
-msgstr "Annulla e chiudi il dialogo"
-
-msgid "Change..."
-msgstr "Cambia..."
-
 msgid "Changed {0} primitive"
 msgid_plural "Changed {0} primitives"
 msgstr[0] "Modificate la primitiva {0}"
 msgstr[1] "Modificate le primitive {0}"
-
-msgid "Choose a script engine"
-msgstr "Scegliere un motore di script"
 
 msgid "Clear log"
 msgstr "Azzera registro"
@@ -154,16 +127,10 @@ msgstr "Crea o modifica un percorso"
 msgid "Current file:"
 msgstr "File corrente:"
 
-msgid "Define a new script"
-msgstr "Definire uno nuovo script"
-
 msgid "Deleted {0} primitive"
 msgid_plural "Deleted {0} primitives"
 msgstr[0] " Primitiva {0} cancellata"
 msgstr[1] "Primitive {0} cancellate"
-
-msgid "Display name:"
-msgstr "Mostra nome:"
 
 msgid "Down"
 msgstr "Giù"
@@ -175,23 +142,11 @@ msgstr "Scarica ed installa il motore di scripting"
 msgid "Edit"
 msgstr "Modifica"
 
-msgid "Edit a script"
-msgstr "Modificare uno script"
-
-msgid "Embedded Rhino engine"
-msgstr "Motore Rhino imcorporato"
-
 msgid "Empty file name"
 msgstr "Nome file vuoto"
 
 msgid "Enter the name of a script file"
 msgstr "Inserire il nome di un file di script "
-
-msgid "Error: failed to load resource file ''{0}''"
-msgstr "Errore: impossibile caricare il file della risorsa \"{0}\""
-
-msgid "Error: resource file ''{0}'' not found"
-msgstr "Errore: file della risorsa non trovato: \"{0}\""
 
 msgid "Execute the script"
 msgstr "Eseguire lo script"
@@ -209,9 +164,6 @@ msgid ""
 msgstr ""
 "Sto eseguendo gli scripts con il motore di scripting incorporato per la "
 "lingua <strong>{0}</strong> basato su <strong>{1}</strong>."
-
-msgid "FATAL: Failed to initialize scripting plugin.\n"
-msgstr "FATALE: Impossibile inizializzare l'estensione di scripting.\n"
 
 msgid "Failed to load file ''{0}''."
 msgstr "Impossibile caricare il file ''{0}''."
@@ -244,15 +196,6 @@ msgstr "File non leggibile"
 msgid "File:"
 msgstr "File:"
 
-msgid "Full local path to the script file"
-msgstr "Percorso locale completo al file di script"
-
-msgid "Generate a globally unique ID"
-msgstr "Generare un ID unico globale"
-
-msgid "ID:"
-msgstr "ID:"
-
 msgid "IO error"
 msgstr "Errore di I/O"
 
@@ -267,9 +210,6 @@ msgstr "file JAR"
 
 msgid "JOSM currently supports the following script engines:"
 msgstr "JOSM attualmente supporta i seguenti motori di script:"
-
-msgid "Jython engine"
-msgstr "Motore Jython"
 
 msgid "Language version:"
 msgstr "Versione lingua:"
@@ -320,7 +260,6 @@ msgstr "Elimina"
 msgid "Remove a path"
 msgstr "Rimuove un percorso"
 
-#. putValue(Action.NAME, tr("Remove"));
 msgid "Remove a repository"
 msgstr "Remuovere un repository"
 
@@ -337,6 +276,10 @@ msgstr "Esegui"
 #. icon name
 msgid "Run a script"
 msgstr "Eseguire uno script"
+
+#. Display filename as tooltip instead of generic one
+msgid "Run script ''{0}''"
+msgstr "Esegui lo script ''{0}''"
 
 msgid "Run the script"
 msgstr "Eseguire lo script"
@@ -356,29 +299,17 @@ msgstr "Salvare lo script nel file attuale "
 msgid "Save to a script file"
 msgstr "Salvare in un file di script"
 
-msgid "Script Engine"
-msgstr "Motore di Script"
-
-msgid "Script Error"
-msgstr "Errore di Script"
-
 msgid "Script engine not found"
 msgstr "Motore di Script non trovato"
 
 msgid "Script engines"
 msgstr "Motori di Script"
 
-msgid "Script engines:"
-msgstr "Motori di Script:"
-
 msgid "Script execution failed"
 msgstr "Esecuzione dello script non riuscita"
 
 msgid "Script execution has failed."
 msgstr "Esecuzione dello script non riuscita."
-
-msgid "Script file:"
-msgstr "File di Script:"
 
 #. icon name
 msgid "Scripting"
@@ -408,20 +339,16 @@ msgstr "Selezionare un file di script"
 msgid "Select a script file and click on <strong>Run</strong>."
 msgstr "Selezionare un file di script e cliccare su <strong>Esegui</strong>."
 
-#. used in the context of a combo box
 msgid "Select an engine"
 msgstr "Seleziona un motore"
 
-msgid "Select..."
-msgstr "Seleziona..."
+msgid "Show scripting console"
+msgstr "Mostra la console di scripting"
 
 #. title
 #. icon name
 msgid "Show/hide the scripting console"
 msgstr "Mostra/nascondi la console di scripting"
-
-msgid "Syntax highlighting is going to be disabled."
-msgstr "L'evidenziazione della sintassi sta per essere disabilitata."
 
 msgid "The script file ''{0}'' doesn''t exist."
 msgstr "Il file di script \"{0}\" non esiste."
@@ -443,23 +370,13 @@ msgstr "Su"
 msgid "Version:"
 msgstr "Versione:"
 
-msgid "Warning: failed to load default mime types from  resource ''{0}''."
-msgstr ""
-"Attenzione: impossibile caricare i mime types predefiniti dalla risorsa "
-"\"{0}\"."
-
-msgid "Warning: failed to load mime types from file ''{0}''."
-msgstr "Attenzione: impossibile caricare i mime types dal file \"{0}\"."
-
-msgid "Warning: failed to open resource file ''{0}''"
-msgstr "Attenzione: impossibile aprire il file della risorsa \"{0}\""
-
 msgid "cancel"
 msgstr "annulla"
 
 msgid "unknown"
 msgstr "sconosciuto"
 
+#. used in the context of a combo box
 msgid "{1} (with engine {0})"
 msgstr "{1} (con il motore {0})"
 

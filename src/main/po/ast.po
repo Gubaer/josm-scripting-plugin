@@ -1,17 +1,17 @@
 # Translations for the JOSM plugin 'scripting' (ast)
-# Copyright (C) 2019 Gubaer
+# Copyright (C) 2022 Gubaer
 # This file is distributed under the same license as the josm-plugin_scripting package.
 # FIRST AUTHOR, YEAR.
 #
 # Translators:
-# Xuacu Saturio, 2018
 # Simon Legner, 2019
+# Xuacu Saturio, 2020
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: josm-plugin_scripting 30795\n"
+"Project-Id-Version: josm-plugin_scripting v0.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-07-09 12:32+0000\n"
+"POT-Creation-Date: 2022-05-19 18:29+0200\n"
 "PO-Revision-Date: 2018-01-17 21:36+0000\n"
 "Language-Team: Asturian (https://www.transifex.com/josm/teams/2544/ast/)\n"
 "MIME-Version: 1.0\n"
@@ -19,6 +19,30 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: ast\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid ""
+"''onLoad()'' for plugin ''{0}'' failed. Plugin isn''t properly initialized."
+msgstr ""
+"falló ''onLoad()'' pal complementu ''{0}''. El complementu nun anició "
+"correutamente."
+
+msgid "''{0}'' doesn''t exist."
+msgstr "''{0}'' nun esiste."
+
+msgid "''{0}'' is a directory. Expecting a jar file instead."
+msgstr "''{0}'' ye un direutoriu. Esperábase un ficheru jar."
+
+msgid "''{0}'' is neither a ''jar'' nor a ''file'' URL"
+msgstr "''{0}'' nun ye un ''jar'' nin una URL de ''ficheru''"
+
+msgid "''{0}'' is neither an existing directory nor an existing jar file"
+msgstr "''{0}'' nun ye nin un direutoriu nin un ficheru jar esistente"
+
+msgid "''{0}'' isn''t a valid URL"
+msgstr "''{0}'' nun ye una URL válida"
+
+msgid "''{0}'' isn''t an existing jar file"
+msgstr "''{0}'' nun ye un ficheru jar esistente"
 
 msgid "Add"
 msgstr "Amestar"
@@ -45,9 +69,6 @@ msgstr "Ficheru"
 
 msgid "File not found"
 msgstr "Nun s'alcontró el ficheru"
-
-msgid "ID:"
-msgstr "ID:"
 
 msgid "Name:"
 msgstr "Nome:"
@@ -76,6 +97,7 @@ msgstr "encaboxar"
 msgid "unknown"
 msgstr "desconocíu"
 
+#. used in the context of a combo box
 msgid "{1} (with engine {0})"
 msgstr "{1} (col motor {0})"
 

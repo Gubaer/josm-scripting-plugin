@@ -1,17 +1,18 @@
 # Translations for the JOSM plugin 'scripting' (zh_CN)
-# Copyright (C) 2019 Gubaer
+# Copyright (C) 2022 Gubaer
 # This file is distributed under the same license as the josm-plugin_scripting package.
 # FIRST AUTHOR, YEAR.
 #
 # Translators:
 # Mingye Wang, 2019
 # Simon Legner, 2019
+# 快乐的老鼠宝宝, 2020
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: josm-plugin_scripting 30795\n"
+"Project-Id-Version: josm-plugin_scripting v0.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-07-09 12:32+0000\n"
+"POT-Creation-Date: 2022-05-19 18:29+0200\n"
 "PO-Revision-Date: 2018-01-17 21:36+0000\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/josm/teams/2544/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -40,11 +41,6 @@ msgstr "“{0}”不可读。无法从此文件中读取脚本引擎。"
 
 msgid ""
 "<p>Failed to execute a script.</p><p/><p><strong>Error "
-"message:</strong>{0}</p>"
-msgstr "<p>未能执行脚本。</p><p><p><strong>错误消息：</strong>{0}</p>"
-
-msgid ""
-"<p>Failed to execute a script.</p><p/><p><strong>Error "
 "message:</strong>{0}</p><p><strong>At:</strong>line {1}, column {2}</p>"
 msgstr ""
 "<p>未能执行脚本。</p><p><p><strong>错误消息：</strong>{0}</p><p><strong>在：</strong>行 "
@@ -56,17 +52,60 @@ msgid ""
 msgstr "<p>未能执行脚本文件“{0}”。</p><p><p><strong>错误消息：</strong>{1}</p>"
 
 msgid ""
-"<p>Failed to execute the script file ''{0}''.</p><p/><p><strong>Error "
-"message:</strong>{1}</p><p><strong>At:</strong>line {2}, column {3}</p>"
+"<strong>Support for python plugins is disabled.</strong><br>The scripting "
+"plugin can load and run plugins written in <strong>Python</strong>. In order"
+" to use this feature the Jython interpreter has to be on the class path when"
+" you start JOSM. Currently, it isn''t and python plugin support is therefore"
+" disabled.<br><br>Launch JOSM with the following command line: <br>java -cp "
+"\"josm-jar.jar:/path/to/jython.jar\" "
+"org.openstreetmap.josm.gui.MainApplication"
 msgstr ""
-"<p>未能执行脚本文件“{0}”。</p><p><p><strong>错误消息：</strong>{1}</p><p><strong>在：</strong>行"
-" {2},列 {3}</p>"
+"<strong>已禁用对 python "
+"插件的支持。</strong><br>脚本插件可以加载和运行<strong>用Python</strong>编写的插件。为了使用此功能,在启动 JOSM"
+" 时,Jython 解释器必须位于类路径上。目前,它不是,因此Python插件支持被禁用。<br><br>使用以下命令行启动 JOSM:<br>java"
+" -cp \"josm-jar.jar:/path/to/jython.jar\" "
+"org.openstreetmap.josm.gui.MainApplication"
+
+msgid "Accept the selected scripting engine"
+msgstr "接受选中的脚本引擎"
 
 msgid "Add"
 msgstr "添加"
 
+msgid "Add a button for this script script file to the toolbar."
+msgstr "为这个脚本文件在工具栏中添加一个按钮"
+
+msgid "Add a jar file providing a script engine"
+msgstr "添加一个jar文件来提供一个脚本引擎"
+
+msgid ""
+"Add a list of fully qualified names of Python plugin classes the scripting "
+"plugin shall load and install at startup time. <br>Example: "
+"''my_module.MyPlugin'' or ''my_package.my_module.MyPlugin''"
+msgstr ""
+"添加脚本插件插件应在启动时加载和安装的 Python "
+"插件类的完整限定名称的列表。<br>示例:''my_module.MyPlugin''或''my_package.my_module.MyPlugin''"
+
+msgid "Add a path or jar file"
+msgstr "添加路径或 jar 文件"
+
+msgid "Add a plugin"
+msgstr "添加插件"
+
+msgid "Add an additional repository"
+msgstr "添加额外的库"
+
+msgid ""
+"Add directories and/or jar files where the Jython engine shall look for "
+"Python packages or modules."
+msgstr "添加 Jython 引擎应查找 Python 包或模块的目录和/或 jar 文件。"
+
 msgid "Add toolbar button"
 msgstr "添加工具栏按钮"
+
+msgid "Added {0} primitive"
+msgid_plural "Added {0} primitives"
+msgstr[0] "已添加 {0} 个对象/基元"
 
 msgid "Always on top"
 msgstr "总在最前面"
@@ -80,14 +119,9 @@ msgstr "可用的脚本引擎"
 msgid "Cancel"
 msgstr "取消"
 
-msgid "Cancel and close dialog"
-msgstr "取消并关闭对话框"
-
-msgid "Change..."
-msgstr "更改…"
-
-msgid "Choose a script engine"
-msgstr "选择脚本引擎"
+msgid "Changed {0} primitive"
+msgid_plural "Changed {0} primitives"
+msgstr[0] "已改变 {0} 个对象/基元"
 
 msgid "Clear log"
 msgstr "清空日志"
@@ -122,16 +156,9 @@ msgstr "创建或编辑路径"
 msgid "Current file:"
 msgstr "当前文件："
 
-msgid "Define a new script"
-msgstr "定义新脚本"
-
-msgid ""
-"Didn''t find a suitable syntax kit for the script engine "
-"<strong>{0}</strong>."
-msgstr "找不到适合脚本引擎<strong>{0}</strong>的语法工具包。"
-
-msgid "Display name:"
-msgstr "显示名称："
+msgid "Deleted {0} primitive"
+msgid_plural "Deleted {0} primitives"
+msgstr[0] "已删除 {0} 个对象/基元"
 
 msgid "Down"
 msgstr "下"
@@ -143,20 +170,66 @@ msgstr "下载并安装脚本引擎"
 msgid "Edit"
 msgstr "编辑(E)"
 
-msgid "Edit a script"
-msgstr "编辑脚本"
-
-msgid "Embedded Rhino engine"
-msgstr "内置 Rhino 引擎"
-
 msgid "Empty file name"
 msgstr "空文件名"
 
 msgid "Enter additional JAR files which provide script engines."
 msgstr "输入提供脚本引擎的额外 JAR 文件。"
 
-msgid "FATAL: Failed to initialize scripting plugin.\n"
-msgstr "致命：无法初始化脚本插件。\n"
+msgid "Enter the name of a script file"
+msgstr "输入脚本文件的名称"
+
+msgid "Execute the script"
+msgstr "执行脚本"
+
+msgid ""
+"Executing scripts in language <strong>{0}</strong> using engine "
+"<strong>{1}</strong>."
+msgstr "使用引擎<strong>{1}</strong>以语言<strong> {0}</strong>执行脚本。"
+
+msgid ""
+"Executing scripts with the built-in scripting engine for language "
+"<strong>{0}</strong> based on <strong>{1}</strong>."
+msgstr "使用基于<strong>{1}</strong>的语言<strong>{0}</strong>的内置脚本引擎执行脚本。"
+
+msgid "Failed to create URL referring to the module repository ''{0}''"
+msgstr "无法创建引用模块库“{0}”的 URL"
+
+msgid "Failed to instantiate plugin ''{0}''."
+msgstr "无法实例化插件“{0}”。"
+
+msgid "Failed to load file ''{0}''."
+msgstr "无法加载文件“{0}”。"
+
+msgid "Failed to load icon ''{0}''"
+msgstr "无法加载图标“{0}”"
+
+msgid "Failed to load icon ''{0}/{1}''"
+msgstr "无法加载图标\"{0}/{1}\""
+
+msgid ""
+"Failed to load python module ''{0}''. \n"
+"Make sure the preferences with key ''{1}'' include the path to the module."
+msgstr ""
+"无法加载 python 模块“{0}”。\n"
+"确保具有键\"{1}\"的首选项包含模块的路径。"
+
+msgid "Failed to lookup plugin class ''{0}''."
+msgstr "无法查找插件类“{0}”。"
+
+msgid ""
+"Failed to open file ''{0}'' as jar file. Can''t load a script engine from "
+"this file."
+msgstr "无法将文件“{0}”作为 jar 文件打开。无法从此文件加载脚本引擎。"
+
+msgid "Failed to read the script from file ''{0}''."
+msgstr "无法从文件“{0}”读取脚本。"
+
+msgid "Failed to read the script from the file ''{0}''."
+msgstr "无法从这个文件“{0}”读取脚本。"
+
+msgid "Failed to save file ''{0}''."
+msgstr "无法保存文件“{0}”。"
 
 #. create the file menu
 msgid "File"
@@ -171,8 +244,8 @@ msgstr "文件不可读"
 msgid "File:"
 msgstr "文件："
 
-msgid "ID:"
-msgstr "ID："
+msgid "IO error"
+msgstr "IO错误"
 
 msgid "IO exception"
 msgstr "IO 异常"
@@ -185,9 +258,6 @@ msgstr "JAR 文件"
 
 msgid "JOSM currently supports the following script engines:"
 msgstr "JOSM 当前支持以下脚本引擎:"
-
-msgid "Jython engine"
-msgstr "Jython 引擎"
 
 msgid ""
 "Jython interpreter isn''t on the class path. Support for Python plugins is "
@@ -237,7 +307,6 @@ msgstr "删除"
 msgid "Remove a path"
 msgstr "删除路径"
 
-#. putValue(Action.NAME, tr("Remove"));
 msgid "Remove a repository"
 msgstr "删除库"
 
@@ -273,29 +342,17 @@ msgstr "将脚本保存到当前文件"
 msgid "Save to a script file"
 msgstr "保存到脚本文件"
 
-msgid "Script Engine"
-msgstr "脚本引擎"
-
-msgid "Script Error"
-msgstr "脚本错误"
-
 msgid "Script engine not found"
 msgstr "未找到脚本引擎"
 
 msgid "Script engines"
 msgstr "脚本引擎"
 
-msgid "Script engines:"
-msgstr "脚本引擎："
-
 msgid "Script execution failed"
 msgstr "脚本执行失败"
 
 msgid "Script execution has failed."
 msgstr "脚本执行失败。"
-
-msgid "Script file:"
-msgstr "脚本文件："
 
 #. icon name
 msgid "Scripting"
@@ -328,15 +385,8 @@ msgstr "选择脚本文件"
 msgid "Select a script file and click on <strong>Run</strong>."
 msgstr "选择脚本文件,然后单击“<strong>运行</strong>”。"
 
-#. used in the context of a combo box
 msgid "Select an engine"
 msgstr "选择引擎"
-
-msgid "Select one of the available script engines for executing this script."
-msgstr "选择一个脚本引擎用来执行此脚本。"
-
-msgid "Select..."
-msgstr "选择…"
 
 msgid "Show scripting console"
 msgstr "显示脚本控制台"
@@ -345,12 +395,6 @@ msgstr "显示脚本控制台"
 #. icon name
 msgid "Show/hide the scripting console"
 msgstr "显示/隐藏脚本控制台"
-
-msgid "Syntax highlighting is going to be disabled."
-msgstr "语法高亮显示将被禁用。"
-
-msgid "The display name of the script. Used in menu entries."
-msgstr "脚本的显示名称。用于菜单项。"
 
 msgid "The script file ''{0}'' doesn''t exist."
 msgstr "脚本文件“{0}”不存在。"
@@ -370,6 +414,7 @@ msgstr "取消"
 msgid "unknown"
 msgstr "不明"
 
+#. used in the context of a combo box
 msgid "{1} (with engine {0})"
 msgstr "{1}（使用引擎 {0}）"
 

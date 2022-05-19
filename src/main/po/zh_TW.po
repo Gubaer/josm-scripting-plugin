@@ -1,17 +1,18 @@
 # Translations for the JOSM plugin 'scripting' (zh_TW)
-# Copyright (C) 2019 Gubaer
+# Copyright (C) 2022 Gubaer
 # This file is distributed under the same license as the josm-plugin_scripting package.
 # FIRST AUTHOR, YEAR.
 #
 # Translators:
-# Mizuho Inari, 2019
 # Simon Legner, 2019
+# Mizuho Inari, 2020
+# wck317, 2020
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: josm-plugin_scripting 30795\n"
+"Project-Id-Version: josm-plugin_scripting v0.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-07-09 12:32+0000\n"
+"POT-Creation-Date: 2022-05-19 18:29+0200\n"
 "PO-Revision-Date: 2018-01-17 21:36+0000\n"
 "Language-Team: Chinese (Taiwan) (https://www.transifex.com/josm/teams/2544/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -35,6 +36,9 @@ msgstr "''{0}'' 無法讀取。無法從檔案中讀取腳本引擎。"
 msgid "Add"
 msgstr "加入"
 
+msgid "Add a path or jar file"
+msgstr "加入路徑或jar檔案"
+
 msgid "Add toolbar button"
 msgstr "加入工具列按鈕"
 
@@ -55,8 +59,8 @@ msgstr "編輯"
 msgid "File"
 msgstr "檔案"
 
-msgid "ID:"
-msgstr "ID："
+msgid "File not found"
+msgstr "找不到檔案"
 
 msgid "Name:"
 msgstr "名稱："
@@ -69,6 +73,9 @@ msgstr "開啟"
 
 msgid "Remove"
 msgstr "移除"
+
+msgid "Remove the selected jar files"
+msgstr "移除所選的 jar 檔"
 
 msgid "Save"
 msgstr "存檔"
