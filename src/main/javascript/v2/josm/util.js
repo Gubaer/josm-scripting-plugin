@@ -63,19 +63,19 @@ exports.trim = function (s) {
  * <p><strong>Usage:</strong>
  * <dl>
  *   <dt><code>assert()</code></dt>
- *   <dd>Does nothing</dd>
+ *   <dd class="param-desc">Does nothing</dd>
  *
  *    <dt><code>assert(cond)</code></dt>
- *    <dd>Checks the condition <code>cond</code>. If it is false, throws an
+ *    <dd class="param-desc">Checks the condition <code>cond</code>. If it is false, throws an
  *    Error.</dd>
  *
  *    <dt><code>assert(cond, msg)</code></dt>
- *    <dd>Checks the condition <code>cond</code>. If it is false, throws an
+ *    <dd class="param-desc">Checks the condition <code>cond</code>. If it is false, throws an
  *    Error, whose <code>description</code> property
  *    is set to <code>msg</code>.</dd>
  *
  *      <dt><code>assert(cond, msg, objs...)</code></dt>
- *    <dd>Checks the condition <code>cond</code>. If it is false, throws an
+ *    <dd class="param-desc">Checks the condition <code>cond</code>. If it is false, throws an
  *    Error, whose <code>description</code> property
  *    is set to the formatted message <code>msg</code>. Internally uses
  *    <code>java.text.MessageFormat</code> to format the message.</dd>
