@@ -1,17 +1,17 @@
-# Translations for the JOSM plugin 'scripting' (kn)
-# Copyright (C) 2019 Gubaer
+# Translations for the JOSM plugin 'scripting' (fa_IR)
+# Copyright (C) 2020 Gubaer
 # This file is distributed under the same license as the josm-plugin_scripting package.
 # FIRST AUTHOR, YEAR.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: josm-plugin_scripting 30795\n"
+"Project-Id-Version: josm-plugin_scripting 30798\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-07-09 12:32+0000\n"
+"POT-Creation-Date: 2020-09-21 04:39+0000\n"
 "PO-Revision-Date: 2018-01-17 21:36+0000\n"
-"Language-Team: Kannada (https://www.transifex.com/josm/teams/2544/kn/)\n"
+"Language-Team: Persian (Iran) (https://www.transifex.com/josm/teams/2544/fa_IR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: kn\n"
+"Language: fa_IR\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"

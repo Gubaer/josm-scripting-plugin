@@ -1,14 +1,13 @@
 # Translations for the JOSM plugin 'scripting' (uk)
 # Copyright (C) 2019 Gubaer
 # This file is distributed under the same license as the josm-plugin_scripting package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+# FIRST AUTHOR, YEAR.
+#
 # Translators:
-# fayçal fatihi <ofaycal.geo.x@gmail.com>, 2018
+# fayçal fatihi, 2018
 # Andrey Golovin, 2018
-# Simon Legner <simon.legner@gmail.com>, 2019
-# 
-#, fuzzy
+# Simon Legner, 2019
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: josm-plugin_scripting 30795\n"

@@ -1,14 +1,13 @@
 # Translations for the JOSM plugin 'scripting' (lt)
 # Copyright (C) 2019 Gubaer
 # This file is distributed under the same license as the josm-plugin_scripting package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+# FIRST AUTHOR, YEAR.
+#
 # Translators:
 # Florian Schäfer, 2018
-# Karolis Runas <karolis.runas@gmail.com>, 2019
-# Simon Legner <simon.legner@gmail.com>, 2019
-# 
-#, fuzzy
+# Karolis Runas, 2019
+# Simon Legner, 2019
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: josm-plugin_scripting 30795\n"
@@ -22,23 +21,18 @@ msgstr ""
 "Language: lt\n"
 "Plural-Forms: nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);\n"
 
-#, java-format
 msgid "''{0}'' doesn''t exist."
 msgstr "''{0}'' neegzistuoja."
 
-#, java-format
 msgid "''{0}'' is a directory. Expecting a jar file instead."
 msgstr "''{0}'' yra katalogas. Tai turi būti jar failas."
 
-#, java-format
 msgid "''{0}'' isn''t a valid URL"
 msgstr "''{0}'' neteisingas URL"
 
-#, java-format
 msgid "''{0}'' isn''t an existing jar file"
 msgstr "''{0}'' nėra jar failas"
 
-#, java-format
 msgid "''{0}'' isn''t readable. Can''t load a script engine from this file."
 msgstr ""
 "''{0}'' neskaitomas. Negalima paleisti scenarijaus variklio iš šio failo."
@@ -236,7 +230,6 @@ msgstr "atšaukti"
 msgid "unknown"
 msgstr "nežinoma"
 
-#, java-format
 msgid "{1} (with engine {0})"
 msgstr "{1} (su varikliu {0})"
 

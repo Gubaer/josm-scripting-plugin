@@ -1,12 +1,11 @@
 # Translations for the JOSM plugin 'scripting' (hr)
 # Copyright (C) 2019 Gubaer
 # This file is distributed under the same license as the josm-plugin_scripting package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+# FIRST AUTHOR, YEAR.
+#
 # Translators:
-# Simon Legner <simon.legner@gmail.com>, 2018
-# 
-#, fuzzy
+# Simon Legner, 2018
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: josm-plugin_scripting 30795\n"

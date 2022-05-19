@@ -1,13 +1,12 @@
 # Translations for the JOSM plugin 'scripting' (hu)
 # Copyright (C) 2019 Gubaer
 # This file is distributed under the same license as the josm-plugin_scripting package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+# FIRST AUTHOR, YEAR.
+#
 # Translators:
-# Gábor Babos <gabor.babos@gmail.com>, 2018
-# Simon Legner <simon.legner@gmail.com>, 2019
-# 
-#, fuzzy
+# Gábor Babos, 2018
+# Simon Legner, 2019
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: josm-plugin_scripting 30795\n"
@@ -47,11 +46,9 @@ msgid "FATAL: Failed to initialize scripting plugin.\n"
 msgstr ""
 "VÉGZETES: nem sikerült a parancsfájl beépülő moduljának inicializálása.\n"
 
-#, java-format
 msgid "Failed to read the script from file ''{0}''."
 msgstr "Nem sikerült a parancsfájlt kiolvasni a következő fájlból: „{0}”"
 
-#, java-format
 msgid "Failed to read the script from the file ''{0}''."
 msgstr "Nem sikerült kiolvasni a parancsfájlt ebből a fájlból: „{0}”."
 
@@ -95,11 +92,9 @@ msgstr "A parancsfájl végrehajtása sikertelen."
 msgid "Scripting"
 msgstr "Parancsfájlkezelés"
 
-#, java-format
 msgid "The script file ''{0}'' doesn''t exist."
 msgstr "Nem létezik ez a parancsfájl: „{0}”."
 
-#, java-format
 msgid "The script file ''{0}'' isn''t readable."
 msgstr "Nem olvasható ez a parancsfájl: „{0}”."
 

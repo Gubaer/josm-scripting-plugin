@@ -1,13 +1,12 @@
 # Translations for the JOSM plugin 'scripting' (zh_TW)
 # Copyright (C) 2019 Gubaer
 # This file is distributed under the same license as the josm-plugin_scripting package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+# FIRST AUTHOR, YEAR.
+#
 # Translators:
-# Mizuho Inari <assh1857@gmail.com>, 2019
-# Simon Legner <simon.legner@gmail.com>, 2019
-# 
-#, fuzzy
+# Mizuho Inari, 2019
+# Simon Legner, 2019
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: josm-plugin_scripting 30795\n"
@@ -21,19 +20,15 @@ msgstr ""
 "Language: zh_TW\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#, java-format
 msgid "''{0}'' doesn''t exist."
 msgstr "''{0}'' 不存在。"
 
-#, java-format
 msgid "''{0}'' isn''t a valid URL"
 msgstr "''{0}'' 非有效的URL。"
 
-#, java-format
 msgid "''{0}'' isn''t an existing jar file"
 msgstr "''{0}'' 不是存在的jar檔案。"
 
-#, java-format
 msgid "''{0}'' isn''t readable. Can''t load a script engine from this file."
 msgstr "''{0}'' 無法讀取。無法從檔案中讀取腳本引擎。"
 
