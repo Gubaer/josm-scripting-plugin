@@ -273,8 +273,7 @@ tasks.check.dependsOn(tasks.testGraalVMSupportNotPresent)
 tasks.check.dependsOn(tasks.testGraalVMSupportPresent)
 tasks.check.dependsOn(tasks.testJSR223EngineAbsent)
 tasks.check.dependsOn(tasks.testJSR223EnginePresent)
-
-//tasks.check.dependsOn(tasks.testWithGraalVMJDK)
+tasks.check.dependsOn(tasks.testWithGraalVMJDK)
 
 sourceSets {
     test {
@@ -293,9 +292,6 @@ processResources {
   from "$projectDir/README.md"
   from "$projectDir/LICENSE"
 }
-
-tasks.dist.into("$projectDir/dist")
-
 
 import org.openstreetmap.josm.plugins.scripting.build.GraalVMDownloadTask
 tasks.register("downloadGraalVM", GraalVMDownloadTask)
