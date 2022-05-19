@@ -9,7 +9,9 @@ name: Josm Scripting Plugin
 
 on:
   push:
-    branches: [ master ]
+    branches:
+      - master
+      - graalvm
   pull_request:
     branches: [ master ]
 
