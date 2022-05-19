@@ -2,7 +2,7 @@ plugins {
     //id 'org.openstreetmap.josm' version '0.5.0'
     // id 'org.openstreetmap.josm' version '0.7.1'
     // TODO: use a patched version until a new release of the plugin is available
-    id 'org.openstreetmap.josm' version '0.8.0-21-g9994f46-SNAPSHOT'
+    id 'org.openstreetmap.josm' version '0.8.0-22-gfde22f3'
 
     id 'java'
     id 'groovy'
