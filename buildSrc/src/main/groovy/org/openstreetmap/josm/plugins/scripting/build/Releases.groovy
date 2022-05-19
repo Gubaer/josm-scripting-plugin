@@ -1,5 +1,8 @@
 package org.openstreetmap.josm.plugins.scripting.build
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
+
 class IllegalSemanticVersion extends Exception {
     IllegalSemanticVersion(String message) {
         super(message)
@@ -11,6 +14,14 @@ class IllegalSemanticVersion extends Exception {
  * <code>1.2.3</code>.
  */
 class SemanticVersion implements Comparable<SemanticVersion> {
+    static SemanticVersion fromLabel(String label) {
+        if (label.toLowerCase().startsWith("v")) {
+            return new SemanticVersion(label.substring(1))
+        } else {
+            return new SemanticVersion(label)
+        }
+    }
+
     private versionComponents = []
 
     /**
@@ -45,6 +56,22 @@ class SemanticVersion implements Comparable<SemanticVersion> {
         }
         return versionComponents[2] <=> other.versionComponents[2]
     }
+
+
+    @Override
+    String toString() {
+        return versionComponents.collect {it.toString()}.join(".")
+    }
+}
+
+class Release {
+    public String label
+    public String minJosmVersion
+    public String description
+}
+
+class ReleaseList {
+    public List<Release> releases
 }
 
 /**
@@ -52,7 +79,7 @@ class SemanticVersion implements Comparable<SemanticVersion> {
  */
 @SuppressWarnings('unused')
 class Releases {
-    static final String RELEASES_FILE = "releases.conf"
+    static final String RELEASES_FILE = "releases.yml"
 
     /**
      * Builds a releases configuration object from the content of a file given
@@ -81,10 +108,11 @@ class Releases {
         )
     }
 
-    private ConfigObject config
+    private ReleaseList config
 
     Releases(final String configuration) {
-        config = new ConfigSlurper().parse(configuration)
+        var mapper = new ObjectMapper(new YAMLFactory())
+        config = mapper.readValue(configuration, ReleaseList.class)
     }
 
     /**
@@ -94,10 +122,10 @@ class Releases {
      * @return the highest JOSM version for which a release is available
      */
     String getHighestJosmVersion() {
-        config.releases.collect {it.josmVersion}.max().toString()
+        config.releases.collect {it.minJosmVersion}.max().toString()
     }
 
-    static private int comparePluginVersions(v1, v2) {
+    static private int comparePluginLabels(v1, v2) {
         // plugin versions until Q2/2022 just consist of a number.
         // Starting with the version "0.2.0" in Q2/2022 a plugin version
         // is a semantic version "a.b.c".
@@ -110,7 +138,7 @@ class Releases {
         } else if (!v1.isNumber() && v2.isNumber()) {
             return 1
         } else {
-            return new SemanticVersion(v1) <=> new SemanticVersion(v2)
+            return SemanticVersion.fromLabel(v1) <=> SemanticVersion.fromLabel(v2)
         }
     }
     /**
@@ -118,9 +146,9 @@ class Releases {
      *
      * @return the current plugin version
      */
-    String getCurrentPluginVersion() {
-        return config.releases.collect {it.pluginVersion}
-            .sort(this.&comparePluginVersions)
+    String getCurrentPluginLabel() {
+        return config.releases.collect {it.label}
+            .sort(this.&comparePluginLabels)
             .reverse()
             .first()
     }
@@ -132,12 +160,12 @@ class Releases {
      * @param josmVersion the JOSM version
      * @return the highest available plugin version
      */
-    String highestPluginVersionForJosmVersion(josmVersion) {
+    String highestPluginLabelForJosmVersion(josmVersion) {
         josmVersion = josmVersion.toString()
         config.releases
-            .findAll {it.josmVersion.toString() == josmVersion}
-            .collect {it.pluginVersion}
-            .sort(this.&comparePluginVersions)
+            .findAll {it.minJosmVersion.toString() == josmVersion}
+            .collect {it.label}
+            .sort(this.&comparePluginLabels)
             .reverse()
             .first()
     }
@@ -150,8 +178,9 @@ class Releases {
      */
     int[] getJosmVersions() {
         return config.releases
-            .collect {it.josmVersion.toInteger()}
+            .collect {it.minJosmVersion.toInteger()}
             .unique()
+            .sort()
             .reverse() as int[]
     }
 }

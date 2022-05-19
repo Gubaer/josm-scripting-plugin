@@ -23,7 +23,6 @@ It provides a custom JavaScript API to write scripts for the JOSM editor,refer t
 the [API documentation](http://gubaer.github.com/josm-scripting-plugin/).
 
 Furthermore, it can
-* load and execute [plugins written in Python](http://gubaer.github.com/josm-scripting-plugin/doc/python.html).
 * execute scripts written in Ruby, Groovy, and other languages, refer to
 [these examples](https://github.com/Gubaer/josm-scripting-plugin/tree/master/scripts).
 
@@ -32,17 +31,25 @@ submit your pull requests.
 
 ## How to build
 
-Add a new entry to [releases.conf](releases.conf) then run:
+Add a new entry to [releases.yml](releases.yml) then run:
 
 ```bash
-$ git checkout deploy          # switch to deploy branch
-$ git merge master             # make sure the latest changes are merged to 'deploy'
-$ git push origin deploy       # push the 'deploy' branch
+#
+# Assumes that a release 'v9.9.9' is to be built
+#
 
-$ ./gradlew clean build        # build the plugin
-$ ./gradlew deploy             # deploys the plugin jar to github,
-                               # where it is picked up by the JOSM
-                               # plugin installer
+# build the plugin
+$ ./gradlew clean build
+
+# tag the release
+$ git tag v9.9.9
+$ git push origin v9.9.9
+
+# create a GitHub release
+$ ./gradlew createGithubRelease --release-label v9.9.9
+
+# publish the scripting.jar to the current GitHub release
+$ ./gradlew publishToGithubRelease
 ```
 
 ## How to test

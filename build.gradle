@@ -2,7 +2,7 @@ plugins {
     //id 'org.openstreetmap.josm' version '0.5.0'
     // id 'org.openstreetmap.josm' version '0.7.1'
     // TODO: use a patched version until a new release of the plugin is available
-    id 'org.openstreetmap.josm' version '0.8.0-11-gebbb180-SNAPSHOT'
+    id 'org.openstreetmap.josm' version '0.8.0-21-g9994f46-SNAPSHOT'
 
     id 'java'
     id 'groovy'
@@ -33,6 +33,7 @@ dependencies {
     implementation group: 'org.codehaus.groovy', name: 'groovy-all', version: '3.0.10'
     implementation group: "org.python", name: "jython", version: "2.7.2"
     implementation group: 'javax.activation', name: 'activation', version: '1.1.1'
+
     implementation group: 'com.github.spullara.mustache.java', name: 'compiler', version: '0.9.6'
     implementation group: 'com.fifesoft', name: 'rsyntaxtextarea', version: '3.2.0'
 
@@ -63,9 +64,9 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
 }
 
-def releases = Releases.fromFile(file("releases.conf"))
+def releases = Releases.fromFile(file("releases.yml"))
 
-version = releases.currentPluginVersion
+version = releases.currentPluginLabel
 archivesBaseName = "scripting"
 
 task dumpGraalVMJars() {
@@ -79,23 +80,30 @@ josm {
     manifest {
         minJosmVersion = releases.highestJosmVersion
 
-        // for the time being still uses the original releases.conf file, checks in
-        // jar files for a release and assigns them a label for the correct
-        // JOSM version.
-        //
-        // Will later be migrated to one of the release mechanisms which is
-        // provided by the JOSM gradle plugin.
-        //
+        // Old releases up to v0.2.0 have a numeric ID and are available as raw asset from the github repo.
+        // Newer releases starting from v0.2.0 use semantic versioning and are available as asset from
+        // a github release.
         releases.josmVersions.each {josmVersion ->
-            final dv = releases.highestPluginVersionForJosmVersion(josmVersion)
-            oldVersionDownloadLink josmVersion, dv,
-                new URL("https://raw.github.com/Gubaer/josm-scripting-plugin/for-josm-${josmVersion}/dist/scripting.jar")
+            final label = releases.highestPluginLabelForJosmVersion(josmVersion)
+            if (label.isNumber()) {
+                oldVersionDownloadLink josmVersion, label,
+                new URL("https://raw.github.com/Gubaer/josm-scripting-plugin/for-josm-$josmVersion/dist/scripting.jar")
+            } else {
+                oldVersionDownloadLink josmVersion, label,
+                new URL("https://github.com/Gubaer/josm-scripting-plugin/releases/download/$label/scripting.jar")
+            }
         }
     }
 
     i18n {
         copyrightHolder = "Gubaer"
         //pathTransformer = getGithubPathTransformer('Gubaer/josm-scripting-plugin')
+    }
+
+    github {
+        repositoryOwner = project.property("josm.github.user")
+        repositoryName = project.property("josm.github.repository")
+        targetCommitish = "master"
     }
 }
 
@@ -122,7 +130,6 @@ import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.openstreetmap.josm.plugins.scripting.build.Releases
 
 import java.nio.file.Files
-
 
 def getGraalVMHome() {
     return new File(project.projectDir, "software/graalvm-ce-java11-${project.property("graalvm.version")}")
@@ -288,28 +295,7 @@ processResources {
 }
 
 tasks.dist.into("$projectDir/dist")
-//task deploy {
-//    dependsOn dist
-//    doLast {
-//        def deployBranch = "deploy"
-//        def jar = "$projectDir/dist/${archivesBaseName}.jar"
-//        Git.ensureOnBranch(deployBranch)
-//        Git.add(jar)
-//        Git.commit(jar, "commited plugin build ${releases.currentPluginVersion}")
-//        def tag = "for-josm-${releases.highestJosmVersion}"
-//        Git.tagHead(tag)
-//        Git.push("origin", deployBranch)
-//        Git.pushTags()
-//    }
-//}
 
-import org.openstreetmap.josm.plugins.scripting.build.GitDeployTask
-tasks.register("deploy", GitDeployTask) {
-    dependsOn dist
-    deployBranch = "deploy"
-    currentPluginVersion = releases.currentPluginVersion
-    forJosmVersion = releases.highestJosmVersion
-}
 
 import org.openstreetmap.josm.plugins.scripting.build.GraalVMDownloadTask
 tasks.register("downloadGraalVM", GraalVMDownloadTask)
@@ -319,4 +305,8 @@ import org.openstreetmap.josm.plugins.scripting.convert.ReleaseFileConverter
 tasks.register("convertReleaseFile", ReleaseFileConverter) {
     inputFile = file("releases.conf")
     outputFile = file("releases.generated.yml")
+}
+
+publishToGithubRelease {
+    remoteJarName = "scripting.jar"
 }

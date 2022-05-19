@@ -5,12 +5,12 @@ import org.junit.jupiter.api.Test
 class SemanticVersionTest extends GroovyTestCase {
 
     @Test
-    def "OK case - should create valid version"() {
+    void "OK case - should create valid version"() {
         new SemanticVersion("1.2.3")
     }
 
     @Test
-    def "NOK - illegal versions should fail"() {
+    void "NOK - illegal versions should fail"() {
         shouldFail(IllegalSemanticVersion) {
             new SemanticVersion("1.2")
         }
@@ -28,6 +28,22 @@ class SemanticVersionTest extends GroovyTestCase {
         }
         shouldFail(IllegalSemanticVersion) {
             new SemanticVersion("123")
+        }
+    }
+
+    @Test
+    void "OK - should create from a label"() {
+        def version = SemanticVersion.fromLabel("v1.2.3")
+        assertEquals("1.2.3", version.toString())
+
+        version = SemanticVersion.fromLabel("1.2.3")
+        assertEquals("1.2.3", version.toString())
+    }
+
+    @Test
+    void "NOK - illegal labels"() {
+        shouldFail(IllegalSemanticVersion) {
+            SemanticVersion.fromLabel("vfoobar")
         }
     }
 }

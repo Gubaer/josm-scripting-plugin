@@ -6,70 +6,53 @@ import org.junit.jupiter.api.Test
 class ReleasesTest extends GroovyTestCase{
 
     def configuration01 = """
-          releases = [
+releases:
+  - label: v0.2.0
+    minJosmVersion: 18427
+    description: |
+     major rewrite and cleanup, now supports GraalJS, support JPython plugins
+     removed
 
-            [
-               pluginVersion: "0.2.0",
-               josmVersion: 14256,
-             description: "update and add i18n ressources"
-            ],
-            [
-                    pluginVersion: 30796,
-                    josmVersion: 14256,
-                    description: "update and add i18n ressources"
-            ],
-            [
-                    pluginVersion: 30795,
-                    josmVersion: 14000,
-                    description: "merge #80: Add new 'add to toolbar' checkbox"
-            ]
+  - label: 30796
+    minJosmVersion: 14256
+    description: update and add i18n ressources
+
+  - label: 30787
+    minJosmVersion: 14155
+    description: "fix #71 Access to plugin class loader"
         """
 
-    def configuration02 = """
-          releases = [
-
-            [
-                    pluginVersion: 30796,
-                    josmVersion: 14256,
-                    description: "update and add i18n ressources"
-            ],
-            [
-                    pluginVersion: 30795,
-                    josmVersion: 14256,
-                    description: "merge #80: Add new 'add to toolbar' checkbox"
-            ]
-        """
 
     @Test
-    def "can parse correct releases file"() {
+    void "can parse correct releases file"() {
         new Releases(configuration01)
     }
 
     @Test
-    def "can find highest josm version"() {
+    void "can find highest josm version"() {
         def releases = new Releases(configuration01)
-        assertEquals("14256", releases.getHighestJosmVersion())
+        assertEquals("18427", releases.highestJosmVersion)
     }
 
     @Test
-    def "can find current plugin version version"() {
+    void "can find current plugin version version"() {
         def releases = new Releases(configuration01)
-        assertEquals("0.2.0", releases.getCurrentPluginVersion())
-
-        releases = new Releases(configuration02)
-        assertEquals("30796", releases.getCurrentPluginVersion())
+        assertEquals("v0.2.0", releases.currentPluginLabel)
     }
 
     @Test
-    def "can find highest plugin version for josm version"() {
+    void "can find highest plugin version for josm version"() {
         def releases = new Releases(configuration01)
-        assertEquals("0.2.0", releases.highestPluginVersionForJosmVersion(14256))
-        assertEquals("30795", releases.highestPluginVersionForJosmVersion(14000))
+        assertEquals("v0.2.0", releases.highestPluginLabelForJosmVersion(18427))
+        assertEquals("30796", releases.highestPluginLabelForJosmVersion(14256))
     }
 
     @Test
-    def "can build list of JOSM versions"() {
+    void "can build list of JOSM versions"() {
         def releases = new Releases(configuration01)
-        assertEquals([14256,14000], releases.josmVersions)
+        assertEquals(3, releases.josmVersions.length)
+        [18427, 14256, 14155].eachWithIndex {release, i ->
+            assertEquals(release, releases.josmVersions[i] )
+        }
     }
 }
