@@ -9,6 +9,10 @@ nav_order: 2
 {% include v1-deprecated.md %}
 
 # Working with layers
+{: .no_toc }
+
+1. TOC
+{: toc }
 
 The global object `josm.layers` represents the current layers in josm. The methods
 and properties of this object are defined in the module [josm/layers]{:target="apidoc"}.

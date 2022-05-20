@@ -6,6 +6,10 @@ nav_order: 1
 ---
 
 # Working with modules
+{: .no_toc }
+
+1. TOC
+{: toc }
 
 ## Loading and using provided modules
 

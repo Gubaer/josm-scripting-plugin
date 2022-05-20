@@ -6,6 +6,10 @@ nav_order: 2
 ---
 
 # Working with layers
+{: .no_toc }
+
+1. TOC
+{: toc }
 
 The global object `josm.layers` represents the current layers in josm. The methods
 and properties of this object are defined in the module [`josm/layers`](josm/layers).

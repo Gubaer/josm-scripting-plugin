@@ -6,6 +6,10 @@
 ---
 
 # Downloading and uploading data
+{: .no_toc }
+
+1. TOC
+{: toc }
 
 The module [josm/api]{:target="apidoc"} provides two classes for downloading data from and uploading data to the central OSM server:
 

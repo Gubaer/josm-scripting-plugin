@@ -5,6 +5,10 @@ nav_order: 4
 ---
 
 # Using a pluggable scripting engine (JSR 223)
+{: .no_toc }
+
+1. TOC
+{: toc }
 
 [JSR 223][jsr223] defines how scripting engines can be embeeded on the Java platform.
 

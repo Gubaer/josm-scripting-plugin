@@ -8,6 +8,10 @@ nav_order: 3
 {% include v1-deprecated.md %}
 
 # Manipulating data
+{: .no_toc }
+
+1. TOC
+{: toc }
 
 JOSM is a powerful tool for creating maps, although the map data structure is quite simple. There are only three basic types of objects, or *OSM primitives*:
 

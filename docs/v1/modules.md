@@ -8,6 +8,10 @@ nav_order: 1
 {% include v1-deprecated.md %}
 
 # Working with modules
+{: .no_toc }
+
+1. TOC
+{: toc }
 
 ## Loading and using provided modules
 

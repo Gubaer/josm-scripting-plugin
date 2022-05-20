@@ -6,6 +6,12 @@ nav_order: 2
 
 # Using GraalJS in the scripting plugin
 
+{: .no_toc }
+
+1. TOC
+{: toc }
+
+
 Starting with release **v0.2.0** the JOSM Scripting Plugin requires Java 11 (or higher). To use the plugin, you have to run JOSM with a Java 11 compatible JDK.
 
 You have two options:
@@ -14,9 +20,23 @@ You have two options:
 
 2. Run JOSM with another Java 11 (or higher) compatible JDK, for instance with the [OpenJDK][openjdk]
 
-# Running JOSM with GraalJS
 
-## Running JOSM with the GraalVM JDK
+## Running JOSM with GraalJS
+
+### Running JOSM with a stock JDK and GraalJS as java library
+
+JDKs other than GraalVM don't include GraalJS. You have to download the jar files required for GraalJS and ensure they are on the classpath when you start JOSM.
+
+1. Download GraalJS jar files
+
+   The jar files required for GraaLJS are available from this [github repository][graaljs-jars]. Download the ZIP file with the latest release from this repository.
+
+2. Start JOSM with the GraalJS jar files on the classpath
+
+   Refer to this [README][graaljs-jars] file.
+
+
+### Running JOSM with the GraalVM JDK
 
 GraalVM ships with an engine for JavaScript (compatible with EMCAScript 2021) called [GraalJS][graaljs]. When you run JOSM with the JDK provided by the GraalVM, GraalJS
 is available in the JOSM Scripting Plugin and you can execute scripts written in JavaScript using GraalJS.
@@ -53,12 +73,8 @@ is available in the JOSM Scripting Plugin and you can execute scripts written in
     java -Djosm.home=/your/josm/home -Xmx2G -jar josm.jar
     ```
 
-## Running JOSM with another JDK and GraalJS as java library
 
-JDKs other than GraalVM don't include GraalJS.
-
-
-## Using the JavaScript [API V2](v2/v3)
+## Using the JavaScript [API V2](v2/v2)
 
 The JOSM Scripting Plugin ships with a JavaScript API. [API V2](v2/v2) can only be used in the GraalJS scripting engine. Neither Mozilla Rhino nor Nashorn can execute scripts based on [API V2](v2/v2) (because the API V2 includes a `require()` function to load Common-JS modules, which is specific for GraalJS).
 
@@ -84,3 +100,4 @@ Refer to the [API V2](v2/v2) documentation.
 [graalvm-22-download]: https://github.com/graalvm/graalvm-ce-builds/releases/tag/vm-22.1.0
 [graalvm-quickstart]: https://www.graalvm.org/java/quickstart/
 [graaljs]: https://github.com/oracle/graaljs
+[graaljs-jars]: https://github.com/Gubaer/josm-scripting-plugin-graaljs

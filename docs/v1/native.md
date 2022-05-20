@@ -8,6 +8,10 @@ nav_order: 3
 {% include v1-deprecated.md %}
 
 # Scripting native JOSM classes and objects
+{: .no_toc }
+
+1. TOC
+{: toc }
 
 ## Using native Java classes and methods
 
