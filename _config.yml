@@ -7,6 +7,11 @@
 #   $ bundle exec jekyll serve
 #
 
+safe: true
+lsi: false
+incremental: false
+highlighter: rouge
+
 title: JOSM Scripting Plugin
 email: karl.guggisberg@guggis.ch
 description: >- # this means to ignore newlines until "baseurl:"
@@ -18,8 +23,6 @@ github_username:  Gubaer
 # Build settings
 markdown: kramdown
 theme: just-the-docs
-#plugins:
-#  - jekyll-feed
 
 aux_links:
   "GitHub":
