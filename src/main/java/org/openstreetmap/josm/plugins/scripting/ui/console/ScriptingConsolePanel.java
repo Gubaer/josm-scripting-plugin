@@ -1,44 +1,36 @@
 package org.openstreetmap.josm.plugins.scripting.ui.console;
 
-import static org.openstreetmap.josm.tools.I18n.tr;
-
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.io.File;
-import java.util.Optional;
-import java.util.logging.Logger;
-
-import javax.swing.AbstractAction;
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JSplitPane;
-import javax.swing.SwingUtilities;
-import javax.validation.constraints.NotNull;
-
+import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.openstreetmap.josm.gui.HelpAwareOptionPane;
 import org.openstreetmap.josm.gui.HelpAwareOptionPane.ButtonSpec;
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
 import org.openstreetmap.josm.plugins.scripting.ui.ScriptExecutor;
 import org.openstreetmap.josm.tools.ImageProvider;
 
-import jsyntaxpane.DefaultSyntaxKit;
+import javax.swing.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.io.File;
+import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Stream;
+
+import static org.openstreetmap.josm.tools.I18n.tr;
 
 /**
  * The panel displaying the script editor and the console log in a split pane.
- *
  */
-@SuppressWarnings("serial")
+@SuppressWarnings({"WeakerAccess"})
 public class ScriptingConsolePanel extends JPanel {
     @SuppressWarnings("unused")
     private static final Logger logger =
         Logger.getLogger(ScriptingConsolePanel.class.getName());
 
-    private JSplitPane spConsole;
     private ScriptLogPanel log;
     private ScriptEditor editor;
 
@@ -68,9 +60,7 @@ public class ScriptingConsolePanel extends JPanel {
     }
 
     protected void build() {
-        DefaultSyntaxKit.initKit();
-
-        spConsole = buildSplitPane();
+        JSplitPane spConsole = buildSplitPane();
         setLayout(new BorderLayout());
         add(spConsole, BorderLayout.CENTER);
         editor.getModel().addPropertyChangeListener(evt -> {
@@ -86,32 +76,35 @@ public class ScriptingConsolePanel extends JPanel {
     }
 
 
-    protected void warnMissingSyntaxKit(ScriptEngineDescriptor desc) {
-        final StringBuffer sb = new StringBuffer();
+    protected void warnMissingSyntaxStyle(@Null ScriptEngineDescriptor desc) {
+        final StringBuilder sb = new StringBuilder();
         sb.append("<html>");
-        sb.append(tr("Didn''t find a suitable syntax kit for the script engine "
-                + "<strong>{0}</strong>.",
-                desc.getEngineName().orElse(tr("unknown"))));
+        sb.append(tr(
+            "Didn''t find a suitable syntax style for the script engine " +
+            "<strong>{0}</strong>.",
+            desc.getEngineName().orElse(tr("unknown"))));
         sb.append("<p>");
-        sb.append(tr("No syntax kit is configured for either of the following "
-                + "content types:"));
+        sb.append(tr(
+            "No syntax style is available for either of the following " +
+            "content types:"));
         sb.append("<ul>");
         for(String mt: desc.getContentMimeTypes()) {
             sb.append("<li><tt>").append(mt).append("</tt></li>");
         }
         sb.append("</ul>");
-        sb.append(tr("Syntax highlighting is going to be disabled."));
+        sb.append(tr("Syntax highlighting is disabled."));
         sb.append("<p>");
-        sb.append(tr("Refer to the online help how to configure syntax kits "
-                + "for specific content types."));
+        sb.append(tr(
+            "Refer to the online help how to configure the syntax style " +
+            "for specific content types."));
         sb.append("</html>");
 
         final ButtonSpec[] btns = new ButtonSpec[] {
                 new ButtonSpec(
-                        tr("OK"),
-                        ImageProvider.get("ok"),
-                        "",
-                        null // no specific help topic
+                    tr("OK"),
+                    ImageProvider.get("ok"),
+                    "",
+                    null // no specific help topic
                 )
         };
 
@@ -128,18 +121,21 @@ public class ScriptingConsolePanel extends JPanel {
     }
 
     protected void updateScriptContentType(ScriptEngineDescriptor desc) {
-        if (desc == null){
-            editor.changeContentType("text/plain");
-            return;
-        }
-        final Optional<String> mt = desc.getContentMimeTypes().stream()
-            .filter(s -> MimeTypeToSyntaxKitMap.getInstance().isSupported(s))
-            .findFirst();
-        if (mt.isPresent()) {
-            editor.changeContentType(mt.get());
+        final Stream<String> contentTypes;
+        contentTypes = desc == null
+                ? Stream.of("text/plain")
+                : desc.getContentMimeTypes().stream();
+        final Optional<String> syntax =
+            contentTypes.map(editor::lookupSyntaxConstants)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .findFirst();
+        if (syntax.isPresent()) {
+            editor.changeSyntaxEditingStyle(syntax.get());
         } else {
-            editor.changeContentType("text/plain");
-            warnMissingSyntaxKit(desc);
+            //noinspection ConstantConditions
+            warnMissingSyntaxStyle(desc);
+            editor.changeSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_NONE);
         }
     }
 
@@ -148,7 +144,7 @@ public class ScriptingConsolePanel extends JPanel {
     }
 
     /**
-     * <p>Reads the script from file {@code file}</p>
+     * Reads the script from file {@code file}
      *
      * @param file the file. Must not be null. A readable file is expected.
      */
@@ -171,7 +167,7 @@ public class ScriptingConsolePanel extends JPanel {
     }
 
     /**
-     * <p>Replies the script log</p>
+     * Replies the script log
      *
      * @return the script log
      */
@@ -205,6 +201,17 @@ public class ScriptingConsolePanel extends JPanel {
                         model.getScriptEngineDescriptor(),
                         source
                         );
+                break;
+            case GRAALVM:
+                try {
+                    new ScriptExecutor(ScriptingConsolePanel.this)
+                        .runScriptWithGraalEngine(
+                            model.getScriptEngineDescriptor(),
+                            source);
+                } catch(Throwable ex) {
+                    logger.log(Level.SEVERE, ex.getMessage(), ex);
+                    throw ex;
+                }
                 break;
             }
         }

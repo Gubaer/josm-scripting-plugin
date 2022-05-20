@@ -94,7 +94,7 @@ public class NativeJavaClassWithJSMixin extends NativeJavaClass{
         if (o instanceof Scriptable) {
             Object setter = ((Scriptable)o).get("set",(Scriptable)o);
             if (setter == NOT_FOUND) {
-                ScriptRuntime.throwError(Context.getCurrentContext(), parent,
+                throw ScriptRuntime.throwError(Context.getCurrentContext(), parent,
                     MessageFormat.format(
                             "Can''t set property ''{0}''. "
                           + "Javascript wrapper for class ''{1}'' doesn''t "
@@ -109,7 +109,7 @@ public class NativeJavaClassWithJSMixin extends NativeJavaClass{
                 );
                 return;
             } else {
-                ScriptRuntime.throwError(
+                throw ScriptRuntime.throwError(
                     Context.getCurrentContext(),
                     parent,
                     MessageFormat.format(

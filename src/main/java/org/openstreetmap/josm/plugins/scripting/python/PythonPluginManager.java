@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.openstreetmap.josm.gui.MapFrame;
@@ -32,10 +33,14 @@ import org.python.util.PythonInterpreter;
  * <p>It loads plugins from the paths given by Jytons <tt>sys.path</tt>. You
  * can configured additional paths with the JOSM preference key
  * {@link PreferenceKeys#PREF_KEY_JYTHON_SYS_PATHS} or using
- * {@link #addSysPath(String)}.</p>
+ * </p>
  *
+ * @deprecated Starting with plugin version 0.2.0 Jython plugins
+ * are not supported anymore.
  */
-public class PythonPluginManager implements
+@SuppressWarnings("removal")
+@Deprecated(forRemoval = true, since = "0.2.0")
+ public class PythonPluginManager implements
     PreferenceKeys, IPythonPluginManager{
     static private final Logger logger = Logger.getLogger(
             PythonPluginManager.class.getName());
@@ -75,6 +80,7 @@ public class PythonPluginManager implements
      *
      * @return the list of paths
      */
+    @SuppressWarnings("unused")
     public List<String> getOriginalSysPaths() {
         return Collections.unmodifiableList(originalSysPaths);
     }
@@ -94,13 +100,12 @@ public class PythonPluginManager implements
             try {
                 interpreter.exec(importStatement);
             } catch(Exception e) {
-                logger.warning(tr("Failed to load python module ''{0}''. \n"
+                logger.log(Level.WARNING, tr("Failed to load python module ''{0}''. \n"
                    + "Make sure the preferences with key ''{1}'' include "
                    + "the path to the module.",
                    module,
                    PreferenceKeys.PREF_KEY_JYTHON_SYS_PATHS
-                ));
-                e.printStackTrace();
+                ),e);
                 return null;
             }
         }
@@ -120,21 +125,18 @@ public class PythonPluginManager implements
             plugins.put(pluginClassName, plugin);
 
         } catch(Exception e) {
-            logger.warning(tr("Failed to instantiate plugin ''{0}''.",
-                    pluginClassName));
-            e.printStackTrace();
+            logger.log(Level.WARNING,tr("Failed to instantiate plugin ''{0}''.",
+                    pluginClassName),e);
             return null;
         }
 
         try {
             plugin.onLoad();
         } catch(Exception e) {
-            logger.warning(tr("''onLoad()'' for plugin ''{0}'' failed. "
+            logger.log(Level.WARNING,tr("''onLoad()'' for plugin ''{0}'' failed. "
                     + "Plugin isn''t properly initialized.",
                     pluginClassName
-            ));
-            System.out.println(e);
-            e.printStackTrace();
+            ),e);
         }
         return plugin;
     }

@@ -52,13 +52,12 @@ import org.openstreetmap.josm.tools.Utils;
 /**
  * <p>Provides a modal dialog for selecting and running a script.</p>
  */
-@SuppressWarnings("serial")
 public class RunScriptDialog extends JDialog implements PreferenceKeys {
     @SuppressWarnings("unused")
     static private final Logger logger =
             Logger.getLogger(RunScriptDialog.class.getName());
 
-    static private RunScriptDialog instance =
+    static private final RunScriptDialog instance =
         new RunScriptDialog(MainApplication.getMainFrame());
     static public RunScriptDialog getInstance() {
         return instance;
@@ -84,7 +83,7 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys {
                 HelpUtil.ht("/Plugin/Scripting"));
     }
 
-    protected JPanel buildInfoPanel() {
+    private JPanel buildInfoPanel() {
         JPanel pnl = new JPanel(new BorderLayout());
         HtmlPanel info = new HtmlPanel();
         info.setText(
@@ -96,7 +95,7 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys {
         return pnl;
     }
 
-    protected JPanel buildControlButtonPanel() {
+    private JPanel buildControlButtonPanel() {
         JPanel pnl = new JPanel(new FlowLayout(FlowLayout.CENTER));
         JButton btn;
 
@@ -112,7 +111,7 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys {
         return pnl;
     }
 
-    protected JPanel buildMacroFileInputPanel() {
+    private JPanel buildMacroFileInputPanel() {
         JPanel pnl = new JPanel();
 
         JPanel filePnl = new JPanel(new GridBagLayout());
@@ -152,7 +151,7 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys {
         return pnl;
     }
 
-    protected JPanel buildContentPanel() {
+    private JPanel buildContentPanel() {
         JPanel pnl = new JPanel(new BorderLayout());
         pnl.add(buildInfoPanel(), BorderLayout.NORTH);
         pnl.add(buildMacroFileInputPanel(), BorderLayout.CENTER);
@@ -200,7 +199,7 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys {
     }
 
     private class CancelAction extends AbstractAction {
-        public CancelAction() {
+        CancelAction() {
             putValue(NAME, tr("Cancel"));
             putValue(SHORT_DESCRIPTION, tr("Cancel"));
             putValue(SMALL_ICON, ImageProvider.get("cancel"));
@@ -215,7 +214,7 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys {
     public class RunAction extends JosmAction implements ParameterizedAction {
         private static final String SCRIPTING_FILENAME = "scriptingFilename";
 
-        public RunAction() {
+        RunAction() {
             super(
                 tr("Run"),
                 "run",
@@ -283,7 +282,7 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys {
     }
 
     private class SelectScriptFileAction extends AbstractAction {
-        public SelectScriptFileAction() {
+        SelectScriptFileAction() {
             putValue(NAME, "..."); // don't translate
             putValue(SHORT_DESCRIPTION, tr("Launch file selection dialog"));
         }

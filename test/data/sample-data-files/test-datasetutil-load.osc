@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<osmChange version="0.6" generator="generated manually">
+    <modify>
+        <node id="1" changeset="2" version="2" lat="2.0" lon="2.0">
+            <tag k="amenity" v="restaurant"/>
+        </node>
+    </modify>
+</osmChange>

@@ -1,119 +1,177 @@
 plugins {
-    id 'org.openstreetmap.josm' version '0.6.0'
+    // TODO: use a patched version until a new release of the plugin is available
+    id 'org.openstreetmap.josm' version '0.8.0-22-gfde22f3'
     id 'java'
     id 'groovy'
     id 'eclipse'
 }
 
-def currentPluginVersion(config) {
-    return config.releases.collect {it.pluginVersion}.max()
-}
-
-def currentPluginMainVersion(config) {
-    return config.releases.collect {it.josmVersion}.max()
-}
-
-def bestPluginVersion(config, josmVersion) {
-    return config.releases
-        .findAll{it.josmVersion == josmVersion}
-        .collect{it.pluginVersion}
-        .max()
+// fixes a problem with the gradle build
+//   org.gradle.api.InvalidUserCodeException: Entry module-info.class is a duplicate but no duplicate
+//   handling strategy has been set. Please refer to
+//   https://docs.gradle.org/7.4.2/dsl/org.gradle.api.tasks.Copy.html#org.gradle.api.tasks.Copy:duplicatesStrategy
+//   for details.
+tasks.withType(Jar).all {
+    duplicatesStrategy 'exclude'
 }
 
 repositories {
+    mavenLocal()
     mavenCentral()
 }
 
-dependencies {
-    implementation group: 'org.codehaus.groovy', name: 'groovy-all', version: '2.4.12'
-    implementation group: "org.python", name: "jython", version: "2.7.0"
-    implementation group: 'javax.activation', name: 'activation', version: '1.1.1'
-    implementation group: 'org.graalvm.sdk', name: 'graal-sdk', version: '19.1.0'
-    implementation group: 'org.graalvm.truffle', name: 'truffle-api', version: '19.1.0'
-    implementation group: 'org.graalvm.js', name: 'js', version: '19.1.0'
+configurations {
+    graalvm
+}
 
-    packIntoJar group: "org.mozilla", name: "rhino", version: "1.7.7.1"
-    packIntoJar group: "de.sciss", name: "jsyntaxpane", version: "1.0.0"
+dependencies {
+    def graalvmVersion = project.properties["graalvm.version"]
+
+    implementation group: 'org.codehaus.groovy', name: 'groovy-all', version: '3.0.10'
+    implementation group: "org.python", name: "jython", version: "2.7.2"
+    implementation group: 'javax.activation', name: 'activation', version: '1.1.1'
+
+    implementation group: 'com.github.spullara.mustache.java', name: 'compiler', version: '0.9.6'
+    implementation group: 'com.fifesoft', name: 'rsyntaxtextarea', version: '3.2.0'
+
+    // graalvm
+    implementation group: 'org.graalvm.sdk', name: 'graal-sdk', version: graalvmVersion
+    implementation group: 'org.graalvm.truffle', name: 'truffle-api', version: graalvmVersion
+    implementation group: 'org.graalvm.js', name: 'js', version: graalvmVersion
+    graalvm group: 'org.graalvm.sdk', name: 'graal-sdk', version: graalvmVersion
+    graalvm group: 'org.graalvm.truffle', name: 'truffle-api', version: graalvmVersion
+    graalvm group: 'org.graalvm.js', name: 'js', version: graalvmVersion
+
+
+    packIntoJar group: "org.mozilla", name: "rhino", version: "1.7.14"
     packIntoJar group: 'javax.validation', name: 'validation-api', version: '1.0.0.GA'
     packIntoJar group: 'javax.activation', name: 'activation', version: '1.1.1'
+    packIntoJar group: 'com.github.spullara.mustache.java', name: 'compiler', version: '0.9.10'
+    packIntoJar group: 'com.fifesoft', name: 'rsyntaxtextarea', version: '3.2.0'
+
 
     testImplementation('org.openstreetmap.josm:josm-unittest:latest'){changing=true}
     testImplementation group: 'org.jmockit', name: 'jmockit', version: '1.40'
     testImplementation group: 'junit', name: 'junit', version: '4.12'
-    testImplementation group: 'org.codehaus.groovy', name: 'groovy-all', version: '2.4.12'
-    testImplementation group: 'com.github.tomakehurst', name: 'wiremock', version: '2.18.0'
-    testImplementation group: 'org.awaitility', name: 'awaitility', version: '3.1.2'
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
+    testImplementation group: 'org.codehaus.groovy', name: 'groovy-all', version: '3.0.10'
+    testImplementation group: 'com.github.tomakehurst', name: 'wiremock', version: '2.27.2'
+    testImplementation group: 'org.awaitility', name: 'awaitility', version: '4.2.0'
 
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.6.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
 }
 
-def ConfigObject releaseHistory = new ConfigSlurper().parse(file("releases.conf").text)
+def releases = Releases.fromFile(file("releases.yml"))
 
-version = currentPluginVersion(releaseHistory)
+version = releases.currentPluginLabel
 archivesBaseName = "scripting"
+
+task dumpGraalVMJars() {
+    doLast {
+        println "GRAALVM_CLASS_PATH=" + configurations.graalvm.asPath
+    }
+}
 
 josm {
     josmCompileVersion = "latest"
     manifest {
-        description = 'Runs scripts in JOSM'
-        minJosmVersion = currentPluginMainVersion(releaseHistory)
-        mainClass = 'org.openstreetmap.josm.plugins.scripting.ScriptingPlugin'
-        iconPath = 'images/script-engine.png'
-        website = new URL("https://gubaer.github.io/josm-scripting-plugin")
-        canLoadAtRuntime = true
+        minJosmVersion = releases.highestJosmVersion
 
-        releaseHistory.releases.collect{it.josmVersion}.unique().sort().each {jv ->
-            def String dv = bestPluginVersion(releaseHistory, jv)
-            oldVersionDownloadLink jv, dv, new URL("https://raw.github.com/Gubaer/josm-scripting-plugin/for-josm-${jv}/dist/scripting.jar")
+        // Old releases up to v0.2.0 have a numeric ID and are available as raw asset from the github repo.
+        // Newer releases starting from v0.2.0 use semantic versioning and are available as asset from
+        // a github release.
+        releases.josmVersions.each {josmVersion ->
+            final label = releases.highestPluginLabelForJosmVersion(josmVersion)
+            if (label.isNumber()) {
+                oldVersionDownloadLink josmVersion, label,
+                new URL("https://raw.github.com/Gubaer/josm-scripting-plugin/for-josm-$josmVersion/dist/scripting.jar")
+            } else {
+                oldVersionDownloadLink josmVersion, label,
+                new URL("https://github.com/Gubaer/josm-scripting-plugin/releases/download/$label/scripting.jar")
+            }
         }
     }
+
     i18n {
         copyrightHolder = "Gubaer"
         //pathTransformer = getGithubPathTransformer('Gubaer/josm-scripting-plugin')
     }
+
+    github {
+        repositoryOwner = project.property("josm.github.user")
+        repositoryName = project.property("josm.github.repository")
+        targetCommitish = "master"
+    }
 }
 
 jar {
-    metaInf {
-        //TODO: fix - there is no mime.types file
-        from("resources") {
-            include "mime.types"
-        }
+    from("src/main/javascript/v1") {
+        into("js/v1")
+        include("**/*.js")
     }
 
-    from("src") {
-      include("**/*.dtd")
-    }
-
-    from("javascript") {
-      into("js")
-      include("**/*.js")
+    from("src/main/javascript/v2") {
+        into("js/v2")
+        include("**/*.js")
     }
 }
 
 compileJava {
-  sourceCompatibility = JavaVersion.VERSION_1_8
-  targetCompatibility = JavaVersion.VERSION_1_8
-  options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation" << "-Werror"
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+    options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation" << "-Werror"
 }
 
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+import org.openstreetmap.josm.plugins.scripting.build.Releases
+
+import java.nio.file.Files
+
+def getGraalVMHome() {
+    return new File(project.projectDir, "software/graalvm-ce-java11-${project.property("graalvm.version")}")
+}
+
+def getGraalVMJavaBinary() {
+    return new File(getGraalVMHome(), "bin/java")
+}
 
 test {
     useJUnit()
     environment "JOSM_SCRIPTING_PLUGIN_HOME", project.projectDir
+    environment "TEST_COMMONJS_MODULE_REPO",
+            "${project.projectDir}/test/data/require/modules"
+    environment "BUILTIN_COMMONJS_MODULE_REPO",
+            "${project.projectDir}/src/main/javascript/v2"
     scanForTestClasses = false
     include "**/AllUnitTests.class"
     testLogging.events TestLogEvent.FAILED, TestLogEvent.PASSED
 }
 
-task testScriptApi (type: Test) {
+task testScriptApiV1 (type: Test) {
     useJUnit()
     environment "JOSM_SCRIPTING_PLUGIN_HOME", project.projectDir
     scanForTestClasses = false
-    include "ScriptApiTest.class"
+    include "org.openstreetmap.josm.plugins.scripting.v1.ScriptApiTest.class"
+    testLogging {
+        events TestLogEvent.FAILED, TestLogEvent.PASSED
+        exceptionFormat = TestExceptionFormat.FULL
+    }
+}
+
+task testScriptApiV2(type: Test) {
+    dependsOn "downloadGraalVM"
+    useJUnit()
+    testLogging {
+        outputs.upToDateWhen {false}
+        showStandardStreams = true
+    }
+    environment "JOSM_SCRIPTING_PLUGIN_HOME", project.projectDir
+    executable getGraalVMJavaBinary()
+    environment "JAVA_HOME", getGraalVMHome()
+    scanForTestClasses= false
+    include "**/APIV2TestSuite.class"
+
     testLogging {
         events TestLogEvent.FAILED, TestLogEvent.PASSED
         exceptionFormat = TestExceptionFormat.FULL
@@ -132,24 +190,99 @@ task testGraalVMSupportNotPresent(type: Test) {
     }
 }
 
+import java.nio.file.Paths
+import java.nio.file.StandardCopyOption
 task testGraalVMSupportPresent(type: Test) {
+    doFirst {
+        // prepare a suitable 'preferences.xml' for the test cases in this
+        // executed by this task
+        Files.copy(
+            Paths.get("${project.projectDir}/test/josm-test-environments/env01/preferences.xml"),
+            Paths.get("${project.projectDir}/test/josm.home/preferences.xml"),
+            StandardCopyOption.REPLACE_EXISTING
+        )
+        println("testGraalVMSupportPresent: prepared preferences.xml")
+    }
     useJUnit()
+    environment "JOSM_SCRIPTING_PLUGIN_HOME",project.projectDir
+    systemProperty "josm.home", "${project.projectDir}/test/josm.home"
     scanForTestClasses= false
     include "**/graalvm/GraalVMPresentTest.class"
+    include "**/graalvm/GraalVMEvalTest.class"
+    include "**/graalvm/GraalVMEmbeddedInJOSMTest.class"
+    include "**/graalvm/GraalVMAndRequireTest.class"
     testLogging {
         events TestLogEvent.FAILED, TestLogEvent.PASSED
         exceptionFormat = TestExceptionFormat.FULL
     }
 }
 
-tasks.check.dependsOn(tasks.testScriptApi)
+task testWithGraalVMJDK(type: Test) {
+    dependsOn "downloadGraalVM"
+    useJUnit()
+    environment "JOSM_SCRIPTING_PLUGIN_HOME", project.projectDir
+    scanForTestClasses= false
+    executable getGraalVMJavaBinary()
+    environment "JAVA_HOME", getGraalVMHome()
+
+    include "**/graalvm/GraalVMPresentTest.class"
+    include "**/graalvm/GraalVMEvalTest.class"
+    include "**/graalvm/GraalVMEmbeddedInJOSMTest.class"
+    include "**/graalvm/GraalVMAndRequireTest.class"
+    include "**/graalvm/ScriptingAPIV2Test.class"
+    testLogging {
+        events TestLogEvent.FAILED, TestLogEvent.PASSED
+        exceptionFormat = TestExceptionFormat.FULL
+    }
+}
+
+task testJSR223EngineAbsent(type: Test) {
+    useJUnit()
+    // make sure neither a graalvm, nor groovy or python are on the
+    // classpath
+    classpath = classpath
+        .filter {! it.toString().toLowerCase().contains("graalvm")}
+        .filter {! it.toString().toLowerCase().contains("groovy")}
+        .filter {! it.toString().toLowerCase().contains("python")}
+
+    scanForTestClasses= false
+    include "**/jsr223/JSR223CompatibleEngineAbsentTest.class"
+    testLogging {
+        events TestLogEvent.FAILED, TestLogEvent.PASSED
+        exceptionFormat = TestExceptionFormat.FULL
+    }
+}
+
+task testJSR223EnginePresent(type: Test) {
+    useJUnit()
+
+    // groovy and python are on the classpath
+    scanForTestClasses= false
+    include "**/jsr223/JSR223CompatibleEnginePresentTest.class"
+    testLogging {
+        events TestLogEvent.FAILED, TestLogEvent.PASSED
+        exceptionFormat = TestExceptionFormat.FULL
+    }
+}
+
+tasks.check.dependsOn(tasks.testScriptApiV1)
 tasks.check.dependsOn(tasks.testGraalVMSupportNotPresent)
 tasks.check.dependsOn(tasks.testGraalVMSupportPresent)
+tasks.check.dependsOn(tasks.testJSR223EngineAbsent)
+tasks.check.dependsOn(tasks.testJSR223EnginePresent)
+tasks.check.dependsOn(tasks.testWithGraalVMJDK)
 
 sourceSets {
     test {
-        java.srcDirs = ["test/common", "test/script-api"]
-        groovy.srcDirs = ["test/unit"]
+        java.srcDirs = [
+            "src/test/unit/java",
+            "src/test/functional/java",
+            "src/test/common/java"
+        ]
+        groovy.srcDirs = [
+            "src/test/unit/groovy",
+            "src/test/functional/groovy"
+        ]
     }
 }
 processResources {
@@ -157,61 +290,15 @@ processResources {
   from "$projectDir/LICENSE"
 }
 
-tasks.dist.into("$projectDir/dist")
-task deploy {
-    dependsOn dist
-    doLast {
-        def config = new ConfigSlurper().parse(file("releases.conf").text)
-        def deployBranch = "deploy"
-        def jar = "$projectDir/dist/${archivesBaseName}.jar";
-        Git.ensureOnBranch(deployBranch)
-        Git.add(jar)
-        Git.commit(jar, "commited plugin build ${currentPluginVersion(config)}")
-        def tag = "for-josm-${currentPluginMainVersion(config)}"
-        Git.tagHead(tag)
-        Git.push("origin", deployBranch)
-        Git.pushTags()
-    }
+import org.openstreetmap.josm.plugins.scripting.build.GraalVMDownloadTask
+tasks.register("downloadGraalVM", GraalVMDownloadTask)
+
+import org.openstreetmap.josm.plugins.scripting.convert.ReleaseFileConverter
+tasks.register("convertReleaseFile", ReleaseFileConverter) {
+    inputFile = file("releases.conf")
+    outputFile = file("releases.generated.yml")
 }
 
-class Git {
-
-    static private def executeAndLog(cmd) {
-        def proc = cmd.execute()
-        proc.waitFor()
-        println "Exit Value: ${proc.exitValue()}"
-        println "Output: ${proc.in.text}"
-        println "Error: ${proc.err.text}"
-        if (proc.exitValue() != 0) {
-            throw new Error("git command failed. command was <$cmd>")
-        }
-    }
-
-    static def ensureOnBranch(branch) {
-        def proc = "git rev-parse --abbrev-ref HEAD".execute()
-        def ret = proc.in.text.trim()
-        if (ret != branch) {
-            throw new Error("currently on branch '$ret', but expected branch '$branch'")
-        }
-    }
-
-    static def add(file) {
-        executeAndLog(["git", "add", "-f", file])
-    }
-
-    static def commit(file, message) {
-        executeAndLog(["git", "commit", "-m", message, file])
-    }
-
-    static def push(remote, branch) {
-        executeAndLog("git push $remote $branch")
-    }
-
-    static def tagHead(tag) {
-        executeAndLog(["git", "tag", "-f", tag, "HEAD"])
-    }
-
-    static def pushTags() {
-        executeAndLog("git push --tags -f")
-    }
+publishToGithubRelease {
+    remoteJarName = "scripting.jar"
 }

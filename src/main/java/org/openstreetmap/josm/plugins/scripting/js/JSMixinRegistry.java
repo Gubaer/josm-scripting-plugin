@@ -64,7 +64,7 @@ import org.mozilla.javascript.Wrapper;
 */
 public class JSMixinRegistry {
 
-    static private Map<Class<?>, Scriptable> MIXINS =
+    static private final Map<Class<?>, Scriptable> MIXINS =
             new HashMap<>();
 
     static private Object unwrap(Object o) {
@@ -78,7 +78,7 @@ public class JSMixinRegistry {
      * <p>Register a mixin for a java class. The mixin is given by the
      * properties in the scriptable object <code>mixin</code></p>.
      *
-     * @param parentScope the parent scope to be used when loading the module
+     * @param clazz the class for which we register a mixin
      * @param mixin the mixin
      */
     static public void registerMixin(Class<?> clazz, Scriptable mixin) {

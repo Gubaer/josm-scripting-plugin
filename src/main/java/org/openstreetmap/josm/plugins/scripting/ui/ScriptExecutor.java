@@ -1,40 +1,37 @@
 package org.openstreetmap.josm.plugins.scripting.ui;
 
-import static org.openstreetmap.josm.plugins.scripting.util.FileUtils.buildTextFileReader;
-import static org.openstreetmap.josm.tools.I18n.tr;
-
-import java.awt.Component;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.lang.reflect.InvocationTargetException;
-import java.nio.charset.StandardCharsets;
-import java.util.Objects;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
-
-import javax.script.Compilable;
-import javax.script.ScriptEngine;
-import javax.script.ScriptException;
-import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
-import javax.validation.constraints.NotNull;
-
 import org.mozilla.javascript.JavaScriptException;
 import org.mozilla.javascript.RhinoException;
 import org.mozilla.javascript.ScriptRuntime;
 import org.mozilla.javascript.Scriptable;
 import org.openstreetmap.josm.gui.HelpAwareOptionPane;
 import org.openstreetmap.josm.gui.help.HelpUtil;
+import org.openstreetmap.josm.plugins.scripting.graalvm.GraalVMEvalException;
+import org.openstreetmap.josm.plugins.scripting.graalvm.GraalVMFacadeFactory;
+import org.openstreetmap.josm.plugins.scripting.graalvm.IGraalVMFacade;
 import org.openstreetmap.josm.plugins.scripting.js.RhinoEngine;
 import org.openstreetmap.josm.plugins.scripting.model.JSR223CompiledScriptCache;
 import org.openstreetmap.josm.plugins.scripting.model.JSR223ScriptEngineProvider;
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
 import org.openstreetmap.josm.plugins.scripting.util.Assert;
-import org.openstreetmap.josm.plugins.scripting.util.ExceptionUtil;
+
+import javax.script.Compilable;
+import javax.script.ScriptEngine;
+import javax.script.ScriptException;
+import javax.swing.*;
+import javax.validation.constraints.NotNull;
+import java.awt.*;
+import java.io.*;
+import java.lang.reflect.InvocationTargetException;
+import java.nio.charset.StandardCharsets;
+import java.text.MessageFormat;
+import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
+
+import static org.openstreetmap.josm.plugins.scripting.util.FileUtils.buildTextFileReader;
+import static org.openstreetmap.josm.tools.I18n.tr;
 
 /**
  * A utility class providing methods for executing a script (as string or
@@ -43,13 +40,10 @@ import org.openstreetmap.josm.plugins.scripting.util.ExceptionUtil;
  *
  */
 public class ScriptExecutor {
-    static private final  Logger logger =
+    static private final Logger logger =
          Logger.getLogger(ScriptExecutor.class.getName());
 
-    private Component parent = null;
-
-    public ScriptExecutor() {
-    }
+    private final Component parent;
 
     /**
      * Creates a new script executor
@@ -61,37 +55,35 @@ public class ScriptExecutor {
         this.parent = parent;
     }
 
-    protected void warnScriptingEngineNotFound(ScriptEngineDescriptor desc) {
+    private void warnScriptingEngineNotFound() {
         HelpAwareOptionPane.showOptionDialog(
-                this.parent,
-                "<html>"
-                + tr(
-                    "<p>The script can''t be executed, because a scripting "
-                    + "engine with name ''{0}'' isn''t configured.</p>"
-                    + "<p>Refer to the online help for information about how "
-                    + "to install/configure a scripting engine for JOSM.</p>"
-                )
-                + "</html>"
-                ,
-                tr("Script engine not found"),
-                JOptionPane.ERROR_MESSAGE,
-                HelpUtil.ht("/Plugin/Scripting")
+            this.parent,
+            "<html>"
+            + tr(
+                "<p>The script can''t be executed, because a scripting "
+                + "engine with name ''{0}'' isn''t configured.</p>"
+                + "<p>Refer to the online help for information about how "
+                + "to install/configure a scripting engine for JOSM.</p>"
+            )
+            + "</html>"
+            ,
+            tr("Script engine not found"),
+            JOptionPane.ERROR_MESSAGE,
+            HelpUtil.ht("/Plugin/Scripting")
         );
     }
 
-    protected void warnExecutingScriptFailed(ScriptException e){
-        System.out.println(tr("Script execution has failed."));
-        e.printStackTrace();
-        HelpAwareOptionPane.showOptionDialog(
-                this.parent,
-                tr("Script execution has failed."),
-                tr("Script Error"),
-                JOptionPane.ERROR_MESSAGE,
-                HelpUtil.ht("/Plugin/Scripting")
-        );
+    private void warnExecutingScriptFailed(ScriptException e){
+        logger.log(Level.SEVERE, tr("Script execution has failed."), e);
+        ScriptErrorDialog.showErrorDialog(e);
     }
 
-    protected void warnJavaScriptExceptionCaught(JavaScriptException e){
+    private void warnExecutingScriptFailed(GraalVMEvalException e){
+        logger.log(Level.SEVERE, tr("Script execution has failed."), e);
+        ScriptErrorDialog.showErrorDialog(e);
+    }
+
+    private void warnJavaScriptExceptionCaught(JavaScriptException e){
         // extract detail information from the property 'description' of
         // the original JavaScript error object
         //
@@ -105,25 +97,17 @@ public class ScriptExecutor {
             }
         }
 
-        System.out.println(tr("Script execution has failed."));
-        e.printStackTrace();
-
-        HelpAwareOptionPane.showOptionDialog(
-            this.parent,
-            tr("An error occured in the script.")
-            + (details.isEmpty() ? ""
-                    : ("<br><br><strong>Details:</strong> " + details)),
-            tr("Script Error"),
-            JOptionPane.ERROR_MESSAGE,
-            HelpUtil.ht("/Plugin/Scripting")
-        );
+        logger.log(Level.SEVERE, String.format(
+            tr("Script execution has failed. Details: %s"),
+            details
+        ), e);
+        ScriptErrorDialog.showErrorDialog(e);
     }
 
-    protected void warnOpenScriptFileFailed(File f, Exception e){
-        System.out.println(tr("Failed to read the script from file ''{0}''.",
-                f.toString()));
-        e.printStackTrace();
-
+    private void warnOpenScriptFileFailed(File f, Exception e){
+        logger.log(Level.SEVERE,
+            tr("Failed to read the script from file ''{0}''.", f.toString()),
+            e);
         HelpAwareOptionPane.showOptionDialog(
             this.parent,
             tr("Failed to read the script from file ''{0}''.", f.toString()),
@@ -133,12 +117,12 @@ public class ScriptExecutor {
         );
     }
 
-    protected void notifyRhinoException(File scriptFile, RhinoException e) {
+    private void notifyRhinoException(File scriptFile, RhinoException e) {
         HelpAwareOptionPane.showOptionDialog(
             this.parent,
             "<html>"
             + tr(
-                "<p>Failed to execute the script file ''{0}''.</p><p/>"
+                "<p>Failed to execute the script file ''{0}''.</p>"
                 + "<p><strong>Error message:</strong>{1}</p>"
                 + "<p><strong>At:</strong>line {2}, column {3}</p>",
                 scriptFile.toString(),
@@ -146,15 +130,14 @@ public class ScriptExecutor {
                 e.lineNumber(),
                 e.columnNumber()
             )
-            + "</html>"
-            ,
+            + "</html>",
             tr("Script execution failed"),
             JOptionPane.ERROR_MESSAGE,
             HelpUtil.ht("/Plugin/Scripting")
         );
     }
 
-    protected void notifyRhinoException(RhinoException e) {
+    private void notifyRhinoException(RhinoException e) {
         HelpAwareOptionPane.showOptionDialog(
             this.parent,
             "<html>"
@@ -174,7 +157,7 @@ public class ScriptExecutor {
     );
     }
 
-    protected void notifyIOExeption(File scriptFile, IOException e) {
+    private void notifyIOExeption(File scriptFile, IOException e) {
         HelpAwareOptionPane.showOptionDialog(
             this.parent,
             "<html>"
@@ -192,24 +175,12 @@ public class ScriptExecutor {
         );
     }
 
-    protected void notifyRuntimeException(RuntimeException e) {
-        HelpAwareOptionPane.showOptionDialog(
-            this.parent,
-            "<html>"
-            + tr(
-                "<p>Failed to execute a script.</p><p/>"
-                + "<p><strong>Error message:</strong>{0}</p>",
-                e.getMessage()
-            )
-            + "</html>"
-            ,
-            tr("Script execution failed"),
-            JOptionPane.ERROR_MESSAGE,
-            HelpUtil.ht("/Plugin/Scripting")
-        );
+    private void notifyRuntimeException(RuntimeException e) {
+        logger.log(Level.SEVERE, tr("Failed to execute a script."),e);
+        ScriptErrorDialog.showErrorDialog(e);
     }
 
-    protected void runOnSwingEDT(Runnable r){
+    private void runOnSwingEDT(Runnable r){
         if (SwingUtilities.isEventDispatchThread()) {
             r.run();
         } else {
@@ -223,10 +194,10 @@ public class ScriptExecutor {
                     throw (RuntimeException) throwable;
                 }
                 // no other checked exceptions expected - log a warning
-                logger.warning(
-                    "Unexpected exception wrapped in "
-                  + "InvocationTargetException: " + throwable.toString());
-                logger.warning(ExceptionUtil.stackTraceAsString(throwable));
+                logger.log(Level.WARNING, String.format(
+                    "Unexpected exception wrapped in InvocationTargetException: %s",
+                    throwable.toString()
+                ), throwable);
             } catch(InterruptedException e){
                 Thread.currentThread().interrupt();
             }
@@ -241,7 +212,7 @@ public class ScriptExecutor {
      * @param scriptFile the script file. Must not be null. Readable file
      *      expected.
      */
-    public void runScriptWithPluggedEngine(
+    void runScriptWithPluggedEngine(
             @NotNull final ScriptEngineDescriptor desc,
             @NotNull  final File scriptFile) throws IllegalArgumentException {
         Objects.requireNonNull(desc);
@@ -254,7 +225,7 @@ public class ScriptExecutor {
         final ScriptEngine engine = JSR223ScriptEngineProvider
                 .getInstance().getScriptEngine(desc);
         if (engine == null) {
-            warnScriptingEngineNotFound(desc);
+            warnScriptingEngineNotFound();
             return;
         }
         Runnable task = () -> {
@@ -265,7 +236,9 @@ public class ScriptExecutor {
                         .compile((Compilable) engine, scriptFile)
                         .eval();
                 } else {
-                    try (Reader reader = new InputStreamReader(new FileInputStream(scriptFile), StandardCharsets.UTF_8)) {
+                    try (Reader reader =
+                        new InputStreamReader(new FileInputStream(scriptFile),
+                                StandardCharsets.UTF_8)) {
                         engine.eval(reader);
                     }
                 }
@@ -293,7 +266,7 @@ public class ScriptExecutor {
         final ScriptEngine engine = JSR223ScriptEngineProvider.getInstance()
                 .getScriptEngine(desc);
         if (engine == null) {
-            warnScriptingEngineNotFound(desc);
+            warnScriptingEngineNotFound();
             return;
         }
         Runnable task = () -> {
@@ -306,9 +279,50 @@ public class ScriptExecutor {
         runOnSwingEDT(task);
     }
 
-    protected String readFile(File scriptFile) throws IOException {
+    /**
+     * Runs a script with a GraalVM engine.
+     *
+     * Runs the script on the Swing EDT and prompts the user with a modal
+     * dialog, in case of an exception.
+     *
+     * @param desc the descriptor
+     * @param script the script
+     */
+    public void runScriptWithGraalEngine(
+            @NotNull final ScriptEngineDescriptor desc,
+            final String script) {
+        Objects.requireNonNull(desc);
+        if (!desc.getEngineType().equals(
+            ScriptEngineDescriptor.ScriptEngineType.GRAALVM)) {
+            throw new IllegalArgumentException(MessageFormat.format(
+                "Expected GraalVM descriptor, got {0}", desc.getEngineType()
+            ));
+        }
+        if (script == null) return;
+        final IGraalVMFacade facade = GraalVMFacadeFactory.createGraalVMFacade();
+        if (facade == null) {
+            // should not happen. Make sure this method is only invoked
+            // if GraalVM is present. Log a warning and return, don't prompt
+            // the user with an error message.
+            logger.warning(tr("GraalVM not present, can''t run script with GraalVM"));
+            return;
+        }
+        Runnable task = () -> {
+            try {
+                facade.resetContext();
+                facade.eval(desc, script);
+            } catch(GraalVMEvalException e){
+                warnExecutingScriptFailed(e);
+            } finally {
+                facade.resetContext();
+            }
+        };
+        runOnSwingEDT(task);
+    }
+
+    private String readFile(File scriptFile) throws IOException {
         try (BufferedReader reader =
-                     new BufferedReader(buildTextFileReader(scriptFile))) {
+             new BufferedReader(buildTextFileReader(scriptFile))) {
             return reader.lines().collect(Collectors.joining("\n"));
         }
     }
@@ -320,6 +334,7 @@ public class ScriptExecutor {
      * @param scriptFile the script file. Must not be null. Expects a
      *      readable file.
      */
+    @SuppressWarnings("WeakerAccess") // part of the public API
     public void runScriptWithEmbeddedEngine(@NotNull final File scriptFile)
                 throws IllegalArgumentException {
         Objects.requireNonNull(scriptFile);
@@ -331,17 +346,16 @@ public class ScriptExecutor {
         } catch(JavaScriptException e){
             warnJavaScriptExceptionCaught(e);
         } catch(RhinoException e){
-            System.err.println(e);
-            e.printStackTrace();
+            logger.log(Level.SEVERE, String.format("failed to execute script file. file='%s'",
+                scriptFile.getAbsolutePath()), e);
             notifyRhinoException(scriptFile, e);
         } catch(IOException e){
-            System.err.println(e);
-            e.printStackTrace();
+            logger.log(Level.SEVERE, String.format("failed to execute script file. file='%s'",
+                scriptFile.getAbsolutePath()), e);
             notifyIOExeption(scriptFile, e);
         } catch(RuntimeException e){
-            System.err.println(e);
-            e.printStackTrace();
-            //TODO: notify with file name
+            logger.log(Level.SEVERE, String.format("failed to execute script file. file='%s'",
+                scriptFile.getAbsolutePath()), e);
             notifyRuntimeException(e);
         }
     }
@@ -359,16 +373,13 @@ public class ScriptExecutor {
             engine.enterSwingThreadContext();
             engine.evaluateOnSwingThread(script);
         } catch(JavaScriptException e){
-            System.err.println(e);
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "failed to execute script", e);
             warnJavaScriptExceptionCaught(e);
         } catch(RhinoException e){
-            System.err.println(e);
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "failed to execute script", e);
             notifyRhinoException(e);
         } catch(RuntimeException e){
-            System.err.println(e);
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "failed to execute script", e);
             notifyRuntimeException(e);
         }
     }

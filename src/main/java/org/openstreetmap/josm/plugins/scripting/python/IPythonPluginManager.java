@@ -4,6 +4,12 @@ import java.util.Collection;
 
 import org.openstreetmap.josm.gui.MapFrame;
 
+/**
+ * @deprecated Starting with plugin version 0.2.0 Jython plugins
+ * are not supported anymore.
+ */
+@SuppressWarnings("removal")
+@Deprecated(forRemoval = true, since = "0.2.0")
 public interface IPythonPluginManager {
 
     /**

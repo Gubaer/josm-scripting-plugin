@@ -1,27 +1,27 @@
 package org.openstreetmap.josm.plugins.scripting.ui.console;
 
-import static org.openstreetmap.josm.tools.I18n.tr;
+import org.openstreetmap.josm.data.preferences.StringProperty;
+import org.openstreetmap.josm.tools.ImageProvider;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.util.logging.Logger;
 
-import javax.swing.AbstractAction;
-import javax.swing.JFileChooser;
-
-import org.openstreetmap.josm.data.preferences.StringProperty;
-import org.openstreetmap.josm.tools.ImageProvider;
+import static org.openstreetmap.josm.tools.I18n.tr;
 
 public class OpenAction extends AbstractAction {
     private static final long serialVersionUID = 1L;
-    static private final Logger logger = Logger.getLogger(
-            OpenAction.class.getName());
-    static public final StringProperty PREF_LAST_OPEN_DIR = new StringProperty(
-            OpenAction.class.getName() + ".lastDir",
-            null
-     );
 
-    protected File getLastOpenedDirectory() {
+    @SuppressWarnings("unused")
+    static private final Logger logger = Logger.getLogger(
+        OpenAction.class.getName());
+
+    static private final StringProperty PREF_LAST_OPEN_DIR = new StringProperty(
+        OpenAction.class.getName() + ".lastDir",
+        null);
+
+    private File getLastOpenedDirectory() {
         String dir = PREF_LAST_OPEN_DIR.get();
         if (dir == null) return null;
         File f = new File(dir);
@@ -29,7 +29,7 @@ public class OpenAction extends AbstractAction {
         return f;
     }
 
-    protected File askFile() {
+    private File askFile() {
         JFileChooser chooser = new JFileChooser();
         chooser.setDialogTitle(tr("Select a script"));
         chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -48,10 +48,10 @@ public class OpenAction extends AbstractAction {
         return chooser.getSelectedFile();
     }
 
-    public OpenAction() {
+    OpenAction() {
         putValue(NAME, tr("Open"));
         putValue(SHORT_DESCRIPTION, tr("Open a script file"));
-        putValue(SMALL_ICON, ImageProvider.get("open"));
+        putValue(SMALL_ICON, ImageProvider.get("open", ImageProvider.ImageSizes.MENU));
     }
 
     @Override

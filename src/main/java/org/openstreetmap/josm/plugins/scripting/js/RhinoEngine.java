@@ -6,7 +6,6 @@ import org.openstreetmap.josm.plugins.PluginException;
 import org.openstreetmap.josm.plugins.PluginInformation;
 import org.openstreetmap.josm.plugins.scripting.ScriptingPlugin;
 import org.openstreetmap.josm.plugins.scripting.util.Assert;
-import org.openstreetmap.josm.plugins.scripting.util.ExceptionUtil;
 
 import javax.swing.*;
 import java.io.File;
@@ -26,6 +25,7 @@ import static org.openstreetmap.josm.tools.I18n.tr;
 /**
  * A facade to the embedded rhino scripting engine.
  */
+@SuppressWarnings({"resource", "unused"})
 public class RhinoEngine {
     static private final Logger logger = Logger.getLogger(
             RhinoEngine.class.getName());
@@ -61,20 +61,19 @@ public class RhinoEngine {
         Object o = module.get("mixins", module);
         if (o instanceof NativeArray) {
             Object[] modules = ((NativeArray)o).toArray();
-            for (int i = 0; i< modules.length; i++){
-                Object m = modules[i];
-                if (! (m instanceof String)) continue;
+            for (Object m : modules) {
+                if (!(m instanceof String)) continue;
                 try {
-                    JSMixinRegistry.loadJSMixin(scope, (String)m);
-                } catch(JSMixinException e){
+                    JSMixinRegistry.loadJSMixin(scope, (String) m);
+                } catch (JSMixinException e) {
                     logger.log(
-                        Level.SEVERE,
-                        MessageFormat.format(
-                          "Failed to load mixin module ''{0}''.", m), e);
+                            Level.SEVERE,
+                            MessageFormat.format(
+                                    "Failed to load mixin module ''{0}''.", m), e);
                     continue;
                 }
                 logger.info(MessageFormat.format(
-                    "Successfully loaded mixin module ''{0}''", m));
+                        "Successfully loaded mixin module ''{0}''", m));
             }
         } else {
             logger.warning(MessageFormat.format(
@@ -89,9 +88,8 @@ public class RhinoEngine {
         try {
             PluginInformation info = PluginInformation.findPlugin("scripting");
             if (info != null) {
-                URL url = new URL(String.format("jar:%s!/js",
+                return new URL(String.format("jar:%s!/js/v1",
                         info.file.toURI().toURL()));
-                return url;
             } else {
                 logger.warning("Plugin information for plugin 'scripting' not "
                    + "found. Failed to initialize CommonJS module loader "
@@ -173,9 +171,11 @@ public class RhinoEngine {
                     throw (RuntimeException) throwable;
                 }
                 // no other checked exceptions expected - log a warning
-                logger.warning("Unexpected exception wrapped in "
-                      + "InvocationTargetException: " + throwable.toString());
-                logger.warning(ExceptionUtil.stackTraceAsString(throwable));
+                logger.log(Level.WARNING, String.format(
+                    "Unexpected exception wrapped in InvocationTargetException: %s",
+                    throwable.toString()),
+                    throwable
+                );
             } catch(InterruptedException e){
                 Thread.currentThread().interrupt();
             }

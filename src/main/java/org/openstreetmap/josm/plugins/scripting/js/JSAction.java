@@ -18,7 +18,7 @@ import org.openstreetmap.josm.gui.MainApplication;
 import org.openstreetmap.josm.tools.ImageProvider;
 import org.openstreetmap.josm.tools.Shortcut;
 
-
+@SuppressWarnings("unused")
 public class JSAction extends JosmAction {
     private final static AtomicInteger counter = new AtomicInteger();
 

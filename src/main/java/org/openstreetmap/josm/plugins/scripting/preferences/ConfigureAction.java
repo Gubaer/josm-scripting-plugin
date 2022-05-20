@@ -11,7 +11,6 @@ import org.openstreetmap.josm.gui.MainApplication;
 import org.openstreetmap.josm.gui.help.HelpUtil;
 import org.openstreetmap.josm.gui.preferences.PreferenceDialog;
 
-@SuppressWarnings("serial")
 public class ConfigureAction extends JosmAction {
     //static private Logger logger = Logger.getLogger(
     //            ConfigureAction.class.getName());

@@ -1,0 +1,18 @@
+pluginManagement {
+    repositories {
+        mavenLocal()
+        //NOTE: resolving a custom fork of the gradle-josm-plugin published to
+        // this Amazon S3 bucket doesn't work. Gradle can't resolve sub modules
+        // like 'common' or 'dogfood'
+        maven {
+            url "http://gradle-josm-plugin.s3-website-eu-west-1.amazonaws.com"
+            allowInsecureProtocol true
+            content {
+                includeModule("org.openstreetmap.josm", "gradle-josm-plugin")
+                includeModule("org.openstreetmap.josm", "org.openstreetmap.josm.gradle.plugin")
+            }
+        }
+        gradlePluginPortal()
+        mavenCentral()
+    }
+}

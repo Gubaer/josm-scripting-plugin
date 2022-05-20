@@ -9,7 +9,6 @@ import javax.swing.AbstractAction;
 
 import org.openstreetmap.josm.tools.ImageProvider;
 
-@SuppressWarnings("serial")
 public class CloseAction extends AbstractAction {
     @SuppressWarnings("unused")
     static private final Logger logger =
@@ -18,7 +17,7 @@ public class CloseAction extends AbstractAction {
     public CloseAction() {
         putValue(NAME, tr("Close"));
         putValue(SHORT_DESCRIPTION, tr("Close the scripting console"));
-        putValue(SMALL_ICON, ImageProvider.get("exit"));
+        putValue(SMALL_ICON, ImageProvider.get("exit", ImageProvider.ImageSizes.MENU));
     }
 
     @Override

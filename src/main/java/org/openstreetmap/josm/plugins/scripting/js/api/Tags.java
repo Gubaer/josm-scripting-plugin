@@ -11,6 +11,7 @@ import org.openstreetmap.josm.data.osm.OsmPrimitive;
 import org.openstreetmap.josm.data.osm.Tagged;
 import org.openstreetmap.josm.plugins.scripting.js.RhinoEngine;
 
+@SuppressWarnings("unused")
 public class Tags extends ScriptableObject {
     private static final long serialVersionUID = 1L;
     @SuppressWarnings("unused")
@@ -80,8 +81,7 @@ public class Tags extends ScriptableObject {
 
     @Override
     public Object[] getAllIds() {
-        return primitive.keySet().stream()
-             .toArray((size) -> new Object[size]);
+        return primitive.keySet().toArray();
     }
 
     @Override

@@ -24,6 +24,7 @@ import javax.swing.text.StyleConstants;
 
 import org.openstreetmap.josm.tools.ImageProvider;
 
+@SuppressWarnings("unused")
 public class ScriptLogPanel extends JPanel implements IScriptLog{
     @SuppressWarnings("unused")
     static private final Logger logger =
@@ -95,7 +96,8 @@ public class ScriptLogPanel extends JPanel implements IScriptLog{
         public ClearAction() {
             putValue(NAME, tr("Clear log"));
             putValue(SHORT_DESCRIPTION, tr("Clear the log content"));
-            putValue(SMALL_ICON, ImageProvider.get("dialogs/delete"));
+            putValue(SMALL_ICON, ImageProvider.get("dialogs", "delete",
+                ImageProvider.ImageSizes.MENU));
         }
 
         @Override

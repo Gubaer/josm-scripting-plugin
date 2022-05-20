@@ -1,35 +1,32 @@
 package org.openstreetmap.josm.plugins.scripting.ui.console;
 
-import static org.openstreetmap.josm.tools.I18n.tr;
+import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
+import org.openstreetmap.josm.plugins.scripting.ui.EditorPaneBuilder;
+import org.openstreetmap.josm.plugins.scripting.ui.ScriptEngineCellRenderer;
+import org.openstreetmap.josm.plugins.scripting.ui.ScriptEngineSelectionDialog;
 
-import java.awt.BorderLayout;
-import java.awt.Font;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.text.MessageFormat;
-import java.util.Objects;
-import java.util.logging.Logger;
-
-import javax.swing.JEditorPane;
-import javax.swing.JPanel;
-import javax.swing.UIManager;
+import javax.swing.*;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
-import javax.swing.text.html.HTMLEditorKit;
-import javax.swing.text.html.StyleSheet;
 import javax.validation.constraints.NotNull;
+import java.awt.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
-import org.openstreetmap.josm.plugins.scripting.ui.ScriptEngineSelectionDialog;
+import static org.openstreetmap.josm.tools.I18n.tr;
 
 /**
  * Displays summary information about the currently selected scripting engine.
  */
+@SuppressWarnings("unused")
 public class ScriptEngineInfoPanel extends JPanel implements
 PropertyChangeListener, HyperlinkListener{
     @SuppressWarnings("unused")
     static private final Logger logger =
-            Logger.getLogger(ScriptEngineInfoPanel.class.getName());
+        Logger.getLogger(ScriptEngineInfoPanel.class.getName());
 
     private JEditorPane jepInfo;
     private ScriptEditorModel model;
@@ -48,27 +45,8 @@ PropertyChangeListener, HyperlinkListener{
     }
 
     protected void build() {
-        jepInfo = new JEditorPane("text/html", "");
-        jepInfo.setOpaque(false);
-        jepInfo.setEditable(false);
+        jepInfo = EditorPaneBuilder.buildInfoEditorPane();
         jepInfo.addHyperlinkListener(this);
-        final Font f = UIManager.getFont("Label.font");
-        final StyleSheet ss = new StyleSheet();
-        final String cssRuleFontFamily =
-            "font-family: ''{0}'';font-size: {1,number}pt; font-weight: {2}; "
-                + "font-style: {3}";
-        String rule = MessageFormat
-                .format(cssRuleFontFamily,
-                        f.getName(),
-                        f.getSize(),
-                        "bold",
-                        f.isItalic() ? "italic" : "normal");
-        rule = "strong {" + rule + "}";
-        ss.addRule(rule);
-        ss.addRule("a {text-decoration: underline; color: blue}");
-        final HTMLEditorKit kit = new HTMLEditorKit();
-        kit.setStyleSheet(ss);
-        jepInfo.setEditorKit(kit);
         setLayout(new BorderLayout());
         add(jepInfo, BorderLayout.CENTER);
     }
@@ -77,55 +55,61 @@ PropertyChangeListener, HyperlinkListener{
         build();
     }
 
+    private static String buildSelectScriptEngineLink(final String label) {
+        return String.format("<a href=\"urn:select-script-engine\">%s</a>", label);
+    }
+
     protected void refreshInfo(ScriptEngineDescriptor desc){
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         if (desc == null){
             sb.append("<html>");
             sb.append(tr("No script engine selected.")).append(" ");
-            sb.append("<a href=\"urn:select-script-engine\">")
-                .append(tr("Select...")).append("</a>");
-            sb.append("<html>");
+            sb.append(buildSelectScriptEngineLink(tr("Select")));
+            sb.append("</html>");
         } else if (desc.isDefault()) {
             sb.append("<html>");
             sb.append(
-                    tr("Executing scripts with the built-in scripting engine "
-                    +"for language <strong>{0}</strong> based on "
-                    + "<strong>{1}</strong>.",
-                    desc.getLanguageName().orElse(tr("unknown")),
-                    desc.getEngineName().orElse(tr("unknown"))
-                    )
-            );
-            sb.append(" ");
-            sb.append("<a href=\"urn:change-script-engine\">")
-                .append(tr("Change...")).append("</a>");
-            sb.append("</html>");
-        } else {
-            sb.append("<html>");
-            sb.append(tr(
-                    "Executing scripts in language <strong>{0}</strong> "
-                    + "using engine <strong>{1}</strong>.",
-                    desc.getLanguageName().orElse(tr("unknown")),
-                    desc.getEngineName().orElse(tr("unknown"))
+                tr("Executing scripts with the built-in scripting engine "
+                +"for language <strong>{0}</strong> based on "
+                + "<strong>{1}</strong>.",
+                desc.getLanguageName().orElse(tr("unknown")),
+                desc.getEngineName().orElse(tr("unknown"))
                 )
             );
             sb.append(" ");
-            sb.append("<a href=\"urn:change-script-engine\">")
-                .append(tr("Change...")).append("</a>");
+            sb.append(buildSelectScriptEngineLink(tr("Change")));
+            sb.append("</html>");
+        } else {
+            sb.append("<html>");
+            sb.append(tr("Executing scripts in language <strong>{0}</strong> "
+                + "using engine <strong>{1}</strong>.",
+                desc.getLanguageName().orElse(tr("unknown")),
+                ScriptEngineCellRenderer.defaultEngineName(desc))
+            );
+            sb.append(" ");
+            sb.append(buildSelectScriptEngineLink(tr("Change")));
             sb.append("</html>");
         }
         jepInfo.setText(sb.toString());
     }
 
     protected void promptForScriptEngine() {
-        ScriptEngineDescriptor desc = ScriptEngineSelectionDialog.select(
-                this, model.getScriptEngineDescriptor());
+        final var desc = ScriptEngineSelectionDialog.select(
+            this, model.getScriptEngineDescriptor());
         if (desc != null){
+            logger.log(Level.FINE, String.format(
+                "Interactively selected script engine. id=%s, language=%s",
+                desc.getEngineId(),
+                desc.getLanguageName()
+            ));
             model.setScriptEngineDescriptor(desc);
+        } else {
+            logger.log(Level.FINE, "No script engine selected");
         }
     }
 
     /* --------------------------------------------------------------------- */
-    /* interface PropertyChagneListener                                      */
+    /* interface PropertyChangeListener                                      */
     /* --------------------------------------------------------------------- */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {

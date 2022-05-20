@@ -1,41 +1,41 @@
 package org.openstreetmap.josm.plugins.scripting.model;
 
-import static org.openstreetmap.josm.tools.I18n.tr;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.function.Predicate;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
-
-import javax.activation.MimetypesFileTypeMap;
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineFactory;
-import javax.script.ScriptEngineManager;
-import javax.swing.AbstractListModel;
-import javax.validation.constraints.NotNull;
-
 import org.openstreetmap.josm.data.Preferences;
 import org.openstreetmap.josm.plugins.scripting.ScriptingPlugin;
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor.ScriptEngineType;
 import org.openstreetmap.josm.plugins.scripting.preferences.ScriptEngineJarInfo;
 import org.openstreetmap.josm.plugins.scripting.util.Assert;
+
+import javax.activation.MimetypesFileTypeMap;
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineFactory;
+import javax.script.ScriptEngineManager;
+import javax.swing.*;
+import javax.validation.constraints.NotNull;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Objects;
+import java.util.function.Predicate;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
+
+import static org.openstreetmap.josm.tools.I18n.tr;
 /**
- * <p>Provides a list model for the list of available script engines.</p>
- *
+ * Provides a list model for the list of available JSR223 compatible
+ * script engines.
  */
-@SuppressWarnings("serial")
+@SuppressWarnings("unused")
 public class JSR223ScriptEngineProvider
-    extends AbstractListModel<ScriptEngineFactory>
+    extends AbstractListModel<ScriptEngineDescriptor>
     implements PreferenceKeys {
 
     /**
@@ -63,6 +63,7 @@ public class JSR223ScriptEngineProvider
     }
 
     private final List<ScriptEngineFactory> factories = new ArrayList<>();
+    private final List<ScriptEngineDescriptor> descriptors = new ArrayList<>();
     private final List<File> scriptEngineJars = new ArrayList<>();
     private MimetypesFileTypeMap mimeTypesMap = new MimetypesFileTypeMap();
     private ClassLoader scriptClassLoader = getClass().getClassLoader();
@@ -84,13 +85,13 @@ public class JSR223ScriptEngineProvider
             if (f.isFile() && f.canRead()){
                 try {
                     mimeTypesMap = new MimetypesFileTypeMap(
-                        new FileInputStream(f));
+                            Files.newInputStream(f.toPath()));
                     return;
                 } catch(IOException e) {
-                    System.err.println(
-                        tr("Warning: failed to load mime types from "
-                         + "file ''{0}''.", f));
-                    e.printStackTrace();
+                    logger.log(Level.WARNING,
+                        tr("failed to load mime types from file ''{0}''.", f),
+                        e
+                    );
                 }
             }
         }
@@ -98,15 +99,14 @@ public class JSR223ScriptEngineProvider
         try (final InputStream is = getClass()
                 .getResourceAsStream(DEFAULT_MIME_TYPES)){
             if (is == null){
-                System.err.println(tr("Warning: failed to load default mime "
-                        + "types from  resource ''{0}''.", DEFAULT_MIME_TYPES));
+                logger.warning(tr("failed to load default mime "
+                    + "types from resource ''{0}''.", DEFAULT_MIME_TYPES));
                 return;
             }
             mimeTypesMap = new MimetypesFileTypeMap(is);
         } catch(IOException e) {
-            System.err.println(tr("Warning: failed to load default mime "
-                    + "types from  resource ''{0}''.", DEFAULT_MIME_TYPES));
-            e.printStackTrace();
+            logger.log(Level.WARNING, tr("failed to load default mime "
+                + "types from  resource ''{0}''.", DEFAULT_MIME_TYPES),e);
         }
     }
 
@@ -133,18 +133,20 @@ public class JSR223ScriptEngineProvider
                 } catch(MalformedURLException e) {
                     // shouldn't happen because the entries in
                     // 'scriptEngineJars' are existing, valid files.
-                    // Ignore the exception.
-                    e.printStackTrace();
+                    // Ignore the exception, but log it.
+                    logger.log(Level.WARNING,tr(
+                        "found malformed URL to script engine jar. URL=''{0}''"
+                        ), e);
                     return null;
                 }
             })
-            .filter(url -> url != null)
-            .toArray((size) -> new URL[size]);
+            .filter(Objects::nonNull)
+            .toArray(URL[]::new);
 
         if (urls.length > 0){
             scriptClassLoader = new URLClassLoader(
-                    urls,
-                    getClass().getClassLoader()
+                urls,
+                getClass().getClassLoader()
             );
         } else {
             scriptClassLoader = getClass().getClassLoader();
@@ -153,15 +155,16 @@ public class JSR223ScriptEngineProvider
 
     protected void loadScriptEngineFactories() {
         Objects.requireNonNull(scriptClassLoader,
-                "expected scriptClassLoader != null");
+            "expected scriptClassLoader != null");
         factories.clear();
-        ScriptEngineManager manager =
-                new ScriptEngineManager(scriptClassLoader);
+        descriptors.clear();
+        final ScriptEngineManager manager =
+            new ScriptEngineManager(scriptClassLoader);
         factories.addAll(manager.getEngineFactories());
 
-        Collections.sort(factories,
-            (f1,f2) -> f1.getEngineName().compareTo(f2.getEngineName())
-        );
+        factories.sort(Comparator.comparing(ScriptEngineFactory::getEngineName));
+        factories.stream().map(ScriptEngineDescriptor::new)
+            .collect(Collectors.toCollection(() -> descriptors));
     }
 
     private JSR223ScriptEngineProvider(){
@@ -187,11 +190,16 @@ public class JSR223ScriptEngineProvider
      *
      * @param name the name. Must not be null.
      * @return the script engine
-     * @see ScriptEngineManager#getEngineByName(String)
      */
     public ScriptEngine getEngineByName(@NotNull String name) {
         Objects.requireNonNull(name);
-        return getScriptEngineManager().getEngineByName(name);
+        // Note: getScriptEngineManager().get(name) doesn't work as
+        // expected. This is a workaround.
+        return getScriptEngineFactories().stream()
+            .filter(f -> f.getEngineName().equals(name))
+            .findAny()
+            .map(ScriptEngineFactory::getScriptEngine)
+            .orElse(null);
     }
 
     /**
@@ -234,8 +242,7 @@ public class JSR223ScriptEngineProvider
             .findFirst()
             .map(ScriptEngineDescriptor::new)
             .orElse(null);
-}
-
+    }
 
     /**
      * Replies the content type for file {@code scriptFile}.
@@ -262,7 +269,7 @@ public class JSR223ScriptEngineProvider
         this.scriptEngineJars.clear();
         if (jars != null){
             jars.stream()
-                .filter(jar -> jar != null)
+                .filter(Objects::nonNull)
                 .filter(jar -> new ScriptEngineJarInfo(jar.toString())
                       .getStatusMessage()
                       .equals(ScriptEngineJarInfo.OK_MESSAGE)
@@ -281,12 +288,11 @@ public class JSR223ScriptEngineProvider
      * @return the engine
      */
     public ScriptEngine getScriptEngine(int i){
-        ScriptEngine engine = factories.get(i).getScriptEngine();
-        return engine;
+        return factories.get(i).getScriptEngine();
     }
 
     /**
-     * Replies a script engine for the first first script engine factory
+     * Replies a script engine for the first script engine factory
      * whose name matches with the name in the descriptor <code>desc</code>,
      * or null, if no such scripting engine is found.
      *
@@ -303,7 +309,7 @@ public class JSR223ScriptEngineProvider
             .filter(factory ->
                 desc.getEngineId().equals(factory.getNames().get(0)))
             .findFirst()
-            .map(factory -> factory.getScriptEngine())
+            .map(ScriptEngineFactory::getScriptEngine)
             .orElse(null);
     }
 
@@ -344,12 +350,12 @@ public class JSR223ScriptEngineProvider
     /* ListModel                                                             */
     /* --------------------------------------------------------------------- */
     @Override
-    public ScriptEngineFactory getElementAt(int i) {
-        return factories.get(i);
+    public ScriptEngineDescriptor getElementAt(int i) {
+        return descriptors.get(i);
     }
 
     @Override
     public int getSize() {
-        return factories.size();
+        return descriptors.size();
     }
 }

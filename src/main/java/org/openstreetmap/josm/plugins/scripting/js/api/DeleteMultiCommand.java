@@ -26,7 +26,7 @@ public class DeleteMultiCommand extends MultiCommand {
      * </ul>
      *
      * @param layer the layer where the objects are added to
-     * @param toAdd the collection of objects to add
+     * @param toDelete the collection of objects to add
      */
     public DeleteMultiCommand(OsmDataLayer layer,
             @NotNull Collection<OsmPrimitive> toDelete) {

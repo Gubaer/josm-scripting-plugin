@@ -1,37 +1,42 @@
 package org.openstreetmap.josm.plugins.scripting.ui;
 
-import java.awt.event.ActionEvent;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
-import java.util.stream.Collectors;
-
-import javax.swing.AbstractAction;
-import javax.swing.Action;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JComboBox;
-
 import org.openstreetmap.josm.data.Preferences;
 import org.openstreetmap.josm.plugins.scripting.model.PreferenceKeys;
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
 import org.openstreetmap.josm.tools.ImageProvider;
 
+import javax.swing.*;
+import javax.validation.constraints.NotNull;
+import java.awt.event.ActionEvent;
+import java.beans.PropertyChangeSupport;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.beans.PropertyChangeListener;
+
 /**
- * <p>This model manages a list of most recently run scripts.</p>
+ * This model manages a list of most recently run scripts.
  *
- * <p>Use {@link #remember()} to remember an entry.</p>
+ * Use {@link #remember(String)} to remember an entry.
  *
- * <p>There is a unique instance of this model which can be connected to
- * either an {@link Observer} or a {@link ComboBox}.</p>
+ * There is a unique instance of this model which can be connected to
+ * either an {@link PropertyChangeListener} or a {@link javax.swing.ComboBoxEditor}.
  *
  */
-public class MostRecentlyRunScriptsModel extends Observable
-    implements PreferenceKeys{
+public class MostRecentlyRunScriptsModel
+    implements PreferenceKeys {
+
+    /**
+     * Property name for the list of most recently run scripts
+     * managed by this model
+     */
+    static final public String PROP_SCRIPTS
+        = MostRecentlyRunScriptsModel.class.getName() + ".scripts";
 
     static final private MostRecentlyRunScriptsModel instance =
-            new MostRecentlyRunScriptsModel();
+        new MostRecentlyRunScriptsModel();
+
     /**
      * Unique instance of the model for the list of most recently
      * run scripts.
@@ -44,15 +49,28 @@ public class MostRecentlyRunScriptsModel extends Observable
 
     private List<String> scripts = new ArrayList<>();
 
+    private final PropertyChangeSupport propertyChangeSupport
+            = new PropertyChangeSupport(this);
+
+    /**
+     * Replies the {@link PropertyChangeSupport property change support}
+     * to register property change listeners
+     *
+     * @return the property change support
+     */
+    public @NotNull PropertyChangeSupport getPropertyChangeSupport() {
+        return propertyChangeSupport;
+    }
+
     /**
      * Remembers a script in the list of most recently run scripts
      *
-     * @param script
+     * @param script the script to remember in the list
      */
     public void remember(String script) {
+        final List<String> oldScripts = scripts;
         switch(scripts.indexOf(script)) {
         case -1:
-            //System.out.println("remembering script: " + script);
             scripts.add(0, script);
             break;
         case 0:
@@ -64,9 +82,14 @@ public class MostRecentlyRunScriptsModel extends Observable
             scripts.add(0, script);
         }
         scripts = scripts.stream().limit(10).collect(Collectors.toList());
-        setChanged();
-        notifyObservers();
-        comboBoxModel.fireContentChanged();
+        if (hasChanged(oldScripts, scripts)) {
+            propertyChangeSupport.firePropertyChange(
+                    PROP_SCRIPTS,
+                    oldScripts,
+                    scripts
+            );
+            comboBoxModel.fireContentChanged();
+        }
     }
 
     /**
@@ -78,11 +101,22 @@ public class MostRecentlyRunScriptsModel extends Observable
         prefs.putList(PREF_KEY_FILE_HISTORY, scripts);
     }
 
-    protected boolean canRun(String script) {
+    private boolean canRun(String script) {
         final File f = new File(script);
         return f.exists() && f.isFile() && f.canRead();
     }
 
+    private boolean hasChanged(final List<String> oldScripts, final List<String> newScripts) {
+        if (oldScripts.size() != newScripts.size()) {
+            return true;
+        }
+        for (int i=0; i < oldScripts.size(); i++) {
+            if (! oldScripts.get(i).equals(newScripts.get(i))) {
+                return true;
+            }
+        }
+        return false;
+    }
     /**
      * Loads the list of the most recently run scripts from the
      * preferences.
@@ -90,14 +124,20 @@ public class MostRecentlyRunScriptsModel extends Observable
      * @param prefs the preferences
      */
     public void loadFromPreferences(Preferences prefs) {
+        final List<String> oldScripts = scripts;
         scripts = prefs.getList(PREF_KEY_FILE_HISTORY).stream()
-            .filter(s->canRun(s))
+            .filter(this::canRun)
             .distinct()
             .limit(10)
             .collect(Collectors.toList());
-        setChanged();
-        notifyObservers();
-        comboBoxModel.fireContentChanged();
+        if (hasChanged(oldScripts, scripts)) {
+            propertyChangeSupport.firePropertyChange(
+                PROP_SCRIPTS,
+                oldScripts,
+                scripts
+            );
+            comboBoxModel.fireContentChanged();
+        }
     }
 
     /**
@@ -111,9 +151,8 @@ public class MostRecentlyRunScriptsModel extends Observable
     }
     private final ComboBoxModel comboBoxModel = new ComboBoxModel();
 
-    @SuppressWarnings("serial")
     private class ComboBoxModel extends DefaultComboBoxModel<String> {
-        public void fireContentChanged() {
+        void fireContentChanged() {
             super.fireContentsChanged(MostRecentlyRunScriptsModel.this,
                     0, scripts.size());
         }
@@ -127,10 +166,9 @@ public class MostRecentlyRunScriptsModel extends Observable
         }
     }
 
-    @SuppressWarnings("serial")
     static private class RunScriptAction extends AbstractAction {
         private final String script;
-        public RunScriptAction(int pos, String script) {
+        RunScriptAction(int pos, String script) {
             File f = new File(script);
             putValue(NAME, String.format("%s %s", pos, f.getName()));
             putValue(SHORT_DESCRIPTION, f.getAbsolutePath());

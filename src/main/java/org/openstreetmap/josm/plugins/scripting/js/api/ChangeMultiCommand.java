@@ -15,7 +15,7 @@ import org.openstreetmap.josm.gui.layer.OsmDataLayer;
 
 public class ChangeMultiCommand extends MultiCommand {
 
-    private Change change;
+    private final Change change;
     private PrimitiveData[] oldState;
 
     /**

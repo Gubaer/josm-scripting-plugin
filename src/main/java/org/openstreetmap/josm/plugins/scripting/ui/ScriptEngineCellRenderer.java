@@ -1,66 +1,81 @@
 package org.openstreetmap.josm.plugins.scripting.ui;
 
-import static org.openstreetmap.josm.tools.I18n.tr;
-
-import java.awt.Component;
-import java.util.List;
-
-import javax.script.ScriptEngineFactory;
-import javax.swing.BorderFactory;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.ListCellRenderer;
-import javax.swing.UIManager;
-
+import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
 import org.openstreetmap.josm.tools.ImageProvider;
 
+import javax.swing.*;
+import java.awt.*;
+
+import static org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor.ScriptEngineType.GRAALVM;
+import static org.openstreetmap.josm.tools.I18n.tr;
+
 /**
- * <p>Implements a list cell renderer for the list of scripting engines.</p>
- *
+ * Implements a list cell renderer for the list of scripting engines.
  */
 public class ScriptEngineCellRenderer
-    implements ListCellRenderer<ScriptEngineFactory> {
+    implements ListCellRenderer<ScriptEngineDescriptor> {
+
+    static public final String DISPLAYED_GRAAL_ENGINE_NAME = "GraalVM";
+
+    static public String defaultEngineName(ScriptEngineDescriptor desc) {
+        if (desc.getEngineType() == GRAALVM) {
+            return DISPLAYED_GRAAL_ENGINE_NAME;
+        }
+        return desc.getEngineName()
+            .map(String::trim)
+            .filter(s -> ! s.isEmpty())
+            .orElse(tr("unknown"));
+    }
 
     private final JLabel lbl = new JLabel();
 
-    protected String getDisplayName(ScriptEngineFactory factory){
+    private String getDisplayName(ScriptEngineDescriptor descriptor){
+        if (descriptor == null) return tr("Select an engine");
+        final String engineName = defaultEngineName(descriptor);
+        final String languageName = descriptor.getLanguageName()
+            .orElse(tr("unknown"));
         // used in the context of a combo box
-        if (factory == null) return tr("Select an engine");
-        return tr("{1} (with engine {0})",
-                factory.getEngineName(),
-                factory.getLanguageName());
+        return tr("{1} (with engine {0})", engineName, languageName);
     }
 
-    protected String getTooltipText(ScriptEngineFactory factory){
-        if (factory == null) return "";
-        StringBuilder sb = new StringBuilder();
+    private void addNameValuePairToToolTip(StringBuilder sb, String name,
+                                             String value) {
+        sb.append("<strong>").append(name).append("</strong> ")
+          .append(value).append("<br>");
+    }
+
+    private String getTooltipText(ScriptEngineDescriptor descriptor) {
+        if (descriptor == null) return "";
+        final StringBuilder sb = new StringBuilder();
         sb.append("<html>");
-        sb.append("<strong>").append(tr("Name:")).append("</strong> ")
-          .append(factory.getEngineName()).append("<br>");
-        sb.append("<strong>").append(tr("Version:")).append("</strong> ")
-          .append(factory.getEngineVersion()).append("<br>");
-        sb.append("<strong>").append(tr("Language:")).append("</strong> ")
-          .append(factory.getLanguageName()).append("<br>");
-        sb.append("<strong>").append(tr("Language version:"))
-          .append("</strong> ").append(factory.getLanguageVersion())
-          .append("<br>");
-        sb.append("<strong>").append(tr("MIME-Types:")).append("</strong> ");
-        List<String> types = factory.getMimeTypes();
-        for(int i=0; i<types.size(); i++){
-            if (i > 0 )sb.append(", ");
-            sb.append(types.get(i));
+        if (descriptor.getEngineName().isPresent()) {
+            addNameValuePairToToolTip(sb, tr("Name:"),
+                defaultEngineName(descriptor));
         }
+        if (descriptor.getEngineVersion().isPresent()) {
+            addNameValuePairToToolTip(sb, tr("Version:"),
+                descriptor.getEngineVersion().get());
+        }
+        if (descriptor.getLanguageName().isPresent()) {
+            addNameValuePairToToolTip(sb, tr("Language:"),
+                descriptor.getLanguageName().get());
+        }
+        if (descriptor.getLanguageVersion().isPresent()) {
+            addNameValuePairToToolTip(sb, tr("Language version:"),
+                descriptor.getLanguageVersion().get());
+        }
+        sb.append("<strong>").append(tr("MIME-Types:")).append("</strong> ");
+        sb.append(String.join(", ", descriptor.getContentMimeTypes()));
         sb.append("<br>");
         sb.append("</html>");
-
         return sb.toString();
     }
 
-    protected void renderColors(boolean selected, boolean enabled){
+    private void renderColors(boolean selected, boolean enabled){
         if (!selected || !enabled){
             lbl.setForeground(UIManager.getColor(enabled
-                    ? "List.foreground"
-                    : "Label.disabledForeground"));
+                ? "List.foreground"
+                : "Label.disabledForeground"));
             lbl.setBackground(UIManager.getColor("List.background"));
         } else {
             lbl.setForeground(UIManager.getColor("List.selectionForeground"));
@@ -71,18 +86,18 @@ public class ScriptEngineCellRenderer
     public ScriptEngineCellRenderer() {
         lbl.setOpaque(true);
         lbl.setBorder(BorderFactory.createEmptyBorder(1, 3, 1, 3));
-        lbl.setIcon(ImageProvider.get("script-engine"));
+        lbl.setIcon(ImageProvider.get("script-engine",
+            ImageProvider.ImageSizes.SMALLICON));
     }
 
     @Override
     public Component getListCellRendererComponent(
-            JList<? extends ScriptEngineFactory> list,
-            ScriptEngineFactory factory, int index, boolean isSelected,
+            JList<? extends ScriptEngineDescriptor> list,
+            ScriptEngineDescriptor descriptor, int index, boolean isSelected,
             boolean cellHasFocus) {
-        boolean enabled = list.isEnabled();
-        renderColors(isSelected, enabled);
-        lbl.setText(getDisplayName(factory));
-        lbl.setToolTipText(getTooltipText(factory));
+        renderColors(isSelected, list.isEnabled());
+        lbl.setText(getDisplayName(descriptor));
+        lbl.setToolTipText(getTooltipText(descriptor));
         return lbl;
     }
 }

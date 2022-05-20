@@ -1,15 +1,13 @@
 package org.openstreetmap.josm.plugins.scripting.model;
 
+import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.MessageFormat;
 import java.util.Objects;
 import java.util.jar.JarFile;
 import java.util.logging.Logger;
-
-import javax.validation.constraints.NotNull;
-
-import org.openstreetmap.josm.plugins.scripting.util.Assert;
 
 /**
  * A location from where CommonJS modules are loaded.
@@ -23,7 +21,7 @@ public class CommonJSModuleRepository {
     static private final Logger logger = Logger.getLogger(
             CommonJSModuleRepository.class.getName());
 
-    private URL url;
+    final private URL url;
 
     /**
      * Creates a repository.
@@ -40,30 +38,31 @@ public class CommonJSModuleRepository {
         try {
             url = dir.toURI().toURL();
         } catch(MalformedURLException e) {
-            Assert.assertArg(false, "Failed to convert file {0} to URL. "
-               + "Exception is: {1}", dir, e);
+            throw new IllegalArgumentException(MessageFormat.format(
+             "Failed to convert file {0} to URL. Exception is: {1}", dir, e));
         }
     }
 
     protected void ensureValidUrl(URL url) {
-        if (url.getProtocol().equals("file")) {
-            return;
-        } else  if (url.getProtocol().equals("jar")) {
-            String s = url.getFile();
-            try {
-                URL jarFileUrl = new URL(s);
-                if (jarFileUrl.getProtocol().equals("file")) return;
-                Assert.assertArg(false,
+        switch(url.getProtocol()) {
+            case "file":
+                return;
+            case "jar":
+                String s = url.getFile();
+                try {
+                    URL jarFileUrl = new URL(s);
+                    if (jarFileUrl.getProtocol().equals("file")) return;
+                    throw new IllegalArgumentException(MessageFormat.format(
+                        "Type of URL not supported for CommonJS module repository, "
+                       + "got {0}", url));
+                } catch(MalformedURLException e){
+                    throw new IllegalArgumentException(MessageFormat.format(
+                        "Failed to create URL for jar file <{0}>.", s));
+                }
+            default:
+                throw new IllegalArgumentException(MessageFormat.format(
                     "Type of URL not supported for CommonJS module repository, "
-                   + "got {0}", url);
-            } catch(MalformedURLException e){
-                Assert.assertArg(false,
-                    "Failed to create URL for jar file <{0}>.", s);
-            }
-        } else {
-            Assert.assertArg(false,
-                "Type of URL not supported for CommonJS module repository, "
-              + "got {0}", url);
+                  + "got {0}", url));
         }
     }
 
@@ -134,9 +133,9 @@ public class CommonJSModuleRepository {
             this.url = new URL("jar:" + new File(jar.getName()).toURI()
                     .toURL() + "!" + jarPath);
         } catch(MalformedURLException e) {
-            Assert.assertArg(false,
+            throw new IllegalArgumentException(MessageFormat.format(
                 "Failed to create jar URL for jar file <{0}> and jar path "
-              + "<{1}>. Exception is: {2}", jar, jarPath, e);
+              + "<{1}>. Exception is: {2}", jar, jarPath, e));
         }
     }
 
@@ -209,10 +208,9 @@ public class CommonJSModuleRepository {
             return false;
         CommonJSModuleRepository other = (CommonJSModuleRepository) obj;
         if (url == null) {
-            if (other.url != null)
-                return false;
-        } else if (!url.equals(other.url))
-            return false;
-        return true;
+            return other.url == null;
+        } else {
+            return url.equals(other.url);
+        }
     }
 }

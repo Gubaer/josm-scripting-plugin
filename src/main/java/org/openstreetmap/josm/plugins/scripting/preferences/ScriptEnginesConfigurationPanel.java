@@ -9,10 +9,10 @@ import org.openstreetmap.josm.gui.widgets.SelectAllOnFocusGainedDecorator;
 import org.openstreetmap.josm.gui.widgets.VerticallyScrollablePanel;
 import org.openstreetmap.josm.plugins.scripting.ScriptingPlugin;
 import org.openstreetmap.josm.plugins.scripting.model.JSR223ScriptEngineProvider;
+import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
 import org.openstreetmap.josm.plugins.scripting.ui.ScriptEngineCellRenderer;
 import org.openstreetmap.josm.tools.ImageProvider;
 
-import javax.script.ScriptEngineFactory;
 import javax.swing.*;
 import javax.swing.event.CellEditorListener;
 import javax.swing.event.ListSelectionEvent;
@@ -28,10 +28,11 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static org.openstreetmap.josm.plugins.scripting.model.PreferenceKeys.PREF_KEY_SCRIPTING_ENGINE_JARS;
@@ -42,8 +43,10 @@ import static org.openstreetmap.josm.tools.I18n.tr;
  * the script engines available in JOSM.</p>
  *
  */
-@SuppressWarnings("serial")
+@SuppressWarnings("unused")
 public class ScriptEnginesConfigurationPanel extends VerticallyScrollablePanel{
+    static private final Logger logger =
+        Logger.getLogger(ScriptEnginesConfigurationPanel.class.getName());
 
     private final static String RES_SCRIPT_ENGINE_JARS
         = "/resources/script-engine-jars.properties";
@@ -52,9 +55,10 @@ public class ScriptEnginesConfigurationPanel extends VerticallyScrollablePanel{
      * Describes the jar file for scripting engine which JOSM can load
      * download and install automatically
      */
+    @SuppressWarnings("unused")
     public static class EngineJarDescriptor {
-        private String name;
-        private String downloadUrl;
+        private final String name;
+        private final String downloadUrl;
         EngineJarDescriptor(String name, String downloadUrl){
             this.name = name;
             this.downloadUrl = downloadUrl;
@@ -70,17 +74,16 @@ public class ScriptEnginesConfigurationPanel extends VerticallyScrollablePanel{
         public File getLocalJarFile() {
             if (downloadUrl == null) return null;
             if (downloadUrl.lastIndexOf("/") < 0) return null;
-            File engineFile = new File(
+            return new File(
                 ScriptingPlugin.getInstance().getPluginDirs().getUserDataDirectory(false),
                 downloadUrl.substring(downloadUrl.lastIndexOf("/"))
             );
-            return engineFile;
         }
 
         /**
          * Replies the local path of the engine jar file, relative to the
          * home directory of the scripting plugin
-         * @return
+         * @return the relative plugin path
          */
         public String getRelativePluginPath() {
             if (downloadUrl == null) return null;
@@ -96,8 +99,13 @@ public class ScriptEnginesConfigurationPanel extends VerticallyScrollablePanel{
          */
         public boolean hasLocalJarFile() {
             File jar = getLocalJarFile();
-            System.out.println("jar file: " + jar);
-            if (jar == null) return false;
+            if (jar == null) {
+                logger.warning(String.format(
+                    "no jar file for scripting engine '%s' locally available",
+                    getName()
+                ));
+                return false;
+            }
             return jar.isFile() && jar.canRead();
         }
 
@@ -138,21 +146,20 @@ public class ScriptEnginesConfigurationPanel extends VerticallyScrollablePanel{
         try (InputStream in = ScriptEnginesConfigurationPanel.class
                 .getResourceAsStream(RES_SCRIPT_ENGINE_JARS)) {
             if (in == null) {
-                System.err.println(tr("Error: resource file ''{0}'' not found",
+                logger.severe(tr("resource file ''{0}'' not found",
                 RES_SCRIPT_ENGINE_JARS));
             }
 
             prop.load(in);
         } catch(IOException e) {
-            System.err.println(tr("Error: failed to load resource file ''{0}''",
-                    RES_SCRIPT_ENGINE_JARS));
-            System.err.println(e);
-            e.printStackTrace();
+            logger.log(Level.SEVERE,
+                tr("failed to load resource file ''{0}''",
+                RES_SCRIPT_ENGINE_JARS), e);
         }
         String value = prop.getProperty("engines");
         if (value == null) {
-            System.out.println(tr(
-                "Warning: property  ''{0}'' in resource file ''{1}'' not found",
+            logger.warning(tr(
+                "property ''{0}'' in resource file ''{1}'' not found",
                 "engines", RES_SCRIPT_ENGINE_JARS));
             return;
         }
@@ -172,7 +179,6 @@ public class ScriptEnginesConfigurationPanel extends VerticallyScrollablePanel{
 
     private ScriptEngineJarTableModel model;
     private JTable tblJarFiles;
-    private RemoveJarAction actDelete;
     private JComboBox<String> cbDownloadableEngines;
 
     public ScriptEnginesConfigurationPanel() {
@@ -183,8 +189,8 @@ public class ScriptEnginesConfigurationPanel extends VerticallyScrollablePanel{
 
     protected JPanel buildScriptEnginesInfoPanel() {
         JPanel pnl = new JPanel(new BorderLayout());
-        JList<ScriptEngineFactory> lstEngines =
-                new JList<ScriptEngineFactory>(JSR223ScriptEngineProvider
+        JList<ScriptEngineDescriptor> lstEngines =
+                new JList<>(JSR223ScriptEngineProvider
                     .getInstance());
         lstEngines.setCellRenderer(new ScriptEngineCellRenderer());
         lstEngines.setVisibleRowCount(3);
@@ -235,12 +241,12 @@ public class ScriptEnginesConfigurationPanel extends VerticallyScrollablePanel{
         JPanel p = new JPanel(new FlowLayout());
         AddJarAction actAdd = new AddJarAction();
         p.add(new JButton(actAdd));
-        actDelete = new RemoveJarAction();
+        RemoveJarAction actDelete = new RemoveJarAction();
         p.add(new JButton(actDelete));
         ctrlPanel.add(p, BorderLayout.WEST);
         p = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         p.add(new JLabel(tr("Available engines:")));
-        p.add(cbDownloadableEngines = new JComboBox<String>());
+        p.add(cbDownloadableEngines = new JComboBox<>());
         for (EngineJarDescriptor desc: downloadableEngines) {
             cbDownloadableEngines.addItem(desc.getName());
         }
@@ -424,7 +430,8 @@ public class ScriptEnginesConfigurationPanel extends VerticallyScrollablePanel{
         public RemoveJarAction() {
             putValue(NAME, tr("Remove"));
             putValue(SHORT_DESCRIPTION, tr("Remove the selected jar files"));
-            putValue(SMALL_ICON, ImageProvider.get("dialogs","delete"));
+            putValue(SMALL_ICON, ImageProvider.get("dialogs","delete",
+                ImageProvider.ImageSizes.SMALLICON));
             updateEnabledState();
         }
 
@@ -449,7 +456,8 @@ public class ScriptEnginesConfigurationPanel extends VerticallyScrollablePanel{
             putValue(NAME, tr("Add"));
             putValue(SHORT_DESCRIPTION,
                 tr("Add a jar file providing a script engine"));
-            putValue(SMALL_ICON, ImageProvider.get("add"));
+            putValue(SMALL_ICON, ImageProvider.get("add",
+                ImageProvider.ImageSizes.SMALLICON));
         }
 
         @Override
@@ -462,11 +470,11 @@ public class ScriptEnginesConfigurationPanel extends VerticallyScrollablePanel{
     private class DownloadEngineAction extends AbstractAction {
 
         public DownloadEngineAction() {
-            //putValue(NAME, tr("Download"));
             putValue(
-                    SHORT_DESCRIPTION,
-                    tr("Download and install scripting engine"));
-            putValue(SMALL_ICON, ImageProvider.get("download"));
+                SHORT_DESCRIPTION,
+                tr("Download and install scripting engine"));
+            putValue(SMALL_ICON, ImageProvider.get("download",
+                ImageProvider.ImageSizes.SMALLICON));
         }
 
         @Override
@@ -517,7 +525,7 @@ public class ScriptEnginesConfigurationPanel extends VerticallyScrollablePanel{
 
         private JTextField tfJarFile;
         private JButton btnLauchFileChooser;
-        private CellEditorSupport tableCellEditorSupport;
+        private final CellEditorSupport tableCellEditorSupport;
         private ScriptEngineJarInfo info;
 
         public JarFileNameEditor() {

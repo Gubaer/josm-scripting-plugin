@@ -1,5 +1,8 @@
 package org.openstreetmap.josm.plugins.scripting.model;
 
+import org.graalvm.polyglot.EnvironmentAccess;
+import org.graalvm.polyglot.HostAccess;
+
 /**
  * Preferences keys used in the scripting plugin
  */
@@ -54,6 +57,16 @@ public interface PreferenceKeys {
     String PREF_KEY_COMMONJS_MODULE_REPOSITORIES =
             "scripting.commonjs-module-repositories";
 
+
+    /**
+     * <p>The array of CommonJS module repositories used in the GraalVM.
+     * Entries are URLs, either file URLs or jar URLs.</p>
+     *
+     * <p>Default value: empty</p>
+     */
+    String PREF_KEY_GRAALVM_COMMONJS_MODULE_REPOSITORIES =
+            "scripting.graalvm.commonjs-module-repositories";
+
     /**
      * <p>The array of local paths which are added to
      * the <tt>sys.path</tt> of the internal Jython interpreter</p>
@@ -75,4 +88,84 @@ public interface PreferenceKeys {
      * <p>Default value: empty</p>
      */
     String PREF_KEY_JYTHON_PLUGINS = "scripting.jython.plugins";
+
+    /**
+     * The policy whether the GraalVM is granted the privilege to create and
+     * execute external processes.
+     *
+     * Either <code>allow</code>, <code>deny</code>, or <code>derive</code>.
+     * Default (if missing or illegal) is <code>derive</code>.
+     */
+    String GRAALVM_CREATE_PROCESS_POLICY = "scripting.graalvm.create-process-policy";
+
+    /**
+     * The policy whether the GraalVM is granted the privilege to create
+     * threads.
+     *
+     * Either <code>allow</code>, <code>deny</code>, or <code>derive</code>.
+     * Default (if missing or illegal) is <code>derive</code>.
+     */
+    String GRAALVM_CREATE_THREAD_POLICY = "scripting.graalvm.create-thread-policy";
+
+    /**
+     * The policy whether the GraalVM can use experimental language options.
+     *
+     * Either <code>allow</code>, <code>deny</code>, or <code>derive</code>.
+     * Default (if missing or illegal) is <code>derive</code>.
+     *
+     * @see org.graalvm.polyglot.Context.Builder#allowExperimentalOptions(boolean)
+     */
+    String GRAALVM_USE_EXPERIMENTAL_OPTIONS_POLICY = "scripting.graalvm.use-experimental-options-policy";
+
+    /**
+     * The policy whether the GraalVM can load new host classes via jar or
+     * class file.
+     *
+     * Either <code>allow</code>, <code>deny</code>, or <code>derive</code>.
+     * Default (if missing or illegal) is <code>derive</code>.
+     *
+     * @see org.graalvm.polyglot.Context.Builder#allowHostClassLoading(boolean)
+     */
+    String GRAALVM_HOST_CLASS_LOADING_POLICY = "scripting.graalvm.host-class-loading-policy";
+
+    /**
+     * The policy whether the GraalVM can execute IO operations.
+     *
+     * Either <code>allow</code>, <code>deny</code>, or <code>derive</code>.
+     * Default (if missing or illegal) is <code>derive</code>.
+     *
+     * @see org.graalvm.polyglot.Context.Builder#allowIO(boolean)
+     */
+    String GRAALVM_IO_POLICY = "scripting.graalvm.io-policy";
+
+    /**
+     * The policy whether the GraalVM can execute native methods.
+     *
+     * Either <code>allow</code>, <code>deny</code>, or <code>derive</code>.
+     * Default (if missing or illegal) is <code>derive</code>.
+     *
+     * @see org.graalvm.polyglot.Context.Builder#allowNativeAccess(boolean)
+     */
+    String GRAALVM_NATIVE_ACCESS_POLICY = "scripting.graalvm.native-access-policy";
+
+    /**
+     * The policy whether the GraalVM can read environment variables.
+     *
+     * Either <code>derive</code>, or <code>none</code>.
+     * Default (if missing or illegal) is <code>derive</code>.
+     *
+     * @see org.graalvm.polyglot.Context.Builder#allowEnvironmentAccess(EnvironmentAccess)
+     */
+    String GRAALVM_ENVIRONMENT_ACCESS_POLICY = "scripting.graalvm.environment-access-policy";
+
+    /**
+     * The policy whether and how the GraalVM can access public constructors,
+     * methods or fields of public classes.
+     *
+     * Either <code>all</code>, <code>none</code>, or <code>explicit</code>.
+     * Default (if missing or illegal) is <code>explicit</code>.
+     *
+     * @see org.graalvm.polyglot.Context.Builder#allowHostAccess(HostAccess) 
+     */
+    String GRAALVM_HOST_ACCESS_POLICY = "scripting.graalvm.host-access-policy";
 }

@@ -1,0 +1,4 @@
+[submodule "docstrap"]
+	path = docstrap
+	url = https://github.com/Gubaer/docstrap.git
+	branch = docstrap-for-jsom-scripting-plugin

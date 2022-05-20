@@ -1,44 +1,48 @@
 package org.openstreetmap.josm.plugins.scripting.preferences;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.openstreetmap.josm.plugins.scripting.model.JSR223ScriptEngineProvider;
+import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
 
 import javax.script.ScriptEngineFactory;
-import javax.swing.AbstractListModel;
-import javax.swing.ComboBoxModel;
-
-import org.openstreetmap.josm.plugins.scripting.model.JSR223ScriptEngineProvider;
+import javax.swing.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
- * <strong>ScriptEngineComboBoxModel</strong> is an adapter for {@link JSR223ScriptEngineProvider}.
- * It provides a combo box model for the script engines provided by {@link JSR223ScriptEngineProvider}.
+ * <strong>ScriptEngineComboBoxModel</strong> is an adapter for
+ * {@link JSR223ScriptEngineProvider}. It provides a combo box model for the
+ * script engines provided by {@link JSR223ScriptEngineProvider}.
  */
-public class ScriptEngineComboBoxModel extends AbstractListModel<ScriptEngineFactory>
-    implements ComboBoxModel<ScriptEngineFactory>{
+@SuppressWarnings("unused")
+public class ScriptEngineComboBoxModel extends AbstractListModel<ScriptEngineDescriptor>
+    implements ComboBoxModel<ScriptEngineDescriptor>{
 
     private ScriptEngineFactory selected;
-    private final List<ScriptEngineFactory> factories = new ArrayList<ScriptEngineFactory>();
+    private final List<ScriptEngineDescriptor> descriptors = new ArrayList<>();
 
     public ScriptEngineComboBoxModel() {
-        factories.addAll(JSR223ScriptEngineProvider.getInstance().getScriptEngineFactories());
+        JSR223ScriptEngineProvider.getInstance().getScriptEngineFactories()
+            .stream().map(ScriptEngineDescriptor::new)
+            .collect(Collectors.toCollection(() -> descriptors));
     }
 
-    /* ---------------------------------------------------------------------------- */
-    /* interface ListModel                                                          */
-    /* ---------------------------------------------------------------------------- */
+    /* ---------------------------------------------------------------------- */
+    /* interface ListModel                                                    */
+    /* ---------------------------------------------------------------------- */
     @Override
     public int getSize() {
-        return factories.size();
+        return descriptors.size();
     }
 
     @Override
-    public ScriptEngineFactory getElementAt(int index) {
-        return factories.get(index);
+    public ScriptEngineDescriptor getElementAt(int index) {
+        return descriptors.get(index);
     }
 
-    /* ---------------------------------------------------------------------------- */
-    /* interface ComboBoxModel                                                      */
-    /* ---------------------------------------------------------------------------- */
+    /* ---------------------------------------------------------------------- */
+    /* interface ComboBoxModel                                                */
+    /* ---------------------------------------------------------------------- */
     @Override
     public void setSelectedItem(Object anItem) {
         this.selected = (ScriptEngineFactory)anItem;

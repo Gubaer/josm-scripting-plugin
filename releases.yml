@@ -1,0 +1,79 @@
+releases:
+  - label: v0.2.0
+    minJosmVersion: 18427
+    description: |
+     major rewrite and cleanup, now supports GraalJS, support JPython plugins
+     removed
+
+  - label: 30796
+    minJosmVersion: 14256
+    description: update and add i18n ressources
+
+  - label: 30787
+    minJosmVersion: 14155
+    description: "fix #71 Access to plugin class loader"
+
+  - label: 30785
+    minJosmVersion: 13265
+    description: update translations
+
+  - label: 30780
+    minJosmVersion: 13265
+    description: "patches #64 and #65 provided by floscher"
+
+  - label: 30775
+    minJosmVersion: 13007
+    description: "fix #59 Possible bug when updating coordinates of elements"
+
+  - label: 30773
+    minJosmVersion: 12891
+    description: keep up with refactorings in JOSM
+
+  - label: 30772
+    minJosmVersion: 12875
+    description: keep up with refactorings in JOSM
+
+  - label: 30771
+    minJosmVersion: 12681
+    description: keep up with refactorings in JOSM
+
+  - label: 30768
+    minJosmVersion: 10966
+    description: "fix #54 Api.downloadObject ignores version parameter and always download\
+    \ latest"
+
+  - label: 30730
+    minJosmVersion: 10526
+    description: built with Java 8
+
+  - label: 30723
+    minJosmVersion: 8906
+    description: "fix #34, fix #35, fix documentation issues"
+
+  - label: 30710
+    minJosmVersion: 8024
+    description: plugin can be loaded without restart
+
+  - label: 30702
+    minJosmVersion: 7347
+    description: "download scripting engines reworked, code cleaned up (Java7 features)"
+
+  - label: 30604
+    minJosmVersion: 6912
+    description: "fixed #23"
+
+  - label: 30590
+    minJosmVersion: 6088
+    description: fixed build issue
+
+  - label: 30540
+    minJosmVersion: 5464
+
+  - label: 30000
+    minJosmVersion: 5315
+
+  - label: 26007
+    minJosmVersion: 4878
+
+  - label: 26005
+    minJosmVersion: 4100

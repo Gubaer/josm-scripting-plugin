@@ -1,11 +1,10 @@
 package org.openstreetmap.josm.plugins.scripting.ui.console;
 
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Arrays;
-
-import javax.swing.text.BadLocationException;
-import javax.swing.text.Document;
 
 /**
  * <p><strong>DocumentWriter</strong> is a writer which appends text to
@@ -13,7 +12,7 @@ import javax.swing.text.Document;
  *
  */
 public class DocumentWriter extends Writer {
-    private Document doc;
+    private final Document doc;
     public DocumentWriter(Document doc){
         this.doc = doc;
     }
@@ -27,6 +26,7 @@ public class DocumentWriter extends Writer {
             e.printStackTrace();
         }
     }
+    @SuppressWarnings("RedundantThrows")
     @Override
     public void flush() throws IOException {
         // nothing to flush

@@ -9,7 +9,7 @@ public interface IScriptLog {
     /**
      * Replies the action for clearing the log content.
      *
-     * @return
+     * @return the action
      */
     Action getClearAction();
 
@@ -18,5 +18,6 @@ public interface IScriptLog {
      *
      * @return the writer
      */
+    @SuppressWarnings("unused")
     PrintWriter getLogWriter();
 }

@@ -1,0 +1,34 @@
+{{! --------------------------------------------------------------------- }}
+{{! mustache template for the JavaScript wrapper around a required module }}
+{{! --------------------------------------------------------------------- }}
+{{! RequireFunction is populated in the scripting context                 }}
+(function() {
+    const URI = Java.type('java.net.URI')
+    // NOTE:
+    //  the class 'org.openstreetmap.josm.plugins.scripting.graalvm.RequireFunction'
+    //  is automatically bound to the scripting context. It can't be loaded using
+    //     const RequireFunction = Java.type('org.openstreetmap.josm.plugins.scripting.graalvm.RequireFunction')
+    //  because of class loading issues.
+
+    const module = {
+        exports: {},
+        id: '{{& moduleID }}',
+        uri: '{{& moduleURI }}'
+    }
+
+    const require = (module) => (moduleId) => {
+        if (module && module.uri) {
+            return new RequireFunction(new URI(module.uri)).apply(moduleId)
+        } else {
+            return new RequireFunction().apply(moduleId)
+        }
+    }
+
+    !function(module, exports, require) {
+
+         {{& moduleSource }}
+
+    }(module, module.exports, require(module))
+
+    return module.exports
+ }())
