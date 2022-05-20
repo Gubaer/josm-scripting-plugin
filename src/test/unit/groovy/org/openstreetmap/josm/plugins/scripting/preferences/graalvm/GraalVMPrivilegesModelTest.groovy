@@ -1,26 +1,18 @@
 package org.openstreetmap.josm.plugins.scripting.preferences.graalvm
 
-import org.junit.BeforeClass
-import org.junit.Test
+import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.Test
 import org.openstreetmap.josm.data.Preferences
 import org.openstreetmap.josm.plugins.scripting.fixtures.JOSMFixture
 
-import static org.junit.jupiter.api.Assertions.assertEquals
-import static org.junit.jupiter.api.Assertions.assertFalse
-import static org.junit.jupiter.api.Assertions.assertTrue
-import static org.junit.jupiter.api.Assertions.assertNotNull
-
+import static org.junit.jupiter.api.Assertions.*
 import static org.openstreetmap.josm.plugins.scripting.model.PreferenceKeys.*
 import static org.openstreetmap.josm.plugins.scripting.preferences.graalvm.GraalVMPrivilegesModel.DefaultAccessPolicy.ALLOW_ALL
-import static org.openstreetmap.josm.plugins.scripting.preferences.graalvm.GraalVMPrivilegesModel.DefaultAccessPolicy.DENY_ALL
 import static org.openstreetmap.josm.plugins.scripting.preferences.graalvm.GraalVMPrivilegesModel.TernaryAccessPolicy.*
 
 class GraalVMPrivilegesModelTest {
 
-    @SuppressWarnings('unused')
-    def shouldFail = new GroovyTestCase().&shouldFail
-
-    @BeforeClass
+    @BeforeAll
     static void init() {
         //noinspection GroovyUnusedAssignment
         final JOSMFixture fixture = new JOSMFixture(true)

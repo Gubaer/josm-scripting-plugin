@@ -1,7 +1,8 @@
 package org.openstreetmap.josm.plugins.scripting.js.api
 
-import org.junit.BeforeClass
-import org.junit.Test
+import groovy.test.GroovyTestCase
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.BeforeAll
 import org.openstreetmap.josm.data.coor.LatLon
 import org.openstreetmap.josm.data.osm.Node
 import org.openstreetmap.josm.data.osm.Relation
@@ -15,13 +16,11 @@ import org.openstreetmap.josm.plugins.scripting.js.api.Change.NodesChange
 import org.openstreetmap.josm.plugins.scripting.js.api.Change.PosChange
 import org.openstreetmap.josm.plugins.scripting.js.api.Change.TagsChange
 
-class ChangeTest {
-
-    def shouldFail = new GroovyTestCase().&shouldFail
+class ChangeTest extends GroovyTestCase {
 
     static JOSMFixture fixture
 
-    @BeforeClass
+    @BeforeAll
     static void init() {
         fixture = new JOSMFixture(false)
     }

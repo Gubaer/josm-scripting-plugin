@@ -1,6 +1,7 @@
 package org.openstreetmap.josm.plugins.scripting.ui.console
 
-import org.junit.Test
+import org.junit.jupiter.api.Test
+
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor
 
 import java.beans.PropertyChangeEvent

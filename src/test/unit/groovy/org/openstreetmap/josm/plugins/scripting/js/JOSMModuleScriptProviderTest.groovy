@@ -1,14 +1,14 @@
 package org.openstreetmap.josm.plugins.scripting.js
 
-import org.junit.Before
-import org.junit.BeforeClass
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.BeforeAll
 
 import static org.junit.Assert.fail
 
 class JOSMModuleScriptProviderTest {
 
-    @BeforeClass
+    @BeforeAll
     static void init() {
         String home = System.getenv("JOSM_SCRIPTING_PLUGIN_HOME")
         if (home == null) {
@@ -32,7 +32,7 @@ class JOSMModuleScriptProviderTest {
 
     def provider
 
-    @Before
+    @BeforeEach
     void setUp() {
         provider = JOSMModuleScriptProvider.getInstance()
     }

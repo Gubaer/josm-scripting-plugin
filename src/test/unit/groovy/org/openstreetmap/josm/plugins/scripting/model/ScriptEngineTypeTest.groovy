@@ -1,6 +1,6 @@
 package org.openstreetmap.josm.plugins.scripting.model
 
-import org.junit.Test
+import org.junit.jupiter.api.Test
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor.ScriptEngineType
 
 class ScriptEngineTypeTest {

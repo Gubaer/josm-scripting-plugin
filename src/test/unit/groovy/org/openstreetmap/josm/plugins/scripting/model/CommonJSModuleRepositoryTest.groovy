@@ -1,10 +1,10 @@
 package org.openstreetmap.josm.plugins.scripting.model
 
-import org.junit.Test
+import groovy.test.GroovyTestCase
+import org.junit.jupiter.api.Test
 
-class CommonJSModuleRepositoryTest {
 
-    def shouldFail = new GroovyTestCase().&shouldFail
+class CommonJSModuleRepositoryTest extends GroovyTestCase {
 
     @Test
     void createWithFile() {

@@ -1,8 +1,8 @@
 package org.openstreetmap.josm.plugins.scripting.js.api
 
-
-import org.junit.BeforeClass
-import org.junit.Test
+import groovy.test.GroovyTestCase
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.BeforeAll
 import org.openstreetmap.josm.data.coor.LatLon
 import org.openstreetmap.josm.data.osm.DataSet
 import org.openstreetmap.josm.data.osm.Node
@@ -11,16 +11,14 @@ import org.openstreetmap.josm.data.osm.Way
 import org.openstreetmap.josm.gui.layer.OsmDataLayer
 import org.openstreetmap.josm.plugins.scripting.fixtures.JOSMFixture
 
-class ChangeMultiCommandTest {
+class ChangeMultiCommandTest extends GroovyTestCase {
 
     static JOSMFixture fixture
 
-    @BeforeClass
+    @BeforeAll
     static void init() {
        fixture = new JOSMFixture(false)
     }
-
-    def shouldFail = new GroovyTestCase().&shouldFail
 
     static OsmDataLayer newLayer() {
         return new OsmDataLayer(new DataSet(), null, null)

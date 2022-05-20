@@ -1,14 +1,12 @@
 package org.openstreetmap.josm.plugins.scripting.model
 
-
-import org.junit.Test
+import groovy.test.GroovyTestCase
+import org.junit.jupiter.api.Test
 import org.openstreetmap.josm.data.Preferences
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor.ScriptEngineType
 import org.openstreetmap.josm.spi.preferences.Config
 
-class ScriptEngineDescriptorTest {
-
-    def shouldFail = new GroovyTestCase().&shouldFail
+class ScriptEngineDescriptorTest extends GroovyTestCase {
 
     final oracleNashornId = "Oracle Nashorn"
 
