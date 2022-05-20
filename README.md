@@ -1,33 +1,31 @@
 # JOSM Scripting Plugin
 
-The JOSM scripting plugin executes scripts in the [Open Street Map](http://www.openstreetmap.org) editor
-[JOSM](http://josm.openstreetmap.de/).
+The JOSM scripting plugin executes scripts in the [Open Street Map][osm] editor [JOSM][josm].
 
-Scripts can be defined in any scripting language for which a
-[JSR-223](http://www.jcp.org/aboutJava/communityprocess/pr/jsr223/) compatible script engine is available, in  particular in
-* [JavaScript](http://en.wikipedia.org/wiki/JavaScript)
-* [Groovy](http://groovy.codehaus.org/)
-* [Ruby](http://www.ruby-lang.org/en/)
-* [Python](http://www.python.org/)
+Scripts can be defined in any scripting language for which a [JSR-223][jsr223] compatible script engine is available, in  particular in
+* [JavaScript][javascript]
+* [Groovy][groovy]
+* [Ruby][ruby]
+* [Python][python]
 
-## For JOSM users
-The scripting plugin can be installed and kept up to date using JOSMs plugin manager:
+If the [GraalJS][graal-js] is on the classpath, you can execute scripts in JavaScript using GraalJS. The plugin includes a JavaScript library to manage layers, edit OSM primitives, load and save data, upload data to the OSM server, and download primitives from the OSM server. Refer to the [API V2 documentation][api-v2].
+
+The plugin includes [Mozilla Rhino][rhino] as a scripting engine for historical reasons. Mozilla Rhino in the scripting plugin is deprecated and will be removed end of 2022. The plugin also includes a JavaScript library ([API V1][api-v1])which can be used with Mozilla Rhino. It is deprecated too and will also be removed end of 2022. If your current scripts use [API V1][api-v1], migrate them to [API V2][api-v2], and change to [GraalJS][doc-graaljs].
+
+## Install
+Use JOSMs plugin manager to install the scripting plugin and keep it up to date.
 
 1. Select Preferences -> Plugins
-2. Search for the plugin "Scripting" and install it
+2. Search for the plugin **scripting** and install it
 
-## For developers
-The scripting plugin includes an embedded scripting engine for JavaScript based on
-[Mozilla Rhino](http://www.mozilla.org/rhino/).
-It provides a custom JavaScript API to write scripts for the JOSM editor,refer to
-the [API documentation](http://gubaer.github.com/josm-scripting-plugin/).
+The scripting plugin requires Java 11.
 
-Furthermore, it can
-* execute scripts written in Ruby, Groovy, and other languages, refer to
-[these examples](https://github.com/Gubaer/josm-scripting-plugin/tree/master/scripts).
+## Documentation
 
-If you want to contribute to the scripting plugin itself, please fork this repository and
-submit your pull requests.
+* [JOSM Scripting Plugin documentation][doc-home]
+* [API V2 documentation][api-v2] with [API V2 library doc][libdoc-api-v2]
+* [API V2 documentation (deprecated)][api-v1] with [API V1 library doc][libdoc-api-v1]
+
 
 ## How to build
 
@@ -67,8 +65,7 @@ $ ./gradlew cleanTest cleanTestScriptApi check
 ```
 
 ## How to update the i18n resources
-Localized strings are uploaded to [Transifex](https://www.transifex.com/). This step is
-executed automatically when the scripting plugin is built on the master branch by [travis](https://travis-ci.org/).
+Localized strings are uploaded to [Transifex][transifex]. T
 
 Translated resources can be downloaded periodically from Transifex and then commited to the github repository.
 
@@ -133,16 +130,35 @@ $ git commit -a -m "Regenerate API doc"
 ```
 
 ## Build status
-
-[![Build Status](https://travis-ci.org/Gubaer/josm-scripting-plugin.svg?branch=master)](https://travis-ci.org/Gubaer/josm-scripting-plugin.svg?branch=master)
+[![Josm Scripting Plugin - Build](https://github.com/Gubaer/josm-scripting-plugin/actions/workflows/gradle.yml/badge.svg)](https://github.com/Gubaer/josm-scripting-plugin/actions/workflows/gradle.yml)
 
 ## Credits
 The JOSM scripting plugin uses:
 
 * jsyntaxpane by Ayman Al-Sairafi
-* [Rhino](http://www.mozilla.org/rhino/) scripting engine by Mozilla Foundation
-* [RSyntaxTextArea](https://bobbylight.github.io/RSyntaxTextArea/)
-* [Graal.JS](https://github.com/graalvm/graaljs)
+* [Mozilla Rhino][rhino] scripting engine by Mozilla Foundation
+* [RSyntaxTextArea][jsyntaxarea]
+* [Graal.JS][graaljs]
 
 ## License
 Published under GPL Version 3 and higher. See included LICENSE file.
+
+
+[transifex]:https://www.transifex.com
+[osm]:http://www.openstreetmap.org
+[josm]:http://josm.openstreetmap.de/
+[jsr223]:http://www.jcp.org/aboutJava/communityprocess/pr/jsr223/
+[javascript]:http://en.wikipedia.org/wiki/JavaScript
+[groovy]:http://groovy.codehaus.org/
+[ruby]:http://www.ruby-lang.org/en/
+[python]:http://www.python.org/
+[rhino]:http://www.mozilla.org/rhino/
+[script-examples]:https://github.com/Gubaer/josm-scripting-plugin/tree/master/src/main/resources/scripts
+[graaljs]:https://github.com/oracle/graaljs
+[api-v2]:http://gubaer.github.com/josm-scripting-plugin/v2/v2.html
+[libdoc-api-v2]:http://gubaer.github.com/josm-scripting-plugin/api/v2/index.html
+[api-v1]:http://gubaer.github.com/josm-scripting-plugin/v1/v1.html
+[libdoc-api-v1]:http://gubaer.github.com/josm-scripting-plugin/api/v1/index.html
+[doc-graaljs]:http://gubaer.github.com/josm-scripting-plugin/graaljs.html
+[jsyntaxarea]:https://bobbylight.github.io/RSyntaxTextArea/
+[doc-home]:http://gubaer.github.com/josm-scripting-plugin/
