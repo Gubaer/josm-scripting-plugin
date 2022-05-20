@@ -2,8 +2,10 @@ releases:
   - label: v0.2.0
     minJosmVersion: 18427
     description: |
-     major rewrite and cleanup, now supports GraalJS, support JPython plugins
-     removed
+     major rewrite and cleanup
+     * now requires Java 11 
+     * now supports GraalJS. Support for Mozilla Rhino is deprecated.
+     * introduces new JavaScript API V2, replaces former JavaScript API V1 
 
   - label: 30796
     minJosmVersion: 14256
