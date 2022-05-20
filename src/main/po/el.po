@@ -1,0 +1,450 @@
+# Translations for the JOSM plugin 'scripting' (el)
+# Copyright (C) 2022 Gubaer
+# This file is distributed under the same license as the josm-plugin_scripting package.
+# FIRST AUTHOR, YEAR.
+#
+# Translators:
+# Gerasimos Maris, 2018
+# Simon Legner, 2022
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: josm-plugin_scripting v0.2.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-05-19 18:29+0200\n"
+"PO-Revision-Date: 2018-01-17 21:36+0000\n"
+"Language-Team: Greek (https://www.transifex.com/josm/teams/2544/el/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: el\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "''{0}'' doesn''t exist."
+msgstr "''{0}'' δεν υπάρχουν."
+
+msgid "''{0}'' is a directory. Expecting a jar file instead."
+msgstr "''{0}'' είναι ένας κατάλογος. Αναμονή αντί αυτού ενός αρχείου jar."
+
+msgid "''{0}'' is neither a ''jar'' nor a ''file'' URL"
+msgstr "''{0}'' δεν είναι ούτε αρχείο '' jar'' ούτε ένα ''αρχείο'' διεύθυνσης"
+
+msgid "''{0}'' is neither an existing directory nor an existing jar file"
+msgstr ""
+"''{0}'' δεν είναι ούτε ένας υπάρχων κατάλογος ούτε ένα υπάρχον αρχείο jar"
+
+msgid "''{0}'' isn''t a valid URL"
+msgstr "''{0}'' δεν είναι έγκυρη διεύθυνση"
+
+msgid "''{0}'' isn''t an existing jar file"
+msgstr "''{0}'' δεν είναι ένα υπάρχον αρχείο jar"
+
+msgid "''{0}'' isn''t readable. Can''t load a script engine from this file."
+msgstr ""
+"''{0}'' δεν είναι ευανάγνωστο. Αδύνατη η φόρτωση μιας μηχανής σεναρίου από "
+"αυτό το αρχείο."
+
+msgid ""
+"<p>Failed to execute a script.</p><p/><p><strong>Error "
+"message:</strong>{0}</p><p><strong>At:</strong>line {1}, column {2}</p>"
+msgstr ""
+"<p>Αποτυχία εκτέλεσης ενός σεναρίου.</p><p/><p><strong>Μήνυμα "
+"σφάλματος:</strong>{0}</p><p><strong>Στην:</strong>γραμμή {1}, στήλη {2}</p>"
+
+msgid ""
+"<p>Failed to execute the script file ''{0}''.</p><p/><p><strong>Error "
+"message:</strong>{1}</p>"
+msgstr ""
+"<p>Αποτυχία εκτέλεσης του αρχείου σεναρίου ''{0}''.</p><p/><p><strong>Μήνυμα"
+" σφάλματος:</strong>{1}</p>"
+
+msgid ""
+"<p>The script can''t be executed, because a scripting engine with name "
+"''{0}'' isn''t configured.</p><p>Refer to the online help for information "
+"about how to install/configure a scripting engine for JOSM.</p>"
+msgstr ""
+"<p>Το σενάριο δεν μπορεί να εκτελεστεί, επειδή η μηχανή σεναρίου με όνομα "
+"'{0}' δεν έχει διαμορφωθεί.</p><p>Ανατρέξτε στην βοήθεια σε σύνδεση για "
+"πληροφορίες σχετικά με τον τρόπο εγκατάστασης/ρύθμισης μιας μηχανής σεναρίου"
+" για το JOSM.</p>"
+
+msgid "Accept the selected scripting engine"
+msgstr "Αποδοχή της επιλεγμένης μηχανής σεναρίου"
+
+msgid "Add"
+msgstr "Προσθήκη"
+
+msgid "Add a jar file providing a script engine"
+msgstr "Προσθήκη ενός αρχείου jar που παρέχει μια μηχανή σεναρίου"
+
+msgid "Add a path or jar file"
+msgstr "Προσθήκη μιας διαδρομής ή ενός αρχείου ja"
+
+msgid "Add a plugin"
+msgstr "Προσθήκη ενός πρόσθετου"
+
+msgid "Add toolbar button"
+msgstr "Προσθέστε το κουμπί της γραμμής εργαλείων"
+
+msgid "Always on top"
+msgstr "Πάντα στην κορυφή"
+
+msgid "Available engines:"
+msgstr "Διαθέσιμες μηχανές:"
+
+msgid "Available script engines"
+msgstr "Διαθέσιμες μηχανές κειμένου"
+
+msgid "Cancel"
+msgstr "Ακύρωση"
+
+msgid "Clear log"
+msgstr "Διαγραφή αρχείου καταγραφής"
+
+msgid "Clear the log content"
+msgstr "Διαγραφή περιεχομένου του αρχείου καταγραφής"
+
+msgid "Close"
+msgstr "Κλείσιμο"
+
+msgid "Close the scripting console"
+msgstr "Κλείσιμο κονσόλας σεναρίου"
+
+#. title
+msgid "Configure script engines and scripts"
+msgstr "Διαμόρφωση μηχανής σεναρίου και σεναρίων"
+
+#. title
+#. icon name
+msgid "Configure scripting preferences"
+msgstr "Διαμόρφωση προτιμήσεων σεναρίων"
+
+msgid "Configure..."
+msgstr "Διαμόρφωση..."
+
+msgid "Create or edit a path"
+msgstr "Δημιουργία ή επεξεργασία μιας διαδρομής"
+
+msgid "Current file:"
+msgstr "Τρέχον αρχείο:"
+
+msgid "Down"
+msgstr "Κάτω"
+
+msgid "Download and install scripting engine"
+msgstr "Λήψη και εγκατάσταση μιας μηχανής σεναρίων"
+
+#. create the edit menu
+msgid "Edit"
+msgstr "Επεξεργασία"
+
+msgid "Empty file name"
+msgstr "Κενό όνομα αρχείου"
+
+msgid "Enter additional JAR files which provide script engines."
+msgstr "Εισαγάγετε πρόσθετα αρχεία JAR που παρέχουν μηχανές σεναρίων."
+
+msgid "Enter the name of a script file"
+msgstr "Καταχώρηση του ονόματος ενός αρχείου σεναρίου"
+
+msgid "Execute the script"
+msgstr "Εκτέλεση του σεναρίου"
+
+msgid ""
+"Executing scripts in language <strong>{0}</strong> using engine "
+"<strong>{1}</strong>."
+msgstr ""
+"Εκτέλεση σεναρίων στη γλώσσα <strong>{0}</strong> με χρήση μηχανής "
+"<strong>{1}</strong>."
+
+msgid ""
+"Executing scripts with the built-in scripting engine for language "
+"<strong>{0}</strong> based on <strong>{1}</strong>."
+msgstr ""
+"Εκτελώντας σεναρίων με την ενσωματωμένη μηχανή σεναρίων για τη γλώσσα "
+"<strong>{0}</strong> βασισμένο στο <strong>{1}</strong>."
+
+msgid "Failed to create URL referring to the module repository ''{0}''"
+msgstr ""
+"Αποτυχία δημιουργίας διεύθυνσης URL αναφερόμενη στην αποθήκη ενότητα ''{0}''"
+
+msgid "Failed to load file ''{0}''."
+msgstr "Αποτυχημένη η φόρτωση του αρχείου ''{0}''."
+
+msgid "Failed to load icon ''{0}''"
+msgstr "Αποτυχημένη η φόρτωση του εικονιδίου ''{0}''."
+
+msgid "Failed to load icon ''{0}/{1}''"
+msgstr "Αποτυχημένη η φόρτωση του εικονιδίου '{0}/{1}''"
+
+msgid ""
+"Failed to load python module ''{0}''. \n"
+"Make sure the preferences with key ''{1}'' include the path to the module."
+msgstr ""
+"Αποτυχία φόρτωσης της ενότητας python ''{0}''. Βεβαιωθείτε ότι οι "
+"προτιμήσεις με το πλήκτρο ''{1}'' περιλαμβάνουν τη διαδρομή για την ενότητα."
+
+msgid ""
+"Failed to open file ''{0}'' as jar file. Can''t load a script engine from "
+"this file."
+msgstr ""
+"Αποτυχία ανοίγματος του αρχείου ''{0}'' ως αρχείο jar. Αδύνατη η φόρτωση "
+"μιας μηχανής σεναρίου από αυτό το αρχείο."
+
+msgid "Failed to read the script from file ''{0}''."
+msgstr "Αποτυχία ανάγνωσης του σεναρίου από το αρχείο ''{0}''."
+
+msgid "Failed to read the script from the file ''{0}''."
+msgstr "Αποτυχία ανάγνωσης του σεναρίου από το αρχείο ''{0}''."
+
+msgid "Failed to save file ''{0}''."
+msgstr "Αποτυχία αποθήκευσης του αρχείου ''{0}''."
+
+#. create the file menu
+msgid "File"
+msgstr "Αρχείο"
+
+msgid "File not found"
+msgstr "Το αρχείο δεν βρέθηκε"
+
+msgid "File not readable"
+msgstr "Το αρχείο δεν είναι αναγνώσιμο"
+
+msgid "File:"
+msgstr "Αρχείο:"
+
+msgid "IO error"
+msgstr "Σφάλμα IO"
+
+msgid "IO exception"
+msgstr "Εξαίρεση IO"
+
+msgid "JAR file"
+msgstr "Αρχείο JAR"
+
+msgid "JAR files"
+msgstr "Αρχεία JAR"
+
+msgid "JOSM currently supports the following script engines:"
+msgstr "Το JOSM υποστηρίζει προς το παρόν τις ακόλουθες μηχανές σεναρίων:"
+
+msgid "Language version:"
+msgstr "Έκδοση γλώσσας:"
+
+msgid "Language:"
+msgstr "Γλώσσα:"
+
+msgid "Launch file chooser"
+msgstr "Έναρξη επιλογέα αρχείων"
+
+#. don't translate
+msgid "Launch file selection dialog"
+msgstr "Έναρξη διαλόγου επιλογής αρχείου"
+
+msgid "Move the selected path up by one position"
+msgstr "Μετακινήστε την επιλεγμένη διαδρομή πάνω κατά μία θέση"
+
+msgid "Move the selected repository down by one position"
+msgstr "Μετακινήστε την επιλεγμένη αποθήκη κάτω κατά μία θέση"
+
+msgid "Move the selected repository up by one position"
+msgstr "Μετακινήστε την επιλεγμένη αποθήκη πάνω κατά μία θέση"
+
+msgid "Name:"
+msgstr "Όνομα:"
+
+msgid "No script engine selected."
+msgstr "Δεν επιλέχτηκε μηχανή σεναρίου."
+
+msgid "OK"
+msgstr "Εντάξει"
+
+msgid "Open"
+msgstr "Άνοιγμα"
+
+msgid "Open a script file"
+msgstr "Άνοιγμα του αρχείου σεναρίου"
+
+msgid "Please enter a file name first."
+msgstr "Εισαγάγετε πρώτα ένα όνομα αρχείου."
+
+msgid ""
+"Please enter or paste a valid directory path or path to a jar/zip file."
+msgstr ""
+"Εισαγάγετε ή επικολλήστε μια έγκυρη διαδρομή καταλόγου ή διαδρομή σε ένα "
+"αρχείο jar/zip."
+
+msgid ""
+"Please enter or paste a valid file or jar URL. HTTP URLs are not supported."
+msgstr ""
+"Εισαγάγετε ή επικολλήστε ένα έγκυρο αρχείο ή διεύθυνση jar. Δεν "
+"υποστηρίζονται διευθύνσεις HTTP."
+
+msgid "Remove"
+msgstr "Αφαίρεση"
+
+msgid "Remove a path"
+msgstr "Αφαίρεση μιας διαδρομής"
+
+msgid "Remove a repository"
+msgstr "Αφαίρεση μιας αποθήκης"
+
+msgid "Remove selected plugins"
+msgstr "Αφαίρεση των επιλεγμένων πρόσθετων"
+
+msgid "Remove the selected jar files"
+msgstr "Αφαίρεση των επιλεγμένων αρχείων jar"
+
+msgid "Run"
+msgstr "Εκτέλεση"
+
+#. title
+#. icon name
+msgid "Run a script"
+msgstr "Εκτέλεση ενός σεναρίου"
+
+msgid "Run the script"
+msgstr "Εκτέλεση του σεναρίου"
+
+msgid "Run..."
+msgstr "Εκτέλεση..."
+
+msgid "Save"
+msgstr "Αποθήκευση"
+
+msgid "Save as ..."
+msgstr "Αποθήκευση ως ..."
+
+msgid "Save script to current file"
+msgstr "Αποθήκευση σεναρίου στο τρέχον αρχείο"
+
+msgid "Save to a script file"
+msgstr "Αποθήκευση στο αρχείο σεναρίου"
+
+msgid "Script engine not found"
+msgstr "Η μηχανή σεναρίου δεν βρέθηκε"
+
+msgid "Script engines"
+msgstr "Μηχανές σεναρίου"
+
+msgid "Script execution failed"
+msgstr "Αποτυχία εκτέλεσης σεναρίου"
+
+msgid "Script execution has failed."
+msgstr "Η εκτέλεση σεναρίου απέτυχε"
+
+#. icon name
+msgid "Scripting"
+msgstr "Σενάρια"
+
+msgid "Scripting Console"
+msgstr "Κονσόλα Σεναρίων"
+
+msgid "Scripting: Show/hide scripting console"
+msgstr "Σενάρια: Εμφάνιση/απόκρυψη της κονσόλας σεναρίων"
+
+msgid "Select"
+msgstr "Επιλογή"
+
+msgid "Select a directory or a jar file"
+msgstr "Επιλογή ενός καταλόγου ή ενός αρχείου jar"
+
+msgid "Select a directory or jar/zip file"
+msgstr "Επιλογή ενός καταλόγου ή ενός αρχείου jar/zip"
+
+msgid "Select a jar file"
+msgstr "Επιλογή ενός αρχείου jar"
+
+msgid "Select a script"
+msgstr "Επιλογή ενός σεναρίου"
+
+msgid "Select a script file"
+msgstr "Επιλογή ενός αρχείου σεναρίου"
+
+msgid "Select a script file and click on <strong>Run</strong>."
+msgstr ""
+"Επιλογή ενός αρχείου σεναρίου και κάντε κλικ στο <strong> Εκτέλεση "
+"</strong>."
+
+msgid "Select an engine"
+msgstr "Επιλογή μιας μηχανής"
+
+msgid "Show scripting console"
+msgstr "Εμφάνιση κονσόλας σεναρίων"
+
+#. title
+#. icon name
+msgid "Show/hide the scripting console"
+msgstr "Εμφάνιση/απόκρυψη της κονσόλας σεναρίων"
+
+msgid ""
+"The jar file ''{0}'' doesn''t provide a script engine. The entry ''{1}'' is "
+"missing."
+msgstr ""
+"Το αρχείο jar ''{0}'' δεν παρέχει μια μηχανή σεναρίου. Η καταχώρηση ''{1}'' "
+"λείπει."
+
+msgid "The script file ''{0}'' doesn''t exist."
+msgstr "Το αρχείο σεναρίου ''{0}'' δεν υπάρχει."
+
+msgid "The script file ''{0}'' isn''t readable."
+msgstr "Το αρχείο σεναρίου ''{0}'' δεν είναι ευανάγνωστο."
+
+msgid ""
+"The scripting plugin can load and run plugins written in "
+"<strong>Python</strong>. Below you can configure where it looks for locally "
+"deployed plugins and which plugins it should load and launch at startup "
+"time."
+msgstr ""
+"Το πρόσθετο σεναρίου μπορεί να φορτώσει και να εκτελέσει πρόσθετα γραμμένα "
+"σε <strong>Python</strong>. Παρακάτω μπορείτε να ρυθμίσετε το που αναζητά "
+"τοπικά αναπτυγμένα πρόσθετα και ποια πρόσθετα θα πρέπει να φορτωθούν και να "
+"ξεκινήσουν κατά την εκκίνηση."
+
+msgid "URL ''{0}'' doesn''t refer to an existing local directory or jar file"
+msgstr ""
+"Η διεύθυνση ''{0}'' δεν αναφέρεται σε υπάρχοντα τοπικό κατάλογο ή αρχείο jar"
+
+msgid "URL ''{0}'' doesn''t refer to an existing local jar file"
+msgstr "Η διεύθυνση ''{0}'' δεν αναφέρεται σε υπάρχοντα τοπικό αρχείο jar"
+
+msgid "Up"
+msgstr "Πάνω"
+
+msgid "Version:"
+msgstr "Εκδόσεις:"
+
+msgid "cancel"
+msgstr "ακύρωση"
+
+msgid "unknown"
+msgstr "άγνωστο"
+
+#. used in the context of a combo box
+msgid "{1} (with engine {0})"
+msgstr "{1} (με μηχανή {0})"
+
+#. Plugin description for josm-scripting-plugin
+msgid "Runs scripts in JOSM"
+msgstr "Εκτέλεση σεναρίων στο JOSM"
+
+#. Translator credits (translators who want to be credited for their
+#. contributions can add their names here as the translation)
+msgid "translator-credits"
+msgstr ""
+"Launchpad Contributions:\n"
+"  Aggelos Arnaoutis https://launchpad.net/~angelosarn\n"
+"  Chachi https://launchpad.net/~thechachman\n"
+"  Champas Antonis (dexter_ax) https://launchpad.net/~dexter-ax\n"
+"  Dimitris Beretzikis https://launchpad.net/~beretzikis\n"
+"  Dimitris Spingos https://launchpad.net/~dmtrs32\n"
+"  Dirk Stöcker https://launchpad.net/~stoecker\n"
+"  Don-vip https://launchpad.net/~vincent-privat\n"
+"  Gerasimos https://launchpad.net/~makmar\n"
+"  Hb https://launchpad.net/~hbb\n"
+"  Stelios Adamantidis https://launchpad.net/~adamastyl\n"
+"  aitolos https://launchpad.net/~yang-hellug\n"
+"  alichani https://launchpad.net/~alichani\n"
+"  glavkos https://launchpad.net/~glavkos\n"
+"  logictheo https://launchpad.net/~towardsoss\n"
+"  urelnigar https://launchpad.net/~darloonia-deactivatedaccount"

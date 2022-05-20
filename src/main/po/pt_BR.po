@@ -1,0 +1,133 @@
+# Translations for the JOSM plugin 'scripting' (pt_BR)
+# Copyright (C) 2022 Gubaer
+# This file is distributed under the same license as the josm-plugin_scripting package.
+# FIRST AUTHOR, YEAR.
+#
+# Translators:
+# FelipeL, 2019
+# Simon Legner, 2022
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: josm-plugin_scripting v0.2.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-05-19 18:29+0200\n"
+"PO-Revision-Date: 2018-01-17 21:36+0000\n"
+"Language-Team: Portuguese (Brazil) (https://www.transifex.com/josm/teams/2544/pt_BR/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: pt_BR\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+msgid "Add"
+msgstr "Adicionar"
+
+msgid "Add toolbar button"
+msgstr "Adicionar botão na barra de ferramentas"
+
+msgid "Cancel"
+msgstr "Cancelar"
+
+msgid "Clear log"
+msgstr "Limpar log"
+
+msgid "Close"
+msgstr "Fechar"
+
+msgid "Down"
+msgstr "Abaixo"
+
+#. create the edit menu
+msgid "Edit"
+msgstr "Editar"
+
+#. create the file menu
+msgid "File"
+msgstr "Arquivo"
+
+msgid "Name:"
+msgstr "Nome:"
+
+msgid "OK"
+msgstr "Aceitar"
+
+msgid "Open"
+msgstr "Abrir"
+
+msgid "Remove"
+msgstr "Remover"
+
+msgid "Save"
+msgstr "Salvar"
+
+msgid "Select"
+msgstr "Selecionar"
+
+msgid "Up"
+msgstr "Acima"
+
+msgid "Version:"
+msgstr "Versão:"
+
+msgid "unknown"
+msgstr "Desconhecido"
+
+#. Translator credits (translators who want to be credited for their
+#. contributions can add their names here as the translation)
+msgid "translator-credits"
+msgstr ""
+"Launchpad Contributions:\n"
+"  Adrianojbr https://launchpad.net/~adrianojbr\n"
+"  Alexandre Magno https://launchpad.net/~alexandre-mbm\n"
+"  Alexandre R Soares https://launchpad.net/~khemis\n"
+"  André Marcelo Alvarenga https://launchpad.net/~andrealvarenga\n"
+"  Blademir https://launchpad.net/~blademirtc\n"
+"  Bruno Depizzol https://launchpad.net/~bdepizzol\n"
+"  Bráulio Bezerra https://launchpad.net/~brauliobezerra\n"
+"  Bushi https://launchpad.net/~bushi1600\n"
+"  CristianoB https://launchpad.net/~buneker\n"
+"  Dalton Scavassa https://launchpad.net/~daltux\n"
+"  Daniel Assuncao https://launchpad.net/~daniel1977-br\n"
+"  DebianTUX https://launchpad.net/~felipe-gomes-ferreira\n"
+"  Dirk Stöcker https://launchpad.net/~stoecker\n"
+"  Djavan Fagundes https://launchpad.net/~djavan\n"
+"  Djavan Fagundes https://launchpad.net/~dnoway\n"
+"  Don-vip https://launchpad.net/~vincent-privat\n"
+"  Duke https://launchpad.net/~dukex\n"
+"  Erico De Bona https://launchpad.net/~dressypear4\n"
+"  Felipe Costa https://launchpad.net/~fsc7\n"
+"  Felipe L. Ewald https://launchpad.net/~felipe-idj\n"
+"  Fernando Trebien https://launchpad.net/~fernando-trebien\n"
+"  Julison https://launchpad.net/~julisonbr\n"
+"  Júlio Cezar Santos Pires https://launchpad.net/~juliocspires\n"
+"  Linhares https://launchpad.net/~linharesxt\n"
+"  Lucas Pereira https://launchpad.net/~lucaspefreitas\n"
+"  Luciano Billotta https://launchpad.net/~luciano-billotta\n"
+"  Luis Bahiana https://launchpad.net/~luis-bahiana\n"
+"  Marcio Aguiar https://launchpad.net/~aguiar-marcio\n"
+"  Maurorjb https://launchpad.net/~maurorjb\n"
+"  Nelson A. de Oliveira https://launchpad.net/~naoliv\n"
+"  Nighto https://launchpad.net/~nighto-nighto\n"
+"  Norgeon https://launchpad.net/~norgeon\n"
+"  PedroMarins https://launchpad.net/~contato-pedromarins\n"
+"  Píndaro GBarbosa https://launchpad.net/~diecavallax\n"
+"  Rafael César M. Alves https://launchpad.net/~rafaces\n"
+"  Rodrigo de Avila https://launchpad.net/~rodrigo.avila\n"
+"  Rui https://launchpad.net/~xande6ruz\n"
+"  Skippern https://launchpad.net/~gay-today\n"
+"  Tarcisio Oliveira https://launchpad.net/~tarcisio\n"
+"  Thiago Vieira https://launchpad.net/~thipvieira\n"
+"  Vitor George https://launchpad.net/~vitor-george\n"
+"  Vítor Rodrigo Dias https://launchpad.net/~vitor-dias\n"
+"  Wille https://launchpad.net/~wille-riseup\n"
+"  alipius https://launchpad.net/~alipiusneto\n"
+"  alno https://launchpad.net/~alno\n"
+"  brunomelniic https://launchpad.net/~brunomelnic\n"
+"  erickdeoliveiraleal https://launchpad.net/~erickdeoliveiraleal\n"
+"  fabriciosouza https://launchpad.net/~fsbricio\n"
+"  gdonadel https://launchpad.net/~gdonadel-ufsc\n"
+"  jgpacker https://launchpad.net/~john-packer7\n"
+"  rsevero https://launchpad.net/~rodrigo-fabricadeideias\n"
+"  tudoblu https://launchpad.net/~tudoblu\n"
+"  ze bernardes https://launchpad.net/~bernardescaires"

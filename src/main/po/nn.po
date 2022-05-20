@@ -1,0 +1,35 @@
+# Translations for the JOSM plugin 'scripting' (nn)
+# Copyright (C) 2022 Gubaer
+# This file is distributed under the same license as the josm-plugin_scripting package.
+# FIRST AUTHOR, YEAR.
+#
+# Translators:
+# Simon Legner, 2022
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: josm-plugin_scripting v0.2.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-05-19 18:29+0200\n"
+"PO-Revision-Date: 2018-01-17 21:36+0000\n"
+"Language-Team: Norwegian Nynorsk (https://www.transifex.com/josm/teams/2544/nn/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: nn\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Cancel"
+msgstr "Avbryt"
+
+#. create the edit menu
+msgid "Edit"
+msgstr "Rediger"
+
+#. Translator credits (translators who want to be credited for their
+#. contributions can add their names here as the translation)
+msgid "translator-credits"
+msgstr ""
+"Launchpad Contributions:\n"
+"  Skippern https://launchpad.net/~gay-today\n"
+"  Stian Ellingsen https://launchpad.net/~stiell"

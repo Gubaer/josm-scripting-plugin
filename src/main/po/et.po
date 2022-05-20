@@ -1,0 +1,83 @@
+# Translations for the JOSM plugin 'scripting' (et)
+# Copyright (C) 2022 Gubaer
+# This file is distributed under the same license as the josm-plugin_scripting package.
+# FIRST AUTHOR, YEAR.
+#
+# Translators:
+# Simon Legner, 2022
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: josm-plugin_scripting v0.2.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-05-19 18:29+0200\n"
+"PO-Revision-Date: 2018-01-17 21:36+0000\n"
+"Language-Team: Estonian (https://www.transifex.com/josm/teams/2544/et/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: et\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Add"
+msgstr "Lisa"
+
+msgid "Cancel"
+msgstr "Katkesta"
+
+msgid "Close"
+msgstr "Sulge"
+
+msgid "Down"
+msgstr "Alla"
+
+#. create the edit menu
+msgid "Edit"
+msgstr "Muuda"
+
+#. create the file menu
+msgid "File"
+msgstr "Fail"
+
+msgid "OK"
+msgstr "OK"
+
+msgid "Open"
+msgstr "Avatud"
+
+msgid "Remove"
+msgstr "Eemalda"
+
+msgid "Save"
+msgstr "Salvesta"
+
+msgid "Select"
+msgstr "Vali"
+
+msgid "Up"
+msgstr "Üles"
+
+msgid "Version:"
+msgstr "Versioon:"
+
+msgid "unknown"
+msgstr "tundmatu"
+
+#. Translator credits (translators who want to be credited for their
+#. contributions can add their names here as the translation)
+msgid "translator-credits"
+msgstr ""
+"Launchpad Contributions:\n"
+"  AivoK https://launchpad.net/~aivo-kuhlberg\n"
+"  Andres Kaaber https://launchpad.net/~imapi\n"
+"  Anne Kaaber https://launchpad.net/~anne-kaaber\n"
+"  BloodDw https://launchpad.net/~simo1992\n"
+"  Dirk Stöcker https://launchpad.net/~stoecker\n"
+"  Jalakas https://launchpad.net/~jalakas\n"
+"  Kalur https://launchpad.net/~kalur\n"
+"  Margus Värton https://launchpad.net/~margus\n"
+"  Mart Moppel https://launchpad.net/~mart-moppel\n"
+"  Mihkel Anni https://launchpad.net/~mihkel-anni\n"
+"  NukSu https://launchpad.net/~janek-nugis\n"
+"  jaakl https://launchpad.net/~jaak-nutiteq\n"
+"  lyyser https://launchpad.net/~lyyser"

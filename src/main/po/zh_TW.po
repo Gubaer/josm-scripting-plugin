@@ -1,0 +1,112 @@
+# Translations for the JOSM plugin 'scripting' (zh_TW)
+# Copyright (C) 2022 Gubaer
+# This file is distributed under the same license as the josm-plugin_scripting package.
+# FIRST AUTHOR, YEAR.
+#
+# Translators:
+# Mizuho Inari, 2020
+# wck317, 2020
+# Simon Legner, 2022
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: josm-plugin_scripting v0.2.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-05-19 18:29+0200\n"
+"PO-Revision-Date: 2018-01-17 21:36+0000\n"
+"Language-Team: Chinese (Taiwan) (https://www.transifex.com/josm/teams/2544/zh_TW/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: zh_TW\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+msgid "''{0}'' doesn''t exist."
+msgstr "''{0}'' 不存在。"
+
+msgid "''{0}'' isn''t a valid URL"
+msgstr "''{0}'' 非有效的URL。"
+
+msgid "''{0}'' isn''t an existing jar file"
+msgstr "''{0}'' 不是存在的jar檔案。"
+
+msgid "''{0}'' isn''t readable. Can''t load a script engine from this file."
+msgstr "''{0}'' 無法讀取。無法從檔案中讀取腳本引擎。"
+
+msgid "Add"
+msgstr "加入"
+
+msgid "Add a path or jar file"
+msgstr "加入路徑或jar檔案"
+
+msgid "Add toolbar button"
+msgstr "加入工具列按鈕"
+
+msgid "Cancel"
+msgstr "取消"
+
+msgid "Close"
+msgstr "關閉"
+
+msgid "Down"
+msgstr "下"
+
+#. create the edit menu
+msgid "Edit"
+msgstr "編輯"
+
+#. create the file menu
+msgid "File"
+msgstr "檔案"
+
+msgid "File not found"
+msgstr "找不到檔案"
+
+msgid "Name:"
+msgstr "名稱："
+
+msgid "OK"
+msgstr "確定"
+
+msgid "Open"
+msgstr "開啟"
+
+msgid "Remove"
+msgstr "移除"
+
+msgid "Remove the selected jar files"
+msgstr "移除所選的 jar 檔"
+
+msgid "Save"
+msgstr "存檔"
+
+msgid "Select"
+msgstr "選擇"
+
+msgid "Up"
+msgstr "上"
+
+msgid "Version:"
+msgstr "版本："
+
+msgid "unknown"
+msgstr "不明"
+
+#. Translator credits (translators who want to be credited for their
+#. contributions can add their names here as the translation)
+msgid "translator-credits"
+msgstr ""
+"Launchpad Contributions:\n"
+"  Chao-Hsiung Liao https://launchpad.net/~j-h-liau\n"
+"  Dirk Stöcker https://launchpad.net/~stoecker\n"
+"  Jeff Huang https://launchpad.net/~s8321414\n"
+"  Kuang-che Wu https://launchpad.net/~kcwu\n"
+"  Louis Liu https://launchpad.net/~pttdog\n"
+"  Rex Tsai https://launchpad.net/~chihchun\n"
+"  Sean Young https://launchpad.net/~assanges\n"
+"  Sin-di Lee https://launchpad.net/~mcdlee\n"
+"  Supaplex https://launchpad.net/~b92612009\n"
+"  Supaplex https://launchpad.net/~bejokeup\n"
+"  Wayne Su https://launchpad.net/~mstarmstar\n"
+"  Wayne Su https://launchpad.net/~mstarmstar-l\n"
+"  yellowsoar https://launchpad.net/~yellowsoar"

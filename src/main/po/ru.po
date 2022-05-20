@@ -1,0 +1,465 @@
+# Translations for the JOSM plugin 'scripting' (ru)
+# Copyright (C) 2022 Gubaer
+# This file is distributed under the same license as the josm-plugin_scripting package.
+# FIRST AUTHOR, YEAR.
+#
+# Translators:
+# Florian Schäfer, 2018
+# Aleksey Kabanov, 2018
+# Artem.ru, 2021
+# Simon Legner, 2022
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: josm-plugin_scripting v0.2.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-05-19 18:29+0200\n"
+"PO-Revision-Date: 2018-01-17 21:36+0000\n"
+"Language-Team: Russian (https://www.transifex.com/josm/teams/2544/ru/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ru\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
+
+msgid "''{0}'' doesn''t exist."
+msgstr "''{0}'' не существует."
+
+msgid "''{0}'' is a directory. Expecting a jar file instead."
+msgstr "''{0}'' является каталогом. Ожидался jar-файл."
+
+msgid "''{0}'' is neither a ''jar'' nor a ''file'' URL"
+msgstr "''{0}'' не является URL типа ''jar'' или ''file'' "
+
+msgid "''{0}'' is neither an existing directory nor an existing jar file"
+msgstr ""
+"''{0}'' не является ни существующим каталогом, ни существующим jar-файлом"
+
+msgid "''{0}'' isn''t a valid URL"
+msgstr "''{0}'' — недопустимый URL"
+
+msgid "''{0}'' isn''t an existing jar file"
+msgstr "''{0}'' не является существующим jar-файлом"
+
+msgid "''{0}'' isn''t readable. Can''t load a script engine from this file."
+msgstr ""
+"''{0}'' не читается. Невозможно загрузить движок скриптов из этого файла."
+
+msgid ""
+"<p>Failed to execute a script.</p><p/><p><strong>Error "
+"message:</strong>{0}</p><p><strong>At:</strong>line {1}, column {2}</p>"
+msgstr ""
+"<p>Не удалось выполнить скрипт.</p><p/><p><strong>Сообщение об "
+"ошибке:</strong>{0}</p><p><strong>В:</strong>строке {1}, столбце {2}</p>"
+
+msgid ""
+"<p>Failed to execute the script file ''{0}''.</p><p/><p><strong>Error "
+"message:</strong>{1}</p>"
+msgstr ""
+"<p>Не удалось выполнить файл скрипта ''{0}''.</p><p/><p><strong>Сообщение об"
+" ошибке:</strong>{1}</p>"
+
+msgid ""
+"<p>The script can''t be executed, because a scripting engine with name "
+"''{0}'' isn''t configured.</p><p>Refer to the online help for information "
+"about how to install/configure a scripting engine for JOSM.</p>"
+msgstr ""
+"<p>Невозможно выполнить скрипт, так как движок скриптов с именем ''{0}'' не "
+"сконфигурирован.</p><p>Обратитесь к онлайн-справке за информацией о том, как"
+" установить/сконфигурировать движок скриптов для JOSM.</p>"
+
+msgid "Add"
+msgstr "Добавить"
+
+msgid "Add a path or jar file"
+msgstr "Добавить путь или jar-файл"
+
+msgid "Add a plugin"
+msgstr "Добавить модуль"
+
+msgid "Add an additional repository"
+msgstr "Добавить дополнительный репозиторий"
+
+msgid ""
+"Add directories and/or jar files where the Jython engine shall look for "
+"Python packages or modules."
+msgstr ""
+"Добавьте каталоги и/или jar-файлы, в которых движок Jython будет искать "
+"пакеты или модули Python."
+
+msgid "Add toolbar button"
+msgstr "Добавить кнопку на панель инструментов"
+
+msgid "Added {0} primitive"
+msgid_plural "Added {0} primitives"
+msgstr[0] "Добавлен {0} примитив"
+msgstr[1] "Добавлено {0} примитива"
+msgstr[2] "Добавлено {0} примитивов"
+msgstr[3] "Добавлено {0} примитива"
+
+msgid "Always on top"
+msgstr "Всегда наверху"
+
+msgid "Available engines:"
+msgstr "Доступные движки:"
+
+msgid "Available script engines"
+msgstr "Доступные движки скриптов"
+
+msgid "Cancel"
+msgstr "Отмена"
+
+msgid "Changed {0} primitive"
+msgid_plural "Changed {0} primitives"
+msgstr[0] "Изменён {0} примитив"
+msgstr[1] "Изменены {0} примитива"
+msgstr[2] "Изменено {0} примитивов"
+msgstr[3] "Изменено {0} примитива"
+
+msgid "Clear log"
+msgstr "Очистить журнал"
+
+msgid "Clear the log content"
+msgstr "Удалить содержимое журнала"
+
+msgid "Close"
+msgstr "Закрыть"
+
+msgid "Close the scripting console"
+msgstr "Закрыть консоль Scripting"
+
+#. title
+msgid "Configure script engines and scripts"
+msgstr "Настройки скриптов и скриптовых движков"
+
+#. title
+#. icon name
+msgid "Configure scripting preferences"
+msgstr "Настроить параметры модуля scripting"
+
+msgid "Configure..."
+msgstr "Настройки..."
+
+msgid "Current file:"
+msgstr "Текущий файл:"
+
+msgid "Deleted {0} primitive"
+msgid_plural "Deleted {0} primitives"
+msgstr[0] "Удалён {0} примитив"
+msgstr[1] "Удалены {0} примитива"
+msgstr[2] "Удалено {0} примитивов"
+msgstr[3] "Удалено {0} примитива"
+
+msgid "Down"
+msgstr "Вниз"
+
+msgid "Download and install scripting engine"
+msgstr "Скачать и установить движок скриптов"
+
+#. create the edit menu
+msgid "Edit"
+msgstr "Правка"
+
+msgid "Empty file name"
+msgstr "Пустое имя файла"
+
+msgid "Enter the name of a script file"
+msgstr "Введите имя файла скрипта"
+
+msgid "Execute the script"
+msgstr "Выполнить скрипт"
+
+msgid "Failed to load file ''{0}''."
+msgstr "Не удалось загрузить файл ''{0}''."
+
+msgid "Failed to load icon ''{0}''"
+msgstr "Не удалось загрузить значок ''{0}''"
+
+msgid "Failed to load icon ''{0}/{1}''"
+msgstr "Не удалось загрузить значок ''{0}/{1}''"
+
+msgid ""
+"Failed to load python module ''{0}''. \n"
+"Make sure the preferences with key ''{1}'' include the path to the module."
+msgstr ""
+"Не удалось загрузить модуль python ''{0}''. \n"
+"Убедитесь, что параметр с ключом ''{1}'' содержит путь к модулю."
+
+msgid "Failed to read the script from file ''{0}''."
+msgstr "Не удалось прочитать скрипт из файла ''{0}''."
+
+msgid "Failed to read the script from the file ''{0}''."
+msgstr "Не удалось прочитать скрипт из файла ''{0}''."
+
+msgid "Failed to save file ''{0}''."
+msgstr "Не удалось сохранить файл ''{0}''."
+
+#. create the file menu
+msgid "File"
+msgstr "Файл"
+
+msgid "File not found"
+msgstr "Файл не найден"
+
+msgid "File not readable"
+msgstr "Файл не читается"
+
+msgid "File:"
+msgstr "Файл:"
+
+msgid "IO error"
+msgstr "Ошибка ввода/вывода"
+
+msgid "IO exception"
+msgstr "Ошибка ввода/вывода"
+
+msgid "JAR file"
+msgstr "JAR-файл"
+
+msgid "JAR files"
+msgstr "JAR-файлы"
+
+msgid "Language version:"
+msgstr "Версия языка:"
+
+msgid "Language:"
+msgstr "Язык:"
+
+#. don't translate
+msgid "Launch file selection dialog"
+msgstr "Открыть диалог выбора файла"
+
+msgid "MIME-Types:"
+msgstr "MIME-типы:"
+
+msgid "Move the selected path up by one position"
+msgstr "Переместить выделенный путь на одну позицию вверх"
+
+msgid "Move the selected repository down by one position"
+msgstr "Переместить выбранный репозиторий на одну позицию вниз"
+
+msgid "Move the selected repository up by one position"
+msgstr "Переместить выбранный репозиторий на одну позицию вверх"
+
+msgid "Name:"
+msgstr "Имя:"
+
+msgid "No script engine selected."
+msgstr "Не выбран движок скриптов."
+
+msgid "OK"
+msgstr "OK"
+
+msgid "Open"
+msgstr "Открыть"
+
+msgid "Open a script file"
+msgstr "Открыть файл скрипта"
+
+msgid "Please enter a file name first."
+msgstr "Сначала введите имя файла."
+
+msgid ""
+"Please enter or paste a valid directory path or path to a jar/zip file."
+msgstr "Введите или вставьте правильный путь к каталогу или к jar/zip-файлу."
+
+msgid "Remove"
+msgstr "Удалить"
+
+msgid "Remove a path"
+msgstr "Удалить путь"
+
+msgid "Remove a repository"
+msgstr "Удалить репозиторий"
+
+msgid "Remove selected plugins"
+msgstr "Удалить выбранные модули"
+
+msgid "Remove the selected jar files"
+msgstr "Удалить выбранные jar-файлы"
+
+msgid "Run"
+msgstr "Выполнить"
+
+#. title
+#. icon name
+msgid "Run a script"
+msgstr "Запустить скрипт"
+
+msgid "Run the script"
+msgstr "Выполнить скрипт"
+
+msgid "Run..."
+msgstr "Выполнить..."
+
+msgid "Save"
+msgstr "Сохранить"
+
+msgid "Save as ..."
+msgstr "Сохранить как..."
+
+msgid "Save script to current file"
+msgstr "Сохранить скрипт в текущий файл"
+
+msgid "Save to a script file"
+msgstr "Сохранить в файл скрипта"
+
+msgid "Script engines"
+msgstr "Скриптовые движки"
+
+#. icon name
+msgid "Scripting"
+msgstr "Scripting"
+
+msgid "Scripting Console"
+msgstr "Консоль Scripting"
+
+msgid "Select"
+msgstr "Выбор"
+
+msgid "Select a directory or a jar file"
+msgstr "Выберите каталог или jar-файл"
+
+msgid "Select a directory or jar/zip file"
+msgstr "Выберите каталог или jar/zip-файл"
+
+msgid "Select a jar file"
+msgstr "Выберите jar-файл"
+
+msgid "Select a script"
+msgstr "Выберите скрипт"
+
+msgid "Select a script file"
+msgstr "Выберите файл скрипта"
+
+msgid "Select a script file and click on <strong>Run</strong>."
+msgstr "Выберите файл скрипта и нажмите <strong>Выполнить</strong>."
+
+msgid "Select an engine"
+msgstr "Выберите движок"
+
+#. title
+#. icon name
+msgid "Show/hide the scripting console"
+msgstr "Показать/скрыть консоль модуля scripting"
+
+msgid "The script file ''{0}'' doesn''t exist."
+msgstr "Файл скрипта ''{0}'' не существует."
+
+msgid "The script file ''{0}'' isn''t readable."
+msgstr "Файл скрипта ''{0}'' не читается."
+
+msgid "URL ''{0}'' doesn''t refer to an existing local directory or jar file"
+msgstr ""
+"URL ''{0}'' не ссылается на существующий локальный каталог или jar-файл"
+
+msgid "URL ''{0}'' doesn''t refer to an existing local jar file"
+msgstr "URL ''{0}'' не ссылается на существующий локальный jar-файл"
+
+msgid "Up"
+msgstr "Вверх"
+
+msgid "Version:"
+msgstr "Версия:"
+
+msgid "cancel"
+msgstr "отмена"
+
+msgid "unknown"
+msgstr "неизвестно"
+
+#. Translator credits (translators who want to be credited for their
+#. contributions can add their names here as the translation)
+msgid "translator-credits"
+msgstr ""
+"Launchpad Contributions:\n"
+"  Aleksej https://launchpad.net/~aleksejrs\n"
+"  Aleksey Kabanov https://launchpad.net/~ak099\n"
+"  Alexander Istomin https://launchpad.net/~alexander-ii\n"
+"  Alexander Vasilyev https://launchpad.net/~mizabrik\n"
+"  Alexei https://launchpad.net/~alexei-kasatkin\n"
+"  Alexei Kasatkin https://launchpad.net/~alexeikasatkin\n"
+"  Alexei Klimenko https://launchpad.net/~nimda7\n"
+"  Alexey Reztsov https://launchpad.net/~ariafan\n"
+"  Andrew https://launchpad.net/~band87\n"
+"  Andrew Zinkov https://launchpad.net/~andrew-zinkov\n"
+"  Aydar Khabibullin https://launchpad.net/~aydar-kh\n"
+"  Barbos https://launchpad.net/~lin-email\n"
+"  Bedouin2 https://launchpad.net/~eug-cher\n"
+"  Calibrator https://launchpad.net/~calibrator\n"
+"  Chilin https://launchpad.net/~chilin\n"
+"  Dirk Stöcker https://launchpad.net/~stoecker\n"
+"  Dmitry Terentiev https://launchpad.net/~djterentjev\n"
+"  Egor Bushmelyov https://launchpad.net/~skipper95\n"
+"  Evgeny Kabinov https://launchpad.net/~ekabinov\n"
+"  Ezhick https://launchpad.net/~bestoujev\n"
+"  Filatov Yuriy https://launchpad.net/~foby75\n"
+"  Fortress https://launchpad.net/~fortress\n"
+"  Freezeman https://launchpad.net/~freezemandix\n"
+"  GreenRobot https://launchpad.net/~greenrobotmail\n"
+"  Hind https://launchpad.net/~hind\n"
+"  Ilya Zverev https://launchpad.net/~zverik\n"
+"  J-Wills https://launchpad.net/~j-wills\n"
+"  JekaDer https://launchpad.net/~yourname-mail\n"
+"  Jekhor https://launchpad.net/~jekhor\n"
+"  K https://launchpad.net/~kirundel963\n"
+"  Kilkenni https://launchpad.net/~kilkenni\n"
+"  Kirill Zasorin https://launchpad.net/~kzasorin\n"
+"  Larry0ua https://launchpad.net/~pekarskiy-valeriy\n"
+"  Lazarev Eugene https://launchpad.net/~lazareveugene\n"
+"  Lupin de mid https://launchpad.net/~lupin-de-mid\n"
+"  METAdenisik https://launchpad.net/~acifra\n"
+"  Maxim https://launchpad.net/~keyndark\n"
+"  Maxim Dubinin https://launchpad.net/~answer42\n"
+"  Metyelkin Evgeniy https://launchpad.net/~mea-john\n"
+"  Michael https://launchpad.net/~m1-o\n"
+"  Mikhail Paulyshka https://launchpad.net/~pavlyshko\n"
+"  Minos https://launchpad.net/~mxm-mmx\n"
+"  Nao Li https://launchpad.net/~8nao8\n"
+"  NeFormaL https://launchpad.net/~cj2030\n"
+"  Nkolay Parukhin https://launchpad.net/~parukhin\n"
+"  Oleg Koptev https://launchpad.net/~koptev-oleg\n"
+"  Oleg Yermakov https://launchpad.net/~epushiron\n"
+"  Otnow https://launchpad.net/~otnow\n"
+"  PAN https://launchpad.net/~p-a-n-tosha\n"
+"  Radmir Agliullin https://launchpad.net/~hxc02\n"
+"  Roman https://launchpad.net/~romiro-orimor\n"
+"  Roman Shuvalov https://launchpad.net/~r-shuv\n"
+"  SHJ https://launchpad.net/~skiphopjump\n"
+"  Sadless74 https://launchpad.net/~sadless74\n"
+"  Sergei Egorov https://launchpad.net/~serikst\n"
+"  Sergey https://launchpad.net/~tyu-on-ya\n"
+"  Sergey Astakhov https://launchpad.net/~sergeyastakhov\n"
+"  Sergey Sedov https://launchpad.net/~serg-sedov\n"
+"  SoNick_RND https://launchpad.net/~sonick-rnd\n"
+"  Takuto https://launchpad.net/~takutoatmorgue\n"
+"  Upliner https://launchpad.net/~xvmv\n"
+"  Vovanium https://launchpad.net/~vovanium\n"
+"  YevgenMovsesov https://launchpad.net/~yevhen-movsesov\n"
+"  Yuri Tretyakov https://launchpad.net/~ytret\n"
+"  Zh https://launchpad.net/~lzhl\n"
+"  Zkir https://launchpad.net/~mekillot\n"
+"  ak74 https://launchpad.net/~ak74-3\n"
+"  andygol https://launchpad.net/~andygol\n"
+"  dimuzz https://launchpad.net/~dimuzz\n"
+"  doc Gilberg https://launchpad.net/~gilberg\n"
+"  freeExec https://launchpad.net/~freeexec\n"
+"  iav https://launchpad.net/~iav\n"
+"  isindir https://launchpad.net/~isindir\n"
+"  kisaa https://launchpad.net/~kisaa-mail\n"
+"  kolen https://launchpad.net/~incredible-angst\n"
+"  kruvalig https://launchpad.net/~lerkru\n"
+"  leg47 https://launchpad.net/~leg47\n"
+"  maxxis https://launchpad.net/~maxxgol\n"
+"  mulya https://launchpad.net/~rinat-mulyukov\n"
+"  nzeemin https://launchpad.net/~nzeemin\n"
+"  pfg https://launchpad.net/~pfg21rus\n"
+"  pxx https://launchpad.net/~a-prudnikov\n"
+"  ragman https://launchpad.net/~special946\n"
+"  red_led https://launchpad.net/~high-elf\n"
+"  suslikk https://launchpad.net/~suslikkreal\n"
+"  vanomel https://launchpad.net/~vanomel\n"
+"  yohanson https://launchpad.net/~yohanson\n"
+"  zeon84-74 https://launchpad.net/~gladilov-d\n"
+"  Мокринский Павел https://launchpad.net/~pasharm\n"
+"  Филин Павел https://launchpad.net/~pfx"

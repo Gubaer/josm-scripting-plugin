@@ -1,0 +1,528 @@
+# Translations for the JOSM plugin 'scripting' (ja)
+# Copyright (C) 2022 Gubaer
+# This file is distributed under the same license as the josm-plugin_scripting package.
+# FIRST AUTHOR, YEAR.
+#
+# Translators:
+# Kiyoshi Tashiro, 2019
+# jun meguro, 2019
+# Hiroshi Miura, 2022
+# Simon Legner, 2022
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: josm-plugin_scripting v0.2.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-05-19 18:29+0200\n"
+"PO-Revision-Date: 2018-01-17 21:36+0000\n"
+"Language-Team: Japanese (https://www.transifex.com/josm/teams/2544/ja/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ja\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+msgid ""
+"''onLoad()'' for plugin ''{0}'' failed. Plugin isn''t properly initialized."
+msgstr "プラグイン''{0}''の ''onLoad()'' が失敗しました。プラグインが正しく初期化されていません。"
+
+msgid "''{0}'' doesn''t exist."
+msgstr "''{0}'' は存在しません。"
+
+msgid "''{0}'' is a directory. Expecting a jar file instead."
+msgstr "''{0}''はディレクトリです。代わりにjarファイルが必要です。"
+
+msgid "''{0}'' is neither a ''jar'' nor a ''file'' URL"
+msgstr "''{0}''は''jar''でも''file''のURLでもありません。"
+
+msgid "''{0}'' is neither an existing directory nor an existing jar file"
+msgstr "''{0}'' は既存のディレクトリやjarファイルではありません。"
+
+msgid "''{0}'' isn''t a valid URL"
+msgstr "''{0}'' は有効なURLではありません。"
+
+msgid "''{0}'' isn''t an existing jar file"
+msgstr "''{0}'' は存在するjarファイルではありません。"
+
+msgid "''{0}'' isn''t readable. Can''t load a script engine from this file."
+msgstr "''{0}''は読み取れません。このファイルからスクリプトエンジンをロードできません。"
+
+msgid ""
+"<p>Failed to execute a script.</p><p/><p><strong>Error "
+"message:</strong>{0}</p><p><strong>At:</strong>line {1}, column {2}</p>"
+msgstr ""
+"<p>スクリプトの実行に失敗</p><p/><p><strong>エラーメッセージ:</strong>{0}</p><p><strong>位置:</strong>line"
+" {1}, column {2}</p>"
+
+msgid ""
+"<p>Failed to execute the script file ''{0}''.</p><p/><p><strong>Error "
+"message:</strong>{1}</p>"
+msgstr ""
+"<p>スクリプトの実行に失敗 ファイル名: ''{0}''.</p><p/><p><strong>エラーメッセージ:</strong>{1}</p>"
+
+msgid ""
+"<p>The script can''t be executed, because a scripting engine with name "
+"''{0}'' isn''t configured.</p><p>Refer to the online help for information "
+"about how to install/configure a scripting engine for JOSM.</p>"
+msgstr ""
+"<p>スクリプトは実行不能です。スクリプトエンジン ''{0}'' "
+"が設定されていません。</p><p>スクリプティングエンジンの追加・設定手順の詳細についてはオンラインヘルプを参照してください。</p>"
+
+msgid ""
+"<strong>Support for python plugins is disabled.</strong><br>The scripting "
+"plugin can load and run plugins written in <strong>Python</strong>. In order"
+" to use this feature the Jython interpreter has to be on the class path when"
+" you start JOSM. Currently, it isn''t and python plugin support is therefore"
+" disabled.<br><br>Launch JOSM with the following command line: <br>java -cp "
+"\"josm-jar.jar:/path/to/jython.jar\" "
+"org.openstreetmap.josm.gui.MainApplication"
+msgstr ""
+"<strong>Pythonプラグインのサポートは無効になっています。</strong><br>スクリプトプラグインは、<strong>Python</strong>で記述されたプラグインをロードして実行できます。この機能を使用するには、JOSMを起動したときにJythonインタプリタがクラスパス上に存在している必要があります。現在、Jythonインタプリタは存在しないため、Pythonプラグインのサポートは無効になっています。<br><br>JOSMを起動するときに、次のコマンドラインを使用します。<br>java-"
+"cp\"josm-"
+"jar.jar:/path/to/jython.jar\"org.openstreetmap.josm.gui.MainApplication"
+
+msgid "Accept the selected scripting engine"
+msgstr "選択したスクリプトエンジンを受け入れる"
+
+msgid "Add"
+msgstr "追加"
+
+msgid "Add a button for this script script file to the toolbar."
+msgstr "このスクリプトスクリプトファイルのボタンをツールバーに追加します。"
+
+msgid "Add a jar file providing a script engine"
+msgstr "スクリプトエンジンを提供するjarファイルの追加"
+
+msgid ""
+"Add a list of fully qualified names of Python plugin classes the scripting "
+"plugin shall load and install at startup time. <br>Example: "
+"''my_module.MyPlugin'' or ''my_package.my_module.MyPlugin''"
+msgstr ""
+"起動時にスクリプトプラグインがロードおよびインストールするPythonプラグインクラスの完全修飾名のリストを追加します。<br>例: "
+"''my_module.MyPlugin'' または ''my_package.my_module.MyPlugin''"
+
+msgid "Add a path or jar file"
+msgstr "パスまたはjarファイルの追加"
+
+msgid "Add a plugin"
+msgstr "プラグインの追加"
+
+msgid "Add an additional repository"
+msgstr "別のリポジトリを追加する"
+
+msgid ""
+"Add directories and/or jar files where the Jython engine shall look for "
+"Python packages or modules."
+msgstr "JythonエンジンがPythonパッケージまたはモジュールを検索するディレクトリーやjarファイルを追加します。"
+
+msgid "Add toolbar button"
+msgstr "ツールバーボタンを追加"
+
+msgid "Added {0} primitive"
+msgid_plural "Added {0} primitives"
+msgstr[0] "{0}プリミティブが追加されました"
+
+msgid "Always on top"
+msgstr "常に手前に表示"
+
+msgid "Available engines:"
+msgstr "使用可能なエンジン:"
+
+msgid "Available script engines"
+msgstr "使用可能なスクリプトエンジン"
+
+msgid "Cancel"
+msgstr "キャンセル"
+
+msgid "Changed {0} primitive"
+msgid_plural "Changed {0} primitives"
+msgstr[0] "変更された{0}プリミティブ"
+
+msgid "Clear log"
+msgstr "ログのクリア"
+
+msgid "Clear the log content"
+msgstr "ログの内容を消去する"
+
+msgid "Close"
+msgstr "閉じる"
+
+msgid "Close the scripting console"
+msgstr "スクリプトコンソールを閉じます。"
+
+#. title
+msgid "Configure script engines and scripts"
+msgstr "スクリプトエンジンとスクリプトの設定"
+
+#. title
+#. icon name
+msgid "Configure scripting preferences"
+msgstr "スクリプトの環境設定"
+
+msgid "Configure..."
+msgstr "設定..."
+
+msgid "Create or edit a CommonJS module repository"
+msgstr "CommonJSモジュール・リポジトリの作成または編集"
+
+msgid "Create or edit a path"
+msgstr "パスを作成または編集する"
+
+msgid "Current file:"
+msgstr "現在のファイル:"
+
+msgid "Deleted {0} primitive"
+msgid_plural "Deleted {0} primitives"
+msgstr[0] "削除された{0}プリミティブ"
+
+msgid "Down"
+msgstr "下"
+
+msgid "Download and install scripting engine"
+msgstr "スクリプトエンジンのダウンロードとインストール"
+
+#. create the edit menu
+msgid "Edit"
+msgstr "編集"
+
+msgid "Empty file name"
+msgstr "空のファイル名"
+
+msgid "Enter additional JAR files which provide script engines."
+msgstr "スクリプトエンジンを提供する追加のJARファイルを入力します。"
+
+msgid "Enter the name of a script file"
+msgstr "スクリプトファイルの名前を入力"
+
+msgid "Execute the script"
+msgstr "スクリプトの実行"
+
+msgid ""
+"Executing scripts in language <strong>{0}</strong> using engine "
+"<strong>{1}</strong>."
+msgstr "エンジン<strong>{1}</strong>を使用して、言語<strong>{0}</strong>でスクリプトを実行しています。"
+
+msgid ""
+"Executing scripts with the built-in scripting engine for language "
+"<strong>{0}</strong> based on <strong>{1}</strong>."
+msgstr ""
+"<strong>{1}</strong>に基づく言語<strong>{0}</strong>の内蔵スクリプトエンジンを使用してスクリプトを実行しています。"
+
+msgid "Failed to create URL referring to the module repository ''{0}''"
+msgstr "モジュールリポジトリ''{0}''を参照するURLを作成できませんでした"
+
+msgid "Failed to instantiate plugin ''{0}''."
+msgstr "プラグイン''{0}''のインスタンス化に失敗しました。"
+
+msgid "Failed to load file ''{0}''."
+msgstr "ファイル''{0}''をロードできませんでした。"
+
+msgid "Failed to load icon ''{0}''"
+msgstr "アイコン''{0}''のロードに失敗しました"
+
+msgid "Failed to load icon ''{0}/{1}''"
+msgstr "アイコン''{0}/{1}''のロードに失敗しました"
+
+msgid ""
+"Failed to load python module ''{0}''. \n"
+"Make sure the preferences with key ''{1}'' include the path to the module."
+msgstr ""
+"モジュール''{0}''をロードできませんでした。\n"
+"キー''{1}''の設定にモジュールへのパスが含まれていることを確認してください。"
+
+msgid "Failed to lookup plugin class ''{0}''."
+msgstr "プラグインクラス''{0}''の検索に失敗しました。"
+
+msgid ""
+"Failed to open file ''{0}'' as jar file. Can''t load a script engine from "
+"this file."
+msgstr "ファイル''{0}''をJARファイルとして開くことができませんでした。このファイルからスクリプトエンジンをロードできません。"
+
+msgid "Failed to read the script from file ''{0}''."
+msgstr "ファイル''{0}''からスクリプトを読み取ることができませんでした。"
+
+msgid "Failed to read the script from the file ''{0}''."
+msgstr "ファイル''{0}''からスクリプトを読み取ることができませんでした。"
+
+msgid "Failed to save file ''{0}''."
+msgstr "ファイル''{0}''を保存できませんでした。"
+
+#. create the file menu
+msgid "File"
+msgstr "ファイル"
+
+msgid "File not found"
+msgstr "ファイルが見つかりません。"
+
+msgid "File not readable"
+msgstr "ファイルを読み取れません"
+
+msgid "File:"
+msgstr "ファイル:"
+
+msgid ""
+"GraalVM polyglot API isn''t on the class path. Support for GraalVM is "
+"disabled."
+msgstr "GraalVM polyglot APIはクラスパスにありません。GraalVMのサポートは無効です。"
+
+msgid "IO error"
+msgstr "I/O エラー"
+
+msgid "IO exception"
+msgstr "IO 例外"
+
+msgid "JAR file"
+msgstr "JARファイル"
+
+msgid "JAR files"
+msgstr "JARファイル"
+
+msgid "JOSM currently supports the following script engines:"
+msgstr "JOSMは現在、次のスクリプトエンジンをサポートしています。"
+
+msgid ""
+"Jython interpreter isn''t on the class path. Support for Python plugins is "
+"disabled."
+msgstr "Jythonインタープリターはクラス・パスにありません。Pythonプラグインのサポートが無効になっています。"
+
+msgid "Language version:"
+msgstr "言語バージョン:"
+
+msgid "Language:"
+msgstr "言語:"
+
+msgid "Launch file chooser"
+msgstr "ファイル選択を起動"
+
+#. don't translate
+msgid "Launch file selection dialog"
+msgstr "ファイル選択ダイアログを起動"
+
+msgid "Move the selected path up by one position"
+msgstr "選択したパスを1つ上に移動"
+
+msgid "Move the selected repository down by one position"
+msgstr "選択したリポジトリを1つ下に移動"
+
+msgid "Move the selected repository up by one position"
+msgstr "選択したリポジトリを1つ上の位置に移動"
+
+msgid "Name:"
+msgstr "名前:"
+
+msgid "No script engine selected."
+msgstr "スクリプトエンジンが選択されていません。"
+
+msgid "No syntax kit"
+msgstr "構文キットがありません"
+
+msgid "OK"
+msgstr "OK"
+
+msgid "Open"
+msgstr "開く"
+
+msgid "Open a script file"
+msgstr "スクリプトファイルを開く"
+
+msgid "Please enter a file name first."
+msgstr "最初にファイル名を入力してください。"
+
+msgid ""
+"Please enter or paste a valid directory path or path to a jar/zip file."
+msgstr "有効なディレクトリパスかjar/zipファイルのパスを入力してください。"
+
+msgid ""
+"Please enter or paste a valid file or jar URL. HTTP URLs are not supported."
+msgstr "有効なファイルかjar URLのパスを入力してください。HTTP URLはサポートされていません。"
+
+msgid "Remove"
+msgstr "削除"
+
+msgid "Remove a path"
+msgstr "パスを削除する"
+
+msgid "Remove a repository"
+msgstr "リポジトリを削除する"
+
+msgid "Remove selected plugins"
+msgstr "選択したプラグインを削除"
+
+msgid "Remove the selected jar files"
+msgstr "選択したjarファイルを削除します"
+
+msgid "Run"
+msgstr "実行"
+
+#. title
+#. icon name
+msgid "Run a script"
+msgstr "スクリプトの実行"
+
+#. Display filename as tooltip instead of generic one
+msgid "Run script ''{0}''"
+msgstr "スクリプト''{0}''の実行"
+
+msgid "Run the script"
+msgstr "スクリプトの実行"
+
+msgid "Run..."
+msgstr "実行中..."
+
+msgid "Save"
+msgstr "保存"
+
+msgid "Save as ..."
+msgstr "名前を付けて保存..."
+
+msgid "Save script to current file"
+msgstr "スクリプトを現在のファイルに保存"
+
+msgid "Save to a script file"
+msgstr "スクリプトファイルに保存する"
+
+msgid "Script engine not found"
+msgstr "スクリプトエンジンが見つかりません"
+
+msgid "Script engines"
+msgstr "スクリプトエンジン"
+
+msgid "Script execution failed"
+msgstr "スクリプトの実行に失敗しました"
+
+msgid "Script execution has failed."
+msgstr "スクリプトの実行に失敗しました。"
+
+#. icon name
+msgid "Scripting"
+msgstr "スクリプティング"
+
+msgid "Scripting Console"
+msgstr "スクリプトコンソール"
+
+msgid "Scripting: Run a Script"
+msgstr "スクリプティング:スクリプトの実行"
+
+msgid "Scripting: Show/hide scripting console"
+msgstr "スクリプティング:スクリプトコンソールの表示/非表示"
+
+msgid "Select"
+msgstr "選択"
+
+msgid "Select a directory or a jar file"
+msgstr "ディレクトリまたはjarファイルを選択してください"
+
+msgid "Select a directory or jar/zip file"
+msgstr "ディレクトリまたはjar/zipファイルを選択してください"
+
+msgid "Select a jar file"
+msgstr "jarファイルを選択"
+
+msgid "Select a script"
+msgstr "スクリプトを選択"
+
+msgid "Select a script file"
+msgstr "スクリプトファイルを選択"
+
+msgid "Select a script file and click on <strong>Run</strong>."
+msgstr "スクリプトファイルを選択し、<strong>Run</strong>をクリックします。"
+
+msgid "Select an engine"
+msgstr "エンジンを選択"
+
+msgid "Show scripting console"
+msgstr "スクリプトコンソールを表示"
+
+#. title
+#. icon name
+msgid "Show/hide the scripting console"
+msgstr "スクリプトコンソールの表示/非表示"
+
+msgid ""
+"The jar file ''{0}'' doesn''t provide a script engine. The entry ''{1}'' is "
+"missing."
+msgstr "JARファイル''{0}''はスクリプトエンジンを提供しません。エントリ''{1}''が見つかりません。"
+
+msgid "The script file ''{0}'' doesn''t exist."
+msgstr "スクリプトファイル''{0}''が存在しません。"
+
+msgid "The script file ''{0}'' isn''t readable."
+msgstr "スクリプトファイル''{0}''を読み取れません。"
+
+msgid ""
+"The scripting plugin can load and run plugins written in "
+"<strong>Python</strong>. Below you can configure where it looks for locally "
+"deployed plugins and which plugins it should load and launch at startup "
+"time."
+msgstr ""
+"スクリプトプラグインは、<strong>Python</strong>で記述されたプラグインをロードして実行できます。以下では、ローカルに配置されたプラグインの検索場所と、起動時にロードして起動するプラグインを設定できます。"
+
+msgid "URL ''{0}'' doesn''t refer to an existing local directory or jar file"
+msgstr "URL''{0}''が既存のローカルディレクトリまたはjarファイルを参照していません"
+
+msgid "URL ''{0}'' doesn''t refer to an existing local jar file"
+msgstr "URL''{0}''が既存のローカルjarファイルを参照していません"
+
+msgid "Up"
+msgstr "上"
+
+msgid "Version:"
+msgstr "バージョン:"
+
+msgid "cancel"
+msgstr "取り消す"
+
+msgid "plugin class loader for plugin ''{0}'' not found"
+msgstr "プラグイン ''{0}''のプラグインクラスローダーが見つかりません"
+
+msgid "unknown"
+msgstr "不明"
+
+#. used in the context of a combo box
+msgid "{1} (with engine {0})"
+msgstr "{1}(エンジン{0})"
+
+#. Plugin description for josm-scripting-plugin
+msgid "Runs scripts in JOSM"
+msgstr "JOSMでスクリプトを実行"
+
+#. Translator credits (translators who want to be credited for their
+#. contributions can add their names here as the translation)
+msgid "translator-credits"
+msgstr ""
+"Launchpad Contributions:\n"
+"  Akihiro Nishimura https://launchpad.net/~nimu-zh3\n"
+"  Akihiro Ome https://launchpad.net/~ome\n"
+"  Dirk Stöcker https://launchpad.net/~stoecker\n"
+"  Hiroshi Miura https://launchpad.net/~miurahr\n"
+"  ISHII Hironaga https://launchpad.net/~hinomiya-gla\n"
+"  Ikiya https://launchpad.net/~ikiya-maps\n"
+"  Itsushi Minoura https://launchpad.net/~minoura124\n"
+"  JIN https://launchpad.net/~saito-jin\n"
+"  Katz Kawai https://launchpad.net/~katzkawai\n"
+"  Kazuhiko NAKAMURA https://launchpad.net/~nakamura-nenv\n"
+"  MAPconcierge https://launchpad.net/~taichi\n"
+"  MATSUMURA Hidetoshi https://launchpad.net/~icarrot0605\n"
+"  Mage Whopper https://launchpad.net/~magewhopper\n"
+"  Mariko Hisakawa https://launchpad.net/~goda-mariko\n"
+"  Masao Takaku https://launchpad.net/~tmasao\n"
+"  Naoko Togo https://launchpad.net/~naoko-togo\n"
+"  OKANO Takayoshi https://launchpad.net/~kano\n"
+"  Satoshi IIDA https://launchpad.net/~nyampire\n"
+"  Tom Konda https://launchpad.net/~tomohiro-konda\n"
+"  Tsuji Kento https://launchpad.net/~tuziemon-deactivatedaccount-deactivatedaccount\n"
+"  Yasunari Yamashita https://launchpad.net/~yasunari\n"
+"  Yuki Shira https://launchpad.net/~shirayuking\n"
+"  Yusuke1109 https://launchpad.net/~yusuke1109\n"
+"  caesium https://launchpad.net/~caesium\n"
+"  fujimoto https://launchpad.net/~fujimoto\n"
+"  hatochan https://launchpad.net/~hatori-hatochan\n"
+"  help https://launchpad.net/~help\n"
+"  higa4 https://launchpad.net/~higa4\n"
+"  nazotoko https://launchpad.net/~shunw\n"
+"  nori_u https://launchpad.net/~noriu1215\n"
+"  osapon https://launchpad.net/~osa-0\n"
+"  ribbon https://launchpad.net/~osm\n"
+"  techstrom https://launchpad.net/~fujisawa\n"
+"  yopmap https://launchpad.net/~yopmap\n"
+"  yu nakayama https://launchpad.net/~blurrydog"

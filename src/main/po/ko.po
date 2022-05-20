@@ -1,0 +1,499 @@
+# Translations for the JOSM plugin 'scripting' (ko)
+# Copyright (C) 2022 Gubaer
+# This file is distributed under the same license as the josm-plugin_scripting package.
+# FIRST AUTHOR, YEAR.
+#
+# Translators:
+# 이동표, 2021
+# Simon Legner, 2022
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: josm-plugin_scripting v0.2.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-05-19 18:29+0200\n"
+"PO-Revision-Date: 2018-01-17 21:36+0000\n"
+"Language-Team: Korean (https://www.transifex.com/josm/teams/2544/ko/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ko\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+msgid ""
+"''onLoad()'' for plugin ''{0}'' failed. Plugin isn''t properly initialized."
+msgstr "플러그인 \"{0}\" 에 대한 \"onLoad()\" 실패하였습니다. 플러그인이 제대로 초기화되지 않았습니다."
+
+msgid "''{0}'' doesn''t exist."
+msgstr "''{0}' 존재 하지 않습니다."
+
+msgid "''{0}'' is a directory. Expecting a jar file instead."
+msgstr "'{0}'' 은 디렉토리입니다. 대신 Jar 파일이 필요합니다."
+
+msgid "''{0}'' is neither a ''jar'' nor a ''file'' URL"
+msgstr "''{0}''은 ''jar''도 ''file'' URL도 아닙니다."
+
+msgid "''{0}'' is neither an existing directory nor an existing jar file"
+msgstr " ''{0}''은 기존 디렉토리도 기존 jar 파일도 아닙니다."
+
+msgid "''{0}'' isn''t a valid URL"
+msgstr "''{0}''은 유효한 URL이 아닙니다."
+
+msgid "''{0}'' isn''t an existing jar file"
+msgstr "''{0}''은 존재하지 않는 Jar 파일입니다."
+
+msgid "''{0}'' isn''t readable. Can''t load a script engine from this file."
+msgstr "''{0}''을 읽을 수 없습니다. 이 파일에서 스크립 엔진을 로드할 수 없습니다."
+
+msgid ""
+"<p>Failed to execute a script.</p><p/><p><strong>Error "
+"message:</strong>{0}</p><p><strong>At:</strong>line {1}, column {2}</p>"
+msgstr ""
+"<p>스크립트를 실행하지 못했습니다.</p><p/><p><strong>에러 메세지:</strong>{0}</p><p><strong> "
+"줄{1}</strong>,행 {2} </p>에서"
+
+msgid ""
+"<p>Failed to execute the script file ''{0}''.</p><p/><p><strong>Error "
+"message:</strong>{1}</p>"
+msgstr ""
+"<p>스크립트 파일을 \"{0}\" 을 실행하지 못했습니다.</p><p/><p><strong>에러 메세지:</strong>{1}</p>"
+
+msgid ""
+"<p>The script can''t be executed, because a scripting engine with name "
+"''{0}'' isn''t configured.</p><p>Refer to the online help for information "
+"about how to install/configure a scripting engine for JOSM.</p>"
+msgstr ""
+"<p>스크립트는 실행되지 못했습니다. 왜냐하면 스크립트 엔진 ''{0}'' 이 구성되지 않았기 때문입니다. </p><p> JOSM용 "
+"스크립팅 엔진을 설치/구성하는 방법에 대한 정보는 온라인 도움말을 참조하십시오.</p>"
+
+msgid ""
+"<strong>Support for python plugins is disabled.</strong><br>The scripting "
+"plugin can load and run plugins written in <strong>Python</strong>. In order"
+" to use this feature the Jython interpreter has to be on the class path when"
+" you start JOSM. Currently, it isn''t and python plugin support is therefore"
+" disabled.<br><br>Launch JOSM with the following command line: <br>java -cp "
+"\"josm-jar.jar:/path/to/jython.jar\" "
+"org.openstreetmap.josm.gui.MainApplication"
+msgstr ""
+"<strong>파이썬 플러그인 지원이 비활성화 되었습니다.</strong><br> 스크립팅 플러그인은 <strong>파이썬에 작성된 "
+"플러그인이 작동 또는 가져올 수 있습니다. 자이썬 통역 특징을 사용하기 위해서 JOSM 시작할 때 path 클래스가 있어야합니다. 현재 "
+"없고 파이썬 플러그인 지원은 그러므로 비활성화 되었습니다. <br><br> 다음 명령 줄을 사용하여 JOSM을 시작합니다: "
+"<br>java -cp \"josm-jar.jar:/path/to/jython.jar\" "
+"org.openstreetmap.josm.gui.MainApplication"
+
+msgid "Accept the selected scripting engine"
+msgstr "선택 한 스크립트 엔진을 허락합니다."
+
+msgid "Add"
+msgstr "추가"
+
+msgid "Add a button for this script script file to the toolbar."
+msgstr " 스크립트 파일에 대한 버튼을 도구 모음에 추가합니다."
+
+msgid "Add a jar file providing a script engine"
+msgstr "스크립트 엔진을 제공하는 jar 파일 추가합니다."
+
+msgid "Add a path or jar file"
+msgstr "경로 또는 Jar 파일 추가합니다"
+
+msgid "Add a plugin"
+msgstr "플러그인을 추가합니다."
+
+msgid "Add an additional repository"
+msgstr "추가 저장소 추가합니다"
+
+msgid ""
+"Add directories and/or jar files where the Jython engine shall look for "
+"Python packages or modules."
+msgstr "Jython 엔진이 Python 패키지 또는 모듈을 찾을 디렉토리 및 jar 파일을 추가합니다"
+
+msgid "Add toolbar button"
+msgstr "툴바 버튼 추가"
+
+msgid "Added {0} primitive"
+msgid_plural "Added {0} primitives"
+msgstr[0] "{0} 요소들을 추가 되었습니다."
+
+msgid "Always on top"
+msgstr "항상 상단에"
+
+msgid "Available engines:"
+msgstr "이용가능한 엔진들:"
+
+msgid "Available script engines"
+msgstr "이용가능한 스크립트 엔진들"
+
+msgid "Cancel"
+msgstr "취소"
+
+msgid "Changed {0} primitive"
+msgid_plural "Changed {0} primitives"
+msgstr[0] "{0} 요소들로 변경되었습니다."
+
+msgid "Clear log"
+msgstr "로그 지우기"
+
+msgid "Clear the log content"
+msgstr "로그 내용 지우기"
+
+msgid "Close"
+msgstr "닫기"
+
+msgid "Close the scripting console"
+msgstr "스크립팅 콘솔 닫기"
+
+#. title
+msgid "Configure script engines and scripts"
+msgstr "스크립트 엔진 및 스크립트 구성"
+
+#. title
+#. icon name
+msgid "Configure scripting preferences"
+msgstr "스크립트 환경설정 구성"
+
+msgid "Configure..."
+msgstr "구성..."
+
+msgid "Create or edit a CommonJS module repository"
+msgstr "CommonJS 모듈 저장소 생성 또는 편집"
+
+msgid "Create or edit a path"
+msgstr "길을 생성하거나 편집"
+
+msgid "Current file:"
+msgstr "현재 파일:"
+
+msgid "Deleted {0} primitive"
+msgid_plural "Deleted {0} primitives"
+msgstr[0] "{0} 요소 삭제되었습니다."
+
+msgid "Down"
+msgstr "아래"
+
+msgid "Download and install scripting engine"
+msgstr "다운로드 그리고 스크립트 엔진을 설치합니다."
+
+#. create the edit menu
+msgid "Edit"
+msgstr "고치기"
+
+msgid "Empty file name"
+msgstr "파일 이름이 비었습니다."
+
+msgid "Enter additional JAR files which provide script engines."
+msgstr "스크립트 엔진에서 제공된 추가 JAR 파일들 입력합니다."
+
+msgid "Enter the name of a script file"
+msgstr "스크립트 파일 이름을 입력합니다."
+
+msgid "Execute the script"
+msgstr "스크립트 실행"
+
+msgid ""
+"Executing scripts in language <strong>{0}</strong> using engine "
+"<strong>{1}</strong>."
+msgstr "<strong>{1}</strong> 엔진을 사용하여 <strong>{0}</strong> 언어로 스크립트 실행"
+
+msgid ""
+"Executing scripts with the built-in scripting engine for language "
+"<strong>{0}</strong> based on <strong>{1}</strong>."
+msgstr ""
+"<strong>{1}</strong> 을 기초로 하는 <strong>{0}</strong> 언어가 들어있는 스크립트 엔진을 실행"
+
+msgid "Failed to create URL referring to the module repository ''{0}''"
+msgstr "모듈 저장소\"{0}\" 이 언급되어진 URL 생성하는데 실패하였습니다."
+
+msgid "Failed to instantiate plugin ''{0}''."
+msgstr "플러그인 \"{0}\" 예를 드는데 실패하였습니다."
+
+msgid "Failed to load file ''{0}''."
+msgstr "\"{0}\" 파일을 불러오는데 실패하였습니다."
+
+msgid "Failed to load icon ''{0}''"
+msgstr "\"{0}\" 아이콘을 로드하는데 실패하였습니다."
+
+msgid "Failed to load icon ''{0}/{1}''"
+msgstr "\"{0}/{1}\" 아이콘을 불러오는데 실패하였습니다."
+
+msgid ""
+"Failed to load python module ''{0}''. \n"
+"Make sure the preferences with key ''{1}'' include the path to the module."
+msgstr ""
+"파이썬 모듈 \"{0}\" 불러오는데 실패하였습니다.\n"
+"길이 포함된 모듈 키 \"{1}\" 가 환경설정에서 확실히 하십시오."
+
+msgid "Failed to lookup plugin class ''{0}''."
+msgstr "플러그인 클래스 \"{0}\" 을 조회 하지 못했습니다."
+
+msgid ""
+"Failed to open file ''{0}'' as jar file. Can''t load a script engine from "
+"this file."
+msgstr "파일''{0}'' 을 jar 파일로 열지 못했습니다. 이 파일에서 스크립트 엔진을 로드할 수 없습니다."
+
+msgid "Failed to read the script from file ''{0}''."
+msgstr " 파일''{0}''에서 스크립트를 읽지 못했습니다."
+
+msgid "Failed to read the script from the file ''{0}''."
+msgstr "파일''{0}'' 에서 스크립트를 읽지 못했습니다."
+
+msgid "Failed to save file ''{0}''."
+msgstr "파일 ''{0}'' 저장하는데 실패하였습니다."
+
+#. create the file menu
+msgid "File"
+msgstr "파일"
+
+msgid "File not found"
+msgstr "파일을 찾을 수 없습니다."
+
+msgid "File not readable"
+msgstr "파일을 읽을 수 없습니다."
+
+msgid "File:"
+msgstr "파일:"
+
+msgid "IO error"
+msgstr "IO 에러"
+
+msgid "IO exception"
+msgstr "IO 예외"
+
+msgid "JAR file"
+msgstr "JAR 파일"
+
+msgid "JAR files"
+msgstr "JAR 파일들"
+
+msgid "JOSM currently supports the following script engines:"
+msgstr "JOSM 현재 스크립트 엔진을 지원합니다."
+
+msgid ""
+"Jython interpreter isn''t on the class path. Support for Python plugins is "
+"disabled."
+msgstr "Jython 통역은 길 클래스에 있지 않습니다. 파이썬 플러그인 지원이 비활성화 되었습니다."
+
+msgid "Language version:"
+msgstr "언어 버전:"
+
+msgid "Language:"
+msgstr "언어:"
+
+msgid "Launch file chooser"
+msgstr "파일 선택기 실행"
+
+#. don't translate
+msgid "Launch file selection dialog"
+msgstr "파일 선택 대화상자 실행"
+
+msgid "MIME-Types:"
+msgstr "MIME-유형:"
+
+msgid "Move the selected path up by one position"
+msgstr "선택한 경로를 한 위치 위로 이동합니다."
+
+msgid "Move the selected repository down by one position"
+msgstr "선택한 저장소를 한 위치 아래로 이동합니다."
+
+msgid "Move the selected repository up by one position"
+msgstr "선택한 저장소를 한 위치 위로 이동합니다."
+
+msgid "Name:"
+msgstr "이름:"
+
+msgid "No script engine selected."
+msgstr "선택한 스크립트 엔진이 없습니다."
+
+msgid "No syntax kit"
+msgstr "구문 키트가 없습니다."
+
+msgid "OK"
+msgstr "확인"
+
+msgid "Open"
+msgstr "열다"
+
+msgid "Open a script file"
+msgstr "스크립트 파일을 엽니다."
+
+msgid "Please enter a file name first."
+msgstr "먼저 파일명을 입력해주세요."
+
+msgid ""
+"Please enter or paste a valid directory path or path to a jar/zip file."
+msgstr "유효한 디렉토리 경로 또는 jar/zip 파일 경로를 입력하거나 복사해서 넣으시길 바랍니다."
+
+msgid ""
+"Please enter or paste a valid file or jar URL. HTTP URLs are not supported."
+msgstr "유효한 파일 또는 jar URL을 입력하거나 붙여넣으십시오. HTTP URL은 지원되지 않습니다."
+
+msgid "Remove"
+msgstr "지우기"
+
+msgid "Remove a path"
+msgstr "길 제거"
+
+msgid "Remove a repository"
+msgstr "저장소 제거"
+
+msgid "Remove selected plugins"
+msgstr "선택한 플러그인 제거"
+
+msgid "Remove the selected jar files"
+msgstr "선택된 jar 파일을 제거합니다."
+
+msgid "Run"
+msgstr "작동"
+
+#. title
+#. icon name
+msgid "Run a script"
+msgstr "스크립트 작동"
+
+#. Display filename as tooltip instead of generic one
+msgid "Run script ''{0}''"
+msgstr "\"{0}\" 스크립트 작동"
+
+msgid "Run the script"
+msgstr "스크립트 작동"
+
+msgid "Run..."
+msgstr "작동..."
+
+msgid "Save"
+msgstr "저장"
+
+msgid "Save as ..."
+msgstr "다른 이름으로 저장..."
+
+msgid "Save script to current file"
+msgstr "현재 파일을 스크립트에 저장"
+
+msgid "Save to a script file"
+msgstr "스크립트 파일로 저장"
+
+msgid "Script engine not found"
+msgstr "스크립트 엔진을 찾지 못했습니다."
+
+msgid "Script engines"
+msgstr "스크립트 엔진"
+
+msgid "Script execution failed"
+msgstr "스크립트 실행 실패"
+
+msgid "Script execution has failed."
+msgstr "스크립트 실행에 실패하였습니다."
+
+#. icon name
+msgid "Scripting"
+msgstr "스크립팅"
+
+msgid "Scripting Console"
+msgstr "스크립팅 콘솔"
+
+msgid "Scripting: Run a Script"
+msgstr "스크립팅: 스크립트 작동"
+
+msgid "Scripting: Show/hide scripting console"
+msgstr "스크립팅: 스크립팅 콘솔을 보여주기/숨기기"
+
+msgid "Select"
+msgstr "선택"
+
+msgid "Select a directory or a jar file"
+msgstr "디렉토리 또는 jar 파일 선택하기"
+
+msgid "Select a directory or jar/zip file"
+msgstr "디렉토리 또는 jar/zip파일 선택하기"
+
+msgid "Select a jar file"
+msgstr "jar 파일 선택"
+
+msgid "Select a script"
+msgstr "스크립트 선택"
+
+msgid "Select a script file"
+msgstr "스크립트 파일 선택"
+
+msgid "Select a script file and click on <strong>Run</strong>."
+msgstr "스크립트 파일 선택하고 <strong>작동하는</strong>을 클릭하기"
+
+msgid "Select an engine"
+msgstr "엔진 선택하기"
+
+msgid "Show scripting console"
+msgstr "스크립팅 콘솔 보여주기"
+
+#. title
+#. icon name
+msgid "Show/hide the scripting console"
+msgstr "스크립팅 콘솔 보여주기/숨기기"
+
+msgid ""
+"The jar file ''{0}'' doesn''t provide a script engine. The entry ''{1}'' is "
+"missing."
+msgstr "jar 파일 \"{0}\" 은 스크립트 엔진에 제공되지 않습니다. 항목 \"{1}\" 이 없습니다."
+
+msgid "The script file ''{0}'' doesn''t exist."
+msgstr "스크립트 파일 \"{0}\" 존재하지 않습니다."
+
+msgid "The script file ''{0}'' isn''t readable."
+msgstr "스크립트 파일 \"{0}\" 을 읽을 수 없습니다."
+
+msgid ""
+"The scripting plugin can load and run plugins written in "
+"<strong>Python</strong>. Below you can configure where it looks for locally "
+"deployed plugins and which plugins it should load and launch at startup "
+"time."
+msgstr ""
+"스크립팅 플러그인은 불러 들 일 수 있고 <strong>파이썬</strong> 작성 된 플러그인이 작동 합니다. 아래에서 로컬로 배포된 "
+"플러그인을 찾는 위치와 시작 시 로드하고 시작해야 하는 플러그인을 구성할 수 있습니다."
+
+msgid "URL ''{0}'' doesn''t refer to an existing local directory or jar file"
+msgstr "URL ''{0}''은 기존 로컬 디렉토리 또는 jar 파일을 참조하지 않습니다."
+
+msgid "URL ''{0}'' doesn''t refer to an existing local jar file"
+msgstr "URL ''{0}''은 기존 로컬 jar 파일을 참조하지 않습니다."
+
+msgid "Up"
+msgstr "위"
+
+msgid "Version:"
+msgstr "버전:"
+
+msgid "cancel"
+msgstr "닫기"
+
+msgid "plugin class loader for plugin ''{0}'' not found"
+msgstr "플러그인 \"{0}\" 위한 불러오기 플러그인 클래스를 찾지 못했습니다."
+
+msgid "unknown"
+msgstr "알 수 없는"
+
+#. used in the context of a combo box
+msgid "{1} (with engine {0})"
+msgstr "{1}( 엔진{0} 과)"
+
+#. Plugin description for josm-scripting-plugin
+msgid "Runs scripts in JOSM"
+msgstr "JOSM 안에 스크립트 실행하기"
+
+#. Translator credits (translators who want to be credited for their
+#. contributions can add their names here as the translation)
+msgid "translator-credits"
+msgstr ""
+"Launchpad Contributions:\n"
+"  Bundo https://launchpad.net/~kang-bundo\n"
+"  Don-vip https://launchpad.net/~vincent-privat\n"
+"  Dongha Hwang https://launchpad.net/~luxurycoop\n"
+"  Glados https://launchpad.net/~gladox\n"
+"  Jaeu Jeong https://launchpad.net/~wodndb\n"
+"  KANG il-gu https://launchpad.net/~kang19\n"
+"  Myeongjin https://launchpad.net/~araname\n"
+"  SM Kim https://launchpad.net/~sungminy\n"
+"  SeongHoon Ryu https://launchpad.net/~ryush00\n"
+"  Yena Hong https://launchpad.net/~yena\n"
+"  Yongmin Hong https://launchpad.net/~revi\n"
+"  cyana https://launchpad.net/~pyroshot\n"
+"  jjun72 https://launchpad.net/~jjun72\n"
+"  kladess https://launchpad.net/~kladess\n"
+"  seokjong Kim https://launchpad.net/~sukjong0406"

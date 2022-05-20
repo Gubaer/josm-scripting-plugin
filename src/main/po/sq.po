@@ -1,0 +1,41 @@
+# Translations for the JOSM plugin 'scripting' (sq)
+# Copyright (C) 2022 Gubaer
+# This file is distributed under the same license as the josm-plugin_scripting package.
+# FIRST AUTHOR, YEAR.
+#
+# Translators:
+# Simon Legner, 2022
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: josm-plugin_scripting v0.2.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-05-19 18:29+0200\n"
+"PO-Revision-Date: 2018-01-17 21:36+0000\n"
+"Language-Team: Albanian (https://www.transifex.com/josm/teams/2544/sq/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: sq\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Cancel"
+msgstr "Anulo"
+
+msgid "OK"
+msgstr "OK"
+
+msgid "Select"
+msgstr "Përzgjidh"
+
+#. Translator credits (translators who want to be credited for their
+#. contributions can add their names here as the translation)
+msgid "translator-credits"
+msgstr ""
+"Launchpad Contributions:\n"
+"  Ahmet Rama https://launchpad.net/~meti32\n"
+"  Besfort https://launchpad.net/~besiguri\n"
+"  Sidorela Uku https://launchpad.net/~sidorela\n"
+"  StefanPrifti https://launchpad.net/~stefan-al\n"
+"  bresta https://launchpad.net/~bresta\n"
+"  heroid https://launchpad.net/~heroid"

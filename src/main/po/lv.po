@@ -1,0 +1,115 @@
+# Translations for the JOSM plugin 'scripting' (lv)
+# Copyright (C) 2022 Gubaer
+# This file is distributed under the same license as the josm-plugin_scripting package.
+# FIRST AUTHOR, YEAR.
+#
+# Translators:
+# Simon Legner, 2018
+# Janis Karklins, 2018
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: josm-plugin_scripting v0.2.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-05-19 18:29+0200\n"
+"PO-Revision-Date: 2018-01-17 21:36+0000\n"
+"Language-Team: Latvian (https://www.transifex.com/josm/teams/2544/lv/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: lv\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);\n"
+
+msgid "''{0}'' doesn''t exist."
+msgstr "''{0}'' neeksistē."
+
+msgid "''{0}'' is a directory. Expecting a jar file instead."
+msgstr "''{0}'' is a mape. Gaidīju jar datni."
+
+msgid "''{0}'' is neither a ''jar'' nor a ''file'' URL"
+msgstr "''{0}'' nav ne ''jar'' ne arī ''datnes'' URL"
+
+msgid "''{0}'' is neither an existing directory nor an existing jar file"
+msgstr "''{0}'' nav ne eksistējoša mape, ne arī eksistējoša jar datne"
+
+msgid "''{0}'' isn''t an existing jar file"
+msgstr "''{0}'' nav eksistējoša jar datne"
+
+msgid "''{0}'' isn''t readable. Can''t load a script engine from this file."
+msgstr "''{0}'' nav nolasāms. Nevarēja ielādēt skriptu dzinēju no šīs datnes."
+
+msgid "Add"
+msgstr "Pievienot"
+
+msgid "Add a plugin"
+msgstr "Pievienot spraudni"
+
+msgid "Add an additional repository"
+msgstr "Pievienot papildus repositoriju"
+
+msgid "Always on top"
+msgstr "Vienmēr virspusē"
+
+msgid "Available engines:"
+msgstr "Pieejamie dzinēji:"
+
+msgid "Available script engines"
+msgstr "Pieejamie skriptu dzinēji"
+
+msgid "Cancel"
+msgstr "Atcelt"
+
+msgid "Clear log"
+msgstr "Iztīrīt log"
+
+msgid "Close"
+msgstr "Aizvērt"
+
+msgid "Current file:"
+msgstr "Pašreizējā datne:"
+
+#. create the edit menu
+msgid "Edit"
+msgstr "Rediģēt"
+
+msgid "Empty file name"
+msgstr "Tukšs datnes nosaukums"
+
+msgid "Enter additional JAR files which provide script engines."
+msgstr "Ievadi papildus JAR datnes, kas satur skriptu dzinējus."
+
+msgid "Enter the name of a script file"
+msgstr "Ievadi skriptu datnes nosaukumu"
+
+msgid "Execute the script"
+msgstr "Palaist skriptu"
+
+msgid "File not found"
+msgstr "Datne nav atrasta"
+
+msgid "File not readable"
+msgstr "Datne nav lasāma"
+
+msgid "JAR file"
+msgstr "JAR datne"
+
+msgid "JAR files"
+msgstr "JAR datnes"
+
+msgid "JOSM currently supports the following script engines:"
+msgstr "JOSM pašlaik atbalsta sekojošos skriptu dzinējus:"
+
+msgid "Language version:"
+msgstr "Valodas versija:"
+
+msgid "Language:"
+msgstr "Valoda:"
+
+msgid "Launch file chooser"
+msgstr "Palaist datņu izvēli"
+
+msgid "OK"
+msgstr "Labi"
+
+msgid "Save"
+msgstr "Saglabāt"

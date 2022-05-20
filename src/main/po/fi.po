@@ -1,0 +1,96 @@
+# Translations for the JOSM plugin 'scripting' (fi)
+# Copyright (C) 2022 Gubaer
+# This file is distributed under the same license as the josm-plugin_scripting package.
+# FIRST AUTHOR, YEAR.
+#
+# Translators:
+# Simon Legner, 2022
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: josm-plugin_scripting v0.2.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-05-19 18:29+0200\n"
+"PO-Revision-Date: 2018-01-17 21:36+0000\n"
+"Language-Team: Finnish (https://www.transifex.com/josm/teams/2544/fi/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: fi\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Add"
+msgstr "Lisää"
+
+msgid "Cancel"
+msgstr "Peruuta"
+
+msgid "Close"
+msgstr "Sulje"
+
+msgid "Down"
+msgstr "Alas"
+
+#. create the edit menu
+msgid "Edit"
+msgstr "Muokkaa"
+
+#. create the file menu
+msgid "File"
+msgstr "Tiedosto"
+
+msgid "OK"
+msgstr "OK"
+
+msgid "Open"
+msgstr "Avaa"
+
+msgid "Remove"
+msgstr "Poista"
+
+msgid "Save"
+msgstr "Tallenna"
+
+msgid "Select"
+msgstr "Valitse"
+
+msgid "Up"
+msgstr "Ylös"
+
+msgid "Version:"
+msgstr "Versio:"
+
+msgid "unknown"
+msgstr "tuntematon"
+
+#. Translator credits (translators who want to be credited for their
+#. contributions can add their names here as the translation)
+msgid "translator-credits"
+msgstr ""
+"Launchpad Contributions:\n"
+"  Aapo Savisaari https://launchpad.net/~aaposa\n"
+"  Dirk Stöcker https://launchpad.net/~stoecker\n"
+"  Don-vip https://launchpad.net/~vincent-privat\n"
+"  Eero https://launchpad.net/~eero+launchpad\n"
+"  Elias Julkunen https://launchpad.net/~eliasj\n"
+"  Ilari Oras https://launchpad.net/~ilarioras\n"
+"  Jani Hyytiäinen https://launchpad.net/~janihy\n"
+"  Janne Ertman https://launchpad.net/~pyscowicz\n"
+"  Joni Nieminen https://launchpad.net/~joni-nieminen\n"
+"  Jouni Kosonen https://launchpad.net/~jouni-kosonen\n"
+"  Jukka Alander https://launchpad.net/~kinotus\n"
+"  Juuso Lehtinen https://launchpad.net/~jupelehtinen\n"
+"  Jyri-Petteri Paloposki https://launchpad.net/~zeip\n"
+"  Kalle Lampila https://launchpad.net/~kalle-lampila\n"
+"  Krisu https://launchpad.net/~elcat\n"
+"  Lauri Kytömaa https://launchpad.net/~lkytomaa\n"
+"  Marko Mäkelä https://launchpad.net/~marko-makela\n"
+"  Matti Kujala https://launchpad.net/~oh1qt\n"
+"  Matti Viljanen https://launchpad.net/~direc85\n"
+"  Mika Laari https://launchpad.net/~laari\n"
+"  Teemu Koskinen https://launchpad.net/~daeroni\n"
+"  Teemu Koskinen https://launchpad.net/~teemu-koskinen\n"
+"  Tommi Rautava https://launchpad.net/~kenmooda\n"
+"  Tuure Korhonen https://launchpad.net/~efe-nic\n"
+"  manuska https://launchpad.net/~manuska\n"
+"  osy https://launchpad.net/~otso-ylonen"

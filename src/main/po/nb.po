@@ -1,0 +1,87 @@
+# Translations for the JOSM plugin 'scripting' (nb)
+# Copyright (C) 2022 Gubaer
+# This file is distributed under the same license as the josm-plugin_scripting package.
+# FIRST AUTHOR, YEAR.
+#
+# Translators:
+# Simon Legner, 2022
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: josm-plugin_scripting v0.2.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-05-19 18:29+0200\n"
+"PO-Revision-Date: 2018-01-17 21:36+0000\n"
+"Language-Team: Norwegian Bokmål (https://www.transifex.com/josm/teams/2544/nb/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: nb\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Add"
+msgstr "Legg til"
+
+msgid "Cancel"
+msgstr "Avbryt"
+
+msgid "Close"
+msgstr "Lukk"
+
+msgid "Down"
+msgstr "Ned"
+
+#. create the edit menu
+msgid "Edit"
+msgstr "Endre"
+
+#. create the file menu
+msgid "File"
+msgstr "Fil"
+
+msgid "OK"
+msgstr "OK"
+
+msgid "Open"
+msgstr "Åpen"
+
+msgid "Remove"
+msgstr "Fjern"
+
+msgid "Save"
+msgstr "Lagre"
+
+msgid "Select"
+msgstr "Velg"
+
+msgid "Up"
+msgstr "Opp"
+
+msgid "unknown"
+msgstr "ukjent"
+
+#. Translator credits (translators who want to be credited for their
+#. contributions can add their names here as the translation)
+msgid "translator-credits"
+msgstr ""
+"Launchpad Contributions:\n"
+"  Anders Einar Hilden https://launchpad.net/~kagee\n"
+"  Anders Lyngvi Fougner https://launchpad.net/~anderfo\n"
+"  Andreas Bertheussen https://launchpad.net/~elektronisk\n"
+"  Daniel Høyer Iversen https://launchpad.net/~dahoiv\n"
+"  Dirk Stöcker https://launchpad.net/~stoecker\n"
+"  Gisle https://launchpad.net/~gsale\n"
+"  Hans Joachim Desserud https://launchpad.net/~hjd\n"
+"  Kristoffer Hagen https://launchpad.net/~kristoffer-hh\n"
+"  Kurt Nielsen https://launchpad.net/~kurtn-penguins\n"
+"  Magnus Meyer Hustveit https://launchpad.net/~dizzi90\n"
+"  Nka Mapper https://launchpad.net/~nkamapper\n"
+"  Sigurd Gartmann https://launchpad.net/~sigurdga\n"
+"  Skippern https://launchpad.net/~gay-today\n"
+"  Smart Viking https://launchpad.net/~smart-viking\n"
+"  Stian Ellingsen https://launchpad.net/~stiell\n"
+"  Svein Olav Hagen https://launchpad.net/~svein-olav\n"
+"  Syver Stensholt https://launchpad.net/~sssandum\n"
+"  Thor K. H. https://launchpad.net/~nitrolinken\n"
+"  Tor Christian Tovslid https://launchpad.net/~tctovsli\n"
+"  erlendr https://launchpad.net/~erlend-rosjo"

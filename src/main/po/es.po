@@ -1,0 +1,415 @@
+# Translations for the JOSM plugin 'scripting' (es)
+# Copyright (C) 2022 Gubaer
+# This file is distributed under the same license as the josm-plugin_scripting package.
+# FIRST AUTHOR, YEAR.
+#
+# Translators:
+# Daniel Quisbert, 2018
+# Jesús López, 2018
+# Fundación OpenStreetMap Chile, 2018
+# Jorge Sanz, 2021
+# Simon Legner, 2022
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: josm-plugin_scripting v0.2.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-05-19 18:29+0200\n"
+"PO-Revision-Date: 2018-01-17 21:36+0000\n"
+"Language-Team: Spanish (https://www.transifex.com/josm/teams/2544/es/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: es\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "''{0}'' doesn''t exist."
+msgstr "''{0}'' no existe."
+
+msgid "''{0}'' is a directory. Expecting a jar file instead."
+msgstr "''{0}'' es un directorio. Se esperaba un archivo jar en su lugar."
+
+msgid "''{0}'' is neither a ''jar'' nor a ''file'' URL"
+msgstr "''{0}'' no es un \"jar\" ni una URL de \"file\""
+
+msgid "''{0}'' is neither an existing directory nor an existing jar file"
+msgstr "''{0}'' no es un directorio o un archivo jar existente"
+
+msgid "''{0}'' isn''t a valid URL"
+msgstr "''{0}'' no es una URL valida"
+
+msgid "''{0}'' isn''t an existing jar file"
+msgstr "''{0}'' no es un archivo jar existente"
+
+msgid "''{0}'' isn''t readable. Can''t load a script engine from this file."
+msgstr ""
+"''{0}'' no es legible. No se puede cargar un motor de script desde este "
+"archivo."
+
+msgid ""
+"<strong>Support for python plugins is disabled.</strong><br>The scripting "
+"plugin can load and run plugins written in <strong>Python</strong>. In order"
+" to use this feature the Jython interpreter has to be on the class path when"
+" you start JOSM. Currently, it isn''t and python plugin support is therefore"
+" disabled.<br><br>Launch JOSM with the following command line: <br>java -cp "
+"\"josm-jar.jar:/path/to/jython.jar\" "
+"org.openstreetmap.josm.gui.MainApplication"
+msgstr ""
+"<strong>El soporte para complementos python está "
+"deshabilitado.</strong><br>El complemento de scripting puede cargar y "
+"ejecutar complementos escritos en <strong>Python</strong>. Para poder "
+"utilizar esta funcionalidad el interprete Jython tiene que estar en la class"
+" path cuando inicias JOSM. Actualmente no lo está y por lo tanto el soporte "
+"para complementos python está deshabilitado.<br><br>Inicia JOSM con la "
+"siguiente línea de comando: <br>java -cp \"josm-"
+"jar.jar:/path/to/jython.jar\" org.openstreetmap.josm.gui.MainApplication"
+
+msgid "Accept the selected scripting engine"
+msgstr "Aceptar el motor de scripting seleccionado"
+
+msgid "Add"
+msgstr "Añadir"
+
+msgid "Add a button for this script script file to the toolbar."
+msgstr ""
+"Agregue un botón para este archivo de secuencia de comandos en la barra de "
+"herramientas."
+
+msgid "Add a jar file providing a script engine"
+msgstr "Añadir un archivo jar que proporciona un motor de script"
+
+msgid "Add a path or jar file"
+msgstr "Agregue una ruta o un archivo jar"
+
+msgid "Add a plugin"
+msgstr "Agregar un plugin"
+
+msgid "Add an additional repository"
+msgstr "Agregar un repositorio adicional"
+
+msgid ""
+"Add directories and/or jar files where the Jython engine shall look for "
+"Python packages or modules."
+msgstr ""
+"Agregar directorios y/o archivos jar donde el motor Jython debiera buscar "
+"paquetes o módulos Python."
+
+msgid "Add toolbar button"
+msgstr "Añadir botón de barra de herramientas"
+
+msgid "Added {0} primitive"
+msgid_plural "Added {0} primitives"
+msgstr[0] "Añadida {0} primitiva"
+msgstr[1] "Añadidas {0} primitivas"
+
+msgid "Always on top"
+msgstr "Siempre encima"
+
+msgid "Available engines:"
+msgstr "Motores disponibles:"
+
+msgid "Available script engines"
+msgstr "Motores de script disponibles"
+
+msgid "Cancel"
+msgstr "Cancelar"
+
+msgid "Changed {0} primitive"
+msgid_plural "Changed {0} primitives"
+msgstr[0] "Se cambio la primitiva {0}"
+msgstr[1] "Se cambiaron las primitivas {0}"
+
+msgid "Clear log"
+msgstr "Limpiar registro"
+
+msgid "Clear the log content"
+msgstr "Limpiar el contenido del registro"
+
+msgid "Close"
+msgstr "Cerrar"
+
+msgid "Close the scripting console"
+msgstr "Cerrar la consola de scripting"
+
+#. title
+msgid "Configure script engines and scripts"
+msgstr "Configurar motores de script y scripts"
+
+#. title
+#. icon name
+msgid "Configure scripting preferences"
+msgstr "Configurar preferencias de scripting"
+
+msgid "Configure..."
+msgstr "Configurar..."
+
+msgid "Create or edit a CommonJS module repository"
+msgstr "Crea o edita un repositorio de módulos CommonJS"
+
+msgid "Create or edit a path"
+msgstr "Crear o editar una ruta"
+
+msgid "Current file:"
+msgstr "Archivo actual:"
+
+msgid "Deleted {0} primitive"
+msgid_plural "Deleted {0} primitives"
+msgstr[0] "Borrada {0} primitiva"
+msgstr[1] "Borradas {0} primitivas"
+
+msgid "Down"
+msgstr "Bajar"
+
+msgid "Download and install scripting engine"
+msgstr "Descargar e instalar motor de scripting"
+
+#. create the edit menu
+msgid "Edit"
+msgstr "Editar"
+
+msgid "Empty file name"
+msgstr "Nombre de archivo vacío"
+
+msgid "Enter the name of a script file"
+msgstr "Ingrese el nombre de un archivo script"
+
+msgid "Execute the script"
+msgstr "Ejecutar el script"
+
+msgid "Failed to load file ''{0}''."
+msgstr "Falló al cargar el archivo ''{0}''."
+
+msgid "Failed to load icon ''{0}''"
+msgstr "Falló al cargar el icono ''{0}''"
+
+msgid "Failed to save file ''{0}''."
+msgstr "Falló al guardar el archivo \"{0}\"."
+
+#. create the file menu
+msgid "File"
+msgstr "Archivo"
+
+msgid "File not found"
+msgstr "Archivo no encontrado"
+
+msgid "File not readable"
+msgstr "Archivo no legible"
+
+msgid "File:"
+msgstr "Archivo:"
+
+msgid "IO error"
+msgstr "IO error"
+
+msgid "IO exception"
+msgstr "IO exception"
+
+msgid "JAR file"
+msgstr "Archivo JAR"
+
+msgid "JAR files"
+msgstr "Archivos JAR"
+
+msgid "JOSM currently supports the following script engines:"
+msgstr "JOSM actualmente soporta lo siguientes motores de script:"
+
+msgid "Language version:"
+msgstr "Versión del lenguaje:"
+
+msgid "Language:"
+msgstr "Lenguaje"
+
+msgid "Launch file chooser"
+msgstr "Lanzar seleccionador de archivo"
+
+msgid "Name:"
+msgstr "Nombre:"
+
+msgid "OK"
+msgstr "Aceptar"
+
+msgid "Open"
+msgstr "Abrir"
+
+msgid "Open a script file"
+msgstr "Abrir un archivo script"
+
+msgid "Please enter a file name first."
+msgstr "Por favor ingrese un nombre de archivo primero."
+
+msgid ""
+"Please enter or paste a valid directory path or path to a jar/zip file."
+msgstr ""
+"Por favor ingrese o pegue una ruta de directorio válido o ruta a un archivo "
+"jar/zip."
+
+msgid "Remove"
+msgstr "Eliminar"
+
+msgid "Remove selected plugins"
+msgstr "Eliminar los complementos seleccionados"
+
+msgid "Remove the selected jar files"
+msgstr "Eliminar los archivos jar seleccionados"
+
+msgid "Run"
+msgstr "Ejecutar"
+
+#. title
+#. icon name
+msgid "Run a script"
+msgstr "Ejecutar un script"
+
+msgid "Run the script"
+msgstr "Ejecutar el script"
+
+msgid "Run..."
+msgstr "Ejecutar..."
+
+msgid "Save"
+msgstr "Guardar"
+
+msgid "Save as ..."
+msgstr "Guardar como..."
+
+msgid "Save script to current file"
+msgstr "Guardar script en el archivo actual"
+
+msgid "Save to a script file"
+msgstr "Guardar a un archivo script"
+
+msgid "Select"
+msgstr "Seleccionar"
+
+msgid "Select a directory or a jar file"
+msgstr "Seleccionar un directorio o un archivo jar"
+
+msgid "Select a directory or jar/zip file"
+msgstr "Seleccionar un directorio o un archivo jar/zip"
+
+msgid "Select a jar file"
+msgstr "Seleccionar un archivo jar"
+
+msgid "Select a script"
+msgstr "Seleccionar un script"
+
+msgid "Select a script file"
+msgstr "Seleccionar un archivo script"
+
+msgid "Select an engine"
+msgstr "Seleccione un motor"
+
+msgid "Up"
+msgstr "Subir"
+
+msgid "Version:"
+msgstr "Versión:"
+
+msgid "cancel"
+msgstr "Cancelar"
+
+msgid "unknown"
+msgstr "desconocido"
+
+#. used in the context of a combo box
+msgid "{1} (with engine {0})"
+msgstr "{1} (con motor {0})"
+
+#. Plugin description for josm-scripting-plugin
+msgid "Runs scripts in JOSM"
+msgstr "Ejecutar scripts en JOSM"
+
+#. Translator credits (translators who want to be credited for their
+#. contributions can add their names here as the translation)
+msgid "translator-credits"
+msgstr ""
+"Launchpad Contributions:\n"
+"  Abraham Sáyago https://launchpad.net/~absay\n"
+"  Adolfo Jayme https://launchpad.net/~fitojb\n"
+"  Alejandro Malo https://launchpad.net/~alejandromalo\n"
+"  Amaeth https://launchpad.net/~dfoxpro\n"
+"  Angelo Banse https://launchpad.net/~angelobanse\n"
+"  Carlos Martín Nieto https://launchpad.net/~cmn\n"
+"  Dakkil https://launchpad.net/~dakkil91\n"
+"  Daniel Doblado https://launchpad.net/~danieldoblado\n"
+"  Dario https://launchpad.net/~dario-villar-v\n"
+"  David Marín https://launchpad.net/~davefx\n"
+"  DiegoJ https://launchpad.net/~diegojromerolopez\n"
+"  Dirk Stöcker https://launchpad.net/~stoecker\n"
+"  Don-vip https://launchpad.net/~vincent-privat\n"
+"  Eduardo Alberto Calvo https://launchpad.net/~edu5800\n"
+"  Emilien Klein https://launchpad.net/~emilien-klein\n"
+"  Emilio Gomez Fernandez https://launchpad.net/~egofer\n"
+"  Fco. Javier https://launchpad.net/~fjavier-gr\n"
+"  Feder Sáiz https://launchpad.net/~federsaiz-deactivatedaccount\n"
+"  Federico Vera https://launchpad.net/~fedevera\n"
+"  Gonzalo Perez https://launchpad.net/~zalitoar\n"
+"  IgorTamara https://launchpad.net/~igortamarapatino\n"
+"  Ildefonso https://launchpad.net/~bestobest4087\n"
+"  Jaime Crespo https://launchpad.net/~jynus\n"
+"  Javier Pflaum https://launchpad.net/~javierpf\n"
+"  Javier Sanchez https://launchpad.net/~javiersanp\n"
+"  Jesús https://launchpad.net/~jgenicio-movil\n"
+"  Jesús Gómez Fernández https://launchpad.net/~je-gomez\n"
+"  Jesús Gómez Fernández https://launchpad.net/~jesus-gomez-fdez\n"
+"  Jesús López https://launchpad.net/~jesuslopez65\n"
+"  Johnattan Rupire https://launchpad.net/~jarjacha\n"
+"  Jonay https://launchpad.net/~jonay-santana\n"
+"  Jorge Luis Chamorro https://launchpad.net/~chamorro\n"
+"  Jose M. Carralero https://launchpad.net/~chuma23m\n"
+"  José Ernesto Dávila Pantoja https://launchpad.net/~josernestodavila\n"
+"  JoséP1983 https://launchpad.net/~josep1983\n"
+"  Juan Eduardo Riva https://launchpad.net/~juaneduardoriva\n"
+"  Juan Luis Rodríguez https://launchpad.net/~juanluisrp\n"
+"  Juan Sebastián Marulanda https://launchpad.net/~juanchito2006\n"
+"  Julian Alarcon https://launchpad.net/~alarconj\n"
+"  Leo Arias https://launchpad.net/~elopio\n"
+"  Luiyo https://launchpad.net/~luisgc\n"
+"  Lukas Sommer https://launchpad.net/~sommerluk\n"
+"  Matias Reyes https://launchpad.net/~matiasr\n"
+"  Monkey https://launchpad.net/~monkey-libre\n"
+"  Nacho Blanco https://launchpad.net/~nako\n"
+"  Omar Vega https://launchpad.net/~ovruni\n"
+"  Oscar Fabian Prieto Gonzalez https://launchpad.net/~ofpprieto\n"
+"  Pablito https://launchpad.net/~pabloalecastillo\n"
+"  Pablo Zubiaurre https://launchpad.net/~pablozub89\n"
+"  Paco Molinero https://launchpad.net/~franciscomol\n"
+"  Pau Font Martinez https://launchpad.net/~bytedevil\n"
+"  PerroVerd https://launchpad.net/~perroverd\n"
+"  Pla https://launchpad.net/~pla-aire\n"
+"  Pyro Maggot https://launchpad.net/~alberto.chung\n"
+"  Raúl González Duque https://launchpad.net/~zootropo\n"
+"  Roberto Geb https://launchpad.net/~robertogeb\n"
+"  Rodrigo https://launchpad.net/~rodhos-hp\n"
+"  Rodrigo https://launchpad.net/~rodrigopat45\n"
+"  Rodrigo Moya https://launchpad.net/~rodrigo-moya\n"
+"  Rodrigo Rega https://launchpad.net/~rodrigorega\n"
+"  Rogelio Meza Torres https://launchpad.net/~rogelio-meza-t\n"
+"  Rummidge https://launchpad.net/~pgomezg\n"
+"  Rummidge https://launchpad.net/~pgomezg-gmail\n"
+"  Sergio C. Orozco Torres https://launchpad.net/~scot3004\n"
+"  Simon Legner https://launchpad.net/~simon04\n"
+"  SkimO https://launchpad.net/~glozano-noldata\n"
+"  Sonia Alenda https://launchpad.net/~soniaalenda\n"
+"  Xan https://launchpad.net/~dxpublica\n"
+"  Xuacu Saturio https://launchpad.net/~xuacusk8\n"
+"  cdavila https://launchpad.net/~cdavilam\n"
+"  costales https://launchpad.net/~costales\n"
+"  cronoser https://launchpad.net/~oscar-zorrilla\n"
+"  delectomorfo https://launchpad.net/~delectomorfo\n"
+"  dsp55 https://launchpad.net/~dsaneusp\n"
+"  eSe https://launchpad.net/~snaker\n"
+"  edrux https://launchpad.net/~edrux\n"
+"  finimento https://launchpad.net/~f-launchpad-50-mafalda\n"
+"  inigo https://launchpad.net/~inigo-zuluaga\n"
+"  jdross https://launchpad.net/~jd-ross-17\n"
+"  jsefija@gmail.com https://launchpad.net/~jsefija\n"
+"  k1wi https://launchpad.net/~k1wiosm\n"
+"  manuelmicro https://launchpad.net/~manuelmicro\n"
+"  mariomx08 https://launchpad.net/~mariohs-33\n"
+"  mor https://launchpad.net/~newcuenta\n"
+"  pertile https://launchpad.net/~leopoldofederico\n"
+"  polkillas https://launchpad.net/~polkillas\n"
+"  sanchi https://launchpad.net/~sanchi2\n"
+"  sebikul https://launchpad.net/~sebikul\n"
+"  sergionaranja https://launchpad.net/~sergiosevillano-mail"

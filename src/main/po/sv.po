@@ -1,0 +1,108 @@
+# Translations for the JOSM plugin 'scripting' (sv)
+# Copyright (C) 2022 Gubaer
+# This file is distributed under the same license as the josm-plugin_scripting package.
+# FIRST AUTHOR, YEAR.
+#
+# Translators:
+# Not Applicable, 2018
+# Simon Legner, 2022
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: josm-plugin_scripting v0.2.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-05-19 18:29+0200\n"
+"PO-Revision-Date: 2018-01-17 21:36+0000\n"
+"Language-Team: Swedish (https://www.transifex.com/josm/teams/2544/sv/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: sv\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Add"
+msgstr "Lägg till"
+
+msgid "Cancel"
+msgstr "Avbryt"
+
+msgid "Close"
+msgstr "Stäng"
+
+msgid "Down"
+msgstr "Nedåt"
+
+#. create the edit menu
+msgid "Edit"
+msgstr "Redigera"
+
+#. create the file menu
+msgid "File"
+msgstr "Arkiv"
+
+msgid "JOSM currently supports the following script engines:"
+msgstr "JOSM stödjer just nu följande skript-motorer:"
+
+msgid "OK"
+msgstr "OK"
+
+msgid "Open"
+msgstr "Öppna"
+
+msgid "Remove"
+msgstr "Ta bort"
+
+msgid "Save"
+msgstr "Spara"
+
+msgid "Save script to current file"
+msgstr "Spara skriptet till aktuell fil"
+
+msgid "Select"
+msgstr "Markera"
+
+msgid "Up"
+msgstr "Uppåt"
+
+msgid "Version:"
+msgstr "Version:"
+
+msgid "unknown"
+msgstr "okänd"
+
+#. Translator credits (translators who want to be credited for their
+#. contributions can add their names here as the translation)
+msgid "translator-credits"
+msgstr ""
+"Launchpad Contributions:\n"
+"  Anders Jonsson https://launchpad.net/~anders-jonsson\n"
+"  Andreas Vilén https://launchpad.net/~andreas-vilen\n"
+"  Cybjit https://launchpad.net/~cybjit\n"
+"  David S https://launchpad.net/~david-oxtract\n"
+"  Dirk Stöcker https://launchpad.net/~stoecker\n"
+"  Don-vip https://launchpad.net/~vincent-privat\n"
+"  Erik https://launchpad.net/~fatuus\n"
+"  Erik Hagelberg https://launchpad.net/~erik-hagelberg\n"
+"  Erik Iohansson https://launchpad.net/~erjohan-gmail\n"
+"  Frank \"knarF\" M. Eriksson https://launchpad.net/~knarf\n"
+"  Gustav Arnesson https://launchpad.net/~garnesson\n"
+"  Joel Grafström https://launchpad.net/~0k-joel\n"
+"  Konrad Skeri https://launchpad.net/~konrad-skeri\n"
+"  Magnus Österlund https://launchpad.net/~olm\n"
+"  Martin Öberg https://launchpad.net/~spam-launchpad-strickz\n"
+"  Mattias Dalkvist https://launchpad.net/~dalkvist\n"
+"  Michael Persson https://launchpad.net/~michael-persson-se\n"
+"  Niklas Henriksson https://launchpad.net/~fringillus92\n"
+"  Nka Mapper https://launchpad.net/~nkamapper\n"
+"  Samuel Lidén Borell https://launchpad.net/~samuellb\n"
+"  Spull https://launchpad.net/~ulrika-wiqvist\n"
+"  Susanna Björverud https://launchpad.net/~sanna\n"
+"  TM https://launchpad.net/~tm12\n"
+"  Tobias Johansson https://launchpad.net/~tj-mensa\n"
+"  Tomas Marklund https://launchpad.net/~tomasmarklund75\n"
+"  Zippert https://launchpad.net/~daniel-zippert\n"
+"  denahl https://launchpad.net/~dennisahlqvist\n"
+"  jordgubbe https://launchpad.net/~spam-thuresson-021023\n"
+"  nairobie https://launchpad.net/~samuel-ostman\n"
+"  nanker https://launchpad.net/~nanker\n"
+"  zvenzzon https://launchpad.net/~svensson3000"

@@ -1,0 +1,450 @@
+# Translations for the JOSM plugin 'scripting' (it)
+# Copyright (C) 2022 Gubaer
+# This file is distributed under the same license as the josm-plugin_scripting package.
+# FIRST AUTHOR, YEAR.
+#
+# Translators:
+# demetrio, 2021
+# Simon Legner, 2022
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: josm-plugin_scripting v0.2.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-05-19 18:29+0200\n"
+"PO-Revision-Date: 2018-01-17 21:36+0000\n"
+"Language-Team: Italian (https://www.transifex.com/josm/teams/2544/it/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: it\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "''{0}'' doesn''t exist."
+msgstr "''{0}'' non esiste."
+
+msgid "''{0}'' is a directory. Expecting a jar file instead."
+msgstr "''{0}'' è una cartella. È previsto invece un file jar."
+
+msgid "''{0}'' is neither a ''jar'' nor a ''file'' URL"
+msgstr "''{0}'' non è né un ''jar'' né un URL di un ''file''"
+
+msgid "''{0}'' is neither an existing directory nor an existing jar file"
+msgstr "''{0}'' non è né una cartella esistente né un file jar esistente"
+
+msgid "''{0}'' isn''t a valid URL"
+msgstr "''{0}'' non è un URL valido"
+
+msgid "''{0}'' isn''t an existing jar file"
+msgstr "''{0}'' non è un file jar esistente"
+
+msgid "''{0}'' isn''t readable. Can''t load a script engine from this file."
+msgstr ""
+"''{0}'' è illegibile. Impossibile caricare un motore di script da questo "
+"file."
+
+msgid ""
+"<p>Failed to execute a script.</p><p/><p><strong>Error "
+"message:</strong>{0}</p><p><strong>At:</strong>line {1}, column {2}</p>"
+msgstr ""
+"<p>Impossibile eseguire uno script.</p><p/><p><strong>Messaggio di "
+"errore:</strong>{0}</p><p><strong>A:</strong>linea {1}, colonna {2}</p>"
+
+msgid ""
+"<p>Failed to execute the script file ''{0}''.</p><p/><p><strong>Error "
+"message:</strong>{1}</p>"
+msgstr ""
+"<p>Impossibile eseguire il file di script "
+"''{0}''.</p><p/><p><strong>Messaggio di errore:</strong>{1}</p>"
+
+msgid "Accept the selected scripting engine"
+msgstr "Accetta il motore di scripting selezionato"
+
+msgid "Add"
+msgstr "Aggiungi"
+
+msgid "Add a path or jar file"
+msgstr "Aggiungi un percorso o un file jar"
+
+msgid "Add a plugin"
+msgstr "Aggiungi estensione"
+
+msgid "Add an additional repository"
+msgstr "Aggiungere un repository aggiuntivo"
+
+msgid "Add toolbar button"
+msgstr "Aggiungi pulsante barra degli strumenti"
+
+msgid "Added {0} primitive"
+msgid_plural "Added {0} primitives"
+msgstr[0] "Aggiunte la primitiva {0}"
+msgstr[1] "Aggiunte le primitive {0}"
+
+msgid "Always on top"
+msgstr "Sempre in primo piano"
+
+msgid "Available engines:"
+msgstr "Motori disponibili:"
+
+msgid "Available script engines"
+msgstr "Motori di Script disponibili"
+
+msgid "Cancel"
+msgstr "Annulla"
+
+msgid "Changed {0} primitive"
+msgid_plural "Changed {0} primitives"
+msgstr[0] "Modificate la primitiva {0}"
+msgstr[1] "Modificate le primitive {0}"
+
+msgid "Clear log"
+msgstr "Azzera registro"
+
+msgid "Clear the log content"
+msgstr "Cancella il contenuto del file di log"
+
+msgid "Close"
+msgstr "Chiudi"
+
+msgid "Close the scripting console"
+msgstr "Chiudere la console di scripting"
+
+#. title
+msgid "Configure script engines and scripts"
+msgstr "Configurare i motori di script e gli scripts"
+
+#. title
+#. icon name
+msgid "Configure scripting preferences"
+msgstr "Imposta le preferenze di scripting"
+
+msgid "Configure..."
+msgstr "Configura..."
+
+msgid "Create or edit a path"
+msgstr "Crea o modifica un percorso"
+
+msgid "Current file:"
+msgstr "File corrente:"
+
+msgid "Deleted {0} primitive"
+msgid_plural "Deleted {0} primitives"
+msgstr[0] " Primitiva {0} cancellata"
+msgstr[1] "Primitive {0} cancellate"
+
+msgid "Down"
+msgstr "Giù"
+
+msgid "Download and install scripting engine"
+msgstr "Scarica ed installa il motore di scripting"
+
+#. create the edit menu
+msgid "Edit"
+msgstr "Modifica"
+
+msgid "Empty file name"
+msgstr "Nome file vuoto"
+
+msgid "Enter the name of a script file"
+msgstr "Inserire il nome di un file di script "
+
+msgid "Execute the script"
+msgstr "Eseguire lo script"
+
+msgid ""
+"Executing scripts in language <strong>{0}</strong> using engine "
+"<strong>{1}</strong>."
+msgstr ""
+"Sto eseguendo gli scripts nella lingua <strong>{0}</strong> usando il motore"
+" <strong>{1}</strong>."
+
+msgid ""
+"Executing scripts with the built-in scripting engine for language "
+"<strong>{0}</strong> based on <strong>{1}</strong>."
+msgstr ""
+"Sto eseguendo gli scripts con il motore di scripting incorporato per la "
+"lingua <strong>{0}</strong> basato su <strong>{1}</strong>."
+
+msgid "Failed to load file ''{0}''."
+msgstr "Impossibile caricare il file ''{0}''."
+
+msgid "Failed to load icon ''{0}''"
+msgstr "Impossibile caricare l''icona ''{0}''"
+
+msgid "Failed to load icon ''{0}/{1}''"
+msgstr "Impossibile caricare l''icona ''{0}/{1}''"
+
+msgid "Failed to read the script from file ''{0}''."
+msgstr "Impossibile leggere lo script dal file ''{0}''."
+
+msgid "Failed to read the script from the file ''{0}''."
+msgstr "Impossibile leggere lo script dal file ''{0}''."
+
+msgid "Failed to save file ''{0}''."
+msgstr "Impossibile salvare il file ''{0}''."
+
+#. create the file menu
+msgid "File"
+msgstr "File"
+
+msgid "File not found"
+msgstr "File non trovato"
+
+msgid "File not readable"
+msgstr "File non leggibile"
+
+msgid "File:"
+msgstr "File:"
+
+msgid "IO error"
+msgstr "Errore di I/O"
+
+msgid "IO exception"
+msgstr "Eccezione di IO"
+
+msgid "JAR file"
+msgstr "file JAR"
+
+msgid "JAR files"
+msgstr "file JAR"
+
+msgid "JOSM currently supports the following script engines:"
+msgstr "JOSM attualmente supporta i seguenti motori di script:"
+
+msgid "Language version:"
+msgstr "Versione lingua:"
+
+msgid "Language:"
+msgstr "Lingua:"
+
+#. don't translate
+msgid "Launch file selection dialog"
+msgstr "Apre la finestra per la selezione del file"
+
+msgid "MIME-Types:"
+msgstr "Tipi-MIME:"
+
+msgid "Move the selected path up by one position"
+msgstr "Sposta in alto di una posizione il percorso selezionato"
+
+msgid "Move the selected repository up by one position"
+msgstr "Sposta in alto di una posizione il repository selezionato"
+
+msgid "Name:"
+msgstr "Nome:"
+
+msgid "No script engine selected."
+msgstr "Nessun motore di script selezionato."
+
+msgid "OK"
+msgstr "OK"
+
+msgid "Open"
+msgstr "Apri"
+
+msgid "Open a script file"
+msgstr "Aprire un file di script"
+
+msgid "Please enter a file name first."
+msgstr "Si prega di inserire prima un nome di file."
+
+msgid ""
+"Please enter or paste a valid file or jar URL. HTTP URLs are not supported."
+msgstr ""
+"Si prega di inserire o incollare un URL valido di file o jar. Gli URLs HTTP"
+"  non sono supportati."
+
+msgid "Remove"
+msgstr "Elimina"
+
+msgid "Remove a path"
+msgstr "Rimuove un percorso"
+
+msgid "Remove a repository"
+msgstr "Remuovere un repository"
+
+msgid "Remove selected plugins"
+msgstr "Rimuove le estensioni selezionate"
+
+msgid "Remove the selected jar files"
+msgstr "Rimuovi i file jar selezionati"
+
+msgid "Run"
+msgstr "Esegui"
+
+#. title
+#. icon name
+msgid "Run a script"
+msgstr "Eseguire uno script"
+
+#. Display filename as tooltip instead of generic one
+msgid "Run script ''{0}''"
+msgstr "Esegui lo script ''{0}''"
+
+msgid "Run the script"
+msgstr "Eseguire lo script"
+
+msgid "Run..."
+msgstr "Esegui..."
+
+msgid "Save"
+msgstr "Salva"
+
+msgid "Save as ..."
+msgstr "Salva con nome..."
+
+msgid "Save script to current file"
+msgstr "Salvare lo script nel file attuale "
+
+msgid "Save to a script file"
+msgstr "Salvare in un file di script"
+
+msgid "Script engine not found"
+msgstr "Motore di Script non trovato"
+
+msgid "Script engines"
+msgstr "Motori di Script"
+
+msgid "Script execution failed"
+msgstr "Esecuzione dello script non riuscita"
+
+msgid "Script execution has failed."
+msgstr "Esecuzione dello script non riuscita."
+
+#. icon name
+msgid "Scripting"
+msgstr "Scripting"
+
+msgid "Scripting Console"
+msgstr "Console di Scripting"
+
+msgid "Scripting: Run a Script"
+msgstr "Scripting: Eseguire uno Script"
+
+msgid "Select"
+msgstr "Seleziona"
+
+msgid "Select a directory or a jar file"
+msgstr "Selezionare una cartella o un file jar"
+
+msgid "Select a directory or jar/zip file"
+msgstr "Selezionare una cartella o un file jar/zip"
+
+msgid "Select a jar file"
+msgstr "Selezionare un file jar"
+
+msgid "Select a script"
+msgstr "Selezionare uno script"
+
+msgid "Select a script file"
+msgstr "Selezionare un file di script"
+
+msgid "Select a script file and click on <strong>Run</strong>."
+msgstr "Selezionare un file di script e cliccare su <strong>Esegui</strong>."
+
+msgid "Select an engine"
+msgstr "Seleziona un motore"
+
+msgid "Show scripting console"
+msgstr "Mostra la console di scripting"
+
+#. title
+#. icon name
+msgid "Show/hide the scripting console"
+msgstr "Mostra/nascondi la console di scripting"
+
+msgid "The script file ''{0}'' doesn''t exist."
+msgstr "Il file di script \"{0}\" non esiste."
+
+msgid "The script file ''{0}'' isn''t readable."
+msgstr "Il file di script \"{0}\" è illegibile."
+
+msgid "URL ''{0}'' doesn''t refer to an existing local directory or jar file"
+msgstr ""
+"L'URL ''{0}'' non si riferisce ad una cartella locale esistente o ad un file"
+" jar"
+
+msgid "URL ''{0}'' doesn''t refer to an existing local jar file"
+msgstr "L'URL ''{0}'' non si riferisce ad un file locale jar esistente"
+
+msgid "Up"
+msgstr "Su"
+
+msgid "Version:"
+msgstr "Versione:"
+
+msgid "cancel"
+msgstr "annulla"
+
+msgid "unknown"
+msgstr "sconosciuto"
+
+#. used in the context of a combo box
+msgid "{1} (with engine {0})"
+msgstr "{1} (con il motore {0})"
+
+#. Plugin description for josm-scripting-plugin
+msgid "Runs scripts in JOSM"
+msgstr "Eseguire gli script in JOSM"
+
+#. Translator credits (translators who want to be credited for their
+#. contributions can add their names here as the translation)
+msgid "translator-credits"
+msgstr ""
+"Launchpad Contributions:\n"
+"  Andrea Amoroso https://launchpad.net/~heiko81\n"
+"  Andrea Musuruane https://launchpad.net/~musuruan\n"
+"  Arturo Mazzi https://launchpad.net/~amazzo\n"
+"  Bredy https://launchpad.net/~bredyfox\n"
+"  Cristian Testa https://launchpad.net/~testa-cristian\n"
+"  Daniele Costarella https://launchpad.net/~daniele-costarella\n"
+"  Daniele Romagnoli https://launchpad.net/~dany-geotools\n"
+"  Dardy87 https://launchpad.net/~dardus87\n"
+"  David Paleino https://launchpad.net/~dpaleino\n"
+"  Davide https://launchpad.net/~davide-pri\n"
+"  Davide Prade https://launchpad.net/~davalv\n"
+"  Dirk Stöcker https://launchpad.net/~stoecker\n"
+"  Don-vip https://launchpad.net/~vincent-privat\n"
+"  EdoM https://launchpad.net/~edoardo-edoardomarascalchi\n"
+"  FabC https://launchpad.net/~f-carrai\n"
+"  Fabrizio Lorenzini https://launchpad.net/~fabrizio-lorenzini\n"
+"  Francesco de Virgilio https://launchpad.net/~fradeve-deactivatedaccount\n"
+"  Giacomo Boschi https://launchpad.net/~gwilbor\n"
+"  Giovanni Mascellani https://launchpad.net/~giomasce\n"
+"  Gábor Babos https://launchpad.net/~babos\n"
+"  Hackharo https://launchpad.net/~hackharo\n"
+"  Ircama https://launchpad.net/~amacri\n"
+"  Lorenzo De Liso https://launchpad.net/~blackz\n"
+"  Luca Livraghi https://launchpad.net/~luca91\n"
+"  Luca_orlandi https://launchpad.net/~luca-orlandi-hotmail\n"
+"  Lucio https://launchpad.net/~lumatemp-nospam\n"
+"  Luigi Toscano https://launchpad.net/~ltosky\n"
+"  Martino Barbon https://launchpad.net/~martins999\n"
+"  Matteo Fumi https://launchpad.net/~matteo.fumi\n"
+"  Miellino https://launchpad.net/~stefano-tampieri\n"
+"  Mika Laari https://launchpad.net/~laari\n"
+"  Milo Casagrande https://launchpad.net/~milo\n"
+"  Moire https://launchpad.net/~flare\n"
+"  Moretti Roberto https://launchpad.net/~ilrobi\n"
+"  MrFrem82 https://launchpad.net/~frem82\n"
+"  Paolooo https://launchpad.net/~paulnks\n"
+"  Pietrao https://launchpad.net/~isottipietro\n"
+"  Sbiribizio https://launchpad.net/~ftambussa\n"
+"  SebastianoPistore https://launchpad.net/~sebastiano-pistore\n"
+"  Silvio Brera https://launchpad.net/~silviopen\n"
+"  Simon Legner https://launchpad.net/~simon04\n"
+"  Stefano Pallicca https://launchpad.net/~stepallicca\n"
+"  angelo https://launchpad.net/~bj7u6139zdyf2a6nz2ly74oec10f2lnela24rsgd389d0elot5a7jz6hawymvsdk8c4sd6srfzh4ilnrb31ygxg0292af7guy56qy5sk8bw8m5-info-jjcftv6wldnzq84cskygyvhqqb9qwjfcq0yfnwzcca0ux8ircw2a3om624q2ycdp941uw5474gcdbi2qtcnliiwmmp1l7bgovd6vk7ucygwlq7\n"
+"  battarsa https://launchpad.net/~samuele-battarsa\n"
+"  berserkhc https://launchpad.net/~marko85ct\n"
+"  dieterdreist https://launchpad.net/~mk-koppenhoefer\n"
+"  giardia https://launchpad.net/~fabriziosm\n"
+"  jeawrong https://launchpad.net/~jeawithlove\n"
+"  lang-it https://launchpad.net/~lang-it\n"
+"  mircozorzo https://launchpad.net/~mircozorzo\n"
+"  paolomedina https://launchpad.net/~paolomedina\n"
+"  ptia https://launchpad.net/~ptia\n"
+"  simone https://launchpad.net/~simone-cortesi-com\n"
+"  simone.sandri https://launchpad.net/~lexluxsox\n"
+"  venerdi https://launchpad.net/~mendem\n"
+"  vincivis https://launchpad.net/~vincivis"

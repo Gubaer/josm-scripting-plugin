@@ -1,0 +1,708 @@
+# Translations for the JOSM plugin 'scripting' (de)
+# Copyright (C) 2022 Gubaer
+# This file is distributed under the same license as the josm-plugin_scripting package.
+# FIRST AUTHOR, YEAR.
+#
+# Translators:
+# Ettore Atalan, 2018
+# Florian Schäfer, 2018
+# transger, 2018
+# fe748ff052bc70ef0fdd62d122a817e2, 2020
+# Markus Maurer, 2020
+# Gubaer, 2022
+# Simon Legner, 2022
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: josm-plugin_scripting v0.2.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-05-19 18:29+0200\n"
+"PO-Revision-Date: 2018-01-17 21:36+0000\n"
+"Language-Team: German (https://www.transifex.com/josm/teams/2544/de/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: de\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid ""
+"''onLoad()'' for plugin ''{0}'' failed. Plugin isn''t properly initialized."
+msgstr ""
+"''onLoad()'' für das Plugin ''{0}'' schlug fehl. Das Plugin ist nicht "
+"richtig initialisiert."
+
+msgid "''{0}'' doesn''t exist."
+msgstr "''{0}'' existiert nicht."
+
+msgid "''{0}'' is a directory. Expecting a jar file instead."
+msgstr "''{0}'' ist ein Verzeichnis. Erwarte stattdessen eine jar-Datei."
+
+msgid "''{0}'' is neither a ''jar'' nor a ''file'' URL"
+msgstr ""
+"Der URL ''{0}'' verwendet weder das Schema ''jar://'' noch das Schema "
+"''file://''"
+
+msgid "''{0}'' is neither an existing directory nor an existing jar file"
+msgstr ""
+"''{0}'' ist weder ein existierendes Verzeichnis noch eine existierende jar-"
+"Datei"
+
+msgid "''{0}'' isn''t a valid URL"
+msgstr "''{0}'' ist keine gültige URL"
+
+msgid "''{0}'' isn''t a valid base URL:"
+msgstr "\"{0}\" ist keine gültige Basis-URL"
+
+msgid "''{0}'' isn''t an existing jar file"
+msgstr "''{0'}'' ist keine existierende jar-Datei"
+
+msgid "''{0}'' isn''t readable. Can''t load a script engine from this file."
+msgstr ""
+"''{0}'' kann nicht gelesen werden. Die Ausführungsumgebung kann nicht aus "
+"dieser Datei geladen werden."
+
+msgid ""
+"<p>Failed to execute a script.</p><p/><p><strong>Error "
+"message:</strong>{0}</p><p><strong>At:</strong>line {1}, column {2}</p>"
+msgstr ""
+"<p>Konnte ein Skript nicht "
+"ausführen.</p><p/><p><strong>Fehlermeldung:</strong>{0}</p><p><strong>In:</strong>"
+" Zeile {1}, Spalte {2}</p>"
+
+msgid ""
+"<p>Failed to execute the script file ''{0}''.</p><p/><p><strong>Error "
+"message:</strong>{1}</p>"
+msgstr ""
+"<p>Bei der Ausführung der Skript-Datei ''{0}'' ist ein Fehler "
+"aufgetreten.</p><p/><p><strong>Fehlermeldung:</strong>{1}</p>"
+
+msgid ""
+"<p>Failed to execute the script file ''{0}''.</p><p><strong>Error "
+"message:</strong>{1}</p><p><strong>At:</strong>line {2}, column {3}</p>"
+msgstr ""
+"<p>Bei der Ausführung der Skript-Datei ''{0}'' ist ein Fehler "
+"aufgetreten.</p><p><strong>Fehlermeldung:</strong>{1}</p><p><strong>Position:Zeile"
+" {2}, Spalte {3}</p>"
+
+msgid ""
+"<p>The embedded GraalVM can load <strong>CommonJS modules</strong> with the "
+"function <code>require()</code>. It resolves CommonJS modules in the "
+"directories or jar files configured below.</p>"
+msgstr ""
+"<p>GraalVM kann <strong>CommonJS-Module</strong> mit der "
+"Funktion<code>require()</code> laden. Sie sucht nach CommonJS-Modulen in den"
+" Verzeichnissen und jar-Dateien, die unten aufgeführt sind.</p>"
+
+msgid ""
+"<p>The script can''t be executed, because a scripting engine with name "
+"''{0}'' isn''t configured.</p><p>Refer to the online help for information "
+"about how to install/configure a scripting engine for JOSM.</p>"
+msgstr ""
+"<p>Das Skript kann nicht ausgeführt werden, weil keine Ausführungsumgebung "
+"mit dem Namen ''{0}'' konfiguriert ist.</p><p>Ziehe die Onlinehilfe zu Rate "
+"für Informationen, wie eine Ausführungsumgebung für JOSM "
+"installiert/konfiguriert werden kann.</p>"
+
+msgid ""
+"<strong>Support for python plugins is disabled.</strong><br>The scripting "
+"plugin can load and run plugins written in <strong>Python</strong>. In order"
+" to use this feature the Jython interpreter has to be on the class path when"
+" you start JOSM. Currently, it isn''t and python plugin support is therefore"
+" disabled.<br><br>Launch JOSM with the following command line: <br>java -cp "
+"\"josm-jar.jar:/path/to/jython.jar\" "
+"org.openstreetmap.josm.gui.MainApplication"
+msgstr ""
+"<strong>Python Plugins werden nicht unterstützt</strong><br>Das Scripting "
+"Plugin kann Plugins ausführen, die in <strong>Python</strong> implementiert "
+"sind. Dafür muss der Jython-Interpreter über den Klassen-Pfad auffindbar "
+"sein, wenn JOSM startet. Zurzeit ist das nicht der Fall und Python Plugins "
+"werden deshalb nicht unterstützt. <br><br>Starte JOSM mit folgendem Befehl "
+"auf der Kommandozeile: <br>java -cp \"josm-jar.jar:/path/to/jython.jar\" "
+"org.openstreetmap.josm.gui.MainApplication"
+
+msgid "Accept the selected scripting engine"
+msgstr "Die ausgewählte Ausführungsumgebung übernehmen"
+
+msgid "Add"
+msgstr "Hinzufügen"
+
+msgid "Add a button for this script script file to the toolbar."
+msgstr "Füge ein Button für dieses Skript zur Toolbar hinzu."
+
+msgid "Add a jar file providing a script engine"
+msgstr "Eine jar-Datei hinzufügen, die eine Ausführungsumgebung bereitstellt"
+
+msgid ""
+"Add a list of fully qualified names of Python plugin classes the scripting "
+"plugin shall load and install at startup time. <br>Example: "
+"''my_module.MyPlugin'' or ''my_package.my_module.MyPlugin''"
+msgstr ""
+"Füge eine Liste mit vollqualifizierten Namen von Python-Klassen hinzu, die "
+"das Scripting Plugin laden und als Python-Plugins starten soll. "
+"<br>Beispiel: ''my_module.MyPlugin'' or ''my_package.my_module.MyPlugin''"
+
+msgid "Add a path or jar file"
+msgstr "Füge ein Verzeichnis oder eine jar-Datei hinzu"
+
+msgid "Add a plugin"
+msgstr "Ein Plugin hinzufügen"
+
+msgid "Add an additional repository"
+msgstr "Füge eine Ablage hinzu"
+
+msgid ""
+"Add directories and/or jar files where the Jython engine shall look for "
+"Python packages or modules."
+msgstr ""
+"Füge Verzeichnisse oder jar-Dateien hinzu, in denen die Ausführungsumgebung "
+"Jython nach Python-Paketen und -Modulen suchen soll."
+
+msgid "Add toolbar button"
+msgstr "Schaltfläche in Werkzeugleiste hinzufügen"
+
+msgid "Added {0} primitive"
+msgid_plural "Added {0} primitives"
+msgstr[0] "{0} Objekte hinzugefügt"
+msgstr[1] "{0} Objekte hinzugefügt"
+
+msgid "Always on top"
+msgstr "Immer im Vordergrund"
+
+msgid "Available engines:"
+msgstr "Verfügbare Ausführungsumgebungen:"
+
+msgid "Available script engines"
+msgstr "Verfügbare Ausführungsumgebungen"
+
+msgid "Cancel"
+msgstr "Abbrechen"
+
+msgid "Change"
+msgstr "Ändern"
+
+msgid "Changed {0} primitive"
+msgid_plural "Changed {0} primitives"
+msgstr[0] "{0} Objekte hinzugefügt"
+msgstr[1] "{0} Objekte geändert"
+
+msgid "Clear log"
+msgstr "Protokoll leeren"
+
+msgid "Clear the log content"
+msgstr "Leere den Inhalt des Protokolls"
+
+msgid "Close"
+msgstr "Schließen"
+
+msgid "Close the scripting console"
+msgstr "Die Skripting-Konsole schließen"
+
+msgid "CommonJS module repositories"
+msgstr "Ablagen für CommonJS-Module"
+
+#. title
+msgid "Configure script engines and scripts"
+msgstr "Ausführungsumgebungen und Skripte konfigurieren"
+
+#. title
+#. icon name
+msgid "Configure scripting preferences"
+msgstr "Einstellungen für Skripting konfigurieren"
+
+msgid "Configure..."
+msgstr "Konfigurieren …"
+
+msgid "Create or edit a CommonJS module repository"
+msgstr "Eine CommonJS-Modul-Ablage anlegen oder editieren"
+
+msgid "Create or edit a path"
+msgstr "Einen Pfad anlegen oder editieren"
+
+msgid "Current file:"
+msgstr "Aktuelle Datei:"
+
+msgid "Deleted {0} primitive"
+msgid_plural "Deleted {0} primitives"
+msgstr[0] "{0} Objekte gelöscht"
+msgstr[1] "{0} Objekte gelöscht"
+
+msgid ""
+"Didn''t find a suitable syntax style for the script engine "
+"<strong>{0}</strong>."
+msgstr ""
+"Konnte keinen passenden Syntax-Stil für die Ausführungsumgebung "
+"<strong>{0}</strong> finden."
+
+msgid "Down"
+msgstr "Runter"
+
+msgid "Download and install scripting engine"
+msgstr "Ausführungsumgebung herunterladen und installieren"
+
+#. create the edit menu
+msgid "Edit"
+msgstr "Bearbeiten"
+
+msgid "Empty file name"
+msgstr "Leerer Dateiname"
+
+msgid "Enter additional JAR files which provide script engines."
+msgstr ""
+"Zusätzliche JAR-Dateien eingeben, die Ausführungsumgebungen bereitstellen."
+
+msgid "Enter the name of a script file"
+msgstr "Geben Sie den Namen der Skript-Datei ein."
+
+msgid "Execute the script"
+msgstr "Skript ausführen"
+
+msgid ""
+"Executing scripts in language <strong>{0}</strong> using engine "
+"<strong>{1}</strong>."
+msgstr ""
+"Skripts werden in der Sprache <strong>{0}</strong> mit der "
+"Ausführungsumgebung <strong>{1}</strong> ausgeführt."
+
+msgid ""
+"Executing scripts with the built-in scripting engine for language "
+"<strong>{0}</strong> based on <strong>{1}</strong>."
+msgstr ""
+"Skripts werden mit der eingebauten Ausführungsumgebung <strong>{0}</strong> "
+"in der Sprache <strong>{1}</strong> ausgeführt."
+
+msgid "FATAL: Failed to initialize scripting plugin"
+msgstr ""
+"SCHWERWIEGEND: Das Scripting-Plugin konnte nicht initialisiert werden."
+
+msgid "Failed to create URL referring to the module repository ''{0}''"
+msgstr "Auf Modul-Ablage ''{0}'' verweisende URL konnte nicht erstellt werden"
+
+msgid "Failed to execute a script."
+msgstr "Ein Skript konnte nicht ausgeführt werden."
+
+msgid "Failed to instantiate plugin ''{0}''."
+msgstr "Das Plugin ''{0}'' konnte nicht instanziiert werden."
+
+msgid "Failed to load file ''{0}''."
+msgstr "Die Datei ''{0}'' konnte nicht geladen werden."
+
+msgid "Failed to load icon ''{0}''"
+msgstr "Konnte das Symbol ''{0}'' nicht laden"
+
+msgid "Failed to load icon ''{0}/{1}''"
+msgstr "Das Symbol ''{0}/{1}'' konnte nicht geladen werden"
+
+msgid ""
+"Failed to load python module ''{0}''. \n"
+"Make sure the preferences with key ''{1}'' include the path to the module."
+msgstr ""
+"Das Python-Modul ''{0}'' konnte nicht geladen werden. Stellen Sie sicher, "
+"dass die Einstellung mit dem Namen ''{1}'' den Pfad für das Modul enthält."
+
+msgid "Failed to lookup plugin class ''{0}''."
+msgstr "Nachschlagen der Plugin-Klasse ''{0}'' fehlgeschlagen."
+
+msgid ""
+"Failed to open file ''{0}'' as jar file. Can''t load a script engine from "
+"this file."
+msgstr ""
+"Datei ''{0}'' konnte nicht als jar-Datei geöffnet werden. Die "
+"Ausführungsumgebung kann nicht aus dieser Datei geladen werden."
+
+msgid "Failed to read the script from file ''{0}''."
+msgstr "Konnte das Skript nicht aus der Datei ''{0}'' lesen."
+
+msgid "Failed to read the script from the file ''{0}''."
+msgstr "Konnte das Skript nicht aus der Datei ''{0}'' lesen."
+
+msgid "Failed to save file ''{0}''."
+msgstr "Die Datei ''{0}'' konnte nicht gespeichert werden."
+
+#. create the file menu
+msgid "File"
+msgstr "Datei"
+
+msgid "File not found"
+msgstr "Datei nicht gefunden"
+
+msgid "File not readable"
+msgstr "Datei nicht lesbar"
+
+msgid "File:"
+msgstr "Datei:"
+
+#. should not happen. Make sure this method is only invoked
+#. if GraalVM is present. Log a warning and return, don't prompt
+#. the user with an error message.
+msgid "GraalVM not present, can''t run script with GraalVM"
+msgstr ""
+"Die GraalVM ist nicht vorhanden, Skripte können nicht mit der GraalVM "
+"ausgeführt werden."
+
+msgid ""
+"GraalVM polyglot API isn''t on the class path. Support for GraalVM is "
+"disabled."
+msgstr ""
+"Das Polyglot-API der GraalVM ist nicht auf dem Klassenpfad. Die "
+"Unterstützung für GraalVM ist deaktiviert."
+
+msgid "IO error"
+msgstr "Ein-/Ausgabefehler"
+
+msgid "IO exception"
+msgstr "Ein-/Ausgabefehler"
+
+msgid "JAR file"
+msgstr "JAR-Datei"
+
+msgid "JAR files"
+msgstr "JAR-Dateien"
+
+msgid "JOSM currently supports the following script engines:"
+msgstr "JOSM unterstützt zurzeit folgende Ausführungsumgebungen:"
+
+msgid ""
+"Jython interpreter isn''t on the class path. Support for Python plugins is "
+"disabled."
+msgstr ""
+"Der Interpreter Jython ist nicht im Klassenpfad enthalten. Die Unterstützung"
+" für Python-Plugins ist deaktiviert."
+
+msgid "Language version:"
+msgstr "Sprachversion:"
+
+msgid "Language:"
+msgstr "Sprache:"
+
+msgid "Launch file chooser"
+msgstr "Dateiauswahldialog öffnen"
+
+#. don't translate
+msgid "Launch file selection dialog"
+msgstr "Dialog zur Dateiauswahl öffnen"
+
+msgid "MIME-Types:"
+msgstr "MIME-Typen:"
+
+msgid "Move the selected path up by one position"
+msgstr "Verschiebe das ausgewählte Verzeichnis eine Position nach oben"
+
+msgid "Move the selected repository down by one position"
+msgstr "Verschiebe die ausgewählte Ablage eine Position nach unten"
+
+msgid "Move the selected repository up by one position"
+msgstr "Verschiebe die ausgewählte Ablage eine Position nach oben"
+
+msgid "Name:"
+msgstr "Name:"
+
+msgid "No script engine selected."
+msgstr "Keine Ausführungsumgebung ausgewählt."
+
+msgid "No syntax kit"
+msgstr "Kein Syntax-Kit"
+
+msgid "OK"
+msgstr "OK"
+
+msgid "Open"
+msgstr "Öffnen"
+
+msgid "Open a script file"
+msgstr "Eine Skript-Datei öffnen"
+
+msgid "Please enter a file name first."
+msgstr "Bitte zuerst einen Dateinamen eingeben."
+
+msgid ""
+"Please enter or paste a valid directory path or path to a jar/zip file."
+msgstr ""
+"Bitte einen gültigen Pfad eines Verzeichnisses oder einer jar-Datei "
+"eingeben."
+
+msgid ""
+"Please enter or paste a valid file or jar URL. HTTP URLs are not supported."
+msgstr ""
+"Bitte eine gültige Datei- oder JAR-URL angeben. HTTP URLs werden nicht "
+"unterstützt."
+
+msgid "Remove"
+msgstr "Entfernen"
+
+msgid "Remove a path"
+msgstr "Entferne ein Verzeichnis"
+
+msgid "Remove a repository"
+msgstr "Entferne eine Ablage"
+
+msgid "Remove selected plugins"
+msgstr "Ausgewählte Plugins entfernen"
+
+msgid "Remove the selected jar files"
+msgstr "Die ausgewählten jar-Dateien entfernen"
+
+msgid "Run"
+msgstr "Ausführen"
+
+#. title
+#. icon name
+msgid "Run a script"
+msgstr "Ein Skript ausführen"
+
+#. Display filename as tooltip instead of generic one
+msgid "Run script ''{0}''"
+msgstr "Skript \"{0}\" ausführen"
+
+msgid "Run the script"
+msgstr "Das Skript ausführen"
+
+msgid "Run..."
+msgstr "Ausführen…"
+
+msgid "Save"
+msgstr "Speichern"
+
+msgid "Save as ..."
+msgstr "Speichern als…"
+
+msgid "Save script to current file"
+msgstr "Speichere das Skript in der aktuellen Datei"
+
+msgid "Save to a script file"
+msgstr "In eine Skriptdatei speichern"
+
+msgid "Script engine not found"
+msgstr "Ausführungsumgebung für Skripts nicht gefunden"
+
+msgid "Script engines"
+msgstr "Ausführungsumgebungen"
+
+msgid "Script execution failed"
+msgstr "Das Ausführen des Skripts schlug fehl"
+
+msgid "Script execution has failed."
+msgstr "Das Ausführen des Skripts ist fehlgeschlagen."
+
+#. icon name
+msgid "Scripting"
+msgstr "Skripting"
+
+msgid "Scripting Console"
+msgstr "Skripting-Konsole"
+
+msgid "Scripting: Run a Script"
+msgstr "Skripting: Ein Skript ausführen"
+
+msgid "Scripting: Show/hide scripting console"
+msgstr "Skripting: Skripting-Konsole anzeigen/verstecken"
+
+msgid "Select"
+msgstr "Auswählen"
+
+msgid "Select a directory or a jar file"
+msgstr "Wähle ein Verzeichnis oder eine jar-Datei"
+
+msgid "Select a directory or jar/zip file"
+msgstr "Wähle ein Verzeichnis oder eine jar- bzw. zip-Datei"
+
+msgid "Select a jar file"
+msgstr "eine jar-Datei wählen"
+
+msgid "Select a script"
+msgstr "Ein Skript auswählen"
+
+msgid "Select a script file"
+msgstr "Skriptdatei auswählen"
+
+msgid "Select a script file and click on <strong>Run</strong>."
+msgstr "Wähle eine Skript-Datei und klicke Ausführen."
+
+msgid "Select an engine"
+msgstr "Eine Ausführungsumgebung wählen"
+
+msgid "Show scripting console"
+msgstr "Skripting-Konsole anzeigen"
+
+#. title
+#. icon name
+msgid "Show/hide the scripting console"
+msgstr "Die Skripting-Konsole anzeigen/verstecken"
+
+msgid ""
+"The jar file ''{0}'' doesn''t provide a script engine. The entry ''{1}'' is "
+"missing."
+msgstr ""
+"Die jar-Datei ''{0}'' enthält keine Ausführungsumgebung. Das Element ''{1}''"
+" fehlt."
+
+msgid "The script file ''{0}'' doesn''t exist."
+msgstr "Die Skript-Datei ''{0}'' existiert nicht."
+
+msgid "The script file ''{0}'' isn''t readable."
+msgstr "Die Skript-Datei ''{0}'' kann nicht gelesen werden."
+
+msgid ""
+"The scripting plugin can load and run plugins written in "
+"<strong>Python</strong>. Below you can configure where it looks for locally "
+"deployed plugins and which plugins it should load and launch at startup "
+"time."
+msgstr ""
+"Das Skripting-Plugin kann seinerseits Plugins laden und ausführen, die in "
+"<strong>Python</strong> geschrieben sind. Hier kann man konfigurieren, wo "
+"das Skripting-Plugin lokal installierten Python-Plugins sucht und welche "
+"Python-Plugins geladen und gestartet werden sollen."
+
+msgid "URL ''{0}'' doesn''t refer to an existing local directory or jar file"
+msgstr ""
+"Die URL ''{0}'' verweist nicht auf ein lokales Verzeichnis oder eine lokale "
+"jar-Datei"
+
+msgid "URL ''{0}'' doesn''t refer to an existing local jar file"
+msgstr "Die URL ''{0}'' verweist nicht auf eine existierende lokale jar-Datei"
+
+msgid "Up"
+msgstr "Hoch"
+
+msgid "Version:"
+msgstr "Version:"
+
+msgid "cancel"
+msgstr "abbrechen"
+
+msgid "plugin class loader for plugin ''{0}'' not found"
+msgstr "Erweiterung Klassenlader für Erweiterung ''{0}'' nicht gefunden"
+
+msgid "unknown"
+msgstr "unbekannt"
+
+#. used in the context of a combo box
+msgid "{1} (with engine {0})"
+msgstr "{1} (mit Ausführungsumgebung {0})"
+
+#. Plugin description for josm-scripting-plugin
+msgid "Runs scripts in JOSM"
+msgstr "Führt Skripte in JOSM aus"
+
+#. Translator credits (translators who want to be credited for their
+#. contributions can add their names here as the translation)
+msgid "translator-credits"
+msgstr ""
+"Launchpad Contributions:\n"
+"  Alex Rampp https://launchpad.net/~bitschupser\n"
+"  Alexander Wunschik https://launchpad.net/~alex-wunschik\n"
+"  AlphaRay https://launchpad.net/~3d\n"
+"  Andre Hinrichs https://launchpad.net/~andre-hinrichs\n"
+"  Andreas Abraham https://launchpad.net/~andreas-abraham\n"
+"  Andreas M. https://launchpad.net/~andreasm\n"
+"  Angelo Banse https://launchpad.net/~angelobanse\n"
+"  BBO https://launchpad.net/~bbo\n"
+"  Bernd https://launchpad.net/~bernd80\n"
+"  Bodo https://launchpad.net/~bodo-bodo-m\n"
+"  Bärli https://launchpad.net/~bhopke\n"
+"  Carsten Gerlach https://launchpad.net/~carsteng\n"
+"  Christian Faulhammer https://launchpad.net/~fauli\n"
+"  Christian Loos https://launchpad.net/~cloos\n"
+"  Claudius Henrichs https://launchpad.net/~claudius-h\n"
+"  Creo https://launchpad.net/~creo-launchpad\n"
+"  Daniel S https://launchpad.net/~dadosch\n"
+"  Daniel Seibert https://launchpad.net/~dseibert\n"
+"  Daniel Winzen https://launchpad.net/~q-d-deactivatedaccount\n"
+"  Dave https://launchpad.net/~swissbite\n"
+"  David Lichti https://launchpad.net/~dlichtistw\n"
+"  David Zumbrunnen https://launchpad.net/~zumbrunnen\n"
+"  Denis Graipel https://launchpad.net/~denis98\n"
+"  Dennis Baudys https://launchpad.net/~thecondordb\n"
+"  Dennis Roch https://launchpad.net/~ysae\n"
+"  Dieter W. https://launchpad.net/~geozeisig\n"
+"  Dirk Fischer https://launchpad.net/~dfisc\n"
+"  Dirk Stöcker https://launchpad.net/~stoecker\n"
+"  Don-vip https://launchpad.net/~vincent-privat\n"
+"  Ettore Atalan https://launchpad.net/~atalanttore\n"
+"  Fabian Riechsteiner https://launchpad.net/~ruffy91-gmail\n"
+"  Falko Thomale https://launchpad.net/~f-thomale\n"
+"  Felix Schweighofer https://launchpad.net/~felix-schweighofer\n"
+"  Fichtennadel https://launchpad.net/~soskifub+launchpad\n"
+"  Florian Schlichting https://launchpad.net/~fschlich\n"
+"  Florian Schüller https://launchpad.net/~schuellerf\n"
+"  Gerold Kogler https://launchpad.net/~gnosis\n"
+"  Gubaer https://launchpad.net/~karl-guggisberg\n"
+"  Hartmut Holzgraefe https://launchpad.net/~hartmut-php\n"
+"  Hb https://launchpad.net/~hbb\n"
+"  Henning Kleen https://launchpad.net/~henning-kleen\n"
+"  Henrik Niehaus https://launchpad.net/~henrik-niehaus\n"
+"  Heros https://launchpad.net/~heros\n"
+"  Holger https://launchpad.net/~holger-burkhardt\n"
+"  Hufkratzer https://launchpad.net/~hufkratzer\n"
+"  Ingolf Knopf https://launchpad.net/~ingolf-knopf\n"
+"  Int https://launchpad.net/~hipsterhasser66\n"
+"  Jacob Bräutigam https://launchpad.net/~jacobbraeutigam\n"
+"  Johannes Höhn https://launchpad.net/~johannes-karl-hoehn\n"
+"  Johannes Wienke https://launchpad.net/~languitar\n"
+"  Jörg Possin https://launchpad.net/~joerg-possin\n"
+"  Keruskerfuerst https://launchpad.net/~arminmohring\n"
+"  Klumbumbus https://launchpad.net/~klumbumbus\n"
+"  Lukas Sommer https://launchpad.net/~sommerluk\n"
+"  Marco Schicke https://launchpad.net/~chqrc\n"
+"  Michael Keppler https://launchpad.net/~bananeweizen\n"
+"  MrTux https://launchpad.net/~sstrickroth\n"
+"  Niklas B https://launchpad.net/~bjoeni\n"
+"  Oli-Wan https://launchpad.net/~oliver-kaleske\n"
+"  Oliver W https://launchpad.net/~oliver-wieland\n"
+"  Patrick Brueckner https://launchpad.net/~madmuffin\n"
+"  Patrick Drotleff https://launchpad.net/~patrick-d\n"
+"  Philipp Kießler https://launchpad.net/~pocytac\n"
+"  RobinD https://launchpad.net/~emergency99\n"
+"  Roman Peters https://launchpad.net/~openstreetmap-romanpeters\n"
+"  Sebastian Schlatow https://launchpad.net/~buzz-dee\n"
+"  Serpens https://launchpad.net/~serpens\n"
+"  Simon Legner https://launchpad.net/~simon04\n"
+"  Spoony https://launchpad.net/~spoony-gmx\n"
+"  Stefan https://launchpad.net/~swus\n"
+"  Svein Olav Hagen https://launchpad.net/~svein-olav\n"
+"  Sven Anders https://launchpad.net/~sven-anders-hamburg\n"
+"  Sören Gasch https://launchpad.net/~soeren-gasch\n"
+"  Thomas Magnet https://launchpad.net/~llcoolt\n"
+"  Tim O. https://launchpad.net/~tim.o-deactivatedaccount\n"
+"  Tobias Bannert https://launchpad.net/~toba\n"
+"  Torsten Breda https://launchpad.net/~to-bre\n"
+"  Velosoph https://launchpad.net/~velosoph\n"
+"  Vinzenz Vietzke https://launchpad.net/~vinzv\n"
+"  WillyTM https://launchpad.net/~willy-tm\n"
+"  aikon https://launchpad.net/~onelist\n"
+"  bastik https://launchpad.net/~bstk\n"
+"  bundesrainer https://launchpad.net/~3-launchpad-bundesrainer-de\n"
+"  cmdrhenner https://launchpad.net/~cmdrhenner\n"
+"  da-osm https://launchpad.net/~m8r-1buyjd\n"
+"  dankert https://launchpad.net/~jan-2008\n"
+"  delphin1965 https://launchpad.net/~hadwiger\n"
+"  dewa https://launchpad.net/~dwagner1270\n"
+"  eartrumpet https://launchpad.net/~tk-8\n"
+"  eknus https://launchpad.net/~michael-sunke\n"
+"  fly https://launchpad.net/~lowflight66\n"
+"  framm https://launchpad.net/~ramm\n"
+"  frawe https://launchpad.net/~frawe\n"
+"  fsch https://launchpad.net/~fsch\n"
+"  fschmitt https://launchpad.net/~florian-schmitt\n"
+"  girus https://launchpad.net/~news1\n"
+"  goto https://launchpad.net/~gotolaunchpad\n"
+"  hans951 https://launchpad.net/~mail-hans-fabritius\n"
+"  herbert https://launchpad.net/~bsecd\n"
+"  holger (lp) https://launchpad.net/~holger-lp\n"
+"  lesi https://launchpad.net/~lesi\n"
+"  mabri https://launchpad.net/~mabri\n"
+"  malenki https://launchpad.net/~x-launchpad-r\n"
+"  malex https://launchpad.net/~manfred-lex\n"
+"  matmai https://launchpad.net/~matthias-maier\n"
+"  maxsenft https://launchpad.net/~max-senft-net\n"
+"  metehyi https://launchpad.net/~metehyi\n"
+"  mjulius https://launchpad.net/~matthias-julius-net\n"
+"  morbz https://launchpad.net/~morbz1\n"
+"  neufeind https://launchpad.net/~neufeind\n"
+"  phobie https://launchpad.net/~phobie\n"
+"  sysrequest https://launchpad.net/~hypnose-kroete\n"
+"  uboot https://launchpad.net/~uboot\n"
+"  ulfl https://launchpad.net/~ulf-lamping\n"
+"  vsandre https://launchpad.net/~vsandre\n"
+"  wernerschka https://launchpad.net/~wernerschka1\n"
+"  xuiqzy https://launchpad.net/~xuiqzy\n"
+"  Łukasz Jernaś https://launchpad.net/~deejay1"
