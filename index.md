@@ -34,6 +34,8 @@ josm.alert('Added a node')
 The plugin can execute scripts written in [Groovy], [Ruby], or any other language for which a JSR-223 compatible script engine is available.
 
 
+
+
 [Open Street Map]: http://www.openstreetmap.org
 [JOSM]: http://josm.openstreetmap.de
 [Mozilla Rhino]: http://www.mozilla.org/rhino/
