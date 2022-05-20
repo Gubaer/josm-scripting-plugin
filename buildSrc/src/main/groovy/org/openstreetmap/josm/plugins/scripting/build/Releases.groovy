@@ -122,7 +122,8 @@ class Releases {
      * @return the highest JOSM version for which a release is available
      */
     String getHighestJosmVersion() {
-        config.releases.collect {it.minJosmVersion}.max().toString()
+        config.releases.collect {it.minJosmVersion as int}
+            .max().toString()
     }
 
     static private int comparePluginLabels(v1, v2) {
