@@ -152,7 +152,7 @@ test {
 }
 
 task testScriptApiV1 (type: Test) {
-    useJUnit()
+    useJUnitPlatform()
     environment "JOSM_SCRIPTING_PLUGIN_HOME", project.projectDir
     scanForTestClasses = false
     include "org.openstreetmap.josm.plugins.scripting.v1.ScriptApiTest.class"
@@ -164,7 +164,7 @@ task testScriptApiV1 (type: Test) {
 
 task testScriptApiV2(type: Test) {
     dependsOn "downloadGraalVM"
-    useJUnit()
+    useJUnitPlatform()
     testLogging {
         outputs.upToDateWhen {false}
         showStandardStreams = true
@@ -184,7 +184,7 @@ task testScriptApiV2(type: Test) {
 task testGraalVMSupportNotPresent(type: Test) {
     // remove GraalVM from classpath under test
     classpath = classpath.filter {! it.toString().toLowerCase().contains("graalvm")}
-    useJUnit()
+    useJUnitPlatform()
     scanForTestClasses= false
     include "**/graalvm/GraalVMNotPresentTest.class"
     testLogging {
@@ -206,7 +206,7 @@ task testGraalVMSupportPresent(type: Test) {
         )
         println("testGraalVMSupportPresent: prepared preferences.xml")
     }
-    useJUnit()
+    useJUnitPlatform()
     environment "JOSM_SCRIPTING_PLUGIN_HOME",project.projectDir
     systemProperty "josm.home", "${project.projectDir}/test/josm.home"
     scanForTestClasses= false
@@ -222,7 +222,7 @@ task testGraalVMSupportPresent(type: Test) {
 
 task testWithGraalVMJDK(type: Test) {
     dependsOn "downloadGraalVM"
-    useJUnit()
+    useJUnitPlatform()
     environment "JOSM_SCRIPTING_PLUGIN_HOME", project.projectDir
     scanForTestClasses= false
     executable getGraalVMJavaBinary()
@@ -240,7 +240,7 @@ task testWithGraalVMJDK(type: Test) {
 }
 
 task testJSR223EngineAbsent(type: Test) {
-    useJUnit()
+    useJUnitPlatform()
     // make sure neither a graalvm, nor groovy or python are on the
     // classpath
     classpath = classpath
@@ -257,7 +257,7 @@ task testJSR223EngineAbsent(type: Test) {
 }
 
 task testJSR223EnginePresent(type: Test) {
-    useJUnit()
+    useJUnitPlatform()
 
     // groovy and python are on the classpath
     scanForTestClasses= false
