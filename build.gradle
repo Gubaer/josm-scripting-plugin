@@ -27,8 +27,7 @@ configurations {
 dependencies {
     def graalvmVersion = project.properties["graalvm.version"]
 
-    //implementation group: 'org.apache.groovy', name: 'groovy-all', version: '4.0.2'
-    implementation group: 'org.codehaus.groovy', name: 'groovy-all', version: '3.0.10'
+    implementation group: 'org.apache.groovy', name: 'groovy-all', version: '4.0.2'
     implementation group: "org.python", name: "jython", version: "2.7.2"
     implementation group: 'javax.activation', name: 'activation', version: '1.1.1'
 
@@ -53,12 +52,9 @@ dependencies {
 
     testImplementation('org.openstreetmap.josm:josm-unittest:latest'){changing=true}
     testImplementation group: 'org.jmockit', name: 'jmockit', version: '1.40'
-    //testImplementation group: 'junit', name: 'junit', version: '4.12'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
-    //testImplementation group: 'org.apache.groovy', name: 'groovy-all', version: '4.0.2'
-    //testImplementation group: 'org.apache.groovy', name: 'groovy-test', version: '4.0.2'
-    testImplementation group: 'org.codehaus.groovy', name: 'groovy-all', version: '3.0.10'
-    testImplementation group: 'org.codehaus.groovy', name: 'groovy-test', version: '3.0.10'
+    testImplementation group: 'org.apache.groovy', name: 'groovy-all', version: '4.0.2'
+    testImplementation group: 'org.apache.groovy', name: 'groovy-test', version: '4.0.2'
     testImplementation group: 'com.github.tomakehurst', name: 'wiremock', version: '2.27.2'
     testImplementation group: 'org.awaitility', name: 'awaitility', version: '4.2.0'
 
