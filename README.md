@@ -65,7 +65,7 @@ $ ./gradlew cleanTest cleanTestScriptApi check
 ```
 
 ## How to update the i18n resources
-Localized strings are uploaded to [Transifex][transifex]. T
+Localized strings are uploaded to [Transifex][transifex].
 
 Translated resources can be downloaded periodically from Transifex and then commited to the github repository.
 
@@ -141,21 +141,20 @@ $ git commit -a -m "Regenerate API doc"
 ```
 
 ## Build status
-[![Josm Scripting Plugin - Build](https://github.com/Gubaer/josm-scripting-plugin/actions/workflows/gradle.yml/badge.svg)](https://github.com/Gubaer/josm-scripting-plugin/actions/workflows/gradle.yml)
+[![Josm Scripting Plugin - Build][build-batch]][build-status]
 
 ## Credits
 The JOSM scripting plugin uses:
 
-* jsyntaxpane by Ayman Al-Sairafi
 * [Mozilla Rhino][rhino] scripting engine by Mozilla Foundation
-* [RSyntaxTextArea][jsyntaxarea]
+* [RSyntaxTextArea][rsyntaxtextarea]
 * [Graal.JS][graaljs]
 
 * supported by [![JetBrains logo](jetbrains.png)](https://www.jetbrains.com/?from=JOSM%20Scripting%20Plugin) with a free JetBrains Open Source license
 
 
 ## License
-Published under GPL Version 3 and higher. See included LICENSE file.
+Published under GPL Version 3 and higher. See included [LICENSE](LICENSE) file.
 
 
 [transifex]:https://www.transifex.com
@@ -175,4 +174,7 @@ Published under GPL Version 3 and higher. See included LICENSE file.
 [libdoc-api-v1]:http://gubaer.github.io/josm-scripting-plugin/api/v1/module-josm.html
 [doc-graaljs]:http://gubaer.github.io/josm-scripting-plugin/docs/graaljs.html
 [jsyntaxarea]:https://bobbylight.github.io/RSyntaxTextArea/
+[rsyntaxtextarea]:https://bobbylight.github.io/RSyntaxTextArea/
 [doc-home]:http://gubaer.github.io/josm-scripting-plugin/
+[build-batch]:https://github.com/Gubaer/josm-scripting-plugin/actions/workflows/gradle.yml/badge.svg
+[build-status]:https://github.com/Gubaer/josm-scripting-plugin/actions/workflows/gradle.yml
