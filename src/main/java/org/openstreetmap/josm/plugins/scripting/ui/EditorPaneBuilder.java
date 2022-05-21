@@ -19,8 +19,8 @@ public class EditorPaneBuilder {
             EditorPaneBuilder.class.getResource(RESOURCE_NAME_STYLE_SHEET);
         if (styleSheetUri == null) {
             logger.warning(String.format(
-                "failed to load default CSS style sheet from URL '%s'",
-                styleSheetUri.toString()
+                "failed to load default CSS style sheet from resource '%s'",
+                RESOURCE_NAME_STYLE_SHEET
             ));
             return styleSheet;
         }
