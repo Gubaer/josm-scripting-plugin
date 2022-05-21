@@ -14,6 +14,8 @@ dependencies {
     implementation 'org.apache.groovy:groovy-yaml:4.0.2'
     implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.13.0'
     implementation 'com.github.groovy-wslite:groovy-wslite:1.1.2'
+    implementation group: 'com.squareup.okhttp', name: 'okhttp', version: '2.7.5'
+
     implementation gradleApi()
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
