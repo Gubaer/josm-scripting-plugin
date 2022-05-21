@@ -1,7 +1,7 @@
 package org.openstreetmap.josm.plugins.scripting.graalvm
 
-import org.junit.BeforeClass
-import org.junit.Test
+import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.Test
 
 import static org.junit.Assert.assertTrue
 
@@ -9,7 +9,7 @@ class CommonJSModuleRepositoryFactoryTest {
 
     static def projectHome
 
-    @BeforeClass
+    @BeforeAll
     static void readEnvironmentVariables() {
         projectHome = System.getenv("JOSM_SCRIPTING_PLUGIN_HOME")
         if (projectHome == null) {

@@ -1,8 +1,9 @@
 package org.openstreetmap.josm.plugins.scripting.graalvm
 
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
-class GraalVMEmbeddedInJosmTest extends AbstractGraalVMBasedTest{
+
+class GraalVMEmbeddedInJosmTest extends AbstractGraalVMBasedTest {
 
     @Test
     void shouldAccessJosmVersionClass() throws GraalVMEvalException {

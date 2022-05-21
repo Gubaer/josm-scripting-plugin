@@ -1,10 +1,10 @@
 package org.openstreetmap.josm.plugins.scripting.graalvm
 
-import org.junit.Ignore
-import org.junit.Test
+import groovy.test.GroovyTestCase
+import org.junit.jupiter.api.Disabled
+import org.junit.jupiter.api.Test
 
 import java.nio.file.Paths
-import static org.junit.Assert.assertEquals
 
 /**
  * test cases to explore the behaviour of
@@ -13,11 +13,11 @@ import static org.junit.Assert.assertEquals
  * Annotated with @Ignore, because doesn't belong to the set of unit
  * tests for the scripting plugin.
  */
-@Ignore
-class PathsResolveTest {
+@Disabled
+class PathsResolveTest extends GroovyTestCase {
 
     @Test
-    void "resolve toplevel module id"() {
+    void "resolve top level module id"() {
         def path = Paths.get(new File("/foo/bar").toURI())
                 .resolve("toplevel")
                 .normalize()
@@ -25,7 +25,7 @@ class PathsResolveTest {
     }
 
     @Test
-    void "resolve toplevel module id against path with trailing /"() {
+    void "resolve toplevel module id against path with trailing _slash_"() {
         def path = Paths.get(new File("/foo/bar/").toURI())
                 .resolve("toplevel")
                 .normalize()
@@ -33,7 +33,7 @@ class PathsResolveTest {
     }
 
     @Test
-    void "resolve relative module id with ./"() {
+    void "resolve relative module id with _dot__slash_"() {
         def path = Paths.get(new File("/foo/bar").toURI())
                 .resolve("./toplevel")
                 .normalize()
@@ -41,7 +41,7 @@ class PathsResolveTest {
     }
 
     @Test
-    void "resolve relative module id with ./ against path with trailing /"() {
+    void "resolve relative module id with _dot__slash_ against path with trailing _slash_"() {
         def path = Paths.get(new File("/foo/bar/").toURI())
                 .resolve("./toplevel")
                 .normalize()
@@ -49,7 +49,7 @@ class PathsResolveTest {
     }
 
     @Test
-    void "resolve relative module id with ../"() {
+    void "resolve relative module id with _dot__dot__slash_"() {
         def path = Paths.get(new File("/foo/bar/sub").toURI())
                 .resolve("../toplevel")
                 .normalize()
@@ -57,7 +57,7 @@ class PathsResolveTest {
     }
 
     @Test
-    void "resolve relative module id with ../ against path with trailing /"() {
+    void "resolve relative module id with _dot__dot__slash_ against path with trailing _slash_"() {
         def path = Paths.get(new File("/foo/bar/sub/").toURI())
                 .resolve("../toplevel")
                 .normalize()
@@ -66,7 +66,7 @@ class PathsResolveTest {
 
 
     @Test
-    void "resolve relative module id with too many .. segments"() {
+    void "resolve relative module id with too many _dot__dot_ segments"() {
         def path = Paths.get(new File("/foo/bar/sub/").toURI())
                 .resolve("../../../../../toplevel")
                 .normalize()
@@ -74,7 +74,7 @@ class PathsResolveTest {
     }
 
     @Test
-    void "resolve module id with leading /"() {
+    void "resolve module id with leading _slash_"() {
         def path = Paths.get(new File("/foo/bar").toURI())
                 .resolve("/toplevel")
                 .normalize()
@@ -88,7 +88,8 @@ class PathsResolveTest {
         def modulePath = Paths.get(
             new File("/full/path/to/my/repo/my/module.index.js").toURI())
 
-        def moduleRepoPath = Paths.get("/", basePath.relativize(modulePath).toString());
+        def moduleRepoPath = Paths.get("/",
+            basePath.relativize(modulePath).toString())
         println(moduleRepoPath)
 
     }
@@ -104,6 +105,5 @@ class PathsResolveTest {
             repoBasePath.toString(),
             moduleRepoPath.toString())
         println(moduleFilePath)
-
     }
 }

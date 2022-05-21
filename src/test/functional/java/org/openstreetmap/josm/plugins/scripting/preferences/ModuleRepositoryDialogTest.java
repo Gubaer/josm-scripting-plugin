@@ -6,7 +6,6 @@ import org.openstreetmap.josm.plugins.scripting.preferences.rhino.ModuleReposito
 import javax.swing.*;
 import java.awt.*;
 
-
 public class ModuleRepositoryDialogTest extends JFrame {
 
     ModuleRepositoryDialogTest() throws Exception {

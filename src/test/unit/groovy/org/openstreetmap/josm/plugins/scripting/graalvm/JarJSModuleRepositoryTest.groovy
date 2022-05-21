@@ -1,23 +1,20 @@
 package org.openstreetmap.josm.plugins.scripting.graalvm
 
-
-import org.junit.BeforeClass
-import org.junit.Ignore
-import org.junit.Test
+import groovy.test.GroovyTestCase
+import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.Disabled
+import org.junit.jupiter.api.Test
 
 import java.util.jar.JarFile
 import java.util.logging.ConsoleHandler
 import java.util.logging.Level
 import java.util.logging.Logger
 
-import static groovy.test.GroovyAssert.shouldFail
-import static org.junit.Assert.*
-
-class JarJSModuleRepositoryTest  {
+class JarJSModuleRepositoryTest extends GroovyTestCase {
 
     static def projectHome
 
-    @BeforeClass
+    @BeforeAll
     static void readEnvironmentVariables() {
         projectHome = System.getenv("JOSM_SCRIPTING_PLUGIN_HOME")
         if (projectHome == null) {
@@ -26,7 +23,7 @@ class JarJSModuleRepositoryTest  {
         }
     }
 
-    @BeforeClass
+    @BeforeAll
     static void enableLogging() {
         Logger.getLogger(BaseJSModuleRepository.class.getName())
                 .setLevel(Level.FINE)
@@ -48,78 +45,94 @@ class JarJSModuleRepositoryTest  {
     }
 
     @Test
-    void "constructor: accept an existing jar file"() {
+    void "constructor - accept an existing jar file"() {
         def jar = testJarFile("jar-repo-1.jar")
         new JarJSModuleRepository(jar)
     }
 
-    @Test(expected = NullPointerException)
-    void "constructor: reject null jar"() {
-        new JarJSModuleRepository(null as File)
-    }
-
-    @Test(expected = IOException)
-    void "constructor: reject non existing jar"() {
-        new JarJSModuleRepository(new File("no-such-jar.jar"))
+    @Test
+    void "constructor - reject null jar"() {
+        shouldFail(NullPointerException.class) {
+            new JarJSModuleRepository(null as File)
+        }
     }
 
     @Test
-    void "constructor: accept jar with existing path"() {
+    void "constructor - reject non existing jar"() {
+        shouldFail(IOException.class) {
+            new JarJSModuleRepository(new File("no-such-jar.jar"))
+        }
+    }
+
+    @Test
+    void "constructor - accept jar with existing path"() {
         def jar = testJarFile("jar-repo-2.jar")
         def path = "/foo"
         new JarJSModuleRepository(jar, path)
     }
 
-    @Test(expected = NullPointerException)
-    void "constructor: reject null path"() {
-        def jar = testJarFile("jar-repo-2.jar")
-        new JarJSModuleRepository(jar, null)
-    }
-
-    @Test(expected = IllegalArgumentException)
-    void "constructor: reject empty path"() {
-        def jar = testJarFile("jar-repo-2.jar")
-        new JarJSModuleRepository(jar, " \t ")
-    }
-
-    @Test(expected = IllegalArgumentException)
-    void "constructor: reject non absolute path path"() {
-        def jar = testJarFile("jar-repo-2.jar")
-        new JarJSModuleRepository(jar, "foo")
+    @Test
+    void "constructor - reject null path"() {
+        shouldFail(NullPointerException.class) {
+            def jar = testJarFile("jar-repo-2.jar")
+            new JarJSModuleRepository(jar, null)
+        }
     }
 
     @Test
-    void "constructor: accept jar URI with a root path"() {
+    void "constructor - reject empty path"() {
+        shouldFail(IllegalArgumentException.class) {
+            def jar = testJarFile("jar-repo-2.jar")
+            new JarJSModuleRepository(jar, " \t ")
+        }
+    }
+
+    @Test
+    void "constructor - reject non absolute path path"() {
+        shouldFail(IllegalArgumentException.class) {
+            def jar = testJarFile("jar-repo-2.jar")
+            new JarJSModuleRepository(jar, "foo")
+        }
+    }
+
+    @Test
+    void "constructor - accept jar URI with a root path"() {
         def jar = testJarFile("jar-repo-2.jar")
         new JarJSModuleRepository(new URI("jar:${jar.toURI()}!/"))
     }
 
     @Test
-    void "constructor: accept jar URI with existing jar path"() {
+    void "constructor  accept jar URI with existing jar path"() {
         def jar = testJarFile("jar-repo-2.jar")
         new JarJSModuleRepository(new URI("jar:${jar.toURI()}!/foo"))
     }
 
-    @Test(expected = IOException)
-    void "constructor: reject jar URI with non-existing path"() {
-        def jar = testJarFile("jar-repo-2.jar")
-        new JarJSModuleRepository(new URI("jar:${jar.toURI()}!/no-such-path"))
-    }
-
-    @Test(expected = IOException )
-    void "constructor: reject jar URI pointing to a file jar entry, not a directory"() {
-        def jar = testJarFile("jar-repo-2.jar")
-        new JarJSModuleRepository(new URI("jar:${jar.toURI()}!/bar.js"))
-    }
-
-    @Test(expected = IllegalArgumentException)
-    void "constructor: reject a file URI"() {
-        def jar = testJarFile("jar-repo-2.jar")
-        new JarJSModuleRepository(jar.toURI())
+    @Test
+    void "constructor - reject jar URI with non-existing path"() {
+        shouldFail(IOException) {
+            def jar = testJarFile("jar-repo-2.jar")
+            new JarJSModuleRepository(new URI("jar:${jar.toURI()}!/no-such-path"))
+        }
     }
 
     @Test
-    void "isBaseOf: accept if context is equal to base URI"() {
+    void "constructor - reject jar URI pointing to a file jar entry, not a directory"() {
+        shouldFail(IOException.class) {
+            def jar = testJarFile("jar-repo-2.jar")
+            new JarJSModuleRepository(new URI("jar:${jar.toURI()}!/bar.js"))
+        }
+    }
+
+    @Test
+    void "constructor - reject a file URI"() {
+        shouldFail(IllegalArgumentException.class) {
+            def jar = testJarFile("jar-repo-2.jar")
+            new JarJSModuleRepository(jar.toURI())
+        }
+    }
+
+    @Test
+    void "isBaseOf - accept if context is equal to base URI"() {
         def jar = testJarFile("jar-repo-2.jar")
         def repo = new JarJSModuleRepository(jar)
         def contextUri = new URI("jar:${jar.toURI()}!/")
@@ -127,7 +140,7 @@ class JarJSModuleRepositoryTest  {
     }
 
     @Test
-    void "isBaseOf: accept if context is a child file"() {
+    void "isBaseOf - accept if context is a child file"() {
         def jar = testJarFile("jar-repo-2.jar")
         def repo = new JarJSModuleRepository(jar, "/foo")
         def contextUri = new URI("jar:${jar.toURI()}!/foo/baz.js")
@@ -135,7 +148,7 @@ class JarJSModuleRepositoryTest  {
     }
 
     @Test
-    void "isBaseOf: accept if context is a child path to a file"() {
+    void "isBaseOf - accept if context is a child path to a file"() {
         def jar = testJarFile("jar-repo-2.jar")
         def repo = new JarJSModuleRepository(jar, "/foo")
         def contextUri = new URI("jar:${jar.toURI()}!/foo/bar/baz.js")
@@ -143,7 +156,7 @@ class JarJSModuleRepositoryTest  {
     }
 
     @Test
-    void "isBaseOf: reject if context is in another jar file"() {
+    void "isBaseOf - reject if context is in another jar file"() {
         def jar = testJarFile("jar-repo-2.jar")
         def repo = new JarJSModuleRepository(jar)
 
@@ -153,7 +166,7 @@ class JarJSModuleRepositoryTest  {
     }
 
     @Test
-    void "isBaseOf: reject if context isn't a path prefix"() {
+    void "isBaseOf - reject if context isn't a path prefix"() {
         def jar = testJarFile("jar-repo-2.jar")
         def repo = new JarJSModuleRepository(jar, "/foo")
         def contextUri = new URI("jar:${jar.toURI()}!/bar/baz.js")
@@ -161,7 +174,7 @@ class JarJSModuleRepositoryTest  {
     }
 
     @Test
-    void "isBaseOf: reject if context is only a string prefix, not a path prefix"() {
+    void "isBaseOf - reject if context is only a string prefix, not a path prefix"() {
         def jar = testJarFile("jar-repo-2.jar")
         def repo = new JarJSModuleRepository(jar, "/foo")
         def contextUri = new URI("jar:${jar.toURI()}!/foobar")
@@ -169,7 +182,7 @@ class JarJSModuleRepositoryTest  {
     }
 
     @Test
-    void "resolve: should resolve an existing module 'bar'"() {
+    void "resolve - should resolve an existing module 'bar'"() {
         def jar = testJarFile("jar-repo-2.jar")
         def repo = new JarJSModuleRepository(jar)
         def resolvedUri = repo.resolve("bar")
@@ -177,7 +190,7 @@ class JarJSModuleRepositoryTest  {
     }
 
     @Test
-    void "resolve: should resolve an existing module 'bar.js'"() {
+    void "resolve - should resolve an existing module 'bar_dot_js'"() {
         def jar = testJarFile("jar-repo-2.jar")
         def repo = new JarJSModuleRepository(jar)
         def resolvedUri = repo.resolve("bar.js")
@@ -185,7 +198,7 @@ class JarJSModuleRepositoryTest  {
     }
 
     @Test
-    void "resolve: should resolve an existing module 'foo/baz'"() {
+    void "resolve - should resolve an existing module 'foo_slash_baz'"() {
         def jar = testJarFile("jar-repo-2.jar")
         def repo = new JarJSModuleRepository(jar)
         def resolvedUri = repo.resolve("foo/baz")
@@ -193,7 +206,7 @@ class JarJSModuleRepositoryTest  {
     }
 
     @Test
-    void "resolve: should resolve an existing module 'module-1' with index.js"() {
+    void "resolve - should resolve an existing module 'module-1' with index_dot_js"() {
         def jar = testJarFile("jar-repo-2.jar")
         def repo = new JarJSModuleRepository(jar)
         def resolvedUri = repo.resolve("module-1")
@@ -201,7 +214,7 @@ class JarJSModuleRepositoryTest  {
     }
 
     @Test
-    void "resolve: must not resolve a non-existing module"() {
+    void "resolve - must not resolve a non-existing module"() {
         def jar = testJarFile("jar-repo-2.jar")
         def repo = new JarJSModuleRepository(jar)
         def resolvedUri = repo.resolve("no-such-module")
@@ -209,7 +222,7 @@ class JarJSModuleRepositoryTest  {
     }
 
     @Test
-    void "resolve: must not resolve a non-existing module 'foo/baz/bar'"() {
+    void "resolve - must not resolve a non-existing module 'foo_slash_baz_slash_bar'"() {
         def jar = testJarFile("jar-repo-2.jar")
         def repo = new JarJSModuleRepository(jar)
         def resolvedUri = repo.resolve("foo/baz/bar")
@@ -217,7 +230,7 @@ class JarJSModuleRepositoryTest  {
     }
 
     @Test
-    void "resolve: must not resolve a module 'module-2' with no index.js"() {
+    void "resolve - must not resolve a module 'module-2' with no index_dot_js"() {
         def jar = testJarFile("jar-repo-2.jar")
         def repo = new JarJSModuleRepository(jar)
         def resolvedUri = repo.resolve("module-2")
@@ -225,7 +238,7 @@ class JarJSModuleRepositoryTest  {
     }
 
     @Test
-    void "resolve with context: given context refers to a dir, should resolve existing module with a relative id"() {
+    void "resolve with context - given context refers to a dir, should resolve existing module with a relative id"() {
         def jar = testJarFile("jar-repo-2.jar")
         def repo = new JarJSModuleRepository(jar)
         def contextUri = CommonJSModuleJarURI.buildJarUri(jar.toString(), "/foo")
@@ -234,7 +247,7 @@ class JarJSModuleRepositoryTest  {
     }
 
     @Test
-    void "resolve with context: given context refers to a dir, should resolve existing module with a relative id (2)"() {
+    void "resolve with context - given context refers to a dir, should resolve existing module with a relative id (2)"() {
         def jar = testJarFile("jar-repo-2.jar")
         def repo = new JarJSModuleRepository(jar)
         def contextUri = CommonJSModuleJarURI.buildJarUri(jar.toString(), "/foo")
@@ -243,7 +256,7 @@ class JarJSModuleRepositoryTest  {
     }
 
     @Test
-    void "resolve with context: given context refers to a dir, should resolve existing module with a relative id (3)"() {
+    void "resolve with context - given context refers to a dir, should resolve existing module with a relative id (3)"() {
         def jar = testJarFile("jar-repo-2.jar")
         def repo = new JarJSModuleRepository(jar)
         def contextUri = CommonJSModuleJarURI.buildJarUri(jar.toString(), "/foo")
@@ -252,7 +265,7 @@ class JarJSModuleRepositoryTest  {
     }
 
     @Test
-    void "resolve with context: given context refers to a file, should resolve existing module"() {
+    void "resolve with context - given context refers to a file, should resolve existing module"() {
         def jar = testJarFile("jar-repo-2.jar")
         def repo = new JarJSModuleRepository(jar)
         def contextUri = CommonJSModuleJarURI.buildJarUri(jar.toString(), "/foo/baz.js")
@@ -266,7 +279,7 @@ class JarJSModuleRepositoryTest  {
     // for the JOSM scripting plugin
     // ----------------------------------------------------------------------
     @Test
-    @Ignore
+    @Disabled
     void "can create jar URI with relative path"() {
         def jar = testJarFile("jar-repo-2.jar")
         def uri1 = new URI("jar:${jar.toURI()}!../")
@@ -302,7 +315,7 @@ class JarJSModuleRepositoryTest  {
     }
 
     @Test
-    @Ignore
+    @Disabled
     void "list jar entries"() {
         def jar = testJarFile("jar-repo-2.jar")
         def jarFile = new JarFile(jar)
@@ -318,7 +331,7 @@ class JarJSModuleRepositoryTest  {
     }
 
     @Test
-    @Ignore
+    @Disabled
     void "build jar URLs"() {
         def jar = testJarFile("jar-repo-2.jar")
         def uri1 =  new URI("jar:file:${jar.getAbsolutePath()}!/")
@@ -336,8 +349,8 @@ class JarJSModuleRepositoryTest  {
     }
 
     @Test
-    @Ignore
-    void "test java.nio.Paths operations"() {
+    @Disabled
+    void "test java_dot_nio_dot_Paths operations"() {
         def path = new File("/../../").toPath().normalize().toString()
         assertEquals("/", path)
 

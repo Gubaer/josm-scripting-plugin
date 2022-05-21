@@ -1,20 +1,14 @@
 package org.openstreetmap.josm.plugins.scripting.graalvm
 
+import groovy.test.GroovyTestCase
 import org.graalvm.polyglot.Value
-import org.junit.Ignore
-import org.junit.Test
+import org.junit.jupiter.api.Test
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineMetaDataProvider
 
 import java.util.stream.Collectors
 
-import static org.junit.Assert.assertFalse
-import static org.junit.Assert.assertNotNull
-import static org.junit.Assert.assertTrue
-import static org.junit.Assert.assertEquals
-import static org.junit.Assert.fail
-
-class GraalVMPresentTest {
+class GraalVMPresentTest extends GroovyTestCase {
 
     @Test
     void shouldDetectGraalVMPresent() {
@@ -98,7 +92,7 @@ class GraalVMPresentTest {
             result?.asHostObject()?.toString())
     }
 
-    @Test(expected = GraalVMEvalException)
+    @Test
     void "must not access a class in a foreign namespace"() {
         def script = """
         const DefaultMustacheFactory = Java.type(
@@ -108,8 +102,9 @@ class GraalVMPresentTest {
         def js = getJavaScriptScriptEngineDescriptor()
         def facade = GraalVMFacadeFactory.getOrCreateGraalVMFacade()
 
-        // should throw
-        facade.eval(js, script) as Value
+        shouldFail(GraalVMEvalException.class) {
+            facade.eval(js, script) as Value
+        }
     }
 
     @Test
@@ -121,11 +116,8 @@ class GraalVMPresentTest {
         assertEquals(2, value?.asInt())
         facade.resetContext()
         script = "a"
-        try {
+        shouldFail(GraalVMEvalException.class) {
             facade.eval(js, script) as Value
-            fail("should have failed, 'a' should not be defined in the context")
-        } catch(GraalVMEvalException ignored) {
-            //OK. Expected this test to throw
         }
     }
 

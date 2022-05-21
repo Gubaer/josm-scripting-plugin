@@ -1,8 +1,8 @@
 package org.openstreetmap.josm.plugins.scripting.v1;
 
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.openstreetmap.josm.plugins.PluginException;
 import org.openstreetmap.josm.plugins.PluginHandler;
 import org.openstreetmap.josm.plugins.PluginInformation;
@@ -26,12 +26,12 @@ public class ScriptApiTest {
     private RhinoEngine engine;
     private static JOSMFixture fixture;
 
-    @BeforeClass
+    @BeforeAll
     public static void init() throws Exception {
         fixture = new JOSMFixture(true);
     }
 
-    @Before
+    @BeforeEach
     public void setup() throws PluginException, IOException {
         final String projectDirEnv =
             System.getenv("JOSM_SCRIPTING_PLUGIN_HOME");
@@ -68,9 +68,9 @@ public class ScriptApiTest {
               + "releases/download/pickup-release/contourmerge.jar");
         final ReadableByteChannel rbc = Channels.newChannel(
                 downloadUrl.openStream());
-        final FileOutputStream os = new FileOutputStream(
-                localContourmergePluginJar());
-        os.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
+        try(final FileOutputStream os = new FileOutputStream(localContourmergePluginJar())) {
+            os.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
+        }
     }
 
     @Test

@@ -1,19 +1,18 @@
 package org.openstreetmap.josm.plugins.scripting.graalvm
 
-import org.junit.BeforeClass
-import org.junit.Test
+import groovy.test.GroovyTestCase
+import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.Test
 
 import java.util.logging.ConsoleHandler
 import java.util.logging.Level
 import java.util.logging.Logger
 
-import static org.junit.Assert.*
+class FileSystemJSModuleRepositoryTest extends GroovyTestCase {
 
-class FileSystemJSModuleRepositoryTest {
+    private static String moduleRepo
 
-    static def moduleRepo
-
-    @BeforeClass
+    @BeforeAll
     static void readEnvironmentVariables() {
         moduleRepo = System.getenv("JOSM_SCRIPTING_PLUGIN_HOME")
         if (moduleRepo == null) {
@@ -22,10 +21,10 @@ class FileSystemJSModuleRepositoryTest {
         moduleRepo += "/test/data/require/modules"
     }
 
-    @BeforeClass
+    @BeforeAll
     static void enableLogging() {
         Logger.getLogger(BaseJSModuleRepository.class.getName())
-             .setLevel(Level.FINE);
+             .setLevel(Level.FINE)
 
         Logger.getLogger("")
             .getHandlers().findAll {
@@ -49,21 +48,27 @@ class FileSystemJSModuleRepositoryTest {
         assertEquals("file:/foo/bar", repo.baseURI.toString())
     }
 
-    @Test(expected = NullPointerException)
+    @SuppressWarnings('GroovyResultOfObjectAllocationIgnored')
+    @Test
     void "should reject null as base dir"() {
-        new FileSystemJSModuleRepository(null as String)
-        new FileSystemJSModuleRepository(null as File)
+        shouldFail(NullPointerException.class) {
+            new FileSystemJSModuleRepository(null as String)
+            new FileSystemJSModuleRepository(null as File)
+        }
     }
 
-    @Test(expected = IllegalStateException)
-    void "resolve: should fail if repo base doesn't exist"() {
-        def base = "/no/such/dir"
-        def repo = new FileSystemJSModuleRepository(base)
-        def moduleUri = repo.resolve("./my-module")
+    @SuppressWarnings('GroovyUnusedAssignment')
+    @Test
+    void "resolve - should fail if repo base doesn't exist"() {
+        shouldFail(IllegalStateException.class) {
+            def base = "/no/such/dir"
+            def repo = new FileSystemJSModuleRepository(base)
+            def moduleUri = repo.resolve("./my-module")
+        }
     }
 
     @Test
-    void "resolve: should succeed for toplevel module id"() {
+    void "resolve - should succeed for top level module id"() {
         def baseDir = new File(moduleRepo)
         def repo = new FileSystemJSModuleRepository(baseDir)
         def moduleUri = repo.resolve("module2")
@@ -72,7 +77,7 @@ class FileSystemJSModuleRepositoryTest {
     }
 
     @Test
-    void "resolve: should succeed for toplevel module id with suffix .js"() {
+    void "resolve - should succeed for top level module id with suffix js"() {
         def baseDir = new File(moduleRepo)
         def repo = new FileSystemJSModuleRepository(baseDir)
         def moduleUri = repo.resolve("module1")
@@ -80,15 +85,17 @@ class FileSystemJSModuleRepositoryTest {
         assertEquals(expected, moduleUri.get())
     }
 
-    @Test(expected = IllegalArgumentException)
-    void "resolve: should reject id with leading '/'"() {
-        def baseDir = new File(moduleRepo)
-        def repo = new FileSystemJSModuleRepository(baseDir)
-        repo.resolve("/module2")
+    @Test
+    void "resolve - should reject id with leading forward slash"() {
+        shouldFail(IllegalArgumentException.class) {
+            def baseDir = new File(moduleRepo)
+            def repo = new FileSystemJSModuleRepository(baseDir)
+            repo.resolve("/module2")
+        }
     }
 
     @Test
-    void "resolve: should reject a module which refers to a directory"() {
+    void "resolve - should reject a module which refers to a directory"() {
         def baseDir = new File(moduleRepo)
         def repo = new FileSystemJSModuleRepository(baseDir)
         def moduleUri = repo.resolve("sub")
@@ -96,7 +103,7 @@ class FileSystemJSModuleRepositoryTest {
     }
 
     @Test
-    void "resolve: should accept relative segments '..' in a module id"() {
+    void "resolve - should accept relative segments _dot__dot_ in a module id"() {
         def baseDir = new File(moduleRepo)
         def repo = new FileSystemJSModuleRepository(baseDir)
         def moduleUri = repo.resolve("sub/../module2")
@@ -105,7 +112,7 @@ class FileSystemJSModuleRepositoryTest {
     }
 
     @Test
-    void "resolve: should accept relative segments '.' in a module id"() {
+    void "resolve - should accept relative segments _dot_ in a module id"() {
         def baseDir = new File(moduleRepo)
         def repo = new FileSystemJSModuleRepository(baseDir)
         def moduleUri = repo.resolve("./sub/.././module2")
@@ -114,7 +121,7 @@ class FileSystemJSModuleRepositoryTest {
     }
 
     @Test
-    void "resolve: should ignore too many .. segments in a module URI "() {
+    void "resolve - should ignore too many _dot__dot_ segments in a module URI "() {
         def baseDir = new File(moduleRepo)
         def repo = new FileSystemJSModuleRepository(baseDir)
         def moduleUri = repo.resolve("../../module1")
@@ -122,7 +129,7 @@ class FileSystemJSModuleRepositoryTest {
     }
 
     @Test
-    void "isBase: should work for context URIs starting with file:///"() {
+    void "isBase - should work for context URIs starting with file_colon__slash__slash__slash_"() {
         def baseDir = new File(moduleRepo)
         def repo = new FileSystemJSModuleRepository(baseDir)
         def moduleUri = new URI("file://" + baseDir.absolutePath + "/module3.js")
@@ -132,8 +139,8 @@ class FileSystemJSModuleRepositoryTest {
 
     // ----------------------------------------------------------------------
     // resolution against a context path
-
-    void "resolve with context: should succeed for toplevel module id"() {
+    @Test
+    void "resolve with context - should succeed for top level module id"() {
         def baseDir = new File(moduleRepo)
         def contextUri = new File(baseDir, "sub").toURI()
         def repo = new FileSystemJSModuleRepository(baseDir)
@@ -143,7 +150,7 @@ class FileSystemJSModuleRepositoryTest {
     }
 
     @Test
-    void "resolve with context: should succeed for toplevel module id with suffix .js"() {
+    void "resolve with context - should succeed for top level module id with suffix _dot_js"() {
         def baseDir = new File(moduleRepo)
         def contextUri = new File(baseDir, "sub").toURI()
         def repo = new FileSystemJSModuleRepository(baseDir)
@@ -152,16 +159,18 @@ class FileSystemJSModuleRepositoryTest {
         assertEquals(expected, moduleUri.get())
     }
 
-    @Test(expected = IllegalArgumentException)
-    void "resolve with context: should reject id with leading '/'"() {
-        def baseDir = new File(moduleRepo)
-        def contextUri = new File(baseDir, "sub").toURI()
-        def repo = new FileSystemJSModuleRepository(baseDir)
-        repo.resolve("/module2", contextUri)
+    @Test
+    void "resolve with context - should reject id with leading _slash_"() {
+        shouldFail(IllegalArgumentException.class) {
+            def baseDir = new File(moduleRepo)
+            def contextUri = new File(baseDir, "sub").toURI()
+            def repo = new FileSystemJSModuleRepository(baseDir)
+            repo.resolve("/module2", contextUri)
+        }
     }
 
     @Test
-    void "resolve with context: should reject a module which refers to a directory"() {
+    void "resolve with context - should reject a module which refers to a directory"() {
         def baseDir = new File(moduleRepo)
         def contextUri = new File(baseDir, "sub").toURI()
         def repo = new FileSystemJSModuleRepository(baseDir)
@@ -170,7 +179,7 @@ class FileSystemJSModuleRepositoryTest {
     }
 
     @Test
-    void "resolve with context: should accept and resolve relative segments '..' in a module id"() {
+    void "resolve with context - should accept and resolve relative segments _dot__dot_ in a module id"() {
         def baseDir = new File(moduleRepo)
         def repo = new FileSystemJSModuleRepository(baseDir)
         def contextUri = new File(baseDir, "sub").toURI()
@@ -180,7 +189,7 @@ class FileSystemJSModuleRepositoryTest {
     }
 
     @Test
-    void "resolve with context: should accept and resolve relative segments '.' in a module id"() {
+    void "resolve with context - should accept and resolve relative segments _dot_ in a module id"() {
         def baseDir = new File(moduleRepo)
         def repo = new FileSystemJSModuleRepository(baseDir)
         def contextUri = new File(baseDir, "sub/module4").toURI()
@@ -190,13 +199,11 @@ class FileSystemJSModuleRepositoryTest {
     }
 
     @Test
-    void "resolve with context: should accept relative ids leaving with too many .. segments"() {
+    void "resolve with context - should accept relative ids leaving with too many _dot__dot_ segments"() {
         def baseDir = new File(moduleRepo)
         def repo = new FileSystemJSModuleRepository(baseDir)
         def contextUri = new File(baseDir, "sub/module4").toURI()
         def moduleUri = repo.resolve("../../../../module1", contextUri)
         assertTrue(moduleUri.isPresent())
     }
-
-
 }

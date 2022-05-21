@@ -1,26 +1,22 @@
 package org.openstreetmap.josm.plugins.scripting.graalvm
 
+import groovy.test.GroovyTestCase
 import org.graalvm.polyglot.Context
-import org.junit.After
-import org.junit.Before
-import org.junit.BeforeClass
-import org.junit.Test
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 import java.util.logging.ConsoleHandler
 import java.util.logging.Level
 import java.util.logging.Logger
 
-import static org.junit.Assert.fail
-import static org.junit.Assert.assertEquals
-import static org.junit.Assert.assertNull
-import static org.junit.Assert.assertNotNull
+class RequireFunctionTest extends GroovyTestCase {
 
-class RequireFunctionTest {
+    static String moduleRepoPath
+    static ICommonJSModuleRepository moduleRepo
 
-    static def String moduleRepoPath
-    static def ICommonJSModuleRepository moduleRepo
-
-    @BeforeClass
+    @BeforeAll
     static void readEnvironmentVariables() {
         moduleRepoPath = System.getenv("TEST_COMMONJS_MODULE_REPO")
         if (moduleRepoPath == null) {
@@ -30,10 +26,10 @@ class RequireFunctionTest {
         moduleRepo = new FileSystemJSModuleRepository(moduleRepoPath)
     }
 
-    @BeforeClass
+    @BeforeAll
     static void enableogging() {
         Logger.getLogger(FileSystemJSModuleRepository.class.getName())
-                .setLevel(Level.FINE);
+                .setLevel(Level.FINE)
 
         Logger.getLogger("")
                 .getHandlers().findAll {
@@ -43,15 +39,15 @@ class RequireFunctionTest {
         }
     }
 
-    Context context;
+    Context context
 
-    @Before
+    @BeforeEach
     void resetRepositoryRegistry() {
         CommonJSModuleRepositoryRegistry.instance.clear()
         CommonJSModuleRepositoryRegistry.instance.addUserDefinedRepository(moduleRepo)
     }
 
-    @Before
+    @BeforeEach
     void initContext() {
         context = Context.newBuilder("js")
             .allowAllAccess(true)
@@ -59,14 +55,14 @@ class RequireFunctionTest {
         context.enter()
     }
 
-    @After
+    @AfterEach
     void clearContext() {
         context?.leave()
         context?.close()
     }
 
     @Test
-    void "create: can create with a non-null URI"() {
+    void "create - can create with a non-null URI"() {
         def contextURI = new File(new File(moduleRepo.getBaseURI()),
                 "foo/bar.js").toURI()
         def require = new RequireFunction(contextURI)
@@ -74,13 +70,13 @@ class RequireFunctionTest {
     }
 
     @Test
-    void "create: can create with a null URI"() {
+    void "create - can create with a null URI"() {
         def require = new RequireFunction(null)
         assertNull(require.getContextURI())
     }
 
     @Test
-    void "apply: can require an existing absolute module ID"() {
+    void "apply - can require an existing absolute module ID"() {
         def require = new RequireFunction(null)
         def value = require.apply("module2")
         assertNotNull(value)
@@ -88,7 +84,7 @@ class RequireFunctionTest {
     }
 
     @Test
-    void "apply: can require an existing relative URI from a context"() {
+    void "apply - can require an existing relative URI from a context"() {
         def contextURI = new File(new File(moduleRepo.getBaseURI()),
                 "module2").toURI()
         def require = new RequireFunction(contextURI)
@@ -97,20 +93,25 @@ class RequireFunctionTest {
         assertEquals("module 4", value?.getMember("message")?.asString())
     }
 
-    @Test(expected = RequireFunctionException)
-    void "apply: should throw if module is not available"() {
-        def require = new RequireFunction(null)
-        require.apply("no-such-module")
+    @Test
+    void "apply - should throw if module is not available"() {
+        shouldFail(RequireFunctionException.class) {
+            def require = new RequireFunction(null)
+            require.apply("no-such-module")
+        }
     }
 
-    @Test(expected = RequireFunctionException)
-    void "apply: should throw if the module source is invalid"() {
-        def require = new RequireFunction(null)
-        def value = require.apply("moduleWithIllegalSyntax")
+    @SuppressWarnings('GroovyUnusedAssignment')
+    @Test
+    void "apply - should throw if the module source is invalid"() {
+        shouldFail(RequireFunctionException.class) {
+            def require = new RequireFunction(null)
+            def value = require.apply("moduleWithIllegalSyntax")
+        }
     }
 
     @Test
-    void "apply: can require a set of nested modules"() {
+    void "apply - can require a set of nested modules"() {
         def require = new RequireFunction(null)
         def value = require.apply("module3")
         assertNotNull(value)

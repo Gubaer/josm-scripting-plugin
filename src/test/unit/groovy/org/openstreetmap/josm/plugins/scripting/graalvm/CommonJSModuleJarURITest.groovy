@@ -1,16 +1,14 @@
 package org.openstreetmap.josm.plugins.scripting.graalvm
 
-import org.junit.BeforeClass
-import org.junit.Test
-import static org.junit.Assert.assertEquals
-import static org.junit.Assert.assertTrue
-import static org.junit.Assert.assertFalse
+import groovy.test.GroovyTestCase
+import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.Test
 
-class CommonJSModuleJarURITest {
+class CommonJSModuleJarURITest extends GroovyTestCase{
 
     static def projectHome
 
-    @BeforeClass
+    @BeforeAll
     static void readEnvironmentVariables() {
         projectHome = System.getenv("JOSM_SCRIPTING_PLUGIN_HOME")
         if (projectHome == null) {
@@ -28,7 +26,7 @@ class CommonJSModuleJarURITest {
     }
 
     @Test
-    void "constructor: accept valid URI"() {
+    void "constructor - accept valid URI"() {
         def urispec = "jar:file://${testJarFile('jar-repo-1.jar')}!/foo/bar.js"
         def uri = new CommonJSModuleJarURI(new URI(urispec))
         assertEquals("/foo/bar.js", uri.getJarEntryPathAsString())
@@ -37,74 +35,82 @@ class CommonJSModuleJarURITest {
             uri.getJarFilePath())
     }
 
-    @Test(expected = IllegalArgumentException)
-    void "constructor: reject http URI"() {
-        def urispec = "http://www.foo.bar"
-        new CommonJSModuleJarURI(new URI(urispec))
-    }
-
-    @Test(expected = IllegalArgumentException)
-    void "constructor: reject embedded http URI"() {
-        def urispec = "jar:http://www.foo.bar!/foo/bar.js"
-        new CommonJSModuleJarURI(new URI(urispec))
-    }
-
-    @Test(expected = IllegalArgumentException)
-    void "constructor: reject when jar entry path missing"() {
-        def urispec = "jar:file://${testJarFile('jar-repo-1.jar')}"
-        new CommonJSModuleJarURI(new URI(urispec))
-    }
-
-    @Test(expected = IllegalArgumentException)
-    void "constructor: reject when jar entry path not absolute"() {
-        def urispec = "jar:file://${testJarFile('jar-repo-1.jar')}!../foo.js"
-        new CommonJSModuleJarURI(new URI(urispec))
+    @Test
+    void "constructor - reject http URI"() {
+        shouldFail(IllegalArgumentException.class) {
+            def urispec = "http://www.foo.bar"
+            new CommonJSModuleJarURI(new URI(urispec))
+        }
     }
 
     @Test
-    void "refersToReadableFile: true for existing readable file"() {
+    void "constructor - reject embedded http URI"() {
+        shouldFail(IllegalArgumentException.class) {
+            def urispec = "jar:http://www.foo.bar!/foo/bar.js"
+            new CommonJSModuleJarURI(new URI(urispec))
+        }
+    }
+
+    @Test
+    void "constructor - reject when jar entry path missing"() {
+        shouldFail(IllegalArgumentException.class) {
+            def urispec = "jar:file://${testJarFile('jar-repo-1.jar')}"
+            new CommonJSModuleJarURI(new URI(urispec))
+        }
+    }
+
+    @Test
+    void "constructor - reject when jar entry path not absolute"() {
+        shouldFail(IllegalArgumentException.class) {
+            def urispec = "jar:file://${testJarFile('jar-repo-1.jar')}!../foo.js"
+            new CommonJSModuleJarURI(new URI(urispec))
+        }
+    }
+
+    @Test
+    void "refersToReadableFile - true for existing readable file"() {
         def urispec = "jar:file://${testJarFile('jar-repo-1.jar')}!/foo.js"
         def uri = new CommonJSModuleJarURI(new URI(urispec))
         assertTrue(uri.refersToReadableFile())
     }
 
     @Test
-    void "refersToReadableFile: false for non-existing file"() {
+    void "refersToReadableFile - false for non-existing file"() {
         def urispec = "jar:file://${testJarFile('no-such-jar.jar')}!/foo.js"
         def uri = new CommonJSModuleJarURI(new URI(urispec))
         assertFalse(uri.refersToReadableFile())
     }
 
     @Test
-    void "refersToReadableFile: false for directory"() {
+    void "refersToReadableFile - false for directory"() {
         def urispec = "jar:file://${jarReposBaseDir()}!/foo.js"
         def uri = new CommonJSModuleJarURI(new URI(urispec))
         assertFalse(uri.refersToReadableFile())
     }
 
     @Test
-    void "refersToJarFile: true for existing jar file"() {
+    void "refersToJarFile - true for existing jar file"() {
         def urispec = "jar:file://${testJarFile('jar-repo-1.jar')}!/foo.js"
         def uri = new CommonJSModuleJarURI(new URI(urispec))
         assertTrue(uri.refersToJarFile())
     }
 
     @Test
-    void "refersToJarFile: false for non-existing file"() {
+    void "refersToJarFile - false for non-existing file"() {
         def urispec = "jar:file://${testJarFile('no-such-jar.jar')}!/foo.js"
         def uri = new CommonJSModuleJarURI(new URI(urispec))
         assertFalse(uri.refersToJarFile())
     }
 
     @Test
-    void "refersToJarFile: false for directory"() {
+    void "refersToJarFile - false for directory"() {
         def urispec = "jar:file://${jarReposBaseDir()}!/foo.js"
         def uri = new CommonJSModuleJarURI(new URI(urispec))
         assertFalse(uri.refersToJarFile())
     }
 
     @Test
-    void "normalized: should normalize file path and jar entry path"() {
+    void "normalized - should normalize file path and jar entry path"() {
         def filepath = "${jarReposBaseDir()}/test/data/jar-repos/foo/.././../jar-repos/jar-repo-1.jar"
         def jarEntryPath = "/foo/../bar/./../foo.js"
         def urispec = "jar:file://${filepath}!${jarEntryPath}".toString()
@@ -119,7 +125,7 @@ class CommonJSModuleJarURITest {
     }
 
     @Test
-    void "toUri: should build jar URI"() {
+    void "toUri - should build jar URI"() {
         def urispec = "jar:file://${testJarFile('jar-repo-1.jar')}!/foo/bar.js".toString()
         def uri = new CommonJSModuleJarURI(new URI(urispec))
         def converted = uri.toURI().toString()
@@ -127,7 +133,7 @@ class CommonJSModuleJarURITest {
     }
 
     @Test
-    void "refersToDirectoryJarEntry: true, if directory exists"() {
+    void "refersToDirectoryJarEntry - true, if directory exists"() {
         def urispec = "jar:file://${testJarFile('jar-repo-2.jar')}!/foo"
                 .toString()
         def uri = new CommonJSModuleJarURI(new URI(urispec))
@@ -135,7 +141,7 @@ class CommonJSModuleJarURITest {
     }
 
     @Test
-    void "refersToDirectoryJarEntry: false, if entry does not exist"() {
+    void "refersToDirectoryJarEntry - false, if entry does not exist"() {
         def urispec = "jar:file://${testJarFile('jar-repo-2.jar')}!/no-such-entry"
                 .toString()
         def uri = new CommonJSModuleJarURI(new URI(urispec))
@@ -143,7 +149,7 @@ class CommonJSModuleJarURITest {
     }
 
     @Test
-    void "refersToDirectoryJarEntry: false, if entry is a file"() {
+    void "refersToDirectoryJarEntry - false, if entry is a file"() {
         def urispec = "jar:file://${testJarFile('jar-repo-2.jar')}!/foo/bar.js"
                 .toString()
         def uri = new CommonJSModuleJarURI(new URI(urispec))
@@ -151,7 +157,7 @@ class CommonJSModuleJarURITest {
     }
 
     @Test
-    void "isBaseOf: true, if other is a 'child' URI"() {
+    void "isBaseOf - true, if other is a 'child' URI"() {
 
         def base = "jar:file://${testJarFile('jar-repo-2.jar')}!/foo"
                 .toString()
@@ -163,7 +169,7 @@ class CommonJSModuleJarURITest {
     }
 
     @Test
-    void "isBaseOf: false, if other refers to different file"() {
+    void "isBaseOf - false, if other refers to different file"() {
 
         def base = "jar:file://${testJarFile('jar-repo-2.jar')}!/foo"
                 .toString()
@@ -176,7 +182,7 @@ class CommonJSModuleJarURITest {
     }
 
     @Test
-    void "isBaseOf: false, if other jar entry path isn't a prefix"() {
+    void "isBaseOf - false, if other jar entry path isn't a prefix"() {
 
         def base = "jar:file://${testJarFile('jar-repo-2.jar')}!/foo"
                 .toString()
@@ -189,7 +195,7 @@ class CommonJSModuleJarURITest {
     }
 
     @Test
-    void "toResolutionContextUri: identical, if jar entry path is '/'"() {
+    void "toResolutionContextUri - identical, if jar entry path is a forward slash"() {
         def urispec = "jar:file://${testJarFile('jar-repo-2.jar')}!/".toString()
         def uri = new CommonJSModuleJarURI(new URI(urispec))
         def resolutionContextUri = uri.toResolutionContextUri()
@@ -197,7 +203,7 @@ class CommonJSModuleJarURITest {
     }
 
     @Test
-    void "toResolutionContextUri: identical, if jar entry path is a dir"() {
+    void "toResolutionContextUri - identical, if jar entry path is a dir"() {
         def urispec = "jar:file://${testJarFile('jar-repo-2.jar')}!/foo".toString()
         def uri = new CommonJSModuleJarURI(new URI(urispec))
         def resolutionContextUri = uri.toResolutionContextUri()
@@ -205,7 +211,7 @@ class CommonJSModuleJarURITest {
     }
 
     @Test
-    void "toResolutionContextUri: parent, if jar entry path is a file"() {
+    void "toResolutionContextUri - parent, if jar entry path is a file"() {
         def urispec = "jar:file://${testJarFile('jar-repo-2.jar')}!/foo/baz.js".toString()
         def expectd = "jar:file://${testJarFile('jar-repo-2.jar')}!/foo".toString()
         def uri = new CommonJSModuleJarURI(new URI(urispec))

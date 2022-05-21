@@ -1,12 +1,11 @@
 package org.openstreetmap.josm.plugins.scripting.js
 
+import groovy.test.GroovyTestCase
+import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.BeforeAll
 
-import static org.junit.Assert.fail
-
-class JOSMModuleScriptProviderTest {
+class JOSMModuleScriptProviderTest extends GroovyTestCase {
 
     @BeforeAll
     static void init() {

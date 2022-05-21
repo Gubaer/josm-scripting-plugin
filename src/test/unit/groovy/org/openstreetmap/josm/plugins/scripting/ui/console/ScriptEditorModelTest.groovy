@@ -1,31 +1,31 @@
 package org.openstreetmap.josm.plugins.scripting.ui.console
 
+import groovy.test.GroovyTestCase
 import org.junit.jupiter.api.Test
-
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor
 
 import java.beans.PropertyChangeEvent
 import java.beans.PropertyChangeListener
 
-class ScriptEditorModelTest {
+class ScriptEditorModelTest extends GroovyTestCase {
 
     @Test
     void create() {
         def model = new ScriptEditorModel()
-        assert model.getScriptFile().empty
-        assert model.getScriptEngineDescriptor() == ScriptEngineDescriptor.DEFAULT_SCRIPT_ENGINE
+        assertTrue(model.getScriptFile().empty)
+        assertEquals(ScriptEngineDescriptor.DEFAULT_SCRIPT_ENGINE, model.getScriptEngineDescriptor())
     }
 
     @Test
     void createWithDescriptor() {
         def model = new ScriptEditorModel(null)
-        assert model.getScriptFile().empty
-        assert model.getScriptEngineDescriptor() == ScriptEngineDescriptor.DEFAULT_SCRIPT_ENGINE
+        assertTrue(model.getScriptFile().empty)
+        assertEquals( ScriptEngineDescriptor.DEFAULT_SCRIPT_ENGINE, model.getScriptEngineDescriptor())
 
         def desc = new ScriptEngineDescriptor("groovy")
         model = new ScriptEditorModel(desc)
-        assert model.getScriptFile().empty
-        assert model.getScriptEngineDescriptor() == desc
+        assertTrue(model.getScriptFile().empty)
+        assertEquals(desc,model.getScriptEngineDescriptor())
     }
 
     @Test
@@ -42,8 +42,8 @@ class ScriptEditorModelTest {
         def scriptFile = new File("myscript.js")
         model.setScriptFile(scriptFile)
 
-        assert model.getScriptFile().get() == scriptFile
-        assert newValue == scriptFile, "Property change listener not notified "
+        assertEquals(scriptFile, model.getScriptFile().get())
+        assertEquals(scriptFile, newValue)
         model.removePropertyChangeListener(listener)
     }
 
@@ -61,8 +61,8 @@ class ScriptEditorModelTest {
         def desc = new ScriptEngineDescriptor("groovy")
         model.setScriptEngineDescriptor(desc)
 
-        assert model.getScriptEngineDescriptor() == desc
-        assert newValue == desc
+        assertEquals(desc, model.getScriptEngineDescriptor())
+        assertEquals(desc, newValue)
         model.removePropertyChangeListener(listener)
     }
 
@@ -71,6 +71,6 @@ class ScriptEditorModelTest {
         def model = new ScriptEditorModel()
         model.setScriptEngineDescriptor(null)
 
-        assert model.getScriptEngineDescriptor() == ScriptEngineDescriptor.DEFAULT_SCRIPT_ENGINE
+        assertEquals(ScriptEngineDescriptor.DEFAULT_SCRIPT_ENGINE, model.getScriptEngineDescriptor())
     }
 }

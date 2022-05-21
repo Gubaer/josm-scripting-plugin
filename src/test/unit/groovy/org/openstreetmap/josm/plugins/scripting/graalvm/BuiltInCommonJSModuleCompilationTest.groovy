@@ -1,9 +1,8 @@
 package org.openstreetmap.josm.plugins.scripting.graalvm
 
-
-import org.junit.Before
-import org.junit.BeforeClass
-import org.junit.Test
+import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 import java.util.logging.ConsoleHandler
 import java.util.logging.Level
@@ -16,7 +15,7 @@ class BuiltInCommonJSModuleCompilationTest {
     static String moduleRepoPath
     static ICommonJSModuleRepository moduleRepo
 
-    @BeforeClass
+    @BeforeAll
     static void readEnvironmentVariables() {
         moduleRepoPath = System.getenv("JOSM_SCRIPTING_PLUGIN_HOME")
         if (moduleRepoPath == null) {
@@ -26,10 +25,10 @@ class BuiltInCommonJSModuleCompilationTest {
         moduleRepo = new FileSystemJSModuleRepository(moduleRepoPath)
     }
 
-    @BeforeClass
+    @BeforeAll
     static void enableLogging() {
         Logger.getLogger(FileSystemJSModuleRepository.class.getName())
-                .setLevel(Level.FINE);
+                .setLevel(Level.FINE)
 
         Logger.getLogger("")
                 .getHandlers().findAll {
@@ -39,25 +38,25 @@ class BuiltInCommonJSModuleCompilationTest {
         }
     }
 
-    static def IGraalVMFacade facade
-    @BeforeClass
+    static IGraalVMFacade facade
+    @BeforeAll
     static void initGraalVMFacade() {
         facade = GraalVMFacadeFactory.getOrCreateGraalVMFacade()
     }
 
-    @Before
+    @BeforeEach
     void resetRepositoryRegistry() {
         CommonJSModuleRepositoryRegistry.instance.clear()
         CommonJSModuleRepositoryRegistry.instance.addUserDefinedRepository(moduleRepo)
     }
 
-    @Before
+    @BeforeEach
     void resetContext() {
         facade.resetContext()
     }
 
     @Test
-    void "can evaluate module 'josm/util'"() {
+    void "can evaluate module 'josm util'"() {
         def require = new RequireFunction(null)
         require.apply("josm/util")
     }
@@ -69,31 +68,31 @@ class BuiltInCommonJSModuleCompilationTest {
     }
 
     @Test
-    void "can evaluate module 'josm/layers'"() {
+    void "can evaluate module 'josm layers'"() {
         def require = new RequireFunction(null)
         require.apply("josm/layers")
     }
 
     @Test
-    void "can evaluate module 'josm/command'"() {
+    void "can evaluate module 'josm command'"() {
         def require = new RequireFunction(null)
         require.apply("josm/command")
     }
 
     @Test
-    void "can evaluate module 'josm/builder'"() {
+    void "can evaluate module 'josm builder'"() {
         def require = new RequireFunction(null)
         require.apply("josm/builder")
     }
 
     @Test
-    void "can evaluate module 'josm/scriptingconsole'"() {
+    void "can evaluate module 'josm scriptingconsole'"() {
         def require = new RequireFunction(null)
         require.apply("josm/scriptingconsole")
     }
 
     @Test
-    void "can evaluate module 'josm/api'"() {
+    void "can evaluate module 'josm api'"() {
         def require = new RequireFunction(null)
         require.apply("josm/api")
     }
@@ -105,15 +104,14 @@ class BuiltInCommonJSModuleCompilationTest {
     }
 
     @Test
-    void "can evaluate module 'josm/unittest"() {
+    void "can evaluate module 'josm unittest"() {
         def require = new RequireFunction(null)
         require.apply("josm/unittest")
     }
 
     @Test
-    void "can evaluate module 'josm/ui/menu"() {
+    void "can evaluate module 'josm ui menu"() {
         def require = new RequireFunction(null)
         require.apply("josm/ui/menu")
     }
-
 }

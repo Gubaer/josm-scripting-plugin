@@ -6,7 +6,8 @@ import javax.swing.*;
 import java.awt.*;
 
 public class ScriptErrorDialogTest extends JFrame {
-    private JOSMFixture fixture;
+    @SuppressWarnings("FieldCanBeLocal")
+    private final JOSMFixture fixture;
 
     public ScriptErrorDialogTest() throws Exception {
         fixture = new JOSMFixture(true);

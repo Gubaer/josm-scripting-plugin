@@ -1,6 +1,6 @@
 package org.openstreetmap.josm.plugins.scripting.graalvm
 
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 class GraalVMEvalTest {
 

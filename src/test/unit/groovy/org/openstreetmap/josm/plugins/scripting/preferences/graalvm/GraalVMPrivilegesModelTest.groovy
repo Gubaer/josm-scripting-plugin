@@ -1,16 +1,16 @@
 package org.openstreetmap.josm.plugins.scripting.preferences.graalvm
 
+import groovy.test.GroovyTestCase
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.openstreetmap.josm.data.Preferences
 import org.openstreetmap.josm.plugins.scripting.fixtures.JOSMFixture
 
-import static org.junit.jupiter.api.Assertions.*
 import static org.openstreetmap.josm.plugins.scripting.model.PreferenceKeys.*
 import static org.openstreetmap.josm.plugins.scripting.preferences.graalvm.GraalVMPrivilegesModel.DefaultAccessPolicy.ALLOW_ALL
 import static org.openstreetmap.josm.plugins.scripting.preferences.graalvm.GraalVMPrivilegesModel.TernaryAccessPolicy.*
 
-class GraalVMPrivilegesModelTest {
+class GraalVMPrivilegesModelTest extends GroovyTestCase {
 
     @BeforeAll
     static void init() {
@@ -263,7 +263,7 @@ class GraalVMPrivilegesModelTest {
         // allow access if default access is allow-all
         prefs.put(GRAALVM_ENVIRONMENT_ACCESS_POLICY, "derive")
         model.initFromPreferences(prefs)
-        model.setDefaultAccessPolicy(GraalVMPrivilegesModel.DefaultAccessPolicy.ALLOW_ALL)
+        model.setDefaultAccessPolicy(ALLOW_ALL)
         assertTrue(model.allowEnvironmentAccess())
 
         // deny access if environment access policy is 'none'

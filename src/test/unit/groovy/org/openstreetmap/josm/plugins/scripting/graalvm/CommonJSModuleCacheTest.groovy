@@ -2,7 +2,8 @@ package org.openstreetmap.josm.plugins.scripting.graalvm
 
 import org.graalvm.polyglot.Context
 import org.graalvm.polyglot.Value
-import org.junit.Test
+import org.junit.jupiter.api.Test
+
 import static org.junit.Assert.assertNotNull
 import static org.junit.Assert.assertTrue
 import static org.junit.Assert.assertFalse

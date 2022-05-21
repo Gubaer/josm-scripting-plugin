@@ -1,7 +1,7 @@
 package org.openstreetmap.josm.plugins.scripting.graalvm
 
-import org.junit.Before
-import org.junit.BeforeClass
+import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.BeforeEach
 import org.openstreetmap.josm.plugins.PluginException
 import org.openstreetmap.josm.plugins.PluginInformation
 import org.openstreetmap.josm.plugins.scripting.ScriptingPlugin
@@ -13,7 +13,7 @@ import java.util.logging.Level
 class AbstractGraalVMBasedTest {
     protected static JOSMFixture fixture
 
-    @BeforeClass
+    @BeforeAll
     static void init() throws Exception {
         fixture = new JOSMFixture(true)
     }
@@ -23,7 +23,7 @@ class AbstractGraalVMBasedTest {
             desc.getLanguageName().filter{it == "JavaScript"}
         }
 
-    @Before
+    @BeforeEach
     void setup() throws PluginException, IOException {
         def projectDirEnv = System.getenv("JOSM_SCRIPTING_PLUGIN_HOME")
         def projectDir = new File(projectDirEnv == null ? "." : projectDirEnv)

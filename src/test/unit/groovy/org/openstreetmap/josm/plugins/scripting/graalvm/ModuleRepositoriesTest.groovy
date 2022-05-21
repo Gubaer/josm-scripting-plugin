@@ -1,24 +1,17 @@
 package org.openstreetmap.josm.plugins.scripting.graalvm
 
-
-import org.junit.Before
-import org.junit.BeforeClass
-import org.junit.Test
+import groovy.test.GroovyTestCase
+import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 import java.util.logging.ConsoleHandler
 import java.util.logging.Level
 import java.util.logging.Logger
 
-import static org.junit.Assert.assertNotNull
-import static org.junit.Assert.assertTrue
-import static org.junit.Assert.assertEquals
-import static org.junit.Assert.assertFalse
-import static org.junit.Assert.fail
+class ModuleRepositoriesTest extends GroovyTestCase{
 
-
-class ModuleRepositoriesTest {
-
-    @Before
+    @BeforeEach
     void clearRepositories() {
         CommonJSModuleRepositoryRegistry.instance.clear()
     }
@@ -30,7 +23,7 @@ class ModuleRepositoriesTest {
     }
 
     @Test
-    void "add: can add a user defined repository"() {
+    void "add - can add a user defined repository"() {
         def repo = new FileSystemJSModuleRepository(new File("/foo/bar"))
         def repos = CommonJSModuleRepositoryRegistry.getInstance()
         repos.addUserDefinedRepository(repo)
@@ -40,7 +33,7 @@ class ModuleRepositoriesTest {
     }
 
     @Test
-    void "add: don't add a user defined repository twice"() {
+    void "add - don't add a user defined repository twice"() {
         def repo = new FileSystemJSModuleRepository(new File("/foo/bar"))
         def repos = CommonJSModuleRepositoryRegistry.getInstance()
         repos.addUserDefinedRepository(repo)
@@ -52,13 +45,15 @@ class ModuleRepositoriesTest {
         )
     }
 
-    @Test(expected = NullPointerException)
-    void "add: don't add a user defined null repository"() {
-        CommonJSModuleRepositoryRegistry.instance.addUserDefinedRepository(null)
+    @Test
+    void "add - don't add a user defined null repository"() {
+        shouldFail(NullPointerException.class) {
+            CommonJSModuleRepositoryRegistry.instance.addUserDefinedRepository(null)
+        }
     }
 
     @Test
-    void "remove: can remove a user defined repo"() {
+    void "remove - can remove a user defined repo"() {
         def repo = new FileSystemJSModuleRepository(new File("/foo/bar"))
         def repos = CommonJSModuleRepositoryRegistry.getInstance()
         repos.addUserDefinedRepository(repo)
@@ -67,7 +62,7 @@ class ModuleRepositoriesTest {
     }
 
     @Test
-    void "remove: can remove a user defined repo given a base URI"() {
+    void "remove - can remove a user defined repo given a base URI"() {
         def repo = new FileSystemJSModuleRepository(new File("/foo/bar"))
         def repos = CommonJSModuleRepositoryRegistry.getInstance()
         repos.addUserDefinedRepository(repo)
@@ -75,18 +70,22 @@ class ModuleRepositoriesTest {
         assertTrue(repos.userDefinedRepositories.isEmpty())
     }
 
-    @Test(expected = NullPointerException)
-    void "remove: reject null repo"() {
-        CommonJSModuleRepositoryRegistry.instance.removeUserDefinedRepository(null as ICommonJSModuleRepository)
-    }
-
-    @Test(expected = NullPointerException)
-    void "remove: reject null base URI when removing a user defined repo"() {
-        CommonJSModuleRepositoryRegistry.instance.removeUserDefinedRepository(null as URI)
+    @Test
+    void "remove - reject null repo"() {
+        shouldFail(NullPointerException.class) {
+            CommonJSModuleRepositoryRegistry.instance.removeUserDefinedRepository(null as ICommonJSModuleRepository)
+        }
     }
 
     @Test
-    void "clear: can clear the registry"() {
+    void "remove - reject null base URI when removing a user defined repo"() {
+        shouldFail(NullPointerException.class) {
+            CommonJSModuleRepositoryRegistry.instance.removeUserDefinedRepository(null as URI)
+        }
+    }
+
+    @Test
+    void "clear - can clear the registry"() {
         def repos = CommonJSModuleRepositoryRegistry.getInstance()
         repos.addUserDefinedRepository(new FileSystemJSModuleRepository(
             new File("/foo/bar1")))
@@ -97,7 +96,7 @@ class ModuleRepositoriesTest {
     }
 
     @Test
-    void "getRepositories: can retrieve the repositories"() {
+    void "getRepositories - can retrieve the repositories"() {
         def repos = CommonJSModuleRepositoryRegistry.getInstance()
         repos.addUserDefinedRepository(new FileSystemJSModuleRepository(
             new File("/foo/bar1")))
@@ -108,7 +107,7 @@ class ModuleRepositoriesTest {
     }
 
     @Test
-    void "getRepositoryForModule: does correctly lookup a module"() {
+    void "getRepositoryForModule - does correctly lookup a module"() {
         def repos = CommonJSModuleRepositoryRegistry.getInstance()
         def repo = new FileSystemJSModuleRepository(new File("/foo/bar1"))
         repos.addUserDefinedRepository(repo)
@@ -120,7 +119,7 @@ class ModuleRepositoriesTest {
     }
 
     @Test
-    void "getRepositoryForModule: doesn't find an arbitrary module URI"() {
+    void "getRepositoryForModule - doesn't find an arbitrary module URI"() {
         def repos = CommonJSModuleRepositoryRegistry.getInstance()
         def repo = new FileSystemJSModuleRepository(new File("/foo/bar1"))
         repos.addUserDefinedRepository(repo)
@@ -130,18 +129,20 @@ class ModuleRepositoriesTest {
         assertFalse(lookedUpRepo.isPresent())
     }
 
-    @Test(expected = NullPointerException)
-    void "getRepositoryForModule: reject null module URI"() {
-        CommonJSModuleRepositoryRegistry.instance.getRepositoryForModule(null)
+    @Test
+    void "getRepositoryForModule - reject null module URI"() {
+        shouldFail(NullPointerException.class) {
+            CommonJSModuleRepositoryRegistry.instance.getRepositoryForModule(null)
+        }
     }
 }
 
-class ModuleRepositoriesResolveTest {
+class ModuleRepositoriesResolveTest extends GroovyTestCase {
 
     static String moduleRepoPath
     static ICommonJSModuleRepository moduleRepo
 
-    @BeforeClass
+    @BeforeAll
     static void readEnvironmentVariables() {
         moduleRepoPath = System.getenv("TEST_COMMONJS_MODULE_REPO")
         if (moduleRepoPath == null) {
@@ -151,7 +152,7 @@ class ModuleRepositoriesResolveTest {
         moduleRepo = new FileSystemJSModuleRepository(moduleRepoPath)
     }
 
-    @BeforeClass
+    @BeforeAll
     static void enableLogging() {
         Logger.getLogger(FileSystemJSModuleRepository.class.getName())
                 .setLevel(Level.FINE)
@@ -164,7 +165,7 @@ class ModuleRepositoriesResolveTest {
         }
     }
 
-    @Before
+    @BeforeEach
     void resetRepositoryRegistry() {
         CommonJSModuleRepositoryRegistry.instance.clear()
         CommonJSModuleRepositoryRegistry.instance.addUserDefinedRepository(moduleRepo)
@@ -189,6 +190,5 @@ class ModuleRepositoriesResolveTest {
         assertTrue(moduleUri.isPresent())
         moduleRepo.isBaseOf(moduleUri.get())
     }
-
 }
 

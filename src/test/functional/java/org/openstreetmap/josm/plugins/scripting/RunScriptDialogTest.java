@@ -11,7 +11,8 @@ import java.awt.*;
  */
 public class RunScriptDialogTest extends JFrame {
 
-    private JOSMFixture fixture;
+    @SuppressWarnings("FieldCanBeLocal")
+    private final JOSMFixture fixture;
 
     public RunScriptDialogTest() throws Exception {
         fixture = new JOSMFixture(true);
