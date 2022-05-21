@@ -76,6 +76,3 @@ releases:
 
   - label: 26007
     minJosmVersion: 4878
-
-  - label: 26005
-    minJosmVersion: 4100
