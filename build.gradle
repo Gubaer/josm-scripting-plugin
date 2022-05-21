@@ -302,6 +302,10 @@ tasks.register("convertReleaseFile", ReleaseFileConverter) {
     outputFile = file("releases.generated.yml")
 }
 
+import org.openstreetmap.josm.plugins.scripting.CheckDownloadUrlsInManifestTask
+tasks.register("checkDownloadUrls", CheckDownloadUrlsInManifestTask)
+
 publishToGithubRelease {
     remoteJarName = "scripting.jar"
 }
+
