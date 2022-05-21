@@ -16,7 +16,7 @@ title: JOSM Scripting Plugin
 email: karl.guggisberg@guggis.ch
 description: >- # this means to ignore newlines until "baseurl:"
   This is the documentation for the JOSM Scripting Plugin.
-#baseurl: "" # the subpath of your site, e.g. /blog
+baseurl: "/josm-scripting-plugin"
 #url: "" # the base hostname & protocol for your site, e.g. http://example.com
 github_username:  Gubaer
 
