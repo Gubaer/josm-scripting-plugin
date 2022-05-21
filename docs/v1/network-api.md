@@ -36,14 +36,13 @@ josm.layers.addDataLayer({ds: dataset, name: "Obstberg"});
 
 ## Uploading data
 
-The class [Api]{:target="apidoc"} provides the method `upload()` to upload data to the server. Use it to upload data using one of
-the upload strategies JOSM supports:
+The class [Api]{:target="apidoc"} provides the method <code class="inline">upload()</code> to upload data to the server. Use it to upload data using one of the upload strategies JOSM supports:
 
 *   uploading each object individually
 *   uploading objects in chunks
 *   uploading objects in one go
 
-[Api]: /api/v1/module-josm_api.Api.html
-[ChangesetApi]: /api/v1/module-josm_api.ChangesetApi.html
-[josm/api]: /api/v1/module-josm_api.html
+[Api]: ../../api/v1/module-josm_api.Api.html
+[ChangesetApi]: ../../api/v1/module-josm_api.ChangesetApi.html
+[josm/api]: ../../api/v1/module-josm_api.html
 [OSM API]: http://wiki.openstreetmap.org/wiki/API_v0.6

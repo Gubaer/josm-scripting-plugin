@@ -14,7 +14,7 @@ nav_order: 2
 1. TOC
 {: toc }
 
-The global object `josm.layers` represents the current layers in josm. The methods
+The global object <code class="inline">josm.layers</code> represents the current layers in josm. The methods
 and properties of this object are defined in the module [josm/layers]{:target="apidoc"}.
 
 The following scripts prints the names of the currently opened layers:
@@ -32,7 +32,7 @@ for (var i=0; i < len; i++) {
 Data layers are instances of the JOSM native class [OsmDataLayer]{:target="apidoc"}.
 
 You can **open** a file with OSM data in a new data layer with the method
-`josm.open()`:
+<code class="inline">josm.open()</code>:
 
 ```js
 // Opens a new data layer for the file '/my/data/file.osm'
@@ -51,7 +51,7 @@ var dataset = api.downloadArea({
 josm.layers.addDataLayer({ds: dataset, name: "Obstberg"});
 ```
 
-[Api]: /api/v1/module-josm_api.Api.html
+[Api]: ../../api/v1/module-josm_api.Api.html
 [josm/layers]: /api/v1/module-josm_layers.html
 [OsmDataLayer]: https://josm.openstreetmap.de/doc/org/openstreetmap/josm/gui/layer/OsmDataLayer.html
 

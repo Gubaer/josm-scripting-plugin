@@ -43,12 +43,12 @@ const { sayHello } = require("helloworld")
 sayHello()
 ```
 
-In the JOSM preferences, you can configure where the Scripting Plugin is looking
+In the JOSM preferences, you can configure where the scripting plugin is looking
 for modules. The plugin looks for modules in two places:
 
-* First, it tries to load modules from the plugin jar file in the `/js/v2` directory.
+* First, it tries to load modules from the plugin jar file in the <code class="inline">/js/v2</code> directory.
 
-* Then, it tries to load it from one of the configured **plugin repositories**. Each
+* Then, it tries to load it from one of the configured **module repositories**. Each
   repository is either a directory in the local file system or in a jar/zip file in the local file system.
 
 
@@ -57,4 +57,4 @@ for modules. The plugin looks for modules in two places:
 
 
 [CommonJS module]: http://www.commonjs.org/specs/modules/1.0/
-[josm/util]: /api/v2/module-josm_util.html
+[josm/util]: ../../api/v2/module-josm_util.html

@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Manipulate Data
+title: Manipulating Data
 parent: API V2
 nav_order: 3
 ---
@@ -248,8 +248,8 @@ console.println(`num restaurants: ${restaurants.length}`)
 [DataSet]: https://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/DataSet.html
 [OsmPrimitive]: https://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/OsmPrimitive.html
 [AbstractPrimitive]: https://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/AbstractPrimitive.html
-[NodeBuilder]: /api/v2/module-josm_builder-NodeBuilder.html
-[WayBuilder]: /api/v2/module-josm_builder-WayBuilder.html
-[RelationBuilder]: /api/v2/module-josm_builder-RelationBuilder.html
-[josm/builder]: /api/v2/module-josm_builder.html
-[josm/command]: /api/v2/module-josm_command.html
+[NodeBuilder]: ../../api/v2/module-josm_builder-NodeBuilder.html
+[WayBuilder]: ../../api/v2/module-josm_builder-WayBuilder.html
+[RelationBuilder]: ../../api/v2/module-josm_builder-RelationBuilder.html
+[josm/builder]: ../../api/v2/module-josm_builder.html
+[josm/command]: ../../api/v2/module-josm_command.html

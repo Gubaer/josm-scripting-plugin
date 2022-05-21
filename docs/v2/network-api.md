@@ -42,7 +42,7 @@ the upload strategies JOSM supports:
 *   uploading objects in chunks
 *   uploading objects in one go
 
-[Api]: /api/v2/module-josm_api-Api.html
-[ChangesetApi]: /api/v2/module-josm_api-ChangesetApi.html
-[josm/api]: /api/v2/module-josm_api.html
+[Api]: ../../api/v2/module-josm_api-Api.html
+[ChangesetApi]: ../../api/v2/module-josm_api-ChangesetApi.html
+[josm/api]: ../../api/v2/module-josm_api.html
 [OSM API]: http://wiki.openstreetmap.org/wiki/API_v0.6

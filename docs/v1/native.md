@@ -37,7 +37,7 @@ var s = pos.toDisplayString();        // this is a native Java method
 
 ## Enriched Java classes &ndash; Mixins
 
-The JOSM Scripting Plugin ships with JavaScript **mixins** for some Java classes, particularly those used in scripts often.
+The scripting plugin ships with JavaScript **mixins** for some Java classes, particularly those used in scripts often.
 
 A JavaScript mixin decorates a Java class with additional properties and methods implemented in JavaScript.
 
@@ -72,4 +72,4 @@ name = pos1.$toDisplayString();
 
 [JOSM code base]: http://josm.openstreetmap.de/browser/josm/trunk/src"
 [LatLon]: https://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/coor/LatLon.html
-[LatLonMixin]: /api/v1/josm_mixin_LatLonMixin.LatLonMixin.html
+[LatLonMixin]: ../../api/v1/josm_mixin_LatLonMixin.LatLonMixin.html

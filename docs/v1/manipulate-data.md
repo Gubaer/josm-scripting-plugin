@@ -30,7 +30,6 @@ The following table lists the names of the basic Java classes for data primitive
 | relation | [Relation]{:target="apidoc"}<br/>(extending [OsmPrimitive]{:target="apidoc"}) | [RelationMixin]{:target="apidoc"}<br/>(extending [OsmPrimitiveMixin]{:target="apidoc"}) | [RelationBuilder]{:target="apidoc"} |
 
 
-
 ## Creating OSM primitives
 Invoke a constructor of the Java class to create a node, a way, or a relation.
 Here are two basic examples:
@@ -227,13 +226,13 @@ In addition, you can *search in a dataset using the method `query()`.
 [Relation]: https://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Relation.html
 [DataSet]: https://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/DataSet.html
 [OsmPrimitive]: https://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/OsmPrimitive.html
-[NodeMixin]: /api/v1/josm_mixin_NodeMixin.NodeMixin.html
-[WayMixin]: /api/v1/josm_mixin_WayMixin.WayMixin.html
-[DataSetMixin]: /api/v1/josm_mixin_DataSetMixin.DataSetMixin.html
-[RelationMixin]: /api/v1/josm_mixin_RelationMixin.RelationMixin.html
-[OsmPrimitiveMixin]: /api/v1/josm_mixin_OsmPrimitiveMixin.OsmPrimitiveMixin.html
-[NodeBuilder]: /api/v1/module-josm_builder.NodeBuilder.html
-[WayBuilder]: /api/v1/module-josm_builder.WayBuilder.html
-[RelationBuilder]: /api/v1/module-josm_builder.RelationBuilder.html
-[josm/builder]: /api/v1/module-josm_builder.html
-[josm/command]: /api/v1/module-josm_command.html
+[NodeMixin]: ../../api/v1/josm_mixin_NodeMixin.NodeMixin.html
+[WayMixin]: ../../api/v1/josm_mixin_WayMixin.WayMixin.html
+[DataSetMixin]: ../../api/v1/josm_mixin_DataSetMixin.DataSetMixin.html
+[RelationMixin]: ../../api/v1/josm_mixin_RelationMixin.RelationMixin.html
+[OsmPrimitiveMixin]: ../../api/v1/josm_mixin_OsmPrimitiveMixin.OsmPrimitiveMixin.html
+[NodeBuilder]: ../../api/v1/module-josm_builder.NodeBuilder.html
+[WayBuilder]: ../../api/v1/module-josm_builder.WayBuilder.html
+[RelationBuilder]: ../../api/v1/module-josm_builder.RelationBuilder.html
+[josm/builder]: ../../api/v1/module-josm_builder.html
+[josm/command]: ../../api/v1/module-josm_command.html
