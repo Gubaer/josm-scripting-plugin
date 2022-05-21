@@ -2,15 +2,15 @@
 
 The JOSM scripting plugin executes scripts in the [Open Street Map][osm] editor [JOSM][josm].
 
-Scripts can be defined in any scripting language for which a [JSR-223][jsr223] compatible script engine is available, in  particular in
+Scripts can be written in any scripting language for which a [JSR-223][jsr223] compatible script engine is available, in  particular in
 * [JavaScript][javascript]
 * [Groovy][groovy]
 * [Ruby][ruby]
 * [Python][python]
 
-If the [GraalJS][graal-js] is on the classpath, you can execute scripts in JavaScript using GraalJS. The plugin includes a JavaScript library to manage layers, edit OSM primitives, load and save data, upload data to the OSM server, and download primitives from the OSM server. Refer to the [API V2 documentation][api-v2].
+If the [GraalJS][graal-js] engine is on the classpath, you can use it to execute scripts in JavaScript. The plugin includes a JavaScript library to manage layers, edit OSM primitives, load and save data, upload data to the OSM server, and download primitives from the OSM server. Refer to the [API V2 documentation][api-v2].
 
-The plugin includes [Mozilla Rhino][rhino] as a scripting engine for historical reasons. Mozilla Rhino in the scripting plugin is deprecated and will be removed end of 2022. The plugin also includes a JavaScript library ([API V1][api-v1])which can be used with Mozilla Rhino. It is deprecated too and will also be removed end of 2022. If your current scripts use [API V1][api-v1], migrate them to [API V2][api-v2], and change to [GraalJS][doc-graaljs].
+The plugin includes [Mozilla Rhino][rhino] as a scripting engine for historical reasons. Mozilla Rhino is deprecated in the scripting plugin and will be removed end of 2022. The plugin also includes a JavaScript library ([API V1][api-v1])which can be used with Mozilla Rhino. It is deprecated too and will also be removed end of 2022. If your current scripts use [API V1][api-v1], migrate them to [API V2][api-v2], and change to [GraalJS][doc-graaljs].
 
 ## Install
 Use JOSMs plugin manager to install the scripting plugin and keep it up to date.
@@ -18,7 +18,7 @@ Use JOSMs plugin manager to install the scripting plugin and keep it up to date.
 1. Select Preferences -> Plugins
 2. Search for the plugin **scripting** and install it
 
-The scripting plugin requires Java 11.
+The scripting plugin requires Java 11 or higher.
 
 ## Documentation
 
@@ -169,10 +169,10 @@ Published under GPL Version 3 and higher. See included LICENSE file.
 [rhino]:http://www.mozilla.org/rhino/
 [script-examples]:https://github.com/Gubaer/josm-scripting-plugin/tree/master/src/main/resources/scripts
 [graaljs]:https://github.com/oracle/graaljs
-[api-v2]:http://gubaer.github.com/josm-scripting-plugin/v2/v2.html
-[libdoc-api-v2]:http://gubaer.github.com/josm-scripting-plugin/api/v2/index.html
-[api-v1]:http://gubaer.github.com/josm-scripting-plugin/v1/v1.html
-[libdoc-api-v1]:http://gubaer.github.com/josm-scripting-plugin/api/v1/index.html
-[doc-graaljs]:http://gubaer.github.com/josm-scripting-plugin/graaljs.html
+[api-v2]:http://gubaer.github.io/josm-scripting-plugin/v2/v2.html
+[libdoc-api-v2]:http://gubaer.github.io/josm-scripting-plugin/api/v2/index.html
+[api-v1]:http://gubaer.github.io/josm-scripting-plugin/v1/v1.html
+[libdoc-api-v1]:http://gubaer.github.io/josm-scripting-plugin/api/v1/index.html
+[doc-graaljs]:http://gubaer.github.io/josm-scripting-plugin/graaljs.html
 [jsyntaxarea]:https://bobbylight.github.io/RSyntaxTextArea/
-[doc-home]:http://gubaer.github.com/josm-scripting-plugin/
+[doc-home]:http://gubaer.github.io/josm-scripting-plugin/
