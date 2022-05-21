@@ -169,10 +169,10 @@ Published under GPL Version 3 and higher. See included LICENSE file.
 [rhino]:http://www.mozilla.org/rhino/
 [script-examples]:https://github.com/Gubaer/josm-scripting-plugin/tree/master/src/main/resources/scripts
 [graaljs]:https://github.com/oracle/graaljs
-[api-v2]:http://gubaer.github.io/josm-scripting-plugin/v2/v2.html
+[api-v2]:http://gubaer.github.io/josm-scripting-plugin/docs/v2/v2.html
 [libdoc-api-v2]:http://gubaer.github.io/josm-scripting-plugin/api/v2/index.html
-[api-v1]:http://gubaer.github.io/josm-scripting-plugin/v1/v1.html
+[api-v1]:http://gubaer.github.io/josm-scripting-plugin/docs/v1/v1.html
 [libdoc-api-v1]:http://gubaer.github.io/josm-scripting-plugin/api/v1/index.html
-[doc-graaljs]:http://gubaer.github.io/josm-scripting-plugin/graaljs.html
+[doc-graaljs]:http://gubaer.github.io/josm-scripting-plugin/docs/graaljs.html
 [jsyntaxarea]:https://bobbylight.github.io/RSyntaxTextArea/
 [doc-home]:http://gubaer.github.io/josm-scripting-plugin/
