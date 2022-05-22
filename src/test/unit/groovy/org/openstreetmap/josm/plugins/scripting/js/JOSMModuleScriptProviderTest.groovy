@@ -1,35 +1,48 @@
 package org.openstreetmap.josm.plugins.scripting.js
 
-import groovy.test.GroovyTestCase
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.openstreetmap.josm.plugins.scripting.JOSMFixtureBasedTest
 
-class JOSMModuleScriptProviderTest extends GroovyTestCase {
+class JOSMModuleScriptProviderTest extends JOSMFixtureBasedTest {
+
+    /**
+     * the full path to the directory with the CommonJS test resources
+     */
+    static public final String ENV_TEST_COMMONJS_MODULE_REPO = "TEST_COMMONJS_MODULE_REPO"
+
+    static File getCommonJSTestResourcesDirectory() {
+        def dirEnv = System.getenv(ENV_TEST_COMMONJS_MODULE_REPO)
+        def dir
+        if (dirEnv == null) {
+            dir = new File(getProjectHome(), "/src/test/resources/require")
+            logger.warning(
+                "environment variable '${ENV_TEST_COMMONJS_MODULE_REPO}' not set. " +
+                "Assuming project home '${dir.absolutePath}'"
+            )
+        } else {
+            dir = new File(dirEnv)
+        }
+        logger.info("using directory with CommonJS test sources: '${dir.absolutePath}'")
+        return dir
+    }
 
     @BeforeAll
     static void init() {
-        String home = System.getenv("JOSM_SCRIPTING_PLUGIN_HOME")
-        if (home == null) {
-            fail("Environment variable JOSM_SCRIPTING_PLUGIN_HOME not set. " +
-                    "Check env.sh")
-        }
-
+        final testResourcesDir = getCommonJSTestResourcesDirectory()
         JOSMModuleScriptProvider.getInstance().addRepository(
-            new File(new File(home), "test/data/require/modules")
-                    .toURI().toURL()
+            new File(testResourcesDir, "modules").toURI().toURL()
         )
+        final jarfile = new File(testResourcesDir, "jarmodules.jar")
+            .toURI().toURL().toString()
 
-        def jarfile = new File(
-                new File(home),
-                "test/data/require/jarmodules.jar"
-            ).toURI().toURL().toString()
         JOSMModuleScriptProvider.getInstance().addRepository(
-            new URL("jar:" + jarfile + "!/modules")
+            new URL("jar:$jarfile!/modules")
         )
     }
 
-    def provider
+    private JOSMModuleScriptProvider provider
 
     @BeforeEach
     void setUp() {
@@ -39,49 +52,48 @@ class JOSMModuleScriptProviderTest extends GroovyTestCase {
     @Test
     void lookupExistingModule() {
         def url = provider.lookup("module1")
-        assert url != null
+        assertNotNull(url)
 
         // various module names which are normalized
 
         url = provider.lookup("   module1")
-        assert url != null
+        assertNotNull(url)
 
         url = provider.lookup("module1  ")
-        assert url != null
+        assertNotNull(url)
 
         url = provider.lookup("//module1//")
-        assert url != null
+        assertNotNull(url)
 
         url = provider.lookup("\\module1//")
-        assert url != null
+        assertNotNull(url)
     }
 
     @Test
     void lookupExistingSubModel() {
-        assert provider.lookup("sub/module3")
-        assert provider.lookup("sub\\module3")
-        assert provider.lookup(" sub/module3")
-        assert provider.lookup(" \\\\sub/module3//   ")
-        assert provider.lookup("sub/module4")
+        assertTrue(provider.lookup("sub/module3").isPresent())
+        assertTrue(provider.lookup("sub\\module3").isPresent())
+        assertTrue(provider.lookup(" sub/module3").isPresent())
+        assertTrue(provider.lookup(" \\\\sub/module3//   ").isPresent())
+        assertTrue(provider.lookup("sub/module4").isPresent())
     }
 
     @Test
     void lookupExistingModuleInJar() {
-        assert provider.lookup("module10")
-        assert provider.lookup(" module10  ")
-        assert provider.lookup("//module10  ")
-        assert provider.lookup("\\\\module10  ")
-
-        assert provider.lookup("module11")
+        assertTrue(provider.lookup("module10").isPresent())
+        assertTrue(provider.lookup(" module10  ").isPresent())
+        assertTrue(provider.lookup("//module10  ").isPresent())
+        assertTrue(provider.lookup("\\\\module10  ").isPresent())
+        assertTrue(provider.lookup("module11").isPresent())
     }
 
     @Test
     void lookupExistingSubModuleInJar() {
-        assert provider.lookup("sub/module12")
-        assert provider.lookup("sub\\module12")
-        assert provider.lookup(" sub/module12")
-        assert provider.lookup(" \\\\sub/module12//   ")
-        assert provider.lookup("sub/module13")
+        assertTrue(provider.lookup("sub/module12").isPresent())
+        assertTrue(provider.lookup("sub\\module12").isPresent())
+        assertTrue(provider.lookup(" sub/module12").isPresent())
+        assertTrue(provider.lookup(" \\\\sub/module12//   ").isPresent())
+        assertTrue(provider.lookup("sub/module13").isPresent())
     }
 
     @Test
@@ -89,6 +101,6 @@ class JOSMModuleScriptProviderTest extends GroovyTestCase {
         // the jar contains a directory 'josm' and a module 'josm.js'.
         // The module should be found despite the directory with
         // the same name.
-        assert provider.lookup("josm")
+        assertTrue(provider.lookup("josm").isPresent())
     }
 }

@@ -139,7 +139,7 @@ test {
     useJUnitPlatform()
     environment "JOSM_SCRIPTING_PLUGIN_HOME", project.projectDir
     environment "TEST_COMMONJS_MODULE_REPO",
-            "${project.projectDir}/test/data/require/modules"
+            "${project.projectDir}/src/test/resources/require"
     environment "BUILTIN_COMMONJS_MODULE_REPO",
             "${project.projectDir}/src/main/javascript/v2"
     scanForTestClasses = false
