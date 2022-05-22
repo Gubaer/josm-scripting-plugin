@@ -1,7 +1,8 @@
-package org.openstreetmap.josm.plugins.scripting.graalvm
+package org.openstreetmap.josm.plugins.scripting.graalvm.api
 
 import org.junit.jupiter.api.Test
-
+import org.openstreetmap.josm.plugins.scripting.graalvm.AbstractGraalVMBasedTest
+import org.openstreetmap.josm.plugins.scripting.graalvm.GraalVMFacadeFactory
 
 class APIV2TestSuite extends AbstractGraalVMBasedTest {
 
