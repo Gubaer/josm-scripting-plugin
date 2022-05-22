@@ -833,6 +833,14 @@ suites.push(tu.suite("each",
 	})
 ));
 
+function newNode() {
+	var Node = org.openstreetmap.josm.data.osm.Node;
+	var LatLon = org.openstreetmap.josm.data.coor.LatLon;
+	var n = new Node();
+    n.setCoor(new LatLon(0,0));
+    return n;
+}
+
 suites.push(tu.suite(
 	test("selection - get the selection wrapper", function() {
         var ds = new DataSet();
