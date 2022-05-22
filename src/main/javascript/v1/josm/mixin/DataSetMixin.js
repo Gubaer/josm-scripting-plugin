@@ -27,7 +27,7 @@ var Collections   = java.util.Collections;
 /**
  * This mixin provides additional properties and methods which you can
  * invoke on an instance of {@class org.openstreetmap.josm.data.osm.DataSet}.
- * 
+ *
  *
  *  @example
  *  var ds = new org.openstreetmap.josm.data.osm.DataSet();
@@ -605,7 +605,7 @@ exports.mixin.relationBuilder = {
  */
 exports.mixin.selection = {
    get: function() {
-       return new DataSetSelectionFacade(this);
+       return new exports.DataSetSelectionFacade(this);
    }
 };
 

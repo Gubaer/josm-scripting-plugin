@@ -17,7 +17,7 @@ suites.push(tu.suite("adding objects",
 	test("add a node", function() {
 		var ds = new DataSet();
 		var n = nb.create();
-		ds.add(n);		
+		ds.add(n);
 		util.assert(ds.has(n), "should be in ds");
 		util.assert(n.dataSet == ds, "should have dataset");
 	}),
@@ -97,11 +97,11 @@ suites.push(tu.suite("adding objects",
 		util.assert(ds.has(w), "2 - should be in ds");
 		util.assert(ds.has(r), "3 - should be in ds");
 	})
-	
+
 ));
 
 suites.push(tu.suite("getting objects",
-		
+
 	// --- nodes
 	test("get a node - id, 'node'", function() {
 		var ds = new DataSet();
@@ -136,8 +136,8 @@ suites.push(tu.suite("getting objects",
 		var n = ds.get(id);
 		util.assert(n, "2 - should have found object");
 	}),
-	
-	// --- ways	
+
+	// --- ways
 	test("get a way - id, 'way'", function() {
 		var ds = new DataSet();
 		ds.wayBuilder.create(1234);
@@ -171,8 +171,8 @@ suites.push(tu.suite("getting objects",
 		var w = ds.get(id);
 		util.assert(w, "2 - should have found object");
 	}),
-	
-	// --- relations	
+
+	// --- relations
 	test("get a relation - id, 'relation'", function() {
 		var ds = new DataSet();
 		ds.relationBuilder.create(1234);
@@ -206,7 +206,7 @@ suites.push(tu.suite("getting objects",
 		var r = ds.get(id);
 		util.assert(r, "2 - should have found object");
 	}),
-	
+
 	test("get null - should fail", function() {
 		var ds = new DataSet();
 		ds.relationBuilder.create(1234);
@@ -287,7 +287,7 @@ suites.push(tu.suite("getting objects",
 ));
 
 
-suites.push(tu.suite("removing objects",	
+suites.push(tu.suite("removing objects",
 	// --- nodes
 	test("remove a node - id, 'node'", function() {
 		var ds = new DataSet();
@@ -348,50 +348,50 @@ suites.push(tu.suite("removing objects",
 ));
 
 
-suites.push(tu.suite("selection",	
+suites.push(tu.suite("selection",
 	test("get selection object", function() {
 		var ds = new DataSet();
 		var sel = ds.selection;
-		util.assert(!!sel, "should be defined");			
+		util.assert(!!sel, "should be defined");
 	}),
-	
+
 	test("add - id", function() {
 		var ds = new DataSet();
 		var n1 = ds.nodeBuilder.create(1);
-		ds.selection.add(n1);			
-		util.assert(ds.selection.isSelected(n1), "should be selected");			
+		ds.selection.add(n1);
+		util.assert(ds.selection.isSelected(n1), "should be selected");
 	}),
-	
+
 	test("add - getPrimitiveId()", function() {
 		var ds = new DataSet();
 		var n1 = ds.nodeBuilder.create(1);
-		ds.selection.add(n1.getPrimitiveId());			
-		util.assert(ds.selection.has(n1.getPrimitiveId()), "should be selected");			
+		ds.selection.add(n1.getPrimitiveId());
+		util.assert(ds.selection.has(n1.getPrimitiveId()), "should be selected");
 	}),
-	
+
 	test("add - just a node", function() {
 		var ds = new DataSet();
 		var n1 = ds.nodeBuilder.create(1);
-		ds.selection.add(n1);			
-		util.assert(ds.selection.has(n1), "should be selected");			
+		ds.selection.add(n1);
+		util.assert(ds.selection.has(n1), "should be selected");
 	}),
 	test("add - null", function() {
 		var ds = new DataSet();
 		var n1 = ds.nodeBuilder.create(1);
-		ds.selection.add(null);			
+		ds.selection.add(null);
 	}),
 	test("add - undefined", function() {
 		var ds = new DataSet();
 		var n1 = ds.nodeBuilder.create(1);
-		ds.selection.add(undefined);			
+		ds.selection.add(undefined);
 	}),
 	test("add - multiple objects", function() {
 		var ds = new DataSet();
 		var n1 = ds.nodeBuilder.create(1);
 		var n2 = ds.nodeBuilder.create(2);
 		var w1 = ds.wayBuilder.withNodes(n1,n2).create(1);
-		ds.selection.add(n1,n2,w1);	
-		util.assert(ds.selection.has(n1), "1 - should be selected");			
+		ds.selection.add(n1,n2,w1);
+		util.assert(ds.selection.has(n1), "1 - should be selected");
 		util.assert(ds.selection.has(n2), "2 - should  be selected");
 		util.assert(ds.selection.has(w1), "3 - should  be selected");
 	}),
@@ -400,8 +400,8 @@ suites.push(tu.suite("selection",
 		var n1 = ds.nodeBuilder.create(1);
 		var n2 = ds.nodeBuilder.create(2);
 		var w1 = ds.wayBuilder.withNodes(n1,n2).create(1);
-		ds.selection.add([n1,n2,w1]);	
-		util.assert(ds.selection.has(n1), "1 - should be selected");			
+		ds.selection.add([n1,n2,w1]);
+		util.assert(ds.selection.has(n1), "1 - should be selected");
 		util.assert(ds.selection.has(n2), "2 - should  be selected");
 		util.assert(ds.selection.has(w1), "3 - should  be selected");
 	}),
@@ -412,22 +412,22 @@ suites.push(tu.suite("selection",
 		var w1 = ds.wayBuilder.withNodes(n1,n2).create(1);
 		var set = new HashSet();
 		set.add(n1); set.add(n2); set.add(w1);
-		ds.selection.add(set);	
-		util.assert(ds.selection.has(n1), "1 - should be selected");			
+		ds.selection.add(set);
+		util.assert(ds.selection.has(n1), "1 - should be selected");
 		util.assert(ds.selection.has(n2), "2 - should  be selected");
 		util.assert(ds.selection.has(w1), "3 - should  be selected");
 	}),
 
-	
-	// -- set 
+
+	// -- set
 	test("set - just a single node", function() {
 		var ds = new DataSet();
 		var n1 = ds.nodeBuilder.create(1);
 		var n2 = ds.nodeBuilder.create(2);
 		var w1 = ds.wayBuilder.withNodes(n1,n2).create(1);
-		ds.selection.add(n1);	
+		ds.selection.add(n1);
 		ds.selection.set(n2);
-		util.assert(ds.selection.isSelected(n2), "should be selected");			
+		util.assert(ds.selection.isSelected(n2), "should be selected");
 		util.assert(!ds.selection.isSelected(n1), "should not be selected");
 	}),
 	test("set - a node , getPrimitiveId()", function() {
@@ -435,9 +435,9 @@ suites.push(tu.suite("selection",
 		var n1 = ds.nodeBuilder.create(1);
 		var n2 = ds.nodeBuilder.create(2);
 		var w1 = ds.wayBuilder.withNodes(n1,n2).create(1);
-		ds.selection.add(n1);	
+		ds.selection.add(n1);
 		ds.selection.set(n2.getPrimitiveId())
-		util.assert(ds.selection.isSelected(n2), "should be selected");			
+		util.assert(ds.selection.isSelected(n2), "should be selected");
 		util.assert(!ds.selection.isSelected(n1), "should not be selected");
 	}),
 	test("set - a node, the node", function() {
@@ -445,9 +445,9 @@ suites.push(tu.suite("selection",
 		var n1 = ds.nodeBuilder.create(1);
 		var n2 = ds.nodeBuilder.create(2);
 		var w1 = ds.wayBuilder.withNodes(n1,n2).create(1);
-		ds.selection.add(n1);	
+		ds.selection.add(n1);
 		ds.selection.set(n2)
-		util.assert(ds.selection.isSelected(n2), "should be selected");			
+		util.assert(ds.selection.isSelected(n2), "should be selected");
 		util.assert(!ds.selection.isSelected(n1), "should not be selected");
 	}),
 	test("set - null", function() {
@@ -455,7 +455,7 @@ suites.push(tu.suite("selection",
 		var n1 = ds.nodeBuilder.create(1);
 		var n2 = ds.nodeBuilder.create(2);
 		var w1 = ds.wayBuilder.withNodes(n1,n2).create(1);
-		ds.selection.add(n1);	
+		ds.selection.add(n1);
 		ds.selection.set(null)
 		util.assert(!ds.selection.isSelected(n1), "should  be selected");
 	}),
@@ -464,22 +464,22 @@ suites.push(tu.suite("selection",
 		var n1 = ds.nodeBuilder.create(1);
 		var n2 = ds.nodeBuilder.create(2);
 		var w1 = ds.wayBuilder.withNodes(n1,n2).create(1);
-		ds.selection.add(n1);	
+		ds.selection.add(n1);
 		ds.selection.set(undefined)
 		util.assert(!ds.selection.isSelected(n1), "should  be selected");
 	}),
-	
-	
+
+
 	// -- clear
 	test("clear - just a single node", function() {
 		var ds = new DataSet();
 		var n1 = ds.nodeBuilder.create(1);
 		var n2 = ds.nodeBuilder.create(2);
 		var w1 = ds.wayBuilder.withNodes(n1,n2).create(1);
-		ds.selection.add(n1,n2);	
+		ds.selection.add(n1,n2);
 		util.assert(ds.selection.isSelected(n2), "1 - should be selected");
 		ds.selection.clear(n1);
-		util.assert(ds.selection.isSelected(n2), "2 - should be selected");			
+		util.assert(ds.selection.isSelected(n2), "2 - should be selected");
 		util.assert(!ds.selection.isSelected(n1), "3 - should not be selected");
 	}),
 	test("clear - a node , getPrimitiveId()", function() {
@@ -487,9 +487,9 @@ suites.push(tu.suite("selection",
 		var n1 = ds.nodeBuilder.create(1);
 		var n2 = ds.nodeBuilder.create(2);
 		var w1 = ds.wayBuilder.withNodes(n1,n2).create(1);
-		ds.selection.add(n1,n2);	
+		ds.selection.add(n1,n2);
 		ds.selection.clear(n1.getPrimitiveId())
-		util.assert(ds.selection.isSelected(n2), "1 - should be selected");			
+		util.assert(ds.selection.isSelected(n2), "1 - should be selected");
 		util.assert(!ds.selection.isSelected(n1), "2 - should not be selected");
 	}),
 	test("clear - a node, the node", function() {
@@ -497,9 +497,9 @@ suites.push(tu.suite("selection",
 		var n1 = ds.nodeBuilder.create(1);
 		var n2 = ds.nodeBuilder.create(2);
 		var w1 = ds.wayBuilder.withNodes(n1,n2).create(1);
-		ds.selection.add(n1,n2);	
+		ds.selection.add(n1,n2);
 		ds.selection.clear(n1)
-		util.assert(ds.selection.isSelected(n2), "1 - should be selected");			
+		util.assert(ds.selection.isSelected(n2), "1 - should be selected");
 		util.assert(!ds.selection.isSelected(n1), "2 - should not be selected");
 	}),
 	test("clear - null", function() {
@@ -507,7 +507,7 @@ suites.push(tu.suite("selection",
 		var n1 = ds.nodeBuilder.create(1);
 		var n2 = ds.nodeBuilder.create(2);
 		var w1 = ds.wayBuilder.withNodes(n1,n2).create(1);
-		ds.selection.add(n1,n2);	
+		ds.selection.add(n1,n2);
 		ds.selection.clear(null)
 		util.assert(ds.selection.isSelected(n1), "1 - should  be selected");
 		util.assert(ds.selection.isSelected(n2), "2 - should  be selected");
@@ -517,20 +517,20 @@ suites.push(tu.suite("selection",
 		var n1 = ds.nodeBuilder.create(1);
 		var n2 = ds.nodeBuilder.create(2);
 		var w1 = ds.wayBuilder.withNodes(n1,n2).create(1);
-		ds.selection.add(n1,n2);	
+		ds.selection.add(n1,n2);
 		ds.selection.clear(undefined)
 		util.assert(ds.selection.isSelected(n1), "1 - should  be selected");
 		util.assert(ds.selection.isSelected(n2), "2 - should  be selected");
 	}),
-	
+
 	test("clear - multiple objects", function() {
 		var ds = new DataSet();
 		var n1 = ds.nodeBuilder.create(1);
 		var n2 = ds.nodeBuilder.create(2);
 		var w1 = ds.wayBuilder.withNodes(n1,n2).create(1);
-		ds.selection.add(n1,n2,w1);	
+		ds.selection.add(n1,n2,w1);
 		ds.selection.clear(n1,w1)
-		util.assert(!ds.selection.isSelected(n1), "1 - should not be selected");			
+		util.assert(!ds.selection.isSelected(n1), "1 - should not be selected");
 		util.assert(ds.selection.isSelected(n2), "2 - should  be selected");
 		util.assert(!ds.selection.isSelected(w1), "3 - should  not be selected");
 	}),
@@ -539,9 +539,9 @@ suites.push(tu.suite("selection",
 		var n1 = ds.nodeBuilder.create(1);
 		var n2 = ds.nodeBuilder.create(2);
 		var w1 = ds.wayBuilder.withNodes(n1,n2).create(1);
-		ds.selection.add([n1,n2,w1]);	
+		ds.selection.add([n1,n2,w1]);
 		ds.selection.clear([n1,w1]);
-		util.assert(!ds.selection.isSelected(n1), "1 - should not be selected");			
+		util.assert(!ds.selection.isSelected(n1), "1 - should not be selected");
 		util.assert(ds.selection.isSelected(n2), "2 - should  be selected");
 		util.assert(!ds.selection.isSelected(w1), "3 - should  not be selected");
 	}),
@@ -552,11 +552,11 @@ suites.push(tu.suite("selection",
 		var w1 = ds.wayBuilder.withNodes(n1,n2).create(1);
 		var set = new HashSet();
 		set.add(n1); set.add(n2); set.add(w1);
-		ds.selection.add(set);	
+		ds.selection.add(set);
 		var set = new HashSet();
 		set.add(n1);  set.add(w1);
 		ds.selection.clear(set);
-		util.assert(!ds.selection.isSelected(n1), "1 - should not be selected");			
+		util.assert(!ds.selection.isSelected(n1), "1 - should not be selected");
 		util.assert(ds.selection.isSelected(n2), "2 - should  be selected");
 		util.assert(!ds.selection.isSelected(w1), "3 - should  not be selected");
 	})
@@ -564,7 +564,7 @@ suites.push(tu.suite("selection",
 ));
 
 
-suites.push(tu.suite("node, way, relation - object accessors",	
+suites.push(tu.suite("node, way, relation - object accessors",
 	test("node", function() {
 		var ds = new DataSet();
 		ds.nodeBuilder.create(1);
@@ -575,15 +575,15 @@ suites.push(tu.suite("node, way, relation - object accessors",
 		util.assert(! n, "node should not be found");
 		n = ds.node(local.id);
 		util.assert(n, "node should be found");
-		
+
 		tu.expectAssertionError("illegal id 0", function() {
 			ds.node(0);
 		});
-		
+
 		tu.expectAssertionError("unsupported type", function() {
 			ds.node("1");
 		});
-		
+
 		tu.expectAssertionError("primitive id not supported", function() {
 			ds.node(new SimplePrimitiveId(1, OsmPrimitiveType.NODE));
 		});
@@ -592,7 +592,7 @@ suites.push(tu.suite("node, way, relation - object accessors",
 		var ds = new DataSet();
 		ds.wayBuilder.create(1);
 		var local = ds.wayBuilder.create();
-		
+
 		var w = ds.way(1);
 		util.assert(w, "way should be found");
 		w = ds.way(2);
@@ -603,11 +603,11 @@ suites.push(tu.suite("node, way, relation - object accessors",
 		tu.expectAssertionError("illegal id 0", function() {
 			ds.way(0);
 		});
-		
+
 		tu.expectAssertionError("unsupported type", function() {
 			ds.way("1");
 		});
-		
+
 		tu.expectAssertionError("primitive id not supported", function() {
 			ds.way(new SimplePrimitiveId(1, OsmPrimitiveType.WAY));
 		});
@@ -616,7 +616,7 @@ suites.push(tu.suite("node, way, relation - object accessors",
 		var ds = new DataSet();
 		ds.relationBuilder.create(1);
 		var local = ds.relationBuilder.create();
-		
+
 		var r = ds.relation(1);
 		util.assert(r, "relation should be found");
 		r = ds.relation(2);
@@ -627,11 +627,11 @@ suites.push(tu.suite("node, way, relation - object accessors",
 		tu.expectAssertionError("illegal id 0", function() {
 			ds.relation(0);
 		});
-		
+
 		tu.expectAssertionError("unsupported type", function() {
 			ds.relation("1");
 		});
-		
+
 		tu.expectAssertionError("primitive id not supported", function() {
 			ds.relation(new SimplePrimitiveId(1, OsmPrimitiveType.RELATION));
 		});
@@ -639,7 +639,7 @@ suites.push(tu.suite("node, way, relation - object accessors",
 ));
 
 
-suites.push(tu.suite("query",	
+suites.push(tu.suite("query",
 	test("query - josm expression - simple", function() {
 			var ds = new DataSet();
 			var nb = ds.nodeBuilder;
@@ -674,8 +674,8 @@ suites.push(tu.suite("query",
 		util.assert(objs.length == 1, "should have found two node, found {0}", objs.length);
 		util.assert(objs[0].isNode, "1 - should be a node");
 	}),
-	
-	
+
+
 	test("query - predicate - simple", function() {
 		var ds = new DataSet();
 		var nb = ds.nodeBuilder;
@@ -695,7 +695,7 @@ suites.push(tu.suite("query",
 		var wb = ds.wayBuilder;
 		ds.nodeBuilder.withTags({name: 'test'}).create(1);
 		ds.nodeBuilder.withTags({amenity: 'restaurant'}).create(2);
-		var w = ds.wayBuilder.withTags({highway: 'residential'}).withNodes(ds.node(1), ds.node(2)).create();		
+		var w = ds.wayBuilder.withTags({highway: 'residential'}).withNodes(ds.node(1), ds.node(2)).create();
 		var objs = ds.query(function(obj) {
 			return obj.isNode;
 		});
@@ -711,7 +711,7 @@ suites.push(tu.suite("query",
 		ds.nodeBuilder.withTags({amenity: 'tttttt'}).create(2);
 		var w = ds.wayBuilder.withTags({highway: 'tasdf'}).withNodes(ds.node(1), ds.node(2)).create();
 		var objs = ds.query("type:node && *=^tt.*", {withRegexp: true});
-		
+
 		var objs = ds.query(function(){
 			var regexp = /^tt.*/;
 			return function(obj) {
@@ -721,14 +721,14 @@ suites.push(tu.suite("query",
 					if (regexp.test(obj.get(keys[i]))) return true;
 				}
 			};
-		}());				
+		}());
 		util.assert(objs.length == 1, "should have found two node, found {0}", objs.length);
 		util.assert(objs[0].isNode, "1 - should be a node");
 	})
 ));
 
 
-suites.push(tu.suite("each",	
+suites.push(tu.suite("each",
 	test("each - loop over a simple data set", function() {
 		var ds = new DataSet();
 		var nb = ds.nodeBuilder;
@@ -742,8 +742,8 @@ suites.push(tu.suite("each",
 		});
 		util.assert(map[1] == ds.node(1), "1 - wrong object");
 		util.assert(map[2] == ds.node(2), "2 - wrong object");
-		util.assert(map[w.id] == ds.way(w.id), "3 - wrong object");			
-	}), 
+		util.assert(map[w.id] == ds.way(w.id), "3 - wrong object");
+	}),
 	test("each - null delegate", function() {
 		var ds = new DataSet();
 		ds.each(null);
@@ -765,7 +765,7 @@ suites.push(tu.suite("each",
 		}, null);
 		util.assert(map[1] == ds.node(1), "1 - wrong object");
 		util.assert(map[2] == ds.node(2), "2 - wrong object");
-		util.assert(map[w.id] == ds.way(w.id), "3 - wrong object");	
+		util.assert(map[w.id] == ds.way(w.id), "3 - wrong object");
 	}),
 	test("each - undefined options", function() {
 		var ds = new DataSet();
@@ -780,7 +780,7 @@ suites.push(tu.suite("each",
 		}, undefined);
 		util.assert(map[1] == ds.node(1), "1 - wrong object");
 		util.assert(map[2] == ds.node(2), "2 - wrong object");
-		util.assert(map[w.id] == ds.way(w.id), "3 - wrong object");	
+		util.assert(map[w.id] == ds.way(w.id), "3 - wrong object");
 	}),
 	test("each - options - all: false", function() {
 		var ds = new DataSet();
@@ -796,7 +796,7 @@ suites.push(tu.suite("each",
 		}, {all: false});
 		util.assert(map[1] == ds.node(1), "1 - wrong object");
 		util.assert(map[2] == ds.node(2), "2 - wrong object");
-		util.assert(map[w.id] == ds.way(w.id), "3 - wrong object");	
+		util.assert(map[w.id] == ds.way(w.id), "3 - wrong object");
 		util.assert(!map[4], "should not have proxy node");
 	}),
 	test("each - options - all: true", function() {
@@ -813,7 +813,7 @@ suites.push(tu.suite("each",
 		}, {all: true});
 		util.assert(map[1] == ds.node(1), "1 - wrong object");
 		util.assert(map[2] == ds.node(2), "2 - wrong object");
-		util.assert(map[w.id] == ds.way(w.id), "3 - wrong object");	
+		util.assert(map[w.id] == ds.way(w.id), "3 - wrong object");
 		util.assert(map[3], "should  have proxy node");
 	}),
 	test("each - options - all: false", function() {
@@ -832,6 +832,68 @@ suites.push(tu.suite("each",
 		});
 	})
 ));
+
+suites.push(tu.suite(
+	test("selection - get the selection wrapper", function() {
+        var ds = new DataSet();
+        util.assert(util.isSomething(ds.selection),
+            "selection object not found");
+    }),
+    test("selection - select a single primitive", function() {
+        var ds = new DataSet();
+        var builder = ds.nodeBuilder;
+        var node = builder.create(1);
+        ds.selection.add(node);
+        util.assert(ds.selection.isSelected(node));
+    }),
+    test("selection - select an array of primitives", function() {
+        var ds = new DataSet();
+        var builder = ds.nodeBuilder;
+        var nodes = new Array();
+        for (var i = 0; i < 10; i++) {
+            nodes[i] = builder.create(i+1);
+        }
+        ds.selection.add(nodes);
+        var allSelected = true;
+        for (var i = 0; i < 10; i++) {
+            allSelected = allSelected && ds.selection.isSelected(nodes[i]);
+        }
+        util.assert(allSelected, "at least one node isn't selected");
+    }),
+    test("selection - sequence of add, remove, set, toggle, and clear",
+        function() {
+        var ds = new DataSet();
+        var n1 = newNode();
+        ds.add(n1);
+        ds.selection.add(n1);
+        util.assert(ds.selection.isSelected(n1), "node should be selected");
+        ds.selection.clear(n1);
+        util.assert(!ds.selection.isSelected(n1),
+            "node should not be selected (1)");
+        ds.selection.set(n1);
+        util.assert(ds.selection.isSelected(n1), "node should be selected");
+        ds.selection.toggle(n1);
+        util.assert(!ds.selection.isSelected(n1),
+            "node should not be selected (2)");
+        ds.selection.toggle(n1);
+        util.assert(ds.selection.isSelected(n1), "node should be selected");
+        ds.selection.clear(n1);
+        util.assert(!ds.selection.isSelected(n1),
+            "node should not be selected (3)");
+    }),
+    test("selection - access the list of selected nodes", function() {
+        var ds = new DataSet();
+        var n1 = newNode();
+        ds.add(n1);
+        util.assert(ds.selection.nodes.length == 0,
+            "expecting no selected node");
+        ds.selection.set(n1);
+        util.assert(ds.selection.nodes.length == 1,
+            "expecting one selected node");
+        util.assert(ds.selection.nodes[0] == n1, "expected n1, got {0}", n1);
+    })
+));
+
 
 exports.run = function() {
     return suites
