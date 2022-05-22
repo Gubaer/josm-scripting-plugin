@@ -172,7 +172,7 @@ task testScriptApiV2(type: Test) {
     executable getGraalVMJavaBinary()
     environment "JAVA_HOME", getGraalVMHome()
     scanForTestClasses= false
-    include "**/APIV2TestSuite.class"
+    include "org/openstreetmap/josm/plugins/scripting/graalvm/api/APIV2TestSuite.class"
 
     testLogging {
         events TestLogEvent.FAILED, TestLogEvent.PASSED
