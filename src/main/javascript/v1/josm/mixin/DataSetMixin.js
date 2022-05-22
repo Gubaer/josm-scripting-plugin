@@ -526,7 +526,7 @@ exports.mixin.remove = function() {
  * @instance
  */
 exports.mixin.has = function() {
-    return mixin.get.apply(this,
+    return exports.mixin.get.apply(this,
         Array.prototype.slice.call(arguments)) !== undefined;
 };
 
