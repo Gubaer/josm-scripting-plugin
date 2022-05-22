@@ -10,7 +10,7 @@ Scripts can be written in any scripting language for which a [JSR-223][jsr223] c
 
 If the [GraalJS][graal-js] engine is on the classpath, you can use it to execute scripts in JavaScript. The plugin includes a JavaScript library to manage layers, edit OSM primitives, load and save data, upload data to the OSM server, and download primitives from the OSM server. Refer to the [API V2 documentation][api-v2].
 
-The plugin includes [Mozilla Rhino][rhino] as a scripting engine for historical reasons. Mozilla Rhino is deprecated in the scripting plugin and will be removed end of 2022. The plugin also includes a JavaScript library ([API V1][api-v1])which can be used with Mozilla Rhino. It is deprecated too and will also be removed end of 2022. If your current scripts use [API V1][api-v1], migrate them to [API V2][api-v2], and change to [GraalJS][doc-graaljs].
+The plugin includes [Mozilla Rhino][rhino] as a scripting engine for historical reasons. Mozilla Rhino is deprecated in the scripting plugin. The plugin authors will remove it at the end of 2022. The plugin also includes a JavaScript library [API V1][api-v1] to be used with Mozilla Rhino. It is deprecated too. The plugin authors will remove it at the end of 2022 with Mozilla Rhino. If your current scripts use [API V1][api-v1], migrate them to [API V2][api-v2], and change to [GraalJS][doc-graaljs].
 
 ## Install
 Use JOSMs plugin manager to install the scripting plugin and keep it up to date.
@@ -167,7 +167,7 @@ Published under GPL Version 3 and higher. See included [LICENSE](LICENSE) file.
 [python]:http://www.python.org/
 [rhino]:http://www.mozilla.org/rhino/
 [script-examples]:https://github.com/Gubaer/josm-scripting-plugin/tree/master/src/main/resources/scripts
-[graaljs]:https://github.com/oracle/graaljs
+[graal-js]:https://github.com/oracle/graaljs
 [api-v2]:http://gubaer.github.io/josm-scripting-plugin/docs/v2/v2.html
 [libdoc-api-v2]:http://gubaer.github.io/josm-scripting-plugin/api/v2/module-josm.html
 [api-v1]:http://gubaer.github.io/josm-scripting-plugin/docs/v1/v1.html
