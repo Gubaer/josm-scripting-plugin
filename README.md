@@ -148,7 +148,7 @@ The JOSM scripting plugin uses:
 
 * [Mozilla Rhino][rhino] scripting engine by Mozilla Foundation
 * [RSyntaxTextArea][rsyntaxtextarea]
-* [Graal.JS][graaljs]
+* [Graal.JS][graal-js]
 
 * supported by [![JetBrains logo](jetbrains.png)](https://www.jetbrains.com/?from=JOSM%20Scripting%20Plugin) with a free JetBrains Open Source license
 
