@@ -36,11 +36,11 @@ public class GraalVMConfigurationPanel extends JPanel implements HyperlinkListen
         "JOSM has been started with GraalJS on the classpath. You can use GraalJS "
         + "in the scripting plugin.");
 
-    //TODO(karl): add link to documentation
     static private final String MESSAGE_03 = tr(
             "JOSM has <strong>not</strong> been started with GraalJS on the classpath. "
-        + "<a href=\"https://gubaer.github.io/josm-scripting-plugin/\">This documentation</a> "
-        + "explains how you can start it with GraalJS on the classpath.");
+        + "<a href=\"{0}\">This documentation</a> "
+        + "explains how you can start it with GraalJS on the classpath.",
+        "https://gubaer.github.io/josm-scripting-plugin/docs/graaljs.html");
 
     protected JPanel buildInfoPanel() {
         final JEditorPane pane = EditorPaneBuilder.buildInfoEditorPane();
