@@ -11,7 +11,6 @@ version-information.MF
 jsdoc.local.sh
 libs
 out
-test/josm.home
 .idea
 *.iml
 *.env

@@ -192,22 +192,31 @@ task testGraalVMSupportNotPresent(type: Test) {
     }
 }
 
+/**
+ * Replies the 'josm.home' directories used in tests
+ */
+File josmHomeForTests() {
+    return new File(project.projectDir, "build/josm.home")
+}
+
 import java.nio.file.Paths
 import java.nio.file.StandardCopyOption
 task testGraalVMSupportPresent(type: Test) {
     doFirst {
         // prepare a suitable 'preferences.xml' for the test cases in this
         // executed by this task
+        def josmHome = josmHomeForTests()
+        josmHome.mkdirs()
         Files.copy(
-            Paths.get("${project.projectDir}/test/josm-test-environments/env01/preferences.xml"),
-            Paths.get("${project.projectDir}/test/josm.home/preferences.xml"),
+            Paths.get("${project.projectDir}/src/test/resources/josm-test-environments/env01/preferences.xml"),
+            Paths.get("${josmHome.absolutePath}preferences.xml"),
             StandardCopyOption.REPLACE_EXISTING
         )
         println("testGraalVMSupportPresent: prepared preferences.xml")
     }
     useJUnitPlatform()
     environment "JOSM_SCRIPTING_PLUGIN_HOME",project.projectDir
-    systemProperty "josm.home", "${project.projectDir}/test/josm.home"
+    systemProperty "josm.home", josmHomeForTests().absolutePath
     scanForTestClasses= false
     include "**/graalvm/GraalVMPresentTest.class"
     include "**/graalvm/GraalVMEvalTest.class"

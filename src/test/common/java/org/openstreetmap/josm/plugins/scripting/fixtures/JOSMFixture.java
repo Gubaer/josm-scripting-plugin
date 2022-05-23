@@ -37,8 +37,8 @@ import static org.junit.Assert.fail;
 //TODO: should be replaced by josm/test/unit/org.openstreemap.josm.JOSMFixture
 //currently partially copy/pasted from this class
 public class JOSMFixture {
-    static private final Logger logger =
-        Logger.getLogger(JOSMFixture.class.getName());
+    static public final String DEFAULT_JOSM_HOME = "build/josm.home";
+    static private final Logger logger = Logger.getLogger(JOSMFixture.class.getName());
 
     private String josmHome;
 
@@ -52,7 +52,7 @@ public class JOSMFixture {
         josmHome = System.getProperty("josm.home");
 
         if (josmHome == null) {
-            josmHome = "test/josm.home";
+            josmHome = DEFAULT_JOSM_HOME;
             logger.info(format("system property ''josm.home'' not set. "
                 + "Setting it to the default value ''{0}''",
                     new File(josmHome).getAbsolutePath()));
@@ -69,7 +69,7 @@ public class JOSMFixture {
         logger.info(format("''josm.home'': using directory ''{0}''",
             f.getAbsolutePath()));
 
-        System.setProperty("josm.home", josmHome);
+        System.setProperty("josm.home", new File(josmHome).getAbsolutePath());
         TimeZone.setDefault(DateUtils.UTC);
         Preferences pref = Preferences.main();
         Config.setPreferencesInstance(pref);
@@ -124,9 +124,9 @@ public class JOSMFixture {
 
     private static boolean isProductionApiUrl(String url) {
         return url.startsWith("http://www.openstreetmap.org")
-                || url.startsWith("http://api.openstreetmap.org")
-                || url.startsWith("https://www.openstreetmap.org")
-                || url.startsWith("https://api.openstreetmap.org");
+            || url.startsWith("http://api.openstreetmap.org")
+            || url.startsWith("https://www.openstreetmap.org")
+            || url.startsWith("https://api.openstreetmap.org");
     }
 
     private void setupGUI() {
