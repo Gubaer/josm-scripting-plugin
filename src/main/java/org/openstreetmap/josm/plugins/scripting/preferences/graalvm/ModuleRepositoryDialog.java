@@ -60,12 +60,12 @@ public class ModuleRepositoryDialog extends JDialog {
     protected JPanel buildEntryPanel() {
         final JPanel pnl = new JPanel(new GridBagLayout());
         pnl.add(new JLabel("Repository URL:"), gbc().cell(0, 0)
-                .anchor(GridBagConstraints.WEST).insets(0,2,0,2)
-                .constraints());
+            .anchor(GridBagConstraints.WEST).insets(0,2,0,2)
+            .constraints());
         pnl.add(tfRepositoryUrl = new JTextField(), gbc().cell(1,0).fillboth()
-                .weightx(1.0).insets(0,2,0,2).constraints());
+            .weightx(1.0).insets(0,2,0,2).constraints());
         pnl.add(new JButton(new LookupFileAction()), gbc().cell(2, 0)
-                .insets(0,2,0,2).constraints());
+            .insets(0,2,0,2).constraints());
 
         tfRepositoryUrl.getDocument().addDocumentListener(new DocumentAdapter());
         return pnl;
@@ -106,7 +106,7 @@ public class ModuleRepositoryDialog extends JDialog {
 
     public ModuleRepositoryDialog(Component parent){
         super(JOptionPane.getFrameForComponent(parent),
-                ModalityType.DOCUMENT_MODAL);
+            ModalityType.DOCUMENT_MODAL);
         build();
         validateRepository();
     }
@@ -120,8 +120,7 @@ public class ModuleRepositoryDialog extends JDialog {
     }
 
     static private final Color BG_COLOR_ERROR = new Color(255, 199, 210);
-    static private final Color BG_COLOR_VALID = UIManager.getColor(
-            "TextField.background");
+    static private final Color BG_COLOR_VALID = UIManager.getColor("TextField.background");
 
     protected void validateRepository() {
         boolean valid = true;
@@ -151,9 +150,9 @@ public class ModuleRepositoryDialog extends JDialog {
                     .getInstance()
                     .build(repository);
             } catch(IllegalCommonJSModuleBaseURI e) {
-                msg = tr("''{0}'' isn''t a valid base URL:",
+                msg = tr("''{0}'' isn''t a valid base URL.",
                     url.toString()
-                ) + e.getMessage();
+                );
                 logger.log(Level.WARNING, msg, e);
                 valid = false;
             }
@@ -176,8 +175,7 @@ public class ModuleRepositoryDialog extends JDialog {
             break;
 
           default:
-              msg = tr("''{0}'' is neither a ''jar'' nor a ''file'' URL",
-                      repository);
+              msg = tr("''{0}'' is neither a ''jar'' nor a ''file'' URL", repository);
               valid = false;
         }
 
@@ -195,7 +193,7 @@ public class ModuleRepositoryDialog extends JDialog {
     public void setVisible(boolean visible) {
         if (visible) {
             WindowGeometry.centerInWindow(getParent(),
-                    new Dimension(600,150)).applySafe(this);
+                new Dimension(600,150)).applySafe(this);
         }
         super.setVisible(visible);
     }
@@ -205,7 +203,7 @@ public class ModuleRepositoryDialog extends JDialog {
         public LookupFileAction() {
             putValue(Action.NAME, "...");
             putValue(Action.SHORT_DESCRIPTION,
-                    tr("Select a directory or a jar file"));
+                tr("Select a directory or a jar file"));
         }
         @Override
         public void actionPerformed(ActionEvent evt) {
@@ -222,13 +220,13 @@ public class ModuleRepositoryDialog extends JDialog {
             File f = fc.getSelectedFile();
             if (f.isDirectory()) {
                 tfRepositoryUrl.setText(
-                        new CommonJSModuleRepository(f).getURL().toString());
+                    new CommonJSModuleRepository(f).getURL().toString());
             } else if (f.isFile()) {
                 try {
                     JarFile jar = new JarFile(f);
                     tfRepositoryUrl.setText(
-                            new CommonJSModuleRepository(jar)
-                                .getURL().toString());
+                        new CommonJSModuleRepository(jar)
+                            .getURL().toString());
                 } catch (IOException e) {
                     try {
                         tfRepositoryUrl.setText(f.toURI().toURL().toString());
@@ -266,6 +264,7 @@ public class ModuleRepositoryDialog extends JDialog {
             putValue(Action.SMALL_ICON, ImageProvider.get("cancel",
                 ImageProvider.ImageSizes.SMALLICON));
         }
+
         @Override
         public void actionPerformed(ActionEvent evt) {
             setVisible(false);
@@ -278,6 +277,7 @@ public class ModuleRepositoryDialog extends JDialog {
             putValue(Action.SMALL_ICON, ImageProvider.get("ok",
                 ImageProvider.ImageSizes.SMALLICON));
         }
+
         @Override
         public void actionPerformed(ActionEvent evt) {
             final String s = tfRepositoryUrl.getText().trim();
@@ -287,7 +287,6 @@ public class ModuleRepositoryDialog extends JDialog {
                     .build(s);
             } catch(IllegalCommonJSModuleBaseURI e) {
                 logger.log(Level.SEVERE, "", e);
-                //TODO(karl): display error message with an error dialog
                 repository = null;
             }
             setVisible(false);
