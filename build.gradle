@@ -247,23 +247,6 @@ task testWithGraalVMJDK(type: Test) {
     }
 }
 
-task testJSR223EngineAbsent(type: Test) {
-    useJUnitPlatform()
-    // make sure neither graalvm, nor groovy or python are on the
-    // classpath
-    classpath = classpath
-        .filter {! it.toString().toLowerCase().contains("graalvm")}
-        .filter {! it.toString().toLowerCase().contains("groovy")}
-        .filter {! it.toString().toLowerCase().contains("python")}
-
-    scanForTestClasses= false
-    include "org/openstreetmap/josm/plugins/scripting/jsr223/JSR223CompatibleEngineAbsentTest.class"
-    testLogging {
-        events TestLogEvent.FAILED, TestLogEvent.PASSED
-        exceptionFormat = TestExceptionFormat.FULL
-    }
-}
-
 task testJSR223EnginePresent(type: Test) {
     useJUnitPlatform()
 
@@ -280,7 +263,6 @@ tasks.check.dependsOn(tasks.testScriptApiV1)
 tasks.check.dependsOn(tasks.testScriptApiV2)
 tasks.check.dependsOn(tasks.testGraalVMSupportNotPresent)
 tasks.check.dependsOn(tasks.testGraalVMSupportPresent)
-tasks.check.dependsOn(tasks.testJSR223EngineAbsent)
 tasks.check.dependsOn(tasks.testJSR223EnginePresent)
 tasks.check.dependsOn(tasks.testWithGraalVMJDK)
 
