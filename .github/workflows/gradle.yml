@@ -42,11 +42,11 @@ jobs:
         run: Xvfb :19 -screen 0 1024x768x16 &
       - name: Set DISPLAY
         run: export DISPLAY=:19
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
-      - name: Build with gradle
-        run: ./gradlew build
-#      - name: Build with Gradle
-#        uses: gradle/gradle-build-action@0d13054264b0bb894ded474f08ebb30921341cee
-#        with:
-#          arguments: build
+#      - name: Grant execute permission for gradlew
+#        run: chmod +x gradlew
+#      - name: Build with gradle
+#        run: ./gradlew build
+      - name: Build with Gradle
+        uses: gradle/gradle-build-action@0d13054264b0bb894ded474f08ebb30921341cee
+        with:
+          arguments: build
