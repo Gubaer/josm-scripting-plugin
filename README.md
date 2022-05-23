@@ -53,13 +53,13 @@ $ ./gradlew publishToGithubRelease
 ## How to test
 
 There are two suites of unit tests:
-1. a suite of unit tests implemented in Java and Groovy
+1. a suite of unit tests implemented in Groovy
 2. a suite of unit tests implemented in JavaScript which provide test cases for the JavaScript API
 
 How to run:
 ```bash
 # build the plugin and run the tests
-$ ./gradlew check
+$ ./gradlew build
 # ... or run the checks only, without building
 $ ./gradlew cleanTest cleanTestScriptApi check
 ```
