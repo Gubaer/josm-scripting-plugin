@@ -15,7 +15,8 @@ public class RunScriptDialogTest extends JFrame {
     private final JOSMFixture fixture;
 
     public RunScriptDialogTest() throws Exception {
-        fixture = new JOSMFixture(true);
+        //fixture = new JOSMFixture(true);
+        fixture = JOSMFixture.createFixture(true /* with gui */);
 
         getContentPane().setLayout(new FlowLayout());
         setSize(100,100);

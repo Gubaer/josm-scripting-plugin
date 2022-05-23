@@ -1,22 +1,15 @@
 package org.openstreetmap.josm.plugins.scripting.preferences.graalvm
 
-import groovy.test.GroovyTestCase
-import org.junit.jupiter.api.BeforeAll
+
 import org.junit.jupiter.api.Test
 import org.openstreetmap.josm.data.Preferences
-import org.openstreetmap.josm.plugins.scripting.fixtures.JOSMFixture
+import org.openstreetmap.josm.plugins.scripting.JOSMFixtureBasedTest
 
 import static org.openstreetmap.josm.plugins.scripting.model.PreferenceKeys.*
 import static org.openstreetmap.josm.plugins.scripting.preferences.graalvm.GraalVMPrivilegesModel.DefaultAccessPolicy.ALLOW_ALL
 import static org.openstreetmap.josm.plugins.scripting.preferences.graalvm.GraalVMPrivilegesModel.TernaryAccessPolicy.*
 
-class GraalVMPrivilegesModelTest extends GroovyTestCase {
-
-    @BeforeAll
-    static void init() {
-        //noinspection GroovyUnusedAssignment
-        final JOSMFixture fixture = new JOSMFixture(true)
-    }
+class GraalVMPrivilegesModelTest extends JOSMFixtureBasedTest {
 
     @Test
     void "should init default preferences"() {

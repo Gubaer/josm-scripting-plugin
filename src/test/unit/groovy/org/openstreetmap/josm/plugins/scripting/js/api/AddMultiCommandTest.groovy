@@ -1,23 +1,15 @@
 package org.openstreetmap.josm.plugins.scripting.js.api
 
-import groovy.test.GroovyTestCase
-import org.junit.jupiter.api.BeforeAll
+
 import org.junit.jupiter.api.Test
 import org.openstreetmap.josm.data.coor.LatLon
 import org.openstreetmap.josm.data.osm.DataSet
 import org.openstreetmap.josm.data.osm.Node
 import org.openstreetmap.josm.data.osm.Way
 import org.openstreetmap.josm.gui.layer.OsmDataLayer
-import org.openstreetmap.josm.plugins.scripting.fixtures.JOSMFixture
+import org.openstreetmap.josm.plugins.scripting.JOSMFixtureBasedTest
 
-class AddMultiCommandTest extends GroovyTestCase{
-
-    static JOSMFixture fixture
-
-    @BeforeAll
-    static void init() {
-        fixture = new JOSMFixture(false)
-    }
+class AddMultiCommandTest extends JOSMFixtureBasedTest {
 
     static OsmDataLayer newLayer() {
         return new OsmDataLayer(new DataSet(), null, null)

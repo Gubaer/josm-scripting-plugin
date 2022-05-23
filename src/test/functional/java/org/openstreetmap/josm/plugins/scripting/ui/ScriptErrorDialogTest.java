@@ -10,7 +10,8 @@ public class ScriptErrorDialogTest extends JFrame {
     private final JOSMFixture fixture;
 
     public ScriptErrorDialogTest() throws Exception {
-        fixture = new JOSMFixture(true);
+        //fixture = new JOSMFixture(true);
+        fixture = JOSMFixture.createFixture(true /* with gui */);
 
         getContentPane().setLayout(new FlowLayout());
         setSize(100,100);

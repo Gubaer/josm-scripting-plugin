@@ -135,6 +135,14 @@ def getGraalVMJavaBinary() {
     return new File(getGraalVMHome(), "bin/java")
 }
 
+
+/**
+ * Replies the 'josm.home' directories used in tests
+ */
+File josmHomeForTests() {
+    return new File(project.projectDir, "build/josm.home")
+}
+
 test {
     useJUnitPlatform()
     environment "JOSM_SCRIPTING_PLUGIN_HOME", project.projectDir
@@ -142,6 +150,7 @@ test {
             "${project.projectDir}/src/test/resources/require"
     environment "BUILTIN_COMMONJS_MODULE_REPO",
             "${project.projectDir}/src/main/javascript/v2"
+    systemProperty "josm.home", josmHomeForTests().absolutePath
     scanForTestClasses = false
     include "org/openstreetmap/josm/plugins/scripting/js/**/*.class"
     include "org/openstreetmap/josm/plugins/scripting/model/*.class"
@@ -190,13 +199,6 @@ task testGraalVMSupportNotPresent(type: Test) {
         events TestLogEvent.FAILED, TestLogEvent.PASSED
         exceptionFormat = TestExceptionFormat.FULL
     }
-}
-
-/**
- * Replies the 'josm.home' directories used in tests
- */
-File josmHomeForTests() {
-    return new File(project.projectDir, "build/josm.home")
 }
 
 import java.nio.file.Paths

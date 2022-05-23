@@ -64,6 +64,6 @@ class JOSMFixtureBasedTest extends GroovyTestCase {
 
     @BeforeAll
     static void initJOSMFixture() throws Exception {
-        fixture = new JOSMFixture(true)
+        fixture = JOSMFixture.createFixture(true /* with gui */);
     }
 }
