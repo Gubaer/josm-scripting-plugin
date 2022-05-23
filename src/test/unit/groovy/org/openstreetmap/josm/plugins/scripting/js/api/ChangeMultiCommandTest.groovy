@@ -23,7 +23,7 @@ class ChangeMultiCommandTest extends JOSMFixtureBasedTest {
         def change = new Change()
         change.withLatChange(12.22)
         def cmd = new ChangeMultiCommand(newLayer(), [n1,n2], change)
-        assert cmd
+        assertNotNull(cmd)
 
         shouldFail(NullPointerException) {
             cmd = new ChangeMultiCommand(null, [n1,n2], change)
@@ -55,34 +55,34 @@ class ChangeMultiCommandTest extends JOSMFixtureBasedTest {
 
         def change = new Change().withLatChange(11.11).withTagsChange([name: "newvalue"])
         def cmd = new ChangeMultiCommand(layer, [n1,w1,r1], change)
-        assert cmd
+        assertNotNull(cmd)
 
         // execute
         def result = cmd.executeCommand()
-        assert result, "should be true"
+        assertTrue(result)
 
-        assert n1.getCoor().lat() == 11.11d
-        assert n2.getCoor().lat() == 0
-        assert n1.get("name") == "newvalue"
-        assert w1.get("name") == "newvalue"
-        assert r1.get("name") == "newvalue"
+        assertEquals(11.11d, n1.getCoor().lat())
+        assertEquals(0, n2.getCoor().lat())
+        assertEquals("newvalue", n1.get("name"))
+        assertEquals("newvalue", w1.get("name"))
+        assertEquals("newvalue", r1.get("name"))
 
         // undo
         cmd.undoCommand()
-        assert n1.getCoor().lat() == 0
-        assert n2.getCoor().lat() == 0
-        assert !n1.hasKey("name")
-        assert !w1.hasKey("name")
-        assert r1.get("name") == "oldname"
+        assertEquals(0, n1.getCoor().lat())
+        assertEquals(0, n2.getCoor().lat())
+        assertTrue(!n1.hasKey("name"))
+        assertTrue( !w1.hasKey("name"))
+        assertEquals("oldname", r1.get("name"))
 
         // redo
         result = cmd.executeCommand()
-        assert result, "should be true"
+        assertTrue(result)
 
-        assert n1.getCoor().lat() == 11.11d
-        assert n2.getCoor().lat() == 0
-        assert n1.get("name") == "newvalue"
-        assert w1.get("name") == "newvalue"
-        assert r1.get("name") == "newvalue"
+        assertEquals(11.11d, n1.getCoor().lat())
+        assertEquals(0, n2.getCoor().lat())
+        assertEquals("newvalue", n1.get("name"))
+        assertEquals("newvalue", w1.get("name"))
+        assertEquals("newvalue", r1.get("name"))
     }
 }

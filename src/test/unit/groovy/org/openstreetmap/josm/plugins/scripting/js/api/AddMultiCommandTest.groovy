@@ -20,7 +20,7 @@ class AddMultiCommandTest extends JOSMFixtureBasedTest {
         def n1 = new Node(new LatLon(0,0))
         def n2 = new Node(new LatLon(0,0))
         def cmd = new AddMultiCommand(newLayer(), [n1,n2])
-        assert cmd
+        assertNotNull(cmd)
 
         shouldFail(NullPointerException) {
             cmd = new AddMultiCommand(null, [n1,n2])
@@ -40,21 +40,21 @@ class AddMultiCommandTest extends JOSMFixtureBasedTest {
 
         OsmDataLayer layer = newLayer()
         def cmd = new AddMultiCommand(layer, [n1,w1,n2])
-        assert cmd
+        assertNotNull(cmd)
 
         // execute
         def result = cmd.executeCommand()
-        assert result, "should be true"
+        assertTrue(result)
         DataSet ds = layer.data
-        assert ds.allPrimitives().size() == 3
+        assertEquals(3, ds.allPrimitives().size())
 
         // undo
         cmd.undoCommand()
-        assert ds.allPrimitives().size() == 0
+        assertEquals(0, ds.allPrimitives().size())
 
         // redo
         result = cmd.executeCommand()
-        assert result, "should be true"
-        assert ds.allPrimitives().size() == 3
+        assertTrue(result)
+        assertEquals(3, ds.allPrimitives().size())
     }
 }

@@ -1,6 +1,5 @@
 package org.openstreetmap.josm.plugins.scripting.js.api
 
-
 import org.junit.jupiter.api.Test
 import org.openstreetmap.josm.data.coor.LatLon
 import org.openstreetmap.josm.data.osm.Node
@@ -20,7 +19,7 @@ class ChangeTest extends JOSMFixtureBasedTest {
     @Test
     void testLatChange() {
         def change = new LatChange(12.345)
-        assert change
+        assertNotNull(change)
 
         // can be null
         shouldFail(NullPointerException) {
