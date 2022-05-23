@@ -40,8 +40,7 @@ import static org.openstreetmap.josm.tools.I18n.tr;
 
 @SuppressWarnings("ClassInitializerMayBeStatic")
 public class ScriptingPlugin extends Plugin implements PreferenceKeys{
-    static private final Logger logger =
-            Logger.getLogger(ScriptingPlugin.class.getName());
+    static private final Logger logger = Logger.getLogger(ScriptingPlugin.class.getName());
 
     @SuppressWarnings("WeakerAccess")
     static public final String START_MODULE_NAME = "ScriptingPlugin_Start";
@@ -50,12 +49,10 @@ public class ScriptingPlugin extends Plugin implements PreferenceKeys{
     private static Scriptable startModule;
 
     private void initLocalInstallation() {
-        final File f = new File(getPluginDirs()
-                .getUserDataDirectory(false), "modules");
+        final File f = new File(getPluginDirs().getUserDataDirectory(false), "modules");
         if (!f.exists()) {
             if (!f.mkdirs()) {
-                logger.warning(String.format("Failed to create directory '%s'",
-                    f));
+                logger.warning(tr("Failed to create directory ''{0}''", f));
             }
         }
     }
@@ -74,8 +71,7 @@ public class ScriptingPlugin extends Plugin implements PreferenceKeys{
                 );
             } catch(IOException e) {
                 logger.log(Level.SEVERE,
-                    "Failed to configure built-in CommonJS module repository",
-                    e);
+                    tr("Failed to configure built-in CommonJS module repository"), e);
             }
         }
         CommonJSModuleRepositoryRegistry.getInstance()
@@ -92,30 +88,28 @@ public class ScriptingPlugin extends Plugin implements PreferenceKeys{
             initGraalVMJSModuleRepository(info);
             final RhinoEngine engine = RhinoEngine.getInstance();
             engine.initScope();
-            JOSMModuleScriptProvider provider = JOSMModuleScriptProvider
-                    .getInstance();
+            JOSMModuleScriptProvider provider = JOSMModuleScriptProvider.getInstance();
             Optional<URL> url = provider.lookup(START_MODULE_NAME);
             if (url.isEmpty()) {
-                logger.info(String.format("No startup module '%s' found.",
-                        START_MODULE_NAME));
+                logger.info(tr("No startup module ''{0}'' found.", START_MODULE_NAME));
             } else {
                 try {
                     startModule = engine.require(START_MODULE_NAME);
                 } catch (RhinoException e) {
-                    logger.log(Level.SEVERE, String.format(
-                        "Failed to load start module '%s' from URL '%s'.",
+                    logger.log(Level.SEVERE, tr(
+                        "Failed to load start module ''{0}'' from URL ''{1}''.",
                         START_MODULE_NAME, url.get()), e);
                 }
                 if (startModule != null) {
-                    logger.info(String.format(
-                        "Successfully loaded startup module '%s' from URL '%s'",
+                    logger.info(tr(
+                        "Successfully loaded startup module ''{0}'' from URL ''{1}.''",
                         START_MODULE_NAME, url.get()));
                     jsOnStart();
                 }
             }
         } catch(JavaScriptException e) {
             logger.log(Level.WARNING,
-                tr("FATAL: Failed to initialize scripting plugin"),e);
+                tr("Failed to initialize scripting plugin"),e);
         }
     }
 
@@ -127,9 +121,9 @@ public class ScriptingPlugin extends Plugin implements PreferenceKeys{
             return;
         }
         if (!(o instanceof Function)) {
-            logger.warning(String.format(
-                "module 'start': property '%s' should be a function, "
-                    + "got %s instead",
+            logger.warning(tr(
+                  "Property ''{0}'' of module ''start'' should be a function, "
+                + "got ''{1}'' instead",
                  "onStart", o));
             return;
         }
@@ -143,14 +137,14 @@ public class ScriptingPlugin extends Plugin implements PreferenceKeys{
         if (o == Scriptable.NOT_FOUND)
             return;
         if (!(o instanceof Function)) {
-            logger.warning(String.format(
-                "module 'start': property '%s' should be a function, " +
-                "got %s instead", "onMapFrameChanged", o)
+            logger.warning(tr(
+                "Property ''{0}'' of module ''start'' should be a function, " +
+                "got ''{1}'' instead", "onMapFrameChanged", o)
              );
             return;
         }
         RhinoEngine.getInstance().executeOnSwingEDT((Function) o,
-                new Object[] { oldFrame, newFrame });
+            new Object[] { oldFrame, newFrame });
     }
 
     private final Action toggleConsoleAction = new ToggleConsoleAction();
@@ -171,13 +165,13 @@ public class ScriptingPlugin extends Plugin implements PreferenceKeys{
     private void installScriptsMenu() {
         final MainMenu mainMenu = MainApplication.getMenu();
         final JMenu scriptingMenu = mainMenu.addMenu(
-                "Scripting", tr("Scripting"), -1 /* no mnemonic key */ ,
-                MainApplication.getMenu().getDefaultMenuPos(),
-                ht("/Plugin/Scripting")
+            "Scripting", tr("Scripting"),
+            -1 /* no mnemonic key */ ,
+            MainApplication.getMenu().getDefaultMenuPos(),
+            ht("/Plugin/Scripting")
         );
         scriptingMenu.setMnemonic('S');
-        MostRecentlyRunScriptsModel.getInstance()
-                .loadFromPreferences(Preferences.main());
+        MostRecentlyRunScriptsModel.getInstance().loadFromPreferences(Preferences.main());
         populateStandardEntries(scriptingMenu);
         populateMruMenuEntries(scriptingMenu);
         MostRecentlyRunScriptsModel.getInstance().getPropertyChangeSupport()
@@ -200,8 +194,8 @@ public class ScriptingPlugin extends Plugin implements PreferenceKeys{
 
     private void populateMruMenuEntries(JMenu scriptingMenu) {
         final List<Action> actions = MostRecentlyRunScriptsModel
-                .getInstance()
-                .getRunScriptActions();
+            .getInstance()
+            .getRunScriptActions();
         if (!actions.isEmpty()) {
             scriptingMenu.addSeparator();
             actions.stream().limit(10).forEach(scriptingMenu::add);
@@ -222,23 +216,22 @@ public class ScriptingPlugin extends Plugin implements PreferenceKeys{
      * Installs the default mime types shipped in the resource
      * <tt>/resources/mime.types.default</tt> in the plugin directory.
      */
-    // TODO(karl): still have to install a mime-types file?
     private void installResourceFiles() {
         final File mimeTypesTarget = new File(getPluginDirs()
-                .getUserDataDirectory(false), "mime.types");
+            .getUserDataDirectory(false), "mime.types");
         if (mimeTypesTarget.exists()) return; // don't have to install it
         final String res = "/resources/mime.types.default";
         try(InputStream is = getClass().getResourceAsStream(res)){
             if (is == null) {
-                logger.warning(String.format(
-                        "Didn't find resource '%s'. "
-                       + "Can't install default mime types.",
-                       res));
+                logger.warning(tr(
+                     "Didn''t find resource ''{0}''. "
+                   + "Can''t install default mime types.",
+                   res));
                 return;
             }
             if (mimeTypesTarget.getParentFile().mkdirs()) {
-                logger.warning(String.format(
-                    "Failed to create directory '%s'. Can't install " +
+                logger.warning(tr(
+                    "Failed to create directory ''{0}''. Can''t install " +
                     "mime.types file",
                     mimeTypesTarget.getAbsolutePath()
                 ));
@@ -250,18 +243,17 @@ public class ScriptingPlugin extends Plugin implements PreferenceKeys{
                     fout.write(buf, 0, read);
                 }
             }
-            logger.info(String.format(
-                  "Successfully installed default mime types in file '%s'.",
+            logger.info(tr(
+                  "Successfully installed default mime types in file ''{0}''.",
                   mimeTypesTarget.getAbsolutePath()
             ));
         } catch(IOException e) {
-            logger.warning(String.format(
+            logger.warning(tr(
                     "Failed to install default mime types "
-                  + "in the plugin directory '%s'. Exception is: %s",
+                  + "in the plugin directory ''{0}''.",
                   getPluginDirs().getUserDataDirectory(false).toString(),
                   e
             ));
-            e.printStackTrace();
         }
     }
 
@@ -288,11 +280,10 @@ public class ScriptingPlugin extends Plugin implements PreferenceKeys{
             @NotNull final String className)
         throws PluginNotFoundException, ClassNotFoundException{
         final PluginClassLoader cl =
-                PluginHandler.getPluginClassLoader(pluginName);
+            PluginHandler.getPluginClassLoader(pluginName);
         if (cl == null) {
             throw new PluginNotFoundException(
-                tr("plugin class loader for plugin ''{0}'' not found",
-                    pluginName));
+                tr("plugin class loader for plugin ''{0}'' not found", pluginName));
         }
         return new NativeJavaClass(RhinoEngine.getInstance().getScope(),
             cl.loadClass(className));

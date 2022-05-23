@@ -85,7 +85,7 @@ public class JSR223ScriptEngineProvider
             if (f.isFile() && f.canRead()){
                 try {
                     mimeTypesMap = new MimetypesFileTypeMap(
-                            Files.newInputStream(f.toPath()));
+                        Files.newInputStream(f.toPath()));
                     return;
                 } catch(IOException e) {
                     logger.log(Level.WARNING,
