@@ -49,6 +49,6 @@ jobs:
       - name: Build with Gradle
         uses: gradle/gradle-build-action@v2.1.6
         env:
-            DISPLAY=:19
+            DISPLAY: ":19"
         with:
           arguments: build
