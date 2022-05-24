@@ -41,25 +41,6 @@ public class GraalVMFacadeFactory {
         }
         final IGraalVMFacade facade = new GraalVMFacade();
         return facade;
-
-//        try {
-//            Class<?> facadeClass = Class.forName(
-//                "org.openstreetmap.josm.plugins.scripting.graalvm.GraalVMFacade"
-//            );
-//            final IGraalVMFacade facade =
-//                    (IGraalVMFacade) facadeClass.getDeclaredConstructor()
-//                            .newInstance();
-//            logger.info(tr("Enabled support for GraalVM"));
-//            return facade;
-//        } catch(
-//             ClassNotFoundException | InstantiationException
-//           | IllegalAccessException | NoClassDefFoundError
-//           | NoSuchMethodException | InvocationTargetException e
-//        ) {
-//            System.out.println(e);
-//            e.printStackTrace();
-//            return null;
-//        }
     }
 
     /**
