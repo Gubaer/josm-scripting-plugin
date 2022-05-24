@@ -7,7 +7,6 @@
 
 /* global require */
 /* global Java */
-/* ScriptingPlugin */
 
 const Version = Java.type('org.openstreetmap.josm.data.Version')
 const JOptionPane = Java.type('javax.swing.JOptionPane')

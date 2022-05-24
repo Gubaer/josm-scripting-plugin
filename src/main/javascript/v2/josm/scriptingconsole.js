@@ -6,9 +6,9 @@
  */
 
 /* global Java */
-/* global ScriptingConsole */
 
 // -- imports
+const ScriptingConsole =  Plugin.type('org.openstreetmap.josm.plugins.scripting.ui.console.ScriptingConsole')
 const MessageFormat = Java.type('java.text.MessageFormat')
 
 function consoleWriter () {

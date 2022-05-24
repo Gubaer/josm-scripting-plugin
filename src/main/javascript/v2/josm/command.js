@@ -5,20 +5,14 @@
  * @module josm/command
  */
 
-// org.openstreetmap.josm.plugins.scripting.js.api.AddMultiCommand is populated
-// in the context
-/* global AddMultiCommand */
 
-// org.openstreetmap.josm.plugins.scripting.js.api.ChangeMultiCommand is populated
-// in the context
-/* global ChangeMultiCommand */
-
-// org.openstreetmap.josm.plugins.scripting.js.api.Change is populated in the
-// context
-
-/* global Change */
 /* global Java */
 /* global require */
+
+
+const AddMultiCommand = Plugin.type('org.openstreetmap.josm.plugins.scripting.js.api.AddMultiCommand')
+const ChangeMultiCommand = Plugin.type('org.openstreetmap.josm.plugins.scripting.js.api.ChangeMultiCommand')
+const Change = Plugin.type('org.openstreetmap.josm.plugins.scripting.js.api.Change')
 
 const util = require('josm/util')
 const layers = require('josm/layers')

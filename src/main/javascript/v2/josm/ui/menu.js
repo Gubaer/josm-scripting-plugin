@@ -6,13 +6,8 @@
  */
 
 /* global Java */
-// NOTE:
-//  the class 'org.openstreetmap.josm.plugins.scripting.graalvm.JSAction'
-//  is automatically bound to the scripting context. It can be loaded using
-//     const JSAction = Java.type('org.openstreetmap.josm.plugins.scripting.graalvm.JSAction')
-//  because of class loading issues.
-/* global JSAction */
 
+const JSAction = Plugin.type('org.openstreetmap.josm.plugins.scripting.js.JSAction')
 const MainApplication = Java.type('org.openstreetmap.josm.gui.MainApplication')
 const util = require('josm/util')
 

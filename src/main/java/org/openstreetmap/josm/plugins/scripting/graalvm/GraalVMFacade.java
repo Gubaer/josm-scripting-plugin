@@ -1,18 +1,16 @@
 package org.openstreetmap.josm.plugins.scripting.graalvm;
 
 import org.graalvm.polyglot.*;
-import org.openstreetmap.josm.plugins.scripting.js.api.AddMultiCommand;
-import org.openstreetmap.josm.plugins.scripting.js.api.Change;
-import org.openstreetmap.josm.plugins.scripting.js.api.ChangeMultiCommand;
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
 import org.openstreetmap.josm.plugins.scripting.preferences.graalvm.GraalVMPrivilegesModel;
-import org.openstreetmap.josm.plugins.scripting.ui.console.ScriptingConsole;
 
 import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,32 +22,21 @@ public class GraalVMFacade  implements IGraalVMFacade {
     static private final Logger logger =
         Logger.getLogger(GraalVMFacade.class.getName());
 
+    static final private Map<String, TypeResolveFunction> pluginObject =
+        Collections.singletonMap("type", new TypeResolveFunction());
+
     private Context context;
 
-    static private final List<Class<?>> POPULATED_CLASSES = List.of(
-        RequireFunction.class,
-        JSAction.class,
-        AddMultiCommand.class,
-        ChangeMultiCommand.class,
-        Change.class,
-        ScriptingConsole.class
-    );
-
     private void populateContext(final Context context) {
-        // populate the context with the require function
-        final RequireFunction require = new RequireFunction();
-        context.getBindings("js").putMember("require", require);
+        final Value bindings = context.getBindings("js");
 
-        // Workaround: These are java classes provided in the scripting
-        // plugin jar which are used by JavaScript modules in the
-        // V2 library.
-        //
-        // TODO: replace with a binding to a generic function which
-        // can provide classes from the scripting plugin jar to
-        // JavaScript modules?
-        POPULATED_CLASSES.forEach(clazz ->
-            context.getBindings("js").putMember(clazz.getSimpleName(), clazz)
-        );
+        // populate the context with the require function
+        bindings.putMember("require", new RequireFunction());
+        // populate the context with the object 'Plugin'. 'Plugin' offers
+        // a member function 'type()' to access java classes from the plugin
+        // which can't be accessed with 'Java.type()' because of class
+        // loading issues.
+        bindings.putMember("Plugin", pluginObject);
     }
 
     private void grantPrivilegesToContext(final Context.Builder builder) {
@@ -66,7 +53,7 @@ public class GraalVMFacade  implements IGraalVMFacade {
         builder.option("js.strict", "true");
     }
 
-    /**
+    /**git
      *
      * @throws IllegalStateException throw, if no language and polyglot
      *  implementation was found on the classpath
