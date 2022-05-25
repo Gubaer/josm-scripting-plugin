@@ -15,7 +15,7 @@ import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
-import java.util.Optional;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Stream;
@@ -125,13 +125,12 @@ public class ScriptingConsolePanel extends JPanel {
         contentTypes = desc == null
                 ? Stream.of("text/plain")
                 : desc.getContentMimeTypes().stream();
-        final Optional<String> syntax =
-            contentTypes.map(editor::lookupSyntaxConstants)
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-                .findFirst();
-        if (syntax.isPresent()) {
-            editor.changeSyntaxEditingStyle(syntax.get());
+        final String syntaxStyle = contentTypes.map(editor::lookupSyntaxConstants)
+                .filter(Objects::nonNull)
+                .findFirst()
+                .orElse(null);
+        if (syntaxStyle != null) {
+            editor.changeSyntaxEditingStyle(syntaxStyle);
         } else {
             //noinspection ConstantConditions
             warnMissingSyntaxStyle(desc);

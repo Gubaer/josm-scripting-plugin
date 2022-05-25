@@ -21,6 +21,7 @@ import org.openstreetmap.josm.plugins.scripting.ui.MostRecentlyRunScriptsModel;
 import org.openstreetmap.josm.plugins.scripting.ui.RunScriptAction;
 import org.openstreetmap.josm.plugins.scripting.ui.RunScriptDialog;
 import org.openstreetmap.josm.plugins.scripting.ui.ToggleConsoleAction;
+import org.openstreetmap.josm.plugins.scripting.ui.console.SyntaxConstantsEngine;
 
 import javax.swing.*;
 import javax.validation.constraints.NotNull;
@@ -86,6 +87,7 @@ public class ScriptingPlugin extends Plugin implements PreferenceKeys{
             installScriptsMenu();
             initLocalInstallation();
             initGraalVMJSModuleRepository(info);
+            SyntaxConstantsEngine.getInstance().loadRules(this);
             final RhinoEngine engine = RhinoEngine.getInstance();
             engine.initScope();
             JOSMModuleScriptProvider provider = JOSMModuleScriptProvider.getInstance();

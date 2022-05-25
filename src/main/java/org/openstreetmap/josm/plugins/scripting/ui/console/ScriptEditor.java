@@ -13,9 +13,15 @@ import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.*;
+import java.lang.reflect.Modifier;
+import java.text.MessageFormat;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import static org.openstreetmap.josm.plugins.scripting.ui.GridBagConstraintBuilder.gbc;
 import static org.openstreetmap.josm.plugins.scripting.util.FileUtils.buildTextFileReader;
@@ -28,6 +34,30 @@ import static org.openstreetmap.josm.tools.I18n.tr;
  */
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class ScriptEditor extends JPanel implements PropertyChangeListener {
+
+    static private final Logger logger = Logger.getLogger(ScriptEditor.class.getName());
+
+    private static java.util.List<String> getAvailableSyntaxConstants() {
+        return Arrays.stream(SyntaxConstants.class.getDeclaredFields())
+            .filter(field ->
+                Modifier.isStatic(field.getModifiers()) && field.getName().startsWith("SYNTAX_STYLE_")
+            )
+            .map(field -> {
+                final String value = "";
+                field.setAccessible(true);
+                try {
+                    return (String) field.get(value);
+                } catch (IllegalAccessException e) {
+                    logger.log(Level.SEVERE, MessageFormat.format(
+                        "Failed to read syntax style constant '{0}'",
+                        field.getName()
+                    ), e);
+                    return null;
+                }
+            })
+            .filter(Objects::nonNull)
+            .collect(Collectors.toList());
+    }
 
     private ScriptEditorModel model;
     private JLabel lblScriptFile;
@@ -63,21 +93,12 @@ public class ScriptEditor extends JPanel implements PropertyChangeListener {
         editor.setWhitespaceVisible(true);
     }
 
-    public @NotNull Optional<String> lookupSyntaxConstants(
+    public @NotNull String lookupSyntaxConstants(
             @NotNull String mimeType) {
         Objects.requireNonNull(mimeType);
-        final String normalizedMimeType = mimeType.toLowerCase();
-        // TODO(karl): find better solution
-        // - resource file with configuration map mimetype -> syntax constant?
-        // - loop over the constants in SyntaxConstants and find a matching constant?
-        if (normalizedMimeType.contains("javascript")) {
-            return Optional.of(SyntaxConstants.SYNTAX_STYLE_JAVASCRIPT);
-        } else if (normalizedMimeType.contains("groovy")) {
-            return Optional.of(SyntaxConstants.SYNTAX_STYLE_GROOVY);
-        } else if (normalizedMimeType.contains("python")) {
-            return Optional.of(SyntaxConstants.SYNTAX_STYLE_PYTHON);
-        }
-        return Optional.empty();
+        var normalizedMimeType = mimeType.toLowerCase();
+        return SyntaxConstantsEngine
+            .getInstance().deriveSyntaxStyle(mimeType);
     }
 
     public void changeSyntaxEditingStyle(@NotNull String syntaxStyle){

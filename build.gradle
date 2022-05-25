@@ -155,7 +155,7 @@ test {
     include "org/openstreetmap/josm/plugins/scripting/js/**/*.class"
     include "org/openstreetmap/josm/plugins/scripting/model/*.class"
     include "org/openstreetmap/josm/plugins/scripting/preferences/graalvm/GraalVMPrivilegesModelTest.class"
-    include "org/openstreetmap/josm/plugins/scripting/ui/console/ScriptEditorModelTest.class"
+    include "org/openstreetmap/josm/plugins/scripting/ui/console/*.class"
     testLogging.events TestLogEvent.FAILED, TestLogEvent.PASSED
 }
 
