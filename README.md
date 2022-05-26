@@ -43,11 +43,17 @@ $ ./gradlew clean build
 $ git tag v9.9.9
 $ git push origin v9.9.9
 
-# create a GitHub release
-$ ./gradlew createGithubRelease --release-label v9.9.9
+# create a GitHub release for the current release (the
+# most recent release in releases.yml)
+$ ./gradlew createGithubRelease
 
-# publish the scripting.jar to the current GitHub release
+# publish the scripting.jar to the current GitHub release (the
+# most recent release in releases.yml)
 $ ./gradlew publishToGithubRelease
+
+# publish latest scripting.jar to an Amazon S3 bucket where it
+# is picked up by the JOSM plugin system for distribution
+./gradlew publishToAwsS3 -i
 ```
 
 ## How to test

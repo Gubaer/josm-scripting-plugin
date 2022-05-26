@@ -301,6 +301,8 @@ tasks.register("checkDownloadUrls", CheckDownloadUrlsInManifestTask)
 import org.openstreetmap.josm.plugins.scripting.release.ShowPublishedPluginTask
 tasks.register("showPublishedPluginInfo", ShowPublishedPluginTask)
 
+import org.openstreetmap.josm.plugins.scripting.release.PublishToAwsS3Task
+tasks.register("publishToAwsS3", PublishToAwsS3Task)
 
 publishToGithubRelease {
     remoteJarName = "scripting.jar"

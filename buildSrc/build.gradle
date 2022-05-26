@@ -15,6 +15,7 @@ dependencies {
     implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.13.0'
     implementation 'com.github.groovy-wslite:groovy-wslite:1.1.2'
     implementation group: 'com.squareup.okhttp', name: 'okhttp', version: '2.7.5'
+    implementation 'com.amazonaws:aws-java-sdk-s3:1.12.227'
 
     implementation gradleApi()
 
