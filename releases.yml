@@ -19,7 +19,7 @@ releases:
 
   - label: 30796
     minJosmVersion: 14256
-    description: update and add i18n ressources
+    description: update and add i18n resources
 
   - label: 30787
     minJosmVersion: 14155
