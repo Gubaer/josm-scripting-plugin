@@ -15,7 +15,7 @@ print_help() {
   echo "  -o | --outputdir <output-directory>"
   echo "     optional. default is 'out'"
   echo "  -a | --api-version <version>"
-  echo "     optional. either 'v1' or 'v2'. default is 'v1'"
+  echo "     optional. either 'v1', 'v2', or 'all'. default is 'all'"
   echo "  -h | --help"
   echo "     print help information"
 }
@@ -24,7 +24,7 @@ print_help() {
 OUTPUT_DIR="out"
 
 # default API version
-API_VERSION="v1"
+API_VERSION="all"
 
 while [ $# -gt 0 ] ;
 do
@@ -50,7 +50,7 @@ do
       fi
       API_VERSION=$1
       if [[ "$API_VERSION" != "v1" && "$API_VERSION" != "v2" && "$API_VERSION" != "all" ]] ; then
-        echo "error: illegal api version '$API_VERSION', expected 'v11, 'v2', or 'all'" 1>&2
+        echo "error: illegal api version '$API_VERSION', expected 'v1, 'v2', or 'all'" 1>&2
         print_help
         exit 1
       fi
