@@ -6,12 +6,9 @@ import javax.swing.*;
 import java.awt.*;
 
 public class ScriptErrorDialogTest extends JFrame {
-    @SuppressWarnings("FieldCanBeLocal")
-    private final JOSMFixture fixture;
 
     public ScriptErrorDialogTest() throws Exception {
-        //fixture = new JOSMFixture(true);
-        fixture = JOSMFixture.createFixture(true /* with gui */);
+        var fixture = JOSMFixture.createFixture(true /* with gui */);
 
         getContentPane().setLayout(new FlowLayout());
         setSize(100,100);

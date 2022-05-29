@@ -19,8 +19,6 @@ public class ModuleRepositoryDialogTest extends JFrame {
             dialog.setVisible(true);
         });
 
-        @SuppressWarnings("unused")
-        //final JOSMFixture fixture = new JOSMFixture(true);
         final JOSMFixture fixture = JOSMFixture.createFixture(true /* with gui */);
     }
 

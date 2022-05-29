@@ -12,7 +12,6 @@ public class ScriptEnginesConfigurationPanelTest extends JFrame {
 
     private ScriptEnginesConfigurationPanelTest() throws Exception {
         @SuppressWarnings("unused")
-        // final JOSMFixture fixture = new JOSMFixture(true);
         final JOSMFixture fixture = JOSMFixture.createFixture(true /* with gui */);
         build();
     }
