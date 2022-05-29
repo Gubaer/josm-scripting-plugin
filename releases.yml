@@ -2,10 +2,20 @@ releases:
   - label: v0.2.0
     minJosmVersion: 18427
     description: |
-     major rewrite and cleanup
-     * now requires Java 11 
-     * now supports GraalJS. Support for Mozilla Rhino is deprecated.
-     * introduces new JavaScript API V2, replaces former JavaScript API V1 
+     * major cleanup
+     * **New**: requires Java 11 
+     * **New**: supports [GraalJS with a stock JDK][graaljs-stocksdk-doc]
+     * **New**: supports [GraalJS in JOSM running with GraalVM][graaljs-graalvm-doc]
+     * Support for Mozilla Rhino is [deprecated][rhino-deprecated-doc]
+     * **New**: Introduces new [JavaScript API V2][api-v2-doc] (replaces former JavaScript API V1), to be used with [GraalJS][graaljs-doc]
+     * Former [JavaScript API V1][api-v1-doc] is deprecated
+      
+     [graaljs-stocksdk-doc]:https://gubaer.github.io/josm-scripting-plugin/docs/graaljs.html#running-josm-with-a-stock-jdk-and-graaljs-as-java-library
+     [graaljs-graalvm-doc]:https://gubaer.github.io/josm-scripting-plugin/docs/graaljs.html#running-josm-with-the-graalvm-jdk
+     [rhino-deprecated-doc]:https://gubaer.github.io/josm-scripting-plugin/docs/rhino.html
+     [api-v2-doc]: https://gubaer.github.io/josm-scripting-plugin/docs/v2/v2.html
+     [api-v1-doc]: https://gubaer.github.io/josm-scripting-plugin/docs/v1/v1.html
+     [graaljs-doc]:https://gubaer.github.io/josm-scripting-plugin/docs/graaljs.html
 
   - label: 30796
     minJosmVersion: 14256
