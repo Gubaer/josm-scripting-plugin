@@ -1,7 +1,7 @@
 package org.openstreetmap.josm.plugins.scripting.release
 
-import com.squareup.okhttp.OkHttpClient
-import com.squareup.okhttp.Request
+import okhttp3.OkHttpClient
+import okhttp3.Request
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
 import org.gradle.api.tasks.TaskAction
@@ -55,6 +55,7 @@ class ShowPublishedPluginTask extends DefaultTask {
         final request = new Request.Builder()
             .url(PLUGIN_INVENTORY_URL)
             .build()
+
         final response = client.newCall(request).execute()
         if (! response.isSuccessful()) {
             throw new GradleException(
