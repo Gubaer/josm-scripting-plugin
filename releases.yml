@@ -6,9 +6,8 @@ releases:
      * **New**: requires Java 11 
      * **New**: supports [GraalJS with a stock JDK][graaljs-stocksdk-doc]
      * **New**: supports [GraalJS in JOSM running with GraalVM][graaljs-graalvm-doc]
-     * Support for Mozilla Rhino is [deprecated][rhino-deprecated-doc]
-     * **New**: Introduces new [JavaScript API V2][api-v2-doc] (replaces former JavaScript API V1), to be used with [GraalJS][graaljs-doc]
-     * Former [JavaScript API V1][api-v1-doc] is deprecated
+     * Support for built-in Mozilla Rhino and [JavaScript API V1][api-v1-doc] is [deprecated][rhino-deprecated-doc]
+     * **New**: Introduces new [JavaScript API V2][api-v2-doc], to be used with [GraalJS][graaljs-doc]
       
      [graaljs-stocksdk-doc]:https://gubaer.github.io/josm-scripting-plugin/docs/graaljs.html#running-josm-with-a-stock-jdk-and-graaljs-as-java-library
      [graaljs-graalvm-doc]:https://gubaer.github.io/josm-scripting-plugin/docs/graaljs.html#running-josm-with-the-graalvm-jdk
