@@ -53,7 +53,7 @@ public class GraalVMFacade  implements IGraalVMFacade {
         builder.option("js.strict", "true");
     }
 
-    /**git
+    /**
      *
      * @throws IllegalStateException throw, if no language and polyglot
      *  implementation was found on the classpath
@@ -101,7 +101,13 @@ public class GraalVMFacade  implements IGraalVMFacade {
         return desc;
     }
 
-    public List<ScriptEngineDescriptor> buildDescriptorsForGraalVMBasedEngines(
+    /**
+     * Replies descriptors for languages supported by the GraalVM engine
+     *
+     * @param engine the engine
+     * @return descriptors for GraalVM based engines
+     */
+    public @NotNull List<ScriptEngineDescriptor> buildDescriptorsForGraalVMBasedEngines(
         @NotNull final Engine engine) {
         return engine.getLanguages().values().stream().map(value ->
             buildDescriptorForGraalVMBasedEngine(engine, value)

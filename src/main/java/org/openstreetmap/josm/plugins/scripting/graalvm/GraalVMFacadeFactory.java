@@ -10,7 +10,7 @@ public class GraalVMFacadeFactory {
         Logger.getLogger(GraalVMFacadeFactory.class.getName());
 
     /**
-     * Replies true, if GraalVM is present and if the GraalVM polyglot API
+     * Replies true, if the GraalVM is present and if the GraalVM polyglot API
      * can be used
      *
      * @return true, if GraalVM is present
@@ -39,13 +39,12 @@ public class GraalVMFacadeFactory {
                     + "Support for GraalVM is disabled."));
             return null;
         }
-        final IGraalVMFacade facade = new GraalVMFacade();
-        return facade;
+        return new GraalVMFacade();
     }
 
     /**
-     * Creates a GraalVM, if it doesn't exist yet and replies the current
-     * GraalVM instance
+     * Creates a GraalVM facade if it doesn't exist yet and replies the current
+     * GraalVM facade
      *
      * @return the facade
      */
