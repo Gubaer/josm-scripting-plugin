@@ -2,6 +2,10 @@
  * Provides access to the system clipboard
  *
  * @module clipboard
+ *
+ * @example
+ *   const clipboard = required('clipboard')
+ *
  */
 
 /* global Java */

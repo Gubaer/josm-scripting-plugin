@@ -1,6 +1,9 @@
 /**
- * This module is auto-loaded by the scripting plugin. It provides the
- * implementation of the global <code>josm</code> object.
+ * This modules exports an objects with a set of properties and methods
+ * to access JOSMs internals.
+ *
+ * @example
+ *   const josm = require('josm')
  *
  * @module josm
  */
