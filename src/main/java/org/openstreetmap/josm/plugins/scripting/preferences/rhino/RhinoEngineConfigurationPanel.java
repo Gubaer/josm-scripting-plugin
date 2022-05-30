@@ -51,7 +51,7 @@ public class RhinoEngineConfigurationPanel extends VerticallyScrollablePanel{
                 + "Support for the Mozilla Rhino engine in the scripting "
                 + "plugin is <strong>deprecated</strong>. The Mozilla Rhino "
                 + "engine will be removed at the end of 2022. Consider "
-                + "to migrate your scripts to the GraalJS and the JavaScript "
+                + "to migrating your scripts to the GraalJS and the JavaScript "
                 + "API V2 of the scripting plugin."
                 + "</p>"
             )
