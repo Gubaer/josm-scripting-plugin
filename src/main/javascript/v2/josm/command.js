@@ -3,11 +3,14 @@
  * and redone on {@class org.openstreetmap.josm.gui.layer.OsmDataLayer}s.
  *
  * @module josm/command
+ * @example
+ *  const {AddCommand} = require('josm/command')
  */
 
 
 /* global Java */
 /* global require */
+/* global Plugin */
 
 
 const AddMultiCommand = Plugin.type('org.openstreetmap.josm.plugins.scripting.js.api.AddMultiCommand')
@@ -102,7 +105,7 @@ exports.AddCommand.prototype.applyTo = applyTo
 /**
  * Creates the internal JOSM command for this command
  *
-  * @function
+ * @function
  * @summary Creates the internal JOSM command for this command
  * @param {org.openstreetmap.josm.gui.layer.OsmDataLayer} layer the data layer
  * @returns {org.openstreetmap.josm.command.Command} the command
@@ -138,16 +141,12 @@ exports.AddCommand.prototype.createJOSMCommand = function (layer) {
  * @example
  * const cmd = require('josm/command')
  * const layers = require('josm/layer')
+ * const {NodeBuilder} = require('josm/builder')
  * const layer  = layers.get('Data Layer 1')
  *
  * // add two nodes
- * cmd.add(n1,n1).applyTo(layer)
- *
- * // add an array of two nodes and a way
- * layer.apply(
- *    cmd.add([n1,n2,w2])
- * )
- *
+ * cmd.add(NodeBuilder.create(), NodeBuilder.create()).applyTo(layer)
+ * *
  * @function
  * @summary Creates a command to add a collection of objects
  * @param {...(primitive | primitive[] | java.lang.Collection )} primitives the primitives to add
@@ -218,16 +217,12 @@ exports.DeleteCommand.prototype.createJOSMCommand = function (layer) {
  * @example
  * const cmd = require('josm/command')
  * const layers= require('josm/layer')
+ * const {NodeBuilder} = require('josm/builder')
  * const layer = layers.get('Data Layer 1')
  *
  * // delete two nodes
- * cmd.delete(n1,n1).applyTo(layer)
- *
- * // delete an array of two nodes and a way
- * layer.apply(
- *    cmd.delete([n1,n2,w2])
- * )
- *
+ * cmd.delete(NodeBuilder.create(),NodeBuilder.create()).applyTo(layer)
+ * *
  * @function
  * @summary Creates a command to delete a collection of objects
  * @param {...(primitive | primitive[] | java.lang.Collection )} primitives the primitives to delete
@@ -436,22 +431,17 @@ exports.ChangeCommand.prototype.createJOSMCommand = function (layer) {
  * </dl>
  *
  * @example
- * const {change} = require("josm/command")
- * const layers = require("josm/layers")
- * const my_layer = layers.get("Data Layer 1")
+ * const {change} = require('josm/command')
+ * const layers = require('josm/layers')
+ * const layer = layers.get("Data Layer 1")
  *
  * // change the position of a node
- * change(n1, {lat: 123.45, lon: 44.234}).applyTo(my_layer)
- *
- * // change the nodes of a way
- * my_layer.apply(
- *    change(w2, {nodes: [n1,n2,3]})
- * )
+ * change(n1, {lat: 123.45, lon: 44.234}).applyTo(layer)
  *
  * // change the tags of a collection of primitives
  * change(n1, n3, w1, r1, {
  *    tags: {'mycustomtag': 'value'}
- * }).applyTo(my_layer)
+ * }).applyTo(layer)
  *
  * @function
  * @summary Creates a command to change a collection of objects
@@ -661,7 +651,6 @@ exports.combineWays = function () {
 * const cmd = require('josm/command')
 * const layers = require('josm/layer')
 * const ds = layers.activeLayer.data
-* const ways  = [ds.way(1), ds.way(2), ds.way(3)]
 * cmd.combineWays(ways)
 *
 * @summary Combines the currently selected ways.
