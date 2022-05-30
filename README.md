@@ -49,11 +49,11 @@ $ ./gradlew createGithubRelease
 
 # publish the scripting.jar to the current GitHub release (the
 # most recent release in releases.yml)
+#
+# The new GitHub release becomes the 'latest' GitHub release
+# for the scripting plugin. The JOSM plugin registry automatically
+# picks up the new version from this 'latest' release.
 $ ./gradlew publishToGithubRelease
-
-# publish latest scripting.jar to an Amazon S3 bucket where it
-# is picked up by the JOSM plugin system for distribution
-./gradlew publishToAwsS3 -i
 ```
 
 ## How to test
