@@ -211,7 +211,7 @@ which created ways are added to.
 		<ul class="dummy">
 			<li>
 				<a href="josm_builder.js.html">josm/builder.js</a>,
-				 <a href="josm_builder.js.html#sunlight-1-line-962">line 962</a>
+				 <a href="josm_builder.js.html#sunlight-1-line-963">line 963</a>
 			</li>
 		</ul>
 	</dd>
@@ -240,12 +240,12 @@ which created ways are added to.
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">const RelationBuilder = require(&#x27;josm/builder&#x27;).RelationBuilder
+    <pre class="sunlight-highlight-javascript">const {RelationBuilder} = require(&#x27;josm/builder&#x27;)
 const DataSet = Java.type(&#x27;org.openstreetmap.josm.data.osm.DataSet&#x27;)
 
 const ds = new DataSet()
 // create a relation builder without and underlying dataset ...
-const rbuilder = new RelationBuilder()
+let rbuilder = new RelationBuilder()
 // ... with an underlying dataset ...
 rbuilder =  new RelationBuilder(ds)
 // ... or using this factory method
@@ -255,11 +255,11 @@ rbuilder = RelationBuilder.forDataSet(ds)
 const r1 = rbuilder.create()
 
 // create a new global way
-const r2 = rbuilder.withTags({route: &#x27;bicycle&#x27;}).create(123456)
+const r2 = rbuilder.withTags({route: &#x27;bicycle&#x27;}).create(1111)
 
 // create a new proxy for a global relation
 // (an &#x27;incomplete&#x27; node in JOSM terminology)
-const r3 = rbuilder.createProxy(123456)</pre>
+const r3 = rbuilder.createProxy(2222)</pre>
 
 
     
@@ -450,16 +450,16 @@ to the dataset <code>ds</code>.
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">const builder = require(&#x27;josm/builder&#x27;)
+    <pre class="sunlight-highlight-javascript">const {RelationBuilder} = require(&#x27;josm/builder&#x27;)
 
 // create a new relation builder building to a data set
-const DataSet = Java.type(&#x27;org.openstreetmap.josm.data.osm&#x27;)
+const DataSet = Java.type(&#x27;org.openstreetmap.josm.data.osm.DataSet&#x27;)
 const ds = new DataSet()
-const rb = builder.RelationBuilder.forDataSet(ds)
+const rb1 = RelationBuilder.forDataSet(ds)
 
 // configure an existing relation builder
-let wb = new builder.RelationBuilder()
-wb = wb.forDataSet(ds)</pre>
+let rb2 = new RelationBuilder()
+rb2 = rb2.forDataSet(ds)</pre>
 
 
     
@@ -687,13 +687,12 @@ wb = wb.forDataSet(ds)</pre>
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">const member = require(&#x27;josm/builder&#x27;).RelationBuilder.member
-const nb = require(&#x27;josm/builder&#x27;).NodeBuilder
+    <pre class="sunlight-highlight-javascript">const {RelationBuilder, NodeBuilder} = require(&#x27;josm/builder&#x27;)
 
 // create a new RelationMember with role &#x27;house&#x27; for a new node
-const m1 = member(&#x27;house&#x27;, nb.create())
+const m1 = RelationBuilder.member(&#x27;house&#x27;, NodeBuilder.create())
 // create a new RelationMember with an empty role for a new node
-const m2 = member(nb.create())</pre>
+const m2 = RelationBuilder.member(NodeBuilder.create())</pre>
 
 
     
@@ -873,7 +872,7 @@ Can be used in an instance or in a static context.
 		<ul class="dummy">
 			<li>
 				<a href="josm_builder.js.html">josm/builder.js</a>,
-				 <a href="josm_builder.js.html#sunlight-1-line-1299">line 1299</a>
+				 <a href="josm_builder.js.html#sunlight-1-line-1293">line 1293</a>
 			</li>
 		</ul>
 	</dd>
@@ -929,17 +928,20 @@ Can be used in an instance or in a static context.
     <pre class="sunlight-highlight-javascript">const { NodeBuilder, RelationBuilder } = require(&#x27;josm/builder&#x27;)
 const member = RelationBuilder.member
 // create a new local relation
-const r1 = rb.create()
+const r1 = RelationBuilder.create()
 
 // create a new global relation
-const r2 = rb.create(12345)
+const r2 = RelationBuilder.create(1111)
 
 // create a new global relation with version 3 with some tags and two
 // members
-const r3 = rb.create(12345, {
+const r3 = RelationBuilder.create(2222, {
    version: 3,
    tags: {type: &#x27;route&#x27;},
-   members: [member(&#x27;house&#x27;, nb.create()), member(nb.create())]
+   members: [
+       member(&#x27;house&#x27;, NodeBuilder.create()),
+       member(NodeBuilder.create())
+   ]
  })</pre>
 
 
@@ -1062,7 +1064,7 @@ The method can be used in a static and in an instance context.
 		<ul class="dummy">
 			<li>
 				<a href="josm_builder.js.html">josm/builder.js</a>,
-				 <a href="josm_builder.js.html#sunlight-1-line-1181">line 1181</a>
+				 <a href="josm_builder.js.html#sunlight-1-line-1180">line 1180</a>
 			</li>
 		</ul>
 	</dd>
@@ -1115,10 +1117,10 @@ The method can be used in a static and in an instance context.
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">const rbuilder = require(&#x27;josm/builder&#x27;).RelationBuilder
+    <pre class="sunlight-highlight-javascript">const {RelationBuilder} = require(&#x27;josm/builder&#x27;)
 
-// a new proxy relation for the global way with id 12345
-const r1 = rbuilder.createProxy(12345)</pre>
+// a new proxy relation for the global way with id 1111
+const r1 = RelationBuilder.createProxy(1111)</pre>
 
 
     
@@ -1192,7 +1194,7 @@ The method can be used in a static and in an instance context.
 
             
 
-            <td class="description last">(mandatory) the global relation id. A number > 0.</td>
+            <td class="description last">(mandatory) the global relation id. A number &gt; 0.</td>
         </tr>
 
     
@@ -1217,7 +1219,7 @@ The method can be used in a static and in an instance context.
             
 
             <td class="description last">(optional) the global relation version. If present,
-   a number > 0. If missing, the version 1 is assumed.</td>
+   a number &gt; 0. If missing, the version 1 is assumed.</td>
         </tr>
 
     
@@ -1262,7 +1264,7 @@ The method can be used in a static and in an instance context.
 		<ul class="dummy">
 			<li>
 				<a href="josm_builder.js.html">josm/builder.js</a>,
-				 <a href="josm_builder.js.html#sunlight-1-line-1119">line 1119</a>
+				 <a href="josm_builder.js.html#sunlight-1-line-1118">line 1118</a>
 			</li>
 		</ul>
 	</dd>
@@ -1315,9 +1317,9 @@ The method can be used in a static and in an instance context.
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">const rbuilder = require(&#x27;josm/builder&#x27;).RelationBuilder
-// creates a global relation with id 12345 an version 12
-const r = rbuilder.withId(12345, 12).create()</pre>
+    <pre class="sunlight-highlight-javascript">const {RelationBuilder} = require(&#x27;josm/builder&#x27;)
+// creates a global relation with id 1111 an version 22
+const r = RelationBuilder.withId(1111, 22).create()</pre>
 
 
     
@@ -1435,7 +1437,7 @@ The method can be used in a static and in an instance context.
 		<ul class="dummy">
 			<li>
 				<a href="josm_builder.js.html">josm/builder.js</a>,
-				 <a href="josm_builder.js.html#sunlight-1-line-1222">line 1222</a>
+				 <a href="josm_builder.js.html#sunlight-1-line-1221">line 1221</a>
 			</li>
 		</ul>
 	</dd>
@@ -1488,15 +1490,11 @@ The method can be used in a static and in an instance context.
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">const rbuilder = require(&#x27;josm/builder&#x27;).RelationBuilder
-const nbuilder = require(&#x27;josm/builder&#x27;).NodeBuilder
-const wbuilder = require(&#x27;josm/builder&#x27;).WayBuilder
-const member = require(&#x27;josm/builder&#x27;).RelationBuilder.member
+    <pre class="sunlight-highlight-javascript">const {RelationBuilder, NodeBuilder} = require(&#x27;josm/builder&#x27;)
 
-const r1 = rbuilder.withMembers(
-  member(&#x27;house&#x27;, nbuilder.create()),
-  member(&#x27;house&#x27;, nbuilder.create()),
-  member(&#x27;street&#x27;, wbuilder.create())
+const r1 = RelationBuilder.withMembers(
+  RelationBuilder.member(&#x27;house&#x27;, NodeBuilder.create()),
+  RelationBuilder.member(&#x27;house&#x27;, NodeBuilder.create())
 ).create()</pre>
 
 
@@ -1628,7 +1626,7 @@ The method can be used in a static and in an instance context.
 		<ul class="dummy">
 			<li>
 				<a href="josm_builder.js.html">josm/builder.js</a>,
-				 <a href="josm_builder.js.html#sunlight-1-line-1147">line 1147</a>
+				 <a href="josm_builder.js.html#sunlight-1-line-1146">line 1146</a>
 			</li>
 		</ul>
 	</dd>
@@ -1681,17 +1679,17 @@ The method can be used in a static and in an instance context.
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">const rbuilder = require(&#x27;josm/builder&#x27;).RelationBuilder
-// a new global relation with the global id 12345 and tags route=&#x27;bicycle&#x27;
+    <pre class="sunlight-highlight-javascript">const {RelationBuilder} = require(&#x27;josm/builder&#x27;)
+// a new global relation with the global id 1111 and tags route=&#x27;bicycle&#x27;
 //and name=&#x27;n8&#x27;
-const r1 = rbuilder.withTags({name:&#x27;n8&#x27;, route:&#x27;bicycle&#x27;}).create(12345)
+const r1 = RelationBuilder.withTags({name:&#x27;n8&#x27;, route:&#x27;bicycle&#x27;}).create(1111)
 
-// a new local node tags name=test and highway=road
+// a new local relation with tags name=test and highway=road
 const tags = {
      name  : &#x27;n8&#x27;,
      route : &#x27;bicycle&#x27;
 }
-const r2 = rbuilder.withTags(tags).create()</pre>
+const r2 = RelationBuilder.withTags(tags).create()</pre>
 
 
     

@@ -220,7 +220,7 @@ to which created nodes are added.
 		<ul class="dummy">
 			<li>
 				<a href="josm_builder.js.html">josm/builder.js</a>,
-				 <a href="josm_builder.js.html#sunlight-1-line-176">line 176</a>
+				 <a href="josm_builder.js.html#sunlight-1-line-179">line 179</a>
 			</li>
 		</ul>
 	</dd>
@@ -249,26 +249,26 @@ to which created nodes are added.
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">const NodeBuilder = require(&#x27;josm/builder&#x27;).NodeBuilder
- const DataSet = Java.type(&#x27;org.openstreetmap.josm.data.osm.DataSet&#x27;)
+    <pre class="sunlight-highlight-javascript">const {NodeBuilder} = require(&#x27;josm/builder&#x27;)
+     const DataSet = Java.type(&#x27;org.openstreetmap.josm.data.osm.DataSet&#x27;)
 
- const ds = new DataSet()
- // create a node builder without and underlying dataset ...
- let nbuilder = new NodeBuilder()
- // ... with an underlying dataset ....
- nbuilder =  new NodeBuilder(ds)
- // ... or using this factory method
- nbuilder = NodeBuilder.forDataSet(ds)
+     const ds = new DataSet()
+     // create a node builder without and underlying dataset ...
+     let nbuilder = new NodeBuilder()
+     // ... with an underlying dataset ....
+     nbuilder =  new NodeBuilder(ds)
+     // ... or using this factory method
+     nbuilder = NodeBuilder.forDataSet(ds)
 
- // create a new local node at position (0,0) without tags
- const n1 = nbuilder.create()
+     // create a new local node at position (0,0) without tags
+     const n1 = NodeBuilder.create()
 
- // create a new global node at a specific position with tags
- const n2 = nbuilder.withPosition(1,1).withTags({name: &#x27;test&#x27;}).create(123456)
+     // create a new global node at a specific position with tags
+     const n2 = NodeBuilder.withPosition(1,1).withTags({name: &#x27;test&#x27;}).create(1)
 
- // create a new proxy for a global node
- // (an &#x27;incomplete&#x27; node in JOSM terminology)
- const n3 = nbuilder.createProxy(123456)</pre>
+     // create a new proxy for a global node
+     // (an &#x27;incomplete&#x27; node in JOSM terminology)
+     const n3 = NodeBuilder.createProxy(2)</pre>
 
 
     
@@ -406,7 +406,7 @@ to the dataset <code>ds</code>.
 		<ul class="dummy">
 			<li>
 				<a href="josm_builder.js.html">josm/builder.js</a>,
-				 <a href="josm_builder.js.html#sunlight-1-line-255">line 255</a>
+				 <a href="josm_builder.js.html#sunlight-1-line-257">line 257</a>
 			</li>
 		</ul>
 	</dd>
@@ -459,17 +459,16 @@ to the dataset <code>ds</code>.
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">const builder = require(&#x27;josm/builder&#x27;)
+    <pre class="sunlight-highlight-javascript">const { NodeBuilder } = require(&#x27;josm/builder&#x27;)
 
-// create a new node builder building to a data set
-const DataSet = Java.type(&#x27;org.openstreetmap.josm.data.osm.DataSet&#x27;)
-const ds = new DataSet()
+ // create a new node builder building to a data set
+ const DataSet = Java.type(&#x27;org.openstreetmap.josm.data.osm.DataSet&#x27;)
+ const ds = new DataSet()
 
-// ... using a static method ...
-const nb1 = builder.NodeBuilder.forDataSet(ds)
-// ... or the instance method
-let nb2 = new builder.NodeBuilder()
-nb = nb.forDataSet(ds)</pre>
+ // ... using a static method ...
+ const nb1 = NodeBuilder.forDataSet(ds)
+ // ... or the instance method
+ const nb2 = new NodeBuilder.forDataSet(ds)</pre>
 
 
     
@@ -650,7 +649,7 @@ Can be used in an instance or in a static context.
 		<ul class="dummy">
 			<li>
 				<a href="josm_builder.js.html">josm/builder.js</a>,
-				 <a href="josm_builder.js.html#sunlight-1-line-277">line 277</a>
+				 <a href="josm_builder.js.html#sunlight-1-line-279">line 279</a>
 			</li>
 		</ul>
 	</dd>
@@ -703,16 +702,16 @@ Can be used in an instance or in a static context.
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">const nb = require(&#x27;josm/builder&#x27;).NodeBuilder
+    <pre class="sunlight-highlight-javascript">const { NodeBuilder } = require(&#x27;josm/builder&#x27;)
 // create a new local node at position [0,0]
-const n1 = nb.create()
+const n1 = NodeBuilder.create()
 
 // create a new global node at position [0,0]
-const n2 = nb.create(12345)
+const n2 = NodeBuilder.create(1111)
 
 // create a new global way with version 3 at a specific position
 // and with some tags
-const n3 = nb.create(12345, {
+const n3 = NodeBuilder.create(2222, {
     version: 3,
     lat: 23.45,
     lon: 87.23,
@@ -840,7 +839,7 @@ The method can be used in a static and in an instance context.
 		<ul class="dummy">
 			<li>
 				<a href="josm_builder.js.html">josm/builder.js</a>,
-				 <a href="josm_builder.js.html#sunlight-1-line-397">line 397</a>
+				 <a href="josm_builder.js.html#sunlight-1-line-399">line 399</a>
 			</li>
 		</ul>
 	</dd>
@@ -893,10 +892,10 @@ The method can be used in a static and in an instance context.
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">const nbuilder = require(&#x27;josm/builder&#x27;).NodeBuilder
+    <pre class="sunlight-highlight-javascript">const { NodeBuilder } = require(&#x27;josm/builder&#x27;)
 
-// a new proxy node for the global node with id 12345
-cons n1 = nbuilder.createProxy(12345)</pre>
+// a new proxy node for the global node with id 1111
+const n1 = NodeBuilder.createProxy(1111)</pre>
 
 
     
@@ -1040,7 +1039,7 @@ The method can be used in a static and in an instance context.
 		<ul class="dummy">
 			<li>
 				<a href="josm_builder.js.html">josm/builder.js</a>,
-				 <a href="josm_builder.js.html#sunlight-1-line-508">line 508</a>
+				 <a href="josm_builder.js.html#sunlight-1-line-510">line 510</a>
 			</li>
 		</ul>
 	</dd>
@@ -1230,7 +1229,7 @@ The method can be used in a static and in an instance context.
 		<ul class="dummy">
 			<li>
 				<a href="josm_builder.js.html">josm/builder.js</a>,
-				 <a href="josm_builder.js.html#sunlight-1-line-437">line 437</a>
+				 <a href="josm_builder.js.html#sunlight-1-line-439">line 439</a>
 			</li>
 		</ul>
 	</dd>
@@ -1283,13 +1282,13 @@ The method can be used in a static and in an instance context.
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">const nbuilder = require(&#x27;josm/builder&#x27;).NodeBuilder
+    <pre class="sunlight-highlight-javascript">const { NodeBuilder } = require(&#x27;josm/builder&#x27;)
 
-// a new global node with the global id 12345 at position (34,45)
-const n1 = nbuilder.withPosition(34,45).create(12345)
+// a new global node with the global id 1111 at position (34,45)
+const n1 = NodeBuilder.withPosition(34,45).create(1111)
 
 // a new local node at position (23.2, 87.33)
-const n2 = nbuilder.withPosition(23.3,87.33).create()</pre>
+const n2 = NodeBuilder.withPosition(23.3,87.33).create()</pre>
 
 
     
@@ -1420,7 +1419,7 @@ The method can be used in a static and in an instance context.
 		<ul class="dummy">
 			<li>
 				<a href="josm_builder.js.html">josm/builder.js</a>,
-				 <a href="josm_builder.js.html#sunlight-1-line-473">line 473</a>
+				 <a href="josm_builder.js.html#sunlight-1-line-475">line 475</a>
 			</li>
 		</ul>
 	</dd>
@@ -1473,18 +1472,18 @@ The method can be used in a static and in an instance context.
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">const nbuilder = require(&#x27;josm/builder&#x27;).NodeBuilder
+    <pre class="sunlight-highlight-javascript">const { NodeBuilder } = require(&#x27;josm/builder&#x27;)
 
-// a new global  node with the global id 12345 and tags name=test and
+// a new global node with the global id 1111 and tags name=test and
 // highway=road
-const n1 = nbuilder.withTags({&#x27;name&#x27;:&#x27;test&#x27;, &#x27;highway&#x27;:&#x27;road&#x27;}).global(12345)
+const n1 = NodeBuilder.withTags({&#x27;name&#x27;:&#x27;test&#x27;, &#x27;highway&#x27;:&#x27;road&#x27;}).global(1111)
 
-// a new local node tags name=test and highway=road
+// a new local node with tags name=test and highway=road
 const tags = {
      &#x27;name&#x27;    : &#x27;test&#x27;,
      &#x27;highway&#x27; : &#x27;road&#x27;
 }
-const n2 = nbuilder.withTags(tags).local()</pre>
+const n2 = NodeBuilder.withTags(tags).local()</pre>
 
 
     

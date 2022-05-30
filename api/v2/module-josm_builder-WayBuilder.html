@@ -176,7 +176,7 @@ to which created ways are added.
             
 
             <td class="description last">a JOSM
-   dataset which created ways are added to. If missing, the created ways
+   dataset to which created ways are added. If missing, the created ways
    aren't added to a dataset.</td>
         </tr>
 
@@ -222,7 +222,7 @@ to which created ways are added.
 		<ul class="dummy">
 			<li>
 				<a href="josm_builder.js.html">josm/builder.js</a>,
-				 <a href="josm_builder.js.html#sunlight-1-line-540">line 540</a>
+				 <a href="josm_builder.js.html#sunlight-1-line-542">line 542</a>
 			</li>
 		</ul>
 	</dd>
@@ -251,7 +251,7 @@ to which created ways are added.
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">const WayBuilder = require(&#x27;josm/builder&#x27;).WayBuilder
+    <pre class="sunlight-highlight-javascript">const {WayBuilder} = require(&#x27;josm/builder&#x27;)
  const DataSet = Java.type(&#x27;org.openstreetmap.josm.data.osm.DataSet&#x27;)
 
  const ds = new DataSet()
@@ -267,11 +267,11 @@ to which created ways are added.
  const w1 = wbuilder.create()
 
  // create a new global way
- const w2 = wbuilder.withTags({highway: &#x27;residential&#x27;}).create(123456)
+ const w2 = wbuilder.withTags({highway: &#x27;residential&#x27;}).create(1111)
 
  // create a new proxy for a global way
  // (an &#x27;incomplete&#x27; node in JOSM terminology)
- const w3 = wbuilder.createProxy(123456)</pre>
+ const w3 = wbuilder.createProxy(2222)</pre>
 
 
     
@@ -407,7 +407,7 @@ to which created ways are added.
 		<ul class="dummy">
 			<li>
 				<a href="josm_builder.js.html">josm/builder.js</a>,
-				 <a href="josm_builder.js.html#sunlight-1-line-579">line 579</a>
+				 <a href="josm_builder.js.html#sunlight-1-line-581">line 581</a>
 			</li>
 		</ul>
 	</dd>
@@ -527,8 +527,8 @@ to the dataset <code>ds</code>.
 
             
 
-            <td class="description last">the dataset which
-        created objects are added to</td>
+            <td class="description last">the dataset to which
+        created objects are added</td>
         </tr>
 
     
@@ -573,7 +573,7 @@ to the dataset <code>ds</code>.
 		<ul class="dummy">
 			<li>
 				<a href="josm_builder.js.html">josm/builder.js</a>,
-				 <a href="josm_builder.js.html#sunlight-1-line-598">line 598</a>
+				 <a href="josm_builder.js.html#sunlight-1-line-600">line 600</a>
 			</li>
 		</ul>
 	</dd>
@@ -626,16 +626,12 @@ to the dataset <code>ds</code>.
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">const builder = require(&#x27;josm/builder&#x27;)
+    <pre class="sunlight-highlight-javascript">const {WayBuilder} = require(&#x27;josm/builder&#x27;)
 
-// create a new way builder building to a data set
-const DataSet = Java.type(&#x27;org.openstreetmap.josm.data.osm.DataSet()&#x27;)
+// create a new way builder which builds to a data set
+const DataSet = Java.type(&#x27;org.openstreetmap.josm.data.osm.DataSet&#x27;)
 const ds = new DataSet()
-let wb = builder.WayBuilder.forDataSet(ds)
-
-// configure an existing way builder
-wb = new builder.WayBuilder()
-wb = wb.forDataSet(ds)</pre>
+let wb = WayBuilder.forDataSet(ds)</pre>
 
 
     
@@ -818,7 +814,7 @@ Optional named arguments in the parameters <code>options</code>:
 		<ul class="dummy">
 			<li>
 				<a href="josm_builder.js.html">josm/builder.js</a>,
-				 <a href="josm_builder.js.html#sunlight-1-line-831">line 831</a>
+				 <a href="josm_builder.js.html#sunlight-1-line-828">line 828</a>
 			</li>
 		</ul>
 	</dd>
@@ -871,19 +867,23 @@ Optional named arguments in the parameters <code>options</code>:
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">const wb = require(&#x27;josm/builder&#x27;).WayBuilder
+    <pre class="sunlight-highlight-javascript">const {WayBuilder, NodeBuilder} = require(&#x27;josm/builder&#x27;)
 // create a new local way
-const w1 = wb.create()
+const w1 = WayBuilder.create()
 
 // create a new global way
-const w2 = wb.create(12345)
+const w2 = WayBuilder.create(1111)
 
 // create a new global way with version 3 at a specific position and with
 // some tags
-const w3 = wb.create(12345, {
+const w3 = WayBuilder.create(2222, {
    version: 3,
    tags: {amenity: &#x27;restaurant&#x27;},
-   nodes: [n1,n2,n3]
+   nodes: [
+     NodeBuilder.withPosition(1,1).create(),
+     NodeBuilder.withPosition(2,2).create(),
+     NodeBuilder.withPosition(3,3).create()
+   ]
  })</pre>
 
 
@@ -955,7 +955,7 @@ The method can be used in a static and in an instance context.
 		<ul class="dummy">
 			<li>
 				<a href="josm_builder.js.html">josm/builder.js</a>,
-				 <a href="josm_builder.js.html#sunlight-1-line-775">line 775</a>
+				 <a href="josm_builder.js.html#sunlight-1-line-772">line 772</a>
 			</li>
 		</ul>
 	</dd>
@@ -1008,10 +1008,10 @@ The method can be used in a static and in an instance context.
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">const wbuilder = require(&#x27;josm/builder&#x27;).WayBuilder
+    <pre class="sunlight-highlight-javascript">const {WayBuilder} = require(&#x27;josm/builder&#x27;)
 
-// a new proxy way for the global way with id 12345
-const w1 = wbuilder.createProxy(12345)</pre>
+// a new proxy way for the global way with id 1111
+const w1 = WayBuilder.createProxy(1111)</pre>
 
 
     
@@ -1175,7 +1175,7 @@ The method can be used in a static and in an instance context.
 		<ul class="dummy">
 			<li>
 				<a href="josm_builder.js.html">josm/builder.js</a>,
-				 <a href="josm_builder.js.html#sunlight-1-line-633">line 633</a>
+				 <a href="josm_builder.js.html#sunlight-1-line-631">line 631</a>
 			</li>
 		</ul>
 	</dd>
@@ -1228,9 +1228,9 @@ The method can be used in a static and in an instance context.
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">const wbuilder = require(&#x27;josm/builder&#x27;).WayBuilder
-// creates a global way with id 12345 an version 12
-const wb = wbuilder.withId(12345, 12).create()</pre>
+    <pre class="sunlight-highlight-javascript">const {WayBuilder} = require(&#x27;josm/builder&#x27;)
+// creates a global way with id 1111 an version 22
+const way = WayBuilder.withId(1111, 22).create()</pre>
 
 
     
@@ -1352,7 +1352,7 @@ The method can be used in a static and in an instance context.
 		<ul class="dummy">
 			<li>
 				<a href="josm_builder.js.html">josm/builder.js</a>,
-				 <a href="josm_builder.js.html#sunlight-1-line-697">line 697</a>
+				 <a href="josm_builder.js.html#sunlight-1-line-695">line 695</a>
 			</li>
 		</ul>
 	</dd>
@@ -1405,11 +1405,10 @@ The method can be used in a static and in an instance context.
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">oonst wbuilder = require(&#x27;josm/builder&#x27;).WayBuilder
-const nbuilder = require(&#x27;josm/builder&#x27;).NodeBuilder
+    <pre class="sunlight-highlight-javascript">const {WayBuilder, NodeBuilder} = require(&#x27;josm/builder&#x27;)
 // creates a new local way with two local nodes
-const way = builder.withNodes(
-   nbuilder.create(), nbuilder.create()
+const way = WayBuilder.withNodes(
+   NodeBuilder.create(), NodeBuilder.create()
 ).create()</pre>
 
 
@@ -1541,7 +1540,7 @@ The method can be used in a static and in an instance context.
 		<ul class="dummy">
 			<li>
 				<a href="josm_builder.js.html">josm/builder.js</a>,
-				 <a href="josm_builder.js.html#sunlight-1-line-662">line 662</a>
+				 <a href="josm_builder.js.html#sunlight-1-line-660">line 660</a>
 			</li>
 		</ul>
 	</dd>
@@ -1594,18 +1593,18 @@ The method can be used in a static and in an instance context.
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">const wbuilder = require(&#x27;josm/builder&#x27;).WayBuilder
-// a new global way with the global id 12345 and tags name=&#x27;Laubeggstrasse&#x27;
+    <pre class="sunlight-highlight-javascript">const {WayBuilder} = require(&#x27;josm/builder&#x27;)
+// a new global way with the global id 1111 and tags name=&#x27;Laubeggstrasse&#x27;
 // and highway=residential
-const w1 = wbuilder.withTags({name:&#x27;Laubeggstrasse&#x27;, highway:&#x27;residential&#x27;})
-    .create(12345)
+const w1 = WayBuilder.withTags({name:&#x27;Laubeggstrasse&#x27;, highway:&#x27;residential&#x27;})
+    .create(1111)
 
-// a new local node tags name=test and highway=road
+// a new local way with tags name=test and highway=road
 const tags = {
-     name    : &#x27;Laubeggstrasse&#x27;,
-     highway : &#x27;residential&#x27;
+    name    : &#x27;Laubeggstrasse&#x27;,
+    highway : &#x27;residential&#x27;
 }
-const w2 = wbuilder.withTags(tags).create()</pre>
+const w2 = WayBuilder.withTags(tags).create()</pre>
 
 
     

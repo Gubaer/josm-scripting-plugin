@@ -141,6 +141,12 @@ and redone on <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/g
 
 
         
+            <h3>Example</h3>
+            
+    <pre class="sunlight-highlight-javascript">const {AddCommand} = require(&#x27;josm/command&#x27;)</pre>
+
+
+        
     
     </div>
 
@@ -313,7 +319,7 @@ and redone on <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/g
 		<ul class="dummy">
 			<li>
 				<a href="josm_command.js.html">josm/command.js</a>,
-				 <a href="josm_command.js.html#sunlight-1-line-126">line 126</a>
+				 <a href="josm_command.js.html#sunlight-1-line-129">line 129</a>
 			</li>
 		</ul>
 	</dd>
@@ -368,15 +374,12 @@ and redone on <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/g
         
     <pre class="sunlight-highlight-javascript">const cmd = require(&#x27;josm/command&#x27;)
 const layers = require(&#x27;josm/layer&#x27;)
+const {NodeBuilder} = require(&#x27;josm/builder&#x27;)
 const layer  = layers.get(&#x27;Data Layer 1&#x27;)
 
 // add two nodes
-cmd.add(n1,n1).applyTo(layer)
-
-// add an array of two nodes and a way
-layer.apply(
-   cmd.add([n1,n2,w2])
-)</pre>
+cmd.add(NodeBuilder.create(), NodeBuilder.create()).applyTo(layer)
+*</pre>
 
 
     
@@ -480,7 +483,7 @@ the following named parameters:
 		<ul class="dummy">
 			<li>
 				<a href="josm_command.js.html">josm/command.js</a>,
-				 <a href="josm_command.js.html#sunlight-1-line-398">line 398</a>
+				 <a href="josm_command.js.html#sunlight-1-line-393">line 393</a>
 			</li>
 		</ul>
 	</dd>
@@ -533,22 +536,17 @@ the following named parameters:
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">const {change} = require(&quot;josm/command&quot;)
-const layers = require(&quot;josm/layers&quot;)
-const my_layer = layers.get(&quot;Data Layer 1&quot;)
+    <pre class="sunlight-highlight-javascript">const {change} = require(&#x27;josm/command&#x27;)
+const layers = require(&#x27;josm/layers&#x27;)
+const layer = layers.get(&quot;Data Layer 1&quot;)
 
 // change the position of a node
-change(n1, {lat: 123.45, lon: 44.234}).applyTo(my_layer)
-
-// change the nodes of a way
-my_layer.apply(
-   change(w2, {nodes: [n1,n2,3]})
-)
+change(n1, {lat: 123.45, lon: 44.234}).applyTo(layer)
 
 // change the tags of a collection of primitives
 change(n1, n3, w1, r1, {
    tags: {&#x27;mycustomtag&#x27;: &#x27;value&#x27;}
-}).applyTo(my_layer)</pre>
+}).applyTo(layer)</pre>
 
 
     
@@ -628,7 +626,7 @@ because otherwise they could not be combined.
 		<ul class="dummy">
 			<li>
 				<a href="josm_command.js.html">josm/command.js</a>,
-				 <a href="josm_command.js.html#sunlight-1-line-644">line 644</a>
+				 <a href="josm_command.js.html#sunlight-1-line-634">line 634</a>
 			</li>
 		</ul>
 	</dd>
@@ -660,7 +658,6 @@ because otherwise they could not be combined.
     <pre class="sunlight-highlight-javascript">const cmd = require(&#x27;josm/command&#x27;)
 const layers = require(&#x27;josm/layer&#x27;)
 const ds = layers.activeLayer.data
-const ways  = [ds.way(1), ds.way(2), ds.way(3)]
 cmd.combineWays(ways)</pre>
 
 
@@ -804,7 +801,7 @@ because otherwise they could not be combined.
 		<ul class="dummy">
 			<li>
 				<a href="josm_command.js.html">josm/command.js</a>,
-				 <a href="josm_command.js.html#sunlight-1-line-589">line 589</a>
+				 <a href="josm_command.js.html#sunlight-1-line-579">line 579</a>
 			</li>
 		</ul>
 	</dd>
@@ -986,7 +983,7 @@ cmd.combineWays(ds.way(1), ds.way(2), ds.way(3))
 		<ul class="dummy">
 			<li>
 				<a href="josm_command.js.html">josm/command.js</a>,
-				 <a href="josm_command.js.html#sunlight-1-line-206">line 206</a>
+				 <a href="josm_command.js.html#sunlight-1-line-205">line 205</a>
 			</li>
 		</ul>
 	</dd>
@@ -1041,15 +1038,12 @@ cmd.combineWays(ds.way(1), ds.way(2), ds.way(3))
         
     <pre class="sunlight-highlight-javascript">const cmd = require(&#x27;josm/command&#x27;)
 const layers= require(&#x27;josm/layer&#x27;)
+const {NodeBuilder} = require(&#x27;josm/builder&#x27;)
 const layer = layers.get(&#x27;Data Layer 1&#x27;)
 
 // delete two nodes
-cmd.delete(n1,n1).applyTo(layer)
-
-// delete an array of two nodes and a way
-layer.apply(
-   cmd.delete([n1,n2,w2])
-)</pre>
+cmd.delete(NodeBuilder.create(),NodeBuilder.create()).applyTo(layer)
+*</pre>
 
 
     

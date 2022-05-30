@@ -532,7 +532,7 @@ dsutil.has(n)</pre>
 const dsutil = new DataSetUtil(new DataSet())
 const r = dsutil.relationBuilder()
    .withId(8765,1234)
-   .create({tags: {type: &quot;network&quot;}})
+   .create({tags: {type: &#x27;network&#x27;}})
 ds.has(r)  // --&gt; true</pre>
 
 
@@ -850,7 +850,7 @@ option <code>options.format</code> is set.
 		<ul class="dummy">
 			<li>
 				<a href="josm_ds.js.html">josm/ds.js</a>,
-				 <a href="josm_ds.js.html#sunlight-1-line-520">line 520</a>
+				 <a href="josm_ds.js.html#sunlight-1-line-519">line 519</a>
 			</li>
 		</ul>
 	</dd>
@@ -882,11 +882,10 @@ option <code>options.format</code> is set.
     <pre class="sunlight-highlight-javascript">const { DataSetUtil } = require(&#x27;josm/ds&#x27;)
 
 // loads an OSM file
-const dsutil1 = DataSetUtil.load(&#x27;/path/to/my/file.osm&#x27;)
+DataSetUtil.load(&#x27;/path/to/my/file.osm&#x27;)
 
-// loads an OSM file, expli
-const dsutil2 = DataSetUtil.load(
- &#x27;/path/to/my/file.any-suffix&#x27;, { format &#x27;osm&#x27; })</pre>
+// loads an OSM file, explicity passing in the format
+DataSetUtil.load(&#x27;/path/to/my/file.any-suffix&#x27;, { format &#x27;osm&#x27; })</pre>
 
 
     
@@ -1208,7 +1207,7 @@ const n1  = dsutil.get(1234, &#x27;node&#x27;)
 const w1 =  dsutil.get(3333, OsmPrimitiveType.WAY)
 
 // get a relation
-const r1 = dsutil.get({id: 5423, type: &quot;relation&quot;})
+const r1 = dsutil.get({id: 5423, type: &#x27;relation&#x27;})
 
 // pass in a SimplePrimitiveId
 const id = buildId(-5, OsmPrimitiveType.NODE)
@@ -1388,7 +1387,7 @@ const w3 = dsutil.get(w2)</pre>
 
 const dsutil = new DataSetUtil(new DataSet())
 // get a node
-const n  = dsutil.node(1234)</pre>
+const n = dsutil.node(1234)</pre>
 
 
     
@@ -1599,7 +1598,7 @@ named parameters:
 		<ul class="dummy">
 			<li>
 				<a href="josm_ds.js.html">josm/ds.js</a>,
-				 <a href="josm_ds.js.html#sunlight-1-line-773">line 773</a>
+				 <a href="josm_ds.js.html#sunlight-1-line-772">line 772</a>
 			</li>
 		</ul>
 	</dd>
@@ -1642,7 +1641,7 @@ const result2 = dsutil.query(&#x27;type:node&#x27;)
 // query using a custom predicate - all primitives
 // with exactly two tags
 const result3 = dsutil.query((primitive) =&gt; {
- primitive.getKeys().size() ===2
+ primitive.getKeys().size() === 2
 })</pre>
 
 
@@ -1987,15 +1986,15 @@ const HashSet = Java.type(&#x27;java.util.HashSet&#x27;)
 const dsutil = new DataSetUtil(new DataSet())
 
 // remove a node with a global id
-dsutil.remove(1234, &quot;node&quot;)
+dsutil.remove(1234, &#x27;&#x27;ode&#x27;)
 
 // remove a node and a way
-const id1 = buildId(1234, &quot;node&quot;)
+const id1 = buildId(1234, &#x27;node&#x27;)
 const id2 = buildId(3333, OsmPrimitiveType.WAY)
 dsutil.remove(id1, id2)
 
 // remove a relation and a node
-dsutil.remove({id: 1234, type: &quot;relation&quot;}, id1)
+dsutil.remove({id: 1234, type: &#x27;relation&#x27;}, id1)
 
 // remove an array of nodes
 dsutil.remove([id1,id2])
@@ -2183,7 +2182,7 @@ dsutil.remove(ids)</pre>
 		<ul class="dummy">
 			<li>
 				<a href="josm_ds.js.html">josm/ds.js</a>,
-				 <a href="josm_ds.js.html#sunlight-1-line-641">line 641</a>
+				 <a href="josm_ds.js.html#sunlight-1-line-640">line 640</a>
 			</li>
 		</ul>
 	</dd>
