@@ -266,6 +266,7 @@ exports.remove = function (key) {
  *   <dd class="param-desc">create data layer with a new  dataset and name <code>name</code></dd>
  * </dl>
  * @example
+ * const josm = require('josm')
  * const DataSet = Java.type('org.openstreetmap.josm.data.osm.DataSet')
  *
  * // creates a new data layer
