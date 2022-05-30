@@ -2,6 +2,9 @@
  * Collection of builders for creating OSM nodes, ways and relations.
  *
  * @module josm/builder
+ * @example
+ * const {NodeBuilder, WayBuilder} = require('josm/builder')
+
  */
 
 /* global Java */
@@ -182,26 +185,26 @@ function rememberTagsFromObject (builder, args) {
    * to which created nodes are added.
    *
    * @example
-   *  const NodeBuilder = require('josm/builder').NodeBuilder
-   *  const DataSet = Java.type('org.openstreetmap.josm.data.osm.DataSet')
-   *
-   *  const ds = new DataSet()
-   *  // create a node builder without and underlying dataset ...
-   *  let nbuilder = new NodeBuilder()
-   *  // ... with an underlying dataset ....
-   *  nbuilder =  new NodeBuilder(ds)
-   *  // ... or using this factory method
-   *  nbuilder = NodeBuilder.forDataSet(ds)
-   *
-   *  // create a new local node at position (0,0) without tags
-   *  const n1 = nbuilder.create()
-   *
-   *  // create a new global node at a specific position with tags
-   *  const n2 = nbuilder.withPosition(1,1).withTags({name: 'test'}).create(123456)
-   *
-   *  // create a new proxy for a global node
-   *  // (an 'incomplete' node in JOSM terminology)
-   *  const n3 = nbuilder.createProxy(123456)
+     const {NodeBuilder} = require('josm/builder')
+     const DataSet = Java.type('org.openstreetmap.josm.data.osm.DataSet')
+
+     const ds = new DataSet()
+     // create a node builder without and underlying dataset ...
+     let nbuilder = new NodeBuilder()
+     // ... with an underlying dataset ....
+     nbuilder =  new NodeBuilder(ds)
+     // ... or using this factory method
+     nbuilder = NodeBuilder.forDataSet(ds)
+
+     // create a new local node at position (0,0) without tags
+     const n1 = nbuilder.create()
+
+     // create a new global node at a specific position with tags
+     const n2 = nbuilder.withPosition(1,1).withTags({name: 'test'}).create(1)
+
+     // create a new proxy for a global node
+     // (an 'incomplete' node in JOSM terminology)
+     const n3 = nbuilder.createProxy(2)
    *
    * @class
    * @summary NodeBuilder helps to create OSM nodes
@@ -232,17 +235,16 @@ function rememberTagsFromObject (builder, args) {
    * to the dataset <code>ds</code>.
    *
    * @example
-   * const builder = require('josm/builder')
+   *  const { NodeBuilder } = require('josm/builder')
    *
-   * // create a new node builder building to a data set
-   * const DataSet = Java.type('org.openstreetmap.josm.data.osm.DataSet')
-   * const ds = new DataSet()
+   *  // create a new node builder building to a data set
+   *  const DataSet = Java.type('org.openstreetmap.josm.data.osm.DataSet')
+   *  const ds = new DataSet()
    *
-   * // ... using a static method ...
-   * const nb1 = builder.NodeBuilder.forDataSet(ds)
-   * // ... or the instance method
-   * let nb2 = new builder.NodeBuilder()
-   * nb = nb.forDataSet(ds)
+   *  // ... using a static method ...
+   *  const nb1 = NodeBuilder.forDataSet(ds)
+   *  // ... or the instance method
+   *  const nb2 = new NodeBuilder.forDataSet(ds)
    *
    * @returns {module:josm/builder.NodeBuilder} the node builder
    * @param {org.openstreetmap.josm.data.osm.DataSet} ds the dataset which
@@ -296,16 +298,16 @@ function rememberTagsFromObject (builder, args) {
    *
    *
    * @example
-   * const nb = require('josm/builder').NodeBuilder
+   * const { NodeBuilder } = require('josm/builder')
    * // create a new local node at position [0,0]
-   * const n1 = nb.create()
+   * const n1 = NodeBuilder.create()
    *
    * // create a new global node at position [0,0]
-   * const n2 = nb.create(12345)
+   * const n2 = NodeBuilder.create(1111)
    *
    * // create a new global way with version 3 at a specific position
    * // and with some tags
-   * const n3 = nb.create(12345, {
+   * const n3 = NodeBuilder.create(2222, {
    *     version: 3,
    *     lat: 23.45,
    *     lon: 87.23,
@@ -404,10 +406,10 @@ function rememberTagsFromObject (builder, args) {
    * The method can be used in a static and in an instance context.
    *
    * @example
-   * const nbuilder = require('josm/builder').NodeBuilder
+   * const { NodeBuilder } = require('josm/builder')
    *
-   * // a new proxy node for the global node with id 12345
-   * cons n1 = nbuilder.createProxy(12345)
+   * // a new proxy node for the global node with id 1111
+   * const n1 = NodeBuilder.createProxy(1111)
    *
    * @param {number} id  the node id (not null, number > 0 expected)
    * @return {org.openstreetmap.josm.data.osm.Node} the new proxy node
@@ -440,13 +442,13 @@ function rememberTagsFromObject (builder, args) {
    * The method can be used in a static and in an instance context.
    *
    * @example
-   * const nbuilder = require('josm/builder').NodeBuilder
+   * const { NodeBuilder } = require('josm/builder')
    *
-   * // a new global node with the global id 12345 at position (34,45)
-   * const n1 = nbuilder.withPosition(34,45).create(12345)
+   * // a new global node with the global id 1111 at position (34,45)
+   * const n1 = NodeBuilder.withPosition(34,45).create(1111)
    *
    * // a new local node at position (23.2, 87.33)
-   * const n2 = nbuilder.withPosition(23.3,87.33).create()
+   * const n2 = NodeBuilder.withPosition(23.3,87.33).create()
    *
   * @param {Number} lat  the latitude. A number in the range [-90..90].
   * @param {Number} lon the longitude. A number in the range [-180..180].
@@ -476,18 +478,18 @@ function rememberTagsFromObject (builder, args) {
    * The method can be used in a static and in an instance context.
    *
    * @example
-   * const nbuilder = require('josm/builder').NodeBuilder
+   * const { NodeBuilder } = require('josm/builder')
    *
-   * // a new global  node with the global id 12345 and tags name=test and
+   * // a new global node with the global id 1111 and tags name=test and
    * // highway=road
-   * const n1 = nbuilder.withTags({'name':'test', 'highway':'road'}).global(12345)
+   * const n1 = NodeBuilder.withTags({'name':'test', 'highway':'road'}).global(1111)
    *
-   * // a new local node tags name=test and highway=road
+   * // a new local node with tags name=test and highway=road
    * const tags = {
    *      'name'    : 'test',
    *      'highway' : 'road'
    * }
-   * const n2 = nbuilder.withTags(tags).local()
+   * const n2 = NodeBuilder.withTags(tags).local()
    *
    * @param {object} [tags]  the tags
    * @returns {module:josm/builder~NodeBuilder} the node builder (for method chaining)
