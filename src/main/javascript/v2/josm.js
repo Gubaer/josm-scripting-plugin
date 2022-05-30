@@ -77,7 +77,7 @@ Object.defineProperty(exports, 'layers', {
  *      <dd class="param-desc">(optional) the window title. A string is expected. Empty string
  *      if missing.</dt>
  *
- *      <dd class="param-desc"><code>messageType</code></dt>
+ *      <dt class="param-desc"><code>messageType</code></dt>
  *      <dd class="param-desc">(optional) the message type. Use one of the following values:
  *         <ul>
  *            <li>{@class javax.swing.JOptionPane}.INFORMATION_MESSAGE,
@@ -182,7 +182,7 @@ exports.alert = function () {
  *   <li>etc.</li>
  * </ul>
  *
- * * @example
+ * @example
  * // open a data file in a new data layer
  * josm.open('/my/data/file.osm')
  *

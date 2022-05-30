@@ -2,6 +2,9 @@
  * This module provides functions to retrieve data from and upload data
  * to an OSM server.
  *
+ * @example
+ * const {Api, ChangesetApi, ApiConfig} = require('josm/api')
+ *
  * @module josm/api
  */
 
