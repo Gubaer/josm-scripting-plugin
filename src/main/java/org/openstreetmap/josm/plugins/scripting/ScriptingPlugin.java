@@ -22,6 +22,7 @@ import org.openstreetmap.josm.plugins.scripting.ui.RunScriptAction;
 import org.openstreetmap.josm.plugins.scripting.ui.RunScriptDialog;
 import org.openstreetmap.josm.plugins.scripting.ui.ToggleConsoleAction;
 import org.openstreetmap.josm.plugins.scripting.ui.console.SyntaxConstantsEngine;
+import org.openstreetmap.josm.plugins.scripting.ui.release.ReleaseNotes;
 
 import javax.swing.*;
 import javax.validation.constraints.NotNull;
@@ -80,6 +81,10 @@ public class ScriptingPlugin extends Plugin implements PreferenceKeys{
     }
 
     public ScriptingPlugin(PluginInformation info) {
+        this(info, false /* not in test environment */);
+    }
+
+    public ScriptingPlugin(PluginInformation info, boolean inTestEnvironment) {
         super(info);
         try {
             instance = this;
@@ -108,6 +113,11 @@ public class ScriptingPlugin extends Plugin implements PreferenceKeys{
                         START_MODULE_NAME, url.get()));
                     jsOnStart();
                 }
+            }
+
+            if (!inTestEnvironment && !ReleaseNotes.hasSeenLatestReleaseNotes()) {
+                var dialog = new ReleaseNotes(MainApplication.getMainFrame());
+                dialog.setVisible(true);
             }
         } catch(JavaScriptException e) {
             logger.log(Level.WARNING,

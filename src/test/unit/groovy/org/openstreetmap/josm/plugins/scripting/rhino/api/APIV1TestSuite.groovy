@@ -39,7 +39,7 @@ class APIV1TestSuite extends JOSMFixtureBasedTest {
             new File(projectDir, "src/test/functional/javascript/v1").toURI().toURL())
 
         //noinspection GroovyResultOfObjectAllocationIgnored
-        new ScriptingPlugin(new PluginInformation(scriptingJarFile))
+        new ScriptingPlugin(new PluginInformation(scriptingJarFile), true /* in test environment */)
 
         engine = RhinoEngine.getInstance()
         engine.enterSwingThreadContext()

@@ -1,0 +1,52 @@
+body {
+    font-family: sans-serif;
+    font-size: 14pt;
+    margin-left: 0.5cm;
+    margin-right: 0.5cm;
+}
+
+h1 {
+    font-size: 16pt;
+    font-weight: bold;
+    padding-bottom: 20pt;
+}
+
+ul {
+    margin-left: 0.5cm;
+    list-style-position: outside;
+}
+
+ul li {
+    padding-bottom: 12pt;
+}
+
+a {
+    text-decoration: underline;
+    color: blue;
+}
+
+strong {
+    font-weight: bold;
+}
+
+code {
+    font-family: monospace;
+}
+
+p {
+    padding-bottom: 10pt;
+}
+
+p.warning {
+    background: #ffcccb;
+    padding: 10pt;
+    border-style: solid;
+    border-color: red;
+    border-width: 2pt;
+}
+
+br {
+    display: block;
+    margin: 10pt 0;
+    line-height: 10pt;
+}
