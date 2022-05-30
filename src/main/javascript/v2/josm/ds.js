@@ -240,7 +240,7 @@ class DataSetUtil {
    * const w1 =  dsutil.get(3333, OsmPrimitiveType.WAY)
    *
    * // get a relation
-   * const r1 = dsutil.get({id: 5423, type: "relation"})
+   * const r1 = dsutil.get({id: 5423, type: 'relation'})
    *
    * // pass in a SimplePrimitiveId
    * const id = buildId(-5, OsmPrimitiveType.NODE)
@@ -265,7 +265,7 @@ class DataSetUtil {
   *
   * const dsutil = new DataSetUtil(new DataSet())
   * // get a node
-  * const n  = dsutil.node(1234)
+  * const n = dsutil.node(1234)
   *
   * @param {number} id  the unique numeric id. Must not be 0.
   * @returns {org.openstreetmap.josm.data.osm.Node} the node
@@ -381,15 +381,15 @@ class DataSetUtil {
    * const dsutil = new DataSetUtil(new DataSet())
    *
    * // remove a node with a global id
-   * dsutil.remove(1234, "node")
+   * dsutil.remove(1234, ''ode')
    *
    * // remove a node and a way
-   * const id1 = buildId(1234, "node")
+   * const id1 = buildId(1234, 'node')
    * const id2 = buildId(3333, OsmPrimitiveType.WAY)
    * dsutil.remove(id1, id2)
    *
    * // remove a relation and a node
-   * dsutil.remove({id: 1234, type: "relation"}, id1)
+   * dsutil.remove({id: 1234, type: 'relation'}, id1)
    *
    * // remove an array of nodes
    * dsutil.remove([id1,id2])
@@ -478,7 +478,7 @@ class DataSetUtil {
    * const dsutil = new DataSetUtil(new DataSet())
    * const r = dsutil.relationBuilder()
    *    .withId(8765,1234)
-   *    .create({tags: {type: "network"}})
+   *    .create({tags: {type: 'network'}})
    * ds.has(r)  // --> true
    *
    * @property  {module:josm/builder~RelationBuilder} relationBuilder
@@ -508,11 +508,10 @@ class DataSetUtil {
    * const { DataSetUtil } = require('josm/ds')
    *
    * // loads an OSM file
-   * const dsutil1 = DataSetUtil.load('/path/to/my/file.osm')
+   * DataSetUtil.load('/path/to/my/file.osm')
    *
-   * // loads an OSM file, expli
-   * const dsutil2 = DataSetUtil.load(
-   *  '/path/to/my/file.any-suffix', { format 'osm' })
+   * // loads an OSM file, explicity passing in the format
+   * DataSetUtil.load('/path/to/my/file.any-suffix', { format 'osm' })
    *
    * @param {string|java.io.File}  source  the data source
    * @param {object} [options]  optional named parameters
@@ -763,7 +762,7 @@ class DataSetUtil {
  * // query using a custom predicate - all primitives
  * // with exactly two tags
  * const result3 = dsutil.query((primitive) => {
-  *  primitive.getKeys().size() ===2
+  *  primitive.getKeys().size() === 2
  * })
  *
  * @param {string|function} expression  the match expression
