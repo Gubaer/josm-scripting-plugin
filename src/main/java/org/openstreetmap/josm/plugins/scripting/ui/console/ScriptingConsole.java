@@ -36,10 +36,10 @@ public class ScriptingConsole extends JFrame {
             ScriptingConsole.class.getName());
 
     static public final BooleanProperty PREF_ALWAYS_ON_TOP =
-    new BooleanProperty(
+        new BooleanProperty(
             ScriptingConsole.class.getName() + ".alwaysOnTop",
             true
-     );
+         );
 
     private JCheckBox cbAlwaysOnTop;
 
@@ -59,9 +59,9 @@ public class ScriptingConsole extends JFrame {
                 instance.addWindowListener(new WindowAdapter() {
                     @Override
                     public void windowClosing(WindowEvent e) {
-                        final ScriptingConsole old = instance;
-                        instance = null;
-                        fireScriptingConsoleChanged(old, instance);
+                    final ScriptingConsole old = instance;
+                    instance = null;
+                    fireScriptingConsoleChanged(old, instance);
                     }
                 });
             }
@@ -149,12 +149,12 @@ public class ScriptingConsole extends JFrame {
     public void setVisible(boolean visible){
         if (visible) {
             new WindowGeometry(
-                    ScriptingConsole.class.getName()+ ".geometry",
-                    WindowGeometry.centerInWindow(this, new Dimension(500, 800))
+                ScriptingConsole.class.getName()+ ".geometry",
+                WindowGeometry.centerInWindow(this, new Dimension(500, 800))
             ).applySafe(this);
         } else {
             new WindowGeometry(this).remember(
-                    ScriptingConsole.class.getName()+ ".geometry");
+                ScriptingConsole.class.getName()+ ".geometry");
         }
         super.setVisible(visible);
     }
@@ -167,10 +167,10 @@ public class ScriptingConsole extends JFrame {
     public void open(@NotNull File file){
         Objects.requireNonNull(file);
         Assert.assertArg(file.isFile(),
-                "Expected a file, got a directory. File is: {0}", file);
+            "Expected a file, got a directory. File is: {0}", file);
         Assert.assertArg(file.canRead(),
-                "Expected a readable file, but can''t read file. File is: {0}",
-                file);
+            "Expected a readable file, but can''t read file. File is: {0}",
+            file);
         pnlScriptingConsole.open(file);
     }
 

@@ -172,7 +172,7 @@ public class MostRecentlyRunScriptsModel
             File f = new File(script);
             putValue(NAME, String.format("%s %s", pos, f.getName()));
             putValue(SHORT_DESCRIPTION, f.getAbsolutePath());
-            putValue(SMALL_ICON,ImageProvider.get("run"));
+            putValue(SMALL_ICON,ImageProvider.get("run", ImageProvider.ImageSizes.SMALLICON));
             this.script = script;
         }
         @Override
@@ -183,7 +183,7 @@ public class MostRecentlyRunScriptsModel
             }
             ScriptEngineDescriptor engine =
                 service.deriveOrAskScriptEngineDescriptor(
-                        script, null /* parent */
+                    script, null /* parent */
                 );
             if (engine == null) return;
             service.runScript(script, engine);
