@@ -488,4 +488,26 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
             return false;
         return engineType == other.engineType;
     }
+
+    /**
+     * Replies true if this descriptor describes the embedded Mozilla Rhino
+     * scripting engine
+     *
+     * @return true if this descriptor describes the embedded Mozilla Rhino
+     *   scripting engine; false otherwise
+     */
+    public boolean isDescribingMozillaRhino() {
+        return this.engineType.equals(ScriptEngineType.EMBEDDED);
+    }
+
+    /**
+     * Replies true if this descriptor describes the GraalJS engine.
+     *
+     * @return true if this descriptor describes the GraalJS engine; false,
+     * otherwise
+     */
+    public boolean isDescribingGraalJS() {
+        return this.engineType.equals(ScriptEngineType.GRAALVM)
+                && "js".equals(this.engineId);
+    }
 }

@@ -12,6 +12,9 @@ import javax.validation.constraints.NotNull;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.text.MessageFormat;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -56,38 +59,68 @@ PropertyChangeListener, HyperlinkListener{
     }
 
     private static String buildSelectScriptEngineLink(final String label) {
-        return String.format("<a href=\"urn:select-script-engine\">%s</a>", label);
+        return String.format("<a href=\"http://josm/select-script-engine\">%s</a>", label);
+    }
+
+    private static String buildJavascriptAPIHint(ScriptEngineDescriptor desc) {
+        final var sb = new StringBuilder();
+        if (desc.isDescribingMozillaRhino()) {
+            sb.append("<p>");
+            sb.append(tr(
+                "Mozilla Rhino and the <a href=\"{0}\">JavaScript API V1</a> " +
+                "are <span class=\"warning\">deprecated</span>. They will be " +
+                "removed end of 2022.",
+                "https://gubaer.github.io/josm-scripting-plugin/docs/v1/v1.html"
+                )
+            );
+            sb.append("</p>");
+            return sb.toString();
+        } else if (desc.isDescribingGraalJS()) {
+            sb.append("<p>");
+            sb.append(tr(
+                "With GraalJS, use <a href=\"{0}\">JavaScript API V2</a>.",
+                "https://gubaer.github.io/josm-scripting-plugin/docs/v2/v2.html"
+            ));
+            sb.append("</p>");
+            return sb.toString();
+        } else {
+            return "";
+        }
     }
 
     protected void refreshInfo(ScriptEngineDescriptor desc){
-        StringBuilder sb = new StringBuilder();
+        final var sb = new StringBuilder();
         if (desc == null){
             sb.append("<html>");
             sb.append(tr("No script engine selected.")).append(" ");
-            sb.append(buildSelectScriptEngineLink(tr("Select")));
+            sb.append(buildSelectScriptEngineLink(tr("Select") + "..."));
             sb.append("</html>");
         } else if (desc.isDefault()) {
             sb.append("<html>");
+            sb.append("<p>");
             sb.append(
                 tr("Executing scripts with the built-in scripting engine "
-                +"for language <strong>{0}</strong> based on "
+                + "for language <strong>{0}</strong> based on "
                 + "<strong>{1}</strong>.",
                 desc.getLanguageName().orElse(tr("unknown")),
                 desc.getEngineName().orElse(tr("unknown"))
                 )
             );
-            sb.append(" ");
-            sb.append(buildSelectScriptEngineLink(tr("Change")));
+            sb.append("</p>");
+            sb.append(buildJavascriptAPIHint(desc));
+            sb.append(buildSelectScriptEngineLink(" " + tr("Change") + "..."));
             sb.append("</html>");
         } else {
             sb.append("<html>");
+            sb.append("<p>");
             sb.append(tr("Executing scripts in language <strong>{0}</strong> "
                 + "using engine <strong>{1}</strong>.",
                 desc.getLanguageName().orElse(tr("unknown")),
                 ScriptEngineCellRenderer.defaultEngineName(desc))
             );
-            sb.append(" ");
-            sb.append(buildSelectScriptEngineLink(tr("Change")));
+            sb.append("</p>");
+            sb.append(buildJavascriptAPIHint(desc));
+            sb.append(buildSelectScriptEngineLink(" " + tr("Change") + "..."));
             sb.append("</html>");
         }
         jepInfo.setText(sb.toString());
@@ -126,7 +159,22 @@ PropertyChangeListener, HyperlinkListener{
     @Override
     public void hyperlinkUpdate(HyperlinkEvent e) {
         if (HyperlinkEvent.EventType.ACTIVATED.equals(e.getEventType())) {
-            promptForScriptEngine();
+            if ("http://josm/select-script-engine".equals(e.getURL().toString())) {
+                promptForScriptEngine();
+                return;
+            }
+            if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+                try {
+                    Desktop.getDesktop().browse(e.getURL().toURI());
+                } catch (IOException | URISyntaxException ex) {
+                    logger.log(Level.WARNING, MessageFormat.format(
+                        "Failed to convert URL '{0}' to URI. Can't launch system web browser.",
+                        e.getURL().toString()
+                    ));
+                }
+            } else {
+                logger.warning("Desktop is not supported. Can't launch system web browser.");
+            }
         }
     }
 }

@@ -21,3 +21,8 @@ p.warning {
     border-color: red;
     border-width: 2pt;
 }
+
+span.warning {
+    font-weight: bold;
+    color: red;
+}
