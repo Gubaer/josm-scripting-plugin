@@ -381,7 +381,7 @@ class DataSetUtil {
    * const dsutil = new DataSetUtil(new DataSet())
    *
    * // remove a node with a global id
-   * dsutil.remove(1234, ''ode')
+   * dsutil.remove(1234, 'node')
    *
    * // remove a node and a way
    * const id1 = buildId(1234, 'node')
