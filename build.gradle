@@ -152,15 +152,6 @@ import org.openstreetmap.josm.plugins.scripting.build.Releases
 
 import java.nio.file.Files
 
-def getGraalVMHome() {
-    return new File(project.projectDir, "software/graalvm-ce-java11-${project.property("graalvm.version")}")
-}
-
-def getGraalVMJavaBinary() {
-    return new File(getGraalVMHome(), "bin/java")
-}
-
-
 /**
  * Replies the 'josm.home' directories used in tests
  */
@@ -195,6 +186,18 @@ task testScriptApiV1 (type: Test) {
     }
 }
 
+def getGraalVMHome() {
+    if (!project.hasProperty("graalvm.version")) {
+        throw new GradleException("Missing mandatory project property 'graalvm.version'")
+    }
+    final version = project.property("graalvm.version")
+    if (!project.hasProperty("graalvm.jdk")) {
+        throw new GradleException("Missing mandatory project property 'jdk'")
+    }
+    final jdk = project.property("graalvm.jdk")
+    return new File(project.projectDir, "software/graalvm-ce-$jdk-$version")
+}
+
 task testScriptApiV2(type: Test) {
     dependsOn "downloadGraalVM"
     useJUnitPlatform()
@@ -203,8 +206,8 @@ task testScriptApiV2(type: Test) {
         showStandardStreams = true
     }
     environment "JOSM_SCRIPTING_PLUGIN_HOME", project.projectDir
-    executable getGraalVMJavaBinary()
-    environment "JAVA_HOME", getGraalVMHome()
+    executable new File(getGraalVMHome(), "bin/java").absolutePath
+    environment "JAVA_HOME", getGraalVMHome().absolutePath
     scanForTestClasses= false
     include "org/openstreetmap/josm/plugins/scripting/graalvm/api/APIV2TestSuite.class"
 
@@ -260,7 +263,7 @@ task testWithGraalVMJDK(type: Test) {
     useJUnitPlatform()
     environment "JOSM_SCRIPTING_PLUGIN_HOME", project.projectDir
     scanForTestClasses= false
-    executable getGraalVMJavaBinary()
+    executable new File(getGraalVMHome(), "bin/java").absolutePath
     environment "JAVA_HOME", getGraalVMHome()
 
     include "**/graalvm/GraalVMPresentTest.class"

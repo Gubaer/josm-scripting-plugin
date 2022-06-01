@@ -2,6 +2,8 @@ package org.openstreetmap.josm.plugins.scripting.model
 
 import groovy.test.GroovyTestCase
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.condition.DisabledForJreRange
+import org.junit.jupiter.api.condition.JRE
 import org.openstreetmap.josm.data.Preferences
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor.ScriptEngineType
 import org.openstreetmap.josm.spi.preferences.Config
@@ -11,6 +13,8 @@ class ScriptEngineDescriptorTest extends GroovyTestCase {
     final oracleNashornId = "Oracle Nashorn"
 
     @Test
+    // nashorn isn't available anymore in Java 17
+    @DisabledForJreRange(min = JRE.JAVA_17)
     void createDescriptorForPluggedEngine() {
         def sd = new ScriptEngineDescriptor(oracleNashornId)
         assert sd.getEngineId() == oracleNashornId
@@ -99,6 +103,8 @@ class ScriptEngineDescriptorTest extends GroovyTestCase {
     }
 
     @Test
+    // nashorn isn't available anymore in Java 17
+    @DisabledForJreRange(min = JRE.JAVA_17)
     void buildFromPreferences_PluggedScriptingEngine() {
         def provider = JSR223ScriptEngineProvider.getInstance()
         provider.getScriptEngineFactories().each {factory ->
