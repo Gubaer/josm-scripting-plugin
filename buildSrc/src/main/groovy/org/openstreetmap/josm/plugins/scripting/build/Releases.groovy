@@ -177,11 +177,20 @@ class Releases {
      *
      * @return a list of the JOSM versions
      */
-    int[] getJosmVersions() {
+    List<Integer> getJosmVersions() {
         return config.releases
             .collect {it.minJosmVersion.toInteger()}
             .unique()
             .sort()
             .reverse() as int[]
+    }
+
+    int getLastCompatibleJosmVersion() {
+        final versions = getJosmVersions()
+        if (versions.isEmpty()) {
+            return 0
+        } else {
+            return versions[0]
+        }
     }
 }

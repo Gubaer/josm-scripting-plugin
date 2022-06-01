@@ -50,7 +50,7 @@ releases:
     @Test
     void "can build list of JOSM versions"() {
         def releases = new Releases(configuration01)
-        assertEquals(3, releases.josmVersions.length)
+        assertEquals(3, releases.josmVersions.size())
         [18427, 14256, 14155].eachWithIndex {release, i ->
             assertEquals(release, releases.josmVersions[i] )
         }
