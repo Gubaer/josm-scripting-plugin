@@ -10,7 +10,7 @@ nav_order: 4
 1. TOC
 {: toc }
 
-[JSR 223][jsr223] defines how scripting engines can be embeeded on the Java platform.
+[JSR 223][jsr223] defines how scripting engines can be embedded on the Java platform.
 
 The JOSM Scripting Plugin makes use of this standard. You can add any JSR223-compatible scripting engine and use it for scripting in JOSM.
 
@@ -32,7 +32,7 @@ In the scripting console you can select a scripting engine to run a script.
 
 1. Display the scripting console, select the menu item **Scripting** -&gt; **Show Scripting Console**
 
-2. Clich on **Change** to select a scripting engine
+2. Click on **Change** to select a scripting engine
 
 3. Select one of the configured scripting engines
 
