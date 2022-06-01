@@ -13,6 +13,7 @@ import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.Optional
 import org.gradle.api.tasks.TaskAction
 
+import java.util.jar.JarFile
 import java.util.stream.Collectors
 
 /**
@@ -57,22 +58,11 @@ abstract class PublishToAwsS3Task extends DefaultTask {
     }
 
     def lookupDistributionJarFile() {
-        final libsDir = new File(project.buildDir, "libs")
-        final candidates = Arrays.stream(libsDir.list() ?: String[]).filter {String file ->
-                file.startsWith("scripting") && file.endsWith(".jar")
-            }
-            .map {String file -> new File(libsDir, file)}
-            .collect(Collectors.toList())
-        switch(candidates.size()) {
-            case 0:
-                throw new GradleException("Didn't find a scripting.jar in '${libsDir.absolutePath}'")
-            case 1:
-                return candidates[0]
-            default:
-                throw new GradleException(
-                    "Found ${candidates.size()} scripting*.jar in '${libsDir.absolutePath}'. " +
-                    "Try ./gradlew clean build first.")
+        final jarFile = new File(project.buildDir, "dist/scripting.jar")
+        if (!jarFile.exists() || !jarFile.isFile() || !jarFile.canRead()) {
+            logger.error("No scripting.jar file found. Path: '$jarFile.absolutePath'")
         }
+        return new JarFile(jarFile)
     }
 
     def publishToS3(final AmazonS3 client, final jarFile) {

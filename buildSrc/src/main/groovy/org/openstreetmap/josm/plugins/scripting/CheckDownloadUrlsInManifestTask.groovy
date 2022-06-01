@@ -15,20 +15,11 @@ import java.util.stream.Collectors
 class CheckDownloadUrlsInManifestTask extends DefaultTask {
 
     def lookupJarFile() {
-        var libsDir = new File(project.buildDir, "libs")
-        var jars = Arrays.stream(libsDir.list())
-            .filter {it.startsWith("scripting") && it.endsWith("jar")}
-             .map {new File(libsDir, it)}
-             .collect(Collectors.toList())
-        if (jars.size() == 0) {
-            logger.error("No scripting*.jar file found in the build directory")
-            return null
-        } else if (jars.size() > 1) {
-            logger.error("More than one (${jars.size()}) scripting*.jar file found in the build directory. " +
-                "Try to run './gradlew clean' first.")
-            return null
+        final jarFile = new File(project.buildDir, "dist/scripting.jar")
+        if (!jarFile.exists() || !jarFile.isFile() || !jarFile.canRead()) {
+            logger.error("No scripting.jar file found. Path: '$jarFile.absolutePath'")
         }
-        return new JarFile(jars[0])
+        return new JarFile(jarFile)
     }
 
     def loadManifest(JarFile jar) {
