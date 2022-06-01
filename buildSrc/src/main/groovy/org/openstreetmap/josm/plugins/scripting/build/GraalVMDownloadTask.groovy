@@ -75,15 +75,6 @@ abstract class GraalVMDownloadTask extends DefaultTask {
     static final PROP_JDK = "graalvm.jdk"
     static final PROP_DOWNLOAD_BASE_URL = "graalvm.download-base-url"
 
-    private static GraalVMDownloadTask instance
-    static GraalVMDownloadTask getInstance() {
-        return instance
-    }
-
-    GraalVMDownloadTask() {
-        instance = this
-    }
-
     /**
      * The base URL for downloading GraalVM releases. Use it to override
      * {@link #DEFAULT_DOWNLOAD_BASE_URL}, if necessary.
