@@ -106,7 +106,7 @@ jobs:
         env:
           DISPLAY: ":19"
         with:
-          arguments: build -Pplugin.josmCompileVersion=release
+          arguments: build -Pplugin.josmCompileVersion=release -Pgraalvm.jdk=java17
 
   build-05:
     name: Build plugin - JDK 17, latest JOSM version
@@ -129,7 +129,7 @@ jobs:
         env:
           DISPLAY: ":19"
         with:
-          arguments: build -Pplugin.josmCompileVersion=latest
+          arguments: build -Pplugin.josmCompileVersion=latest -Pgraalvm.jdk=java17
 
   build-06:
     name: Build plugin - JDK 17, tested JOSM version
@@ -152,4 +152,4 @@ jobs:
         env:
           DISPLAY: ":19"
         with:
-          arguments: build -Pplugin.josmCompileVersion=tested
+          arguments: build -Pplugin.josmCompileVersion=tested -Pgraalvm.jdk=java17
