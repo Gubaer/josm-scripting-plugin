@@ -16,8 +16,8 @@ permissions:
   contents: read
 
 jobs:
-  build-01:
-    name: Build plugin - JDK 11, minJosmVersion for current release
+  setup-build-environment:
+    name: Setup build environment
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -32,6 +32,12 @@ jobs:
         run: sudo apt-get -y install xvfb
       - name: Start virtual frame buffer
         run: Xvfb :19 -screen 0 1024x768x16 &
+
+  build-01:
+    name: Build plugin - JDK 11, minJosmVersion for current release
+    needs: setup-build-environment
+    runs-on: ubuntu-latest
+    steps:
       - name: Build with Gradle
         uses: gradle/gradle-build-action@v2.1.6
         env:
@@ -85,4 +91,3 @@ jobs:
         with:
           arguments: build -Pplugin.josmCompileVersion=tested
 
-          
