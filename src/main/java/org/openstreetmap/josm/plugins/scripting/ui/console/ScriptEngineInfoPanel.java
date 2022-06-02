@@ -59,6 +59,8 @@ PropertyChangeListener, HyperlinkListener{
     }
 
     private static String buildSelectScriptEngineLink(final String label) {
+        // http://josm/select-script-engine is "internal" URL, HyperlinkListener
+        // will respond to it and open the ScriptEngineSelectionDialog
         return String.format("<a href=\"http://josm/select-script-engine\">%s</a>", label);
     }
 
@@ -106,9 +108,9 @@ PropertyChangeListener, HyperlinkListener{
                 desc.getEngineName().orElse(tr("unknown"))
                 )
             );
+            sb.append(" ").append(buildSelectScriptEngineLink(tr("Change") + "..."));
             sb.append("</p>");
             sb.append(buildJavascriptAPIHint(desc));
-            sb.append(buildSelectScriptEngineLink(" " + tr("Change") + "..."));
             sb.append("</html>");
         } else {
             sb.append("<html>");
@@ -118,9 +120,9 @@ PropertyChangeListener, HyperlinkListener{
                 desc.getLanguageName().orElse(tr("unknown")),
                 ScriptEngineCellRenderer.defaultEngineName(desc))
             );
+            sb.append(" ").append(buildSelectScriptEngineLink(tr("Change") + "..."));
             sb.append("</p>");
             sb.append(buildJavascriptAPIHint(desc));
-            sb.append(buildSelectScriptEngineLink(" " + tr("Change") + "..."));
             sb.append("</html>");
         }
         jepInfo.setText(sb.toString());
