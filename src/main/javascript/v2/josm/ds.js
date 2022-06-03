@@ -500,8 +500,8 @@ class DataSetUtil {
    *   <dd class="param-desc">one of the strings <code>osm</code> (Open Street Map XML data),
    *   <code>osc</code> (Open Street Map change format), or
    *   <code>osm.gz</code> (Open Street Map XML data,
-   *   compressed with gzip).  format is normalized by removing leading and
-   *   trailing whitespace and conversion to lower case.</dd>
+   *   compressed with gzip).  The format is normalized: white space is removed and it is
+   *   converted to lower case.</dd>
    * </dl>
    *
    * @example
@@ -515,6 +515,8 @@ class DataSetUtil {
    *
    * @param {string|java.io.File}  source  the data source
    * @param {object} [options]  optional named parameters
+   *
+   * @return {module:josm/ds~DataSetUtil} the data set util with the loaded data set
    */
   static load (source, options) {
     function normalizeFile (source) {
