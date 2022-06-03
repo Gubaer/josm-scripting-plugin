@@ -62,12 +62,14 @@ exports.buildLatLon = function (obj) {
 }
 
 /**
- * Creates a {@ org.openstreetmap.josm.data.Bounds} instance from a javascript object.
+ * Creates a {@class org.openstreetmap.josm.data.Bounds} instance from a javascript object.
  *
  * @example
- * let { buildBounds } = require('josm/api')
- * const bounds1 = buildBounds({minlat: 46.9479186, minlon: 7.4619484,
- *         maxlat: 46.9497642, maxlon: 7.4660683})
+ * const { buildBounds } = require('josm/api')
+ * const bounds1 = buildBounds({
+ *    minlat: 46.9479186, minlon: 7.4619484,
+ *    maxlat: 46.9497642, maxlon: 7.4660683
+ * })
  *
  * const bounds2 = buildBounds({
  *    min: {lat: 46.9479186, lon: 7.4619484},
