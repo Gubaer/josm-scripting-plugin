@@ -84,8 +84,8 @@ def deriveJosmCompileVersion(releases) {
     return josmCompileVersion
 }
 
-def configuredJsmCompileVersion = deriveJosmCompileVersion(releases)
-logger.info("Compiling for JOSM ${configuredJsmCompileVersion}")
+def configuredJosmCompileVersion = deriveJosmCompileVersion(releases)
+logger.info("Compiling for JOSM ${configuredJosmCompileVersion}")
 
 version = releases.currentPluginLabel
 archivesBaseName = "scripting"
@@ -97,7 +97,7 @@ task dumpGraalVMJars() {
 }
 
 josm {
-    josmCompileVersion = configuredJsmCompileVersion
+    josmCompileVersion = configuredJosmCompileVersion
     manifest {
         minJosmVersion = releases.highestJosmVersion
 
