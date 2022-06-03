@@ -14,28 +14,47 @@ import java.awt.event.KeyEvent;
 import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @SuppressWarnings("unused")
 public class JSAction extends JosmAction {
+    static private final Logger logger = Logger.getLogger(JSAction.class.getName());
     private final static AtomicInteger counter = new AtomicInteger();
 
     static private String propertyAsString(Value object,
             String property, String defaultValue) {
-        final Value prop = object.getMember(property);
-        if (prop == null) {
-            return defaultValue;
+        try {
+            final Value prop = object.getMember(property);
+            if (prop == null) {
+                return defaultValue;
+            }
+            return prop.asString();
+        } catch(UnsupportedOperationException e) {
+            logger.log(Level.WARNING, MessageFormat.format(
+                "Failed to invoke getMember() on polyglot value for property '{0}'",
+                property
+            ), e);
+            return null;
         }
-        return prop.asString();
     }
 
     @SuppressWarnings("SameParameterValue")
     static private Value propertyAsFunction(Value object,
         String property, Value defaultValue) {
-        final Value value = object.getMember(property);
-        if (value == null || !value.canExecute()) {
-            return defaultValue;
+        try {
+            final Value value = object.getMember(property);
+            if (value == null || !value.canExecute()) {
+                return defaultValue;
+            }
+            return value;
+        } catch(UnsupportedOperationException e) {
+            logger.log(Level.WARNING, MessageFormat.format(
+                "Failed to invoke getMember() on polyglot value for property '{0}'",
+                property
+            ), e);
+            return null;
         }
-        return value;
     }
 
     /**
@@ -52,8 +71,7 @@ public class JSAction extends JosmAction {
                 "toolbar" + counter.incrementAndGet());
         onExecute = propertyAsFunction(properties, "onExecute", null);
         onInitEnabled = propertyAsFunction(properties, "onInitEnabled", null);
-        onUpdateEnabled = propertyAsFunction(properties, "onUpdateEnabled",
-                null);
+        onUpdateEnabled = propertyAsFunction(properties, "onUpdateEnabled", null);
         putValue(NAME, name);
         putValue(SHORT_DESCRIPTION, tooltip);
         if (iconName != null) {

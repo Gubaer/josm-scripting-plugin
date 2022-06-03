@@ -30,7 +30,7 @@ class AbstractGraalVMBasedTest extends JOSMFixtureBasedTest {
             )
         )
         //noinspection GroovyResultOfObjectAllocationIgnored
-        new ScriptingPlugin(new PluginInformation(scriptingJarFile))
+        new ScriptingPlugin(new PluginInformation(scriptingJarFile), true /* in test environment */)
 
         if (!GraalVMFacadeFactory.isGraalVMPresent()) {
             throw new IllegalStateException("GraalJS must be present on the classpath")
