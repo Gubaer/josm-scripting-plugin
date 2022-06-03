@@ -210,7 +210,6 @@ task testScriptApiV2(type: Test) {
     environment "JAVA_HOME", getGraalVMHome().absolutePath
     scanForTestClasses= false
     include "org/openstreetmap/josm/plugins/scripting/graalvm/api/*.class"
-    //include "org/openstreetmap/josm/plugins/scripting/graalvm/api/JSActionTest.class"
     testLogging {
         events TestLogEvent.FAILED, TestLogEvent.PASSED
         exceptionFormat = TestExceptionFormat.FULL
