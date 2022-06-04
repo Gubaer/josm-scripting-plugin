@@ -95,7 +95,7 @@ public class ScriptingConsolePanel extends JPanel {
         sb.append(tr("Syntax highlighting is disabled."));
         sb.append("<p>");
         sb.append(tr(
-            "Refer to the online help how to configure the syntax style " +
+            "Refer to the online help on how to configure the syntax style " +
             "for specific content types."));
         sb.append("</html>");
 
@@ -116,7 +116,7 @@ public class ScriptingConsolePanel extends JPanel {
                 null,
                 btns,
                 btns[0],
-                null //FIXME: help topic
+                null // no help topic
         );
     }
 
