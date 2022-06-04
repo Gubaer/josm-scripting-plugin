@@ -84,7 +84,13 @@ public class JSAction extends JosmAction {
         // to the toolbar
         this.putValue("toolbarId", toolbarId);
 
-        // FIXME should accept shortcut as parameter
+        //TODO(gubaer): should accept shortcut as parameter
+        //Extend later. First, add scripting contexts which are preserved between
+        //script invocation. Otherwise, attaching scripts to menu items want
+        //work.
+        //Then allow users to define a shortcut with the four parameters
+        //necessary for Shortcut::registerShortcut(), see
+        //https://github.com/JOSM/josm/blob/3af7bae967e273dcee423ca0aac04524615d5ba5/src/org/openstreetmap/josm/tools/Shortcut.java#L517
         this.sc = Shortcut.registerShortcut(name, name, KeyEvent.VK_0,
                 Shortcut.NONE);
         MainApplication.registerActionShortcut(this, sc);
