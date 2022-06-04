@@ -220,12 +220,6 @@ exports.mixin.addToMenu = function(menu, index) {
         util.assert(index >= 0,
             "index: expected a number >= 0, got {0}", index);
     }
-    // FIXME support for named options
-    //    options = options || {};
-    //    util.assert(typeof options === "object", "options: expected an object,
-    //     got {0}", options);
-    // var inExpertModeOnly = util.isDef(options.inExpertModeOnly)
-    //      ? false : Boolean(options.inExpertModeOnly);
     var inExpertModeOnly = false;
     if (util.isDef(index)) {
         MainMenu.add(menu, this, inExpertModeOnly, index);
