@@ -199,9 +199,9 @@ public class CommonJSModuleRepositoryRegistry implements IModuleResolver {
     }
 
     private void logFine(Supplier<String> messageBuilder) {
-        if (logger.isLoggable(Level.INFO)) {
+        if (logger.isLoggable(Level.FINE)) {
             final String message = messageBuilder.get();
-            logger.log(Level.INFO, message);
+            logger.log(Level.FINE, message);
         }
     }
 
