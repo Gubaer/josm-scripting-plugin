@@ -27,7 +27,16 @@ public class GraalVMFacade  implements IGraalVMFacade {
 
     private Context context;
 
-    private void populateContext(final Context context) {
+    /**
+     * Initializes a GraalVM context with the standard bindings.
+     *
+     * Can be used in test cases to properly initialize a
+     * GraalVM context for testing.
+     *
+     * @param context the context
+     */
+    static public void populateContext(@NotNull final Context context) {
+        Objects.requireNonNull(context);
         final Value bindings = context.getBindings("js");
 
         // populate the context with the require function

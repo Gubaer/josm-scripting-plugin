@@ -1,26 +1,23 @@
 package org.openstreetmap.josm.plugins.scripting.graalvm.api
 
-import org.junit.jupiter.api.AfterEach
+
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.openstreetmap.josm.plugins.scripting.graalvm.AbstractGraalVMBasedTest
-import org.openstreetmap.josm.plugins.scripting.graalvm.GraalVMFacadeFactory
-import org.openstreetmap.josm.plugins.scripting.graalvm.IGraalVMFacade
+import org.openstreetmap.josm.plugins.scripting.graalvm.CommonJSModuleRepositoryRegistry
+import org.openstreetmap.josm.plugins.scripting.graalvm.FileSystemJSModuleRepository
 
 class APIV2TestSuite extends AbstractGraalVMBasedTest {
 
-    private IGraalVMFacade facade
-
     @BeforeEach
-    void initGraalVMFacade() {
-        facade = GraalVMFacadeFactory.getOrCreateGraalVMFacade()
-    }
-
-    @AfterEach
-    void resetGraalVMFacade() {
-        if (facade != null) {
-            facade.resetContext()
+    void addRepoForTestSuite() {
+        final testSuiteRepo = new File(getProjectHome(), "src/test/unit/javascript/v2")
+        if (!testSuiteRepo.isDirectory() || !testSuiteRepo.canRead()) {
+            fail("Directory '$testSuiteRepo.absolutePath' with API V2 unit tests doesn't exist or isn't readable")
         }
+        CommonJSModuleRepositoryRegistry.instance.addUserDefinedRepository(
+            new FileSystemJSModuleRepository(testSuiteRepo)
+        )
     }
 
     @Test

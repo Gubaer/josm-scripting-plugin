@@ -38,7 +38,7 @@ public class FileSystemJSModuleRepository extends BaseJSModuleRepository {
      * @param baseDir the base directory. Must not be null. Must not
      *                be empty.
      */
-    FileSystemJSModuleRepository(@NotNull String baseDir) {
+    public FileSystemJSModuleRepository(@NotNull String baseDir) {
         Objects.requireNonNull(baseDir);
         this.baseDir = new File(baseDir).getAbsoluteFile();
     }
@@ -49,7 +49,7 @@ public class FileSystemJSModuleRepository extends BaseJSModuleRepository {
      *
      * @param baseDir the base directory. Must not be null.
      */
-    FileSystemJSModuleRepository(@NotNull File baseDir) {
+    public FileSystemJSModuleRepository(@NotNull File baseDir) {
         Objects.requireNonNull(baseDir);
         this.baseDir = baseDir.getAbsoluteFile();
     }

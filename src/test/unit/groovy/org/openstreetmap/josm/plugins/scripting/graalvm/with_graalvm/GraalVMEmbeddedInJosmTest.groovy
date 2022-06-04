@@ -1,7 +1,9 @@
-package org.openstreetmap.josm.plugins.scripting.graalvm
+package org.openstreetmap.josm.plugins.scripting.graalvm.with_graalvm
+
 
 import org.junit.jupiter.api.Test
-
+import org.openstreetmap.josm.plugins.scripting.graalvm.AbstractGraalVMBasedTest
+import org.openstreetmap.josm.plugins.scripting.graalvm.GraalVMEvalException
 
 class GraalVMEmbeddedInJosmTest extends AbstractGraalVMBasedTest {
 
@@ -12,6 +14,6 @@ class GraalVMEmbeddedInJosmTest extends AbstractGraalVMBasedTest {
             const version = Version.getInstance().getVersionString()
             console.log(`JOSM Version: \${version}`)
         """
-        GraalVMFacadeFactory.createGraalVMFacade().eval(graalJSDescriptor, script)
+        facade.eval(graalJSDescriptor, script)
     }
 }

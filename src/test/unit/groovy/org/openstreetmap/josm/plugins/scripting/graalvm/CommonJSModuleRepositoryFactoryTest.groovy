@@ -1,11 +1,10 @@
 package org.openstreetmap.josm.plugins.scripting.graalvm
 
+import groovy.test.GroovyTestCase
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 
-import static org.junit.Assert.assertTrue
-
-class CommonJSModuleRepositoryFactoryTest {
+class CommonJSModuleRepositoryFactoryTest extends GroovyTestCase{
 
     static def projectHome
 

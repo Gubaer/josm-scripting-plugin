@@ -1,27 +1,10 @@
 package org.openstreetmap.josm.plugins.scripting.graalvm.api
 
-import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.BeforeEach
+
 import org.junit.jupiter.api.Test
 import org.openstreetmap.josm.plugins.scripting.graalvm.AbstractGraalVMBasedTest
-import org.openstreetmap.josm.plugins.scripting.graalvm.GraalVMFacadeFactory
-import org.openstreetmap.josm.plugins.scripting.graalvm.IGraalVMFacade
 
 class JSActionTest extends AbstractGraalVMBasedTest {
-
-    private IGraalVMFacade facade
-
-    @BeforeEach
-    void initGraalVMFacade() {
-        facade = GraalVMFacadeFactory.getOrCreateGraalVMFacade()
-    }
-
-    @AfterEach
-    void resetGraalVMFacade() {
-        if (facade != null) {
-            facade.resetContext()
-        }
-    }
 
     @Test
     void "can create a JSAction"() {

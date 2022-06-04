@@ -1,6 +1,7 @@
 package org.openstreetmap.josm.plugins.scripting.graalvm
 
-
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import org.openstreetmap.josm.plugins.PluginException
 import org.openstreetmap.josm.plugins.PluginInformation
@@ -17,18 +18,37 @@ class AbstractGraalVMBasedTest extends JOSMFixtureBasedTest {
             desc.getLanguageName().filter{it == "JavaScript"}
         }
 
-    @BeforeEach
-    void setup() throws PluginException, IOException {
-        def projectDir = getProjectHome()
+    static ICommonJSModuleRepository moduleRepo
 
+    @BeforeAll
+    static void readEnvironmentVariables() {
+        final moduleRepoPath = System.getenv("TEST_COMMONJS_MODULE_REPO")
+        if (moduleRepoPath == null) {
+            fail("environment variable TEST_COMMONJS_MODULE_REPO not set")
+        }
+        final dir = new File(moduleRepoPath)
+        if (!dir.isDirectory() || !dir.canRead()) {
+            fail("directory '$dir.absolutePath' with CommonJS modules doesn't exist or isn't readable")
+        }
+        moduleRepo = new FileSystemJSModuleRepository(moduleRepoPath)
+    }
+
+    @BeforeEach
+    void resetRepositoryRegistry() {
         // Initialize the CommonJS module repositories
         def registry = CommonJSModuleRepositoryRegistry.getInstance()
         registry.setBuiltInRepository( new JarJSModuleRepository(scriptingJarFile, "/js/v2"))
         registry.addUserDefinedRepository(
-            new FileSystemJSModuleRepository(
-                new File(projectDir, "src/test/unit/javascript/v2")
-            )
+                new FileSystemJSModuleRepository(
+                        new File(getProjectHome(), "src/test/unit/javascript/v2")
+                )
         )
+        CommonJSModuleRepositoryRegistry.instance.clear()
+        CommonJSModuleRepositoryRegistry.instance.addUserDefinedRepository(moduleRepo)
+    }
+
+    @BeforeEach
+    void setup() throws PluginException, IOException {
         //noinspection GroovyResultOfObjectAllocationIgnored
         new ScriptingPlugin(new PluginInformation(scriptingJarFile), true /* in test environment */)
 
@@ -37,5 +57,19 @@ class AbstractGraalVMBasedTest extends JOSMFixtureBasedTest {
         }
         Logging.getLogger().setFilter(
         record -> record.getLevel().intValue() >= Level.WARNING.intValue())
+    }
+
+    protected IGraalVMFacade facade
+
+    @BeforeEach
+    void initGraalVMFacade() {
+        facade = GraalVMFacadeFactory.getOrCreateGraalVMFacade()
+    }
+
+    @AfterEach
+    void resetGraalVMFacade() {
+        if (facade != null) {
+            facade.resetContext()
+        }
     }
 }

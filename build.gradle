@@ -67,6 +67,7 @@ def deriveJosmCompileVersion(releases) {
         ? project.property("plugin.josmCompileVersion")
         : null
     def josmCompileVersion
+    //noinspection GroovyFallthrough
     switch (value) {
         case null:
             josmCompileVersion = "latest"
@@ -159,11 +160,13 @@ File josmHomeForTests() {
     return new File(project.projectDir, "build/josm.home")
 }
 
+/**
+ * Run unit tests that only depend on the JDK, the plugin classes,
+ * and Mozilla Rhino. Runs on the current stock Java VM and JDK.
+ */
 test {
     useJUnitPlatform()
     environment "JOSM_SCRIPTING_PLUGIN_HOME", project.projectDir
-    environment "TEST_COMMONJS_MODULE_REPO",
-            "${project.projectDir}/src/test/resources/require"
     environment "BUILTIN_COMMONJS_MODULE_REPO",
             "${project.projectDir}/src/main/javascript/v2"
     systemProperty "josm.home", josmHomeForTests().absolutePath
@@ -175,6 +178,10 @@ test {
     testLogging.events TestLogEvent.FAILED, TestLogEvent.PASSED
 }
 
+/**
+ * Runs the API V1 JavaScript unit tests with JOSM and Mozilla
+ * Rhino present.
+ */
 task testScriptApiV1 (type: Test) {
     useJUnitPlatform()
     environment "JOSM_SCRIPTING_PLUGIN_HOME", project.projectDir
@@ -192,30 +199,39 @@ def getGraalVMHome() {
     }
     final version = project.property("graalvm.version")
     if (!project.hasProperty("graalvm.jdk")) {
-        throw new GradleException("Missing mandatory project property 'jdk'")
+        throw new GradleException("Missing mandatory project property 'graalvm.jdk'")
     }
     final jdk = project.property("graalvm.jdk")
     return new File(project.projectDir, "software/graalvm-ce-$jdk-$version")
 }
 
+/**
+ * Runs the API V2 JavaScript unit tests with JOSM and GraalJS
+ * present. The tests are run with with a GraalVM 'java' binary.
+ */
 task testScriptApiV2(type: Test) {
     dependsOn "downloadGraalVM"
     useJUnitPlatform()
-    testLogging {
-        outputs.upToDateWhen {false}
-        showStandardStreams = true
-    }
     environment "JOSM_SCRIPTING_PLUGIN_HOME", project.projectDir
+    environment "TEST_COMMONJS_MODULE_REPO",
+            "${project.projectDir}/src/test/resources/require/modules"
     executable new File(getGraalVMHome(), "bin/java").absolutePath
     environment "JAVA_HOME", getGraalVMHome().absolutePath
     scanForTestClasses= false
     include "org/openstreetmap/josm/plugins/scripting/graalvm/api/*.class"
     testLogging {
+        outputs.upToDateWhen {false}
+        showStandardStreams = true
         events TestLogEvent.FAILED, TestLogEvent.PASSED
         exceptionFormat = TestExceptionFormat.FULL
     }
 }
 
+/**
+ * Runs tests for functionality that tests whether GraalJS is
+ * present or not. Runs with the current stock Java VM and JDK and makes
+ * sure that GraalJS/GraalVM isn't present on the classpath.
+ */
 task testGraalVMSupportNotPresent(type: Test) {
     // remove GraalVM from classpath under test
     classpath = classpath.filter {! it.toString().toLowerCase().contains("graalvm")}
@@ -228,9 +244,14 @@ task testGraalVMSupportNotPresent(type: Test) {
     }
 }
 
+/**
+ * Run unit tests for GraalJS functionality. Run it with the GraalVM java
+ * executable.
+ */
 import java.nio.file.Paths
 import java.nio.file.StandardCopyOption
-task testGraalVMSupportPresent(type: Test) {
+task testWithGraalVMJDK(type: Test) {
+    dependsOn "downloadGraalVM"
     doFirst {
         // prepare a suitable 'preferences.xml' for the test cases in this
         // executed by this task
@@ -238,44 +259,32 @@ task testGraalVMSupportPresent(type: Test) {
         josmHome.mkdirs()
         Files.copy(
             Paths.get("${project.projectDir}/src/test/resources/josm-test-environments/env01/preferences.xml"),
-            Paths.get("${josmHome.absolutePath}preferences.xml"),
+            Paths.get("${josmHome.absolutePath}/preferences.xml"),
             StandardCopyOption.REPLACE_EXISTING
         )
-        println("testGraalVMSupportPresent: prepared preferences.xml")
     }
-    useJUnitPlatform()
-    environment "JOSM_SCRIPTING_PLUGIN_HOME",project.projectDir
-    systemProperty "josm.home", josmHomeForTests().absolutePath
-    scanForTestClasses= false
-    include "**/graalvm/GraalVMPresentTest.class"
-    include "**/graalvm/GraalVMEvalTest.class"
-    include "**/graalvm/GraalVMEmbeddedInJOSMTest.class"
-    include "**/graalvm/GraalVMAndRequireTest.class"
-    testLogging {
-        events TestLogEvent.FAILED, TestLogEvent.PASSED
-        exceptionFormat = TestExceptionFormat.FULL
-    }
-}
-
-task testWithGraalVMJDK(type: Test) {
-    dependsOn "downloadGraalVM"
     useJUnitPlatform()
     environment "JOSM_SCRIPTING_PLUGIN_HOME", project.projectDir
+    environment "TEST_COMMONJS_MODULE_REPO",
+            "${project.projectDir}/src/test/resources/require/modules"
+    systemProperty "josm.home", josmHomeForTests().absolutePath
+
     scanForTestClasses= false
+    // configuration to use GraalVM
     executable new File(getGraalVMHome(), "bin/java").absolutePath
     environment "JAVA_HOME", getGraalVMHome()
-
-    include "**/graalvm/GraalVMPresentTest.class"
-    include "**/graalvm/GraalVMEvalTest.class"
-    include "**/graalvm/GraalVMEmbeddedInJOSMTest.class"
-    include "**/graalvm/GraalVMAndRequireTest.class"
-    include "**/graalvm/ScriptingAPIV2Test.class"
+    scanForTestClasses= false
+    include "org/openstreetmap/josm/plugins/scripting/graalvm/with_graalvm/*.class"
     testLogging {
         events TestLogEvent.FAILED, TestLogEvent.PASSED
         exceptionFormat = TestExceptionFormat.FULL
     }
 }
 
+/**
+ * Run tests on a stock JDK with the groovy and python scripting
+ * engines present.
+ */
 task testJSR223EnginePresent(type: Test) {
     useJUnitPlatform()
 
@@ -291,7 +300,6 @@ task testJSR223EnginePresent(type: Test) {
 tasks.check.dependsOn(tasks.testScriptApiV1)
 tasks.check.dependsOn(tasks.testScriptApiV2)
 tasks.check.dependsOn(tasks.testGraalVMSupportNotPresent)
-tasks.check.dependsOn(tasks.testGraalVMSupportPresent)
 tasks.check.dependsOn(tasks.testJSR223EnginePresent)
 tasks.check.dependsOn(tasks.testWithGraalVMJDK)
 

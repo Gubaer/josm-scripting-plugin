@@ -1,14 +1,17 @@
-package org.openstreetmap.josm.plugins.scripting.graalvm
+package org.openstreetmap.josm.plugins.scripting.graalvm.with_graalvm
 
-import groovy.test.GroovyTestCase
 import org.graalvm.polyglot.Value
 import org.junit.jupiter.api.Test
+import org.openstreetmap.josm.plugins.scripting.graalvm.AbstractGraalVMBasedTest
+import org.openstreetmap.josm.plugins.scripting.graalvm.GraalVMEvalException
+import org.openstreetmap.josm.plugins.scripting.graalvm.GraalVMFacadeFactory
+import org.openstreetmap.josm.plugins.scripting.graalvm.IGraalVMFacade
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineMetaDataProvider
 
 import java.util.stream.Collectors
 
-class GraalVMPresentTest extends GroovyTestCase {
+class GraalVMPresentTest extends AbstractGraalVMBasedTest {
 
     @Test
     void shouldDetectGraalVMPresent() {
@@ -44,21 +47,10 @@ class GraalVMPresentTest extends GroovyTestCase {
         assertTrue(allEnginesAreGraalVMEngines)
     }
 
-    static def getJavaScriptScriptEngineDescriptor() {
-        return GraalVMFacadeFactory.getOrCreateGraalVMFacade()
-            .getScriptEngineDescriptors()
-        .find {desc ->
-            desc.engineId == "js"
-        }
-    }
-
     @Test
     void "should evaluate a simple arithmetic expression"() {
         def script = "1 + 1"
-        def js = getJavaScriptScriptEngineDescriptor()
-        def facade = GraalVMFacadeFactory.getOrCreateGraalVMFacade()
-
-        def result = facade.eval(js, script) as Value
+        def result = facade.eval(graalJSDescriptor, script) as Value
         assertEquals(2, result?.asInt())
     }
 
@@ -69,10 +61,7 @@ class GraalVMPresentTest extends GroovyTestCase {
         const value = new String('hello')
         value
         """
-        def js = getJavaScriptScriptEngineDescriptor()
-        def facade = GraalVMFacadeFactory.getOrCreateGraalVMFacade()
-
-        def result = facade.eval(js, script) as Value
+        def result = facade.eval(graalJSDescriptor, script) as Value
         assertEquals("hello", result?.asString())
     }
 
@@ -83,10 +72,7 @@ class GraalVMPresentTest extends GroovyTestCase {
             'org.openstreetmap.josm.plugins.scripting.ScriptingPlugin')    
         ScriptingPlugin
         """
-        def js = getJavaScriptScriptEngineDescriptor()
-        def facade = GraalVMFacadeFactory.getOrCreateGraalVMFacade()
-
-        def result = facade.eval(js, script) as Value
+        def result = facade.eval(graalJSDescriptor, script) as Value
         assertEquals(
             "class org.openstreetmap.josm.plugins.scripting.ScriptingPlugin",
             result?.asHostObject()?.toString())
@@ -99,26 +85,20 @@ class GraalVMPresentTest extends GroovyTestCase {
             'com.github.spullara.mustache.java.DefaultMustacheFactory')
         DefaultMustacheFactory
         """
-        def js = getJavaScriptScriptEngineDescriptor()
-        def facade = GraalVMFacadeFactory.getOrCreateGraalVMFacade()
-
         shouldFail(GraalVMEvalException.class) {
-            facade.eval(js, script) as Value
+            facade.eval(graalJSDescriptor, script) as Value
         }
     }
 
     @Test
     void "can reset the scripting context"() {
         def script = """const a = 1 + 1; a;"""
-        def js = getJavaScriptScriptEngineDescriptor()
-        def facade = GraalVMFacadeFactory.getOrCreateGraalVMFacade()
-        def value = facade.eval(js, script) as Value
+        def value = facade.eval(graalJSDescriptor, script) as Value
         assertEquals(2, value?.asInt())
         facade.resetContext()
         script = "a"
         shouldFail(GraalVMEvalException.class) {
-            facade.eval(js, script) as Value
+            facade.eval(graalJSDescriptor, script) as Value
         }
     }
-
 }

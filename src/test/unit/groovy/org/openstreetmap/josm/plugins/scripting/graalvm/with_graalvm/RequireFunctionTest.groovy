@@ -1,38 +1,26 @@
-package org.openstreetmap.josm.plugins.scripting.graalvm
+package org.openstreetmap.josm.plugins.scripting.graalvm.with_graalvm
 
-import groovy.test.GroovyTestCase
+
 import org.graalvm.polyglot.Context
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.openstreetmap.josm.plugins.scripting.graalvm.*
 
 import java.util.logging.ConsoleHandler
 import java.util.logging.Level
 import java.util.logging.Logger
 
-class RequireFunctionTest extends GroovyTestCase {
-
-    static String moduleRepoPath
-    static ICommonJSModuleRepository moduleRepo
+class RequireFunctionTest extends AbstractGraalVMBasedTest {
 
     @BeforeAll
-    static void readEnvironmentVariables() {
-        moduleRepoPath = System.getenv("TEST_COMMONJS_MODULE_REPO")
-        if (moduleRepoPath == null) {
-            fail("environment variable TEST_COMMONJS_MODULE_REPO not set.")
-        }
-
-        moduleRepo = new FileSystemJSModuleRepository(moduleRepoPath)
-    }
-
-    @BeforeAll
-    static void enableogging() {
+    static void enableLogging() {
         Logger.getLogger(FileSystemJSModuleRepository.class.getName())
                 .setLevel(Level.FINE)
-
-        Logger.getLogger("")
-                .getHandlers().findAll {
+        Logger.getLogger(RequireFunction.class.getName())
+                .setLevel(Level.FINE)
+        Logger.getLogger("").getHandlers().findAll {
             it instanceof ConsoleHandler
         }.each {
             it.level = Level.FINE
@@ -42,16 +30,11 @@ class RequireFunctionTest extends GroovyTestCase {
     Context context
 
     @BeforeEach
-    void resetRepositoryRegistry() {
-        CommonJSModuleRepositoryRegistry.instance.clear()
-        CommonJSModuleRepositoryRegistry.instance.addUserDefinedRepository(moduleRepo)
-    }
-
-    @BeforeEach
     void initContext() {
         context = Context.newBuilder("js")
             .allowAllAccess(true)
             .build()
+        GraalVMFacade.populateContext(context)
         context.enter()
     }
 

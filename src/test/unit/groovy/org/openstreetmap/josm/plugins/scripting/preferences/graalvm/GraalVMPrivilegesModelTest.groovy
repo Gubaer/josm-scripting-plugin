@@ -1,6 +1,5 @@
 package org.openstreetmap.josm.plugins.scripting.preferences.graalvm
 
-
 import org.junit.jupiter.api.Test
 import org.openstreetmap.josm.data.Preferences
 import org.openstreetmap.josm.plugins.scripting.JOSMFixtureBasedTest
