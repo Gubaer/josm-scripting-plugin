@@ -264,7 +264,7 @@ function afterFromOptions(options) {
  * Adds an action to the toolbar.
  *
  * If no parameters are passed in, the action is registered with its
- * toolbar id (see property tooblarId) for being displayed in the toolbar.
+ * toolbar id (see property toolbarId) for being displayed in the toolbar.
  * It isn't displayed, however, unless the toolbar id is already included
  * in the toolbar preferences. If not, the user first has to configure it
  * manually in the preference dialog.
