@@ -275,6 +275,7 @@ task testWithGraalVMJDK(type: Test) {
     environment "JAVA_HOME", getGraalVMHome()
     scanForTestClasses= false
     include "org/openstreetmap/josm/plugins/scripting/graalvm/with_graalvm/*.class"
+    include "org/openstreetmap/josm/plugins/scripting/esmodules/ESModuleTest.class"
     testLogging {
         events TestLogEvent.FAILED, TestLogEvent.PASSED
         exceptionFormat = TestExceptionFormat.FULL
