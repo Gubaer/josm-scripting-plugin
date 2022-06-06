@@ -59,7 +59,19 @@ public class GraalVMFacade  implements IGraalVMFacade {
     }
 
     private void setOptionsOnContext(final Context.Builder builder) {
+        // Enable strict mode for all scripts.
         builder.option("js.strict", "true");
+
+        // TODO(Gubaer): disable later. Currently js.java-package-globals is
+        // an experimental option and experimental options should not be
+        // used in production environments.
+        // ---
+        // Don't support the global variable 'Packages'. Don't allow java
+        // classes with the backward-compatible notation
+        //   const FileClass = java.io.File
+        // See
+        // https://www.graalvm.org/22.1/reference-manual/js/JavaInteroperability/#class-access
+        // builder.option("js.java-package-globals", "false");
     }
 
     /**
