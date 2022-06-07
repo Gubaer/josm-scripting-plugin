@@ -17,7 +17,7 @@ const HelpAwareOptionPane = Java.type('org.openstreetmap.josm.gui.HelpAwareOptio
 const MainApplication = Java.type('org.openstreetmap.josm.gui.MainApplication')
 
 //const util = require('josm/util')
-import * as util from 'josm/util'
+import * as util from './josm/util'
 
 //const layers = require('josm/layers')
 //const { MenuBar } = require('josm/ui/menu')
