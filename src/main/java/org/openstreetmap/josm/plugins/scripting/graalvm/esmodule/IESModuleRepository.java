@@ -7,7 +7,7 @@ import java.nio.channels.SeekableByteChannel;
 import java.nio.file.Path;
 
 /**
- * A registry for ES Modules
+ * A registry for ES Modules.
  */
 public interface IESModuleRepository {
 
@@ -41,7 +41,7 @@ public interface IESModuleRepository {
      *
      * A module path is either an absolute or a relative path, i.e.
      * <ul>
-     *     <li>/foo/bar/baz</li> - an absolute path
+     *     <li>/es-module-repo/23e4567-e89b-12d3-a456-426614174000/baz</li> - an absolute module path
      *     <li>foo/bar</li> - a relative path
      *     <li>./foo/bar</li> - a relative path with leading <code>./</code></li>
      *     <li>./foo/bar/../baz</li> - a relative path with <code>./</code> and <code>../</code> segments</li>
@@ -49,16 +49,17 @@ public interface IESModuleRepository {
      *
      * A module path can include <code>./</code> and <code>../</code>.
      *
-     * A module path can have a suffix. If it has a suffix, the path is resolved
-     * against a file with a file with the same name, including the suffix. If it
-     * doesn't have a suffix, whether a matching files with the suffix <code>.mjs</code>
-     * or <code>.js</code> exists and is readable.
+     * The file suffix is optional. A module path <code>foo/bar/baz</code> is always
+     * resolved against <code>foo/bar/baz</code>, <code>foo/bar/baz.mjs</code>, and
+     * <code>foo/bar/baz.js</code>, in this order. It is resolved against the first
+     * of these alternatives for which a readable file is found in underlying file
+     * store.
      *
      * @param modulePath the module path
-     * @return the absolute
+     * @return the absolute module path or null, if <code>modulePath</code> can't be converted to an
+     * absolute module path
      */
-    @Null
-    Path resolveModulePath(@NotNull final String modulePath);
+    @Null Path resolveModulePath(@NotNull final String modulePath);
 
     @Null Path resolveModulePath(@NotNull final Path modulePath);
 
