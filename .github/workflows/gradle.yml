@@ -23,9 +23,9 @@ jobs:
           - latest
           - tested
           - release
-          jdk:
-            - 11
-            - 17
+        jdk:
+          - 11
+          - 17
 
     name: Build plugin - JDK {{ matrix.jdk }}, minJosmVersion={{ matrix.josm-versions }}
     runs-on: ubuntu-latest
