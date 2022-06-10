@@ -158,7 +158,7 @@ public class FileSystemESModuleRepository extends AbstractESModuleRepository {
                 return convertAbsoluteRepoPathToAbsoluteModulePath(absoluteRepoPath);
             } else {
                 logFine(() -> MessageFormat.format(
-                    "{0}: can't resolve absolute module path in the file system based ES module repository with unique prefix ''{1}''",
+                    "{0}: can''t resolve absolute module path in the file system based ES module repository with unique prefix ''{1}''",
                     modulePath.toString(),
                     getUniquePathPrefix().toString()
                 ));
@@ -169,8 +169,8 @@ public class FileSystemESModuleRepository extends AbstractESModuleRepository {
             logFine(() -> MessageFormat.format("{0}: absolute repo path is ''{1}''", modulePath, repoPath));
             if (!repoPath.startsWith(root.toPath())) {
                 logFine(() -> MessageFormat.format(
-                    "{0}: Can't resolve relative module path  in the file system based ES module. "
-                    +"The module path refers to a file outside of the repo.",
+                    "{0}: can''t resolve relative module path  in the file system based ES module. "
+                    + "The module path refers to a file outside of the repo.",
                     modulePath.toString()
                 ));
                 logFine(() -> MessageFormat.format("{0}: resolution FAILED", modulePath));
