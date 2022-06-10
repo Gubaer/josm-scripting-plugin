@@ -1,6 +1,6 @@
 package org.openstreetmap.josm.plugins.scripting.esmodules
 
-import groovy.test.GroovyTestCase
+
 import org.junit.jupiter.api.Test
 import org.openstreetmap.josm.plugins.scripting.BaseTestCase
 
@@ -56,5 +56,10 @@ class PathTests extends BaseTestCase {
         assertEquals("foo/bar/baz", fixed)
     }
 
-
+    @Test
+    void "empty path"() {
+        def path = Path.of("")
+        // an empty path has one name segment
+        assertEquals(1, path.getNameCount())
+    }
 }
