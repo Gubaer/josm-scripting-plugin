@@ -19,7 +19,7 @@ jobs:
   build:
     strategy:
       matrix:
-        josm-version:
+        josm-versions:
           - latest
           - tested
           - release
@@ -27,7 +27,7 @@ jobs:
             - 11
             - 17
 
-    name: Build plugin - JDK {{ matrix.jdk }}, minJosmVersion={{ matrix.josm-version }}
+    name: Build plugin - JDK {{ matrix.jdk }}, minJosmVersion={{ matrix.josm-versions }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -47,4 +47,4 @@ jobs:
         env:
             DISPLAY: ":19"
         with:
-          arguments: build -Pplugin.josmCompileVersion={{ matrix.josm-version}} -Pgraalvm.jdk=java{{ matrix.jdk }}
+          arguments: build -Pplugin.josmCompileVersion={{ matrix.josm-versions}} -Pgraalvm.jdk=java{{ matrix.jdk }}
