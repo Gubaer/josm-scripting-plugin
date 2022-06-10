@@ -269,6 +269,7 @@ task testWithGraalVMJDK(type: Test) {
     environment "TEST_COMMONJS_MODULE_REPO",
             "${project.projectDir}/src/test/resources/require/modules"
     systemProperty "josm.home", josmHomeForTests().absolutePath
+    systemProperty "java.util.logging.config.file", "${project.projectDir}/src/test/resources/logging.properties"
 
     scanForTestClasses= false
     // configuration to use GraalVM
@@ -276,7 +277,7 @@ task testWithGraalVMJDK(type: Test) {
     environment "JAVA_HOME", getGraalVMHome()
     scanForTestClasses= false
     include "org/openstreetmap/josm/plugins/scripting/graalvm/with_graalvm/*.class"
-    include "org/openstreetmap/josm/plugins/scripting/esmodules/ESModuleTest.class"
+    include "org/openstreetmap/josm/plugins/scripting/graalvm/esmodule/*.class"
     testLogging {
         events TestLogEvent.FAILED, TestLogEvent.PASSED
         exceptionFormat = TestExceptionFormat.FULL
