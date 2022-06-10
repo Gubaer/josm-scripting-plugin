@@ -108,8 +108,7 @@ public class FileSystemESModuleRepository extends AbstractESModuleRepository {
             ));
         }
         final var relativePathStart = 2;
-        final var relativePathLength = absoluteModulePath.getNameCount() - 2;
-        final var relativeModulePath = absoluteModulePath.subpath(relativePathStart, relativePathLength);
+        final var relativeModulePath = absoluteModulePath.subpath(relativePathStart, absoluteModulePath.getNameCount());
         return new File(root, relativeModulePath.toString()).toPath();
     }
 
