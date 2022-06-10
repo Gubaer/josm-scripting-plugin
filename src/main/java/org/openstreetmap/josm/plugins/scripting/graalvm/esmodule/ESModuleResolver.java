@@ -10,6 +10,7 @@ import java.nio.file.*;
 import java.nio.file.attribute.FileAttribute;
 import java.util.*;
 
+@SuppressWarnings({"RedundantThrows", "unused"})
 public class ESModuleResolver implements FileSystem {
     private static final ESModuleResolver instance = new ESModuleResolver();
 
@@ -18,7 +19,7 @@ public class ESModuleResolver implements FileSystem {
      *
      * @return the singleton instance of the resolver
      */
-    static private @NotNull ESModuleResolver getInstance() {
+    static public @NotNull ESModuleResolver getInstance() {
         return instance;
     }
 
@@ -68,8 +69,14 @@ public class ESModuleResolver implements FileSystem {
 
     @Override
     public Path parsePath(String path) {
-        //TODO(gubaer): implement
-        return null;
+        var resolvedPath = repos.stream().map(repo -> repo.resolveModulePath(path))
+            .filter(Objects::nonNull)
+            .findFirst()
+            .orElse(null);
+        if (resolvedPath != null) {
+            return resolvedPath;
+        }
+        return fullIO.getPath(path);
     }
 
     @Override
@@ -120,5 +127,4 @@ public class ESModuleResolver implements FileSystem {
     public Map<String, Object> readAttributes(Path path, String attributes, LinkOption... options) throws IOException {
         throw new UnsupportedOperationException();
     }
-
 }
