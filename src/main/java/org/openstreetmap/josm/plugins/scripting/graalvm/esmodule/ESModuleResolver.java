@@ -90,12 +90,18 @@ public class ESModuleResolver implements FileSystem {
 
     @Override
     public void createDirectory(Path dir, FileAttribute<?>... attrs) throws IOException {
-        throw new UnsupportedOperationException();
+        if (lookupRepoForModulePath(dir) != null) {
+            throw new UnsupportedOperationException();
+        }
+        fullIO.provider().createDirectory(dir, attrs);
     }
 
     @Override
     public void delete(Path path) throws IOException {
-        throw new UnsupportedOperationException();
+        if (lookupRepoForModulePath(path) != null) {
+            throw new UnsupportedOperationException();
+        }
+        fullIO.provider().delete(path);
     }
 
     @Override
@@ -110,7 +116,10 @@ public class ESModuleResolver implements FileSystem {
 
     @Override
     public DirectoryStream<Path> newDirectoryStream(Path dir, DirectoryStream.Filter<? super Path> filter) throws IOException {
-        throw new UnsupportedOperationException();
+        if (lookupRepoForModulePath(dir) != null) {
+            throw new UnsupportedOperationException();
+        }
+        return fullIO.provider().newDirectoryStream(dir, filter);
     }
 
     @Override
@@ -125,6 +134,9 @@ public class ESModuleResolver implements FileSystem {
 
     @Override
     public Map<String, Object> readAttributes(Path path, String attributes, LinkOption... options) throws IOException {
-        throw new UnsupportedOperationException();
+        if (lookupRepoForModulePath(path) != null) {
+            throw new UnsupportedOperationException();
+        }
+        return fullIO.provider().readAttributes(path, attributes, options);
     }
 }
