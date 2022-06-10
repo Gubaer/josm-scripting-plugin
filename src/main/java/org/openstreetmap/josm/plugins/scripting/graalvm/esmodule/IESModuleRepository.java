@@ -42,17 +42,17 @@ public interface IESModuleRepository {
      * A module path is either an absolute or a relative path, i.e.
      * <ul>
      *     <li>/es-module-repo/23e4567-e89b-12d3-a456-426614174000/baz</li> - an absolute module path
-     *     <li>foo/bar</li> - a relative path
-     *     <li>./foo/bar</li> - a relative path with leading <code>./</code></li>
-     *     <li>./foo/bar/../baz</li> - a relative path with <code>./</code> and <code>../</code> segments</li>
+     *     <li>foo/bar</li> - a relative module path
+     *     <li>./foo/bar</li> - a relative module path with leading <code>./</code></li>
+     *     <li>./foo/bar/../baz</li> - a relative module path with <code>./</code> and <code>../</code> segments</li>
      * </ul>
      *
-     * A module path can include <code>./</code> and <code>../</code>.
+     * A module path can include <code>./</code> and <code>../</code> segments.
      *
      * The file suffix is optional. A module path <code>foo/bar/baz</code> is always
      * resolved against <code>foo/bar/baz</code>, <code>foo/bar/baz.mjs</code>, and
      * <code>foo/bar/baz.js</code>, in this order. It is resolved against the first
-     * of these alternatives for which a readable file is found in underlying file
+     * of these alternatives for which a readable file is found in the underlying file
      * store.
      *
      * @param modulePath the module path
