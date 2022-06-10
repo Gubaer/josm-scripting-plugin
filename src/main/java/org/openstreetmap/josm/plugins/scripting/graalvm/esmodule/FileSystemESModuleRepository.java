@@ -41,7 +41,7 @@ public class FileSystemESModuleRepository extends AbstractESModuleRepository {
         this.root = root.getAbsoluteFile();
         if (!this.root.isDirectory() || !this.root.canRead()) {
             throw new IllegalArgumentException(MessageFormat.format(
-               "Illegal root directory '{0}'. Directory doesn't exist or isn't readable.",
+               "Illegal root directory ''{0}''. Directory doesn''t exist or isn''t readable.",
                 root.getAbsolutePath()
             ));
         }
@@ -70,7 +70,7 @@ public class FileSystemESModuleRepository extends AbstractESModuleRepository {
         Objects.requireNonNull(absoluteRepoPath);
         if (!absoluteRepoPath.startsWith(root.toPath())) {
             throw new IllegalArgumentException(MessageFormat.format(
-                "Illegal absolute repository path. Path '{0}' doesn't start with the repository root path '{1}'",
+                "Illegal absolute repository path. Path ''{0}'' doesn't start with the repository root path ''{1}''",
                 absoluteRepoPath.toString(),
                 root.getAbsolutePath()
             ));
@@ -79,7 +79,7 @@ public class FileSystemESModuleRepository extends AbstractESModuleRepository {
         final var relativePathLength = absoluteRepoPath.getNameCount() - root.toPath().getNameCount();
         if (relativePathLength < 1) {
             throw new IllegalArgumentException(MessageFormat.format(
-                "Illegal absolute repository path. Path '{0}' must include at least 1 segment after the repository root '{1}', "
+                "Illegal absolute repository path. Path ''{0}'' must include at least 1 segment after the repository root ''{1}'', "
                 + "but only has {2}.",
                 absoluteRepoPath,
                 root.getAbsoluteFile().toString(),
@@ -95,14 +95,14 @@ public class FileSystemESModuleRepository extends AbstractESModuleRepository {
         Objects.requireNonNull(absoluteModulePath);
         if (! absoluteModulePath.startsWith(getUniquePathPrefix())) {
             throw new IllegalArgumentException(MessageFormat.format(
-                "Illegal absolute module path. Path '{0}' doesn't start with the unique path prefix '{1}'.",
+                "Illegal absolute module path. Path ''{0}'' doesn't start with the unique path prefix ''{1}''.",
                 absoluteModulePath,
                 getUniquePathPrefix()
             ));
         }
         if (absoluteModulePath.getNameCount() < 3) {
             throw new IllegalArgumentException(MessageFormat.format(
-                "Illegal absolute module path. Path '{0}' should have at least 3 segments, but only has {1}.",
+                "Illegal absolute module path. Path ''{0}'' should have at least 3 segments, but only has {1}.",
                 absoluteModulePath,
                 absoluteModulePath.getNameCount()
             ));
@@ -112,6 +112,7 @@ public class FileSystemESModuleRepository extends AbstractESModuleRepository {
         final var relativeModulePath = absoluteModulePath.subpath(relativePathStart, relativePathLength);
         return new File(root, relativeModulePath.toString()).toPath();
     }
+
     private static final List<String> SUFFIXES = List.of("", ".mjs", ".js");
     protected @Null Path resolveRepoPath(@NotNull final Path repoPath) {
         Objects.requireNonNull(repoPath);
@@ -121,7 +122,15 @@ public class FileSystemESModuleRepository extends AbstractESModuleRepository {
         } else {
             absoluteRepoFile = new File(root, repoPath.toString()).toPath().normalize().toAbsolutePath().toFile();
         }
-        //TODO: check whether absoluteRepoFile still inside repo
+        if (!absoluteRepoFile.toPath().startsWith(root.toPath())) {
+            logFine(() -> MessageFormat.format(
+                "repo path ''{0}'' resolves to absolute repo path ''{1}'' which is outside of the repo with root ''{2}''",
+                repoPath,
+                absoluteRepoFile.getAbsolutePath(),
+                root.getAbsolutePath()
+            ));
+            return null;
+        }
         return SUFFIXES.stream()
             // build a candidate for the path with one of the candidate suffixes
             .map(suffix -> absoluteRepoFile.getAbsoluteFile().toPath().resolveSibling(absoluteRepoFile.getName() + suffix))
