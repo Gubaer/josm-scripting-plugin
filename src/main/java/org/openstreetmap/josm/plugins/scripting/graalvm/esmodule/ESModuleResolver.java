@@ -54,10 +54,9 @@ public class ESModuleResolver implements FileSystem {
     private final java.nio.file.FileSystem fullIO = FileSystems.getDefault();
     private final List<IESModuleRepository> repos = new ArrayList<>();
 
-
     private IESModuleRepository lookupRepoForModulePath(Path path) {
         return repos.stream()
-            .filter(repo -> repo.resolveModulePath(path) != null)
+            .filter(repo -> repo.isAbsoluteModulePath(path))
             .findFirst()
             .orElse(null);
     }
