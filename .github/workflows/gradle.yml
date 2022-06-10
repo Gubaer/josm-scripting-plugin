@@ -19,7 +19,7 @@ jobs:
   build:
     strategy:
       matrix:
-        josm-versions:
+        josm-version:
           - latest
           - tested
           - release
@@ -27,14 +27,14 @@ jobs:
           - 11
           - 17
 
-    name: Build plugin - JDK {{ matrix.jdk }}, minJosmVersion={{ matrix.josm-versions }}
+    name: Build plugin - JDK ${{ matrix.jdk }}, minJosmVersion=${{ matrix.josm-version }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Set up JDK {{ matrix.jdk }}
+      - name: Set up JDK ${{ matrix.jdk }}
         uses: actions/setup-java@v3
         with:
-          java-version: '{{ matrix.jdk }}'
+          java-version: '${{ matrix.jdk }}'
           distribution: 'temurin'
       # headless X11 setup according to
       # https://stackoverflow.com/questions/68292797/running-java-gui-tests-on-github-using-xvfb
@@ -47,4 +47,4 @@ jobs:
         env:
             DISPLAY: ":19"
         with:
-          arguments: build -Pplugin.josmCompileVersion={{ matrix.josm-versions}} -Pgraalvm.jdk=java{{ matrix.jdk }}
+          arguments: build -Pplugin.josmCompileVersion=${{ matrix.josm-version}} -Pgraalvm.jdk=java${{ matrix.jdk }}
