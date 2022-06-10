@@ -16,15 +16,25 @@ permissions:
   contents: read
 
 jobs:
-  build-01:
-    name: Build plugin - JDK 11, minJosmVersion for current release
+  build:
+    strategy:
+      matrix:
+        josm-version:
+          - latest
+          - tested
+          - release
+          jdk:
+            - 11
+            - 17
+
+    name: Build plugin - JDK {{ matrix.jdk }}, minJosmVersion={{ matrix.josm-version }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Set up JDK 11
+      - name: Set up JDK {{ matrix.jdk }}
         uses: actions/setup-java@v3
         with:
-          java-version: '11'
+          java-version: '{{ matrix.jdk }}'
           distribution: 'temurin'
       # headless X11 setup according to
       # https://stackoverflow.com/questions/68292797/running-java-gui-tests-on-github-using-xvfb
@@ -33,123 +43,8 @@ jobs:
       - name: Start virtual frame buffer
         run: Xvfb :19 -screen 0 1024x768x16 &
       - name: Build with Gradle
-        uses: gradle/gradle-build-action@v2.1.6
+        uses: gradle/gradle-build-action@v2.2.0
         env:
             DISPLAY: ":19"
         with:
-          arguments: build -Pplugin.josmCompileVersion=release
-
-  build-02:
-    name: Build plugin - JDK 11, latest JOSM version
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Set up JDK 11
-        uses: actions/setup-java@v3
-        with:
-          java-version: '11'
-          distribution: 'temurin'
-      # headless X11 setup according to
-      # https://stackoverflow.com/questions/68292797/running-java-gui-tests-on-github-using-xvfb
-      - name: Set up virtual X11
-        run: sudo apt-get -y install xvfb
-      - name: Start virtual frame buffer
-        run: Xvfb :19 -screen 0 1024x768x16 &
-      - name: Build with Gradle
-        uses: gradle/gradle-build-action@v2.1.6
-        env:
-          DISPLAY: ":19"
-        with:
-          arguments: build -Pplugin.josmCompileVersion=latest
-
-  build-03:
-    name: Build plugin - JDK 11, tested JOSM version
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Set up JDK 11
-        uses: actions/setup-java@v3
-        with:
-          java-version: '11'
-          distribution: 'temurin'
-      # headless X11 setup according to
-      # https://stackoverflow.com/questions/68292797/running-java-gui-tests-on-github-using-xvfb
-      - name: Set up virtual X11
-        run: sudo apt-get -y install xvfb
-      - name: Start virtual frame buffer
-        run: Xvfb :19 -screen 0 1024x768x16 &
-      - name: Build with Gradle
-        uses: gradle/gradle-build-action@v2.1.6
-        env:
-          DISPLAY: ":19"
-        with:
-          arguments: build -Pplugin.josmCompileVersion=tested
-
-  build-04:
-    name: Build plugin - JDK 17, minJosmVersion for current release
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Set up JDK 17
-        uses: actions/setup-java@v3
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-      # headless X11 setup according to
-      # https://stackoverflow.com/questions/68292797/running-java-gui-tests-on-github-using-xvfb
-      - name: Set up virtual X11
-        run: sudo apt-get -y install xvfb
-      - name: Start virtual frame buffer
-        run: Xvfb :19 -screen 0 1024x768x16 &
-      - name: Build with Gradle
-        uses: gradle/gradle-build-action@v2.1.6
-        env:
-          DISPLAY: ":19"
-        with:
-          arguments: build -Pplugin.josmCompileVersion=release -Pgraalvm.jdk=java17
-
-  build-05:
-    name: Build plugin - JDK 17, latest JOSM version
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Set up JDK 17
-        uses: actions/setup-java@v3
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-      # headless X11 setup according to
-      # https://stackoverflow.com/questions/68292797/running-java-gui-tests-on-github-using-xvfb
-      - name: Set up virtual X11
-        run: sudo apt-get -y install xvfb
-      - name: Start virtual frame buffer
-        run: Xvfb :19 -screen 0 1024x768x16 &
-      - name: Build with Gradle
-        uses: gradle/gradle-build-action@v2.1.6
-        env:
-          DISPLAY: ":19"
-        with:
-          arguments: build -Pplugin.josmCompileVersion=latest -Pgraalvm.jdk=java17
-
-  build-06:
-    name: Build plugin - JDK 17, tested JOSM version
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Set up JDK 17
-        uses: actions/setup-java@v3
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-      # headless X11 setup according to
-      # https://stackoverflow.com/questions/68292797/running-java-gui-tests-on-github-using-xvfb
-      - name: Set up virtual X11
-        run: sudo apt-get -y install xvfb
-      - name: Start virtual frame buffer
-        run: Xvfb :19 -screen 0 1024x768x16 &
-      - name: Build with Gradle
-        uses: gradle/gradle-build-action@v2.1.6
-        env:
-          DISPLAY: ":19"
-        with:
-          arguments: build -Pplugin.josmCompileVersion=tested -Pgraalvm.jdk=java17
+          arguments: build -Pplugin.josmCompileVersion={{ matrix.josm-version}} -Pgraalvm.jdk=java{{ matrix.jdk }}
