@@ -181,7 +181,7 @@ public class JarESModuleRepository extends AbstractESModuleRepository {
      * {@inheritDoc}
      */
     @Override
-    public SeekableByteChannel newByteChannel(Path absolutePath) throws IOException {
+    public @NotNull SeekableByteChannel newByteChannel(@NotNull Path absolutePath) throws IOException {
         if (!absolutePath.startsWith(getUniquePathPrefix())) {
             throw new IllegalArgumentException(MessageFormat.format(
                 "Can''t resolve path ''{0}''. Path doesn''t match unique path prefix ''{1}'' of jar file based ES Module repository",

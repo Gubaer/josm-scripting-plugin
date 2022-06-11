@@ -63,5 +63,16 @@ public interface IESModuleRepository {
 
     @Null Path resolveModulePath(@NotNull final Path modulePath);
 
-    SeekableByteChannel newByteChannel(@NotNull final Path absolutePath) throws IOException;
+    /**
+     * Replies a {@link SeekableByteChannel channel} to read the module content given
+     * by the module path <code>absolutePath</code>.
+     *
+     * @param absolutePath an absolute module path
+     * @return the channel
+     * @throws IOException if accessing the content in the underlying file store files
+     * @throws NullPointerException if <code>absolutePath</code> is null
+     * @throws IllegalArgumentException if <code>absolutePath</code> can't be resolved in this
+     *  repository
+     */
+    @NotNull SeekableByteChannel newByteChannel(@NotNull final Path absolutePath) throws IOException;
 }

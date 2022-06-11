@@ -211,7 +211,7 @@ public class FileSystemESModuleRepository extends AbstractESModuleRepository {
      * {@inheritDoc}
      */
     @Override
-    public SeekableByteChannel newByteChannel(@NotNull final Path absoluteModulePath) throws IOException {
+    public @NotNull SeekableByteChannel newByteChannel(@NotNull final Path absoluteModulePath) throws IOException {
         Objects.requireNonNull(absoluteModulePath);
         final var absoluteRepoPath = convertAbsoluteModulePathToAbsoluteRepoPath(absoluteModulePath);
         return Files.newByteChannel(absoluteRepoPath, StandardOpenOption.READ);
