@@ -36,9 +36,7 @@ public class JarESModuleRepository extends AbstractESModuleRepository {
     static private String removeLeadingSlashes(String path) {
         return LEADING_SLASHES.matcher(path).replaceFirst("");
     }
-
     private static final List<String> SUFFIXES = List.of("", ".mjs", ".js");
-
     private Path resolveZipEntryPath(@NotNull Path relativeModulePath) {
         if (relativeModulePath.isAbsolute()) {
             // paths to zip entries in a jar file don't start with
