@@ -24,7 +24,7 @@ abstract public class AbstractESModuleRepository implements IESModuleRepository 
         }
         if (!modulePath.isAbsolute()
                 || ! (modulePath.getNameCount() >= 2)
-                || ! modulePath.getName(0).toString().equalsIgnoreCase("es-module-repo")) {
+                || ! modulePath.getName(0).toString().equalsIgnoreCase(ES_MODULE_REPO_PATH_PREFIX)) {
             return false;
         }
         var uuid = modulePath.getName(1).toString();

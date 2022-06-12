@@ -11,6 +11,8 @@ import java.nio.file.Path;
  */
 public interface IESModuleRepository {
 
+    String ES_MODULE_REPO_PATH_PREFIX = "es-module-repo";
+
     /**
      * Replies the unique path prefix for absolute module paths which refer to a module
      * in this repository.

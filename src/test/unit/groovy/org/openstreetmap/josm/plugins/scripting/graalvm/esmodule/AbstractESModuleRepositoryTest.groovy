@@ -9,7 +9,7 @@ class AbstractESModuleRepositoryTest extends BaseTestCase{
 
     @Test
     void "accepts ES Module path with correct prefix"() {
-        final path = Path.of("/es-module-repo", UUID.randomUUID().toString());
+        final path = Path.of("/" + IESModuleRepository.ES_MODULE_REPO_PATH_PREFIX, UUID.randomUUID().toString());
         assertTrue(AbstractESModuleRepository.startsWithESModuleRepoPathPrefix(path));
     }
 
@@ -33,7 +33,7 @@ class AbstractESModuleRepositoryTest extends BaseTestCase{
         assertFalse(AbstractESModuleRepository.startsWithESModuleRepoPathPrefix(path))
 
         // second component isn't an UUID
-        path = Path.of("/es-module-repo/foo/baz")
+        path = Path.of("/${IESModuleRepository.ES_MODULE_REPO_PATH_PREFIX}/foo/baz")
         assertFalse(AbstractESModuleRepository.startsWithESModuleRepoPathPrefix(path))
     }
 }
