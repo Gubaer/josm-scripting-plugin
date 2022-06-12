@@ -1,8 +1,11 @@
 package org.openstreetmap.josm.plugins.scripting.graalvm.esmodule
 
+
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.openstreetmap.josm.plugins.scripting.BaseTestCase
+
+import java.nio.channels.Channels
 import java.nio.file.Path
 
 class JarESModuleRepositoryTest extends BaseTestCase {
@@ -135,5 +138,27 @@ class JarESModuleRepositoryTest extends BaseTestCase {
         modulePath = "sub/no-such-module"
         resolvedPath = repo.resolveModulePath(modulePath)
         assertNull(resolvedPath)
+    }
+
+    @Test
+    void "can read existing module from channel"() {
+
+        def modulePath = "foo"
+        def resolvedPath = repo.resolveModulePath(modulePath)
+        assertNotNull(resolvedPath)
+        assertTrue(resolvedPath.startsWith(repo.getUniquePathPrefix()))
+
+        def channel = repo.newByteChannel(resolvedPath)
+        assertNotNull(channel)
+        def content = Channels.newReader(channel, "utf-8").text
+        assertTrue(content.indexOf("foo") >= 0)
+    }
+
+    @Test
+    void "fails read of non-existing module with IllegalArgumentException"() {
+        def resolvedPath = Path.of(repo.getUniquePathPrefix().toString(), "no-such-module")
+        shouldFail(IllegalArgumentException) {
+            def channel = repo.newByteChannel(resolvedPath)
+        }
     }
 }

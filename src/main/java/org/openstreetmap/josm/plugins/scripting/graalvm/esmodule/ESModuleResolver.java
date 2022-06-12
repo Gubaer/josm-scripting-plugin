@@ -56,7 +56,7 @@ public class ESModuleResolver implements FileSystem {
 
     private IESModuleRepository lookupRepoForModulePath(Path path) {
         return repos.stream()
-            .filter(repo -> repo.isAbsoluteModulePath(path))
+            .filter(repo -> repo.matchesWithUniquePathPrefix(path))
             .findFirst()
             .orElse(null);
     }
