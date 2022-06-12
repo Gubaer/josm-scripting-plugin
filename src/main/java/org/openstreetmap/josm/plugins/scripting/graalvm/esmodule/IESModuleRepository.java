@@ -33,7 +33,7 @@ public interface IESModuleRepository {
      * @param modulePath the module path
      * @return true, if <code>modulePath</code> is an absolute module path; false, otherwise
      */
-    boolean isAbsoluteModulePath(@NotNull final Path modulePath);
+    boolean matchesWithUniquePathPrefix(@NotNull final Path modulePath);
 
     /**
      * Resolves a module path in the repository and replies a repository path
