@@ -1,1 +1,2 @@
-export name = "sub/bar"
+const name = "sub/bar"
+export {name}

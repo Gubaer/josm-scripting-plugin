@@ -1,1 +1,2 @@
-export name = "foo"
+const name = "foo"
+export {name}
