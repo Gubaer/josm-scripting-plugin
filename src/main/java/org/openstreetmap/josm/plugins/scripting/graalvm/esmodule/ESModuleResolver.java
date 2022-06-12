@@ -9,6 +9,7 @@ import java.nio.channels.SeekableByteChannel;
 import java.nio.file.*;
 import java.nio.file.attribute.FileAttribute;
 import java.util.*;
+import static org.openstreetmap.josm.plugins.scripting.graalvm.esmodule.AbstractESModuleRepository.startsWithESModuleRepoPathPrefix;
 
 @SuppressWarnings({"RedundantThrows", "unused"})
 public class ESModuleResolver implements FileSystem {
@@ -61,11 +62,17 @@ public class ESModuleResolver implements FileSystem {
             .orElse(null);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Path parsePath(URI uri) {
         return fullIO.provider().getPath(uri);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Path parsePath(String path) {
         var resolvedPath = repos.stream().map(repo -> repo.resolveModulePath(path))
@@ -78,31 +85,43 @@ public class ESModuleResolver implements FileSystem {
         return fullIO.getPath(path);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void checkAccess(Path path, Set<? extends AccessMode> modes, LinkOption... linkOptions) throws IOException {
-        if (lookupRepoForModulePath(path) == null) {
+        if (!startsWithESModuleRepoPathPrefix(path)) {
             fullIO.provider().checkAccess(path, modes.toArray(new AccessMode[]{}));
         }
         // since path was successfully resolved against a file in an ES Module repository,
         // checkAccess is OK
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void createDirectory(Path dir, FileAttribute<?>... attrs) throws IOException {
-        if (lookupRepoForModulePath(dir) != null) {
+        if (startsWithESModuleRepoPathPrefix(dir)) {
             throw new UnsupportedOperationException();
         }
         fullIO.provider().createDirectory(dir, attrs);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void delete(Path path) throws IOException {
-        if (lookupRepoForModulePath(path) != null) {
+        if (startsWithESModuleRepoPathPrefix(path)) {
             throw new UnsupportedOperationException();
         }
         fullIO.provider().delete(path);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SeekableByteChannel newByteChannel(Path path, Set<? extends OpenOption> options, FileAttribute<?>... attrs) throws IOException {
         var repo = lookupRepoForModulePath(path);
@@ -113,27 +132,39 @@ public class ESModuleResolver implements FileSystem {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DirectoryStream<Path> newDirectoryStream(Path dir, DirectoryStream.Filter<? super Path> filter) throws IOException {
-        if (lookupRepoForModulePath(dir) != null) {
+        if (startsWithESModuleRepoPathPrefix(dir)) {
             throw new UnsupportedOperationException();
         }
         return fullIO.provider().newDirectoryStream(dir, filter);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Path toAbsolutePath(Path path) {
         return path.toAbsolutePath();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Path toRealPath(Path path, LinkOption... linkOptions) throws IOException {
         return path.toRealPath(linkOptions);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Map<String, Object> readAttributes(Path path, String attributes, LinkOption... options) throws IOException {
-        if (lookupRepoForModulePath(path) != null) {
+        if (startsWithESModuleRepoPathPrefix(path)) {
             throw new UnsupportedOperationException();
         }
         return fullIO.provider().readAttributes(path, attributes, options);
