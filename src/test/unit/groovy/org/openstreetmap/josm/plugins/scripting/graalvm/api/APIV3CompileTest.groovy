@@ -27,11 +27,11 @@ class APIV3CompileTest extends AbstractGraalVMBasedTest {
         resolver.setRepositories(List.of(repo))
 
         context = Context.newBuilder("js")
-                .allowHostAccess(HostAccess.ALL)
-                .allowHostClassLookup(className -> true)
-                .allowIO(true)
-                .fileSystem(resolver)
-                .build()
+            .allowHostAccess(HostAccess.ALL)
+            .allowHostClassLookup(className -> true)
+            .allowIO(true)
+            .fileSystem(resolver)
+            .build()
         GraalVMFacade.populateContext(context)
     }
 
