@@ -1,4 +1,12 @@
 releases:
+  - label: v0.2.1
+    minJosmVersion: 18427
+    description: |
+      * fix for [trac issue 22129][trac-22129]
+      * include `Plugin-Minimum-Java-Version=11` in plugin manifest
+
+      [trac-22129]: https://josm.openstreetmap.de/ticket/22129
+
   - label: v0.2.0
     minJosmVersion: 18427
     description: |
