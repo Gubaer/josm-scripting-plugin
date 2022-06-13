@@ -61,6 +61,7 @@ class APIV3CompileTest extends AbstractGraalVMBasedTest {
         import 'josm/ds'
         import 'josm/scriptingconsole'
         import 'josm/unittest'
+        import 'josm/ui/menu'
         """
 
         final result = context.eval(buildSource(source))

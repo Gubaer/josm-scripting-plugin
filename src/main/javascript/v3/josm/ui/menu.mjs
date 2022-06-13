@@ -7,9 +7,8 @@
 
 /* global Java */
 
-const JSAction = Plugin.type('org.openstreetmap.josm.plugins.scripting.graalvm.JSAction')
 const MainApplication = Java.type('org.openstreetmap.josm.gui.MainApplication')
-const util = require('josm/util')
+import * as util from 'josm/util'
 
 /**
  * Represents JOSMs global menu bar.
@@ -17,12 +16,13 @@ const util = require('josm/util')
  * @class
  * @name MenuBar
  */
-exports.MenuBar = function () {}
+export const MenuBar =  {}
 
 /**
  * Replies the number of menus in the JOSM menu bar.
  *
  * @example
+ * import josm from 'josm'
  * // display the number of menus
  * josm.alert(josm.menu.length)
  *
@@ -32,7 +32,7 @@ exports.MenuBar = function () {}
  * @memberof module:josm/ui/menu~MenuBar
  * @static
  */
-Object.defineProperty(exports.MenuBar, 'length', {
+Object.defineProperty(MenuBar, 'length', {
   enumerable: true,
   get: function () {
     if (!MainApplication.getMenu()) return 0
@@ -57,6 +57,7 @@ Object.defineProperty(exports.MenuBar, 'length', {
  * </ul>
  *
  * @example
+ * import josm from 'josm'
  * // get the edit menu with a numeric index
  * const editmenu = josm.menu.get(1)
  *
@@ -71,7 +72,7 @@ Object.defineProperty(exports.MenuBar, 'length', {
  * @function
  * @instance
  */
-exports.MenuBar.get = function (key) {
+MenuBar.get = function (key) {
   util.assert(util.isSomething(key), 'key: must not be null or undefined')
   const mainMenu = MainApplication.getMenu()
   if (util.isNumber(key)) {
@@ -108,7 +109,7 @@ exports.MenuBar.get = function (key) {
  * @summary Replies an array with the symbolic menu names.
  *
  */
-Object.defineProperty(exports.MenuBar, 'menuNames', {
+Object.defineProperty(MenuBar, 'menuNames', {
   enumerable: true,
   get: function () {
     return ['file', 'edit', 'view', 'tools', 'presets',
@@ -154,9 +155,9 @@ Object.defineProperty(exports.MenuBar, 'menuNames', {
  * </dl>
  *
  * @example
- * const {JSAction} = require('josm/ui/menu')
- * const util = require('josm/util')
- * const josm = require('josm')
+ * import {JSAction} from 'josm/ui/menu'
+ * import * as util from 'josm/util'
+ * import josm from 'josm'
  * const JMenuItem = Java.type('javax.swing.JMenuItem')
  *
  * // create the menu action
@@ -190,4 +191,4 @@ Object.defineProperty(exports.MenuBar, 'menuNames', {
  * @name JSAction
  * @memberof module:josm/ui/menu~MenuBar
  */
-exports.JSAction = JSAction
+export const JSAction = Plugin.type('org.openstreetmap.josm.plugins.scripting.graalvm.JSAction')
