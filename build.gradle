@@ -101,6 +101,7 @@ josm {
     josmCompileVersion = configuredJosmCompileVersion
     manifest {
         minJosmVersion = releases.highestJosmVersion
+        minJavaVersion = 11
 
         // Old releases up to v0.2.0 have a numeric ID and are available as raw asset from the github repo.
         // Newer releases starting from v0.2.0 use semantic versioning and are available as asset from
@@ -147,11 +148,18 @@ compileJava {
     options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation" << "-Werror"
 }
 
-import org.gradle.api.tasks.testing.logging.TestLogEvent
+
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+import org.gradle.api.tasks.testing.logging.TestLogEvent
+import org.openstreetmap.josm.plugins.scripting.CheckDownloadUrlsInManifestTask
+import org.openstreetmap.josm.plugins.scripting.build.GraalVMDownloadTask
 import org.openstreetmap.josm.plugins.scripting.build.Releases
+import org.openstreetmap.josm.plugins.scripting.release.PublishToAwsS3Task
+import org.openstreetmap.josm.plugins.scripting.release.ShowPublishedPluginTask
 
 import java.nio.file.Files
+import java.nio.file.Paths
+import java.nio.file.StandardCopyOption
 
 /**
  * Replies the 'josm.home' directories used in tests
@@ -249,8 +257,6 @@ task testGraalVMSupportNotPresent(type: Test) {
  * Run unit tests for GraalJS functionality. Run it with the GraalVM java
  * executable.
  */
-import java.nio.file.Paths
-import java.nio.file.StandardCopyOption
 task testWithGraalVMJDK(type: Test) {
     dependsOn "downloadGraalVM"
     doFirst {
@@ -324,16 +330,12 @@ processResources {
   from "$projectDir/LICENSE"
 }
 
-import org.openstreetmap.josm.plugins.scripting.build.GraalVMDownloadTask
 tasks.register("downloadGraalVM", GraalVMDownloadTask)
 
-import org.openstreetmap.josm.plugins.scripting.CheckDownloadUrlsInManifestTask
 tasks.register("checkDownloadUrls", CheckDownloadUrlsInManifestTask)
 
-import org.openstreetmap.josm.plugins.scripting.release.ShowPublishedPluginTask
 tasks.register("showPublishedPluginInfo", ShowPublishedPluginTask)
 
-import org.openstreetmap.josm.plugins.scripting.release.PublishToAwsS3Task
 tasks.register("publishToAwsS3", PublishToAwsS3Task)
 
 publishToGithubRelease {
