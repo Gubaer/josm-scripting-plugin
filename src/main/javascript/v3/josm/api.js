@@ -3,13 +3,12 @@
  * to an OSM server.
  *
  * @example
- * const {Api, ChangesetApi, ApiConfig} = require('josm/api')
+*  import {Api, ChangesetApi, ApiConfig} from 'josm/api'
  *
  * @module josm/api
  */
 
 /* global Java */
-/* global require */
 
 const URL = Java.type('java.net.URL')
 const OsmApi = Java.type('org.openstreetmap.josm.io.OsmApi')
@@ -25,14 +24,14 @@ const Preferences = Java.type('org.openstreetmap.josm.data.Preferences')
 const Bounds = Java.type('org.openstreetmap.josm.data.Bounds')
 const LatLon = Java.type('org.openstreetmap.josm.data.coor.LatLon')
 
-const util = require('josm/util')
+import * as util from 'josm/util'
 
 /**
  * Creates a {@class org.openstreetmap.josm.data.coor.LatLon} from a
  * javascript object.
  *
  * @example
- * const { buildLatLon } = require('josm/api')
+ * import { buildLatLon } from 'josm/api'
  * const pos = buildLatLon({lat: 1, lon: 2});
  *
  * @param {object} obj  a javascript object with two number properties
@@ -44,7 +43,7 @@ const util = require('josm/util')
  *      from a javascript object.
  * @function
  */
-exports.buildLatLon = function (obj) {
+export function buildLatLon(obj) {
   util.assert(util.isSomething(obj), 'obj: must not be null or undefined');
   util.assert(typeof obj === 'object',
       'obj: expected an object, got {0}', obj);
@@ -65,7 +64,7 @@ exports.buildLatLon = function (obj) {
  * Creates a {@class org.openstreetmap.josm.data.Bounds} instance from a javascript object.
  *
  * @example
- * const { buildBounds } = require('josm/api')
+ * import { buildBounds } from 'josm/api'
  * const bounds1 = buildBounds({
  *    minlat: 46.9479186, minlon: 7.4619484,
  *    maxlat: 46.9497642, maxlon: 7.4660683
@@ -82,7 +81,7 @@ exports.buildLatLon = function (obj) {
  * @function
  * @static
  */
-exports.buildBounds = function (obj) {
+export function buildBounds(obj) {
   util.assert(util.isSomething(obj), 'obj: must not be null or undefined')
   util.assert(typeof obj === 'object',
       'obj: expected an object, got {0}', obj)
@@ -134,7 +133,7 @@ exports.buildBounds = function (obj) {
  *
  * @example
  * // load the changeset api
- * const { ChangesetApi } = require('josm/api')
+ * import { ChangesetApi } from 'josm/api'
  *
  * // create a new changeset on the server
  * const cs = ChangesetApi.open()
@@ -143,7 +142,7 @@ exports.buildBounds = function (obj) {
  * @summary Provides methods to open, close, get, and update changesets on the OSM API server
  * @name ChangesetApi
  */
-exports.ChangesetApi = {}
+export const ChangesetApi = {}
 
 /**
  * Creates and opens a changeset
@@ -157,7 +156,7 @@ exports.ChangesetApi = {}
  * </ul>
  *
  * @example
- * const { ChangesetApi } = require('josm/api')
+ * import { ChangesetApi } from 'josm/api'
  * const Changeset = Java.type('org.openstreetmap.josm.data.osm.Changeset')
  *
  * // open a new changeset with no tags
@@ -169,7 +168,7 @@ exports.ChangesetApi = {}
  * cs2 = ChangesetApi.open(cs2)
  *
  * // open a new changeset with the tags given by the object
- * var cs3 = ChangesetApi.open({comment: 'a test comment'})
+ * const cs3 = ChangesetApi.open({comment: 'a test comment'})
  *
  * @static
  * @returns {org.openstreetmap.josm.data.osm.Changeset} the changeset
@@ -179,7 +178,7 @@ exports.ChangesetApi = {}
  * @name open
  * @param {org.openstreetmap.josm.data.osm.Changeset | object} [changeset] the changeset to open
  */
-exports.ChangesetApi.open = function () {
+ChangesetApi.open = function () {
   let cs
   switch (arguments.length) {
     case 0:
@@ -228,8 +227,8 @@ exports.ChangesetApi.open = function () {
  * </dl>
  *
  * @example
- * const { ChangesetApi } = require('josm/api')
- * const util = require('josm/util')
+ * import { ChangesetApi } from 'josm/api'
+ * import * as util from 'josm/util'
  * const Changeset = Java.type('org.openstreetmap.josm.data.osm.Changeset')
  *
  * // closs the changeset 12345
@@ -247,7 +246,7 @@ exports.ChangesetApi.open = function () {
  * @function
  * @name close
  */
-exports.ChangesetApi.close = function () {
+ChangesetApi.close = function () {
   let cs
   switch (arguments.length) {
     case 0:
@@ -288,7 +287,7 @@ exports.ChangesetApi.close = function () {
  * </dl>
  *
  * @example
- * const { ChangesetApi } = require('josm/api')
+ * import { ChangesetApi } from 'josm/api'
  * const Changeset = Java.type('org.openstreetmap.josm.data.osm.Changeset')
  *
  * // update the comment of a changeset
@@ -304,7 +303,7 @@ exports.ChangesetApi.close = function () {
  * @memberof module:josm/api~ChangesetApi
  * @name update
  */
-exports.ChangesetApi.update = function () {
+ChangesetApi.update = function () {
   let cs
   switch (arguments.length) {
     case 0:
@@ -345,14 +344,14 @@ exports.ChangesetApi.update = function () {
  * </dl>
  *
  * @example
- * const { ChangesetApi } = require('josm/api')
+ * import { ChangesetApi } from 'josm/api'
  * const Changeset = Java.type('org.openstreetmap.josm.data.osm.Changeset')
  *
  * // get the changeset with id 12345
  * const cs1 = ChangesetApi.get(12345)
  *
  * // get the changeset with id 12345
- * const cs2 = new Changeset(12345)
+ * lets cs2 = new Changeset(12345)
  * cs2 = ChangesetApi.get(cs2)
  *
  * @param {number|org.openstreetmap.josm.data.osm.Changeset} changeset the changeset to close
@@ -364,7 +363,7 @@ exports.ChangesetApi.update = function () {
  * @function
  * @param {number | org.openstreetmap.josm.data.osm.Changeset} changeset
  */
-exports.ChangesetApi.get = function () {
+ChangesetApi.get = function () {
   let cs
   switch (arguments.length) {
     case 0:
@@ -405,7 +404,7 @@ exports.ChangesetApi.get = function () {
  *
  * @example
  * // load the api
- * const { Api } = require('josm/api')
+ * import { Api } from 'josm/api'
  *
  * // download node 12345
  * const ds = Api.downloadObject(12345, 'node')
@@ -415,7 +414,7 @@ exports.ChangesetApi.get = function () {
  *  to the OSM server
  * @name Api
  */
-exports.Api = function () {}
+export const Api = {}
 
 function normalizeType (type) {
   util.assert(util.isSomething(type), 'type must not be null or undefined')
@@ -583,7 +582,7 @@ function downloadObject3 () {
  * </dl>
  *
  * @example
- * const { Api } = require('josm/api')
+ * import { Api } from 'josm/api'
  * const SimplePrimitiveId = Java.type('org.openstreetmap.josm.data.osm.SimplePrimitiveId')
  * const OsmPrimitiveType = Java.type('org.openstreetmap.josm.data.osm.OsmPrimitiveType')
  *
@@ -608,7 +607,7 @@ function downloadObject3 () {
  * @name downloadObjects
  * @param args see description and examples
  */
-exports.Api.downloadObject = function () {
+Api.downloadObject = function () {
   switch (arguments.length) {
     case 0:
       util.assert(false, 'Unexpected number of arguments, got {0}',
@@ -754,8 +753,8 @@ function downloadReferrer3 () {
  * </dl>
  *
  * @example
- * const { Api } = require('josm/api')
- * const { NodeBuilder } = require('josm/builder')
+ * import { Api } from 'josm/api'
+ * import { NodeBuilder } from 'josm/builder'
  * const SimplePrimitiveId = Java.type('org.openstreetmap.josm.data.osm.SimplePrimitiveId')
  * const OsmPrimitiveType = Java.type('org.openstreetmap.josm.data.osm.OsmPrimitiveType')
  *
@@ -784,7 +783,7 @@ function downloadReferrer3 () {
  * @name downloadReferrer
  * @param args see description and examples
  */
-exports.Api.downloadReferrer = function () {
+Api.downloadReferrer = function () {
   switch (arguments.length) {
     case 0:
       util.assert(false, 'Unexpected number of arguments, got {0}',
@@ -810,7 +809,7 @@ exports.Api.downloadReferrer = function () {
  * Downloads the objects within a bounding box.
  *
  * @example
- * const { Api } = require('josm/api')
+ * import { Api } from 'josm/api'
  * const ds1 = Api.downloadArea(new Bounds(
  *     new LatLon(46.9479186,7.4619484),   // min
  *     new LatLon(46.9497642, 7.4660683)   // max
@@ -829,7 +828,7 @@ exports.Api.downloadReferrer = function () {
  * @name downloadArea
  * @function
   */
-exports.Api.downloadArea = function () {
+Api.downloadArea = function () {
   const BoundingBoxDownloader =
     Java.type('org.openstreetmap.josm.io.BoundingBoxDownloader')
   const NullProgressMonitor =
@@ -917,8 +916,8 @@ exports.Api.downloadArea = function () {
  *
  * @example
  * const DataSet = Java.type('org.openstreetmap.josm.data.osm.DataSet')
- * const { WayBuilder } = require('josm/builder')
- * const { Api }= require('josm/api')
+ * import { WayBuilder } from 'josm/builder'
+ * import { Api } from 'josm/api'
  * const ds = new DataSet()
  * WayBuilder
  *  .forDataSet(ds)
@@ -943,7 +942,7 @@ exports.Api.downloadArea = function () {
  * @name upload
  * @function
  */
-exports.Api.upload = function (data, comment, options) {
+Api.upload = function (data, comment, options) {
   const UploadStrategy = Java.type('org.openstreetmap.josm.io.UploadStrategy')
   const Changeset = Java.type('org.openstreetmap.josm.data.osm.Changeset')
   const APIDataSet = Java.type('org.openstreetmap.josm.data.APIDataSet')
@@ -1046,7 +1045,7 @@ exports.Api.upload = function (data, comment, options) {
  * @summary ApiConfig provides methods and properties for configuring API parameters
  * @name ApiConfig
  */
-exports.ApiConfig = function() {}
+export const ApiConfig = {}
 
 const DEFAULT_URL = 'http://api.openstreetmap.com/api/0.6'
 
@@ -1066,7 +1065,7 @@ const DEFAULT_URL = 'http://api.openstreetmap.com/api/0.6'
  * </dl>
  *
  * @example
- * const { ApiConfig } = require('josm/api')
+ * import { ApiConfig } from 'josm/api'
  * ApiConfig.serverUrl   // -> the current server url
  *
  * // set a new API url
@@ -1078,7 +1077,7 @@ const DEFAULT_URL = 'http://api.openstreetmap.com/api/0.6'
  * @name serverUrl
  * @memberof module:josm/api~ApiConfig
  */
-Object.defineProperty(exports.ApiConfig, 'serverUrl', {
+Object.defineProperty(ApiConfig, 'serverUrl', {
   enumerable: true,
   get: function () {
     var url = Preferences.main().get('osm-server.url', null)
@@ -1116,7 +1115,7 @@ Object.defineProperty(exports.ApiConfig, 'serverUrl', {
  * Get the default server URL.
  *
  * @example
- * const { ApiConfig } = require('josm/api')
+ * import { ApiConfig } from 'josm/api'
  * ApiConfig.defaultServerUrl   // -> the default server url
  *
  * @static
@@ -1126,7 +1125,7 @@ Object.defineProperty(exports.ApiConfig, 'serverUrl', {
  * @readOnly
  * @memberof module:josm/api~ApiConfig
  */
-Object.defineProperty(exports.ApiConfig, 'defaultServerUrl', {
+Object.defineProperty(ApiConfig, 'defaultServerUrl', {
   value: DEFAULT_URL,
   writable: false,
   enumerable: true
@@ -1155,7 +1154,7 @@ function normalizeAuthMethod (authMethod) {
  * </dl>
  *
  * @example
- * const { ApiConfig } = require('josm/api')
+ * import { ApiConfig } from 'josm/api'
  * ApiConfig.authMethod   // -> the current authentication method
  *
  * // set OAuth as authentication method
@@ -1168,7 +1167,7 @@ function normalizeAuthMethod (authMethod) {
  * @property {string} authMethod the authentication method
  * @memberof module:josm/api~ApiConfig
  */
-Object.defineProperty(exports.ApiConfig, 'authMethod', {
+Object.defineProperty(ApiConfig, 'authMethod', {
   enumerate: true,
   get: function () {
     var authMethod = Preferences.main().get('osm-server.auth-method', 'basic')
@@ -1198,7 +1197,7 @@ Object.defineProperty(exports.ApiConfig, 'authMethod', {
  * </dl>
  *
  * @example
- * const { ApiConfig } = require('josm/api')
+ * import { ApiConfig } from 'josm/api'
  *
  * // get username/password for the current OSM API server
  * const credentials = ApiConfig.getCredentials('basic')
@@ -1212,7 +1211,7 @@ Object.defineProperty(exports.ApiConfig, 'authMethod', {
  * @function
  * @memberof module:josm/api~ApiConfig
 */
-exports.ApiConfig.getCredentials = function (authMethod, options) {
+ApiConfig.getCredentials = function (authMethod, options) {
   const CredentialsManager = Java.type('org.openstreetmap.josm.io.auth.CredentialsManager')
   const OsmApi = Java.type('org.openstreetmap.josm.io.OsmApi')
   const RequestorType = Java.type('java.net.Authenticator.RequestorType')
@@ -1309,7 +1308,7 @@ function normalizeOAuthCredentials (credentials) {
  * </dl>
  *
  * @example
- * const { ApiConfig } = require('josm/api')
+ * import { ApiConfig } from 'josm/api'
  *
  * // set the credentials
  * ApiConfig.setCredentials('basic', { user:'test', password:'apassword' })
@@ -1325,7 +1324,7 @@ function normalizeOAuthCredentials (credentials) {
  * @name setCredentials
  * @memberof module:josm/api~ApiConfig
  */
-exports.ApiConfig.setCredentials = function (authMethod, credentials, options) {
+ApiConfig.setCredentials = function (authMethod, credentials, options) {
   const CredentialsManager = Java.type('org.openstreetmap.josm.io.auth.CredentialsManager')
   const RequestorType = Java.type('java.net.Authenticator.RequestorType')
   const OsmApi = Java.type('org.openstreetmap.josm.io.OsmApi')

@@ -3,7 +3,7 @@
  * to access JOSMs internals.
  *
  * @example
- *   const josm = require('josm')
+ *   import josm from 'josm'
  *
  * @module josm
  */
@@ -20,11 +20,13 @@ const util = require('josm/util')
 const layers = require('josm/layers')
 const { MenuBar } = require('josm/ui/menu')
 
+const josm = {}
+
 /**
  * Replies the current JOSM version string.
  *
  * @example
- * josm.alert(josm.version);
+ * josm.alert(josm.version)
  *
  * @property {string} version the JOSM version
  * @readOnly
@@ -32,7 +34,7 @@ const { MenuBar } = require('josm/ui/menu')
  * @name version
  * @summary JOSM version string
  */
-Object.defineProperty(exports, 'version', {
+Object.defineProperty(josm, 'version', {
   enumerable: true,
   get: function () {
     return Version.getInstance().getVersionString()
@@ -54,7 +56,7 @@ Object.defineProperty(exports, 'version', {
  * @property {module:josm/layers} layers  the layers object
  * @summary accessor for JOSM layers
  */
-Object.defineProperty(exports, 'layers', {
+Object.defineProperty(josm, 'layers', {
   enumerable: true,
   get: function () {
     return layers
@@ -115,7 +117,7 @@ Object.defineProperty(exports, 'layers', {
  * @function
  * @static
  */
-exports.alert = function () {
+josm.alert = function () {
   const map = {
     information: JOptionPane.INFORMATION_MESSAGE,
     info: JOptionPane.INFORMATION_MESSAGE,
@@ -191,7 +193,7 @@ exports.alert = function () {
  * @function
  * @static
  */
-exports.open = function () {
+josm.open = function () {
   const OpenFileAction = Java.type('org.openstreetmap.josm.actions.OpenFileAction')
   const File = Java.type('java.io.File')
 
@@ -233,7 +235,7 @@ exports.open = function () {
  * @static
  */
 const { CommandHistory } = require('josm/command')
-Object.defineProperty(exports, 'commands', {
+Object.defineProperty(josm, 'commands', {
   enumerable: true,
   value: CommandHistory
 })
@@ -251,7 +253,7 @@ Object.defineProperty(exports, 'commands', {
  * @static
  * @summary Replies an accessor for JOSMs menu bar.
  */
-Object.defineProperty(exports, 'menu', {
+Object.defineProperty(josm, 'menu', {
   enumerable: true,
   value: MenuBar
 })
