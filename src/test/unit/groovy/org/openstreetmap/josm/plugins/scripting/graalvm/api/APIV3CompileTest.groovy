@@ -14,7 +14,7 @@ import org.openstreetmap.josm.plugins.scripting.graalvm.esmodule.FileSystemESMod
 class APIV3CompileTest extends AbstractGraalVMBasedTest {
 
     private ESModuleResolver resolver
-    private Context context;
+    private Context context
 
 
     @BeforeEach
@@ -60,6 +60,7 @@ class APIV3CompileTest extends AbstractGraalVMBasedTest {
         import 'josm/command'
         import 'josm/ds'
         import 'josm/scriptingconsole'
+        import 'josm/unittest'
         """
 
         final result = context.eval(buildSource(source))

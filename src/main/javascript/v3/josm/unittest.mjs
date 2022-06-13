@@ -3,30 +3,29 @@
 */
 
 /* global Java */
-/* global require */
 
-const util = require('josm/util')
+import * as util from 'josm/util'
 const System = Java.type('java.lang.System')
 
 const out = System.out
 
-exports.TestCase = function (name, test) {
+export function TestCase(name, test) {
   this._name = name
   this._test = test
 }
 
-exports.test = function () {
+export function test() {
   switch (arguments.length) {
     case 1:
-      return new exports.TestCase('No Name', arguments[0])
+      return new TestCase('No Name', arguments[0])
     case 2:
-      return new exports.TestCase(arguments[0], arguments[1])
+      return new TestCase(arguments[0], arguments[1])
     default:
       util.assert(false, 'Unsupported arguments')
   }
 }
 
-exports.TestCase.prototype.run = function () {
+TestCase.prototype.run = function () {
   try {
     this._test()
     out.println('PASS - ' + this._name)
@@ -46,28 +45,28 @@ exports.TestCase.prototype.run = function () {
   }
 }
 
-exports.Suite = function (name) {
+export function Suite(name) {
   this._name = name
   this._tests = []
 }
 
-exports.suite = function () {
-  if (arguments.length === 0) return new exports.Suite()
+export function suite() {
+  if (arguments.length === 0) return new Suite()
   let idx = 0
   const name = arguments[0]
   let suite
   if (util.isString(name)) {
-    suite = new exports.Suite(name)
+    suite = new Suite(name)
     idx = 1
   } else {
-    suite = new exports.Suite()
+    suite = new Suite()
   }
   for (let i = idx; i < arguments.length; i++) {
     const test = arguments[i]
-    if (test instanceof exports.TestCase) {
+    if (test instanceof TestCase) {
       suite.add(test)
     } else if (util.isFunction(test)) {
-      suite.add(exports.test(test))
+      suite.add(test(test))
     } else {
       util.assert(false, 'Unsupported arguments')
     }
@@ -75,11 +74,11 @@ exports.suite = function () {
   return suite
 }
 
-exports.Suite.prototype.add = function (test) {
+Suite.prototype.add = function (test) {
   this._tests.push(test)
 }
 
-exports.Suite.prototype.run = function () {
+Suite.prototype.run = function () {
   out.println('----------------------------------------------------------------------')
   if (this._name) {
     out.println('suite: ' + this._name)
@@ -103,7 +102,7 @@ exports.Suite.prototype.run = function () {
   return numfail
 }
 
-exports.expectError = function () {
+export function expectError() {
   let name = 'no name'
   let f
   switch (arguments.length) {
@@ -124,7 +123,7 @@ exports.expectError = function () {
   }
 }
 
-exports.expectAssertionError = function () {
+export function expectAssertionError() {
   let name = 'no name'
   let f
   switch (arguments.length) {
