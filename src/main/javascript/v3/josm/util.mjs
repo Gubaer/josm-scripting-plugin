@@ -34,7 +34,7 @@ export function isNothing(value) {
  * @name isSomething
  */
 export function isSomething(val) {
-  return isNothing(val)
+  return !isNothing(val)
 }
 
 /**
