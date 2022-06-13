@@ -208,7 +208,17 @@ public class ESModuleResolver implements FileSystem {
     public Path toRealPath(Path path, LinkOption... linkOptions) throws IOException {
         logFine(() -> MessageFormat.format("toRealPath: path=''{0}'", path ));
         if (startsWithESModuleRepoPathPrefix(path)) {
-            return path;
+            // If GraalJS encounters an import from a module './foo' in an already
+            // resolved module '/es-module-repo/<uuid>/bar' it doesn't parse it,
+            // but directly calls 'toRealPath' on '/es-module-repo/<uuid>/bar'.
+            // We therefore have to resolve it here too, because we don't know yet
+            // whether '/es-module-repo/<uuid>/bar' is resolved to a '.mjs' or a '.js'
+            // file.
+            var repo = lookupRepoForModulePath(path);
+            if (repo == null) {
+                return path;
+            }
+            return repo.resolveModulePath(path);
         }
         return path.toRealPath();
     }
