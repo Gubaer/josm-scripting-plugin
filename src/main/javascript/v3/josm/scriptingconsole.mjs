@@ -19,11 +19,11 @@ function consoleWriter () {
  * Prints a string to the console
  *
  * @example
- * const console = require('josm/scriptingconsole')
- * console.print('Hello world!')
+ * import {print} from 'josm/scriptingconsole'
+ * print('Hello world!')
  *
  * // or use formatting
- * console.print('Hello world! My name is {0}', 'foo')
+ * print('Hello world! My name is {0}', 'foo')
  *
  * @summary  Prints a string to the console
  * @param {string} message the message
@@ -32,7 +32,7 @@ function consoleWriter () {
  * @name print
  * @function
  */
-exports.print = function () {
+export function print() {
   const args = Array.prototype.slice.call(arguments, 0)
 
   switch (args.length) {
@@ -55,11 +55,11 @@ exports.print = function () {
  * Prints a string to the console, including newline
  *
  * @example
- * const console = require('josm/scriptingconsole')
- * console.println('Hello world!')
+ * import {println} from 'josm/scriptingconsole'
+ * println('Hello world!')
  *
  * // or use formatting
- * console.println('Hello world! My name is {0}', 'foo');
+ * ('Hello world! My name is {0}', 'foo')
  *
  * @summary  Prints a string to the console, including newline
  * @static
@@ -68,7 +68,7 @@ exports.print = function () {
  * @param {string} message  the message
  * @param {...object} [values] optional values
  */
-exports.println = function () {
+export function println() {
   var args = Array.prototype.slice.call(arguments, 0)
 
   switch (args.length) {
@@ -91,7 +91,7 @@ exports.println = function () {
  * Clears the scripting console.
  *
  * @example
- * const console = require('josm/scriptingconsole')
+ * import * as console from 'josm/scriptingconsole'
  * console.clear()
  *
  * @summary  Clears the scripting console.
@@ -99,7 +99,7 @@ exports.println = function () {
  * @name clear
  * @static
  */
-exports.clear = function () {
+export function clear() {
   const action = ScriptingConsole.getInstance().getScriptLog().getClearAction()
   action.actionPerformed(null)
 }
@@ -108,7 +108,7 @@ exports.clear = function () {
  * Shows the scripting console
  *
  * @example
- * const console = require('josm/scriptingconsole')
+ * import * as console from 'josm/scriptingconsole'
  * console.show()
  *
  * @summary Shows the scripting console
@@ -116,7 +116,7 @@ exports.clear = function () {
  * @name show
  * @static
  */
-exports.show = function () {
+export function show() {
   ScriptingConsole.showScriptingConsole()
 }
 
@@ -124,7 +124,7 @@ exports.show = function () {
  * Hides the scripting console
  *
  * @example
- * var console = require('josm/scriptingconsole')
+ * import * as console from 'josm/scriptingconsole'
  * console.hide()
  *
  * @summary Hides the scripting console
@@ -132,7 +132,7 @@ exports.show = function () {
  * @name hide
  * @static
  */
-exports.hide = function () {
+export function hide() {
   ScriptingConsole.hideScriptingConsole()
 }
 
@@ -140,7 +140,7 @@ exports.hide = function () {
  * Toggles the visibility of the scripting console
  *
  * @example
- * const console = require('josm/scriptingconsole')
+ * import * as console from 'josm/scriptingconsole'
  * console.toggle()
  *
  * @summary Toggles the visibility of the scripting console
@@ -148,6 +148,6 @@ exports.hide = function () {
  * @name toggle
  * @static
  */
-exports.toggle = function () {
+export function toggle() {
   ScriptingConsole.toggleScriptingConsole()
 }
