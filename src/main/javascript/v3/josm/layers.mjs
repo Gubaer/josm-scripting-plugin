@@ -5,14 +5,16 @@
  */
 
 /* global Java */
-/* global require */
 
 // -- imports
 const MainApplication = Java.type('org.openstreetmap.josm.gui.MainApplication')
 const OsmDataLayer = Java.type('org.openstreetmap.josm.gui.layer.OsmDataLayer')
 const DataSet = Java.type('org.openstreetmap.josm.data.osm.DataSet')
 const Layer = Java.type('org.openstreetmap.josm.gui.layer.Layer')
-const util = require('./util')
+import * as util from './util'
+
+const layers = {}
+export default layers
 
 /**
  * Replies the number of currently open layers.
@@ -23,7 +25,7 @@ const util = require('./util')
  * @name length
  * @static
  */
-Object.defineProperty(exports, 'length', {
+Object.defineProperty(layers, 'length', {
   get: function () {
     return MainApplication.getLayerManager().getLayers().size()
   }
@@ -46,7 +48,7 @@ Object.defineProperty(exports, 'length', {
  * @summary Set or get the active layer.
  * @static
  */
-Object.defineProperty(exports, 'activeLayer', {
+Object.defineProperty(layers, 'activeLayer', {
   get: function () {
     return MainApplication.getLayerManager().getActiveLayer()
   },
@@ -57,7 +59,7 @@ Object.defineProperty(exports, 'activeLayer', {
     if (value instanceof Layer) {
       layer = value
     } else if (util.isNumber(value) || util.isString(value)) {
-      layer = exports.get(value)
+      layer = layers.get(value)
     } else {
       util.assert(false, 'Unexpected type of value, got {0}', value)
     }
@@ -70,7 +72,7 @@ Object.defineProperty(exports, 'activeLayer', {
 
 function getLayerByName (key) {
   key = util.trim(key).toLowerCase()
-  if (exports.length === 0) return undefined
+  if (layers.length === 0) return undefined
   const layers = MainApplication.getLayerManager().getLayers()
   for (let it = layers.iterator(); it.hasNext();) {
     const l = it.next()
@@ -80,7 +82,7 @@ function getLayerByName (key) {
 }
 
 function getLayerByIndex (idx) {
-  if (idx < 0 || idx >= exports.length) return undefined
+  if (idx < 0 || idx >= layers.length) return undefined
   const layers = MainApplication.getLayerManager().getLayers()
   return layers.get(idx)
 }
@@ -97,7 +99,7 @@ function getLayerByIndex (idx) {
  * </ul>
  *
  * @example
- * const layers = require('josm/layers')
+ * import layers from 'josm/layers'
  *
  * // get the first layer
  * const layer1  = layers.get(0)
@@ -112,7 +114,7 @@ function getLayerByIndex (idx) {
  * @name get
  * @static
  */
-exports.get = function (key) {
+layers.get = function (key) {
   if (util.isNothing(key)) return undefined
   if (util.isString(key)) return getLayerByName(key)
   if (util.isNumber(key)) return getLayerByIndex(key)
@@ -123,7 +125,7 @@ exports.get = function (key) {
  * Checks whether <code>layer</code> is a currently registered layer.
  *
  * @example
- * const layers = require('josm/layers')
+ * import layers from 'josm/layers'
  *
  * // is there a layer with name "my layer"?
  * let b = layers.has('my layer')
@@ -144,15 +146,15 @@ exports.get = function (key) {
  * @name has
  * @static
  */
-exports.has = function (layer) {
+layers.has = function (layer) {
   if (util.isNothing(layer)) return false
   const layerManager = MainApplication.getLayerManager()
   if (layer instanceof Layer) {
     return layerManager.getLayers().contains(layer)
   } else if (util.isString(layer)) {
-    return util.isSomething(exports.get(layer))
+    return util.isSomething(layers.get(layer))
   } else if (util.isNumber(layer)) {
-    return layer >= 0 && layer < exports.length
+    return layer >= 0 && layer < layers.length
   } else {
     return false
   }
@@ -166,7 +168,7 @@ exports.has = function (layer) {
  * automatically created.
  *
  * @example
- * const layers = require('josm/layers')
+ * import layers from 'josm/layers'
  * const OsmDataLayer = Java.type('org.openstreetmap.josm.gui.layer.OsmDataLayer')
  * const DataSet = Java.type('org.openstreetmap.josm.data.osm.DataSet')
  *
@@ -187,7 +189,7 @@ exports.has = function (layer) {
  * @function
  * @static
  */
-exports.add = function (obj) {
+layers.add = function (obj) {
   if (util.isNothing(obj)) return
   const layerManager = MainApplication.getLayerManager()
   if (obj instanceof Layer) {
@@ -201,13 +203,13 @@ exports.add = function (obj) {
 }
 
 function removeLayerByIndex (idx) {
-  const layer = exports.get(idx)
+  const layer = layers.get(idx)
   if (util.isNothing(layer)) return
   MainApplication.getLayerManager().removeLayer(layer)
 }
 
 function removeLayerByName (name) {
-  const layer = exports.get(name)
+  const layer = layers.get(name)
   if (util.isNothing(layer)) return
   MainApplication.getLayerManager().removeLayer(layer)
 }
@@ -224,7 +226,7 @@ function removeLayerByName (name) {
  *   matching is a case-insensitive sub-string match.</li>
  * </ul>
  * @example
- * const josm = require('josm')
+ * import josm from 'josm'
  *
  * // remove the first layer
  * josm.layers.remove(0)
@@ -238,7 +240,7 @@ function removeLayerByName (name) {
  * @name remove
  * @static
  */
-exports.remove = function (key) {
+layers.remove = function (key) {
   if (util.isNothing(key)) return
   if (util.isNumber(key)) {
     removeLayerByIndex(key)
@@ -266,7 +268,7 @@ exports.remove = function (key) {
  *   <dd class="param-desc">create data layer with a new  dataset and name <code>name</code></dd>
  * </dl>
  * @example
- * const josm = require('josm')
+ * import josm from 'josm'
  * const DataSet = Java.type('org.openstreetmap.josm.data.osm.DataSet')
  *
  * // creates a new data layer
@@ -286,7 +288,7 @@ exports.remove = function (key) {
  * @param {string | org.openstreetmap.josm.data.osm.DataSet | object } args see description
  * @static
  */
-exports.addDataLayer = function () {
+layers.addDataLayer = function () {
   let name, ds
   switch (arguments.length) {
     case 0: break
@@ -314,6 +316,6 @@ exports.addDataLayer = function () {
   ds = ds || new DataSet()
   name = name || OsmDataLayer.createNewName()
   const layer = new OsmDataLayer(ds, name, null /* no file */)
-  exports.add(layer)
+  layers.add(layer)
   return layer
 }
