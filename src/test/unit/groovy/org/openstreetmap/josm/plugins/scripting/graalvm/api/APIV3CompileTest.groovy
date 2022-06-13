@@ -55,6 +55,7 @@ class APIV3CompileTest extends AbstractGraalVMBasedTest {
         import 'josm'
         import 'josm/api'
         import {Api, ChangesetApi,  ApiConfig} from 'josm/api'
+        import 'josm/builder'
         """
 
         final result = context.eval(buildSource(source))
