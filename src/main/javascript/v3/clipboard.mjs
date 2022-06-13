@@ -4,11 +4,13 @@
  * @module clipboard
  *
  * @example
- *   const clipboard = required('clipboard')
+ *   import clipboard from 'clipboard'
  *
  */
 
 /* global Java */
+const clipboard = {}
+export default clipboard
 
 /**
  * Set or get the clipboard content as text
@@ -24,7 +26,7 @@
  * </dl>
  *
  * @example
- * const clipboard = require('clipboard')
+ * import clipboard from 'clipboard'
  * // set the clipboard content
  * clipboard.text = 'Hello World!'
  *
@@ -33,7 +35,7 @@
  * @summary Set or get the clipboard content as text
  * @static
  */
-Object.defineProperty(exports, 'text', {
+Object.defineProperty(clipboard, 'text', {
   enumerable: true,
   get: function () {
     const Toolkit = Java.type('java.awt.Toolkit')
