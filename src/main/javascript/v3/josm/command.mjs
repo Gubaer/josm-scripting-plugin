@@ -4,12 +4,10 @@
  *
  * @module josm/command
  * @example
- *  const {AddCommand} = require('josm/command')
+ *  import {AddCommand} from 'josm/command'
  */
 
-
 /* global Java */
-/* global require */
 /* global Plugin */
 
 
@@ -17,15 +15,15 @@ const AddMultiCommand = Plugin.type('org.openstreetmap.josm.plugins.scripting.js
 const ChangeMultiCommand = Plugin.type('org.openstreetmap.josm.plugins.scripting.js.api.ChangeMultiCommand')
 const Change = Plugin.type('org.openstreetmap.josm.plugins.scripting.js.api.Change')
 
-const util = require('josm/util')
-const layers = require('josm/layers')
+import * as util from 'josm/util'
+import layers from 'josm/layers'
 
 const OsmPrimitive = Java.type('org.openstreetmap.josm.data.osm.OsmPrimitive')
 const OsmDataLayer = Java.type('org.openstreetmap.josm.gui.layer.OsmDataLayer')
 const Layer = Java.type('org.openstreetmap.josm.gui.layer.Layer')
 const UndoRedoHandler = Java.type('org.openstreetmap.josm.data.UndoRedoHandler')
 const CombineWayAction = Java.type('org.openstreetmap.josm.actions.CombineWayAction')
-const DeleteCommand = Java.type('org.openstreetmap.josm.command.DeleteCommand')
+const JavaDeleteCommand = Java.type('org.openstreetmap.josm.command.DeleteCommand')
 const LatLon = Java.type('org.openstreetmap.josm.data.coor.LatLon')
 const RelationMember = Java.type('org.openstreetmap.josm.data.osm.RelationMember')
 const ArrayList = Java.type('java.util.ArrayList')
@@ -85,7 +83,7 @@ function toArray (collection) {
  * @summary A command to add a collection of objects to a data layer
  * @param { java.util.Collection| array } objs the objects to add
  */
-exports.AddCommand = function (objs) {
+export function AddCommand(objs) {
   util.assert(objs, 'objs: mandatory parameter missing')
   this._objs = toArray(checkAndFlatten(objs))
 }
@@ -100,7 +98,7 @@ exports.AddCommand = function (objs) {
  * @memberof module:josm/command.AddCommand
  * @name applyTo
  */
-exports.AddCommand.prototype.applyTo = applyTo
+AddCommand.prototype.applyTo = applyTo
 
 /**
  * Creates the internal JOSM command for this command
@@ -113,7 +111,7 @@ exports.AddCommand.prototype.applyTo = applyTo
  * @name createJOSMCommand
  * @instance
 */
-exports.AddCommand.prototype.createJOSMCommand = function (layer) {
+AddCommand.prototype.createJOSMCommand = function (layer) {
   util.assert(util.isSomething(layer),
     'layer: must not be null or undefined')
   util.assert(layer instanceof OsmDataLayer,
@@ -139,13 +137,13 @@ exports.AddCommand.prototype.createJOSMCommand = function (layer) {
  * </dl>
  *
  * @example
- * const cmd = require('josm/command')
- * const layers = require('josm/layer')
- * const {NodeBuilder} = require('josm/builder')
+ * import {add} from 'josm/command'
+ * import layers from 'josm/layer'
+ * import {NodeBuilder} from 'josm/builder'
  * const layer  = layers.get('Data Layer 1')
  *
  * // add two nodes
- * cmd.add(NodeBuilder.create(), NodeBuilder.create()).applyTo(layer)
+ * add(NodeBuilder.create(), NodeBuilder.create()).applyTo(layer)
  * *
  * @function
  * @summary Creates a command to add a collection of objects
@@ -154,9 +152,9 @@ exports.AddCommand.prototype.createJOSMCommand = function (layer) {
  * @static
  * @returns {module:josm/command.AddCommand} the command object
  */
-exports.add = function () {
+export function add(){
   const objs = checkAndFlatten(arguments)
-  return new exports.AddCommand(objs)
+  return new AddCommand(objs)
 }
 
 /**
@@ -167,7 +165,7 @@ exports.add = function () {
  * @summary A command to delete a collection of objects in a data layer.
  * @param {java.util.Collection|array} objs the objects to add
  */
-exports.DeleteCommand = function (objs) {
+export function DeleteCommand(objs) {
   this._objs = checkAndFlatten(objs)
 }
 
@@ -181,7 +179,7 @@ exports.DeleteCommand = function (objs) {
  * @instance
  * @name applyTo
 */
-exports.DeleteCommand.prototype.applyTo = applyTo
+DeleteCommand.prototype.applyTo = applyTo
 
 /**
  * Creates the internal JOSM command for this command
@@ -194,12 +192,12 @@ exports.DeleteCommand.prototype.applyTo = applyTo
  * @name createJOSMCommand
  * @memberof module:josm/command.DeleteCommand
  */
-exports.DeleteCommand.prototype.createJOSMCommand = function (layer) {
+DeleteCommand.prototype.createJOSMCommand = function (layer) {
   util.assert(util.isSomething(layer),
     'layer: must not be null or undefined')
   util.assert(layer instanceof OsmDataLayer,
     'layer: expected OsmDataLayer, got {0}', layer)
-  return DeleteCommand.delete(this._objs, true /* alsoDeleteNodesInWay */, true /* silent */)
+  return JavaDeleteCommand.delete(this._objs, true /* alsoDeleteNodesInWay */, true /* silent */)
 }
 
 /**
@@ -215,13 +213,13 @@ exports.DeleteCommand.prototype.createJOSMCommand = function (layer) {
  * </dl>
  *
  * @example
- * const cmd = require('josm/command')
- * const layers= require('josm/layer')
- * const {NodeBuilder} = require('josm/builder')
+ * import {buildDeleteCommand} from 'josm/command'
+ * import layers from 'josm/layer'
+ * import {NodeBuilder} from 'josm/builder'
  * const layer = layers.get('Data Layer 1')
  *
  * // delete two nodes
- * cmd.delete(NodeBuilder.create(),NodeBuilder.create()).applyTo(layer)
+ * buildDeleteCommand(NodeBuilder.create(),NodeBuilder.create()).applyTo(layer)
  * *
  * @function
  * @summary Creates a command to delete a collection of objects
@@ -230,8 +228,8 @@ exports.DeleteCommand.prototype.createJOSMCommand = function (layer) {
  * @name delete
  * @returns {module:josm/command.DeleteCommand} the command object
  */
-exports.delete = function () {
-  return new exports.DeleteCommand(checkAndFlatten(arguments))
+export function buildDeleteCommand() {
+  return new DeleteCommand(checkAndFlatten(arguments))
 }
 
 function scheduleLatChangeFromPara (para, change) {
@@ -354,7 +352,7 @@ function changeFromParameters (para) {
  * @param {org.openstreetmap.josm.plugins.scripting.js.api.Change} change the change specification
  * @summary A command to change a collection of objects in a data layer.
  */
-exports.ChangeCommand = function (objs, change) {
+export function ChangeCommand(objs, change) {
   this._objs = checkAndFlatten(objs)
   this._change = change
 }
@@ -369,7 +367,7 @@ exports.ChangeCommand = function (objs, change) {
  * @instance
  * @name applyTo
  */
-exports.ChangeCommand.prototype.applyTo = applyTo
+ChangeCommand.prototype.applyTo = applyTo
 
 /**
  * Creates the internal JOSM command for this command
@@ -382,7 +380,7 @@ exports.ChangeCommand.prototype.applyTo = applyTo
  * @name createJOSMCommand
  * @memberof module:josm/command.ChangeCommand
  */
-exports.ChangeCommand.prototype.createJOSMCommand = function (layer) {
+ChangeCommand.prototype.createJOSMCommand = function (layer) {
   util.assert(util.isSomething(layer),
     'layer: must not be null or undefined')
   util.assert(layer instanceof OsmDataLayer,
@@ -431,15 +429,15 @@ exports.ChangeCommand.prototype.createJOSMCommand = function (layer) {
  * </dl>
  *
  * @example
- * const {change} = require('josm/command')
- * const layers = require('josm/layers')
+ * import {buildChangeCommand} from 'josm/command'
+ * import layers from 'josm/layers'
  * const layer = layers.get("Data Layer 1")
  *
  * // change the position of a node
- * change(n1, {lat: 123.45, lon: 44.234}).applyTo(layer)
+ * buildChangeCommand(n1, {lat: 123.45, lon: 44.234}).applyTo(layer)
  *
  * // change the tags of a collection of primitives
- * change(n1, n3, w1, r1, {
+ * buildChangeCommand(n1, n3, w1, r1, {
  *    tags: {'mycustomtag': 'value'}
  * }).applyTo(layer)
  *
@@ -449,7 +447,7 @@ exports.ChangeCommand.prototype.createJOSMCommand = function (layer) {
  * @returns {module:josm/command.ChangeCommand} the change command object
  * @static
  */
-exports.change = function () {
+export function buildChangeCommand() {
   let objs = []
   let change
   switch (arguments.length) {
@@ -478,7 +476,7 @@ exports.change = function () {
   }
 
   const tochange = checkAndFlatten(objs)
-  return new exports.ChangeCommand(tochange, change)
+  return new ChangeCommand(tochange, change)
 }
 
 /**
@@ -489,7 +487,7 @@ exports.change = function () {
  * @class
  * @summary Accessor to the global command history
  */
-exports.CommandHistory = function() {}
+export const CommandHistory = {}
 
 /**
  * Undoes the last <code>depth</code> commands.
@@ -501,7 +499,7 @@ exports.CommandHistory = function() {}
  * @function
  * @name undo
  */
-exports.CommandHistory.undo = function (depth) {
+CommandHistory.undo = function (depth) {
   if (util.isDef(depth)) {
     util.assert(util.isNumber(depth), 'depth: expected a number, got {0}',
       depth)
@@ -525,7 +523,7 @@ exports.CommandHistory.undo = function (depth) {
  * @function
  * @name redo
  */
-exports.CommandHistory.redo = function (depth) {
+CommandHistory.redo = function (depth) {
   if (util.isDef(depth)) {
     util.assert(util.isNumber(depth), 'depth: expected a number, got {0}',
       depth)
@@ -552,7 +550,7 @@ exports.CommandHistory.redo = function (depth) {
  * @function
  * @name clear
  */
-exports.CommandHistory.clear = function (layer) {
+CommandHistory.clear = function (layer) {
   const undoRedoHandler = UndoRedoHandler.getInstance()
 
   function clearAll () {
@@ -586,15 +584,15 @@ exports.CommandHistory.clear = function (layer) {
 *
 * @param ways the ways to be combined
 * @example
-* const cmd = require('josm/command')
-* const layers = require('josm/layer')
+* import {combineWays} from 'josm/command'
+* import layers from 'josm/layer'
 * const ds = layers.activeLayer.data
 * const ways  = [ds.way(1), ds.way(2), ds.way(3)]
 *
 * // pass in an array ...
-* cmd.combineWays(ways)
+* combineWays(ways)
 * // ... or the individual ways ...
-* cmd.combineWays(ds.way(1), ds.way(2), ds.way(3))
+* combineWays(ds.way(1), ds.way(2), ds.way(3))
 * // ... or any combination thereof.
 *
 * @function
@@ -603,7 +601,7 @@ exports.CommandHistory.clear = function (layer) {
 * @static
 * @name combineWays
 */
-exports.combineWays = function () {
+export function combineWays() {
   // ways becomes a java.util.HashSet
   const ways = checkAndFlatten(arguments)
 
@@ -648,20 +646,20 @@ exports.combineWays = function () {
 * because otherwise they could not be combined.
 *
 * @example
-* const cmd = require('josm/command')
-* const layers = require('josm/layer')
+* import {combineSelectedWays} from 'josm/command'
+* import layers from 'josm/layer'
 * const ds = layers.activeLayer.data
-* cmd.combineWays(ways)
+* combineSelectedWays(ways)
 *
 * @summary Combines the currently selected ways.
 * @static
 * @name combineSelectedWays
 * @function
 */
-exports.combineSelectedWays = function () {
+export function combineSelectedWays() {
   const activeLayer = layers.activeLayer
   if (activeLayer == null) return
   const ways = activeLayer.data.selection.ways
   if (ways == null || ways.length <= 1) return
-  exports.combineWays(ways)
+  combineWays(ways)
 }
