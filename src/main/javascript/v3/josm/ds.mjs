@@ -5,14 +5,13 @@
  */
 
 /* global Java */
-/* global require */
 
-const util = require('josm/util')
-const { NodeBuilder, WayBuilder, RelationBuilder } = require('josm/builder')
-const DataSet = Java.type('org.openstreetmap.josm.data.osm.DataSet')
+import * as util from 'josm/util'
+import { NodeBuilder, WayBuilder, RelationBuilder } from 'josm/builder'
+export const DataSet = Java.type('org.openstreetmap.josm.data.osm.DataSet')
 const SimplePrimitiveId = Java.type('org.openstreetmap.josm.data.osm.SimplePrimitiveId')
 const PrimitiveId = Java.type('org.openstreetmap.josm.data.osm.PrimitiveId')
-const OsmPrimitiveType = Java.type('org.openstreetmap.josm.data.osm.OsmPrimitiveType')
+export const OsmPrimitiveType = Java.type('org.openstreetmap.josm.data.osm.OsmPrimitiveType')
 const Collection = Java.type('java.util.Collection')
 const HashSet = Java.type('java.util.HashSet')
 const File = Java.type('java.io.File')
@@ -94,7 +93,7 @@ function normalizeId (id) {
 * </dl>
 *
 * @example
-* const { buildId, OsmPrimitiveType} = require('josm/ds')
+* import { buildId, OsmPrimitiveType} from 'josm/ds'
 *
 * // build a node id
 * const id1 = buildId(1234, 'node')
@@ -108,7 +107,7 @@ function normalizeId (id) {
 *
 * @param args see description
 */
-function buildId (id, type) {
+export function buildId (id, type) {
   function buildId2 (id, type) {
     id = normalizeId(id)
     type = normalizeType(type)
@@ -191,12 +190,12 @@ function normalizeIds () {
  * manipulate data in a {@class org.openstreetmap.josm.data.osm.DataSet}.
  *
  */
-class DataSetUtil {
+export class DataSetUtil {
   /**
-   * Creates an instane of <code>DataSetUtil</code> for a given {@class org.openstreetmap.josm.data.osm.DataSet}
+   * Creates an instance of <code>DataSetUtil</code> for a given {@class org.openstreetmap.josm.data.osm.DataSet}
    *
    * @example
-   * const { DataSetUtil, DataSet } = require('josm/ds')
+   * import { DataSetUtil, DataSet } from 'josm/ds'
    * const dsutil = new DataSetUtil(new DataSet())
    *
    * @summary Build an utility object wrapping the dataset <code>ds</code>
@@ -230,7 +229,7 @@ class DataSetUtil {
    * </dl>
    *
    * @example
-   * const { buildId , DataSetUtil, DataSet, OsmPrimitiveType} = require('josm/ds')
+   * import { buildId , DataSetUtil, DataSet, OsmPrimitiveType} from 'josm/ds'
    *
    * const dsutil = new DataSetUtil(new DataSet())
    * // get a node
@@ -261,7 +260,7 @@ class DataSetUtil {
   * Replies the node with id <code>id</code>, or null.
   *
   * @example
-  * const { DataSet, DataSetUtil } = require('josm/ds')
+  * import { DataSet, DataSetUtil } from 'josm/ds'
   *
   * const dsutil = new DataSetUtil(new DataSet())
   * // get a node
@@ -279,7 +278,7 @@ class DataSetUtil {
   * Replies the way with id <code>id</code>, or null
   *
   * @example
-  * const { DataSet, DataSetUtil } = require('josm/ds')
+  * import { DataSet, DataSetUtil } from 'josm/ds'
   *
   * const dsutil = new DataSetUtil(new DataSet())
   * // get a way
@@ -296,7 +295,7 @@ class DataSetUtil {
   * Replies the relation with id <code>id</code>.
   *
   * @example
-  * const { DataSet, DataSetUtil } = require('josm/ds')
+  * import { DataSet, DataSetUtil } from 'josm/ds'
   *
   * const dsutil = new DataSetUtil(new DataSet())
   * // get a relation
@@ -316,7 +315,7 @@ class DataSetUtil {
    * Listeners to data set events are only notified at the end of the batch.
    *
    * @example
-   * const { DataSet, DataSetUtil } = require('josm/ds')
+   * import { DataSet, DataSetUtil } from 'josm/ds'
    * const dsutil = new DataSetUtil(new DataSet())
    * // creates and adds two nodes and a way in batch operation
    * // to the dataset
@@ -376,7 +375,7 @@ class DataSetUtil {
    * </dl>
    *
    * @example
-   * const { DataSet, DataSetUtil, OsmPrimitiveType, buildId} = require('josm/ds')
+   * import { DataSet, DataSetUtil, OsmPrimitiveType, buildId} from 'josm/ds'
    * const HashSet = Java.type('java.util.HashSet')
    * const dsutil = new DataSetUtil(new DataSet())
    *
@@ -434,7 +433,7 @@ class DataSetUtil {
    * Replies a node builder to create {@class org.openstreetmap.josm.data.osm.Node}s in this dataset.
    *
    * @example
-   * const { DataSet, DataSetUtil } = require('josm/ds')
+   * import { DataSet, DataSetUtil } from 'josm/ds'
    * const dsutil = new DataSetUtil(new DataSet())
    * const n = dsutil.nodeBuilder
    *    .withId(1234,4567)
@@ -453,7 +452,7 @@ class DataSetUtil {
    * Replies a way builder to create ways in this dataset.
    *
    * @example
-   * const { DataSet, DataSetUtil } = require('josm/ds')
+   * import { DataSet, DataSetUtil } from 'josm/ds'
    *
    * const dsutil = new DataSetUtil(new DataSet())
    * const nb = dsutil.nodeBuilder()
@@ -473,7 +472,7 @@ class DataSetUtil {
    * Replies a relation builder to create relations in this dataset.
    *
    * @example
-   * const { DataSet, DataSetUtil } = require('josm/ds')
+   * import { DataSet, DataSetUtil } from 'josm/ds'
    *
    * const dsutil = new DataSetUtil(new DataSet())
    * const r = dsutil.relationBuilder()
@@ -505,7 +504,7 @@ class DataSetUtil {
    * </dl>
    *
    * @example
-   * const { DataSetUtil } = require('josm/ds')
+   * import { DataSetUtil } from 'josm/ds'
    *
    * // loads an OSM file
    * DataSetUtil.load('/path/to/my/file.osm')
@@ -623,7 +622,7 @@ class DataSetUtil {
    * </dl>
    *
    * @example
-   * const { DataSetUtil } = require('josm/ds')
+   * import { DataSetUtil } from 'josm/ds'
    *
    * const dsutil = new DataSetUtil()
    * // create a node in the dataset
@@ -750,7 +749,7 @@ class DataSetUtil {
  * </dl>
  *
  * @example
- * const { DataSetUtil } = require('josm/ds')
+ * import { DataSetUtil } from 'josm/ds'
  * const dsutil = new DataSetUtil()
  * // add or load primitives to query
  * // ...
@@ -764,7 +763,7 @@ class DataSetUtil {
  * // query using a custom predicate - all primitives
  * // with exactly two tags
  * const result3 = dsutil.query((primitive) => {
-  *  primitive.getKeys().size() === 2
+ *   primitive.getKeys().size() === 2
  * })
  *
  * @param {string|function} expression  the match expression
@@ -829,9 +828,3 @@ class DataSetUtil {
   }
 }
 
-module.exports = {
-  DataSetUtil: DataSetUtil,
-  buildId: buildId,
-  DataSet: DataSet,
-  OsmPrimitiveType: OsmPrimitiveType
-}

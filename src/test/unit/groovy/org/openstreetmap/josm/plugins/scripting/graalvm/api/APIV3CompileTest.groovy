@@ -58,6 +58,7 @@ class APIV3CompileTest extends AbstractGraalVMBasedTest {
         import 'josm/builder'
         import 'josm/layers'
         import 'josm/command'
+        import 'josm/ds'
         """
 
         final result = context.eval(buildSource(source))
