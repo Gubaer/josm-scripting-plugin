@@ -5,7 +5,6 @@
  */
 
 /* global Java */
-import './foo'
 
 // -- imports
 const MessageFormat = Java.type('java.text.MessageFormat')

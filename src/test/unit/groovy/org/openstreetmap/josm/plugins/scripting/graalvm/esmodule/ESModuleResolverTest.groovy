@@ -19,8 +19,8 @@ class ESModuleResolverTest extends BaseTestCase{
             "src/test/resources/es-modules"
         ))
         resolver.setRepositories(List.of(repo))
-        final resolvedPath = resolver.parsePath(Path.of("josm").toString())
-        final expectedPath = Path.of(repo.getUniquePathPrefix().toString(), "josm.mjs")
+        final resolvedPath = resolver.parsePath(Path.of("foo").toString())
+        final expectedPath = Path.of(repo.getUniquePathPrefix().toString(), "foo.mjs")
         assertEquals(expectedPath.toString(), resolvedPath.toString())
 
         // test toAbsolutePath()
@@ -74,5 +74,34 @@ class ESModuleResolverTest extends BaseTestCase{
             .build()
         final result = context.eval(source)
         assertEquals("foo", result.asString())
+    }
+
+    @Test
+    void "can import a module with a default export"() {
+        final resolver = ESModuleResolver.instance
+        final repo = new FileSystemESModuleRepository(new File(
+            getProjectHome(),
+            "src/test/resources/es-modules"
+        ))
+        resolver.setRepositories(List.of(repo))
+
+        final context = Context.newBuilder("js")
+                .allowHostAccess(HostAccess.ALL)
+                .allowHostClassLookup(className -> true)
+                .allowIO(true)
+                .fileSystem(resolver)
+                .build()
+        GraalVMFacade.populateContext(context)
+
+        final js = """
+        import josm from 'josm'
+        josm.version
+        """
+        final source = Source.newBuilder("js", js, null)
+            .mimeType("application/javascript+module")
+            .build()
+        final result = context.eval(source)
+        println("version: ${result.asString()}")
+        assertTrue(result.asString().isNumber())
     }
 }

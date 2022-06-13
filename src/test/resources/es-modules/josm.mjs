@@ -21,6 +21,8 @@ import * as util from './josm/util'
 
 //const layers = require('josm/layers')
 //const { MenuBar } = require('josm/ui/menu')
+const josm = {}
+export default josm
 
 /**
  * Replies the current JOSM version string.
@@ -34,13 +36,13 @@ import * as util from './josm/util'
  * @name version
  * @summary JOSM version string
  */
-// Object.defineProperty(exports, 'version', {
-//   enumerable: true,
-//   get: function () {
-//     return Version.getInstance().getVersionString()
-//   }
-// })
-export const version = Version.getInstance().getVersionString()
+Object.defineProperty(josm, 'version', {
+  enumerable: true,
+  get: function () {
+    return Version.getInstance().getVersionString()
+  }
+})
+//export const version = Version.getInstance().getVersionString()
 
 /**
  * Replies the layers object.
