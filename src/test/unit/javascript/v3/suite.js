@@ -4,9 +4,11 @@ const Exception = Java.type('java.lang.Exception')
 const System = Java.type('java.lang.System')
 
 import * as node_builder_tests from 'josm/node-builder-test'
+import * as way_builder_tests from 'josm/way-builder-test'
 
 const tests = [
-  node_builder_tests
+  node_builder_tests,
+  way_builder_tests
   // 'josm/util-test',
   // 'josm/node-builder-test.js',
   // 'josm/way-builder-test.js',
