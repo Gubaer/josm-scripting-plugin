@@ -15,7 +15,7 @@ print_help() {
   echo "  -o | --outputdir <output-directory>"
   echo "     optional. default is 'out'"
   echo "  -a | --api-version <version>"
-  echo "     optional. either 'v1', 'v2', or 'all'. default is 'all'"
+  echo "     optional. either 'v1', 'v2', 'v3', or 'all'. default is 'all'"
   echo "  -h | --help"
   echo "     print help information"
 }
@@ -49,8 +49,8 @@ do
         exit 1
       fi
       API_VERSION=$1
-      if [[ "$API_VERSION" != "v1" && "$API_VERSION" != "v2" && "$API_VERSION" != "all" ]] ; then
-        echo "error: illegal api version '$API_VERSION', expected 'v1, 'v2', or 'all'" 1>&2
+      if [[ "$API_VERSION" != "v1" && "$API_VERSION" != "v2" && "$API_VERSION" != "v3" && "$API_VERSION" != "all" ]] ; then
+        echo "error: illegal api version '$API_VERSION', expected 'v1, 'v2', 'v3', or 'all'" 1>&2
         print_help
         exit 1
       fi
@@ -89,7 +89,7 @@ if [ "$JSDOC" == "" ] ; then
 fi
 
 case "$API_VERSION" in
-  v1 | v2)
+  v1 | v2 | v3)
     echo "Generating documentation for API version '$API_VERSION' in '$OUTPUT_DIR/$API_VERSION' ..."
     jsdoc \
         -c jsdoc.${API_VERSION}.conf \
@@ -99,17 +99,13 @@ case "$API_VERSION" in
     ;;
 
   all)
-    echo "Generating documentation for API version 'v1' in '$OUTPUT_DIR/v1' ..."
-    jsdoc \
-        -c jsdoc.v1.conf \
-        -t $TEMPLATE_PATH \
-        -d $OUTPUT_DIR/v1
-
-    echo "Generating documentation for API version 'v2' in '$OUTPUT_DIR/v2' ..."
-    jsdoc \
-        -c jsdoc.v2.conf \
-        -t $TEMPLATE_PATH \
-        -d $OUTPUT_DIR/v2
+    for version in "v1 v2 v3" ; do
+      echo "Generating documentation for API version '$version' in '$OUTPUT_DIR/$version' ..."
+      jsdoc \
+          -c jsdoc.$version.conf \
+          -t $TEMPLATE_PATH \
+          -d $OUTPUT_DIR/$version
+    done
 
     ;;
 esac
