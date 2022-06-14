@@ -7,8 +7,6 @@
  *
  * @module josm
  */
-
-/* global require */
 /* global Java */
 
 const Version = Java.type('org.openstreetmap.josm.data.Version')
@@ -16,9 +14,9 @@ const JOptionPane = Java.type('javax.swing.JOptionPane')
 const HelpAwareOptionPane = Java.type('org.openstreetmap.josm.gui.HelpAwareOptionPane')
 const MainApplication = Java.type('org.openstreetmap.josm.gui.MainApplication')
 
-const util = require('josm/util')
-const layers = require('josm/layers')
-const { MenuBar } = require('josm/ui/menu')
+import * as util from 'josm/util'
+import layers from 'josm/layers'
+import {MenuBar} from 'josm/ui/menu'
 
 const josm = {}
 
@@ -26,6 +24,7 @@ const josm = {}
  * Replies the current JOSM version string.
  *
  * @example
+ * import josm from 'josm'
  * josm.alert(josm.version)
  *
  * @property {string} version the JOSM version
@@ -45,6 +44,7 @@ Object.defineProperty(josm, 'version', {
  * Replies the layers object.
  *
  * @example
+ * import josm from 'josm'
  * josm.alert('num layers: ' + josm.layers.length)
  *
  * // name of first layer
@@ -103,6 +103,8 @@ Object.defineProperty(josm, 'layers', {
  * </dl>
  *
  * @example
+ * import josm from 'josm'
+ * 
  * // display an information alert
  * josm.alert('Hello World!')
  *
@@ -185,6 +187,8 @@ josm.alert = function () {
  * </ul>
  *
  * @example
+ * import josm from 'josm'
+ * 
  * // open a data file in a new data layer
  * josm.open('/my/data/file.osm')
  *
@@ -222,6 +226,8 @@ josm.open = function () {
  * history.
  *
  * @example
+ * import josm from 'josm'
+ * 
  * // undoes the last command
  * josm.commands.undo()
  *
@@ -242,7 +248,6 @@ Object.defineProperty(josm, 'commands', {
 
 /**
  * Replies an accessor for JOSMs menu bar.
- *
  *
  * Use this object to inspect or modify the menu bar, i.e. to add additional
  * menu items.
