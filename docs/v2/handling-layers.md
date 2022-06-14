@@ -14,7 +14,7 @@ nav_order: 2
 The global object <code class="inline">josm.layers</code> represents the current layers in josm. The methods
 and properties of this object are defined in the module [`josm/layers`](josm/layers).
 
-The following scripts prints the names of the currently opened layers:
+The following script prints the names of the currently opened layers:
 
 ```js
 const josm = require('josm')
