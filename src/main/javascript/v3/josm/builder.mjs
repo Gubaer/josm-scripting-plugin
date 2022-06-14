@@ -3,7 +3,17 @@
  *
  * @module josm/builder
  * @example
- * import {NodeBuilder, WayBuilder} from 'josm/builder'
+ * // josm/builder exports the NodeBuilder, WayBuilder, and RelationBuilder
+ * // from its sub modules
+ * import {
+ *   NodeBuilder, 
+ *   WayBuilder,
+ *   RelationBuilder
+ * } from 'josm/builder'
+ * 
+ * @see module:josm/builder/node
+ * @see module:josm/builder/way
+ * @see module:josm/builder/relation
  */
 
 export * from './builder/node-builder'

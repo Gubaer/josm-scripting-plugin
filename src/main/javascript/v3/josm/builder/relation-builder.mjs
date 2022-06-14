@@ -1,3 +1,8 @@
+/**
+ * @module josm/builder/relation
+ */
+
+
 /* global Java */
 
 // -- imports

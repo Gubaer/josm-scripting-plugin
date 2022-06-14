@@ -1,3 +1,7 @@
+/**
+ * @module josm/builder/node
+ */
+
 /* global Java */
 
 // -- imports
