@@ -8,13 +8,15 @@ import * as way_builder_tests from 'josm/way-builder-test'
 import * as relation_builder_test from 'josm/relation-builder-test'
 import * as util_test from 'josm/util-test'
 import * as command_test from 'josm/command-test'
+import * as ds_test from 'josm/ds-test'
 
 const tests = [
   node_builder_tests,
   way_builder_tests,
   relation_builder_test,
   util_test,
-  command_test
+  command_test,
+  ds_test
   // 'josm/util-test',
   // 'josm/node-builder-test.js',
   // 'josm/way-builder-test.js',
