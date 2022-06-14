@@ -1,3 +1,8 @@
+/**
+ * @module josm/builder/way
+ */
+
+
 /* global Java */
 
 // -- imports
