@@ -9,8 +9,6 @@
 // -- imports
 const MessageFormat = Java.type('java.text.MessageFormat')
 
-/** global exports */
-
 /**
  * Checks whether a value is null or undefined.
  *
@@ -140,6 +138,7 @@ export function assert() {
  *
  * @example
  * import {assertSomething} from 'josm/util'
+ * 
  * assertSomething(null)     // -> throws an exception
  * assertSomething(void 0)   // -> throws an exception
  *
@@ -265,6 +264,7 @@ export function isArguments(val) {
  *
  * @example
  * import {countProperties} from 'josm/util'
+ * 
  * let o = {p1: "v1", p2: "v2"}
  * let c = countProperties(o)   // ->  2
  *
@@ -296,6 +296,7 @@ export function countProperties(o) {
  *
  * @example
  * import {hasProperties} from 'josm/util'
+ * 
  * let o = {p1: "v1", p2: "v2"}
  * let c = hasProperties(o)         // ->  true
  *
@@ -364,13 +365,14 @@ export function mix() {
 
 /**
  * Prints a message to stdout (including newline).
- * <p>
  *
  * Supports the same string templates as {@class java.text.MessageFormat}.
  *
  * @example
- * var myname = "...";
- * util.println("Hello world! My name is {0}", myname);
+ * import * as util from 'josm/util'
+ * 
+ * const myname = '...'
+ * util.println('Hello world! My name is {0}', myname);
  * // escape meta characters like {, } or ' with a leading apostrophe
  * util.println(" a pair of curly braces '{'}");
  *
@@ -391,13 +393,14 @@ export function println() {
 
 /**
  * Prints a message to stdout (without newline).
- * <p>
+ *
  * Supports the same string templates as {@class java.text.MessageFormat}
  *
  * @example
- *
+ * import * as util from 'josm/util'
+ * 
  * const  myname = "..."
- * util.print("Hello world! My name is {0}", myname)
+ * util.print('Hello world! My name is {0}', myname)
  * // escape meta characters like {, } or ' with a leading apostrophe
  * util.print(" a pair of curly braces '{'}")
  *
