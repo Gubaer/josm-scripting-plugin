@@ -24,7 +24,7 @@ class APIV3CompileTest extends AbstractGraalVMBasedTest {
                 getProjectHome(),
                 "src/main/javascript/v3"
         ))
-        resolver.setRepositories(List.of(repo))
+        resolver.setUserDefinedRepositories(List.of(repo))
 
         context = Context.newBuilder("js")
             .allowHostAccess(HostAccess.ALL)

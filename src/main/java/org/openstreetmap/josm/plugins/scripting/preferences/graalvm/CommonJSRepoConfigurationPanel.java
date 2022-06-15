@@ -253,6 +253,6 @@ public class CommonJSRepoConfigurationPanel extends JPanel  {
     public void persistToPreferences() {
         // will also persist the configured CommonJS module base URIs to
         // preferences
-        mdlRepositories.saveToModuleRepositories();
+        mdlRepositories.rememberCommonJSModuleRepositories();
     }
 }

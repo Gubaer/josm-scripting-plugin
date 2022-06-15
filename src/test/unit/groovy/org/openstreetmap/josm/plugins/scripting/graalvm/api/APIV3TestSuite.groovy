@@ -27,7 +27,7 @@ class APIV3TestSuite extends AbstractGraalVMBasedTest {
             getProjectHome(),
             "src/test/unit/javascript/v3"
         ))
-        resolver.setRepositories(List.of(repo1, repo2))
+        resolver.setUserDefinedRepositories(List.of(repo1, repo2))
 
         context = Context.newBuilder("js")
             .allowHostAccess(HostAccess.ALL)

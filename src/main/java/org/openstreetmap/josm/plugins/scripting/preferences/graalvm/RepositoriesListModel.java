@@ -26,11 +26,11 @@ public class RepositoriesListModel extends AbstractListModel<URL>
     private final DefaultListSelectionModel selectionModel;
 
     public RepositoriesListModel(DefaultListSelectionModel selectionModel) {
-        loadFromModuleRepositories();
+        loadCommonJSModuleRepositories();
         this.selectionModel = selectionModel;
     }
 
-    public void loadFromModuleRepositories() {
+    public void loadCommonJSModuleRepositories() {
         CommonJSModuleRepositoryRegistry.getInstance().getUserDefinedRepositories()
             .stream()
             .map(repo -> {
@@ -47,7 +47,7 @@ public class RepositoriesListModel extends AbstractListModel<URL>
             .forEach(repositories::add);
     }
 
-    public void saveToModuleRepositories() {
+    public void rememberCommonJSModuleRepositories() {
         final List<ICommonJSModuleRepository> repos = repositories.stream()
             .map(url -> {
                 try {

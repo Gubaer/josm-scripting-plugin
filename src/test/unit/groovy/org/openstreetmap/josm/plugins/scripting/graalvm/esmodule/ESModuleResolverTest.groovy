@@ -18,7 +18,7 @@ class ESModuleResolverTest extends BaseTestCase{
             getProjectHome(),
             "src/test/resources/es-modules"
         ))
-        resolver.setRepositories(List.of(repo))
+        resolver.setUserDefinedRepositories(List.of(repo))
         final resolvedPath = resolver.parsePath(Path.of("foo").toString())
         final expectedPath = Path.of(repo.getUniquePathPrefix().toString(), "foo.mjs")
         assertEquals(expectedPath.toString(), resolvedPath.toString())
@@ -56,7 +56,7 @@ class ESModuleResolverTest extends BaseTestCase{
             "src/test/resources/es-modules/es-modules.jar"
         ))
         final resolver = ESModuleResolver.instance
-        resolver.setRepositories(List.of(repo))
+        resolver.setUserDefinedRepositories(List.of(repo))
         final context = Context.newBuilder("js")
             .allowHostAccess(HostAccess.ALL)
             .allowHostClassLookup(className -> true)
@@ -83,7 +83,7 @@ class ESModuleResolverTest extends BaseTestCase{
             getProjectHome(),
             "src/test/resources/es-modules"
         ))
-        resolver.setRepositories(List.of(repo))
+        resolver.setUserDefinedRepositories(List.of(repo))
 
         final context = Context.newBuilder("js")
                 .allowHostAccess(HostAccess.ALL)

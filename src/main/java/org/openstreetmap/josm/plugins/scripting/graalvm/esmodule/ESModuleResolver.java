@@ -3,6 +3,7 @@ package org.openstreetmap.josm.plugins.scripting.graalvm.esmodule;
 import org.graalvm.polyglot.io.FileSystem;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.channels.SeekableByteChannel;
@@ -14,6 +15,7 @@ import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.openstreetmap.josm.plugins.scripting.graalvm.esmodule.AbstractESModuleRepository.startsWithESModuleRepoPathPrefix;
 
@@ -43,10 +45,29 @@ public class ESModuleResolver implements FileSystem {
 
     private static final ESModuleResolver instance = new ESModuleResolver();
 
+
     static private void logFine(Supplier<String> supplier) {
         if (logger.isLoggable(Level.FINE)) {
             logger.fine(supplier.get());
         }
+    }
+
+
+    private final java.nio.file.FileSystem fullIO = FileSystems.getDefault();
+
+    /**
+     * the list of repositories the user can change in the preferences
+     */
+    private final List<IESModuleRepository> userDefinedRepos = new ArrayList<>();
+
+    private IESModuleRepository apiRepo = null;
+
+    public void setApiRepository(@Null final IESModuleRepository repo) {
+        this.apiRepo = repo;
+    }
+
+    public @Null IESModuleRepository getApiRepository() {
+        return apiRepo;
     }
 
     /**
@@ -64,9 +85,9 @@ public class ESModuleResolver implements FileSystem {
      * @param repo the repo
      * @throws NullPointerException thrown if <code>repo</code> is null
      */
-    public void addRepository(@NotNull final IESModuleRepository repo) {
+    public void addUserDefinedRepository(@NotNull final IESModuleRepository repo) {
         Objects.requireNonNull(repo);
-        repos.add(repo);
+        userDefinedRepos.add(repo);
     }
 
     /**
@@ -74,34 +95,48 @@ public class ESModuleResolver implements FileSystem {
      *
      * @param repo the repo. Ignore if null.
      */
-    public void removeRepository(final IESModuleRepository repo) {
+    public void removeUserDefinedRepository(final IESModuleRepository repo) {
         if (repo == null) {
             return;
         }
-        for (int i=0; i < repos.size(); i++) {
-            if (repo.getUniquePathPrefix().toString().equals(repos.get(i).getUniquePathPrefix().toString())) {
-                repos.remove(i);
+        for (int i = 0; i < userDefinedRepos.size(); i++) {
+            if (repo.getUniquePathPrefix().toString().equals(userDefinedRepos.get(i).getUniquePathPrefix().toString())) {
+                userDefinedRepos.remove(i);
                 return;
             }
         }
     }
 
-    public void setRepositories(final List<IESModuleRepository> repos) {
+    /**
+     * Set the list of user defined ES Module repositories.
+     *
+     * @param repos the list of repositories. If <code>null</code>, removes all repositories
+     */
+    public void setUserDefinedRepositories(final List<IESModuleRepository> repos) {
         if (repos == null || repos.isEmpty()) {
-            this.repos.clear();
+            this.userDefinedRepos.clear();
             return;
         }
-        this.repos.addAll(repos.stream().filter(Objects::nonNull).collect(Collectors.toList()));
+        this.userDefinedRepos.addAll(repos.stream().filter(Objects::nonNull).collect(Collectors.toList()));
     }
 
-    private final java.nio.file.FileSystem fullIO = FileSystems.getDefault();
-    private final List<IESModuleRepository> repos = new ArrayList<>();
+    /**
+     * Replies an unmodifiable list of the user defined repositories-
+     *
+     * @return the user defined repositories
+     */
+    public @NotNull List<IESModuleRepository> getUserDefinedRepositories() {
+        return Collections.unmodifiableList(this.userDefinedRepos);
+    }
 
     private IESModuleRepository lookupRepoForModulePath(Path path) {
-        return repos.stream()
-            .filter(repo -> repo.matchesWithUniquePathPrefix(path))
-            .findFirst()
-            .orElse(null);
+        return Stream.concat(
+            Stream.ofNullable(apiRepo),
+            userDefinedRepos.stream()
+        )
+        .filter(repo -> repo.matchesWithUniquePathPrefix(path))
+        .findFirst()
+        .orElse(null);
     }
 
     /**
@@ -123,7 +158,7 @@ public class ESModuleResolver implements FileSystem {
         if (p.isAbsolute() && ! startsWithESModuleRepoPathPrefix(p)) {
             return fullIO.getPath(path);
         }
-        var resolvedPath = repos.stream().map(repo -> repo.resolveModulePath(path))
+        var resolvedPath = userDefinedRepos.stream().map(repo -> repo.resolveModulePath(path))
             .filter(Objects::nonNull)
             .findFirst()
             .orElse(null);
