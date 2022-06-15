@@ -107,7 +107,7 @@ public class ModuleJarURI {
     private ModuleJarURI() {}
 
     /**
-     * Creates a oduleJarURI given a URI.
+     * Creates a ModuleJarURI given a URI.
      *
      * @param uri the jar URI
      * @throws IllegalArgumentException thrown, if <code>uri</code> isn't
@@ -117,7 +117,7 @@ public class ModuleJarURI {
      * @throws IllegalArgumentException thrown, if <code>uri</code> doesn't
      *  end with a jar entry path after <code>!</code>
      */
-    ModuleJarURI(@NotNull final URI uri) {
+    public ModuleJarURI(@NotNull final URI uri) {
         Objects.requireNonNull(uri);
         if (!"jar".equalsIgnoreCase(uri.getScheme())) {
             throw new IllegalArgumentException(MessageFormat.format(

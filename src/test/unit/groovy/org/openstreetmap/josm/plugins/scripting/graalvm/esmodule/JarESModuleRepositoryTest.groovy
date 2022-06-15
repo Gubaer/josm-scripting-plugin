@@ -60,6 +60,32 @@ class JarESModuleRepositoryTest extends BaseTestCase {
         }
     }
 
+    @Test
+    void "can create a repo with a valid jar URI"() {
+        final jarUri = "jar:file://${getProjectHome()}/src/test/resources/es-modules/es-modules.jar!/"
+        final repo = new JarESModuleRepository(new URI(jarUri))
+        assertNotNull(repo)
+    }
+
+    @Test
+    void "reject invalid jar URIs to create a repo"() {
+        shouldFail(NullPointerException) {
+            new JarESModuleRepository((URI) null)
+        }
+
+        shouldFail(IllegalESModuleBaseUri) {
+            // non-existing jar
+            final jarUri = "jar:file://${getProjectHome()}/no-such-jar.jar!/"
+            new JarESModuleRepository(new URI(jarUri))
+        }
+
+        shouldFail (IllegalESModuleBaseUri){
+            // non-existing root entry
+            final jarUri = "jar:file://${getProjectHome()}/src/test/resources/es-modules/es-modules.jar!/no-such-entry"
+            new JarESModuleRepository(new URI(jarUri))
+        }
+    }
+
     private JarESModuleRepository repo
 
     @BeforeEach

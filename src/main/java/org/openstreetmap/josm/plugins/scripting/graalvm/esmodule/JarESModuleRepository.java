@@ -1,11 +1,13 @@
 package org.openstreetmap.josm.plugins.scripting.graalvm.esmodule;
 
 import org.apache.commons.compress.utils.SeekableInMemoryByteChannel;
+import org.openstreetmap.josm.plugins.scripting.graalvm.ModuleJarURI;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.nio.channels.SeekableByteChannel;
 import java.nio.file.Path;
 import java.text.MessageFormat;
@@ -104,6 +106,37 @@ public class JarESModuleRepository extends AbstractESModuleRepository {
                 rootEntry,
                 this.jarFile.getAbsolutePath()
             ));
+        }
+    }
+
+    /**
+     * Creates a repository of ES Modules stored in a jar file.
+     *
+     * @param uri a jar-URI
+     * @throws IOException thrown if the jar-file doesn't exist or isnt' readable
+     * @throws IOException thrown if the jar-URI includes a root entry which doesn't exist,
+     *    isn't directory entry, or isn't readable
+     * @throws IllegalESModuleBaseUri thrown if <code>uri</code> isn't a valid jar-URI
+     * @throws NullPointerException thrown if <code>uri</code> is null
+     */
+    public JarESModuleRepository(@NotNull final URI uri) throws IOException, IllegalESModuleBaseUri {
+        Objects.nonNull(uri);
+        try {
+            final var moduleJarUri = new ModuleJarURI(uri);
+            if (!moduleJarUri.refersToJarFile()) {
+                throw new IllegalESModuleBaseUri(MessageFormat.format(
+                    "Jar-file doesn''t exist or isn''t readable. uri=''{0}''", uri));
+            }
+            if (!moduleJarUri.refersToDirectoryJarEntry()) {
+                throw new IllegalESModuleBaseUri(MessageFormat.format(
+                    "Root entry doesn''t exist or isn''t a directory entry. uri=''{0}''", uri));
+            }
+            this.jarFile = moduleJarUri.getJarFile();
+            this.jar = new JarFile(jarFile);
+            this.root = Path.of(moduleJarUri.getJarEntryName());
+        } catch(IllegalArgumentException e) {
+            throw new IllegalESModuleBaseUri(MessageFormat.format(
+                "Illegal base URI for jar-file based ES Module repository. uri=''{0}''", uri), e);
         }
     }
 
