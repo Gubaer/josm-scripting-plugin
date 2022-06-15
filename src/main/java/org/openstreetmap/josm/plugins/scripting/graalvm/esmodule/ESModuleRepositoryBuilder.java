@@ -1,7 +1,5 @@
 package org.openstreetmap.josm.plugins.scripting.graalvm.esmodule;
 
-import org.openstreetmap.josm.plugins.scripting.graalvm.IllegalCommonJSModuleBaseURI;
-
 import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.io.IOException;
