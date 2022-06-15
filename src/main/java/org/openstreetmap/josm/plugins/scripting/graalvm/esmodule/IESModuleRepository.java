@@ -7,7 +7,7 @@ import java.nio.channels.SeekableByteChannel;
 import java.nio.file.Path;
 
 /**
- * A registry for ES Modules.
+ * A repository for ES Modules.
  */
 public interface IESModuleRepository {
 
