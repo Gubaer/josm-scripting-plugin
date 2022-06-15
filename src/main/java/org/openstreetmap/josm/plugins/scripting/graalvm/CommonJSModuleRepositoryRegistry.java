@@ -42,7 +42,7 @@ public class CommonJSModuleRepositoryRegistry implements IModuleResolver {
             @NotNull PluginInformation info) {
         Objects.requireNonNull(info);
         try {
-            final URI uri = CommonJSModuleJarURI.buildJarUri(
+            final URI uri = ModuleJarURI.buildJarUri(
                 info.file.getAbsolutePath(), "/js/v2");
             return Optional.of(uri);
         } catch(MalformedURLException | URISyntaxException e) {

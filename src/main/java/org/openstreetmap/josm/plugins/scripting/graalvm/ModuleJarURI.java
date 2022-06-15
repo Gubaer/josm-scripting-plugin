@@ -15,11 +15,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * A CommonJSModuleJarURI is a jar-URI with an embedded file-URI.
+ * A ModuleJarURI is a jar-URI with an embedded file-URI and an optional
+ * path to a root entry in the jar-file.
+ *
+ * A ModuleJarURI refers to the root of repository for CommonJS or ES
+ * Modules.
  */
-public class CommonJSModuleJarURI {
+public class ModuleJarURI {
     static private final Logger logger =
-        Logger.getLogger(CommonJSModuleJarURI.class.getName());
+        Logger.getLogger(ModuleJarURI.class.getName());
 
     /**
      * Builds a jar URI given the path of the jar file and the path
@@ -90,7 +94,7 @@ public class CommonJSModuleJarURI {
     @SuppressWarnings("WeakerAccess") // part of the public API
     static public boolean isValid(@NotNull final URI uri) {
         try {
-            new CommonJSModuleJarURI(uri);
+            new ModuleJarURI(uri);
             return true;
         } catch(IllegalArgumentException e) {
             return false;
@@ -100,10 +104,11 @@ public class CommonJSModuleJarURI {
     private String jarFilePath;
     private String jarEntryPath = "/";
 
-    private CommonJSModuleJarURI() {}
+    private ModuleJarURI() {}
 
     /**
-     * Creates a CommonJSModuleJarURI given an URI.
+     * Creates a oduleJarURI given a URI.
+     *
      * @param uri the jar URI
      * @throws IllegalArgumentException thrown, if <code>uri</code> isn't
      *  a valid jar URI
@@ -112,7 +117,7 @@ public class CommonJSModuleJarURI {
      * @throws IllegalArgumentException thrown, if <code>uri</code> doesn't
      *  end with a jar entry path after <code>!</code>
      */
-    CommonJSModuleJarURI(@NotNull final URI uri) {
+    ModuleJarURI(@NotNull final URI uri) {
         Objects.requireNonNull(uri);
         if (!"jar".equalsIgnoreCase(uri.getScheme())) {
             throw new IllegalArgumentException(MessageFormat.format(
@@ -281,7 +286,7 @@ public class CommonJSModuleJarURI {
      * @return true, if <code>other</code> is a child of this URI; false,
      * otherwise
      */
-    public boolean isBaseOf(@NotNull final CommonJSModuleJarURI other) {
+    public boolean isBaseOf(@NotNull final ModuleJarURI other) {
         Objects.requireNonNull(other);
         return jarFilePath.equals(other.jarFilePath)
             && other.getJarEntryPath().startsWith(getJarEntryPath());
@@ -310,7 +315,7 @@ public class CommonJSModuleJarURI {
      * </ul>
      * @return the normalized CommonJS module jar URI
      */
-    public @NotNull CommonJSModuleJarURI normalized() {
+    public @NotNull ModuleJarURI normalized() {
         final String normalizedFilePath = new File(jarFilePath)
                 .toPath().toAbsolutePath().normalize().toString();
         // don't apply toAbsolutePath(). The jar entry path is already
@@ -319,7 +324,7 @@ public class CommonJSModuleJarURI {
         final String normalizedJarEntryPath = new File(jarEntryPath)
                 .toPath().normalize().toString();
 
-        final CommonJSModuleJarURI normalizedURI = new CommonJSModuleJarURI();
+        final ModuleJarURI normalizedURI = new ModuleJarURI();
         normalizedURI.jarEntryPath = normalizedJarEntryPath;
         normalizedURI.jarFilePath = normalizedFilePath;
         return normalizedURI;
@@ -365,7 +370,7 @@ public class CommonJSModuleJarURI {
      * @throws IOException thrown, if the jar file can't be accessed/
      * opened/read
      */
-    public @NotNull CommonJSModuleJarURI toResolutionContextUri()
+    public @NotNull ModuleJarURI toResolutionContextUri()
             throws IOException {
 
         String normalizedJarEntryPath =
@@ -376,8 +381,8 @@ public class CommonJSModuleJarURI {
             normalizedJarEntryPath.substring(1);
 
         if (normalizedJarEntryName.isEmpty()) {
-            final CommonJSModuleJarURI resolutionContextUri =
-                    new CommonJSModuleJarURI();
+            final ModuleJarURI resolutionContextUri =
+                    new ModuleJarURI();
             resolutionContextUri.jarFilePath = this.jarFilePath;
             resolutionContextUri.jarEntryPath = "/";
             return resolutionContextUri;
@@ -394,8 +399,8 @@ public class CommonJSModuleJarURI {
                 }
             }
         }
-        final CommonJSModuleJarURI resolutionContextUri =
-            new CommonJSModuleJarURI();
+        final ModuleJarURI resolutionContextUri =
+            new ModuleJarURI();
         resolutionContextUri.jarFilePath = this.jarFilePath;
         resolutionContextUri.jarEntryPath = normalizedJarEntryPath;
         return resolutionContextUri;

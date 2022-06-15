@@ -114,7 +114,7 @@ public class JarJSModuleRepository extends BaseJSModuleRepository {
         return true;
     }
 
-    private final CommonJSModuleJarURI jarUri;
+    private final ModuleJarURI jarUri;
 
     /**
      * Creates the repository for a given jar file.
@@ -127,7 +127,7 @@ public class JarJSModuleRepository extends BaseJSModuleRepository {
         Objects.requireNonNull(jar);
         final URI jarUri;
         try {
-            jarUri = CommonJSModuleJarURI.buildJarUri(
+            jarUri = ModuleJarURI.buildJarUri(
                 jar.getAbsoluteFile().toString());
         } catch(MalformedURLException | URISyntaxException e) {
             throw new IllegalArgumentException(MessageFormat.format(
@@ -135,7 +135,7 @@ public class JarJSModuleRepository extends BaseJSModuleRepository {
                 jar.toString()
             ),e);
         }
-        this.jarUri = new CommonJSModuleJarURI(jarUri);
+        this.jarUri = new ModuleJarURI(jarUri);
         ensureReadableJarFile();
     }
 
@@ -158,7 +158,7 @@ public class JarJSModuleRepository extends BaseJSModuleRepository {
         Objects.requireNonNull(rootPath);
         final URI uri;
         try {
-            uri = CommonJSModuleJarURI.buildJarUri(
+            uri = ModuleJarURI.buildJarUri(
                 jar.getAbsoluteFile().toString(), rootPath);
         } catch(MalformedURLException | URISyntaxException e) {
             throw new IllegalArgumentException(MessageFormat.format(
@@ -167,7 +167,7 @@ public class JarJSModuleRepository extends BaseJSModuleRepository {
                 jar.toString(), rootPath
             ));
         }
-        jarUri = new CommonJSModuleJarURI(uri);
+        jarUri = new ModuleJarURI(uri);
         ensureReadableJarFile();
         if (!jarUri.getJarEntryName().isEmpty()) {
             ensureJarEntryIsDirectory(
@@ -191,7 +191,7 @@ public class JarJSModuleRepository extends BaseJSModuleRepository {
     public JarJSModuleRepository(@NotNull final URI uri) throws IOException {
         Objects.requireNonNull(uri);
         // throws IllegalArgumentException, if uri isn't valid
-        jarUri = new CommonJSModuleJarURI(uri);
+        jarUri = new ModuleJarURI(uri);
         ensureReadableJarFile();
         if (!jarUri.getJarEntryName().isEmpty()) {
             ensureJarEntryIsDirectory(
@@ -213,10 +213,10 @@ public class JarJSModuleRepository extends BaseJSModuleRepository {
     @Override
     public boolean isBaseOf(@NotNull final URI moduleUri) {
         Objects.requireNonNull(moduleUri);
-        final CommonJSModuleJarURI other;
+        final ModuleJarURI other;
         try {
             // throws IllegalArgumentException, if moduleUri isn't valid
-            other = new CommonJSModuleJarURI(moduleUri);
+            other = new ModuleJarURI(moduleUri);
         } catch(IllegalArgumentException e) {
             getLogger().log(Level.WARNING, MessageFormat.format(
                 "moduleUri isn''t a valid jar URI for a CommonJS module. " +
@@ -266,9 +266,9 @@ public class JarJSModuleRepository extends BaseJSModuleRepository {
             logInvalidModuleID(id, e);
             return Optional.empty();
         }
-        CommonJSModuleJarURI contextModuleUri;
+        ModuleJarURI contextModuleUri;
         try {
-            contextModuleUri = new CommonJSModuleJarURI(contextUri);
+            contextModuleUri = new ModuleJarURI(contextUri);
         } catch (IllegalArgumentException e) {
             getLogger().log(Level.FINE, MessageFormat.format(
                 "failed to resolve module id, context URI is invalid." +
@@ -293,7 +293,7 @@ public class JarJSModuleRepository extends BaseJSModuleRepository {
         }
 
         if (!jarUri.isBaseOf(contextModuleUri)) {
-            final CommonJSModuleJarURI _contextModuleUri = contextModuleUri;
+            final ModuleJarURI _contextModuleUri = contextModuleUri;
             logFine(() -> MessageFormat.format(
                 "failed to resolve module id, normalized context URI isn''t " +
                 "child of base URI. id=''{0}'', contextUri=''{1}'', " +
@@ -314,8 +314,8 @@ public class JarJSModuleRepository extends BaseJSModuleRepository {
         //pre: contextUri is not null and a valid CommonJS module jar URI
         //pre: this base URI is a base of the context URI
 
-        final CommonJSModuleJarURI contextJSModuleUri =
-            new CommonJSModuleJarURI(contextUri).normalized();
+        final ModuleJarURI contextJSModuleUri =
+            new ModuleJarURI(contextUri).normalized();
         final Optional<String> resolvedModulePath =
             resolve(id, contextJSModuleUri.getJarEntryPath());
         if (! resolvedModulePath.isPresent()) {
@@ -328,7 +328,7 @@ public class JarJSModuleRepository extends BaseJSModuleRepository {
 
         final URI resolvedModuleUri;
         try {
-            resolvedModuleUri = CommonJSModuleJarURI.buildJarUri(
+            resolvedModuleUri = ModuleJarURI.buildJarUri(
                 contextJSModuleUri.getJarFilePath(),
                 resolvedModulePath.get());
         } catch(final URISyntaxException | IOException e) {

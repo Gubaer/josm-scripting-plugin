@@ -116,7 +116,7 @@ public class RequireFunction implements Function<String, Value> {
     private String loadModuleSourceFromJarEntry(@NotNull URI uri)
         throws IOException {
         // pre: uri is a jar file URI - don't check again
-        final CommonJSModuleJarURI moduleUri = new CommonJSModuleJarURI(uri);
+        final ModuleJarURI moduleUri = new ModuleJarURI(uri);
 
         try (final JarFile jarFile = new JarFile(moduleUri.getJarFile())) {
             final JarEntry entry = jarFile.getJarEntry(
