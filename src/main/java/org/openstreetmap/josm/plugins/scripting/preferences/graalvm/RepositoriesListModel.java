@@ -4,6 +4,10 @@ import org.openstreetmap.josm.plugins.scripting.graalvm.CommonJSModuleRepository
 import org.openstreetmap.josm.plugins.scripting.graalvm.CommonJSModuleRepositoryRegistry;
 import org.openstreetmap.josm.plugins.scripting.graalvm.ICommonJSModuleRepository;
 import org.openstreetmap.josm.plugins.scripting.graalvm.IllegalCommonJSModuleBaseURI;
+import org.openstreetmap.josm.plugins.scripting.graalvm.esmodule.ESModuleRepositoryBuilder;
+import org.openstreetmap.josm.plugins.scripting.graalvm.esmodule.ESModuleResolver;
+import org.openstreetmap.josm.plugins.scripting.graalvm.esmodule.IESModuleRepository;
+import org.openstreetmap.josm.plugins.scripting.graalvm.esmodule.IllegalESModuleBaseUri;
 import org.openstreetmap.josm.plugins.scripting.model.PreferenceKeys;
 
 import javax.swing.*;
@@ -30,6 +34,44 @@ public class RepositoriesListModel extends AbstractListModel<URL>
         this.selectionModel = selectionModel;
     }
 
+    public void loadESModuleRepositories() {
+        ESModuleResolver.getInstance().getUserDefinedRepositories()
+            .stream()
+            .map(repo -> {
+                try {
+                    return repo.getBaseURI().toURL();
+                } catch (MalformedURLException e) {
+                    logger.log(Level.WARNING,
+                        "failed to convert CommonJS module base URI to URL",
+                        e);
+                }
+                return null;
+            })
+            .filter(Objects::nonNull)
+            .forEach(repositories::add);
+    }
+
+    public void rememberESModuleRepositories() {
+        final var resolver = ESModuleResolver.getInstance();
+        final var builder = new ESModuleRepositoryBuilder();
+        final List<IESModuleRepository> repos = repositories.stream()
+            .map(url -> {
+                try {
+                    return builder.build(url.toURI());
+                } catch(URISyntaxException | IllegalESModuleBaseUri e){
+                    final String message = String.format(
+                        "failed to create CommonJS module repository for url %s. Ignoring it.",
+                        url
+                    );
+                    logger.log(Level.WARNING, message, e);
+                    return null;
+                }
+            })
+            .filter(Objects::nonNull)
+            .collect(Collectors.toList());
+        resolver.setUserDefinedRepositories(repos);
+    }
+
     public void loadCommonJSModuleRepositories() {
         CommonJSModuleRepositoryRegistry.getInstance().getUserDefinedRepositories()
             .stream()
@@ -46,7 +88,7 @@ public class RepositoriesListModel extends AbstractListModel<URL>
             .filter(Objects::nonNull)
             .forEach(repositories::add);
     }
-
+    
     public void rememberCommonJSModuleRepositories() {
         final List<ICommonJSModuleRepository> repos = repositories.stream()
             .map(url -> {
@@ -64,6 +106,7 @@ public class RepositoriesListModel extends AbstractListModel<URL>
                     return null;
                 }
             })
+            .filter(Objects::nonNull)
             .collect(Collectors.toList());
 
         CommonJSModuleRepositoryRegistry.getInstance()
