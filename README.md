@@ -24,7 +24,7 @@ The scripting plugin requires Java 11 or higher.
 
 * [JOSM Scripting Plugin documentation][doc-home]
 * [API V2 documentation][api-v2] with [API V2 library doc][libdoc-api-v2]
-* [API V2 documentation (deprecated)][api-v1] with [API V1 library doc][libdoc-api-v1]
+* [API V1 documentation (deprecated)][api-v1] with [API V1 library doc][libdoc-api-v1]
 
 
 ## How to build
