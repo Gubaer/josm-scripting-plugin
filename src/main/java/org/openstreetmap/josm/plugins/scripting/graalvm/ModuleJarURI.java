@@ -37,7 +37,7 @@ public class ModuleJarURI {
      * @throws MalformedURLException thrown, if the URI can't be converted
      *  to a valid jar URL
      */
-    static URI buildJarUri(@NotNull final String jarFilePath,
+    public static URI buildJarUri(@NotNull final String jarFilePath,
                            @NotNull final String jarEntryPath)
         throws MalformedURLException, URISyntaxException {
         Objects.requireNonNull(jarFilePath);
@@ -63,7 +63,7 @@ public class ModuleJarURI {
      * @throws MalformedURLException thrown, if the URI can't be converted
      *  to a valid jar URL
      */
-    static URI buildJarUri(@NotNull final String jarFilePath)
+    public static URI buildJarUri(@NotNull final String jarFilePath)
             throws URISyntaxException, MalformedURLException {
         return buildJarUri(jarFilePath, "/");
     }

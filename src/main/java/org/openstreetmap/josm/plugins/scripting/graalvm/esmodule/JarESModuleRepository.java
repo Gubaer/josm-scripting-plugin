@@ -7,7 +7,9 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.channels.SeekableByteChannel;
 import java.nio.file.Path;
 import java.text.MessageFormat;
@@ -62,6 +64,19 @@ public class JarESModuleRepository extends AbstractESModuleRepository {
             .findFirst()
             .map(Path::of)
             .orElse(null);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public URI getBaseURI() {
+        try {
+            return ModuleJarURI.buildJarUri(jarFile.getAbsolutePath(), root.toString());
+        } catch (MalformedURLException | URISyntaxException e) {
+            // shouldn't happen
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -120,7 +135,7 @@ public class JarESModuleRepository extends AbstractESModuleRepository {
      * @throws NullPointerException thrown if <code>uri</code> is null
      */
     public JarESModuleRepository(@NotNull final URI uri) throws IOException, IllegalESModuleBaseUri {
-        Objects.nonNull(uri);
+        Objects.requireNonNull(uri);
         try {
             final var moduleJarUri = new ModuleJarURI(uri);
             if (!moduleJarUri.refersToJarFile()) {

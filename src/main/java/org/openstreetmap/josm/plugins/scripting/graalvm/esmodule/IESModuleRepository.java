@@ -3,6 +3,7 @@ package org.openstreetmap.josm.plugins.scripting.graalvm.esmodule;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import java.io.IOException;
+import java.net.URI;
 import java.nio.channels.SeekableByteChannel;
 import java.nio.file.Path;
 
@@ -12,6 +13,13 @@ import java.nio.file.Path;
 public interface IESModuleRepository {
 
     String ES_MODULE_REPO_PATH_PREFIX = "es-module-repo";
+
+    /**
+     * Replies the base URI of this repository
+     *
+     * @return the base URI
+     */
+    @NotNull URI getBaseURI();
 
     /**
      * Replies the unique path prefix for absolute module paths which refer to a module

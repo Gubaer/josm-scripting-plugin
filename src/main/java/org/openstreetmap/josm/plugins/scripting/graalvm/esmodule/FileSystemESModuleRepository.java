@@ -4,6 +4,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.nio.channels.SeekableByteChannel;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -45,6 +46,15 @@ public class FileSystemESModuleRepository extends AbstractESModuleRepository {
                 root.getAbsolutePath()
             ));
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     * @return
+     */
+    @Override
+    public URI getBaseURI() {
+        return root.toURI();
     }
 
     /**
