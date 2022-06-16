@@ -4,7 +4,6 @@ import javax.validation.constraints.NotNull;
 import java.nio.file.Path;
 import java.util.Objects;
 import java.util.UUID;
-import java.util.regex.Pattern;
 
 abstract public class AbstractESModuleRepository implements IESModuleRepository {
     // the unique path prefix for absolute paths that refer to modules in this repo
