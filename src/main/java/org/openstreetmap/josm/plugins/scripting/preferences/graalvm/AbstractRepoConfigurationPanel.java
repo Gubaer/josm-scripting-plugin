@@ -1,13 +1,12 @@
 package org.openstreetmap.josm.plugins.scripting.preferences.graalvm;
 
-import org.openstreetmap.josm.plugins.scripting.graalvm.CommonJSModuleRepositoryRegistry;
 import org.openstreetmap.josm.plugins.scripting.graalvm.ICommonJSModuleRepository;
-import org.openstreetmap.josm.plugins.scripting.ui.EditorPaneBuilder;
 import org.openstreetmap.josm.tools.ImageProvider;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.validation.constraints.NotNull;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.net.MalformedURLException;
@@ -19,24 +18,29 @@ import static org.openstreetmap.josm.plugins.scripting.ui.GridBagConstraintBuild
 import static org.openstreetmap.josm.tools.I18n.tr;
 
 public abstract class AbstractRepoConfigurationPanel extends JPanel  {
-    private static final Logger logger =
-        Logger.getLogger(AbstractRepoConfigurationPanel.class.getName());
+    private static final Logger logger = Logger.getLogger(AbstractRepoConfigurationPanel.class.getName());
 
-    private RepositoriesListModel mdlRepositories;
-    private JList<URL> lstRepositories;
+    protected RepositoriesListModel mdlRepositories;
+    protected JList<URL> lstRepositories;
 
+    /* ------------------------------------------------------------------------------------ */
+    /* abstract methods to be implemented in subclasses                                     */
+    /* ------------------------------------------------------------------------------------ */
     protected abstract JPanel buildInfoPanel();
 
+    protected abstract RepositoriesListModel buildRepositoriesListModel(@NotNull final ListSelectionModel selectionModel);
+
+    public abstract void persistToPreferences();
+    /* ------------------------------------------------------------------------------------ */
+
     protected JPanel buildTablePanel() {
-        final JPanel panel = new JPanel(new BorderLayout());
-        DefaultListSelectionModel selectionModel =
-            new DefaultListSelectionModel();
-        mdlRepositories = new RepositoriesListModel(selectionModel);
-        mdlRepositories.loadRepositories(CommonJSModuleRepositoryRegistry.getInstance());
+        final var panel = new JPanel(new BorderLayout());
+        final var selectionModel = new DefaultListSelectionModel();
+        mdlRepositories = buildRepositoriesListModel(selectionModel);
         lstRepositories = new JList<>(mdlRepositories);
         lstRepositories.setCellRenderer(new RepositoryCellRenderer());
         lstRepositories.setSelectionModel(selectionModel);
-        JScrollPane sp = new JScrollPane(lstRepositories);
+        final var sp = new JScrollPane(lstRepositories);
         sp.setVerticalScrollBarPolicy(
             JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         sp.setHorizontalScrollBarPolicy(
@@ -47,8 +51,7 @@ public abstract class AbstractRepoConfigurationPanel extends JPanel  {
 
     protected JPanel buildActionPanel() {
         JPanel panel = new JPanel(new GridBagLayout());
-        GridBagConstraints gc = gbc().fillHorizontal().weight(1.0, 0.0)
-            .constraints();
+        GridBagConstraints gc = gbc().fillHorizontal().weight(1.0, 0.0).constraints();
         panel.add(new JButton(
             new AddAction()), gbc(gc).cell(0, 0).constraints());
         RemoveAction actRemove;
@@ -233,13 +236,4 @@ public abstract class AbstractRepoConfigurationPanel extends JPanel  {
         }
     }
 
-    /**
-     * Persist the configured values to preferences
-     */
-    public void persistToPreferences() {
-        // will also persist the configured CommonJS module base URIs to
-        // preferences
-        mdlRepositories.saveRepositories(CommonJSModuleRepositoryRegistry.getInstance());
-        //mdlRepositories.rememberCommonJSModuleRepositories();
-    }
 }

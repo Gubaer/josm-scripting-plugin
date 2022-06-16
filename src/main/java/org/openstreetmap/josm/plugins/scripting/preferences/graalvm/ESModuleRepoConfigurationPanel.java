@@ -1,6 +1,6 @@
 package org.openstreetmap.josm.plugins.scripting.preferences.graalvm;
 
-import org.openstreetmap.josm.plugins.scripting.graalvm.CommonJSModuleRepositoryRegistry;
+import org.openstreetmap.josm.plugins.scripting.graalvm.esmodule.ESModuleResolver;
 import org.openstreetmap.josm.plugins.scripting.ui.EditorPaneBuilder;
 
 import javax.swing.*;
@@ -9,17 +9,16 @@ import java.awt.*;
 
 import static org.openstreetmap.josm.tools.I18n.tr;
 
-public class CommonJSRepoConfigurationPanel extends AbstractRepoConfigurationPanel{
+public class ESModuleRepoConfigurationPanel extends AbstractRepoConfigurationPanel {
 
     protected JPanel buildInfoPanel() {
         final JEditorPane pane = EditorPaneBuilder.buildInfoEditorPane();
         final String text =
             "<html>"
             + tr(
-                 "<p>"
-                + "GraalJS can load <strong>CommonJS modules</strong> "
-                + "with the function <code>require()</code>. It resolves CommonJS modules "
-                + "in the directories and jar files configured below."
+                "<p>"
+                + "GraalJS can load <strong>ECMAScript Modules</strong> (ES Modules)."
+                + "It resolves ES Modules in the directories and jar files configured below."
                 + "</p>"
             )
             + "</html>";
@@ -31,13 +30,12 @@ public class CommonJSRepoConfigurationPanel extends AbstractRepoConfigurationPan
 
     protected RepositoriesListModel buildRepositoriesListModel(@NotNull final ListSelectionModel selectionModel) {
         final var model = new RepositoriesListModel(selectionModel);
-        model.loadRepositories(CommonJSModuleRepositoryRegistry.getInstance());
+        model.loadRepositories(ESModuleResolver.getInstance());
         return model;
     }
 
     public void persistToPreferences() {
-        // will also persist the configured CommonJS module base URIs to
-        // preferences
-        mdlRepositories.saveRepositories(CommonJSModuleRepositoryRegistry.getInstance());
+        mdlRepositories.saveRepositories(ESModuleResolver.getInstance());
+        //TODO(gubaer): save to preferences
     }
 }

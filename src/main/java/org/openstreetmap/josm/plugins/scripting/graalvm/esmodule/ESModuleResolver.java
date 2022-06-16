@@ -1,6 +1,7 @@
 package org.openstreetmap.josm.plugins.scripting.graalvm.esmodule;
 
 import org.graalvm.polyglot.io.FileSystem;
+import org.openstreetmap.josm.plugins.scripting.graalvm.IRepositoriesSource;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
@@ -40,7 +41,7 @@ import static org.openstreetmap.josm.plugins.scripting.graalvm.esmodule.Abstract
  * </pre>
  */
 @SuppressWarnings({"RedundantThrows", "unused"})
-public class ESModuleResolver implements FileSystem {
+public class ESModuleResolver implements FileSystem, IRepositoriesSource  {
     static private final Logger logger = Logger.getLogger(ESModuleResolver.class.getName());
 
     private static final ESModuleResolver instance = new ESModuleResolver();
@@ -268,5 +269,42 @@ public class ESModuleResolver implements FileSystem {
             throw new UnsupportedOperationException();
         }
         return fullIO.provider().readAttributes(path, attributes, options);
+    }
+
+    /**
+     * {@inheritDoc}
+     * @return
+     */
+    @Override
+    public List<URI> getRepositories() {
+        return userDefinedRepos.stream()
+            .map(IESModuleRepository::getBaseURI)
+            .collect(Collectors.toUnmodifiableList());
+    }
+
+    /**
+     * {@inheritDoc}
+     * @param repositories
+     */
+    @Override
+    public void setRepositories(@Null List<URI> repositories) {
+        userDefinedRepos.clear();
+        if (repositories == null) {
+            return;
+        }
+        final var builder = new ESModuleRepositoryBuilder();
+        repositories.stream()
+            .map(uri -> {
+                try {
+                    return builder.build(uri);
+                } catch (IllegalESModuleBaseUri e) {
+                    logger.log(Level.WARNING, MessageFormat.format(
+                        "Invalid ES Module base URI. Can''t create repository. uri=''{0}''", uri),
+                        e);
+                    return null;
+                }
+            })
+            .filter(Objects::nonNull)
+            .forEach(this::addUserDefinedRepository);
     }
 }

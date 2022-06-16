@@ -1,6 +1,6 @@
 package org.openstreetmap.josm.plugins.scripting.preferences.graalvm;
 
-import org.openstreetmap.josm.plugins.scripting.graalvm.*;
+import org.openstreetmap.josm.plugins.scripting.graalvm.IRepositoriesSource;
 import org.openstreetmap.josm.plugins.scripting.graalvm.esmodule.ESModuleRepositoryBuilder;
 import org.openstreetmap.josm.plugins.scripting.graalvm.esmodule.ESModuleResolver;
 import org.openstreetmap.josm.plugins.scripting.graalvm.esmodule.IESModuleRepository;
@@ -25,9 +25,9 @@ public class RepositoriesListModel extends AbstractListModel<URL> implements Pre
     static final private Logger logger = Logger.getLogger(RepositoriesListModel.class.getName());
 
     private final List<URL> repositories = new ArrayList<>();
-    private final DefaultListSelectionModel selectionModel;
+    private final ListSelectionModel selectionModel;
 
-    public RepositoriesListModel(DefaultListSelectionModel selectionModel) {
+    public RepositoriesListModel(@NotNull final ListSelectionModel selectionModel) {
         //loadCommonJSModuleRepositories();
         this.selectionModel = selectionModel;
     }
