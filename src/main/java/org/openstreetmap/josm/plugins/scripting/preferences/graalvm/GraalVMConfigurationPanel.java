@@ -23,7 +23,7 @@ public class GraalVMConfigurationPanel extends JPanel implements HyperlinkListen
     private static final Logger logger =
             Logger.getLogger(GraalVMConfigurationPanel.class.getName());
 
-    private CommonJSRepoConfigurationPanel pnlCommonJSRepoConfiguration;
+    private AbstractRepoConfigurationPanel pnlCommonJSRepoConfiguration;
 
     static private final String MESSAGE_01 = tr(
           "The scripting plugin can run JavaScript scripts using "
