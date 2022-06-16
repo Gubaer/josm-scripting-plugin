@@ -25,7 +25,7 @@ import java.util.stream.Stream;
  * managed in this registry.
  */
 @SuppressWarnings("unused")
-public class CommonJSModuleRepositoryRegistry implements IModuleResolver {
+public class CommonJSModuleRepositoryRegistry implements IModuleResolver, IRepositoriesSource {
     static private final Logger logger =
         Logger.getLogger(CommonJSModuleRepositoryRegistry.class.getName());
 
@@ -191,6 +191,8 @@ public class CommonJSModuleRepositoryRegistry implements IModuleResolver {
         saveToPreferences(Preferences.main());
     }
 
+
+
     /**
      * Remove all repositories from the registry.
      */
@@ -314,5 +316,39 @@ public class CommonJSModuleRepositoryRegistry implements IModuleResolver {
             })
             .filter(Objects::nonNull)
             .forEach(repos::addUserDefinedRepository);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public @NotNull List<URI> getRepositories() {
+        return userDefinedRepos.stream()
+            .map(repo -> repo.getBaseURI())
+            .collect(Collectors.toList());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setRepositories(@Null List<URI> repositories) {
+        this.userDefinedRepos.clear();
+        if (repositories == null) {
+            return;
+        }
+        final var repos = repositories.stream()
+            .map(uri -> {
+                try {
+                    return CommonJSModuleRepositoryFactory.getInstance().build(uri);
+                } catch (IllegalCommonJSModuleBaseURI e) {
+                    logger.log(Level.WARNING, MessageFormat.format(
+                            "Illegal base URI for CommonJS module. uri=''{0}''", uri), e);
+                    return null;
+                }
+            })
+            .filter(Objects::nonNull)
+            .collect(Collectors.toList());
+        this.userDefinedRepos.addAll(repos);
     }
 }

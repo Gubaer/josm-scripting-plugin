@@ -1,5 +1,6 @@
 package org.openstreetmap.josm.plugins.scripting.preferences.graalvm;
 
+import org.openstreetmap.josm.plugins.scripting.graalvm.CommonJSModuleRepositoryRegistry;
 import org.openstreetmap.josm.plugins.scripting.graalvm.ICommonJSModuleRepository;
 import org.openstreetmap.josm.plugins.scripting.ui.EditorPaneBuilder;
 import org.openstreetmap.josm.tools.ImageProvider;
@@ -46,8 +47,9 @@ public class CommonJSRepoConfigurationPanel extends JPanel  {
         final JPanel panel = new JPanel(new BorderLayout());
         DefaultListSelectionModel selectionModel =
             new DefaultListSelectionModel();
-        lstRepositories = new JList<>(mdlRepositories =
-            new RepositoriesListModel(selectionModel));
+        mdlRepositories = new RepositoriesListModel(selectionModel);
+        mdlRepositories.loadRepositories(CommonJSModuleRepositoryRegistry.getInstance());
+        lstRepositories = new JList<>(mdlRepositories);
         lstRepositories.setCellRenderer(new RepositoryCellRenderer());
         lstRepositories.setSelectionModel(selectionModel);
         JScrollPane sp = new JScrollPane(lstRepositories);
@@ -253,6 +255,7 @@ public class CommonJSRepoConfigurationPanel extends JPanel  {
     public void persistToPreferences() {
         // will also persist the configured CommonJS module base URIs to
         // preferences
-        mdlRepositories.rememberCommonJSModuleRepositories();
+        mdlRepositories.saveRepositories(CommonJSModuleRepositoryRegistry.getInstance());
+        //mdlRepositories.rememberCommonJSModuleRepositories();
     }
 }
