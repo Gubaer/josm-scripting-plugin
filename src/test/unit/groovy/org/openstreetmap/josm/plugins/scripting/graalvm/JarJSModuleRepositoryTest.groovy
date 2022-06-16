@@ -4,6 +4,8 @@ import groovy.test.GroovyTestCase
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
+import org.openstreetmap.josm.plugins.scripting.graalvm.commonjs.BaseJSModuleRepository
+import org.openstreetmap.josm.plugins.scripting.graalvm.commonjs.JarJSModuleRepository
 
 import java.util.jar.JarFile
 import java.util.logging.ConsoleHandler

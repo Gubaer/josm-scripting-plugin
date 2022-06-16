@@ -4,6 +4,7 @@ import groovy.test.GroovyTestCase
 import org.graalvm.polyglot.Context
 import org.graalvm.polyglot.Value
 import org.junit.jupiter.api.Test
+import org.openstreetmap.josm.plugins.scripting.graalvm.commonjs.CommonJSModuleCache
 
 class CommonJSModuleCacheTest extends GroovyTestCase {
 

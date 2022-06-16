@@ -1,4 +1,8 @@
-package org.openstreetmap.josm.plugins.scripting.graalvm;
+package org.openstreetmap.josm.plugins.scripting.graalvm.commonjs;
+
+import org.openstreetmap.josm.plugins.scripting.graalvm.ModuleID;
+import org.openstreetmap.josm.plugins.scripting.graalvm.ModuleJarURI;
+import org.openstreetmap.josm.plugins.scripting.graalvm.commonjs.BaseJSModuleRepository;
 
 import javax.validation.constraints.NotNull;
 import java.io.File;

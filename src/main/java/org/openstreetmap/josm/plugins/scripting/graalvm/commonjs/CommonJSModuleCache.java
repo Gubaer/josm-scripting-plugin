@@ -1,4 +1,4 @@
-package org.openstreetmap.josm.plugins.scripting.graalvm;
+package org.openstreetmap.josm.plugins.scripting.graalvm.commonjs;
 
 import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.Value;

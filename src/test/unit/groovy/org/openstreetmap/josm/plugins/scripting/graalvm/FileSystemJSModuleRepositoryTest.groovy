@@ -3,6 +3,8 @@ package org.openstreetmap.josm.plugins.scripting.graalvm
 import groovy.test.GroovyTestCase
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
+import org.openstreetmap.josm.plugins.scripting.graalvm.commonjs.BaseJSModuleRepository
+import org.openstreetmap.josm.plugins.scripting.graalvm.commonjs.FileSystemJSModuleRepository
 
 import java.util.logging.ConsoleHandler
 import java.util.logging.Level

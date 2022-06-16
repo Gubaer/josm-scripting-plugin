@@ -1,7 +1,8 @@
-package org.openstreetmap.josm.plugins.scripting.graalvm;
+package org.openstreetmap.josm.plugins.scripting.graalvm.commonjs;
 
 import org.openstreetmap.josm.data.Preferences;
 import org.openstreetmap.josm.plugins.PluginInformation;
+import org.openstreetmap.josm.plugins.scripting.graalvm.*;
 import org.openstreetmap.josm.plugins.scripting.model.PreferenceKeys;
 
 import javax.validation.constraints.NotNull;

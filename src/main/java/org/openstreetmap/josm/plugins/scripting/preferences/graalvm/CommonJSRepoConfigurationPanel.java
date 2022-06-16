@@ -1,6 +1,6 @@
 package org.openstreetmap.josm.plugins.scripting.preferences.graalvm;
 
-import org.openstreetmap.josm.plugins.scripting.graalvm.CommonJSModuleRepositoryRegistry;
+import org.openstreetmap.josm.plugins.scripting.graalvm.commonjs.CommonJSModuleRepositoryRegistry;
 import org.openstreetmap.josm.plugins.scripting.ui.EditorPaneBuilder;
 
 import javax.swing.*;

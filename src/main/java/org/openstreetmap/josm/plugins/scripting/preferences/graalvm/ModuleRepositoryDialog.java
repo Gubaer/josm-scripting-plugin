@@ -1,9 +1,9 @@
 package org.openstreetmap.josm.plugins.scripting.preferences.graalvm;
 
 import org.openstreetmap.josm.gui.util.WindowGeometry;
-import org.openstreetmap.josm.plugins.scripting.graalvm.CommonJSModuleRepositoryFactory;
-import org.openstreetmap.josm.plugins.scripting.graalvm.ICommonJSModuleRepository;
-import org.openstreetmap.josm.plugins.scripting.graalvm.IllegalCommonJSModuleBaseURI;
+import org.openstreetmap.josm.plugins.scripting.graalvm.commonjs.CommonJSModuleRepositoryFactory;
+import org.openstreetmap.josm.plugins.scripting.graalvm.commonjs.ICommonJSModuleRepository;
+import org.openstreetmap.josm.plugins.scripting.graalvm.commonjs.IllegalCommonJSModuleBaseURI;
 import org.openstreetmap.josm.plugins.scripting.model.CommonJSModuleRepository;
 import org.openstreetmap.josm.plugins.scripting.ui.EditorPaneBuilder;
 import org.openstreetmap.josm.tools.ImageProvider;

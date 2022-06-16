@@ -1,4 +1,4 @@
-package org.openstreetmap.josm.plugins.scripting.graalvm;
+package org.openstreetmap.josm.plugins.scripting.graalvm.commonjs;
 
 import javax.validation.constraints.NotNull;
 import java.net.URI;

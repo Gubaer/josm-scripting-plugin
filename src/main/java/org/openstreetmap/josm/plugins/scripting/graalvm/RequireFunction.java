@@ -6,6 +6,8 @@ import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.PolyglotException;
 import org.graalvm.polyglot.Source;
 import org.graalvm.polyglot.Value;
+import org.openstreetmap.josm.plugins.scripting.graalvm.commonjs.CommonJSModuleCache;
+import org.openstreetmap.josm.plugins.scripting.graalvm.commonjs.CommonJSModuleRepositoryRegistry;
 
 import javax.validation.constraints.NotNull;
 import java.io.*;
