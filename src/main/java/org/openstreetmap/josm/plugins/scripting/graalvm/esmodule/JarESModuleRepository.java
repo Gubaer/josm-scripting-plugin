@@ -142,7 +142,7 @@ public class JarESModuleRepository extends AbstractESModuleRepository {
                 throw new IllegalESModuleBaseUri(MessageFormat.format(
                     "Jar-file doesn''t exist or isn''t readable. uri=''{0}''", uri));
             }
-            if (!moduleJarUri.refersToDirectoryJarEntry()) {
+            if (!moduleJarUri.getJarEntryName().isEmpty() && !moduleJarUri.refersToDirectoryJarEntry()) {
                 throw new IllegalESModuleBaseUri(MessageFormat.format(
                     "Root entry doesn''t exist or isn''t a directory entry. uri=''{0}''", uri));
             }

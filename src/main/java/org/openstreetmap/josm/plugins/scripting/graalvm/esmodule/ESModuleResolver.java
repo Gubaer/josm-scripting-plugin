@@ -22,7 +22,7 @@ import static org.openstreetmap.josm.plugins.scripting.graalvm.esmodule.Abstract
 
 /**
  * ESModuleResolver resolves ES Module names and creates a {@link SeekableByteChannel channel} from which
- * GraalJS reads the content of the module with the resolved name.
+ * GraalJS reads the module source.
  *
  * It can resolve ES Module names in three kind of repositories:
  * <ul>
@@ -114,8 +114,8 @@ public class ESModuleResolver implements FileSystem, IRepositoriesSource  {
      * @param repos the list of repositories. If <code>null</code>, removes all repositories
      */
     public void setUserDefinedRepositories(final List<IESModuleRepository> repos) {
+        this.userDefinedRepos.clear();
         if (repos == null || repos.isEmpty()) {
-            this.userDefinedRepos.clear();
             return;
         }
         this.userDefinedRepos.addAll(repos.stream().filter(Objects::nonNull).collect(Collectors.toList()));
