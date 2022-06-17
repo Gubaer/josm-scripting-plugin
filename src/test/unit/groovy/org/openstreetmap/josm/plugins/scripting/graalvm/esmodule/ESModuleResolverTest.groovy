@@ -94,14 +94,13 @@ class ESModuleResolverTest extends BaseTestCase{
         GraalVMFacade.populateContext(context)
 
         final js = """
-        import josm from 'josm'
-        josm.version
+        import value from 'default-export'
+        value.name
         """
         final source = Source.newBuilder("js", js, null)
             .mimeType("application/javascript+module")
             .build()
         final result = context.eval(source)
-        println("version: ${result.asString()}")
-        assertTrue(result.asString().isNumber())
+        assertEquals("default-export", result.asString())
     }
 }
