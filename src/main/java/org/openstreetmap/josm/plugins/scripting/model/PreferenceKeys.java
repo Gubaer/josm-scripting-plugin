@@ -57,12 +57,20 @@ public interface PreferenceKeys {
     String PREF_KEY_COMMONJS_MODULE_REPOSITORIES =
             "scripting.commonjs-module-repositories";
 
+    /**
+     * The array of ES Module repositories. Entries are URLs,
+     * either file URLs or jar URLs.
+     *
+     * Default value: empty
+     */
+    String PREF_KEY_GRAALVM_ES_MODULE_REPOSITORIES =
+            "scripting.graalvm.es-module-repositories";
 
     /**
-     * <p>The array of CommonJS module repositories used in the GraalVM.
-     * Entries are URLs, either file URLs or jar URLs.</p>
+     * The array of CommonJS module repositories used in the GraalVM.
+     * Entries are URLs, either file URLs or jar URLs.
      *
-     * <p>Default value: empty</p>
+     * Default value: empty
      */
     String PREF_KEY_GRAALVM_COMMONJS_MODULE_REPOSITORIES =
             "scripting.graalvm.commonjs-module-repositories";

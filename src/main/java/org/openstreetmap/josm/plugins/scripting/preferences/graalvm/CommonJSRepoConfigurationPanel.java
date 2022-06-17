@@ -1,5 +1,6 @@
 package org.openstreetmap.josm.plugins.scripting.preferences.graalvm;
 
+import org.openstreetmap.josm.data.Preferences;
 import org.openstreetmap.josm.plugins.scripting.graalvm.commonjs.CommonJSModuleRepositoryRegistry;
 import org.openstreetmap.josm.plugins.scripting.ui.EditorPaneBuilder;
 
@@ -39,5 +40,6 @@ public class CommonJSRepoConfigurationPanel extends AbstractRepoConfigurationPan
         // will also persist the configured CommonJS module base URIs to
         // preferences
         mdlRepositories.saveRepositories(CommonJSModuleRepositoryRegistry.getInstance());
+        CommonJSModuleRepositoryRegistry.getInstance().saveToPreferences(Preferences.main());
     }
 }

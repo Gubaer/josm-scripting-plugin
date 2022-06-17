@@ -1,5 +1,6 @@
 package org.openstreetmap.josm.plugins.scripting.preferences.graalvm;
 
+import org.openstreetmap.josm.data.Preferences;
 import org.openstreetmap.josm.plugins.scripting.graalvm.esmodule.ESModuleResolver;
 import org.openstreetmap.josm.plugins.scripting.ui.EditorPaneBuilder;
 
@@ -36,6 +37,6 @@ public class ESModuleRepoConfigurationPanel extends AbstractRepoConfigurationPan
 
     public void persistToPreferences() {
         mdlRepositories.saveRepositories(ESModuleResolver.getInstance());
-        //TODO(gubaer): save to preferences
+        ESModuleResolver.getInstance().saveToPreferences(Preferences.main());
     }
 }

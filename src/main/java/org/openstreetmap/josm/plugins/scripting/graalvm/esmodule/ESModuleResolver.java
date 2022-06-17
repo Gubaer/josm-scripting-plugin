@@ -1,12 +1,18 @@
 package org.openstreetmap.josm.plugins.scripting.graalvm.esmodule;
 
 import org.graalvm.polyglot.io.FileSystem;
+import org.openstreetmap.josm.data.Preferences;
+import org.openstreetmap.josm.plugins.PluginInformation;
 import org.openstreetmap.josm.plugins.scripting.graalvm.IRepositoriesSource;
+import org.openstreetmap.josm.plugins.scripting.graalvm.ModuleJarURI;
+import org.openstreetmap.josm.plugins.scripting.model.PreferenceKeys;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.channels.SeekableByteChannel;
 import java.nio.file.*;
 import java.nio.file.attribute.FileAttribute;
@@ -53,6 +59,24 @@ public class ESModuleResolver implements FileSystem, IRepositoriesSource  {
         }
     }
 
+    /**
+     * Replies the jar URI referring to the built-in ES Modules
+     * shipped in the plugin jar.
+     *
+     * @param info plugin information
+     * @return the URI
+     */
+    static public @Null URI buildRepositoryUrlForBuiltinModules(@NotNull PluginInformation info) {
+        Objects.requireNonNull(info);
+        try {
+            return ModuleJarURI.buildJarUri(info.file.getAbsolutePath(), "/js/v3");
+        } catch(MalformedURLException | URISyntaxException e) {
+            logger.log(Level.WARNING, "Failed to create URI referring to the "
+                    + "ES Modules in the plugin jar. Cannot load ES "
+                    + "Modules for API V3 from the plugin jar file.",e);
+            return null;
+        }
+    }
 
     private final java.nio.file.FileSystem fullIO = FileSystems.getDefault();
 
@@ -306,5 +330,58 @@ public class ESModuleResolver implements FileSystem, IRepositoriesSource  {
             })
             .filter(Objects::nonNull)
             .forEach(this::addUserDefinedRepository);
+    }
+
+    /**
+     * Save the base URIs for the user defined ES Module
+     * repositories to preferences.
+     *
+     * @param pref the preferences
+     */
+    public void saveToPreferences(@NotNull final Preferences pref) {
+        Objects.requireNonNull(pref);
+        List<String> entries = userDefinedRepos.stream()
+            .map(repo -> {
+                try {
+                    return repo.getBaseURI().toURL().toString();
+                } catch (MalformedURLException e) {
+                    // should not happen, just in case
+                    logger.log(Level.WARNING, "failed to convert ES Module base URI to URL", e);
+                }
+                return null;
+            })
+            .filter(Objects::nonNull)
+            .collect(Collectors.toList());
+        pref.putList(PreferenceKeys.PREF_KEY_GRAALVM_ES_MODULE_REPOSITORIES, entries);
+    }
+
+    /**
+     * Load the base URIs for the user defined ES Module repositories from the preferences.
+     *
+     * @param pref the preferences
+     */
+    public void loadFromPreferences(@NotNull final Preferences pref) {
+        Objects.requireNonNull(pref);
+        var builder = new ESModuleRepositoryBuilder();
+        var resolver = ESModuleResolver.getInstance();
+        var repos = pref.getList(PreferenceKeys.PREF_KEY_GRAALVM_ES_MODULE_REPOSITORIES)
+            .stream()
+            .map(value -> {
+                try {
+                    final var uri = new URI(value);
+                    return builder.build(uri);
+                } catch(IllegalESModuleBaseUri | URISyntaxException e) {
+                    final String message = String.format(
+                            "Illegal preference value for ES Module base URI. "
+                            + "Ignoring preference value. preference: key=%s, value=%s ",
+                            PreferenceKeys.PREF_KEY_GRAALVM_ES_MODULE_REPOSITORIES,
+                            value);
+                    logger.log(Level.WARNING,message, e);
+                    return null;
+                }
+            })
+            .filter(Objects::nonNull)
+            .collect(Collectors.toList());
+        setUserDefinedRepositories(repos);
     }
 }

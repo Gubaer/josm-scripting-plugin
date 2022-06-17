@@ -39,19 +39,16 @@ public class CommonJSModuleRepositoryRegistry implements IModuleResolver, IRepos
      * @param info plugin information
      * @return the URI
      */
-    static public @NotNull  Optional<URI> buildRepositoryUrlForBuiltinModules(
-            @NotNull PluginInformation info) {
+    static public @Null URI buildRepositoryUrlForBuiltinModules(@NotNull PluginInformation info) {
         Objects.requireNonNull(info);
         try {
-            final URI uri = ModuleJarURI.buildJarUri(
-                info.file.getAbsolutePath(), "/js/v2");
-            return Optional.of(uri);
+            return ModuleJarURI.buildJarUri(info.file.getAbsolutePath(), "/js/v2");
         } catch(MalformedURLException | URISyntaxException e) {
             logger.log(Level.WARNING, "Failed to create URI referring to the "
                   + "CommonJS modules in the plugin jar. Cannot load CommonJS "
                   + "modules for v2 API from the plugin jar.",e);
+            return null;
         }
-        return Optional.empty();
     }
 
     /**
@@ -283,12 +280,12 @@ public class CommonJSModuleRepositoryRegistry implements IModuleResolver, IRepos
             })
             .filter(Objects::nonNull)
             .collect(Collectors.toList());
-        pref.putList(PreferenceKeys.PREF_KEY_COMMONJS_MODULE_REPOSITORIES,
+        pref.putList(PreferenceKeys.PREF_KEY_GRAALVM_COMMONJS_MODULE_REPOSITORIES,
             entries);
     }
 
     /**
-     * Load the the base URIs for the user defined CommonJS module
+     * Load the base URIs for the user defined CommonJS module
      * repositories from preferences.
      *
      * @param pref the preferences
@@ -299,17 +296,16 @@ public class CommonJSModuleRepositoryRegistry implements IModuleResolver, IRepos
             CommonJSModuleRepositoryFactory.getInstance();
         final CommonJSModuleRepositoryRegistry repos = CommonJSModuleRepositoryRegistry.getInstance();
         repos.clear();
-        pref.getList(PreferenceKeys.PREF_KEY_COMMONJS_MODULE_REPOSITORIES)
+        pref.getList(PreferenceKeys.PREF_KEY_GRAALVM_COMMONJS_MODULE_REPOSITORIES)
             .stream()
             .map(value -> {
                 try {
                     return factory.build(value);
                 } catch(IllegalCommonJSModuleBaseURI e) {
                     final String message = String.format(
-                          "illegal preference value for CommonJS module base. "
-                        + "Ignoring preference value. "
-                        + "preference key=%s, value=%s ",
-                        PreferenceKeys.PREF_KEY_COMMONJS_MODULE_REPOSITORIES,
+                          "illegal preference value for CommonJS module base URI. "
+                        + "Ignoring preference value. preference: key=%s, value=%s ",
+                        PreferenceKeys.PREF_KEY_GRAALVM_COMMONJS_MODULE_REPOSITORIES,
                         value);
                     logger.log(Level.WARNING,message, e);
                     return null;
@@ -325,7 +321,7 @@ public class CommonJSModuleRepositoryRegistry implements IModuleResolver, IRepos
     @Override
     public @NotNull List<URI> getRepositories() {
         return userDefinedRepos.stream()
-            .map(repo -> repo.getBaseURI())
+            .map(ICommonJSModuleRepository::getBaseURI)
             .collect(Collectors.toList());
     }
 
