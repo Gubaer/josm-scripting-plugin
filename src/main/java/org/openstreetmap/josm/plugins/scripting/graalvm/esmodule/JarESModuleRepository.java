@@ -54,11 +54,13 @@ public class JarESModuleRepository extends AbstractESModuleRepository {
             root.toString(),
             relativeModulePath.normalize().toString()
         );
+        logFine(() -> MessageFormat.format("normalized relative repo path is ''{0}''", path));
 
         // try to locate a suitable zip entry
         return SUFFIXES.stream().map(suffix -> path + suffix)
             .filter(p -> {
                 var entry = jar.getEntry(p);
+                logFine(() -> MessageFormat.format("Tried relative repo path ''{0}'', found entry ''{1}''", p, entry));
                 return entry != null && !entry.isDirectory();
             })
             .findFirst()
@@ -194,10 +196,16 @@ public class JarESModuleRepository extends AbstractESModuleRepository {
                     logFine(() -> MessageFormat.format("{0}: resolution FAILED", modulePath));
                     return null;
                 }
-                return Path.of(
-                    getUniquePathPrefix().toString(),
-                    resolvedRelativeRepoPath.toString()
-                );
+                if (root.toString().isEmpty()) {
+                    return Path.of(getUniquePathPrefix().toString(), resolvedRelativeRepoPath.toString());
+                } else {
+                    return Path.of(
+                        getUniquePathPrefix().toString(),
+                        resolvedRelativeRepoPath.subpath(
+                            root.getNameCount(),
+                            resolvedRelativeRepoPath.getNameCount()).toString()
+                    );
+                }
             } else {
                 logFine(() -> MessageFormat.format(
                     "{0}: can''t resolve absolute module path in the file system based ES module repository with unique prefix ''{1}''",
@@ -220,7 +228,7 @@ public class JarESModuleRepository extends AbstractESModuleRepository {
             }
             return Path.of(
                 getUniquePathPrefix().toString(),
-                repoPath.toString()
+                modulePath.normalize().toString()
             );
         }
     }

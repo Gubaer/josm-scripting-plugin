@@ -105,7 +105,7 @@ class JarESModuleRepositoryTest extends BaseTestCase {
         modulePath = "./foo"
         resolvedPath = repo.resolveModulePath(modulePath)
         assertNotNull(resolvedPath)
-        assertEquals(Path.of(repo.getUniquePathPrefix().toString(), "foo.mjs"), resolvedPath)
+        assertEquals(Path.of(repo.getUniquePathPrefix().toString(), "foo"), resolvedPath)
 
         modulePath = "foo.mjs"
         resolvedPath = repo.resolveModulePath(modulePath)
@@ -115,7 +115,7 @@ class JarESModuleRepositoryTest extends BaseTestCase {
         modulePath = "sub/../foo"
         resolvedPath = repo.resolveModulePath(modulePath)
         assertNotNull(resolvedPath)
-        assertEquals(Path.of(repo.getUniquePathPrefix().toString(), "foo.mjs"), resolvedPath)
+        assertEquals(Path.of(repo.getUniquePathPrefix().toString(), "foo"), resolvedPath)
 
         modulePath = Path.of(repo.getUniquePathPrefix().toString(),"foo")
         resolvedPath = repo.resolveModulePath(modulePath)
@@ -125,7 +125,7 @@ class JarESModuleRepositoryTest extends BaseTestCase {
         modulePath = "sub/bar"
         resolvedPath = repo.resolveModulePath(modulePath)
         assertNotNull(resolvedPath)
-        assertEquals(Path.of(repo.getUniquePathPrefix().toString(), "sub/bar.mjs"), resolvedPath)
+        assertEquals(Path.of(repo.getUniquePathPrefix().toString(), "sub/bar"), resolvedPath)
 
         modulePath = "sub/bar.mjs"
         resolvedPath = repo.resolveModulePath(modulePath)
@@ -140,13 +140,13 @@ class JarESModuleRepositoryTest extends BaseTestCase {
         modulePath = "sub/baz/.././bar"
         resolvedPath = repo.resolveModulePath(modulePath)
         assertNotNull(resolvedPath)
-        assertEquals(Path.of(repo.getUniquePathPrefix().toString(), "sub/bar.mjs"), resolvedPath)
+        assertEquals(Path.of(repo.getUniquePathPrefix().toString(), "sub/bar"), resolvedPath)
 
         // resolves against a .js file
         modulePath = "sub/baz"
         resolvedPath = repo.resolveModulePath(modulePath)
         assertNotNull(resolvedPath)
-        assertEquals(Path.of(repo.getUniquePathPrefix().toString(), "sub/baz.js"), resolvedPath)
+        assertEquals(Path.of(repo.getUniquePathPrefix().toString(), "sub/baz"), resolvedPath)
     }
 
     @Test
