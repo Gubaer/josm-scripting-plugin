@@ -19,6 +19,7 @@ import layers from 'josm/layers'
 import {MenuBar} from 'josm/ui/menu'
 
 const josm = {}
+export default josm
 
 /**
  * Replies the current JOSM version string.
