@@ -52,7 +52,7 @@ for modules. The plugin looks for modules in two places:
   repository is either a directory in the local file system or in a jar/zip file in the local file system.
 
 
-<img src="/assets/img/v2/configure-script-repositories.png"/>
+<img src="../../assets/img/v2/configure-script-repositories.png"/>
 
 
 
