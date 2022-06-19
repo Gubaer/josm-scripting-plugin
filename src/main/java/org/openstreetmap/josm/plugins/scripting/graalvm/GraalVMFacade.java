@@ -1,6 +1,7 @@
 package org.openstreetmap.josm.plugins.scripting.graalvm;
 
 import org.graalvm.polyglot.*;
+import org.openstreetmap.josm.plugins.scripting.graalvm.esmodule.ESModuleResolver;
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
 import org.openstreetmap.josm.plugins.scripting.preferences.graalvm.GraalVMPrivilegesModel;
 
@@ -53,7 +54,9 @@ public class GraalVMFacade  implements IGraalVMFacade {
         // function can't be invoked from JavaScript scripts.
         builder
             .allowHostAccess(HostAccess.ALL)
-            .allowHostClassLookup(className -> true);
+            .allowHostClassLookup(className -> true)
+            // required to load ES Modules
+            .allowIO(true);
 
         GraalVMPrivilegesModel.getInstance().prepareContextBuilder(builder);
     }
@@ -76,7 +79,7 @@ public class GraalVMFacade  implements IGraalVMFacade {
 
     /**
      *
-     * @throws IllegalStateException throw, if no language and polyglot
+     * @throws IllegalStateException thrown, if no language and polyglot
      *  implementation was found on the classpath
      */
     private void initContext() throws IllegalStateException{
@@ -84,6 +87,7 @@ public class GraalVMFacade  implements IGraalVMFacade {
         final Context.Builder builder = Context.newBuilder("js");
         grantPrivilegesToContext(builder);
         setOptionsOnContext(builder);
+        builder.fileSystem(ESModuleResolver.getInstance());
         context = builder.build();
         populateContext(context);
         context.enter();
@@ -160,8 +164,18 @@ public class GraalVMFacade  implements IGraalVMFacade {
         Objects.requireNonNull(script);
         final String engineId = desc.getEngineId();
         ensureEngineIdPresent(engineId);
+
         try {
-            return context.eval(engineId, script);
+            final var source = Source.newBuilder(engineId, script, null)
+                .mimeType("application/javascript+module")
+                .build();
+            return context.eval(source);
+        } catch(IOException e) {
+            // shouldn't happen because we don't load the script from a file,
+            // but just in case
+            final var message = tr("Failed to create ECMAScript source object");
+            logger.log(Level.SEVERE, message, e);
+            throw new GraalVMEvalException(message, e);
         } catch(PolyglotException e) {
             final String message = MessageFormat.format(
                 tr("failed to eval script"), script
@@ -179,7 +193,9 @@ public class GraalVMFacade  implements IGraalVMFacade {
                     throws IOException, GraalVMEvalException {
         final String engineId = desc.getEngineId();
         ensureEngineIdPresent(engineId);
-        Source source = Source.newBuilder(engineId, script).build();
+        Source source = Source.newBuilder(engineId, script)
+            .mimeType("application/javascript+module")
+            .build();
         try {
             return context.eval(source);
         } catch(PolyglotException e) {

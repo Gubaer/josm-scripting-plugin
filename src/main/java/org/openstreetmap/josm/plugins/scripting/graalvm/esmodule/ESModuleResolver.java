@@ -183,12 +183,12 @@ public class ESModuleResolver implements FileSystem, IRepositoriesSource  {
         if (p.isAbsolute() && ! startsWithESModuleRepoPathPrefix(p)) {
             return fullIO.getPath(path);
         }
-        var resolvedPath = userDefinedRepos.stream().map(repo -> repo.resolveModulePath(path))
+        var resolvedPath = Stream.concat(Stream.ofNullable(apiRepo), userDefinedRepos.stream())
+            .map(repo -> repo.resolveModulePath(path))
             .filter(Objects::nonNull)
             .findFirst()
             .orElse(null);
         return Objects.requireNonNullElseGet(resolvedPath, () -> fullIO.getPath(path));
-
     }
 
     /**
@@ -301,6 +301,7 @@ public class ESModuleResolver implements FileSystem, IRepositoriesSource  {
      */
     @Override
     public List<URI> getRepositories() {
+        // only the user defined repos, without the built-in API repo
         return userDefinedRepos.stream()
             .map(IESModuleRepository::getBaseURI)
             .collect(Collectors.toUnmodifiableList());
