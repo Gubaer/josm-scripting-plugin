@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Manipulating Data
-parent: API V2
+parent: API V3
 nav_order: 3
 ---
 
@@ -35,7 +35,7 @@ Invoke a constructor of the Java class to create a node, a way, or a relation.
 const Node = Java.type('org.openstreetmap.josm.data.osm.Node')
 const Relation = Java.type('org.openstreetmap.josm.data.osm.Relation')
 const LatLon = Java.type('org.openstreetmap.josm.data.coor.LatLon')
-const console = require('josm/scriptingconsole')
+import console from 'josm/scriptingconsole'
 
 // Create a new node at position [12.45, 45.56]
 const node = new Node(new LatLon(12.45, 45.56))
@@ -50,8 +50,8 @@ The JOSM Scripting Plugin includes three [builders][josm/builder]{:target="apido
 
 
 ```js
-const console = require('josm/scriptingconsole')
-const { NodeBuilder, RelationBuilder } = require('josm/builder')
+import console from 'josm/scriptingconsole'
+import { NodeBuilder, RelationBuilder } from 'josm/builder'
 
 let node
 // Create a new node at position [12.45, 45.56]
@@ -83,8 +83,8 @@ See javadoc for
 A few examples:
 
 ```js
-const console = require('josm/scriptingconsole')
-const { NodeBuilder, RelationBuilder } = require('josm/builder')
+import console from 'josm/scriptingconsole'
+import { NodeBuilder, RelationBuilder } from 'josm/builder'
 const LatLon = Java.type('org.openstreetmap.josm.data.coor.LatLon')
 
 let node = NodeBuilder.create({lat: 12.45, lon: 45.56})
@@ -122,8 +122,8 @@ There are two main differences between detached primitives and those attached to
     notifies listeners only once about data change events for the entire batch:
 
     ```js
-    const { NodeBuilder, RelationBuilder } = require('josm/builder')
-    const { DataSetUtil, DataSet } = require('josm/ds')
+    import { NodeBuilder, RelationBuilder } from 'josm/builder'
+    import { DataSetUtil, DataSet } from 'josm/ds'
     const LatLon = Java.type('org.openstreetmap.josm.data.coor.LatLon')
 
     let dsutil = new DataSetUtil(new DataSet())
@@ -248,8 +248,8 @@ console.println(`num restaurants: ${restaurants.length}`)
 [DataSet]: https://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/DataSet.html
 [OsmPrimitive]: https://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/OsmPrimitive.html
 [AbstractPrimitive]: https://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/AbstractPrimitive.html
-[NodeBuilder]: ../../api/v2/module-josm_builder-NodeBuilder.html
-[WayBuilder]: ../../api/v2/module-josm_builder-WayBuilder.html
-[RelationBuilder]: ../../api/v2/module-josm_builder-RelationBuilder.html
-[josm/builder]: ../../api/v2/module-josm_builder.html
-[josm/command]: ../../api/v2/module-josm_command.html
+[NodeBuilder]: ../../api/v3/module-josm_builder-NodeBuilder.html
+[WayBuilder]: ../../api/v3/module-josm_builder-WayBuilder.html
+[RelationBuilder]: ../../api/v3/module-josm_builder-RelationBuilder.html
+[josm/builder]: ../../api/v3/module-josm_builder.html
+[josm/command]: ../../api/v3/module-josm_command.html

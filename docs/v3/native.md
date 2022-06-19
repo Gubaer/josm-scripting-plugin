@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Using native Java
-parent: API V2
+parent: API V23
 nav_order: 3
 ---
 
@@ -13,7 +13,7 @@ You can import Java class with `Java.type(...)`.
 
 
 ```js
-const console = require('josm/scriptingconsole')
+import console from 'josm/scriptingconsole'
 
 // declare a Java type before using it
 const LatLon = Java.type('org.openstreetmap.josm.data.coor.LatLon')
