@@ -23,8 +23,17 @@ const OsmServerBackreferenceReader = Java.type('org.openstreetmap.josm.io.OsmSer
 const Preferences = Java.type('org.openstreetmap.josm.data.Preferences')
 const Bounds = Java.type('org.openstreetmap.josm.data.Bounds')
 const LatLon = Java.type('org.openstreetmap.josm.data.coor.LatLon')
+const BoundingBoxDownloader = Java.type('org.openstreetmap.josm.io.BoundingBoxDownloader')
 
 import * as util from 'josm/util'
+
+/**
+ * Specification of position as lat/lon-pair.
+ * 
+ * @typedef LatLonSpec
+ * @property {number} lat  the latitude
+ * @property {number} lon  the longitude
+ */
 
 /**
  * Creates a {@class org.openstreetmap.josm.data.coor.LatLon} from a
@@ -34,14 +43,11 @@ import * as util from 'josm/util'
  * import { buildLatLon } from 'josm/api'
  * const pos = buildLatLon({lat: 1, lon: 2});
  *
- * @param {object} obj  a javascript object with two number properties
- *    <code>lat:</code> and <code>lon:</code>
- * @name buildLatLon
+ * @param {module:josm/api~LatLonSpec} obj  a specification of the position
  * @static
  * @returns {org.openstreetmap.josm.data.coor.LatLon}
  * @summary Create a {@class org.openstreetmap.josm.data.coor.LatLon}
  *      from a javascript object.
- * @function
  */
 export function buildLatLon(obj) {
   util.assert(util.isSomething(obj), 'obj: must not be null or undefined');
@@ -61,6 +67,34 @@ export function buildLatLon(obj) {
 }
 
 /**
+ * Specification of a bounds as JavaScript object.
+ * 
+ * @typedef BoundsSpec1 
+ * @property {number} minlat 
+ * @property {number} minlon
+ * @property {number} maxlat
+ * @property {number} maxlon
+ * @example
+ * const bounds = {
+ *    minlat: 46.9479186, minlon: 7.4619484,
+ *    maxlat: 46.9497642, maxlon: 7.4660683
+ * }
+ */
+
+/**
+ * Specification of a bounds as JavaScript object.
+ * 
+ * @typedef BoundsSpec2 
+ * @property {module:josm/api~LatLonSpec} min the upper left point
+ * @property {module:josm/api~LatLonSpec} max the lower right point
+ * @example 
+ * const bounds = {
+ *    min: {lat: 46.9479186, lon: 7.4619484},
+ *    max: {lat: 46.9497642, lon: 7.4660683}
+ * }
+ */
+
+/**
  * Creates a {@class org.openstreetmap.josm.data.Bounds} instance from a javascript object.
  *
  * @example
@@ -75,10 +109,8 @@ export function buildLatLon(obj) {
  *    max: {lat: 46.9497642, lon: 7.4660683}
  * })
  *
- * @param {object} obj  a javascript object
+ * @param {BoundsSpec1|BoundsSpec2} obj  a javascript object
  * @returns {org.openstreetmap.josm.data.Bounds} the bounds
- * @name buildBounds
- * @function
  * @static
  */
 export function buildBounds(obj) {
@@ -96,7 +128,6 @@ export function buildBounds(obj) {
       return obj[name]
   }
 
-
   function normalizeLon(obj,name) {
       util.assert(util.isDef(obj[name]),
           '{0}: missing mandatory property', name)
@@ -109,9 +140,9 @@ export function buildBounds(obj) {
 
   if (util.isDef(obj.minlat)) {
       const minlat = normalizeLat(obj.minlat)
-      const minlon = normalizeLat(obj.minlon)
+      const minlon = normalizeLon(obj.minlon)
       const maxlat = normalizeLat(obj.maxlat)
-      const maxlon = normalizeLat(obj.maxlon)
+      const maxlon = normalizeLon(obj.maxlon)
       return new Bounds(minlat, minlon, maxlat, maxlon)
   } else if (util.isDef(obj.min)) {
       const min = buildLatLon(obj.min)
@@ -146,15 +177,7 @@ export class ChangesetApi {
 
   /**
    * Creates and opens a changeset
-   *
-   * <ul>
-   *   <li><code>open()</code>  - open a new changeset with no tags</li>
-   *   <li><code>open(aChangeset)</code>  - open a new changeset with the tags
-   *   from <code>aChangeset</code></li>
-   *   <li><code>open(anObject)</code>  - open a new changeset with the tags
-   *   given by the properties of <code>anObject</code></li>
-   * </ul>
-   *
+   * 
    * @example
    * import { ChangesetApi } from 'josm/api'
    * const Changeset = Java.type('org.openstreetmap.josm.data.osm.Changeset')
@@ -181,15 +204,15 @@ export class ChangesetApi {
         break
 
       case 1:
-        var o = arguments[0]
+        let o = arguments[0]
         if (o instanceof Changeset) {
           cs = o
         } else if (typeof o === 'object') {
           cs = new Changeset()
-          for (var p in o) {
+          for (let p in o) {
             if (!util.hasProp(o, p)) continue
-            var key = p
-            var value = o[p]
+            let key = p
+            let value = o[p]
             key = util.trim(key)
             value = value + '' // convert to string
             cs.put(key, value)
@@ -205,21 +228,13 @@ export class ChangesetApi {
         util.assert(false, 'Unexpected number of arguments, got {0}',
           arguments.length)
     }
-    var api = OsmApi.getOsmApi()
+    const api = OsmApi.getOsmApi()
     api.openChangeset(cs, NullProgressMonitor.INSTANCE)
     return cs
   }
 
   /**
    * Closes a changeset
-   *
-   * <dl>
-   *   <dt><code class='signature'>close(id)</code></dt>
-   *   <dd class="param-desc">closes the changeset with the given id</dd>
-   *
-   *   <dt><code class='signature'>close(aChangeset)</code><dt>
-   *   <dd class="param-desc">Xloses the changeset given by <code>aChangeset</code></dd>
-   * </dl>
    *
    * @example
    * import { ChangesetApi } from 'josm/api'
@@ -271,12 +286,7 @@ export class ChangesetApi {
 
   /**
    * Updates a changeset
-   *
-   * <dl>
-   *   <dt><code class='signature'>update(aChangeset)</code></dt>
-   *   <dd class="param-desc">Updates the changeset <code>aChangeset</code></dd>
-   * </dl>
-   *
+   * 
    * @example
    * import { ChangesetApi } from 'josm/api'
    * const Changeset = Java.type('org.openstreetmap.josm.data.osm.Changeset')
@@ -318,16 +328,6 @@ export class ChangesetApi {
 
   /**
    * Get a changeset from the server
-   *
-   * <dl>
-   *   <dt><code class='signature>get(aChangeset)</code></dt>
-   *   <dd class="param-desc">Gets the changeset specified by <code>aChangeset</code>. aChangset
-   *   must be an instance of <code>Changeset</code>.
-   *   aChangeset.id &gt 0 expected.</dd>
-   *
-   *   <dt><code class='signature'>get(id)</code></dt>
-   *   <dd class="param-desc">gets the changeset for the id. id must be a number &gt 0.</dd>
-   * </dl>
    *
    * @example
    * import { ChangesetApi } from 'josm/api'
@@ -390,14 +390,12 @@ export class ChangesetApi {
  * // download node 12345
  * const ds = Api.downloadObject(12345, 'node')
  *
- * @class
  * @summary Collection of static methods to download objects from and upload objects
  *  to the OSM server
- * @name Api
  */
 export class Api {
 
-  #normalizeType (type) {
+  static #normalizeType (type) {
     util.assert(util.isSomething(type), 'type must not be null or undefined')
     if (util.isString(type)) {
       try {
@@ -415,22 +413,22 @@ export class Api {
     return type
   }
 
-  #normalizeId (id) {
+  static #normalizeId (id) {
     util.assert(util.isSomething(id), 'id must not be null or nothing')
     util.assert(util.isNumber(id), 'Expected a number as id, got {0}', id)
     util.assert(id > 0, 'Expected a positive number as id, got {0}', id)
     return id
   }
 
-  #primitiveIdFromObject(o) {
+  static #primitiveIdFromObject(o) {
     util.assert(util.hasProp(o, 'id'),
       'Mandatory property \'\'id\'\' is missing in object {0}', o)
     util.assert(util.hasProp(o, 'type'),
       'Mandatory property \'\'type\'\' is missing in object {0}', o)
-    return new SimplePrimitiveId(normalizeId(o.id), normalizeType(o.type))
+    return new SimplePrimitiveId(Api.#normalizeId(o.id), Api.#normalizeType(o.type))
   }
 
-  #downloadObject1() {
+  static #downloadObject1() {
     let id
     const o = arguments[0]
     util.assert(util.isSomething(o),
@@ -438,7 +436,7 @@ export class Api {
     if (o instanceof PrimitiveId) {
       id = o
     } else if (typeof o === 'object') {
-      id = this.#primitiveIdFromObject(o)
+      id = Api.#primitiveIdFromObject(o)
     } else {
       util.assert(false, 'Argument 0: unexpected type, got {0}', o)
     }
@@ -447,14 +445,14 @@ export class Api {
     return ds
   }
 
-  #optionFull(options) {
+  static #optionFull(options) {
     if (!util.hasProp(options, 'full')) return undefined
     var o = options.full
     if (typeof o === 'boolean') return o
     util.assert('Expected a boolean value for option \'\'full\'\', got {0}', o)
   }
 
-  #optionVersion(options) {
+  static #optionVersion(options) {
     if (!util.hasProp(options, 'version')) return undefined
     var o = options.version
     util.assert(util.isNumber(o),
@@ -464,15 +462,14 @@ export class Api {
     return o
   }
 
-  #downloadObject2 () {
-    let self = this
+  static #downloadObject2 () {
     function parseOptions (arg) {
       const options = { full: undefined, version: undefined }
       if (!(typeof arg === 'object')) {
         return options
       }
-      options.full = self.#optionFull(arg)
-      options.version = self.#optionVersion(arg)
+      options.full = Api.#optionFull(arg)
+      options.version = Api.#optionVersion(arg)
       return options
     }
 
@@ -480,14 +477,14 @@ export class Api {
     let options = { full: undefined, version: undefined }
 
     if (util.isNumber(arguments[0])) {
-      id = this.#normalizeId(arguments[0])
-      var type = this.#normalizeType(arguments[1])
+      id = Api.#normalizeId(arguments[0])
+      var type = Api.#normalizeType(arguments[1])
       id = new SimplePrimitiveId(id, type)
     } else if (arguments[0] instanceof PrimitiveId) {
       id = arguments[0]
       options = parseOptions(arguments[1])
     } else if (typeof arguments[0] === 'object') {
-      id = this.#primitiveIdFromObject(arguments[0])
+      id = Api.#primitiveIdFromObject(arguments[0])
       options = parseOptions(arguments[1])
     } else {
       util.assert(false, 'Unsupported types of arguments')
@@ -498,20 +495,20 @@ export class Api {
     } else {
       reader = new OsmServerObjectReader(id, !!options.full)
     }
-    var ds = reader.parseOsm(null /* null progress monitor */)
+    const ds = reader.parseOsm(null /* null progress monitor */)
     return ds
   }
 
-  #downloadObject3 () {
+  static #downloadObject3 () {
     const options = { full: undefined, version: undefined }
-    let n = this.#normalizeId(arguments[0])
-    let type = this.#normalizeType(arguments[1])
+    let n = Api.#normalizeId(arguments[0])
+    let type = Api.#normalizeType(arguments[1])
     let id = new SimplePrimitiveId(n, type)
 
     util.assert(typeof arguments[2] === 'object',
       'Expected an object with named parameters, got {0}', arguments[2])
-    options.full = optionFull(arguments[2])
-    options.version = optionVersion(arguments[2])
+    options.full = Api.#optionFull(arguments[2])
+    options.version = Api.#optionVersion(arguments[2])
     let reader
     if (util.isDef(options.version)) {
       reader = new OsmServerObjectReader(id, options.version)
@@ -579,10 +576,11 @@ export class Api {
    * const ds3 = Api.downloadObject(id, {full: true})
    *
    * // download version 5 of the full way 12345 (including its nodes)
-   * const ds4 = Api.downloadObject(12345, OsmPrimitiveType.WAY, {version: 5})
+   * const ds4 = Api.downloadObject(12345, OsmPrimitiveType.WAY, {full: true, version: 5})
    *
    * @returns {org.openstreetmap.josm.data.osm.DataSet} the downloaded primitives
    * @param args see description and examples
+   * @static
    */
   static downloadObject() {
     switch (arguments.length) {
@@ -591,13 +589,13 @@ export class Api {
           arguments.length)
         break
       case 1:
-        return downloadObject1.apply(this, arguments)
+        return Api.#downloadObject1(...arguments)
 
       case 2:
-        return downloadObject2.apply(this, arguments)
+        return Api.#downloadObject2(...arguments)
 
       case 3:
-        return downloadObject3.apply(this, arguments)
+        return Api.#downloadObject3(...arguments)
 
       default:
         util.assert(false, 'Unexpected number of arguments, got {0}',
@@ -605,7 +603,7 @@ export class Api {
     }
   }
 
-  #downloadReferrer1 () {
+  static #downloadReferrer1 () {
     let id
     const o = arguments[0]
     util.assert(util.isSomething(o),
@@ -613,23 +611,22 @@ export class Api {
     if (o instanceof PrimitiveId) {
       id = o
     } else if (typeof o === 'object') {
-      id = this.#primitiveIdFromObject(o)
+      id = Api.#primitiveIdFromObject(o)
     } else {
       util.assert(false, 'Argument 0: unexpected type, got {0}', o)
     }
-    const reader = new OsmServerBackreferenceReader(id.getUniqueId(),
-      id.getType())
+    const reader = new OsmServerBackreferenceReader(id.getUniqueId(),id.getType())
     const ds = reader.parseOsm(NullProgressMonitor.INSTANCE)
     return ds
   }
 
-  #downloadReferrer2 () {
+  static #downloadReferrer2 () {
     let id
     let type
     const options = { full: undefined }
     if (util.isNumber(arguments[0])) {
-      id = this.#normalizeId(arguments[0])
-      type = this.#normalizeType(arguments[1])
+      id = Api.#normalizeId(arguments[0])
+      type = Api.#normalizeType(arguments[1])
       id = new SimplePrimitiveId(id, type)
     } else if (arguments[0] instanceof PrimitiveId) {
       id = arguments[0]
@@ -637,15 +634,15 @@ export class Api {
       if (util.isSomething(o)) {
         util.assert(typeof o === 'object',
           'Expected an object with named parameters, got {0}', o)
-        options.full = optionFull(o)
+        options.full = Api.#optionFull(o)
       }
     } else if (typeof arguments[0] === 'object') {
-      id = this.#primitiveIdFromObject(arguments[0])
+      id = Api.#primitiveIdFromObject(arguments[0])
       const o = arguments[1]
       if (util.isSomething(o)) {
         util.assert(typeof o === 'object',
           'Expected an object with named parameters, got {0}', o)
-        options.full = optionFull(o)
+        options.full = Api.#optionFull(o)
       }
     } else {
       util.assert(false, 'Unsupported types of arguments')
@@ -659,15 +656,15 @@ export class Api {
     return ds
   }
 
-  #downloadReferrer3 () {
+  static #downloadReferrer3 () {
     const options = { full: undefined }
-    const n = this.#normalizeId(arguments[0])
-    const type = this.#normalizeType(arguments[1])
+    const n = Api.#normalizeId(arguments[0])
+    const type = Api.#normalizeType(arguments[1])
     const id = new SimplePrimitiveId(n, type)
 
     util.assert(typeof arguments[2] === 'object',
       'Expected an object with named parameters, got {0}', arguments[2])
-    options.full = optionFull(arguments[2])
+    options.full = Api.#optionFull(arguments[2])
 
     const reader = new OsmServerBackreferenceReader(id.getUniqueId(),
       id.getType())
@@ -762,13 +759,13 @@ export class Api {
         break
 
       case 1:
-        return downloadReferrer1.apply(this, arguments)
+        return Api.#downloadReferrer1(...arguments)
 
       case 2:
-        return downloadReferrer2.apply(this, arguments)
+        return Api.#downloadReferrer2(...arguments)
 
       case 3:
-        return downloadReferrer3.apply(this, arguments)
+        return Api.#downloadReferrer3(...arguments)
 
       default:
         util.assert(false, 'Unexpected number of arguments, got {0}',
@@ -792,20 +789,14 @@ export class Api {
    * })
    *
    * @returns {org.openstreetmap.josm.data.osm.DataSet} the downloaded primitives
-   * @param {org.openstreetmap.josm.data.Bounds|object} bounds the bounding box
+   * @param {org.openstreetmap.josm.data.Bounds|module:josm/api~BoundsSpec1|module:josm/api~BoundsSpec12} bounds the bounding box
    */
   static downloadArea() {
-    const BoundingBoxDownloader =
-      Java.type('org.openstreetmap.josm.io.BoundingBoxDownloader')
-    const NullProgressMonitor =
-      Java.type('org.openstreetmap.josm.gui.progress.NullProgressMonitor')
-    const Bounds = Java.type('org.openstreetmap.josm.data.Bounds')
 
     util.assert(arguments.length === 1, 'Expected 1 argument, got {0}',
       arguments.length)
     let bounds = arguments[0]
-    util.assert(util.isSomething(bounds),
-      'bounds: must not be null or undefined')
+    util.assert(util.isSomething(bounds),'bounds: must not be null or undefined')
     if (bounds instanceof Bounds) {
       // do nothing
     } else if (typeof bounds === 'object') {
@@ -885,11 +876,12 @@ export class Api {
    * import { WayBuilder } from 'josm/builder'
    * import { Api } from 'josm/api'
    * const ds = new DataSet()
+   * const nb = NodeBuilder.forDataSet(ds)
    * WayBuilder
    *  .forDataSet(ds)
    *  .withNodes(
-   *     ds.nodeBuilder.withTags({name: 'node1'}).create(),
-   *     ds.nodeBuilder.withTags({name: 'node2'}.create()
+   *     nb.withTags({name: 'node1'}).create(),
+   *     nb.withTags({name: 'node2'}.create()
    *  )
    *  .withTags({name: 'way1'})
    *  .create()
