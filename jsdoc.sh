@@ -75,6 +75,7 @@ prepare_output_dir $OUTPUT_DIR
 
 # the path to the jsdoc templates and project specific js modules
 TEMPLATE_PATH=$(pwd)/docstrap/template
+#TEMPLATE_PATH=$HOME/repositories/docstrap/template
 
 # add the template path to the node path if not yet present
 if [ "$(echo $NODE_PATH | tr ":" "\n" | grep $TEMPLATE_PATH)" == "" ] ; then
@@ -99,7 +100,7 @@ case "$API_VERSION" in
     ;;
 
   all)
-    for version in "v1 v2 v3" ; do
+    for version in v1 v2 v3 ; do
       echo "Generating documentation for API version '$version' in '$OUTPUT_DIR/$version' ..."
       jsdoc \
           -c jsdoc.$version.conf \
