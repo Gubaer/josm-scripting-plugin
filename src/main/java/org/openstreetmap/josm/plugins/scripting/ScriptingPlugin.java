@@ -10,6 +10,7 @@ import org.openstreetmap.josm.plugins.Plugin;
 import org.openstreetmap.josm.plugins.PluginClassLoader;
 import org.openstreetmap.josm.plugins.PluginHandler;
 import org.openstreetmap.josm.plugins.PluginInformation;
+import org.openstreetmap.josm.plugins.scripting.graalvm.GraalVMFacadeFactory;
 import org.openstreetmap.josm.plugins.scripting.graalvm.commonjs.CommonJSModuleRepositoryRegistry;
 import org.openstreetmap.josm.plugins.scripting.graalvm.commonjs.JarJSModuleRepository;
 import org.openstreetmap.josm.plugins.scripting.graalvm.esmodule.ESModuleRepositoryBuilder;
@@ -98,6 +99,7 @@ public class ScriptingPlugin extends Plugin implements PreferenceKeys{
         }
     }
 
+    @SuppressWarnings("unused")
     public ScriptingPlugin(PluginInformation info) {
         this(info, false /* not in test environment */);
     }
@@ -109,8 +111,10 @@ public class ScriptingPlugin extends Plugin implements PreferenceKeys{
             installResourceFiles();
             installScriptsMenu();
             initLocalInstallation();
-            initGraalVMJSModuleRepository(info);
-            initGraalVMESModuleRepositories(info);
+            if (GraalVMFacadeFactory.isGraalVMPresent()) {
+                initGraalVMJSModuleRepository(info);
+                initGraalVMESModuleRepositories(info);
+            }
             SyntaxConstantsEngine.getInstance().loadRules(this);
             final RhinoEngine engine = RhinoEngine.getInstance();
             engine.initScope();
