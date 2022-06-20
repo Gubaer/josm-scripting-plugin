@@ -696,80 +696,80 @@ export class DataSetUtil {
     }
   }
 
- /**
- * Queries the dataset
- * <p>
- * <strong>Signatures</strong>
- * <dl>
- *   <dt><code class="signature">query(josmSearchExpression,?options)</code>
- *   </dt>
- *   <dd class="param-desc">Queries the dataset using the JOSM search expression
- *   <code>josmSearchExpression</code>.
- *   <code>josmSearchExpression</code> is a string as you would enter it in
- *   the JOSM search dialog. <code>options</code> is an (optional) object
- *   with named parameters, see below.</dd>
- *
- *   <dt><code class="signature">query(predicate,?options)</code></dt>
- *   <dd class="param-desc">Queries the dataset using a javascript predicate function
- *   <code>predicate</code>.  <code>predicate</code> is a javascript
- *   function which accepts a object as parameter and replies
- *   true, when it matches for the object ans false otherwise.
- *   <code>options</code> is an (optional) object with named parameters,
- *   see below.</dd>
- * </dl>
- *
- * The parameter <code>options</code> consist of the following (optional)
- * named parameters:
- * <dl>
- *   <dt><code class="signature">allElements</code> : boolean
- *   (Deprecated parameter names:
- *       <code class="signature">all</code>)</dt>
- *   <dd class="param-desc">If true, searches <em>all</em> objects in the dataset. If false,
- *   ignores incomplete or deleted
- *   objects. Default: false.</dd>
- *
- *   <dt><code class="signature">caseSensitive</code> : boolean</dt>
- *   <dd class="param-desc"><strong>Only applicable for searches with a JOSM search
- *   expression</strong>. If true,  searches case sensitive. If false,
- *   searches case insensitive. Default: false.</dd>
- *
- *   <dt><code class="signature">regexSearch</code> : boolean (Deprecated
- *       parameter names:
- *        <code class="signature">withRegexp</code>,
- *       <code class="signature">regexpSearch</code>)</dt>
- *   <dd class="param-desc"><strong>Only applicable for searches with a JOSM search
- *   expression</strong>. If true,  the search expression contains regular
- *   expressions. If false, it includes only plain strings for searching.
- *   Default: false.</dd>
- *
- *   <dt><code class="signature">mapCSSSearch</code></dt>
- *   <dd class="param-desc"><strong>Only applies for searches with a JOSM search
- *   expression</strong>.
- *    Default: false.</dd>
- * </dl>
- *
- * @example
- * import { DataSetUtil } from 'josm/ds'
- * const dsutil = new DataSetUtil()
- * // add or load primitives to query
- * // ...
- *
- * // query restaurants
- * const result1 = dsutil.query('amenity=restaurant')
- *
- * // query all nodes with a type query
- * const result2 = dsutil.query('type:node')
- *
- * // query using a custom predicate - all primitives
- * // with exactly two tags
- * const result3 = dsutil.query((primitive) => {
- *   primitive.getKeys().size() === 2
- * })
- *
- * @param {string|function} expression  the match expression
- * @param {object} [options] additional named parameters
- * @instance
- */
+  /**
+   * Queries the dataset
+   * <p>
+   * <strong>Signatures</strong>
+   * <dl>
+   *   <dt><code class="signature">query(josmSearchExpression,?options)</code>
+   *   </dt>
+   *   <dd class="param-desc">Queries the dataset using the JOSM search expression
+   *   <code>josmSearchExpression</code>.
+   *   <code>josmSearchExpression</code> is a string as you would enter it in
+   *   the JOSM search dialog. <code>options</code> is an (optional) object
+   *   with named parameters, see below.</dd>
+   *
+   *   <dt><code class="signature">query(predicate,?options)</code></dt>
+   *   <dd class="param-desc">Queries the dataset using a javascript predicate function
+   *   <code>predicate</code>.  <code>predicate</code> is a javascript
+   *   function which accepts a object as parameter and replies
+   *   true, when it matches for the object ans false otherwise.
+   *   <code>options</code> is an (optional) object with named parameters,
+   *   see below.</dd>
+   * </dl>
+   *
+   * The parameter <code>options</code> consist of the following (optional)
+   * named parameters:
+   * <dl>
+   *   <dt><code class="signature">allElements</code> : boolean
+   *   (Deprecated parameter names:
+   *       <code class="signature">all</code>)</dt>
+   *   <dd class="param-desc">If true, searches <em>all</em> objects in the dataset. If false,
+   *   ignores incomplete or deleted
+   *   objects. Default: false.</dd>
+   *
+   *   <dt><code class="signature">caseSensitive</code> : boolean</dt>
+   *   <dd class="param-desc"><strong>Only applicable for searches with a JOSM search
+   *   expression</strong>. If true,  searches case sensitive. If false,
+   *   searches case insensitive. Default: false.</dd>
+   *
+   *   <dt><code class="signature">regexSearch</code> : boolean (Deprecated
+   *       parameter names:
+   *        <code class="signature">withRegexp</code>,
+   *       <code class="signature">regexpSearch</code>)</dt>
+   *   <dd class="param-desc"><strong>Only applicable for searches with a JOSM search
+   *   expression</strong>. If true,  the search expression contains regular
+   *   expressions. If false, it includes only plain strings for searching.
+   *   Default: false.</dd>
+   *
+   *   <dt><code class="signature">mapCSSSearch</code></dt>
+   *   <dd class="param-desc"><strong>Only applies for searches with a JOSM search
+   *   expression</strong>.
+   *    Default: false.</dd>
+   * </dl>
+   *
+   * @example
+   * import { DataSetUtil } from 'josm/ds'
+   * const dsutil = new DataSetUtil()
+   * // add or load primitives to query
+   * // ...
+   *
+   * // query restaurants
+   * const result1 = dsutil.query('amenity=restaurant')
+   *
+   * // query all nodes with a type query
+   * const result2 = dsutil.query('type:node')
+   *
+   * // query using a custom predicate - all primitives
+   * // with exactly two tags
+   * const result3 = dsutil.query((primitive) => {
+   *   primitive.getKeys().size() === 2
+   * })
+   *
+   * @param {string|function} expression  the match expression
+   * @param {object} [options] additional named parameters
+   * @instance
+   */
   query (expression, options) {
     const SearchSetting = Java.type('org.openstreetmap.josm.data.osm.search.SearchSetting')
     const SearchCompiler = Java.type('org.openstreetmap.josm.data.osm.search.SearchCompiler')
