@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>JOSM Scripting Plugin - JavaScript API V3 Source: josm/builder/relation-builder.mjs</title>
+
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<link type="text/css" rel="stylesheet" href="styles/sunlight.default.css">
+
+	<link type="text/css" rel="stylesheet" href="styles/site.cosmo.css">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top navbar-inverse">
+<div class="container">
+	<div class="navbar-header">
+		<a class="navbar-brand" href="index.html">JOSM Scripting Plugin - JavaScript API V3</a>
+		<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#topNavigation">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+        </button>
+	</div>
+	<div class="navbar-collapse collapse" id="topNavigation">
+		<ul class="nav navbar-nav">
+			
+			<li class="dropdown">
+				<a href="modules.list.html" class="dropdown-toggle" data-toggle="dropdown">Modules<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="module-clipboard.html">clipboard</a></li><li><a href="module-josm.html">josm</a></li><li><a href="module-josm_api.html">josm/api</a></li><li><a href="module-josm_builder.html">josm/builder</a></li><li><a href="module-josm_builder_node.html">josm/builder/node</a></li><li><a href="module-josm_builder_relation.html">josm/builder/relation</a></li><li><a href="module-josm_builder_way.html">josm/builder/way</a></li><li><a href="module-josm_command.html">josm/command</a></li><li><a href="module-josm_ds.html">josm/ds</a></li><li><a href="module-josm_layers.html">josm/layers</a></li><li><a href="module-josm_scriptingconsole.html">josm/scriptingconsole</a></li><li><a href="module-josm_ui_menu.html">josm/ui/menu</a></li><li><a href="module-josm_unittest.html">josm/unittest</a></li><li><a href="module-josm_util.html">josm/util</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="module-josm_api.ChangesetApi.html">josm/api.ChangesetApi</a></li><li><a href="module-josm_api-Api.html">josm/api~Api</a></li><li><a href="module-josm_api-ApiConfig.html">josm/api~ApiConfig</a></li><li><a href="module-josm_builder_node-NodeBuilder.html">josm/builder/node~NodeBuilder</a></li><li><a href="module-josm_builder_relation-RelationBuilder.html">josm/builder/relation~RelationBuilder</a></li><li><a href="module-josm_builder_way-WayBuilder.html">josm/builder/way~WayBuilder</a></li><li><a href="module-josm_command.ChangeCommand.html">josm/command.ChangeCommand</a></li><li><a href="module-josm_command.CommandHistory.html">josm/command.CommandHistory</a></li><li><a href="module-josm_command.DeleteCommand.html">josm/command.DeleteCommand</a></li><li><a href="module-josm_command-AddCommand.html">josm/command~AddCommand</a></li><li><a href="module-josm_ds.DataSetUtil.html">josm/ds.DataSetUtil</a></li><li><a href="module-josm_layers.Layers.html">josm/layers.Layers</a></li><li><a href="module-josm_ui_menu-MenuBar.html">josm/ui/menu~MenuBar</a></li><li><a href="NodeBuilder.NodeBuilder.html">NodeBuilder.NodeBuilder</a></li>
+				</ul>
+			</li>
+			
+		</ul>
+        
+            <div class="col-sm-3 col-md-3">
+                <form class="navbar-form" role="search">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search" name="q" id="search-input">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default" id="search-submit"><i class="glyphicon glyphicon-search"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        
+	</div>
+
+</div>
+</div>
+
+
+<div class="container" id="toc-content">
+<div class="row">
+
+	
+	<div class="col-md-12">
+	
+		<div id="main">
+			
+
+		<h1 class="page-title">Source: josm/builder/relation-builder.mjs</h1>
+    
+<section>
+    <article>
+        <pre
+            class="sunlight-highlight-javascript linenums">/**
+ * @module josm/builder/relation
+ */
+
+
+/* global Java */
+
+// -- imports
+const Node = Java.type('org.openstreetmap.josm.data.osm.Node')
+const Way = Java.type('org.openstreetmap.josm.data.osm.Way')
+const Relation = Java.type('org.openstreetmap.josm.data.osm.Relation')
+const RelationMember = Java.type('org.openstreetmap.josm.data.osm.RelationMember')
+const DataSet = Java.type('org.openstreetmap.josm.data.osm.DataSet')
+const OsmPrimitive = Java.type('org.openstreetmap.josm.data.osm.OsmPrimitive')
+const LatLon = Java.type('org.openstreetmap.josm.data.coor.LatLon')
+const List = Java.type('java.util.List')
+
+import * as util from 'josm/util'
+import {
+    assertGlobalId,
+    rememberId,
+    rememberTags,
+    assignTags,
+    rememberIdFromObject,
+    rememberVersionFromObject,
+    checkLat,
+    checkLon,
+    rememberPosFromObject,
+    rememberTagsFromObject
+} from './common'
+
+function receiver (that) {
+  return typeof that === 'object' ? that : new RelationBuilder()
+}
+
+/**
+* RelationBuilder helps to create OSM
+* {@class org.openstreetmap.josm.data.osm.Relation}s.
+*
+* Methods of RelationBuilder can be used in a static and in an instance
+* context.
+* It isn't necessary to create an instance of RelationBuilder, unless it is
+* configured with a {@class org.openstreetmap.josm.data.osm.DataSet},
+* which created ways are added to.
+* @example
+* import  {RelationBuilder} from 'josm/builder'
+* const DataSet = Java.type('org.openstreetmap.josm.data.osm.DataSet')
+*
+* const ds = new DataSet()
+* // create a relation builder without and underlying dataset ...
+* let rbuilder = new RelationBuilder()
+* // ... with an underlying dataset ...
+* rbuilder =  new RelationBuilder(ds)
+* // ... or using this factory method
+* rbuilder = RelationBuilder.forDataSet(ds)
+*
+* // create a new local relation
+* const r1 = rbuilder.create()
+*
+* // create a new global way
+* const r2 = rbuilder.withTags({route: 'bicycle'}).create(1111)
+*
+* // create a new proxy for a global relation
+* // (an 'incomplete' node in JOSM terminology)
+* const r3 = rbuilder.createProxy(2222)
+*
+* @class
+* @param {org.openstreetmap.josm.data.osm.DataSet} ds (optional) a JOSM
+*     dataset which created ways are added to. If missing, the created ways
+*     aren't added to a dataset.
+* @name RelationBuilder
+* @summary Helps to create {@class org.openstreetmap.josm.data.osm.Relation}s
+*/
+export function RelationBuilder(ds) {
+  if (util.isSomething(ds)) {
+    util.assert(ds instanceof DataSet, 'Expected a DataSet, got {0}', ds)
+    this.ds = ds
+  }
+  this.members = []
+}
+
+/**
+ * Creates or configures a RelationBuilder which will add created nodes
+ * to the dataset &lt;code>ds&lt;/code>.
+ *
+ * @example
+ * import {RelationBuilder} = 'josm/builder'
+ *
+ * // create a new relation builder building to a data set
+ * const DataSet = Java.type('org.openstreetmap.josm.data.osm.DataSet')
+ * const ds = new DataSet()
+ * const rb1 = RelationBuilder.forDataSet(ds)
+ *
+ * // configure an existing relation builder
+ * let rb2 = new RelationBuilder()
+ * rb2 = rb2.forDataSet(ds)
+ *
+ * @return {module:josm/builder.RelationBuilder} the relation builder
+ * @summary Creates a new RelationBuilder which adds created relations to a
+ *     dataset
+ * @param {org.openstreetmap.josm.data.osm.DataSet} ds  a JOSM
+ *     dataset which created ways are added to.
+ * @function
+ * @name forDataSet
+ * @memberof module:josm/builder~RelationBuilder
+ */
+function forDataSet (ds) {
+  const builder = receiver(this)
+  util.assert(util.isSomething(ds),
+    'Expected a non-null defined object, got {0}', ds)
+  util.assert(ds instanceof DataSet, 'Expected a JOSM dataset, got {0}', ds)
+  builder.ds = ds
+  return builder
+}
+RelationBuilder.prototype.forDataSet = forDataSet
+RelationBuilder.forDataSet = forDataSet
+
+/**
+ * Create a RelationMember
+ *
+ * &lt;dl>
+ *   &lt;dt>member(role, obj)&lt;/dt>
+ *   &lt;dd class="param-desc">Create a relation member with role &lt;var>role&lt;/var> and member object
+ *   &lt;var>obj&lt;/var>. &lt;var>role&lt;/var> can be null or undefined, obj must neither
+ *   be null nor undefinde. &lt;var>role&lt;/var> is a string, &lt;var>obj&lt;/var> is an
+ *   OSM node, a way, or a relation.
+ *   &lt;/dd>
+ *   &lt;dt>member(obj)&lt;/dt>
+ *  &lt;dd class="param-desc">Create a relation member for the member object &lt;var>obj&lt;/var>.
+ *   &lt;var>obj&lt;/var> must neither be null nor undefinde. &lt;var>obj&lt;/var> is an
+ *   OSM node, a way, or a relation. The created relation member has no role.
+ *   &lt;/dd>
+ * &lt;/dl>
+ *
+ * @example
+ * import {RelationBuilder, NodeBuilder} from 'josm/builder'
+ *
+ * // create a new RelationMember with role 'house' for a new node
+ * const m1 = RelationBuilder.member('house', NodeBuilder.create())
+ * // create a new RelationMember with an empty role for a new node
+ * const m2 = RelationBuilder.member(NodeBuilder.create())
+ *
+ * @static
+ * @returns {org.openstreetmap.josm.data.osm.RelationMember} the relation member
+ * @summary Utility function - creates a relation member
+ * @memberof module:josm/builder~RelationBuilder
+ * @name member
+ * @function
+ * @param {string} [role] the member role
+ * @param {primitive} primitive the member primitive
+ */
+function member () {
+  function normalizeObj (obj) {
+    util.assert(util.isSomething(obj),
+      'obj: must not be null or undefined')
+    util.assert(obj instanceof OsmPrimitive,
+      'obj: expected an OsmPrimitive, got {0}', obj)
+    return obj
+  }
+  function normalizeRole (role) {
+    if (util.isNothing(role)) return null
+    util.assert(util.isString(role),
+      'role: expected a string, got {0}', role)
+    return role
+  }
+  let obj
+  let role
+  switch (arguments.length) {
+    case 0: util.assert(false,
+      'Expected arguments (object) or (role, object), got 0 arguments')
+      break
+
+    case 1:
+      obj = normalizeObj(arguments[0])
+      return new RelationMember(null /* no role */, obj)
+
+    case 2:
+      role = normalizeRole(arguments[0])
+      obj = normalizeObj(arguments[1])
+      return new RelationMember(role, obj)
+
+    default:
+      util.assert(false,
+        'Expected arguments (object) or (role, object), got {0} arguments',
+        arguments.length)
+  }
+}
+
+RelationBuilder.member = member
+
+/**
+ * Declares the global relation id and the global relation version.
+ *
+ * The method can be used in a static and in an instance context.
+ *
+ * @example
+ * import {RelationBuilder} from 'josm/builder'
+ * // creates a global relation with id 1111 an version 22
+ * const r = RelationBuilder.withId(1111, 22).create()
+ *
+ * @param {number} id  (mandatory) the global relation id. A number &amp;gt; 0.
+ * @param {number} version  (optional) the global relation version. If present,
+ *    a number &amp;gt; 0. If missing, the version 1 is assumed.
+ * @returns {module:josm/builder~RelationBuilder} the relation builder (for method chaining)
+ * @summary Declares the relation id and version.
+ * @memberof module:josm/builder~RelationBuilder
+ * @name withId
+ * @function
+ * @instance
+ */
+function withId (id, version) {
+  const builder = receiver(this)
+  rememberId(builder, id, version)
+  return builder
+}
+RelationBuilder.prototype.withId = withId
+RelationBuilder.withId = withId
+
+/**
+ * Declares the tags to be assigned to the new relation.
+ *
+ * The method can be used in a static and in an instance context.
+ *
+ * @example
+ * import {RelationBuilder} from 'josm/builder'
+ * // a new global relation with the global id 1111 and tags route='bicycle'
+ * //and name='n8'
+ * const r1 = RelationBuilder.withTags({name:'n8', route:'bicycle'}).create(1111)
+ *
+ * // a new local relation with tags name=test and highway=road
+ * const tags = {
+ *      name  : 'n8',
+ *      route : 'bicycle'
+ * }
+ * const r2 = RelationBuilder.withTags(tags).create()
+ *
+ * @param {object} [tags]  the tags
+ * @returns {module:josm/builder~RelationBuilder} a relation builder (for method chaining)
+ * @summary Declares the tags to be assigned to the new relation.
+ * @memberof module:josm/builder~RelationBuilder
+ * @name withTags
+ * @function
+ * @instance
+ */
+function withTags (tags) {
+  const builder = receiver(this)
+  rememberTags(builder, tags)
+  return builder
+}
+RelationBuilder.prototype.withTags = withTags
+RelationBuilder.withTags = withTags
+
+/**
+ * Creates a new &lt;em>proxy&lt;/em> relation. A proxy relation is a relation,
+ * for which we only know its global id. In order to know more details
+ * (members, tags, etc.), we would have to download it from the OSM server.
+ *
+ *
+ * The method can be used in a static and in an instance context.
+ *
+ * @example
+ * import {RelationBuilder} from 'josm/builder'
+ *
+ * // a new proxy relation for the global way with id 1111
+ * const r1 = RelationBuilder.createProxy(1111)
+ *
+ * @returns {org.openstreetmap.josm.data.osm.Relation} the new proxy relation
+ * @summary Creates a new &lt;em>proxy&lt;/em> relation.
+ * @memberof module:josm/builder~RelationBuilder
+ * @function
+ * @name createProxy
+ * @instance
+ * @param {number} id the id for the proxy relation
+ */
+function createProxy (id) {
+  const builder = receiver(this)
+  if (util.isDef(id)) {
+    util.assert(util.isNumber(id) &amp;&amp; id > 0,
+      'Expected a number > 0, got {0}', id)
+    builder.id = id
+  }
+  util.assert(util.isNumber(builder.id),
+    'way id is not a number. Use .createProxy(id) or ' +
+    '.withId(id).createProxy()')
+
+  util.assert(builder.id > 0, 'Expected id > 0, got {0}', builder.id)
+  const relation = new Relation(builder.id)
+  if (builder.ds) builder.ds.addPrimitive(relation)
+  return relation
+}
+RelationBuilder.createProxy = createProxy
+RelationBuilder.prototype.createProxy = createProxy
+
+/**
+ * Declares the members of a relation.
+ *
+ * Accepts either a vararg list of relation members, nodes, ways or
+ * relations, an array of relation members, nodes ways or relations, or a
+ * Java list of members, nodes, ways or relation.
+ *
+ *
+ * The method can be used in a static and in an instance context.
+ *
+ * @example
+ * import {RelationBuilder, NodeBuilder} from 'josm/builder'
+ *
+ * const r1 = RelationBuilder.withMembers(
+ *   RelationBuilder.member('house', NodeBuilder.create()),
+ *   RelationBuilder.member('house', NodeBuilder.create())
+ * ).create()
+ *
+ * @param nodes  the list of members. See description and examples.
+ * @returns {module:josm/builder~RelationBuilder} the relation builder (for method chaining)
+ * @summary Declares the members of a relation.
+ * @memberof module:josm/builder~RelationBuilder
+ * @function
+ * @name withMembers
+ * @instance
+ */
+function withMembers () {
+  const builder = receiver(this)
+  const members = []
+
+  function remember (obj) {
+    if (util.isNothing(obj)) return
+    if (obj instanceof OsmPrimitive) {
+      members.push(new RelationMember(null, obj))
+    } else if (obj instanceof RelationMember) {
+      members.push(obj)
+    } else if (util.isArray(obj)) {
+      for (let i = 0; i &lt; obj.length; i++) remember(obj[i])
+    } else if (obj instanceof List) {
+      for (let it = obj.iterator(); it.hasNext();) remember(it.next())
+    } else {
+      util.assert(false,
+        "Can''t add object ''{0}'' as relation member", obj)
+    }
+  }
+  for (let i = 0; i &lt; arguments.length; i++) {
+    remember(arguments[i])
+  }
+  builder.members = members
+  return builder
+}
+
+RelationBuilder.withMembers = withMembers
+RelationBuilder.prototype.withMembers = withMembers
+
+function rememberMembersFromObject (builder, args) {
+  if (!util.hasProp(args, 'members')) return
+  const o = args.members
+  if (!util.isSomething(o)) return
+  util.assert(util.isArray(o) || o instanceof List,
+    'members: Expected an array or an instance of java.util.List, got {0}',
+    o)
+  builder.withMembers(o)
+}
+
+function initFromObject (builder, args) {
+  rememberIdFromObject(builder, args)
+  rememberVersionFromObject(builder, args)
+  rememberTagsFromObject(builder, args)
+  rememberMembersFromObject(builder, args)
+}
+
+/**
+ * Creates a new relation.
+ *
+ * Can be used in an instance or in a static context.
+ *
+ * &lt;strong>Optional named arguments in the parameters &lt;code>args&lt;/code>
+ * &lt;/strong>
+ * &lt;ul>
+ *   &lt;li>&lt;var>id&lt;/var> - the id of a global relation (number > 0)&lt;/li>
+ *   &lt;li>&lt;var>version&lt;/var> - the version of a global relation (number > 0)
+ *   &lt;/li>
+ *   &lt;li>&lt;var>members&lt;/var> - an array or a list of relation members, nodes,
+ *   ways, or relation&lt;/li>
+ *   &lt;li>&lt;var>tags&lt;/var> - an object with tags. Null values and undefined
+ *   values are ignored. Any other value
+ *   is converted to a string. Leading and trailing white space in keys is
+ *   removed.&lt;/li>
+ * &lt;/ul>
+ *
+ *
+ * @example
+ * import { NodeBuilder, RelationBuilder } from 'josm/builder'
+ * const member = RelationBuilder.member
+ * // create a new local relation
+ * const r1 = RelationBuilder.create()
+ *
+ * // create a new global relation
+ * const r2 = RelationBuilder.create(1111)
+ *
+ * // create a new global relation with version 3 with some tags and two
+ * // members
+ * const r3 = RelationBuilder.create(2222, {
+ *    version: 3,
+ *    tags: {type: 'route'},
+ *    members: [
+ *        member('house', NodeBuilder.create()),
+ *        member(NodeBuilder.create())
+ *    ]
+ *  })
+ *
+ * @param {number}  [id]  a global way id. If missing and not set
+ *     before using &lt;code>withId(..)&lt;/code>, creates a new local id.
+ * @param {object} [args]  additional parameters for creating the relation
+ * @returns {org.openstreetmap.josm.data.osm.Relation} the relation
+ * @summary Creates a new relation.
+ * @memberof module:josm/builder~RelationBuilder
+ * @function
+ * @name create
+ * @instance
+ */
+function create () {
+  const builder = receiver(this)
+  let arg
+  switch (arguments.length) {
+    case 0:
+      break
+    case 1:
+      arg = arguments[0]
+      util.assert(util.isSomething(arg),
+        'Argument 0: must not be null or undefined')
+      if (util.isNumber(arg)) {
+        util.assert(arg > 0, 'Argument 0: expected an id > 0, got {0}', arg)
+        builder.id = arg
+      } else if (typeof arg === 'object') {
+        initFromObject(builder, arg)
+      } else {
+        util.assert(false, "Argument 0: unexpected type, got ''{0}''", arg)
+      }
+      break
+
+    case 2:
+      arg = arguments[0]
+      util.assert(util.isSomething(arg),
+        'Argument 0: must not be null or undefined')
+      util.assert(util.isNumber(arg), 'Argument 0: must be a number')
+      util.assert(arg > 0,
+        'Expected an id > 0, got {0}', arg)
+      builder.id = arg
+
+      arg = arguments[1]
+      if (util.isSomething(arg)) {
+        util.assert(typeof arg === 'object', 'Argument 1: must be an object')
+        initFromObject(builder, arg)
+      }
+      break
+
+    default:
+      util.assert(false, 'Unexpected number of arguments, got {0}',
+        arguments.length)
+  }
+
+  let relation
+  if (util.isNumber(builder.id)) {
+    if (util.isNumber(builder.version)) {
+      relation = new Relation(builder.id, builder.version)
+    } else {
+      relation = new Relation(builder.id, 1)
+    }
+  } else {
+    relation = new Relation(0) // creates a new local reöatopm
+  }
+  assignTags(relation, builder.tags || {})
+  if (builder.members &amp;&amp; builder.members.length > 0) {
+    relation.setMembers(builder.members)
+  }
+  if (builder.ds) {
+    if (builder.ds.getPrimitiveById(relation) == null) {
+      builder.ds.addPrimitive(relation)
+    } else {
+      throw new Error(
+        'Failed to add primitive, primitive already included ' +
+        'in dataset. \n' +
+        'primitive=' + relation
+      )
+    }
+  }
+  return relation
+}
+RelationBuilder.create = create
+RelationBuilder.prototype.create = create
+</pre>
+    </article>
+</section>
+
+
+
+
+
+		</div>
+	</div>
+
+	<div class="clearfix"></div>
+
+	
+
+</div>
+</div>
+
+
+    <div class="modal fade" id="searchResults">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Search results</h4>
+          </div>
+          <div class="modal-body"></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div>
+
+
+<footer>
+
+
+	<span class="copyright">
+	© Contributors to the JOSM Scripting Plugin
+	</span>
+
+<span class="jsdoc-message">
+	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.10</a>
+	
+		on Mon Jun 20th 2022
+	
+	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
+</span>
+</footer>
+
+<script src="scripts/docstrap.lib.js"></script>
+<script src="scripts/toc.js"></script>
+
+    <script type="text/javascript" src="scripts/fulltext-search-ui.js"></script>
+
+
+<script>
+$( function () {
+	$( "[id*='$']" ).each( function () {
+		var $this = $( this );
+
+		$this.attr( "id", $this.attr( "id" ).replace( "$", "__" ) );
+	} );
+
+	$( ".tutorial-section pre, .readme-section pre, pre.prettyprint.source" ).each( function () {
+		var $this = $( this );
+
+		var example = $this.find( "code" );
+		exampleText = example.html();
+		var lang = /{@lang (.*?)}/.exec( exampleText );
+		if ( lang && lang[1] ) {
+			exampleText = exampleText.replace( lang[0], "" );
+			example.html( exampleText );
+			lang = lang[1];
+		} else {
+			var langClassMatch = example.parent()[0].className.match(/lang\-(\S+)/);
+			lang = langClassMatch ? langClassMatch[1] : "javascript";
+		}
+
+		if ( lang ) {
+
+			$this
+			.addClass( "sunlight-highlight-" + lang )
+			.addClass( "linenums" )
+			.html( example.html() );
+
+		}
+	} );
+
+	Sunlight.highlightAll( {
+		lineNumbers : true,
+		showMenu : true,
+		enableDoclinks : true
+	} );
+
+	$.catchAnchorLinks( {
+        navbarOffset: 10
+	} );
+	$( "#toc" ).toc( {
+		anchorName  : function ( i, heading, prefix ) {
+			return $( heading ).attr( "id" ) || ( prefix + i );
+		},
+		selectors   : "#toc-content h1,#toc-content h2,#toc-content h3,#toc-content h4",
+		showAndHide : false,
+		smoothScrolling: true
+	} );
+
+	$( "#main span[id^='toc']" ).addClass( "toc-shim" );
+	$( '.dropdown-toggle' ).dropdown();
+
+    $( "table" ).each( function () {
+      var $this = $( this );
+      $this.addClass('table');
+    } );
+
+} );
+</script>
+
+
+
+<!--Navigation and Symbol Display-->
+
+
+<!--Google Analytics-->
+
+
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            SearcherDisplay.init();
+        });
+    </script>
+
+
+</body>
+</html>

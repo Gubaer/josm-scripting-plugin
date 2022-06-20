@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>JOSM Scripting Plugin - JavaScript API V3 Source: josm/util.mjs</title>
+
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<link type="text/css" rel="stylesheet" href="styles/sunlight.default.css">
+
+	<link type="text/css" rel="stylesheet" href="styles/site.cosmo.css">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top navbar-inverse">
+<div class="container">
+	<div class="navbar-header">
+		<a class="navbar-brand" href="index.html">JOSM Scripting Plugin - JavaScript API V3</a>
+		<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#topNavigation">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+        </button>
+	</div>
+	<div class="navbar-collapse collapse" id="topNavigation">
+		<ul class="nav navbar-nav">
+			
+			<li class="dropdown">
+				<a href="modules.list.html" class="dropdown-toggle" data-toggle="dropdown">Modules<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="module-clipboard.html">clipboard</a></li><li><a href="module-josm.html">josm</a></li><li><a href="module-josm_api.html">josm/api</a></li><li><a href="module-josm_builder.html">josm/builder</a></li><li><a href="module-josm_builder_node.html">josm/builder/node</a></li><li><a href="module-josm_builder_relation.html">josm/builder/relation</a></li><li><a href="module-josm_builder_way.html">josm/builder/way</a></li><li><a href="module-josm_command.html">josm/command</a></li><li><a href="module-josm_ds.html">josm/ds</a></li><li><a href="module-josm_layers.html">josm/layers</a></li><li><a href="module-josm_scriptingconsole.html">josm/scriptingconsole</a></li><li><a href="module-josm_ui_menu.html">josm/ui/menu</a></li><li><a href="module-josm_unittest.html">josm/unittest</a></li><li><a href="module-josm_util.html">josm/util</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="module-josm_api.ChangesetApi.html">josm/api.ChangesetApi</a></li><li><a href="module-josm_api-Api.html">josm/api~Api</a></li><li><a href="module-josm_api-ApiConfig.html">josm/api~ApiConfig</a></li><li><a href="module-josm_builder_node-NodeBuilder.html">josm/builder/node~NodeBuilder</a></li><li><a href="module-josm_builder_relation-RelationBuilder.html">josm/builder/relation~RelationBuilder</a></li><li><a href="module-josm_builder_way-WayBuilder.html">josm/builder/way~WayBuilder</a></li><li><a href="module-josm_command.ChangeCommand.html">josm/command.ChangeCommand</a></li><li><a href="module-josm_command.CommandHistory.html">josm/command.CommandHistory</a></li><li><a href="module-josm_command.DeleteCommand.html">josm/command.DeleteCommand</a></li><li><a href="module-josm_command-AddCommand.html">josm/command~AddCommand</a></li><li><a href="module-josm_ds.DataSetUtil.html">josm/ds.DataSetUtil</a></li><li><a href="module-josm_layers.Layers.html">josm/layers.Layers</a></li><li><a href="module-josm_ui_menu-MenuBar.html">josm/ui/menu~MenuBar</a></li><li><a href="NodeBuilder.NodeBuilder.html">NodeBuilder.NodeBuilder</a></li>
+				</ul>
+			</li>
+			
+		</ul>
+        
+            <div class="col-sm-3 col-md-3">
+                <form class="navbar-form" role="search">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search" name="q" id="search-input">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default" id="search-submit"><i class="glyphicon glyphicon-search"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        
+	</div>
+
+</div>
+</div>
+
+
+<div class="container" id="toc-content">
+<div class="row">
+
+	
+	<div class="col-md-12">
+	
+		<div id="main">
+			
+
+		<h1 class="page-title">Source: josm/util.mjs</h1>
+    
+<section>
+    <article>
+        <pre
+            class="sunlight-highlight-javascript linenums">/**
+ * Provides a set of static utility functions.
+ *
+ * @module josm/util
+ */
+
+/* global Java */
+
+// -- imports
+const MessageFormat = Java.type('java.text.MessageFormat')
+
+/**
+ * Checks whether a value is null or undefined.
+ *
+ * @param {object} value  the value to check
+ * @return {boolean} false, if &lt;code>value&lt;/code> is null or undefined; true, otherwise
+ * @summary  Checks whether a value is null or undefined.
+ * @function
+ * @name isNothing
+ */
+export function isNothing(value) {
+  return value === null || value === undefined
+}
+
+/**
+ * Checks whether a value is neither null nor undefined.
+ *
+ * @param {object} value  the value to check
+ * @return {boolean} false, if &lt;code>value&lt;/code> is null or undefined; true, otherwise
+ * @summary  Checks whether a value is neither null nor undefined.
+ * @function
+ * @name isSomething
+ */
+export function isSomething(val) {
+  return !isNothing(val)
+}
+
+/**
+ * Trims leading and trailing whitespace from &lt;code>s&lt;/code>.
+ * &lt;p>
+ *
+ * Replies s, if s is null or undefined. Any other value is converted to a
+ * string, then leading and trailing white space is removed.
+ *
+ * @param {string} s  the string to be trimmed
+ * @return {string}
+ * @summary  Trims leading and trailing whitespace from &lt;code>s&lt;/code>.
+ * @function
+ * @name trim
+ */
+export function trim(s) {
+  if (isNothing(s)) {
+    return s
+  }
+  return (s + '').replace(/^\s+/, '').replace(/\s+$/, '')
+}
+
+/**
+ * Assert a condition and throw an Error if the condition isn't met.
+ *
+ * &lt;p>&lt;strong>Usage:&lt;/strong>
+ * &lt;dl>
+ *   &lt;dt>&lt;code>assert()&lt;/code>&lt;/dt>
+ *   &lt;dd class="param-desc">Does nothing&lt;/dd>
+ *
+ *    &lt;dt>&lt;code>assert(cond)&lt;/code>&lt;/dt>
+ *    &lt;dd class="param-desc">Checks the condition &lt;code>cond&lt;/code>. If it is false, throws an
+ *    Error.&lt;/dd>
+ *
+ *    &lt;dt>&lt;code>assert(cond, msg)&lt;/code>&lt;/dt>
+ *    &lt;dd class="param-desc">Checks the condition &lt;code>cond&lt;/code>. If it is false, throws an
+ *    Error, whose &lt;code>description&lt;/code> property
+ *    is set to &lt;code>msg&lt;/code>.&lt;/dd>
+ *
+ *      &lt;dt>&lt;code>assert(cond, msg, objs...)&lt;/code>&lt;/dt>
+ *    &lt;dd class="param-desc">Checks the condition &lt;code>cond&lt;/code>. If it is false, throws an
+ *    Error, whose &lt;code>description&lt;/code> property
+ *    is set to the formatted message &lt;code>msg&lt;/code>. Internally uses
+ *    &lt;code>java.text.MessageFormat&lt;/code> to format the message.&lt;/dd>
+ *
+ * &lt;/dl>
+ *
+ * @example
+ * import {assert} from 'josm/util'
+ * // throws an Error
+ * assert(false)
+ *
+ * // throws an Error e, with e.description == "My message"
+ * assert(false, "My message")
+ *
+ * // throws an Error e, with e.description == "My message: test"
+ * assert(false, "My message: {0}", "test")
+ *
+ * @summary  Assert a condition and throw an Error if the condition isn't met.
+ * @function
+ * @name assert
+ * @static
+ * @param {boolean} condition
+ * @param {string} [message]  the message
+ * @param {...object} [values] an optional list of values
+ */
+export function assert() {
+  let message, name
+  switch (arguments.length) {
+    case 0:
+      return
+
+    case 1:
+      if (arguments[0]) return
+      name = 'AssertionError'
+      message = 'An assertion failed'
+      break
+
+    case 2:
+      if (arguments[0]) return
+      name = 'AssertionError'
+      message = arguments[1]
+      break
+
+    default: {
+      if (arguments[0]) return
+      name = 'AssertionError'
+      const args = Array.prototype.slice.call(arguments, 0)
+      message = MessageFormat.format(
+        args[1],
+        args.slice(2)
+      )
+      break
+    }
+  }
+  const error = new Error(message)
+  error.name = name
+  throw error
+}
+
+/**
+ * Asserts that &lt;code>val&lt;/code> is defined and non-null.
+ *
+ * @example
+ * import {assertSomething} from 'josm/util'
+ * 
+ * assertSomething(null)     // -> throws an exception
+ * assertSomething(void 0)   // -> throws an exception
+ *
+ * assertSomting("test")     // -> OK
+ * assertSomething(5)        // -> OK
+ *
+ * @param {any} val the value to check
+ * @param {string} [msg] message if the assertion fails
+ * @param {...object} [values] additional values used in &lt;code>msg&lt;/code>
+ *   placeholders
+ * @summary  Asserts that &lt;code>val&lt;/code> is defined and non-null.
+ * @function
+ * @static
+ * @name assertSomething
+ */
+export function assertSomething(val) {
+  let args
+  if (arguments.length &lt;= 1) {
+    args = [isSomething(val),
+      'Expected a defined non-null value, got {0}', val]
+  } else {
+    args = [isSomething(val)].concat(
+      Array.prototype.slice.call(arguments, 1))
+  }
+  assert.apply(args)
+}
+
+/**
+ * Asserts that &lt;code>val&lt;/code> is a number.
+ *
+ * @param {Anything} value the value to check
+ * @param {String} [msg]  message if the assertion fails
+ * @param {...object} [values] values used in &lt;code>msg&lt;/code> placeholders
+ * @summary  Asserts that &lt;code>val&lt;/code> is a number.
+ * @function
+ * @name assertNumber
+ * @static
+ */
+export function assertNumber(val) {
+  let args = []
+  if (arguments.length &lt;= 1) {
+    args = [isSomething(val), 'Expected a number, got {0}', val]
+  } else {
+    args = [isSomething(val)]
+      .concat(Array.prototype.slice.call(arguments, 1))
+  }
+  assert.apply(args)
+}
+
+/**
+ * Returns true if  &lt;code>val&lt;/code> is defined.
+ *
+ * @param {any} value the value to check
+ * @summary  Returns true if  &lt;code>val&lt;/code> is defined.
+ * @return {boolean} true if  &lt;code>val&lt;/code> is defined
+ * @function
+ * @name isDef
+ * @static
+  */
+export function isDef(val) {
+  return val !== undefined
+}
+
+/**
+ * Returns true if  &lt;code>val&lt;/code> is a number.
+ *
+ * @param {any} value the value to check
+ * @summary  Returns true if  &lt;code>val&lt;/code> is a number.
+ * @return {boolean} true if  &lt;code>val&lt;/code> is a number
+ * @function
+ * @name isNumber
+ * @static
+ */
+export function isNumber(val) {
+  return typeof val === 'number'
+}
+
+/**
+ * Returns true if  &lt;code>val&lt;/code> is a string.
+ *
+ * @param {any} value the value to check
+ * @return {boolean} true, if val is a string or a String object
+ * @summary Returns true if  &lt;code>val&lt;/code> is a string.
+ * @function
+ * @name isString
+ * @static
+ */
+export function isString(val) {
+  return isDef(val) &amp;&amp;
+    (typeof val === 'string' || val instanceof String)
+}
+
+/**
+ * Replies true if &lt;code>val&lt;/code> is an array.
+ *
+ * @param {anything} value the value to check
+ * @return {boolean} true, if val is an array
+ * @summary Replies true if &lt;code>val&lt;/code> is an array.
+ * @function
+ * @name isArray
+ * @static
+ */
+export function isArray(val) {
+  return Object.prototype.toString.call(val) === '[object Array]'
+}
+
+/**
+ * Replies true if &lt;code>val&lt;/code> is a list of arguments.
+ *
+ * @param {anything} value the value to check
+ * @return {boolean} true, if val is a list of arguments
+ * @summary Replies true if &lt;code>val&lt;/code> is a list of arguments.
+ * @function
+ * @name isArguments
+ * @static
+ */
+export function isArguments(val) {
+  return Object.prototype.toString.call(val) === '[object Arguments]'
+}
+
+/**
+ * Replies the number of properties owned by &lt;code>o&lt;/code>.
+ *
+ * @example
+ * import {countProperties} from 'josm/util'
+ * 
+ * let o = {p1: "v1", p2: "v2"}
+ * let c = countProperties(o)   // ->  2
+ *
+ * o = {}
+ * c = countProperties(o)       // ->  0
+ *
+ * o = undefined
+ * c = countProperties(o)       // ->  undefined
+ *
+ * @param {any} o the object
+ * @summary Replies the number of properties owned by &lt;code>o&lt;/code>.
+ * @return {number} the number of properties owned by &lt;code>o&lt;/code>.
+ * @function
+ * @name countProperties
+ * @static
+ */
+export function countProperties(o) {
+  if (isNothing(o)) return undefined
+  if (!(typeof o === 'object')) return undefined
+  let count = 0
+  for (const p in o) {
+    if (hasProp(o, p)) count++
+  }
+  return count
+}
+
+/**
+ * Replies true, if &lt;code>o&lt;/code> owns at least one property.
+ *
+ * @example
+ * import {hasProperties} from 'josm/util'
+ * 
+ * let o = {p1: "v1", p2: "v2"}
+ * let c = hasProperties(o)         // ->  true
+ *
+ * o = {}
+ * c = hasProperties(o)             // ->  false
+ *
+ * o = undefined
+ * c = hasProperties(o)             // ->  false
+ *
+ * @param {any} o the object
+ * @summary Replies true, if &lt;code>o&lt;/code> owns at least one property.
+ * @return {boolean} true, if &lt;code>o&lt;/code> owns at least one property.
+ * @function
+ * @name hasProperties
+ * @static
+ */
+export function hasProperties(o) {
+  const count = countProperties(o)
+  if (count === undefined) return false
+  return count > 0
+}
+
+/**
+ * Replies true, if f is a function.
+ *
+ * @param {any} f the object
+ * @summary Replies true, if f is a function.
+ * @return {boolean} true, if f is a function.
+ * @function
+ * @name isFunction
+ * @static
+ */
+export function isFunction(f) {
+  return typeof f === 'function'
+}
+
+/**
+ * Mixes the properties of a list of objects into one object.
+ *
+ * @return a new object which includes the combined properties of the
+ *         argument objects
+ * @return {object}
+ * @summary Mixes the properties of a list of objects into one object.
+ * @function
+ * @name mix
+ * @static
+*/
+export function mix() {
+  const mixin = {}
+
+  function copyProperties (other) {
+    for (const p in other) {
+      if (!hasProp(other, p)) continue
+      mixin[p] = other[p]
+    }
+  }
+
+  for (let i = 0; i &lt; arguments.length; i++) {
+    const template = arguments[i]
+    if (isNothing(template)) continue
+    if (!(typeof template === 'object')) continue
+    copyProperties(template)
+  }
+  return mixin
+}
+
+/**
+ * Prints a message to stdout (including newline).
+ *
+ * Supports the same string templates as {@class java.text.MessageFormat}.
+ *
+ * @example
+ * import * as util from 'josm/util'
+ * 
+ * const myname = '...'
+ * util.println('Hello world! My name is {0}', myname);
+ * // escape meta characters like {, } or ' with a leading apostrophe
+ * util.println(" a pair of curly braces '{'}");
+ *
+ * @summary Prints a message to stdout (including newline).
+ * @param {string} message
+ * @param {...object} [args]
+ * @function
+ * @name println
+ * @static
+ */
+export function println() {
+  const args = Array.prototype.slice.call(arguments, 0)
+  if (args.length === 0) return ''
+  args[0] = args[0] + '' // make sure first argument is a string
+  const System = Java.type('java.lang.System')
+  System.out.println(MessageFormat.format(args[0], args.slice(1)))
+}
+
+/**
+ * Prints a message to stdout (without newline).
+ *
+ * Supports the same string templates as {@class java.text.MessageFormat}
+ *
+ * @example
+ * import * as util from 'josm/util'
+ * 
+ * const  myname = "..."
+ * util.print('Hello world! My name is {0}', myname)
+ * // escape meta characters like {, } or ' with a leading apostrophe
+ * util.print(" a pair of curly braces '{'}")
+ *
+ * @summary Prints a message to stdout (without newline).
+ * @param {string} message
+ * @param {...object} [args]
+ * @function
+ * @name print
+ * @static
+ */
+export function print() {
+  const args = Array.prototype.slice.call(arguments, 0)
+  if (args.length === 0) return ''
+  args[0] = args[0] + '' // make sure first argument is a string
+  const System = Java.type('java.lang.System')
+  System.out.print(MessageFormat.format(args[0], args.slice(1)))
+}
+
+/**
+ * Checks whether two java objects are either both null or equal by calling
+ * o1.equals(o2).
+ *
+ * @param {object} o1 a java object or null
+ * @param {object} o2 a java object or null
+ * @summary Are two java objects equal.
+ * @return {boolean}
+ * @function
+ * @name javaEquals
+ * @static
+ */
+export function javaEquals(o1, o2) {
+  assert(typeof o1 === 'object' &amp;&amp; typeof o1.equals === 'function')
+  assert(typeof o2 === 'object' &amp;&amp; typeof o2.equals === 'function')
+  if (o1 === null &amp;&amp; o2 === null) return true
+  if (o1 === null &amp;&amp; o2 !== null) return false
+  return o1.equals(o2)
+}
+
+/**
+ * Iterates over the elements in &lt;code>collection&lt;/code> and invokes
+ * &lt;code>delegate()&lt;/code> on each element.
+ *
+ * @param {array|arguments|java.util.Collection} collection the collection of
+ *   elements
+ * @param {function} delegate the function to call on each elemennt
+ * @summary Iteraties over the elements of a collection
+ * @function
+ * @name each
+ * @static
+ */
+export function each(collection, delegate) {
+  const Collection = Java.type('java.util.Collection')
+  if (isNothing(collection) || isNothing(delegate)) return
+  if (isArray(collection) || isArguments(collection)) {
+    const len = collection.length
+    for (let i = 0; i &lt; len; i++) delegate(collection[i])
+  } else if (collection instanceof Collection) {
+    for (let it = collection.iterator(); it.hasNext();) delegate(it.next())
+  } else {
+    assert(false, 'collection: unexpected type of value, got {0}"',
+      collection)
+  }
+}
+
+/**
+ * Replies true, if a value is an array, an arguments list or a Java
+ * collection.
+ *
+ * @param {object} value the value to check
+ * @summary Is a value a collection?
+ * @return {boolean} true, if &lt;code>value&lt;/code> is a collection
+ * @function
+ * @name isCollection
+ * @static
+ */
+export function isCollection(value) {
+  const Collection = Java.type('java.util.Collection')
+  return isArray(value) ||
+    isArguments(value) ||
+    value instanceof Collection
+}
+
+export function hasProp(o, name) {
+  return Object.prototype.hasOwnProperty.call(o, name)
+}
+</pre>
+    </article>
+</section>
+
+
+
+
+
+		</div>
+	</div>
+
+	<div class="clearfix"></div>
+
+	
+
+</div>
+</div>
+
+
+    <div class="modal fade" id="searchResults">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Search results</h4>
+          </div>
+          <div class="modal-body"></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div>
+
+
+<footer>
+
+
+	<span class="copyright">
+	© Contributors to the JOSM Scripting Plugin
+	</span>
+
+<span class="jsdoc-message">
+	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.10</a>
+	
+		on Mon Jun 20th 2022
+	
+	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
+</span>
+</footer>
+
+<script src="scripts/docstrap.lib.js"></script>
+<script src="scripts/toc.js"></script>
+
+    <script type="text/javascript" src="scripts/fulltext-search-ui.js"></script>
+
+
+<script>
+$( function () {
+	$( "[id*='$']" ).each( function () {
+		var $this = $( this );
+
+		$this.attr( "id", $this.attr( "id" ).replace( "$", "__" ) );
+	} );
+
+	$( ".tutorial-section pre, .readme-section pre, pre.prettyprint.source" ).each( function () {
+		var $this = $( this );
+
+		var example = $this.find( "code" );
+		exampleText = example.html();
+		var lang = /{@lang (.*?)}/.exec( exampleText );
+		if ( lang && lang[1] ) {
+			exampleText = exampleText.replace( lang[0], "" );
+			example.html( exampleText );
+			lang = lang[1];
+		} else {
+			var langClassMatch = example.parent()[0].className.match(/lang\-(\S+)/);
+			lang = langClassMatch ? langClassMatch[1] : "javascript";
+		}
+
+		if ( lang ) {
+
+			$this
+			.addClass( "sunlight-highlight-" + lang )
+			.addClass( "linenums" )
+			.html( example.html() );
+
+		}
+	} );
+
+	Sunlight.highlightAll( {
+		lineNumbers : true,
+		showMenu : true,
+		enableDoclinks : true
+	} );
+
+	$.catchAnchorLinks( {
+        navbarOffset: 10
+	} );
+	$( "#toc" ).toc( {
+		anchorName  : function ( i, heading, prefix ) {
+			return $( heading ).attr( "id" ) || ( prefix + i );
+		},
+		selectors   : "#toc-content h1,#toc-content h2,#toc-content h3,#toc-content h4",
+		showAndHide : false,
+		smoothScrolling: true
+	} );
+
+	$( "#main span[id^='toc']" ).addClass( "toc-shim" );
+	$( '.dropdown-toggle' ).dropdown();
+
+    $( "table" ).each( function () {
+      var $this = $( this );
+      $this.addClass('table');
+    } );
+
+} );
+</script>
+
+
+
+<!--Navigation and Symbol Display-->
+
+
+<!--Google Analytics-->
+
+
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            SearcherDisplay.init();
+        });
+    </script>
+
+
+</body>
+</html>

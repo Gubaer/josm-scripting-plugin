@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>JOSM Scripting Plugin - JavaScript API V3 Module: josm/command</title>
+
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<link type="text/css" rel="stylesheet" href="styles/sunlight.default.css">
+
+	<link type="text/css" rel="stylesheet" href="styles/site.cosmo.css">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top navbar-inverse">
+<div class="container">
+	<div class="navbar-header">
+		<a class="navbar-brand" href="index.html">JOSM Scripting Plugin - JavaScript API V3</a>
+		<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#topNavigation">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+        </button>
+	</div>
+	<div class="navbar-collapse collapse" id="topNavigation">
+		<ul class="nav navbar-nav">
+			
+			<li class="dropdown">
+				<a href="modules.list.html" class="dropdown-toggle" data-toggle="dropdown">Modules<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="module-clipboard.html">clipboard</a></li><li><a href="module-josm.html">josm</a></li><li><a href="module-josm_api.html">josm/api</a></li><li><a href="module-josm_builder.html">josm/builder</a></li><li><a href="module-josm_builder_node.html">josm/builder/node</a></li><li><a href="module-josm_builder_relation.html">josm/builder/relation</a></li><li><a href="module-josm_builder_way.html">josm/builder/way</a></li><li><a href="module-josm_command.html">josm/command</a></li><li><a href="module-josm_ds.html">josm/ds</a></li><li><a href="module-josm_layers.html">josm/layers</a></li><li><a href="module-josm_scriptingconsole.html">josm/scriptingconsole</a></li><li><a href="module-josm_ui_menu.html">josm/ui/menu</a></li><li><a href="module-josm_unittest.html">josm/unittest</a></li><li><a href="module-josm_util.html">josm/util</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="module-josm_api.ChangesetApi.html">josm/api.ChangesetApi</a></li><li><a href="module-josm_api-Api.html">josm/api~Api</a></li><li><a href="module-josm_api-ApiConfig.html">josm/api~ApiConfig</a></li><li><a href="module-josm_builder_node-NodeBuilder.html">josm/builder/node~NodeBuilder</a></li><li><a href="module-josm_builder_relation-RelationBuilder.html">josm/builder/relation~RelationBuilder</a></li><li><a href="module-josm_builder_way-WayBuilder.html">josm/builder/way~WayBuilder</a></li><li><a href="module-josm_command.ChangeCommand.html">josm/command.ChangeCommand</a></li><li><a href="module-josm_command.CommandHistory.html">josm/command.CommandHistory</a></li><li><a href="module-josm_command.DeleteCommand.html">josm/command.DeleteCommand</a></li><li><a href="module-josm_command-AddCommand.html">josm/command~AddCommand</a></li><li><a href="module-josm_ds.DataSetUtil.html">josm/ds.DataSetUtil</a></li><li><a href="module-josm_layers.Layers.html">josm/layers.Layers</a></li><li><a href="module-josm_ui_menu-MenuBar.html">josm/ui/menu~MenuBar</a></li><li><a href="NodeBuilder.NodeBuilder.html">NodeBuilder.NodeBuilder</a></li>
+				</ul>
+			</li>
+			
+		</ul>
+        
+            <div class="col-sm-3 col-md-3">
+                <form class="navbar-form" role="search">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search" name="q" id="search-input">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default" id="search-submit"><i class="glyphicon glyphicon-search"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        
+	</div>
+
+</div>
+</div>
+
+
+<div class="container" id="toc-content">
+<div class="row">
+
+	
+	<div class="col-md-8">
+	
+		<div id="main">
+			
+
+	<h1 class="page-title">Module: josm/command</h1>
+<section>
+
+<header>
+    
+</header>
+
+<article>
+    
+    
+
+    
+    
+    
+    </div>
+    <div class="container-overview">
+    
+        
+            <div class="description">A collection of functions to create commands which can be applied, undone
+and redone on <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/gui/layer/OsmDataLayer.html" alt="org.openstreetmap.josm.gui.layer.OsmDataLayer" target="javadoc">OsmDataLayer</a>s.</div>
+        
+
+        
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_command.mjs.html">josm/command.mjs</a>,
+				 <a href="josm_command.mjs.html#sunlight-1-line-1">line 1</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+        
+            <h3>Example</h3>
+            
+    <pre class="sunlight-highlight-javascript">import {AddCommand} from &#x27;josm/command&#x27;</pre>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Classes</h3>
+
+        <dl>
+            <dt><a href="module-josm_command.ChangeCommand.html">ChangeCommand</a></dt>
+            <dd>A command to change a collection of objects in a data layer.</dd>
+        
+            <dt><a href="module-josm_command.CommandHistory.html">CommandHistory</a></dt>
+            <dd>Accessor to the global command history</dd>
+        
+            <dt><a href="module-josm_command.DeleteCommand.html">DeleteCommand</a></dt>
+            <dd>A command to delete a collection of objects in a data layer.</dd>
+        
+            <dt><a href="module-josm_command-AddCommand.html">AddCommand</a></dt>
+            <dd>A command to add a collection of objects to a data layer</dd>
+        </dl>
+    
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        <dl>
+            
+<hr>
+<dt>
+    <h4 class="name" id=".add"><span class="type-signature">&lt;static> </span>add(primitives)</h4>
+    
+    
+    <p class="summary">Creates a command to add a collection of objects</p>
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Creates a command to add a collection of objects to a data layer.
+
+<strong>Signatures</strong>
+<dl>
+  <dt><code class="signature">add(obj, obj, ...)</code> </dt>
+  <dd class="param-desc"><code>obj</code> are <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html" alt="org.openstreetmap.josm.data.osm.Node" target="javadoc">Node</a>s,
+  <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Way.html" alt="org.openstreetmap.josm.data.osm.Way" target="javadoc">Way</a>s, or
+  <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Relations.html" alt="org.openstreetmap.josm.data.osm.Relations" target="javadoc">Relations</a>s. Or javascript array
+  or Java collections thereof.</dd>
+</dl>
+    </div>
+    
+
+    
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Argument</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>primitives</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">primitive</span>
+|
+
+<span class="param-type">Array.&lt;primitive></span>
+|
+
+<span class="param-type"><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Collection.html" alt="java.lang.Collection" target="javadoc">Collection</a></span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                    &lt;repeatable><br>
+                
+                </td>
+            
+
+            
+
+            <td class="description last">the primitives to add</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_command.mjs.html">josm/command.mjs</a>,
+				 <a href="josm_command.mjs.html#sunlight-1-line-127">line 127</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    the command object
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="module-josm_command.AddCommand.html">module:josm/command.AddCommand</a></span>
+
+
+
+    </dd>
+</dl>
+
+
+        
+
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">import {add} from &#x27;josm/command&#x27;
+import layers from &#x27;josm/layer&#x27;
+import {NodeBuilder} from &#x27;josm/builder&#x27;
+const layer  = layers.get(&#x27;Data Layer 1&#x27;)
+
+// add two nodes
+add(NodeBuilder.create(), NodeBuilder.create()).applyTo(layer)
+*</pre>
+
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id=".change"><span class="type-signature">&lt;static> </span>change()</h4>
+    
+    
+    <p class="summary">Creates a command to change a collection of objects</p>
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Creates a command to change a collection of objects in  a data layer.
+
+<strong>Signatures</strong>
+
+<dl>
+  <dt><code class="signature">change(obj,obj,..., options)</code> </dt>
+  <dd class="param-desc"><code>obj</code> are <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html" alt="org.openstreetmap.josm.data.osm.Node" target="javadoc">Node</a>s,
+  <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Way.html" alt="org.openstreetmap.josm.data.osm.Way" target="javadoc">Way</a>s, or
+  <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Relation.html" alt="org.openstreetmap.josm.data.osm.Relation" target="javadoc">Relation</a>s. Or javascript array
+  or Java collections thereof.</dd>
+</dl>
+
+The mandatory last argument is an object with named parameters. It accepts
+the following named parameters:
+<dl>
+  <dt><code class="signature">lat:number</code></dt>
+  <dd class="param-desc">Changes the latitude of the target nodes to <code>lat</code>.</dd>
+
+  <dt><code class="signature">lon:number</code></dt>
+  <dd class="param-desc">Changes the longitude of the target nodes to <code>lon</code>.</dd>
+
+  <dt><code class="signature">pos:
+      <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/coor/LatLon.html" alt="org.openstreetmap.josm.data.coor.LatLon" target="javadoc">LatLon</a>|object</code></dt>
+  <dd class="param-desc">Changes the position of the target nodes to <code>pos</code>.
+  pos is either a <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/coor/LatLon.html" alt="org.openstreetmap.josm.data.coor.LatLon" target="javadoc">LatLon</a> or an
+  object <code>{lat:..., lon:...}</code>
+  </dd>
+
+  <dt><code class="signature">tags:<a href="http://docs.oracle.com/javase/6/docs/api/java/util/Map.html" alt="java.util.Map" target="javadoc">Map</a>|object</code></dt>
+  <dd class="param-desc">Changes the tags of the target objects to <code>tags</code>.</dd>
+
+  <dt><code class="signature">nodes:<a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html" alt="java.util.List" target="javadoc">List</a>|array</code></dt>
+  <dd class="param-desc">Changes the nodes of the target way sto <code>nodes</code>.</dd>
+
+  <dt><code class="signature">members:<a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html" alt="java.util.List" target="javadoc">List</a>|array</code>
+  </dt>
+  <dd class="param-desc">Changes the nodes of the target relations to <code>members</code>.</dd>
+</dl>
+    </div>
+    
+
+    
+
+    
+
+    
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_command.mjs.html">josm/command.mjs</a>,
+				 <a href="josm_command.mjs.html#sunlight-1-line-391">line 391</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    the change command object
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="module-josm_command.ChangeCommand.html">module:josm/command.ChangeCommand</a></span>
+
+
+
+    </dd>
+</dl>
+
+
+        
+
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">import {buildChangeCommand} from &#x27;josm/command&#x27;
+import layers from &#x27;josm/layers&#x27;
+const layer = layers.get(&quot;Data Layer 1&quot;)
+
+// change the position of a node
+buildChangeCommand(n1, {lat: 123.45, lon: 44.234}).applyTo(layer)
+
+// change the tags of a collection of primitives
+buildChangeCommand(n1, n3, w1, r1, {
+   tags: {&#x27;mycustomtag&#x27;: &#x27;value&#x27;}
+}).applyTo(layer)</pre>
+
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id=".combineSelectedWays"><span class="type-signature">&lt;static> </span>combineSelectedWays()</h4>
+    
+    
+    <p class="summary">Combines the currently selected ways.</p>
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Combines the currently selected ways in the active layer into one resulting
+way.
+
+Returns without effect if
+<ul>
+  <li>there is no active layer</li>
+  <li>the active layer is not a data layer</li>
+  <li>there are less than two selected ways in the active layer</li>
+</ul>
+
+Reuses the logic behind the JOSM standard menu entry Tools-&gt;Combine Ways.
+If invoked from a script, this may trigger modal dialogs which are presented
+to the user, in particular if the direction of the ways has to be reversed
+because otherwise they could not be combined.
+    </div>
+    
+
+    
+
+    
+
+    
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_command.mjs.html">josm/command.mjs</a>,
+				 <a href="josm_command.mjs.html#sunlight-1-line-632">line 632</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">import {combineSelectedWays} from &#x27;josm/command&#x27;
+import layers from &#x27;josm/layer&#x27;
+const ds = layers.activeLayer.data
+combineSelectedWays(ways)</pre>
+
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id=".combineWays"><span class="type-signature">&lt;static> </span>combineWays(ways, ways)</h4>
+    
+    
+    <p class="summary">Combines two or more ways into one resulting way.</p>
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Combines two or more ways into one resulting way.
+<p>
+Reuses the logic behind the JOSM standard menu entry Tools-&gt;Combine Ways.
+If invoked from a script, this may trigger modal dialogs which are presented
+to the user, in particular if the direction of the ways has to be reversed
+because otherwise they could not be combined.
+    </div>
+    
+
+    
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>ways</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the ways to be combined</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>ways</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Way.html" alt="org.openstreetmap.josm.data.osm.Way" target="javadoc">Way</a></span>
+|
+
+<span class="param-type">array</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the ways to be combined</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_command.mjs.html">josm/command.mjs</a>,
+				 <a href="josm_command.mjs.html#sunlight-1-line-577">line 577</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">import {combineWays} from &#x27;josm/command&#x27;
+import layers from &#x27;josm/layer&#x27;
+const ds = layers.activeLayer.data
+const ways  = [ds.way(1), ds.way(2), ds.way(3)]
+
+// pass in an array ...
+combineWays(ways)
+// ... or the individual ways ...
+combineWays(ds.way(1), ds.way(2), ds.way(3))
+// ... or any combination thereof.</pre>
+
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id=".delete"><span class="type-signature">&lt;static> </span>delete(primitives)</h4>
+    
+    
+    <p class="summary">Creates a command to delete a collection of objects</p>
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Creates a command to delete a collection of objects in  a data layer.
+
+<strong>Signatures</strong>
+<dl>
+  <dt><code class="signature">delete(obj,obj,..., ?options)</code> </dt>
+  <dd class="param-desc"><code>obj</code> are <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html" alt="org.openstreetmap.josm.data.osm.Node" target="javadoc">Node</a>s,
+  <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Way.html" alt="org.openstreetmap.josm.data.osm.Way" target="javadoc">Way</a>s, or
+  <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Relations.html" alt="org.openstreetmap.josm.data.osm.Relations" target="javadoc">Relations</a>s. Or javascript array
+  or Java collections thereof.</dd>
+</dl>
+    </div>
+    
+
+    
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Argument</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>primitives</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">primitive</span>
+|
+
+<span class="param-type">Array.&lt;primitive></span>
+|
+
+<span class="param-type"><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Collection.html" alt="java.lang.Collection" target="javadoc">Collection</a></span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                    &lt;repeatable><br>
+                
+                </td>
+            
+
+            
+
+            <td class="description last">the primitives to delete</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_command.mjs.html">josm/command.mjs</a>,
+				 <a href="josm_command.mjs.html#sunlight-1-line-203">line 203</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    the command object
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="module-josm_command.DeleteCommand.html">module:josm/command.DeleteCommand</a></span>
+
+
+
+    </dd>
+</dl>
+
+
+        
+
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">import {buildDeleteCommand} from &#x27;josm/command&#x27;
+import layers from &#x27;josm/layer&#x27;
+import {NodeBuilder} from &#x27;josm/builder&#x27;
+const layer = layers.get(&#x27;Data Layer 1&#x27;)
+
+// delete two nodes
+buildDeleteCommand(NodeBuilder.create(),NodeBuilder.create()).applyTo(layer)
+*</pre>
+
+
+    
+</dd>
+
+        </dl>
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+		</div>
+	</div>
+
+	<div class="clearfix"></div>
+
+	
+		<div class="col-md-3">
+			<div id="toc" class="col-md-3 hidden-xs hidden-sm hidden-md"></div>
+		</div>
+	
+
+</div>
+</div>
+
+
+    <div class="modal fade" id="searchResults">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Search results</h4>
+          </div>
+          <div class="modal-body"></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div>
+
+
+<footer>
+
+
+	<span class="copyright">
+	© Contributors to the JOSM Scripting Plugin
+	</span>
+
+<span class="jsdoc-message">
+	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.10</a>
+	
+		on Mon Jun 20th 2022
+	
+	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
+</span>
+</footer>
+
+<script src="scripts/docstrap.lib.js"></script>
+<script src="scripts/toc.js"></script>
+
+    <script type="text/javascript" src="scripts/fulltext-search-ui.js"></script>
+
+
+<script>
+$( function () {
+	$( "[id*='$']" ).each( function () {
+		var $this = $( this );
+
+		$this.attr( "id", $this.attr( "id" ).replace( "$", "__" ) );
+	} );
+
+	$( ".tutorial-section pre, .readme-section pre, pre.prettyprint.source" ).each( function () {
+		var $this = $( this );
+
+		var example = $this.find( "code" );
+		exampleText = example.html();
+		var lang = /{@lang (.*?)}/.exec( exampleText );
+		if ( lang && lang[1] ) {
+			exampleText = exampleText.replace( lang[0], "" );
+			example.html( exampleText );
+			lang = lang[1];
+		} else {
+			var langClassMatch = example.parent()[0].className.match(/lang\-(\S+)/);
+			lang = langClassMatch ? langClassMatch[1] : "javascript";
+		}
+
+		if ( lang ) {
+
+			$this
+			.addClass( "sunlight-highlight-" + lang )
+			.addClass( "linenums" )
+			.html( example.html() );
+
+		}
+	} );
+
+	Sunlight.highlightAll( {
+		lineNumbers : true,
+		showMenu : true,
+		enableDoclinks : true
+	} );
+
+	$.catchAnchorLinks( {
+        navbarOffset: 10
+	} );
+	$( "#toc" ).toc( {
+		anchorName  : function ( i, heading, prefix ) {
+			return $( heading ).attr( "id" ) || ( prefix + i );
+		},
+		selectors   : "#toc-content h1,#toc-content h2,#toc-content h3,#toc-content h4",
+		showAndHide : false,
+		smoothScrolling: true
+	} );
+
+	$( "#main span[id^='toc']" ).addClass( "toc-shim" );
+	$( '.dropdown-toggle' ).dropdown();
+
+    $( "table" ).each( function () {
+      var $this = $( this );
+      $this.addClass('table');
+    } );
+
+} );
+</script>
+
+
+
+<!--Navigation and Symbol Display-->
+
+
+<!--Google Analytics-->
+
+
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            SearcherDisplay.init();
+        });
+    </script>
+
+
+</body>
+</html>

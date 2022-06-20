@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>JOSM Scripting Plugin - JavaScript API V3 Class: MenuBar</title>
+
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<link type="text/css" rel="stylesheet" href="styles/sunlight.default.css">
+
+	<link type="text/css" rel="stylesheet" href="styles/site.cosmo.css">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top navbar-inverse">
+<div class="container">
+	<div class="navbar-header">
+		<a class="navbar-brand" href="index.html">JOSM Scripting Plugin - JavaScript API V3</a>
+		<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#topNavigation">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+        </button>
+	</div>
+	<div class="navbar-collapse collapse" id="topNavigation">
+		<ul class="nav navbar-nav">
+			
+			<li class="dropdown">
+				<a href="modules.list.html" class="dropdown-toggle" data-toggle="dropdown">Modules<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="module-clipboard.html">clipboard</a></li><li><a href="module-josm.html">josm</a></li><li><a href="module-josm_api.html">josm/api</a></li><li><a href="module-josm_builder.html">josm/builder</a></li><li><a href="module-josm_builder_node.html">josm/builder/node</a></li><li><a href="module-josm_builder_relation.html">josm/builder/relation</a></li><li><a href="module-josm_builder_way.html">josm/builder/way</a></li><li><a href="module-josm_command.html">josm/command</a></li><li><a href="module-josm_ds.html">josm/ds</a></li><li><a href="module-josm_layers.html">josm/layers</a></li><li><a href="module-josm_scriptingconsole.html">josm/scriptingconsole</a></li><li><a href="module-josm_ui_menu.html">josm/ui/menu</a></li><li><a href="module-josm_unittest.html">josm/unittest</a></li><li><a href="module-josm_util.html">josm/util</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="module-josm_api.ChangesetApi.html">josm/api.ChangesetApi</a></li><li><a href="module-josm_api-Api.html">josm/api~Api</a></li><li><a href="module-josm_api-ApiConfig.html">josm/api~ApiConfig</a></li><li><a href="module-josm_builder_node-NodeBuilder.html">josm/builder/node~NodeBuilder</a></li><li><a href="module-josm_builder_relation-RelationBuilder.html">josm/builder/relation~RelationBuilder</a></li><li><a href="module-josm_builder_way-WayBuilder.html">josm/builder/way~WayBuilder</a></li><li><a href="module-josm_command.ChangeCommand.html">josm/command.ChangeCommand</a></li><li><a href="module-josm_command.CommandHistory.html">josm/command.CommandHistory</a></li><li><a href="module-josm_command.DeleteCommand.html">josm/command.DeleteCommand</a></li><li><a href="module-josm_command-AddCommand.html">josm/command~AddCommand</a></li><li><a href="module-josm_ds.DataSetUtil.html">josm/ds.DataSetUtil</a></li><li><a href="module-josm_layers.Layers.html">josm/layers.Layers</a></li><li><a href="module-josm_ui_menu-MenuBar.html">josm/ui/menu~MenuBar</a></li><li><a href="NodeBuilder.NodeBuilder.html">NodeBuilder.NodeBuilder</a></li>
+				</ul>
+			</li>
+			
+		</ul>
+        
+            <div class="col-sm-3 col-md-3">
+                <form class="navbar-form" role="search">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search" name="q" id="search-input">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default" id="search-submit"><i class="glyphicon glyphicon-search"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        
+	</div>
+
+</div>
+</div>
+
+
+<div class="container" id="toc-content">
+<div class="row">
+
+	
+	<div class="col-md-8">
+	
+		<div id="main">
+			
+
+	<h1 class="page-title">Class: MenuBar</h1>
+<section>
+
+<header>
+    
+        <h2>
+            <span class="ancestors"><a href="module-josm_ui_menu.html">josm/ui/menu</a>~</span>
+        
+        MenuBar
+        </h2>
+        
+    
+</header>
+
+<article>
+    
+    
+
+    
+    
+    
+    </div>
+    <div class="container-overview">
+    
+        
+<hr>
+<dt>
+    <h4 class="name" id="MenuBar"><span class="type-signature"></span>new MenuBar()</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Represents JOSMs global menu bar.
+    </div>
+    
+
+    
+
+    
+
+    
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_ui_menu.mjs.html">josm/ui/menu.mjs</a>,
+				 <a href="josm_ui_menu.mjs.html#sunlight-1-line-13">line 13</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Members</h3>
+
+        <dl>
+            
+<hr>
+<dt class="name" id=".JSAction">
+    <h4 id=".JSAction"><span class="type-signature">&lt;static> </span>JSAction<span class="type-signature"></span></h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        JSAction is an action for which a menu item or a toolbar item can be
+added to  JOSMs menu or JOSMs toolbar respectively.
+
+This is just a shortcut for the Java class
+<a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/plugins/scripting/js/JSAction.html" alt="org.openstreetmap.josm.plugins.scripting.js.JSAction" target="javadoc">JSAction</a>.
+
+The constructor accepts an object with the following optional named
+parameters.
+<dl>
+  <dt><code class="signature">name:string</code></dt>
+  <dd class="param-desc">The optional name of the action. Default: an auto generated name.</dd>
+
+  <dt><code class="signature">tooltip:string</code></dt>
+  <dd class="param-desc">The optional tooltip of the action. Default: empty string.</dd>
+
+  <dt><code class="signature">iconName:string</code></dt>
+  <dd class="param-desc">The optional name of an icon. Default: null.</dd>
+
+  <dt><code class="signature">toolbarId:string</code></dt>
+  <dd class="param-desc">The optional name of the tooblar to which this action is added.
+  Note that it isn't added automatically, when this action is created. Default: null.</dd>
+
+  <dt><code class="signature">onExecute:function</code></dt>
+  <dd class="param-desc">The (optional) function which is called when the action is executed.
+  Default: null.</dd>
+
+  <dt><code class="signature">onInitEnabled:function</code></dt>
+  <dd class="param-desc">The (optional) function which is called when the <em>enabled</em>
+  state of the function is evaluated the first time. Default: null.</dd>
+
+  <dt><code class="signature">onUpdateEnabled:function</code></dt>
+  <dd class="param-desc">The (optional) function which is called when the <em>enabled</em>
+  state of the function is reevaluated, in particular, when layer change
+  events or selection change events occur. Default: null.</dd>
+</dl>
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    <dl>
+
+<table class="props table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>JSAction</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">org.openstreetmap.josm.plugins.scripting.graalvm.JSAction</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+</dl>
+
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_ui_menu.mjs.html">josm/ui/menu.mjs</a>,
+				 <a href="josm_ui_menu.mjs.html#sunlight-1-line-120">line 120</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">import {JSAction} from &#x27;josm/ui/menu&#x27;
+import * as util from &#x27;josm/util&#x27;
+import josm from &#x27;josm&#x27;
+const JMenuItem = Java.type(&#x27;javax.swing.JMenuItem&#x27;)
+
+// create the menu action
+const helloWorldAction = new JSAction({
+  name: &quot;My Action&quot;,
+  iconName: &#x27;myicon&#x27;,
+  toolbarId: &#x27;myToolbarId&#x27;,
+  tooltip: &quot;This is my action&quot;,
+
+  onInitEnabled: function() {
+    util.println(&#x27;onInitEnabled: entering ...&#x27;)
+  },
+
+  onUpdateEnabled: function() {
+    util.println(&#x27;onUpdateEnabled: entering ...&#x27;)
+  },
+
+  onExecute: function() {
+    util.println(&#x27;Hello World!&#x27;)
+  }
+})
+
+// register a new menu item in the file menu
+const fileMenu = josm.menu.get(&#x27;file&#x27;)
+fileMenu.addSeparator()
+fileMenu.add(new JMenuItem(helloWorldAction))</pre>
+
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt class="name" id=".length">
+    <h4 id=".length"><span class="type-signature">&lt;static> </span>length<span class="type-signature"></span></h4>
+
+    
+    <p class="summary">the number of menus in the JOSM menu bar</p>
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        Replies the number of menus in the JOSM menu bar.
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    <dl>
+
+<table class="props table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>length</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the number of menues</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+</dl>
+
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_ui_menu.mjs.html">josm/ui/menu.mjs</a>,
+				 <a href="josm_ui_menu.mjs.html#sunlight-1-line-21">line 21</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">import josm from &#x27;josm&#x27;
+// display the number of menus
+josm.alert(josm.menu.length)</pre>
+
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt class="name" id=".menuNames">
+    <h4 id=".menuNames"><span class="type-signature">&lt;static, readonly> </span>menuNames<span class="type-signature"></span></h4>
+
+    
+    <p class="summary">Replies an array with the symbolic menu names.</p>
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        Replies an array with the symbolic menu names.
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    <dl>
+
+<table class="props table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>menuNames</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">array</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the names of the menues in the menu bar</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+</dl>
+
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_ui_menu.mjs.html">josm/ui/menu.mjs</a>,
+				 <a href="josm_ui_menu.mjs.html#sunlight-1-line-102">line 102</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+</dd>
+
+        </dl>
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        <dl>
+            
+<hr>
+<dt>
+    <h4 class="name" id="get"><span class="type-signature"></span>get(key)</h4>
+    
+    
+    <p class="summary">Replies a menu in the JOSM menu bar.</p>
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Replies a menu in the JOSM menu bar.
+
+<code>key</code> is either a numberic index or one of the following
+symbolic names as string:
+<ul>
+  <li><code>file</code></li>
+  <li><code>edit</code></li>
+  <li><code>view</code></li>
+  <li><code>tools</code></li>
+  <li><code>presets</code></li>
+  <li><code>imagery</code></li>
+  <li><code>window</code></li>
+  <li><code>help</code></li>
+</ul>
+    </div>
+    
+
+    
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>key</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+|
+
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the key denoting the menu</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_ui_menu.mjs.html">josm/ui/menu.mjs</a>,
+				 <a href="josm_ui_menu.mjs.html#sunlight-1-line-43">line 43</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    the menu
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="http://docs.oracle.com/javase/6/docs/api/javax/swing/JMenu.html" alt="javax.swing.JMenu" target="javadoc">JMenu</a></span>
+
+
+
+    </dd>
+</dl>
+
+
+        
+
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">import josm from &#x27;josm&#x27;
+// get the edit menu with a numeric index
+const editmenu = josm.menu.get(1)
+
+// get the file menu with a symbolic name
+const filemenu = josm.menu.get(&#x27;file&#x27;)</pre>
+
+
+    
+</dd>
+
+        </dl>
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+		</div>
+	</div>
+
+	<div class="clearfix"></div>
+
+	
+		<div class="col-md-3">
+			<div id="toc" class="col-md-3 hidden-xs hidden-sm hidden-md"></div>
+		</div>
+	
+
+</div>
+</div>
+
+
+    <div class="modal fade" id="searchResults">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Search results</h4>
+          </div>
+          <div class="modal-body"></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div>
+
+
+<footer>
+
+
+	<span class="copyright">
+	© Contributors to the JOSM Scripting Plugin
+	</span>
+
+<span class="jsdoc-message">
+	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.10</a>
+	
+		on Mon Jun 20th 2022
+	
+	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
+</span>
+</footer>
+
+<script src="scripts/docstrap.lib.js"></script>
+<script src="scripts/toc.js"></script>
+
+    <script type="text/javascript" src="scripts/fulltext-search-ui.js"></script>
+
+
+<script>
+$( function () {
+	$( "[id*='$']" ).each( function () {
+		var $this = $( this );
+
+		$this.attr( "id", $this.attr( "id" ).replace( "$", "__" ) );
+	} );
+
+	$( ".tutorial-section pre, .readme-section pre, pre.prettyprint.source" ).each( function () {
+		var $this = $( this );
+
+		var example = $this.find( "code" );
+		exampleText = example.html();
+		var lang = /{@lang (.*?)}/.exec( exampleText );
+		if ( lang && lang[1] ) {
+			exampleText = exampleText.replace( lang[0], "" );
+			example.html( exampleText );
+			lang = lang[1];
+		} else {
+			var langClassMatch = example.parent()[0].className.match(/lang\-(\S+)/);
+			lang = langClassMatch ? langClassMatch[1] : "javascript";
+		}
+
+		if ( lang ) {
+
+			$this
+			.addClass( "sunlight-highlight-" + lang )
+			.addClass( "linenums" )
+			.html( example.html() );
+
+		}
+	} );
+
+	Sunlight.highlightAll( {
+		lineNumbers : true,
+		showMenu : true,
+		enableDoclinks : true
+	} );
+
+	$.catchAnchorLinks( {
+        navbarOffset: 10
+	} );
+	$( "#toc" ).toc( {
+		anchorName  : function ( i, heading, prefix ) {
+			return $( heading ).attr( "id" ) || ( prefix + i );
+		},
+		selectors   : "#toc-content h1,#toc-content h2,#toc-content h3,#toc-content h4",
+		showAndHide : false,
+		smoothScrolling: true
+	} );
+
+	$( "#main span[id^='toc']" ).addClass( "toc-shim" );
+	$( '.dropdown-toggle' ).dropdown();
+
+    $( "table" ).each( function () {
+      var $this = $( this );
+      $this.addClass('table');
+    } );
+
+} );
+</script>
+
+
+
+<!--Navigation and Symbol Display-->
+
+
+<!--Google Analytics-->
+
+
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            SearcherDisplay.init();
+        });
+    </script>
+
+
+</body>
+</html>
