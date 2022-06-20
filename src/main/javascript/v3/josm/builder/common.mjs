@@ -1,6 +1,8 @@
 
 import * as util from 'josm/util'
 
+const LatLon = Java.type('org.openstreetmap.josm.data.coor.LatLon')
+
 export function assertGlobalId (id) {
   util.assertSomething(id, 'Expected a defined, non-null object id, got {0}',
     id)
