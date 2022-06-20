@@ -25,12 +25,8 @@ function consoleWriter () {
  * // or use formatting
  * print('Hello world! My name is {0}', 'foo')
  *
- * @summary  Prints a string to the console
  * @param {string} message the message
  * @param {...object} [values] optional values
- * @static
- * @name print
- * @function
  */
 export function print() {
   const args = Array.prototype.slice.call(arguments, 0)
@@ -59,12 +55,8 @@ export function print() {
  * println('Hello world!')
  *
  * // or use formatting
- * ('Hello world! My name is {0}', 'foo')
+ * println('Hello world! My name is {0}', 'foo')
  *
- * @summary  Prints a string to the console, including newline
- * @static
- * @name println
- * @function
  * @param {string} message  the message
  * @param {...object} [values] optional values
  */
@@ -94,10 +86,6 @@ export function println() {
  * import * as console from 'josm/scriptingconsole'
  * console.clear()
  *
- * @summary  Clears the scripting console.
- * @function
- * @name clear
- * @static
  */
 export function clear() {
   const action = ScriptingConsole.getInstance().getScriptLog().getClearAction()
@@ -110,11 +98,6 @@ export function clear() {
  * @example
  * import * as console from 'josm/scriptingconsole'
  * console.show()
- *
- * @summary Shows the scripting console
- * @function
- * @name show
- * @static
  */
 export function show() {
   ScriptingConsole.showScriptingConsole()
@@ -126,11 +109,6 @@ export function show() {
  * @example
  * import * as console from 'josm/scriptingconsole'
  * console.hide()
- *
- * @summary Hides the scripting console
- * @function
- * @name hide
- * @static
  */
 export function hide() {
   ScriptingConsole.hideScriptingConsole()
@@ -142,11 +120,6 @@ export function hide() {
  * @example
  * import * as console from 'josm/scriptingconsole'
  * console.toggle()
- *
- * @summary Toggles the visibility of the scripting console
- * @function
- * @name toggle
- * @static
  */
 export function toggle() {
   ScriptingConsole.toggleScriptingConsole()
