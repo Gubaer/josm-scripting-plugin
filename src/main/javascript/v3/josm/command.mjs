@@ -4,7 +4,11 @@
  *
  * @module josm/command
  * @example
- *  import {AddCommand} from 'josm/command'
+ *  import {
+ *    buildAddCommand,
+ *    buildChangeCommand,
+ *    buildDeleteCommand
+ * } from 'josm/command'
  */
 
 /* global Java */
@@ -141,11 +145,11 @@ export class AddCommand extends AbstractCommand {
  *   NodeBuilder.create()
  * ).applyTo(layer)
  * 
- * @param {...(primitive | primitive[] | java.lang.Collection )} primitives the primitives to add
+ * @param {...(org.openstreetmap.josm.data.osm.OsmPrimitive | org.openstreetmap.josm.data.osm.OsmPrimitive[] | java.lang.Collection )} obj the primitives to add
  * @returns {module:josm/command.AddCommand} the command object
  */
 export function buildAddCommand(){
-  const objs = checkAndFlatten(arguments)
+  const objs = toArray(checkAndFlatten(arguments))
   return new AddCommand(objs)
 }
 
@@ -157,7 +161,7 @@ export function buildAddCommand(){
 export class DeleteCommand extends AbstractCommand {
   constructor(objs) {
     super()
-    this._objs = checkAndFlatten(objs)
+    this._objs = toArray(checkAndFlatten(objs))
   }
 
   /**
@@ -168,36 +172,28 @@ export class DeleteCommand extends AbstractCommand {
    */
   createJOSMCommand(layer) {
     super.ensureOsmDataLayer(layer)
-    return JavaDeleteCommand.delete(this._objs, true /* alsoDeleteNodesInWay */, true /* silent */)
+    const list = new ArrayList()
+    this._objs.forEach(obj => list.add(obj))
+    return JavaDeleteCommand.delete(list, true /* alsoDeleteNodesInWay */, true /* silent */)
   }
 }
 
 /**
  * Creates a command to delete a collection of objects in  a data layer.
  *
- * <strong>Signatures</strong>
- * <dl>
- *   <dt><code class="signature">buildDeleteCommand(obj,obj,..., ?options)</code> </dt>
- *   <dd class="param-desc"><code>obj</code> are {@class org.openstreetmap.josm.data.osm.Node}s,
- *   {@class org.openstreetmap.josm.data.osm.Way}s, or
- *   {@class org.openstreetmap.josm.data.osm.Relations}s. Or javascript array
- *   or Java collections thereof.</dd>
- * </dl>
- *
  * @example
  * import {buildDeleteCommand} from 'josm/command'
  * import layers from 'josm/layer'
  * import {NodeBuilder} from 'josm/builder'
  * const layer = layers.get('Data Layer 1')
- *
  * // delete two nodes
  * buildDeleteCommand(NodeBuilder.create(),NodeBuilder.create()).applyTo(layer)
  * *
- * @param {...(primitive | primitive[] | java.lang.Collection )} primitives the primitives to delete
+ * @param {...(org.openstreetmap.josm.data.osm.OsmPrimitive | org.openstreetmap.josm.data.osm.OsmPrimitive[] | java.lang.Collection )} obj the primitives to delete
  * @returns {module:josm/command.DeleteCommand} the command object
  */
 export function buildDeleteCommand() {
-  return new DeleteCommand(checkAndFlatten(arguments))
+  return new DeleteCommand(toArray(checkAndFlatten(arguments)))
 }
 
 function scheduleLatChangeFromPara (para, change) {
@@ -321,7 +317,7 @@ function changeFromParameters (para) {
 export class ChangeCommand extends AbstractCommand {
   constructor(objs, change) {
     super()
-    this._objs = checkAndFlatten(objs)
+    this._objs = toArray(checkAndFlatten(objs))
     this._change = change
   }
 
@@ -333,49 +329,58 @@ export class ChangeCommand extends AbstractCommand {
    */
   createJOSMCommand(layer) {
     super.ensureOsmDataLayer(layer)
-    return new ChangeMultiCommand(layer, this._objs, this._change)
+    const list = new ArrayList()
+    this._objs.forEach(obj => list.add(obj))
+    return new ChangeMultiCommand(layer, list, this._change)
   }
 }
 
 /**
+ * A lat/lon position as a JavaScript object.
+ * 
+ * @typedef {Object} LatLonSpec
+ * @property {number} lat the latitude of the position
+ * @property {number} lon the longitude of the position
+ * @example
+ * const latLonSpec = {
+ *  lat: 1.0,
+ *  lon: 1.0
+ * }
+ */
+
+/**
+ * The change specification for a change command.
+ * 
+ * @typedef {Object} ChangeSpec
+ * @property {number} lat  if present and applied to a node, changes the nodes latitude
+ * @property {number} lon  if present and applied to a node, changes the nodes longitude
+ * @property {org.openstreetmap.josm.data.coor.LatLon| module:josm/command~LatLonSpec} pos if present and applied to a node,
+ *  changes the nodes position
+ * @property {java.util.Map | object} tags if present, changes the tags of the target object
+ * @property {java.util.List | org.openstreetmap.josm.data.osm.OsmPrimitive[]} nodes if present and applied to a way, changes
+ *   the ways nodes 
+ * @property {java.util.List | org.openstreetmap.josm.data.osm.RelationMember[]} nodes if present and applied to a relation, changes
+ *   the relations members
+ * 
+ * @example
+ * // change the positon of a node 
+ * const changeSpec1 = {
+ *    lat: 1.0,
+ *    lon: 2.0
+ * }
+ * 
+ * // change the tags of one or more primitives
+ * const changeSpec2 = {
+ *    tags: {
+ *       amentity: 'restaurant' 
+ *    }
+ * }
+ */
+
+/**
  * Creates a command to change a collection of objects in  a data layer.
  *
- * <strong>Signatures</strong>
- *
- * <dl>
- *   <dt><code class="signature">buildChangeCommand(obj,obj,..., options)</code> </dt>
- *   <dd class="param-desc"><code>obj</code> are {@class org.openstreetmap.josm.data.osm.Node}s,
- *   {@class org.openstreetmap.josm.data.osm.Way}s, or
- *   {@class org.openstreetmap.josm.data.osm.Relation}s. Or javascript array
- *   or Java collections thereof.</dd>
- * </dl>
- *
- * The mandatory last argument is an object with named parameters. It accepts
- * the following named parameters:
- * <dl>
- *   <dt><code class="signature">lat:number</code></dt>
- *   <dd class="param-desc">Changes the latitude of the target nodes to <code>lat</code>.</dd>
- *
- *   <dt><code class="signature">lon:number</code></dt>
- *   <dd class="param-desc">Changes the longitude of the target nodes to <code>lon</code>.</dd>
- *
- *   <dt><code class="signature">pos:
- *       {@class org.openstreetmap.josm.data.coor.LatLon}|object</code></dt>
- *   <dd class="param-desc">Changes the position of the target nodes to <code>pos</code>.
- *   pos is either a {@class org.openstreetmap.josm.data.coor.LatLon} or an
- *   object <code>{lat:..., lon:...}</code>
- *   </dd>
- *
- *   <dt><code class="signature">tags:{@class java.util.Map}|object</code></dt>
- *   <dd class="param-desc">Changes the tags of the target objects to <code>tags</code>.</dd>
- *
- *   <dt><code class="signature">nodes:{@class java.util.List}|array</code></dt>
- *   <dd class="param-desc">Changes the nodes of the target way sto <code>nodes</code>.</dd>
- *
- *   <dt><code class="signature">members:{@class java.util.List}|array</code>
- *   </dt>
- *   <dd class="param-desc">Changes the nodes of the target relations to <code>members</code>.</dd>
- * </dl>
+ * The mandatory last argument is an object with named parameters.
  *
  * @example
  * import {buildChangeCommand} from 'josm/command'
@@ -391,8 +396,8 @@ export class ChangeCommand extends AbstractCommand {
  * }).applyTo(layer)
  *
  * @returns {module:josm/command.ChangeCommand} the change command object
- * @param {java.util.Collection|array} objs  the objects to change
- * @param {object} change  the change specification
+ * @param {...(org.openstreetmap.josm.data.osm.OsmPrimitive | org.openstreetmap.josm.data.osm.OsmPrimitive[] | java.lang.Collection )} objs  the objects to change. See documentation.
+ * @param {module:josm/command~ChangeSpec} change  the change specification
  */
 export function buildChangeCommand() {
   let objs = []
@@ -474,7 +479,6 @@ export class CommandHistory {
       undoRedoHandler.redo()
     }
   }
-
 
   /**
    * Removes commands in the command history, either all commands, or only the
