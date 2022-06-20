@@ -80,8 +80,8 @@ PropertyChangeListener, HyperlinkListener{
         } else if (desc.isDescribingGraalJS()) {
             sb.append("<p>");
             sb.append(tr(
-                "With GraalJS, use <a href=\"{0}\">JavaScript API V2</a>.",
-                "https://gubaer.github.io/josm-scripting-plugin/docs/v2/v2.html"
+                "With GraalJS, use <a href=\"{0}\">JavaScript API V3</a>.",
+                "https://gubaer.github.io/josm-scripting-plugin/docs/v3/v3.html"
             ));
             sb.append("</p>");
             return sb.toString();
