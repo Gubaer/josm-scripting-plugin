@@ -52,20 +52,6 @@ function checkAndFlatten (primitives) {
   return ret
 }
 
-function applyTo (layer) {
-  util.assert(util.isSomething(layer),
-    'layer: must not be null or undefined')
-  util.assert(layer instanceof OsmDataLayer,
-    'layer: expected OsmDataLayer, got {0}', layer)
-  const cmd = this.createJOSMCommand(layer)
-  try {
-    layer.getDataSet().beginUpdate()
-    UndoRedoHandler.getInstance().add(cmd)
-  } finally {
-    layer.getDataSet().endUpdate()
-  }
-}
-
 function toArray (collection) {
   if (util.isArray(collection)) return collection
   if (collection instanceof Collection) {
@@ -75,54 +61,61 @@ function toArray (collection) {
   }
 }
 
+class AbstractCommand {
+  /**
+   * Applies the command to a layer.
+   *
+   * @param {org.openstreetmap.josm.gui.layer.OsmDataLayer} layer the data layer
+   */
+  applyTo(layer) {
+    util.assert(util.isSomething(layer),
+      'layer: must not be null or undefined')
+    util.assert(layer instanceof OsmDataLayer,
+      'layer: expected OsmDataLayer, got {0}', layer)
+    const cmd = this.createJOSMCommand(layer)
+    try {
+      layer.getDataSet().beginUpdate()
+      UndoRedoHandler.getInstance().add(cmd)
+    } finally {
+      layer.getDataSet().endUpdate()
+    }
+  }
+
+  ensureOsmDataLayer(layer) {
+    util.assert(util.isSomething(layer),
+      'layer: must not be null or undefined')
+    util.assert(layer instanceof OsmDataLayer,
+      'layer: expected OsmDataLayer, got {0}', layer)
+  }
+}
+
 /**
  * A command to add a collection of objects to a data layer.
  *
- * @class
- * @name AddCommand
- * @summary A command to add a collection of objects to a data layer
  * @param { java.util.Collection| array } objs the objects to add
  */
-export function AddCommand(objs) {
-  util.assert(objs, 'objs: mandatory parameter missing')
-  this._objs = toArray(checkAndFlatten(objs))
-}
+export class AddCommand extends AbstractCommand {
 
-/**
- * Applies the command to a layer.
- *
- * @function
- * @summary Applies the command to a layer.
- * @param {org.openstreetmap.josm.gui.layer.OsmDataLayer} layer the data layer
- * @instance
- * @memberof module:josm/command.AddCommand
- * @name applyTo
- */
-AddCommand.prototype.applyTo = applyTo
-
-/**
- * Creates the internal JOSM command for this command
- *
- * @function
- * @summary Creates the internal JOSM command for this command
- * @param {org.openstreetmap.josm.gui.layer.OsmDataLayer} layer the data layer
- * @returns {org.openstreetmap.josm.command.Command} the command
- * @memberof module:josm/command.AddCommand
- * @name createJOSMCommand
- * @instance
-*/
-AddCommand.prototype.createJOSMCommand = function (layer) {
-  util.assert(util.isSomething(layer),
-    'layer: must not be null or undefined')
-  util.assert(layer instanceof OsmDataLayer,
-    'layer: expected OsmDataLayer, got {0}', layer)
-  const list = new ArrayList()
-  for (let i = 0; i < this._objs.length; i++) {
-    const o = this._objs[i]
-    list.add(o)
+  constructor(objs) {
+    super()
+    util.assert(objs, 'objs: mandatory parameter missing')
+    this._objs = toArray(checkAndFlatten(objs))
   }
-  return new AddMultiCommand(layer, list)
+
+  /**
+   * Creates the internal JOSM command for this command
+   *
+   * @param {org.openstreetmap.josm.gui.layer.OsmDataLayer} layer the data layer
+   * @returns {org.openstreetmap.josm.command.Command} the command
+  */
+  createJOSMCommand(layer) {
+    super.ensureOsmDataLayer(layer)
+    const list = new ArrayList()
+    this._objs.forEach(obj => list.add(obj))
+    return new AddMultiCommand(layer, list)
+  }
 }
+
 
 /**
  * Creates a command to add a collection of objects to a data layer.
@@ -137,22 +130,21 @@ AddCommand.prototype.createJOSMCommand = function (layer) {
  * </dl>
  *
  * @example
- * import {add} from 'josm/command'
+ * import {buildAddCommand} from 'josm/command'
  * import layers from 'josm/layer'
  * import {NodeBuilder} from 'josm/builder'
  * const layer  = layers.get('Data Layer 1')
  *
  * // add two nodes
- * add(NodeBuilder.create(), NodeBuilder.create()).applyTo(layer)
- * *
- * @function
- * @summary Creates a command to add a collection of objects
+ * buildAddCommand(
+ *   NodeBuilder.create(), 
+ *   NodeBuilder.create()
+ * ).applyTo(layer)
+ * 
  * @param {...(primitive | primitive[] | java.lang.Collection )} primitives the primitives to add
- * @name add
- * @static
  * @returns {module:josm/command.AddCommand} the command object
  */
-export function add(){
+export function buildAddCommand(){
   const objs = checkAndFlatten(arguments)
   return new AddCommand(objs)
 }
@@ -160,44 +152,24 @@ export function add(){
 /**
  * A command to delete a collection of objects in a data layer.
  *
- * @class
- * @param {java.util.Collection|array} objs the objects to add
- * @summary A command to delete a collection of objects in a data layer.
  * @param {java.util.Collection|array} objs the objects to add
  */
-export function DeleteCommand(objs) {
-  this._objs = checkAndFlatten(objs)
-}
+export class DeleteCommand extends AbstractCommand {
+  constructor(objs) {
+    super()
+    this._objs = checkAndFlatten(objs)
+  }
 
-/**
- * Applies the command to a layer.
- *
- * @function
- * @summary   Applies the command to a layer.
- * @param {org.openstreetmap.josm.gui.layer.OsmDataLayer} layer the data layer
- * @memberof module:josm/command.DeleteCommand
- * @instance
- * @name applyTo
-*/
-DeleteCommand.prototype.applyTo = applyTo
-
-/**
- * Creates the internal JOSM command for this command
- *
- * @function
- * @summary Creates the internal JOSM command for this command
- * @param {org.openstreetmap.josm.gui.layer.OsmDataLayer} layer the data layer
- * @returns {org.openstreetmap.josm.command.Command} the command object
- * @instance
- * @name createJOSMCommand
- * @memberof module:josm/command.DeleteCommand
- */
-DeleteCommand.prototype.createJOSMCommand = function (layer) {
-  util.assert(util.isSomething(layer),
-    'layer: must not be null or undefined')
-  util.assert(layer instanceof OsmDataLayer,
-    'layer: expected OsmDataLayer, got {0}', layer)
-  return JavaDeleteCommand.delete(this._objs, true /* alsoDeleteNodesInWay */, true /* silent */)
+  /**
+   * Creates the internal JOSM command for this command
+   *
+   * @param {org.openstreetmap.josm.gui.layer.OsmDataLayer} layer the data layer
+   * @returns {org.openstreetmap.josm.command.Command} the command object
+   */
+  createJOSMCommand(layer) {
+    super.ensureOsmDataLayer(layer)
+    return JavaDeleteCommand.delete(this._objs, true /* alsoDeleteNodesInWay */, true /* silent */)
+  }
 }
 
 /**
@@ -205,7 +177,7 @@ DeleteCommand.prototype.createJOSMCommand = function (layer) {
  *
  * <strong>Signatures</strong>
  * <dl>
- *   <dt><code class="signature">delete(obj,obj,..., ?options)</code> </dt>
+ *   <dt><code class="signature">buildDeleteCommand(obj,obj,..., ?options)</code> </dt>
  *   <dd class="param-desc"><code>obj</code> are {@class org.openstreetmap.josm.data.osm.Node}s,
  *   {@class org.openstreetmap.josm.data.osm.Way}s, or
  *   {@class org.openstreetmap.josm.data.osm.Relations}s. Or javascript array
@@ -221,11 +193,7 @@ DeleteCommand.prototype.createJOSMCommand = function (layer) {
  * // delete two nodes
  * buildDeleteCommand(NodeBuilder.create(),NodeBuilder.create()).applyTo(layer)
  * *
- * @function
- * @summary Creates a command to delete a collection of objects
  * @param {...(primitive | primitive[] | java.lang.Collection )} primitives the primitives to delete
- * @static
- * @name delete
  * @returns {module:josm/command.DeleteCommand} the command object
  */
 export function buildDeleteCommand() {
@@ -347,45 +315,26 @@ function changeFromParameters (para) {
 /**
  * A command to change a collection of objects in a data layer.
  *
- * @class
  * @param {java.util.Collection|array}  objs  the objects to change
  * @param {org.openstreetmap.josm.plugins.scripting.js.api.Change} change the change specification
- * @summary A command to change a collection of objects in a data layer.
  */
-export function ChangeCommand(objs, change) {
-  this._objs = checkAndFlatten(objs)
-  this._change = change
-}
+export class ChangeCommand extends AbstractCommand {
+  constructor(objs, change) {
+    super()
+    this._objs = checkAndFlatten(objs)
+    this._change = change
+  }
 
-/**
- * Applies the command to a layer.
- *
- * @function
- * @summary Applies the command to a layer.
- * @param {org.openstreetmap.josm.gui.layer.OsmDataLayer} layer the data layer
- * @memberof module:josm/command.ChangeCommand
- * @instance
- * @name applyTo
- */
-ChangeCommand.prototype.applyTo = applyTo
-
-/**
- * Creates the internal JOSM command for this command
- *
- * @summary Creates the internal JOSM command for this command
- * @param {org.openstreetmap.josm.gui.layer.OsmDataLayer} layer the data layer
- * @returns {org.openstreetmap.josm.command.Command} the command object
- * @instance
- * @function
- * @name createJOSMCommand
- * @memberof module:josm/command.ChangeCommand
- */
-ChangeCommand.prototype.createJOSMCommand = function (layer) {
-  util.assert(util.isSomething(layer),
-    'layer: must not be null or undefined')
-  util.assert(layer instanceof OsmDataLayer,
-    'layer: expected OsmDataLayer, got {0}', layer)
-  return new ChangeMultiCommand(layer, this._objs, this._change)
+  /**
+   * Creates the internal JOSM command for this command
+   *
+   * @param {org.openstreetmap.josm.gui.layer.OsmDataLayer} layer the data layer
+   * @returns {org.openstreetmap.josm.command.Command} the command object
+   */
+  createJOSMCommand(layer) {
+    super.ensureOsmDataLayer(layer)
+    return new ChangeMultiCommand(layer, this._objs, this._change)
+  }
 }
 
 /**
@@ -394,7 +343,7 @@ ChangeCommand.prototype.createJOSMCommand = function (layer) {
  * <strong>Signatures</strong>
  *
  * <dl>
- *   <dt><code class="signature">change(obj,obj,..., options)</code> </dt>
+ *   <dt><code class="signature">buildChangeCommand(obj,obj,..., options)</code> </dt>
  *   <dd class="param-desc"><code>obj</code> are {@class org.openstreetmap.josm.data.osm.Node}s,
  *   {@class org.openstreetmap.josm.data.osm.Way}s, or
  *   {@class org.openstreetmap.josm.data.osm.Relation}s. Or javascript array
@@ -441,11 +390,9 @@ ChangeCommand.prototype.createJOSMCommand = function (layer) {
  *    tags: {'mycustomtag': 'value'}
  * }).applyTo(layer)
  *
- * @function
- * @summary Creates a command to change a collection of objects
- * @name change
  * @returns {module:josm/command.ChangeCommand} the change command object
- * @static
+ * @param {java.util.Collection|array} objs  the objects to change
+ * @param {object} change  the change specification
  */
 export function buildChangeCommand() {
   let objs = []
@@ -484,95 +431,85 @@ export function buildChangeCommand() {
  * <p>
  * Provides static methods to redo and undo commands.
  *
- * @class
  * @summary Accessor to the global command history
  */
-export const CommandHistory = {}
+export class CommandHistory {
 
-/**
- * Undoes the last <code>depth</code> commands.
- *
- * @static
- * @summary Undoes the last <code>depth</code> commands.
- * @param {number} [depth=1]  the number of commands to be undone
- * @memberof module:josm/command.CommandHistory
- * @function
- * @name undo
- */
-CommandHistory.undo = function (depth) {
-  if (util.isDef(depth)) {
-    util.assert(util.isNumber(depth), 'depth: expected a number, got {0}',
-      depth)
-    util.assert(depth > 0, 'depth: expected number > 0, got {0}', depth)
-  }
-  const undoRedoHandler = UndoRedoHandler.getInstance()
-  if (depth) {
-    undoRedoHandler.undo(depth)
-  } else {
-    undoRedoHandler.undo()
-  }
-}
-
-/**
- * Redoes the last <code>depth</code> commands.
- *
- * @static
- * @summary Redoes the last <code>depth</code> commands.
- * @param {number} [depth=1]  the number of commands to be redone.
- * @memberof module:josm/command.CommandHistory
- * @function
- * @name redo
- */
-CommandHistory.redo = function (depth) {
-  if (util.isDef(depth)) {
-    util.assert(util.isNumber(depth), 'depth: expected a number, got {0}',
-      depth)
-    util.assert(depth > 0, 'depth: expected number > 0, got {0}', depth)
-  }
-  const undoRedoHandler = UndoRedoHandler.getInstance()
-  if (depth) {
-    undoRedoHandler.redo(depth)
-  } else {
-    undoRedoHandler.redo()
-  }
-}
-
-/**
- * Removes commands in the command history, either all commands, or only the
- * commands  applied to a specific layer.
- *
- * @static
- * @summary Removes commands in the command history
- * @param {org.openstreetmap.josm.gui.layer.Layer} [layer]  the
- * reference layer. Only commands applied to this layer are removed. Default
- * if missing: <strong>all</strong> commands are removed.
- * @memberof module:josm/command.CommandHistory
- * @function
- * @name clear
- */
-CommandHistory.clear = function (layer) {
-  const undoRedoHandler = UndoRedoHandler.getInstance()
-
-  function clearAll () {
-    undoRedoHandler.clean()
-  }
-
-  function clearForLayer (layer) {
-    undoRedoHandler.clean(layer)
-  }
-
-  switch (arguments.length) {
-    case 0: clearAll(); break
-    case 1: {
-      const layer = arguments[0]
-      util.assert(layer instanceof Layer, 'Expected a Layer, got {0}', layer)
-      clearForLayer(layer)
-      break
+  /**
+   * Undoes the last <code>depth</code> commands.
+   *
+   * @static
+   * @param {number} [depth=1]  the number of commands to be undone
+   */
+  undo(depth) {
+    if (util.isDef(depth)) {
+      util.assert(util.isNumber(depth), 'depth: expected a number, got {0}',
+        depth)
+      util.assert(depth > 0, 'depth: expected number > 0, got {0}', depth)
     }
-    default:
-      util.assert(false, 'Unexpected number of arguments')
+    const undoRedoHandler = UndoRedoHandler.getInstance()
+    if (depth) {
+      undoRedoHandler.undo(depth)
+    } else {
+      undoRedoHandler.undo()
+    }
+  }
+
+  /**
+   * Redoes the last <code>depth</code> commands.
+   *
+   * @param {number} [depth=1]  the number of commands to be redone.
+   * @static
+   */
+  redo(depth) {
+    if (util.isDef(depth)) {
+      util.assert(util.isNumber(depth), 'depth: expected a number, got {0}',
+        depth)
+      util.assert(depth > 0, 'depth: expected number > 0, got {0}', depth)
+    }
+    const undoRedoHandler = UndoRedoHandler.getInstance()
+    if (depth) {
+      undoRedoHandler.redo(depth)
+    } else {
+      undoRedoHandler.redo()
+    }
+  }
+
+
+  /**
+   * Removes commands in the command history, either all commands, or only the
+   * commands  applied to a specific layer.
+   *
+   * @static
+   * @param {org.openstreetmap.josm.gui.layer.Layer} [layer]  the
+   * reference layer. Only commands applied to this layer are removed. Default
+   * if missing: <strong>all</strong> commands are removed.
+   */
+  clear(layer) {
+    const undoRedoHandler = UndoRedoHandler.getInstance()
+
+    function clearAll () {
+      undoRedoHandler.clean()
+    }
+
+    function clearForLayer (layer) {
+      undoRedoHandler.clean(layer)
+    }
+
+    switch (arguments.length) {
+      case 0: clearAll(); break
+      case 1: {
+        const layer = arguments[0]
+        util.assert(layer instanceof Layer, 'Expected a Layer, got {0}', layer)
+        clearForLayer(layer)
+        break
+      }
+      default:
+        util.assert(false, 'Unexpected number of arguments')
+    }
   }
 }
+
 
 /**
 * Combines two or more ways into one resulting way.
@@ -595,11 +532,9 @@ CommandHistory.clear = function (layer) {
 * combineWays(ds.way(1), ds.way(2), ds.way(3))
 * // ... or any combination thereof.
 *
-* @function
 * @summary Combines two or more ways into one resulting way.
 * @param {...org.openstreetmap.josm.data.osm.Way | array} ways the ways to be combined
 * @static
-* @name combineWays
 */
 export function combineWays() {
   // ways becomes a java.util.HashSet
@@ -653,8 +588,6 @@ export function combineWays() {
 *
 * @summary Combines the currently selected ways.
 * @static
-* @name combineSelectedWays
-* @function
 */
 export function combineSelectedWays() {
   const activeLayer = layers.activeLayer
