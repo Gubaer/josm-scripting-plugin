@@ -13,7 +13,7 @@ You can import Java class with `Java.type(...)`.
 
 
 ```js
-import console from 'josm/scriptingconsole'
+import * as console from 'josm/scriptingconsole'
 
 // declare a Java type before using it
 const LatLon = Java.type('org.openstreetmap.josm.data.coor.LatLon')
