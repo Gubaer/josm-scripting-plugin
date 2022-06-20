@@ -37,11 +37,11 @@ export class Layers {
    *   <dd class="param-desc">Replies the active layer or undefined.</dd>
    *
    *   <dt>set</dt>
-   *   <dd class="param-desc">Assign either an existing {@class org.openstreetmap.josm.layer.Layer},
+   *   <dd class="param-desc">Assign either an existing {@class org.openstreetmap.josm.gui.layer.Layer},
    *   the name of a layer as string, or a layer index as number.</dd>
    * </dl>
    *
-   * @type {org.openstreetmap.josm.layer.Layer}
+   * @type {org.openstreetmap.josm.gui.layer.Layer}
    */
   get activeLayer() {
     return MainApplication.getLayerManager().getActiveLayer()
@@ -101,7 +101,7 @@ export class Layers {
    * const layer2 = layers.get('data layer')
    *
    * @param {number|string} key the key to retrieve the layer
-   * @returns {org.openstreetmap.josm.layer.Layer}
+   * @returns {org.openstreetmap.josm.gui.layer.Layer}
    */
   get(key) {
     if (util.isNothing(key)) return undefined
