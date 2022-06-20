@@ -19,7 +19,7 @@ JOSM is a powerful tool for creating maps, although the map data structure is qu
 
 Most of the scripts run by the Scripting Plugin will have to manipulate these primitives in one way or the other. A script manipulates the same java objects representing data primitives as JOSM does. The public methods and fields of the respective Java classes are available for scripting.
 
-The API V2 provides a [**builder class**][josm/builder]{:target="apidoc"} for each OSM primitive. The following table lists the names of the Java classes for OSM primitives with their JavaScript builder classes.
+The API V3 provides a [**builder class**][josm/builder]{:target="apidoc"} for each OSM primitive. The following table lists the names of the Java classes for OSM primitives with their JavaScript builder classes.
 
 | **Kind of primitive** | **Java class** | **JavaScript builder class** |
 | node | [Node]{:target="apidoc"}<br/>(extending [OsmPrimitive]{:target="apidoc"}) | [NodeBuilder]{:target="apidoc"} |
@@ -29,13 +29,13 @@ The API V2 provides a [**builder class**][josm/builder]{:target="apidoc"} for ea
 
 
 ## Creating OSM primitives
-Invoke a constructor of the Java class to create a node, a way, or a relation.
+You can invoke a constructor of the Java class to create a node, a way, or a relation.
 
 ```js
 const Node = Java.type('org.openstreetmap.josm.data.osm.Node')
 const Relation = Java.type('org.openstreetmap.josm.data.osm.Relation')
 const LatLon = Java.type('org.openstreetmap.josm.data.coor.LatLon')
-import console from 'josm/scriptingconsole'
+import * as console from 'josm/scriptingconsole'
 
 // Create a new node at position [12.45, 45.56]
 const node = new Node(new LatLon(12.45, 45.56))
@@ -50,7 +50,7 @@ The JOSM Scripting Plugin includes three [builders][josm/builder]{:target="apido
 
 
 ```js
-import console from 'josm/scriptingconsole'
+import * as console from 'josm/scriptingconsole'
 import { NodeBuilder, RelationBuilder } from 'josm/builder'
 
 let node
@@ -83,7 +83,7 @@ See javadoc for
 A few examples:
 
 ```js
-import console from 'josm/scriptingconsole'
+import * as console from 'josm/scriptingconsole'
 import { NodeBuilder, RelationBuilder } from 'josm/builder'
 const LatLon = Java.type('org.openstreetmap.josm.data.coor.LatLon')
 
@@ -127,20 +127,22 @@ There are two main differences between detached primitives and those attached to
     const LatLon = Java.type('org.openstreetmap.josm.data.coor.LatLon')
 
     let dsutil = new DataSetUtil(new DataSet())
+    
     dsutil.nodeBuilder
-       .withId(1)
-       .create({lat: 12.45, lon: 45.56})
+      .withId(1)
+      .create({lat: 12.45, lon: 45.56})
+
     dsutil.relationBuilder
-        .withId(2)
-        .withTags({'name': 'a-relation'})
-        .create()
+      .withId(2)
+      .withTags({'name': 'a-relation'})
+      .create()
 
     // runs the updates on two primitives in a "batch"
     dsutil.batch(() => {
-        // set new coordinates on the node
-        dsutil.node(1).setCoor(new LatLon(11.11, 22.22))
-        // assign a new name to the relation
-        dsutil.relation(2).put('name', 'a-new-name')
+      // set new coordinates on the node
+      dsutil.node(1).setCoor(new LatLon(11.11, 22.22))
+      // assign a new name to the relation
+      dsutil.relation(2).put('name', 'a-new-name')
     })
     ```
 
@@ -154,9 +156,9 @@ In that case, you are better off applying **data commands** to the primitives in
 For this purpose, the Scripting Plugin provides a [command API][josm/command]{:target="apidoc"}.
 
 ```js
-const josm = require('josm')
-const { change } = require('josm/command')
-const { DataSetUtil, OsmPrimitiveType} = require('josm/ds')
+import josm from 'josm'
+import { buildChangeCommand } from 'josm/command'
+import { DataSetUtil, OsmPrimitiveType} from 'josm/ds'
 
 const dsutil = new DataSetUtil()
 dsutil.nodeBuilder.withId(1).withPosition(1.0, 2.0).create()
@@ -167,11 +169,11 @@ dsutil.relationBuilder.withId(4).create()
 const layer = josm.layers.addDataLayer({name: 'my data layer', ds: dsutil.ds})
 
 // creates and applies three undoable/redoable commands
-change(dsutil.node(1), {lat: 12.45}).applyTo(layer)
-change(dsutil.relation(4), {tags: {name: 'a new name'}}).applyTo(layer)
+buildChangeCommand(dsutil.node(1), {lat: 12.45}).applyTo(layer)
+buildChangeCommand(dsutil.relation(4), {tags: {name: 'a new name'}}).applyTo(layer)
 
 // to remove a tag, set its value to null
-change(dsutil.way(3), {tags: {width: null}}).applyTo(layer)
+buildChangeCommand(dsutil.way(3), {tags: {width: null}}).applyTo(layer)
 ```
 
 ## Find primitives in a dataset
@@ -179,7 +181,7 @@ change(dsutil.way(3), {tags: {width: null}}).applyTo(layer)
 The easiest way to get a hold of a primitive in a dataset is to access it by its unique numeric id.
 
 ```js
-const { DataSetUtil } = require('josm/ds')
+import { DataSetUtil, OsmPrimitiveType } from 'josm/ds'
 
 // creates a data set util with empty new data set
 const dsutil = new DataSetUtil()
@@ -213,8 +215,8 @@ In addition, you can *search* in a dataset using the method `query()`.
 
 
 ```js
-const { DataSetUtil } = require('josm/ds')
-const console = require('josm/scriptingconsole')
+import { DataSetUtil } from 'josm/ds'
+import * as console from 'josm/scriptingconsole'
 
 // create a dsutil with an empty new dataset
 let dsutil = new DataSetUtil()
