@@ -15,6 +15,7 @@ const HelpAwareOptionPane = Java.type('org.openstreetmap.josm.gui.HelpAwareOptio
 const MainApplication = Java.type('org.openstreetmap.josm.gui.MainApplication')
 
 import * as util from 'josm/util'
+import * as console from 'josm/scriptingconsole'
 import layers from 'josm/layers'
 import {MenuBar} from 'josm/ui/menu'
 
@@ -262,4 +263,21 @@ Object.defineProperty(josm, 'commands', {
 Object.defineProperty(josm, 'menu', {
   enumerable: true,
   value: MenuBar
+})
+
+
+/**
+ * Replies an accessor to the JOSM scripting console.
+ *
+ * Use this object to write messages to the scripting console
+ *
+ * @readOnly
+ * @property {module:josm/scriptingconsole} console accessor to the JOSM scripting console
+ * @name console
+ * @static
+ * @summary Replies an accessor to the JOSM scripting console.
+ */
+Object.defineProperty(josm,  'console', {
+  enumerable: true,
+  value: console
 })
