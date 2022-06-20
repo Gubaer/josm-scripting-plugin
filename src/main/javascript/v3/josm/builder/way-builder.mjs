@@ -2,7 +2,6 @@
  * @module josm/builder/way
  */
 
-
 /* global Java */
 
 // -- imports
@@ -79,9 +78,8 @@ function receiver (that) {
  * @param {org.openstreetmap.josm.data.osm.DataSet} ds the dataset which
  *         created objects are added to
  * @summary Creates a new WayBuilder with an underlying dataset.
- * @function
+ * @class
  * @memberof module:josm/builder~WayBuilder
- * @name forDataSet
  */
 export function WayBuilder(ds) {
   if (util.isSomething(ds)) {
@@ -204,7 +202,8 @@ WayBuilder.withTags = withTags
  * import {WayBuilder, NodeBuilder} from 'josm/builder'
  * // creates a new local way with two local nodes
  * const way = WayBuilder.withNodes(
- *    NodeBuilder.create(), NodeBuilder.create()
+ *   NodeBuilder.create(), 
+ *   NodeBuilder.create()
  * ).create()
  *
  * @param nodes  the list of nodes. See description and examples.
@@ -264,7 +263,7 @@ WayBuilder.withNodes =
   withNodes
 
 /**
- * Creates a new <em>proxy</em> way. A proxy way is a way, for which we
+ * Creates a new <em>proxy</em> way. A proxy way is a way for which we
  * only know its global id. In order to know more details (nodes, tags, etc.),
  * we would have to download it from the OSM server.
  *
@@ -299,6 +298,7 @@ function createProxy (id) {
   if (builder.ds) builder.ds.addPrimitive(way)
   return way
 }
+
 WayBuilder.createProxy =
   WayBuilder.prototype.createProxy =
   createProxy
@@ -349,7 +349,7 @@ function initFromObject (builder, args) {
  * // create a new global way
  * const w2 = WayBuilder.create(1111)
  *
- * // create a new global way with version 3 at a specific position and with
+ * // create a new global way with version 3 with some nodes and with
  * // some tags
  * const w3 = WayBuilder.create(2222, {
  *    version: 3,

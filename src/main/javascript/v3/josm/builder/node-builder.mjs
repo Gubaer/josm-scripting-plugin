@@ -154,10 +154,10 @@ function initFromObject (builder, args) {
  * // create a new local node at position [0,0]
  * const n1 = NodeBuilder.create()
  *
- * // create a new global node at position [0,0]
+ * // create a new global node with id 1111 at position [0,0]
  * const n2 = NodeBuilder.create(1111)
  *
- * // create a new global way with version 3 at a specific position
+ * // create a new global node with version 3 at a specific position
  * // and with some tags
  * const n3 = NodeBuilder.create(2222, {
  *     version: 3,
@@ -334,14 +334,14 @@ NodeBuilder.withPosition = withPosition
  *
  * // a new global node with the global id 1111 and tags name=test and
  * // highway=road
- * const n1 = NodeBuilder.withTags({'name':'test', 'highway':'road'}).global(1111)
+ * const n1 = NodeBuilder.withTags({'name':'test', 'highway':'road'}).create(1111)
  *
  * // a new local node with tags name=test and highway=road
  * const tags = {
  *      'name'    : 'test',
  *      'highway' : 'road'
  * }
- * const n2 = NodeBuilder.withTags(tags).local()
+ * const n2 = NodeBuilder.withTags(tags).create()
  *
  * @param {object} [tags]  the tags
  * @returns {module:josm/builder~NodeBuilder} the node builder (for method chaining)
