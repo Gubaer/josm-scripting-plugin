@@ -254,7 +254,7 @@ public class ReleaseNotes extends JDialog implements HyperlinkListener {
                     Desktop.getDesktop().browse(e.getURL().toURI());
                 } catch (IOException | URISyntaxException ex) {
                     logger.log(Level.WARNING,
-                        MessageFormat.format("Failed to open desktop browser with URL '{0}'", e.getURL()),
+                        MessageFormat.format("Failed to open desktop browser with URL ''{0}''", e.getURL()),
                         ex);
                 }
             }
