@@ -443,10 +443,9 @@ export class CommandHistory {
   /**
    * Undoes the last <code>depth</code> commands.
    *
-   * @static
    * @param {number} [depth=1]  the number of commands to be undone
    */
-  undo(depth) {
+  static undo(depth) {
     if (util.isDef(depth)) {
       util.assert(util.isNumber(depth), 'depth: expected a number, got {0}',
         depth)
@@ -464,9 +463,8 @@ export class CommandHistory {
    * Redoes the last <code>depth</code> commands.
    *
    * @param {number} [depth=1]  the number of commands to be redone.
-   * @static
    */
-  redo(depth) {
+  static redo(depth) {
     if (util.isDef(depth)) {
       util.assert(util.isNumber(depth), 'depth: expected a number, got {0}',
         depth)
@@ -484,12 +482,11 @@ export class CommandHistory {
    * Removes commands in the command history, either all commands, or only the
    * commands  applied to a specific layer.
    *
-   * @static
    * @param {org.openstreetmap.josm.gui.layer.Layer} [layer]  the
    * reference layer. Only commands applied to this layer are removed. Default
    * if missing: <strong>all</strong> commands are removed.
    */
-  clear(layer) {
+  static clear(layer) {
     const undoRedoHandler = UndoRedoHandler.getInstance()
 
     function clearAll () {
