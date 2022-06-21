@@ -40,7 +40,7 @@
 			<li class="dropdown">
 				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
 				<ul class="dropdown-menu ">
-					<li><a href="module-josm_api.ChangesetApi.html">josm/api.ChangesetApi</a></li><li><a href="module-josm_api-Api.html">josm/api~Api</a></li><li><a href="module-josm_api-ApiConfig.html">josm/api~ApiConfig</a></li><li><a href="module-josm_builder_node-NodeBuilder.html">josm/builder/node~NodeBuilder</a></li><li><a href="module-josm_builder_relation-RelationBuilder.html">josm/builder/relation~RelationBuilder</a></li><li><a href="module-josm_builder_way-WayBuilder.html">josm/builder/way~WayBuilder</a></li><li><a href="module-josm_command.ChangeCommand.html">josm/command.ChangeCommand</a></li><li><a href="module-josm_command.CommandHistory.html">josm/command.CommandHistory</a></li><li><a href="module-josm_command.DeleteCommand.html">josm/command.DeleteCommand</a></li><li><a href="module-josm_command-AddCommand.html">josm/command~AddCommand</a></li><li><a href="module-josm_ds.DataSetUtil.html">josm/ds.DataSetUtil</a></li><li><a href="module-josm_layers.Layers.html">josm/layers.Layers</a></li><li><a href="module-josm_ui_menu-MenuBar.html">josm/ui/menu~MenuBar</a></li><li><a href="NodeBuilder.NodeBuilder.html">NodeBuilder.NodeBuilder</a></li>
+					<li><a href="module-josm_api.Api.html">josm/api.Api</a></li><li><a href="module-josm_api.ChangesetApi.html">josm/api.ChangesetApi</a></li><li><a href="module-josm_api-ApiConfig.html">josm/api~ApiConfig</a></li><li><a href="module-josm_builder_node-NodeBuilder.html">josm/builder/node~NodeBuilder</a></li><li><a href="module-josm_builder_relation-RelationBuilder.html">josm/builder/relation~RelationBuilder</a></li><li><a href="module-josm_builder_way-WayBuilder.html">josm/builder/way~WayBuilder</a></li><li><a href="module-josm_builder_way-WayBuilder.WayBuilder.html">josm/builder/way~WayBuilder.WayBuilder</a></li><li><a href="module-josm_command.AddCommand.html">josm/command.AddCommand</a></li><li><a href="module-josm_command.ChangeCommand.html">josm/command.ChangeCommand</a></li><li><a href="module-josm_command.CommandHistory.html">josm/command.CommandHistory</a></li><li><a href="module-josm_command.DeleteCommand.html">josm/command.DeleteCommand</a></li><li><a href="module-josm_ds.DataSetUtil.html">josm/ds.DataSetUtil</a></li><li><a href="module-josm_layers.Layers.html">josm/layers.Layers</a></li><li><a href="module-josm_ui_menu-MenuBar.html">josm/ui/menu~MenuBar</a></li><li><a href="NodeBuilder.exports.NodeBuilder.html">NodeBuilder.exports.NodeBuilder</a></li>
 				</ul>
 			</li>
 			
@@ -147,7 +147,11 @@ and redone on <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/g
         
             <h3>Example</h3>
             
-    <pre class="sunlight-highlight-javascript">import {AddCommand} from &#x27;josm/command&#x27;</pre>
+    <pre class="sunlight-highlight-javascript">import {
+   buildAddCommand,
+   buildChangeCommand,
+   buildDeleteCommand
+} from &#x27;josm/command&#x27;</pre>
 
 
         
@@ -162,17 +166,17 @@ and redone on <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/g
         <h3 class="subsection-title">Classes</h3>
 
         <dl>
+            <dt><a href="module-josm_command.AddCommand.html">AddCommand</a></dt>
+            <dd></dd>
+        
             <dt><a href="module-josm_command.ChangeCommand.html">ChangeCommand</a></dt>
-            <dd>A command to change a collection of objects in a data layer.</dd>
+            <dd></dd>
         
             <dt><a href="module-josm_command.CommandHistory.html">CommandHistory</a></dt>
             <dd>Accessor to the global command history</dd>
         
             <dt><a href="module-josm_command.DeleteCommand.html">DeleteCommand</a></dt>
-            <dd>A command to delete a collection of objects in a data layer.</dd>
-        
-            <dt><a href="module-josm_command-AddCommand.html">AddCommand</a></dt>
-            <dd>A command to add a collection of objects to a data layer</dd>
+            <dd></dd>
         </dl>
     
 
@@ -189,10 +193,8 @@ and redone on <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/g
             
 <hr>
 <dt>
-    <h4 class="name" id=".add"><span class="type-signature">&lt;static> </span>add(primitives)</h4>
+    <h4 class="name" id=".buildAddCommand"><span class="type-signature">&lt;static> </span>buildAddCommand(obj)</h4>
     
-    
-    <p class="summary">Creates a command to add a collection of objects</p>
     
 </dt>
 <dd>
@@ -245,16 +247,16 @@ and redone on <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/g
 
         <tr>
             
-                <td class="name"><code>primitives</code></td>
+                <td class="name"><code>obj</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">primitive</span>
+<span class="param-type"><a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/OsmPrimitive.html" alt="org.openstreetmap.josm.data.osm.OsmPrimitive" target="javadoc">OsmPrimitive</a></span>
 |
 
-<span class="param-type">Array.&lt;primitive></span>
+<span class="param-type"><a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/OsmPrimitive.html" alt="org.openstreetmap.josm.data.osm.OsmPrimitive" target="javadoc">OsmPrimitive</a>[]</span>
 |
 
 <span class="param-type"><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Collection.html" alt="java.lang.Collection" target="javadoc">Collection</a></span>
@@ -323,7 +325,7 @@ and redone on <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/g
 		<ul class="dummy">
 			<li>
 				<a href="josm_command.mjs.html">josm/command.mjs</a>,
-				 <a href="josm_command.mjs.html#sunlight-1-line-127">line 127</a>
+				 <a href="josm_command.mjs.html#sunlight-1-line-151">line 151</a>
 			</li>
 		</ul>
 	</dd>
@@ -376,14 +378,16 @@ and redone on <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/g
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">import {add} from &#x27;josm/command&#x27;
+    <pre class="sunlight-highlight-javascript">import {buildAddCommand} from &#x27;josm/command&#x27;
 import layers from &#x27;josm/layer&#x27;
 import {NodeBuilder} from &#x27;josm/builder&#x27;
 const layer  = layers.get(&#x27;Data Layer 1&#x27;)
 
 // add two nodes
-add(NodeBuilder.create(), NodeBuilder.create()).applyTo(layer)
-*</pre>
+buildAddCommand(
+  NodeBuilder.create(), 
+  NodeBuilder.create()
+).applyTo(layer)</pre>
 
 
     
@@ -393,10 +397,8 @@ add(NodeBuilder.create(), NodeBuilder.create()).applyTo(layer)
             
 <hr>
 <dt>
-    <h4 class="name" id=".change"><span class="type-signature">&lt;static> </span>change()</h4>
+    <h4 class="name" id=".buildChangeCommand"><span class="type-signature">&lt;static> </span>buildChangeCommand(objs, change)</h4>
     
-    
-    <p class="summary">Creates a command to change a collection of objects</p>
     
 </dt>
 <dd>
@@ -405,42 +407,7 @@ add(NodeBuilder.create(), NodeBuilder.create()).applyTo(layer)
     <div class="description">
         Creates a command to change a collection of objects in  a data layer.
 
-<strong>Signatures</strong>
-
-<dl>
-  <dt><code class="signature">change(obj,obj,..., options)</code> </dt>
-  <dd class="param-desc"><code>obj</code> are <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html" alt="org.openstreetmap.josm.data.osm.Node" target="javadoc">Node</a>s,
-  <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Way.html" alt="org.openstreetmap.josm.data.osm.Way" target="javadoc">Way</a>s, or
-  <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Relation.html" alt="org.openstreetmap.josm.data.osm.Relation" target="javadoc">Relation</a>s. Or javascript array
-  or Java collections thereof.</dd>
-</dl>
-
-The mandatory last argument is an object with named parameters. It accepts
-the following named parameters:
-<dl>
-  <dt><code class="signature">lat:number</code></dt>
-  <dd class="param-desc">Changes the latitude of the target nodes to <code>lat</code>.</dd>
-
-  <dt><code class="signature">lon:number</code></dt>
-  <dd class="param-desc">Changes the longitude of the target nodes to <code>lon</code>.</dd>
-
-  <dt><code class="signature">pos:
-      <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/coor/LatLon.html" alt="org.openstreetmap.josm.data.coor.LatLon" target="javadoc">LatLon</a>|object</code></dt>
-  <dd class="param-desc">Changes the position of the target nodes to <code>pos</code>.
-  pos is either a <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/coor/LatLon.html" alt="org.openstreetmap.josm.data.coor.LatLon" target="javadoc">LatLon</a> or an
-  object <code>{lat:..., lon:...}</code>
-  </dd>
-
-  <dt><code class="signature">tags:<a href="http://docs.oracle.com/javase/6/docs/api/java/util/Map.html" alt="java.util.Map" target="javadoc">Map</a>|object</code></dt>
-  <dd class="param-desc">Changes the tags of the target objects to <code>tags</code>.</dd>
-
-  <dt><code class="signature">nodes:<a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html" alt="java.util.List" target="javadoc">List</a>|array</code></dt>
-  <dd class="param-desc">Changes the nodes of the target way sto <code>nodes</code>.</dd>
-
-  <dt><code class="signature">members:<a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html" alt="java.util.List" target="javadoc">List</a>|array</code>
-  </dt>
-  <dd class="param-desc">Changes the nodes of the target relations to <code>members</code>.</dd>
-</dl>
+The mandatory last argument is an object with named parameters.
     </div>
     
 
@@ -449,6 +416,106 @@ the following named parameters:
     
 
     
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Argument</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>objs</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/OsmPrimitive.html" alt="org.openstreetmap.josm.data.osm.OsmPrimitive" target="javadoc">OsmPrimitive</a></span>
+|
+
+<span class="param-type"><a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/OsmPrimitive.html" alt="org.openstreetmap.josm.data.osm.OsmPrimitive" target="javadoc">OsmPrimitive</a>[]</span>
+|
+
+<span class="param-type"><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Collection.html" alt="java.lang.Collection" target="javadoc">Collection</a></span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                    &lt;repeatable><br>
+                
+                </td>
+            
+
+            
+
+            <td class="description last">the objects to change. See documentation.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>change</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="module-josm_command.html#~ChangeSpec">module:josm/command~ChangeSpec</a></span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">the change specification</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
     
 
     
@@ -487,7 +554,7 @@ the following named parameters:
 		<ul class="dummy">
 			<li>
 				<a href="josm_command.mjs.html">josm/command.mjs</a>,
-				 <a href="josm_command.mjs.html#sunlight-1-line-391">line 391</a>
+				 <a href="josm_command.mjs.html#sunlight-1-line-402">line 402</a>
 			</li>
 		</ul>
 	</dd>
@@ -551,6 +618,198 @@ buildChangeCommand(n1, {lat: 123.45, lon: 44.234}).applyTo(layer)
 buildChangeCommand(n1, n3, w1, r1, {
    tags: {&#x27;mycustomtag&#x27;: &#x27;value&#x27;}
 }).applyTo(layer)</pre>
+
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id=".buildDeleteCommand"><span class="type-signature">&lt;static> </span>buildDeleteCommand(obj)</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Creates a command to delete a collection of objects in  a data layer.
+    </div>
+    
+
+    
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Argument</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/OsmPrimitive.html" alt="org.openstreetmap.josm.data.osm.OsmPrimitive" target="javadoc">OsmPrimitive</a></span>
+|
+
+<span class="param-type"><a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/OsmPrimitive.html" alt="org.openstreetmap.josm.data.osm.OsmPrimitive" target="javadoc">OsmPrimitive</a>[]</span>
+|
+
+<span class="param-type"><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Collection.html" alt="java.lang.Collection" target="javadoc">Collection</a></span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                    &lt;repeatable><br>
+                
+                </td>
+            
+
+            
+
+            <td class="description last">the primitives to delete</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_command.mjs.html">josm/command.mjs</a>,
+				 <a href="josm_command.mjs.html#sunlight-1-line-195">line 195</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    the command object
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="module-josm_command.DeleteCommand.html">module:josm/command.DeleteCommand</a></span>
+
+
+
+    </dd>
+</dl>
+
+
+        
+
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">import {buildDeleteCommand} from &#x27;josm/command&#x27;
+import layers from &#x27;josm/layer&#x27;
+import {NodeBuilder} from &#x27;josm/builder&#x27;
+const layer = layers.get(&#x27;Data Layer 1&#x27;)
+// delete two nodes
+buildDeleteCommand(NodeBuilder.create(),NodeBuilder.create()).applyTo(layer)
+*</pre>
 
 
     
@@ -630,7 +889,7 @@ because otherwise they could not be combined.
 		<ul class="dummy">
 			<li>
 				<a href="josm_command.mjs.html">josm/command.mjs</a>,
-				 <a href="josm_command.mjs.html#sunlight-1-line-632">line 632</a>
+				 <a href="josm_command.mjs.html#sunlight-1-line-593">line 593</a>
 			</li>
 		</ul>
 	</dd>
@@ -805,7 +1064,7 @@ because otherwise they could not be combined.
 		<ul class="dummy">
 			<li>
 				<a href="josm_command.mjs.html">josm/command.mjs</a>,
-				 <a href="josm_command.mjs.html#sunlight-1-line-577">line 577</a>
+				 <a href="josm_command.mjs.html#sunlight-1-line-540">line 540</a>
 			</li>
 		</ul>
 	</dd>
@@ -849,43 +1108,49 @@ combineWays(ds.way(1), ds.way(2), ds.way(3))
     
 </dd>
 
-        
-            
+        </dl>
+    
+
+    
+        <h3 class="subsection-title">Type Definitions</h3>
+
+        <dl>
+                
 <hr>
-<dt>
-    <h4 class="name" id=".delete"><span class="type-signature">&lt;static> </span>delete(primitives)</h4>
-    
-    
-    <p class="summary">Creates a command to delete a collection of objects</p>
+<dt class="name" id="~ChangeSpec">
+    <h4 id="~ChangeSpec">ChangeSpec</h4>
+
     
 </dt>
 <dd>
-
     
     <div class="description">
-        Creates a command to delete a collection of objects in  a data layer.
-
-<strong>Signatures</strong>
-<dl>
-  <dt><code class="signature">delete(obj,obj,..., ?options)</code> </dt>
-  <dd class="param-desc"><code>obj</code> are <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html" alt="org.openstreetmap.josm.data.osm.Node" target="javadoc">Node</a>s,
-  <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Way.html" alt="org.openstreetmap.josm.data.osm.Way" target="javadoc">Way</a>s, or
-  <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Relations.html" alt="org.openstreetmap.josm.data.osm.Relations" target="javadoc">Relations</a>s. Or javascript array
-  or Java collections thereof.</dd>
-</dl>
+        The change specification for a change command.
     </div>
     
 
     
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">Object</span>
 
+
+
+            </li>
+        </ul>
     
 
     
+<dl class="details">
     
-        <h5>Parameters:</h5>
-        
 
-<table class="params table table-striped">
+    <h5 class="subsection-title">Properties:</h5>
+
+    <dl>
+
+<table class="props table table-striped">
     <thead>
     <tr>
         
@@ -894,8 +1159,6 @@ combineWays(ds.way(1), ds.way(2), ds.way(3))
 
         <th>Type</th>
 
-        
-        <th>Argument</th>
         
 
         
@@ -909,19 +1172,13 @@ combineWays(ds.way(1), ds.way(2), ds.way(3))
 
         <tr>
             
-                <td class="name"><code>primitives</code></td>
+                <td class="name"><code>lat</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">primitive</span>
-|
-
-<span class="param-type">Array.&lt;primitive></span>
-|
-
-<span class="param-type"><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Collection.html" alt="java.lang.Collection" target="javadoc">Collection</a></span>
+<span class="param-type">number</span>
 
 
 
@@ -929,30 +1186,152 @@ combineWays(ds.way(1), ds.way(2), ds.way(3))
             </td>
 
             
-                <td class="attributes">
-                
 
-                
+            
 
+            <td class="description last">if present and applied to a node, changes the nodes latitude</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>lon</code></td>
+            
+
+            <td class="type">
+            
                 
-                    &lt;repeatable><br>
-                
-                </td>
+<span class="param-type">number</span>
+
+
+
+            
+            </td>
+
             
 
             
 
-            <td class="description last">the primitives to delete</td>
+            <td class="description last">if present and applied to a node, changes the nodes longitude</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>pos</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/coor/LatLon.html" alt="org.openstreetmap.josm.data.coor.LatLon" target="javadoc">LatLon</a></span>
+|
+
+<span class="param-type"><a href="module-josm_command.html#~LatLonSpec">module:josm/command~LatLonSpec</a></span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">if present and applied to a node,
+ changes the nodes position</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>tags</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="http://docs.oracle.com/javase/6/docs/api/java/util/Map.html" alt="java.util.Map" target="javadoc">Map</a></span>
+|
+
+<span class="param-type">object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">if present, changes the tags of the target object</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>nodes</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html" alt="java.util.List" target="javadoc">List</a></span>
+|
+
+<span class="param-type"><a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/OsmPrimitive.html" alt="org.openstreetmap.josm.data.osm.OsmPrimitive" target="javadoc">OsmPrimitive</a>[]</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">if present and applied to a way, changes
+  the ways nodes</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>nodes</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html" alt="java.util.List" target="javadoc">List</a></span>
+|
+
+<span class="param-type"><a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/RelationMember.html" alt="org.openstreetmap.josm.data.osm.RelationMember" target="javadoc">RelationMember</a>[]</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">if present and applied to a relation, changes
+  the relations members</td>
         </tr>
 
     
     </tbody>
 </table>
+</dl>
 
-    
-
-    
-<dl class="details">
     
 
 	
@@ -987,7 +1366,7 @@ combineWays(ds.way(1), ds.way(2), ds.way(3))
 		<ul class="dummy">
 			<li>
 				<a href="josm_command.mjs.html">josm/command.mjs</a>,
-				 <a href="josm_command.mjs.html#sunlight-1-line-203">line 203</a>
+				 <a href="josm_command.mjs.html#sunlight-1-line-351">line 351</a>
 			</li>
 		</ul>
 	</dd>
@@ -1002,60 +1381,193 @@ combineWays(ds.way(1), ds.way(2), ds.way(3))
 
 
     
-
-    
-
-    
-
-    
-
-    
-
-    
-    <h5>Returns:</h5>
-    
-            
-<div class="param-desc">
-    the command object
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type"><a href="module-josm_command.DeleteCommand.html">module:josm/command.DeleteCommand</a></span>
-
-
-
-    </dd>
-</dl>
-
-
-        
-
-    
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">import {buildDeleteCommand} from &#x27;josm/command&#x27;
-import layers from &#x27;josm/layer&#x27;
-import {NodeBuilder} from &#x27;josm/builder&#x27;
-const layer = layers.get(&#x27;Data Layer 1&#x27;)
+    <pre class="sunlight-highlight-javascript">// change the positon of a node 
+const changeSpec1 = {
+   lat: 1.0,
+   lon: 2.0
+}
 
-// delete two nodes
-buildDeleteCommand(NodeBuilder.create(),NodeBuilder.create()).applyTo(layer)
-*</pre>
+// change the tags of one or more primitives
+const changeSpec2 = {
+   tags: {
+      amentity: &#x27;restaurant&#x27; 
+   }
+}</pre>
 
 
     
 </dd>
 
-        </dl>
+            
+                
+<hr>
+<dt class="name" id="~LatLonSpec">
+    <h4 id="~LatLonSpec">LatLonSpec</h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        A lat/lon position as a JavaScript object.
+    </div>
     
 
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">Object</span>
+
+
+
+            </li>
+        </ul>
+    
+
+    
+<dl class="details">
+    
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    <dl>
+
+<table class="props table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>lat</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the latitude of the position</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>lon</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the longitude of the position</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+</dl>
+
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_command.mjs.html">josm/command.mjs</a>,
+				 <a href="josm_command.mjs.html#sunlight-1-line-338">line 338</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">const latLonSpec = {
+ lat: 1.0,
+ lon: 1.0
+}</pre>
+
+
+    
+</dd>
+
+            </dl>
     
 
     
@@ -1107,7 +1619,7 @@ buildDeleteCommand(NodeBuilder.create(),NodeBuilder.create()).applyTo(layer)
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.10</a>
 	
-		on Mon Jun 20th 2022
+		on Tue Jun 21st 2022
 	
 	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>

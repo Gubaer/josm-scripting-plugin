@@ -40,7 +40,7 @@
 			<li class="dropdown">
 				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
 				<ul class="dropdown-menu ">
-					<li><a href="module-josm_api.ChangesetApi.html">josm/api.ChangesetApi</a></li><li><a href="module-josm_api-Api.html">josm/api~Api</a></li><li><a href="module-josm_api-ApiConfig.html">josm/api~ApiConfig</a></li><li><a href="module-josm_builder_node-NodeBuilder.html">josm/builder/node~NodeBuilder</a></li><li><a href="module-josm_builder_relation-RelationBuilder.html">josm/builder/relation~RelationBuilder</a></li><li><a href="module-josm_builder_way-WayBuilder.html">josm/builder/way~WayBuilder</a></li><li><a href="module-josm_command.ChangeCommand.html">josm/command.ChangeCommand</a></li><li><a href="module-josm_command.CommandHistory.html">josm/command.CommandHistory</a></li><li><a href="module-josm_command.DeleteCommand.html">josm/command.DeleteCommand</a></li><li><a href="module-josm_command-AddCommand.html">josm/command~AddCommand</a></li><li><a href="module-josm_ds.DataSetUtil.html">josm/ds.DataSetUtil</a></li><li><a href="module-josm_layers.Layers.html">josm/layers.Layers</a></li><li><a href="module-josm_ui_menu-MenuBar.html">josm/ui/menu~MenuBar</a></li><li><a href="NodeBuilder.NodeBuilder.html">NodeBuilder.NodeBuilder</a></li>
+					<li><a href="module-josm_api.Api.html">josm/api.Api</a></li><li><a href="module-josm_api.ChangesetApi.html">josm/api.ChangesetApi</a></li><li><a href="module-josm_api-ApiConfig.html">josm/api~ApiConfig</a></li><li><a href="module-josm_builder_node-NodeBuilder.html">josm/builder/node~NodeBuilder</a></li><li><a href="module-josm_builder_relation-RelationBuilder.html">josm/builder/relation~RelationBuilder</a></li><li><a href="module-josm_builder_way-WayBuilder.html">josm/builder/way~WayBuilder</a></li><li><a href="module-josm_builder_way-WayBuilder.WayBuilder.html">josm/builder/way~WayBuilder.WayBuilder</a></li><li><a href="module-josm_command.AddCommand.html">josm/command.AddCommand</a></li><li><a href="module-josm_command.ChangeCommand.html">josm/command.ChangeCommand</a></li><li><a href="module-josm_command.CommandHistory.html">josm/command.CommandHistory</a></li><li><a href="module-josm_command.DeleteCommand.html">josm/command.DeleteCommand</a></li><li><a href="module-josm_ds.DataSetUtil.html">josm/ds.DataSetUtil</a></li><li><a href="module-josm_layers.Layers.html">josm/layers.Layers</a></li><li><a href="module-josm_ui_menu-MenuBar.html">josm/ui/menu~MenuBar</a></li><li><a href="NodeBuilder.exports.NodeBuilder.html">NodeBuilder.exports.NodeBuilder</a></li>
 				</ul>
 			</li>
 			
@@ -80,7 +80,6 @@
             class="sunlight-highlight-javascript linenums">/**
  * @module josm/builder/way
  */
-
 
 /* global Java */
 
@@ -152,15 +151,15 @@ function receiver (that) {
 */
 
 /**
- * Creates a new builder for OSM ways
+ * Creates a new WayBuilder with an underlying dataset.
  *
- * @return {module:josm/builder~WayBuilder} the way builder
+ * @return {module:josm/builder/way~WayBuilder} the way builder
  * @param {org.openstreetmap.josm.data.osm.DataSet} ds the dataset which
  *         created objects are added to
  * @summary Creates a new WayBuilder with an underlying dataset.
- * @function
- * @memberof module:josm/builder~WayBuilder
- * @name forDataSet
+ * @class
+ * @memberof module:josm/builder/way~WayBuilder
+ * @name WayBuilder
  */
 export function WayBuilder(ds) {
   if (util.isSomething(ds)) {
@@ -175,20 +174,17 @@ export function WayBuilder(ds) {
  * to the dataset &lt;code>ds&lt;/code>.
  *
  * @example
- * import {WayBuilder} from 'josm/builder'
+ * import {DataSet, WayBuilder} from 'josm/builder'
  *
  * // create a new way builder which builds to a data set
- * const DataSet = Java.type('org.openstreetmap.josm.data.osm.DataSet')
  * const ds = new DataSet()
  * let wb = WayBuilder.forDataSet(ds)
  *
- * @return {module:josm/builder~WayBuilder} the way builder
+ * @return {module:josm/builder/way~WayBuilder} the way builder
  * @param {org.openstreetmap.josm.data.osm.DataSet} ds the dataset to which
  *         created objects are added
- * @summary Creates a new WayBuilder with an underlying dataset.
- * @function
- * @name forDataSet
- * @memberof module:josm/builder~WayBuilder
+ * @memberof module:josm/builder/way~WayBuilder
+ * @instance
  */
 function forDataSet (ds) {
   const builder = receiver(this)
@@ -214,11 +210,8 @@ WayBuilder.forDataSet = forDataSet
  * @param {number} id  (mandatory) the global way id. A number > 0.
  * @param {number} [version] the global way version. If present,
  *    a number > 0. If missing, the version 1 is assumed.
- * @return {module:josm/builder~WayBuilder} the way builder (for method chaining)
- * @summary Declares the global way id and the global way version.
- * @function
- * @memberof module:josm/builder~WayBuilder
- * @name withId
+ * @return {module:josm/builder/way~WayBuilder} the way builder (for method chaining)
+ * @memberof module:josm/builder/way~WayBuilder
  * @instance
  */
 function withId (id, version) {
@@ -250,11 +243,8 @@ WayBuilder.withId = withId
  * const w2 = WayBuilder.withTags(tags).create()
  *
  * @param {object} [tags] the tags
- * @return {module:josm/builder~WayBuilder} the way builder (for method chaining)
- * @summary Declares the tags to be assigned to the new way.
- * @function
- * @memberof module:josm/builder~WayBuilder
- * @name withTags
+ * @return {module:josm/builder/way~WayBuilder} the way builder (for method chaining)
+ * @memberof module:josm/builder/way~WayBuilder
  * @instance
  */
 function withTags (tags) {
@@ -283,15 +273,14 @@ WayBuilder.withTags = withTags
  * import {WayBuilder, NodeBuilder} from 'josm/builder'
  * // creates a new local way with two local nodes
  * const way = WayBuilder.withNodes(
- *    NodeBuilder.create(), NodeBuilder.create()
+ *   NodeBuilder.create(), 
+ *   NodeBuilder.create()
  * ).create()
  *
- * @param nodes  the list of nodes. See description and examples.
- * @return {module:josm/builder~WayBuilder} the way builder (for method chaining)
- * @summary Declares the nodes of the way.
- * @function
- * @memberof module:josm/builder~WayBuilder
- * @name withNodes
+ * @param {...org.openstreetmap.josm.data.osm.Node | java.util.List  | org.openstreetmap.josm.data.osm.Node[]} [nodes] the list of nodes. 
+ *  See description and examples.
+ * @return {module:josm/builder/way~WayBuilder} the way builder (for method chaining)
+ * @memberof module:josm/builder/way~WayBuilder
  * @instance
  */
 function withNodes () {
@@ -343,7 +332,7 @@ WayBuilder.withNodes =
   withNodes
 
 /**
- * Creates a new &lt;em>proxy&lt;/em> way. A proxy way is a way, for which we
+ * Creates a new &lt;em>proxy&lt;/em> way. A proxy way is a way for which we
  * only know its global id. In order to know more details (nodes, tags, etc.),
  * we would have to download it from the OSM server.
  *
@@ -355,11 +344,9 @@ WayBuilder.withNodes =
  * // a new proxy way for the global way with id 1111
  * const w1 = WayBuilder.createProxy(1111)
  *
+ * @param {number} id the id. A number &amp;gt; 0
  * @return {org.openstreetmap.josm.data.osm.Way} the new proxy way
- * @summary Creates a new proxy way
- * @function
- * @memberof module:josm/builder~WayBuilder
- * @name createProxy
+ * @memberof module:josm/builder/way~WayBuilder
  * @instance
  */
 function createProxy (id) {
@@ -378,6 +365,7 @@ function createProxy (id) {
   if (builder.ds) builder.ds.addPrimitive(way)
   return way
 }
+
 WayBuilder.createProxy =
   WayBuilder.prototype.createProxy =
   createProxy
@@ -399,26 +387,35 @@ function initFromObject (builder, args) {
 }
 
 /**
+ * Named options for {@link module:josm/builder/way~WayBuilder#create create}
+ * 
+ * @typedef WayBuilderOptions
+ * @property {number} [id] the id (&amp;gt 0) of the way. Default: creates new local id.
+ * @property {number} [version=1] the version (&amp;gt 0) of the way. Default: 1.
+ * @property {object} [tags] an object with tags. Null values and undefined
+ *       values are ignored. Any other value is converted to a string.
+ *       Leading and trailing white space in keys is removed.
+ * @property {org.openstreetmap.josm.data.osm.Node[]|java.util.List} [nodes] the nodes for the way. 
+ * @memberOf module:josm/builder/way~WayBuilder
+ * @example
+ * import {NodeBuilder} from 'josm/builder'
+ * // options to create a way
+ * const options = {
+ *   version: 3,
+ *   tags: {highway: 'primary'},
+ *   nodes: [
+ *     NodeBuilder.withPosition(1,1).create(),
+ *     NodeBuilder.withPosition(2,2).create(),
+ *     NodeBuilder.withPosition(3,3).create()
+ *   ]
+ * }
+ */
+
+
+/**
  * Creates a new way.
  *
  * Can be used in an instance or in a static context.
- *
- * Optional named arguments in the parameters &lt;code>options&lt;/code>:
- * &lt;dl>
- *   &lt;dt>&lt;code class='signature'>id&lt;/code>:number&lt;/dt>
- *   &lt;dd class="param-desc">the id of a global way (number > 0)&lt;/dd>
- *
- *   &lt;dt>&lt;code class='signature'>version&lt;/code>:number&lt;/dt>
- *   &lt;dd class="param-desc">the version of a global way (number > 0)&lt;/dd>
- *
- *   &lt;dt>&lt;code class='signature'>nodes&lt;/code>:array|list&lt;/dt>
- *   &lt;dd class="param-desc">an array or a list of nodes&lt;/dd>
- *
- *   &lt;dt>&lt;code class='signature'>tags&lt;/code>:object&lt;/dt>
- *   &lt;dd class="param-desc">an object with tags. Null values and undefined values are ignored.
- *   Any other value is converted to a string. Leading and trailing white
- *   space in keys is removed.&lt;/dd>
- * &lt;/dl>
  *
  * @example
  * import {WayBuilder, NodeBuilder} from 'josm/builder'
@@ -428,26 +425,23 @@ function initFromObject (builder, args) {
  * // create a new global way
  * const w2 = WayBuilder.create(1111)
  *
- * // create a new global way with version 3 at a specific position and with
+ * // create a new global way with version 3 with some nodes and with
  * // some tags
  * const w3 = WayBuilder.create(2222, {
- *    version: 3,
- *    tags: {amenity: 'restaurant'},
- *    nodes: [
- *      NodeBuilder.withPosition(1,1).create(),
- *      NodeBuilder.withPosition(2,2).create(),
- *      NodeBuilder.withPosition(3,3).create()
- *    ]
- *  })
+ *   version: 3,
+ *   tags: {higway: 'primary'},
+ *   nodes: [
+ *     NodeBuilder.withPosition(1,1).create(),
+ *     NodeBuilder.withPosition(2,2).create(),
+ *     NodeBuilder.withPosition(3,3).create()
+ *   ]
+ * })
  *
  * @param {number}  [id]  a global way id. If missing and not set
  *    before using &lt;code>withId(..)&lt;/code>, creates a new local id.
- * @param {object} [options]  additional parameters for creating the way
+ * @param {module:josm/builder/way~WayBuilder.WayBuilderOptions} [options]  additional parameters for creating the way
  * @returns {org.openstreetmap.josm.data.osm.Way} the created way
- * @summary Creates a new way
- * @function
- * @memberof module:josm/builder~WayBuilder
- * @name create
+ * @memberof module:josm/builder/way~WayBuilder
  * @instance
  */
 function create () {
@@ -513,8 +507,7 @@ function create () {
     } else {
       throw new Error(
         'Failed to add primitive, primitive already included ' +
-        'in dataset. \n' +
-        'primitive=' + way
+        'in dataset. ' + 'primitive=' + way
       )
     }
   }
@@ -569,7 +562,7 @@ WayBuilder.prototype.create = create
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.10</a>
 	
-		on Mon Jun 20th 2022
+		on Tue Jun 21st 2022
 	
 	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>

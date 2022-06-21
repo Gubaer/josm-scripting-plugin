@@ -40,7 +40,7 @@
 			<li class="dropdown">
 				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
 				<ul class="dropdown-menu ">
-					<li><a href="module-josm_api.ChangesetApi.html">josm/api.ChangesetApi</a></li><li><a href="module-josm_api-Api.html">josm/api~Api</a></li><li><a href="module-josm_api-ApiConfig.html">josm/api~ApiConfig</a></li><li><a href="module-josm_builder_node-NodeBuilder.html">josm/builder/node~NodeBuilder</a></li><li><a href="module-josm_builder_relation-RelationBuilder.html">josm/builder/relation~RelationBuilder</a></li><li><a href="module-josm_builder_way-WayBuilder.html">josm/builder/way~WayBuilder</a></li><li><a href="module-josm_command.ChangeCommand.html">josm/command.ChangeCommand</a></li><li><a href="module-josm_command.CommandHistory.html">josm/command.CommandHistory</a></li><li><a href="module-josm_command.DeleteCommand.html">josm/command.DeleteCommand</a></li><li><a href="module-josm_command-AddCommand.html">josm/command~AddCommand</a></li><li><a href="module-josm_ds.DataSetUtil.html">josm/ds.DataSetUtil</a></li><li><a href="module-josm_layers.Layers.html">josm/layers.Layers</a></li><li><a href="module-josm_ui_menu-MenuBar.html">josm/ui/menu~MenuBar</a></li><li><a href="NodeBuilder.NodeBuilder.html">NodeBuilder.NodeBuilder</a></li>
+					<li><a href="module-josm_api.Api.html">josm/api.Api</a></li><li><a href="module-josm_api.ChangesetApi.html">josm/api.ChangesetApi</a></li><li><a href="module-josm_api-ApiConfig.html">josm/api~ApiConfig</a></li><li><a href="module-josm_builder_node-NodeBuilder.html">josm/builder/node~NodeBuilder</a></li><li><a href="module-josm_builder_relation-RelationBuilder.html">josm/builder/relation~RelationBuilder</a></li><li><a href="module-josm_builder_way-WayBuilder.html">josm/builder/way~WayBuilder</a></li><li><a href="module-josm_builder_way-WayBuilder.WayBuilder.html">josm/builder/way~WayBuilder.WayBuilder</a></li><li><a href="module-josm_command.AddCommand.html">josm/command.AddCommand</a></li><li><a href="module-josm_command.ChangeCommand.html">josm/command.ChangeCommand</a></li><li><a href="module-josm_command.CommandHistory.html">josm/command.CommandHistory</a></li><li><a href="module-josm_command.DeleteCommand.html">josm/command.DeleteCommand</a></li><li><a href="module-josm_ds.DataSetUtil.html">josm/ds.DataSetUtil</a></li><li><a href="module-josm_layers.Layers.html">josm/layers.Layers</a></li><li><a href="module-josm_ui_menu-MenuBar.html">josm/ui/menu~MenuBar</a></li><li><a href="NodeBuilder.exports.NodeBuilder.html">NodeBuilder.exports.NodeBuilder</a></li>
 				</ul>
 			</li>
 			
@@ -102,8 +102,20 @@ const OsmServerBackreferenceReader = Java.type('org.openstreetmap.josm.io.OsmSer
 const Preferences = Java.type('org.openstreetmap.josm.data.Preferences')
 const Bounds = Java.type('org.openstreetmap.josm.data.Bounds')
 const LatLon = Java.type('org.openstreetmap.josm.data.coor.LatLon')
+const BoundingBoxDownloader = Java.type('org.openstreetmap.josm.io.BoundingBoxDownloader')
+const CredentialsManager = Java.type('org.openstreetmap.josm.io.auth.CredentialsManager')
+const RequestorType = Java.type('java.net.Authenticator.RequestorType')
+const PasswordAuthentication = Java.type('java.net.PasswordAuthentication')
 
 import * as util from 'josm/util'
+
+/**
+ * Specification of position as lat/lon-pair.
+ *
+ * @typedef LatLonSpec
+ * @property {number} lat  the latitude
+ * @property {number} lon  the longitude
+ */
 
 /**
  * Creates a {@class org.openstreetmap.josm.data.coor.LatLon} from a
@@ -113,14 +125,11 @@ import * as util from 'josm/util'
  * import { buildLatLon } from 'josm/api'
  * const pos = buildLatLon({lat: 1, lon: 2});
  *
- * @param {object} obj  a javascript object with two number properties
- *    &lt;code>lat:&lt;/code> and &lt;code>lon:&lt;/code>
- * @name buildLatLon
+ * @param {module:josm/api~LatLonSpec} obj  a specification of the position
  * @static
  * @returns {org.openstreetmap.josm.data.coor.LatLon}
  * @summary Create a {@class org.openstreetmap.josm.data.coor.LatLon}
  *      from a javascript object.
- * @function
  */
 export function buildLatLon(obj) {
   util.assert(util.isSomething(obj), 'obj: must not be null or undefined');
@@ -140,6 +149,34 @@ export function buildLatLon(obj) {
 }
 
 /**
+ * Specification of a bounds as JavaScript object.
+ *
+ * @typedef BoundsSpec1
+ * @property {number} minlat
+ * @property {number} minlon
+ * @property {number} maxlat
+ * @property {number} maxlon
+ * @example
+ * const bounds = {
+ *    minlat: 46.9479186, minlon: 7.4619484,
+ *    maxlat: 46.9497642, maxlon: 7.4660683
+ * }
+ */
+
+/**
+ * Specification of a bounds as JavaScript object.
+ *
+ * @typedef BoundsSpec2
+ * @property {module:josm/api~LatLonSpec} min the upper left point
+ * @property {module:josm/api~LatLonSpec} max the lower right point
+ * @example
+ * const bounds = {
+ *    min: {lat: 46.9479186, lon: 7.4619484},
+ *    max: {lat: 46.9497642, lon: 7.4660683}
+ * }
+ */
+
+/**
  * Creates a {@class org.openstreetmap.josm.data.Bounds} instance from a javascript object.
  *
  * @example
@@ -154,10 +191,8 @@ export function buildLatLon(obj) {
  *    max: {lat: 46.9497642, lon: 7.4660683}
  * })
  *
- * @param {object} obj  a javascript object
+ * @param {BoundsSpec1|BoundsSpec2} obj  a javascript object
  * @returns {org.openstreetmap.josm.data.Bounds} the bounds
- * @name buildBounds
- * @function
  * @static
  */
 export function buildBounds(obj) {
@@ -175,7 +210,6 @@ export function buildBounds(obj) {
       return obj[name]
   }
 
-
   function normalizeLon(obj,name) {
       util.assert(util.isDef(obj[name]),
           '{0}: missing mandatory property', name)
@@ -187,10 +221,10 @@ export function buildBounds(obj) {
   }
 
   if (util.isDef(obj.minlat)) {
-      const minlat = normalizeLat(obj.minlat)
-      const minlon = normalizeLat(obj.minlon)
-      const maxlat = normalizeLat(obj.maxlat)
-      const maxlon = normalizeLat(obj.maxlon)
+      const minlat = normalizeLat(obj, "minlat")
+      const minlon = normalizeLon(obj, "minlon")
+      const maxlat = normalizeLat(obj, "maxlat")
+      const maxlon = normalizeLon(obj, "maxlon")
       return new Bounds(minlat, minlon, maxlat, maxlon)
   } else if (util.isDef(obj.min)) {
       const min = buildLatLon(obj.min)
@@ -216,7 +250,7 @@ export function buildBounds(obj) {
  *
  * // create a new changeset on the server
  * const cs = ChangesetApi.open()
- * 
+ *
  * @summary Provides methods to open, close, get, update, etc. changesets on the OSM
  * API server.
  *
@@ -225,14 +259,6 @@ export class ChangesetApi {
 
   /**
    * Creates and opens a changeset
-   *
-   * &lt;ul>
-   *   &lt;li>&lt;code>open()&lt;/code>  - open a new changeset with no tags&lt;/li>
-   *   &lt;li>&lt;code>open(aChangeset)&lt;/code>  - open a new changeset with the tags
-   *   from &lt;code>aChangeset&lt;/code>&lt;/li>
-   *   &lt;li>&lt;code>open(anObject)&lt;/code>  - open a new changeset with the tags
-   *   given by the properties of &lt;code>anObject&lt;/code>&lt;/li>
-   * &lt;/ul>
    *
    * @example
    * import { ChangesetApi } from 'josm/api'
@@ -260,15 +286,15 @@ export class ChangesetApi {
         break
 
       case 1:
-        var o = arguments[0]
+        let o = arguments[0]
         if (o instanceof Changeset) {
           cs = o
         } else if (typeof o === 'object') {
           cs = new Changeset()
-          for (var p in o) {
+          for (let p in o) {
             if (!util.hasProp(o, p)) continue
-            var key = p
-            var value = o[p]
+            let key = p
+            let value = o[p]
             key = util.trim(key)
             value = value + '' // convert to string
             cs.put(key, value)
@@ -284,21 +310,13 @@ export class ChangesetApi {
         util.assert(false, 'Unexpected number of arguments, got {0}',
           arguments.length)
     }
-    var api = OsmApi.getOsmApi()
+    const api = OsmApi.getOsmApi()
     api.openChangeset(cs, NullProgressMonitor.INSTANCE)
     return cs
   }
 
   /**
    * Closes a changeset
-   *
-   * &lt;dl>
-   *   &lt;dt>&lt;code class='signature'>close(id)&lt;/code>&lt;/dt>
-   *   &lt;dd class="param-desc">closes the changeset with the given id&lt;/dd>
-   *
-   *   &lt;dt>&lt;code class='signature'>close(aChangeset)&lt;/code>&lt;dt>
-   *   &lt;dd class="param-desc">Xloses the changeset given by &lt;code>aChangeset&lt;/code>&lt;/dd>
-   * &lt;/dl>
    *
    * @example
    * import { ChangesetApi } from 'josm/api'
@@ -351,11 +369,6 @@ export class ChangesetApi {
   /**
    * Updates a changeset
    *
-   * &lt;dl>
-   *   &lt;dt>&lt;code class='signature'>update(aChangeset)&lt;/code>&lt;/dt>
-   *   &lt;dd class="param-desc">Updates the changeset &lt;code>aChangeset&lt;/code>&lt;/dd>
-   * &lt;/dl>
-   *
    * @example
    * import { ChangesetApi } from 'josm/api'
    * const Changeset = Java.type('org.openstreetmap.josm.data.osm.Changeset')
@@ -397,16 +410,6 @@ export class ChangesetApi {
 
   /**
    * Get a changeset from the server
-   *
-   * &lt;dl>
-   *   &lt;dt>&lt;code class='signature>get(aChangeset)&lt;/code>&lt;/dt>
-   *   &lt;dd class="param-desc">Gets the changeset specified by &lt;code>aChangeset&lt;/code>. aChangset
-   *   must be an instance of &lt;code>Changeset&lt;/code>.
-   *   aChangeset.id &amp;gt 0 expected.&lt;/dd>
-   *
-   *   &lt;dt>&lt;code class='signature'>get(id)&lt;/code>&lt;/dt>
-   *   &lt;dd class="param-desc">gets the changeset for the id. id must be a number &amp;gt 0.&lt;/dd>
-   * &lt;/dl>
    *
    * @example
    * import { ChangesetApi } from 'josm/api'
@@ -469,14 +472,12 @@ export class ChangesetApi {
  * // download node 12345
  * const ds = Api.downloadObject(12345, 'node')
  *
- * @class
  * @summary Collection of static methods to download objects from and upload objects
  *  to the OSM server
- * @name Api
  */
 export class Api {
 
-  #normalizeType (type) {
+  static #normalizeType (type) {
     util.assert(util.isSomething(type), 'type must not be null or undefined')
     if (util.isString(type)) {
       try {
@@ -485,7 +486,7 @@ export class Api {
         util.assert(false, 'Invalid primitive type, got \'\'{0}\'\'', type)
       }
     } else if (type instanceof OsmPrimitiveType) {
-      if (![OsmPrimitiveType.NODE, OsmPrimitiveType.WAY, OsmPrimitiveType.RELATION].contains(type)) {
+      if (![OsmPrimitiveType.NODE, OsmPrimitiveType.WAY, OsmPrimitiveType.RELATION].includes(type)) {
         util.assert(false, 'Invalid primitive type, got {0}', type)
       }
     } else {
@@ -494,22 +495,22 @@ export class Api {
     return type
   }
 
-  #normalizeId (id) {
+  static #normalizeId (id) {
     util.assert(util.isSomething(id), 'id must not be null or nothing')
     util.assert(util.isNumber(id), 'Expected a number as id, got {0}', id)
     util.assert(id > 0, 'Expected a positive number as id, got {0}', id)
     return id
   }
 
-  #primitiveIdFromObject(o) {
+  static #primitiveIdFromObject(o) {
     util.assert(util.hasProp(o, 'id'),
       'Mandatory property \'\'id\'\' is missing in object {0}', o)
     util.assert(util.hasProp(o, 'type'),
       'Mandatory property \'\'type\'\' is missing in object {0}', o)
-    return new SimplePrimitiveId(normalizeId(o.id), normalizeType(o.type))
+    return new SimplePrimitiveId(Api.#normalizeId(o.id), Api.#normalizeType(o.type))
   }
 
-  #downloadObject1() {
+  static #downloadObject1() {
     let id
     const o = arguments[0]
     util.assert(util.isSomething(o),
@@ -517,7 +518,7 @@ export class Api {
     if (o instanceof PrimitiveId) {
       id = o
     } else if (typeof o === 'object') {
-      id = this.#primitiveIdFromObject(o)
+      id = Api.#primitiveIdFromObject(o)
     } else {
       util.assert(false, 'Argument 0: unexpected type, got {0}', o)
     }
@@ -526,14 +527,14 @@ export class Api {
     return ds
   }
 
-  #optionFull(options) {
+  static #optionFull(options) {
     if (!util.hasProp(options, 'full')) return undefined
     var o = options.full
     if (typeof o === 'boolean') return o
     util.assert('Expected a boolean value for option \'\'full\'\', got {0}', o)
   }
 
-  #optionVersion(options) {
+  static #optionVersion(options) {
     if (!util.hasProp(options, 'version')) return undefined
     var o = options.version
     util.assert(util.isNumber(o),
@@ -543,15 +544,14 @@ export class Api {
     return o
   }
 
-  #downloadObject2 () {
-    let self = this
+  static #downloadObject2 () {
     function parseOptions (arg) {
       const options = { full: undefined, version: undefined }
       if (!(typeof arg === 'object')) {
         return options
       }
-      options.full = self.#optionFull(arg)
-      options.version = self.#optionVersion(arg)
+      options.full = Api.#optionFull(arg)
+      options.version = Api.#optionVersion(arg)
       return options
     }
 
@@ -559,14 +559,14 @@ export class Api {
     let options = { full: undefined, version: undefined }
 
     if (util.isNumber(arguments[0])) {
-      id = this.#normalizeId(arguments[0])
-      var type = this.#normalizeType(arguments[1])
+      id = Api.#normalizeId(arguments[0])
+      const type = Api.#normalizeType(arguments[1])
       id = new SimplePrimitiveId(id, type)
     } else if (arguments[0] instanceof PrimitiveId) {
       id = arguments[0]
       options = parseOptions(arguments[1])
     } else if (typeof arguments[0] === 'object') {
-      id = this.#primitiveIdFromObject(arguments[0])
+      id = Api.#primitiveIdFromObject(arguments[0])
       options = parseOptions(arguments[1])
     } else {
       util.assert(false, 'Unsupported types of arguments')
@@ -577,20 +577,20 @@ export class Api {
     } else {
       reader = new OsmServerObjectReader(id, !!options.full)
     }
-    var ds = reader.parseOsm(null /* null progress monitor */)
+    const ds = reader.parseOsm(null /* null progress monitor */)
     return ds
   }
 
-  #downloadObject3 () {
+  static #downloadObject3 () {
     const options = { full: undefined, version: undefined }
-    let n = this.#normalizeId(arguments[0])
-    let type = this.#normalizeType(arguments[1])
+    let n = Api.#normalizeId(arguments[0])
+    let type = Api.#normalizeType(arguments[1])
     let id = new SimplePrimitiveId(n, type)
 
     util.assert(typeof arguments[2] === 'object',
       'Expected an object with named parameters, got {0}', arguments[2])
-    options.full = optionFull(arguments[2])
-    options.version = optionVersion(arguments[2])
+    options.full = Api.#optionFull(arguments[2])
+    options.version = Api.#optionVersion(arguments[2])
     let reader
     if (util.isDef(options.version)) {
       reader = new OsmServerObjectReader(id, options.version)
@@ -600,6 +600,18 @@ export class Api {
     var ds = reader.parseOsm(null /* null progress monitor */)
     return ds
   }
+
+  /**
+   * Options for the method downloadObject()
+   *
+   * @typedef DownloadObjectOptions
+   * @property {boolean} [full=false] if &lt;code>true&lt;/code>, the object and its immediate children are
+   *   downloaded, i.e. the nodes of a way and the relation members of a relation. Default:
+   *   &lt;code>false&lt;/code>.
+   * @property {number} [version] if present, the specified version of the object is downloaded.
+   *   If missing, the current version is downloaded. If present, the
+   *   option &lt;code>full&lt;/code> is ignored.
+   */
 
   /**
    * Downloads an object from the server.
@@ -627,21 +639,6 @@ export class Api {
    *   &lt;/dd>
    * &lt;/dl>
    *
-   * In both cases, &lt;code>?options&lt;/code> is an (optional) object with the
-   * following two (optional) properties:
-   * &lt;dl>
-   *   &lt;dt>&lt;code class='signature'>full&lt;/code>: boolean&lt;/dt>
-   *   &lt;dd class="param-desc">If &lt;code>true&lt;/code>, the object and its immediate children are
-   *   downloaded, i.e. the nodes of a way and
-   *   the relation members of a relation. Default if missing is
-   *   &lt;code>false&lt;/code>.&lt;/dd>
-   *
-   *   &lt;dt>&lt;code class='signature'>version&lt;/code>: number&lt;/dt>
-   *   &lt;dd class="param-desc">If present, the specified version of the object is downloaded.
-   *   If missing, the current version is downloaded. If present, the
-   *   option &lt;code>full&lt;/code> is ignored.&lt;/dd>
-   * &lt;/dl>
-   *
    * @example
    * import { Api } from 'josm/api'
    * const SimplePrimitiveId = Java.type('org.openstreetmap.josm.data.osm.SimplePrimitiveId')
@@ -658,10 +655,13 @@ export class Api {
    * const ds3 = Api.downloadObject(id, {full: true})
    *
    * // download version 5 of the full way 12345 (including its nodes)
-   * const ds4 = Api.downloadObject(12345, OsmPrimitiveType.WAY, {version: 5})
+   * const ds4 = Api.downloadObject(12345, OsmPrimitiveType.WAY, {full: true, version: 5})
    *
    * @returns {org.openstreetmap.josm.data.osm.DataSet} the downloaded primitives
-   * @param args see description and examples
+   * @param {number|org.openstreetmap.josm.data.osm.PrimitiveId} id the id of the object
+   * @param {string|org.openstreetmap.josm.data.osm.OsmPrimitiveType} [type] the type of the object
+   * @param {module:josm/api~DownloadObjectOptions} [options] named options
+   * @static
    */
   static downloadObject() {
     switch (arguments.length) {
@@ -670,13 +670,13 @@ export class Api {
           arguments.length)
         break
       case 1:
-        return downloadObject1.apply(this, arguments)
+        return Api.#downloadObject1(...arguments)
 
       case 2:
-        return downloadObject2.apply(this, arguments)
+        return Api.#downloadObject2(...arguments)
 
       case 3:
-        return downloadObject3.apply(this, arguments)
+        return Api.#downloadObject3(...arguments)
 
       default:
         util.assert(false, 'Unexpected number of arguments, got {0}',
@@ -684,7 +684,7 @@ export class Api {
     }
   }
 
-  #downloadReferrer1 () {
+  static #downloadReferrer1 () {
     let id
     const o = arguments[0]
     util.assert(util.isSomething(o),
@@ -692,23 +692,22 @@ export class Api {
     if (o instanceof PrimitiveId) {
       id = o
     } else if (typeof o === 'object') {
-      id = this.#primitiveIdFromObject(o)
+      id = Api.#primitiveIdFromObject(o)
     } else {
       util.assert(false, 'Argument 0: unexpected type, got {0}', o)
     }
-    const reader = new OsmServerBackreferenceReader(id.getUniqueId(),
-      id.getType())
+    const reader = new OsmServerBackreferenceReader(id.getUniqueId(),id.getType())
     const ds = reader.parseOsm(NullProgressMonitor.INSTANCE)
     return ds
   }
 
-  #downloadReferrer2 () {
+  static #downloadReferrer2 () {
     let id
     let type
     const options = { full: undefined }
     if (util.isNumber(arguments[0])) {
-      id = this.#normalizeId(arguments[0])
-      type = this.#normalizeType(arguments[1])
+      id = Api.#normalizeId(arguments[0])
+      type = Api.#normalizeType(arguments[1])
       id = new SimplePrimitiveId(id, type)
     } else if (arguments[0] instanceof PrimitiveId) {
       id = arguments[0]
@@ -716,15 +715,15 @@ export class Api {
       if (util.isSomething(o)) {
         util.assert(typeof o === 'object',
           'Expected an object with named parameters, got {0}', o)
-        options.full = optionFull(o)
+        options.full = Api.#optionFull(o)
       }
     } else if (typeof arguments[0] === 'object') {
-      id = this.#primitiveIdFromObject(arguments[0])
+      id = Api.#primitiveIdFromObject(arguments[0])
       const o = arguments[1]
       if (util.isSomething(o)) {
         util.assert(typeof o === 'object',
           'Expected an object with named parameters, got {0}', o)
-        options.full = optionFull(o)
+        options.full = Api.#optionFull(o)
       }
     } else {
       util.assert(false, 'Unsupported types of arguments')
@@ -738,15 +737,15 @@ export class Api {
     return ds
   }
 
-  #downloadReferrer3 () {
+  static #downloadReferrer3 () {
     const options = { full: undefined }
-    const n = this.#normalizeId(arguments[0])
-    const type = this.#normalizeType(arguments[1])
+    const n = Api.#normalizeId(arguments[0])
+    const type = Api.#normalizeType(arguments[1])
     const id = new SimplePrimitiveId(n, type)
 
     util.assert(typeof arguments[2] === 'object',
       'Expected an object with named parameters, got {0}', arguments[2])
-    options.full = optionFull(arguments[2])
+    options.full = Api.#optionFull(arguments[2])
 
     const reader = new OsmServerBackreferenceReader(id.getUniqueId(),
       id.getType())
@@ -756,6 +755,15 @@ export class Api {
     const ds = reader.parseOsm(NullProgressMonitor.INSTANCE)
     return ds
   }
+
+  /**
+   * Options for the method donwloadReferrers()
+   *
+   * @typedef DownloadReferrerOptions
+   * @property {boolean} [full=false] If &lt;code>true&lt;/code>, the &lt;strong>full&lt;/strong> objects are
+   *   retrieved using multi-gets. If missing or &lt;code>false&lt;/code>,
+   *   only proxy objects are downloaded. Default: false
+   */
 
   /**
    * Downloads the objects &lt;em>referring&lt;/em> to another object from
@@ -799,15 +807,6 @@ export class Api {
    *   &lt;/dd>
    * &lt;/dl>
    *
-   * In both cases, &lt;code>?options&lt;/code> is an (optional) object with the
-   * following  (optional) property:
-   * &lt;dl>
-   *   &lt;dt>&lt;code class='signature'>full&lt;/code>:boolean&lt;/dt>
-   *   &lt;dd class="param-desc">If &lt;code>true&lt;/code>, the the &lt;strong>full&lt;/strong> objects are
-   *   retrieved using multi-gets. If missing or &lt;code>false&lt;/code>,
-   *   only proxy objects are downloaded. Default: false&lt;/dd>
-   * &lt;/dl>
-   *
    * @example
    * import { Api } from 'josm/api'
    * import { NodeBuilder } from 'josm/builder'
@@ -831,7 +830,9 @@ export class Api {
    * const ds = Api.downloadReferrer(node, { full: true })
    *
    * @returns {org.openstreetmap.josm.data.osm.DataSet} the downloaded primitives
-   * @param args see description and examples
+   * @param {number|org.openstreetmap.josm.data.osm.PrimitiveId} id the id of the object
+   * @param {string|org.openstreetmap.josm.data.osm.OsmPrimitiveType} [type] the type of the object
+   * @param {module:josm/api~DownloadReferrerOptions} [options] named options
    */
   static downloadReferrer() {
     switch (arguments.length) {
@@ -841,13 +842,13 @@ export class Api {
         break
 
       case 1:
-        return downloadReferrer1.apply(this, arguments)
+        return Api.#downloadReferrer1(...arguments)
 
       case 2:
-        return downloadReferrer2.apply(this, arguments)
+        return Api.#downloadReferrer2(...arguments)
 
       case 3:
-        return downloadReferrer3.apply(this, arguments)
+        return Api.#downloadReferrer3(...arguments)
 
       default:
         util.assert(false, 'Unexpected number of arguments, got {0}',
@@ -860,6 +861,8 @@ export class Api {
    *
    * @example
    * import { Api } from 'josm/api'
+   * const Bounds = Java.type('org.openstreetmap.josm.data.Bounds')
+   * const LatLon = Java.type('org.openstreetmap.josm.data.coor.LatLon')
    * const ds1 = Api.downloadArea(new Bounds(
    *     new LatLon(46.9479186,7.4619484),   // min
    *     new LatLon(46.9497642, 7.4660683)   // max
@@ -871,20 +874,14 @@ export class Api {
    * })
    *
    * @returns {org.openstreetmap.josm.data.osm.DataSet} the downloaded primitives
-   * @param {org.openstreetmap.josm.data.Bounds|object} bounds the bounding box
+   * @param {org.openstreetmap.josm.data.Bounds|module:josm/api~BoundsSpec1|module:josm/api~BoundsSpec2} bounds the bounding box
    */
   static downloadArea() {
-    const BoundingBoxDownloader =
-      Java.type('org.openstreetmap.josm.io.BoundingBoxDownloader')
-    const NullProgressMonitor =
-      Java.type('org.openstreetmap.josm.gui.progress.NullProgressMonitor')
-    const Bounds = Java.type('org.openstreetmap.josm.data.Bounds')
 
     util.assert(arguments.length === 1, 'Expected 1 argument, got {0}',
       arguments.length)
     let bounds = arguments[0]
-    util.assert(util.isSomething(bounds),
-      'bounds: must not be null or undefined')
+    util.assert(util.isSomething(bounds),'bounds: must not be null or undefined')
     if (bounds instanceof Bounds) {
       // do nothing
     } else if (typeof bounds === 'object') {
@@ -896,6 +893,29 @@ export class Api {
     const downloader = new BoundingBoxDownloader(bounds)
     return downloader.parseOsm(NullProgressMonitor.INSTANCE)
   }
+
+  /**
+   * Options for the method upload()
+   *
+   * @typedef UploadOptions
+   * @property {string|org.openstreetmap.josm.io.UploadStrategy}[strategy] Indicates how the data is uploaded.
+   *    Either one of the strings
+   *     &lt;ul>
+   *          &lt;li>individualobjects&lt;/li>
+   *          &lt;li>chunked&lt;/li>
+   *          &lt;li>singlerequest&lt;/li>
+   *       &lt;/ul>
+   *    or one of the enumeration values in
+   *    {@class org.openstreetmap.josm.io.UploadStrategy}.
+   *    Default value: UploadStrategy.DEFAULT_UPLOAD_STRATEGY
+   * @property {number| org.openstreetmap.josm.data.osm.Changeset} [changeset] The changeset to which the data is uploaded.
+   *    Default: creates a new changeset
+   *
+   * @property {number} [chunkSize]  the size of an upload chunk  if the data is uploaded with the
+   *    upload strategy {@class org.openstreetmap.josm.io.UploadStrategy}.CHUNKED_DATASET_STRATEGY.
+   *
+   * @property {boolean} [closeChangeset=true] if true, closes the changeset after the upload
+   */
 
   /**
    * Uploads objects to the server.
@@ -926,49 +946,18 @@ export class Api {
    * have been uploaded successfully. In order to keep track, which pritives
    * have been uploaded successfully in case of an error, the method replies a
    * collection of the successfully uploaded objects.
-   * &lt;p>
-   * &lt;strong>Named options&lt;/strong>
-   * &lt;/p>
-   * &lt;dl>
-   *   &lt;dt>&lt;code class='signature'>strategy: string|
-   *   {@class org.openstreetmap.josm.io.UploadStrategy}&lt;/code>&lt;/dt>
-   *   &lt;dd class="param-desc">Indicates how the data is uploaded. Either one of the strings
-   *     &lt;ul>
-   *          &lt;li>individualobjects&lt;/li>
-   *          &lt;li>chunked&lt;/li>
-   *          &lt;li>singlerequest&lt;/li>
-   *       &lt;/ul>
-   *      or one of the enumeration values in
-   *      {@class org.openstreetmap.josm.io.UploadStrategy}.
-   *      Default falue: UploadStrategy.DEFAULT_UPLOAD_STRATEGY
-   *   &lt;/dd>
-   *
-   *    &lt;dt>&lt;code class='signature'>changeset:
-   *        number|{@class org.openstreetmap.josm.data.osm.Changeset}&lt;/code>&lt;/dt>
-   *    &lt;dd class="param-desc">The changeset to which the data is uploaded. Either a number
-   *       (the changeset id) or a
-   *       {@class org.openstreetmap.josm.data.osm.Changeset} instance.
-   *       Default: creates a new changeset.&lt;/dd>
-   *
-   *    &lt;dt>&lt;code class='signature'>chunkSize: number&lt;/code>&lt;/dt>
-   *    &lt;dd class="param-desc">The size of an upload chunk, if the data is uploaded with the
-   *    upload strategy
-   *    {@class org.openstreetmap.josm.io.UploadStrategy}.CHUNKED_DATASET_STRATEGY.&lt;/dd>
-   *
-   *    &lt;dt>&lt;code class='signature'>closeChangeset: boolean&lt;/code>&lt;/dt>
-   *    &lt;dd class="param-desc">If true, closes the changeset after the upload. Default: true&lt;/dd>
-   * &lt;/dl>
    *
    * @example
    * const DataSet = Java.type('org.openstreetmap.josm.data.osm.DataSet')
    * import { WayBuilder } from 'josm/builder'
    * import { Api } from 'josm/api'
    * const ds = new DataSet()
+   * const nb = NodeBuilder.forDataSet(ds)
    * WayBuilder
    *  .forDataSet(ds)
    *  .withNodes(
-   *     ds.nodeBuilder.withTags({name: 'node1'}).create(),
-   *     ds.nodeBuilder.withTags({name: 'node2'}.create()
+   *     nb.withTags({name: 'node1'}).create(),
+   *     nb.withTags({name: 'node2'}).create()
    *  )
    *  .withTags({name: 'way1'})
    *  .create()
@@ -979,7 +968,7 @@ export class Api {
    * @param {org.openstreetmap.josm.data.osm.DataSet|
    *         org.openstreetmap.josm.data.APIDataSet|array|java.util.Collection} data the data to upload
    * @param {string} comment the upload comment
-   * @param {object} [options] various options (see above)
+   * @param {module:josm/api~UploadOptions} [options] named options
    * @returns {java.util.Collection}
    */
   static upload(data, comment, options) {
@@ -1004,7 +993,7 @@ export class Api {
       util.assert(util.isNumber(size),
         'chunksize: expected a number, got {0}', size)
       util.assert(size >= -1,
-        'chunksize: expected -1 or a number > 0, got {0]', size)
+        'chunksize: expected -1 or a number > 0, got {0}', size)
       return size
     }
 
@@ -1024,16 +1013,19 @@ export class Api {
     }
 
     function uploadSpecFromOptions (options) {
-      let strategy = options.strategy ||
-        UploadStrategy.DEFAULT_UPLOAD_STRATEGY
-      strategy = UploadStrategy.from(strategy)
-
+      let strategy = options.strategy || UploadStrategy.DEFAULT_UPLOAD_STRATEGY
+      if (strategy instanceof String) {
+        strategy = UploadStrategy.valueOf(strategy)
+        util.assert(strategy, "invalid upload strategy ''{0}''", strategy)
+      }
+  
       let chunkSize = options.chunkSize ||
         UploadStrategySpecification.UNSPECIFIED_CHUNK_SIZE
       chunkSize = normalizeChunkSize(chunkSize)
 
       let closeChangeset = util.isDef(options.closeChangeset)
-        ? options.closeChangeset : true
+        ? options.closeChangeset 
+        : true
       closeChangeset = Boolean(closeChangeset)
 
       const spec = new UploadStrategySpecification()
@@ -1088,7 +1080,7 @@ export class Api {
  */
 export const ApiConfig = {}
 
-const DEFAULT_URL = 'http://api.openstreetmap.com/api/0.6'
+const DEFAULT_URL = 'https://www.openstreetmap.org/api'
 
 /**
  * Get or set the API server URL.
@@ -1130,14 +1122,17 @@ Object.defineProperty(ApiConfig, 'serverUrl', {
     if (util.isNothing(value)) {
       Preferences.main().put('osm-server.url', null)
     } else if (value instanceof URL) {
-      util.assert(value.getProtocol() === 'http' || value.getProtocol() === 'https',
-        'url: expected a http or https URL, got {0}', value)
+      util.assert(
+        ['http', 'https'].includes(value.getProtocol()),
+        'url: expected a http or https URL, got {0}',
+        value)
       Preferences.main().put('osm-server.url', value.toString())
     } else if (util.isString(value)) {
       value = util.trim(value)
       try {
         const url = new URL(value)
-        util.assert(url.getProtocol() === 'http' || url.getProtocol() === 'https',
+        util.assert(
+          ['http', 'https'].includes(url.getProtocol()),
           'url: expected a http or https URL, got {0}',
           url.toString())
         Preferences.main().put('osm-server.url', url.toString())
@@ -1211,7 +1206,7 @@ function normalizeAuthMethod (authMethod) {
 Object.defineProperty(ApiConfig, 'authMethod', {
   enumerate: true,
   get: function () {
-    var authMethod = Preferences.main().get('osm-server.auth-method', 'basic')
+    let authMethod = Preferences.main().get('osm-server.auth-method', 'basic')
     authMethod = util.trim(authMethod).toLowerCase()
     if (authMethod === 'basic' || authMethod === 'oauth') return authMethod
     // unsupported value for authMethod in the preferences. Returning
@@ -1225,17 +1220,34 @@ Object.defineProperty(ApiConfig, 'authMethod', {
 })
 
 /**
+ * Options for the method setCredentials
+ *
+ * @typedef SetOrGetCredentialOptions
+ * @param {string} [host] the host name of the API server for which credentials are set.
+ *    If missing, the host name of the currently configured OSM API server
+ *    is used.
+ */
+
+/**
+ * Basic credentials replied by getCredentials
+ *
+ * @typedef BasicCredentials
+ * @property {string} host  the host name
+ * @property {string} user  the user name
+ * @property {string} password  the password
+ */
+
+/**
+ * OAuth credentials replied by getCredentials
+ *
+ * @typedef OAuthCredentials
+ * @property {string} key  the OAuth key
+ * @property {string} secret  the OAuth secret
+ */
+
+/**
  * Gets the credentials, i.e. username and password for the basic
  * authentication method.
- *
- * &lt;p>&lt;strong>Named options&lt;/strong>&lt;/p>
- *
- * &lt;dl>
- *    &lt;dt>&lt;code class='signature'>host:string&lt;/code>&lt;/dt>
- *    &lt;dd class="param-desc">The host name of the API server for which credentials are retrieved.
- *    If missing, the host name of the currently configured OSM API server
- *    is used.&lt;/dd>
- * &lt;/dl>
  *
  * @example
  * import { ApiConfig } from 'josm/api'
@@ -1244,37 +1256,44 @@ Object.defineProperty(ApiConfig, 'authMethod', {
  * const credentials = ApiConfig.getCredentials('basic')
  *
  * @param {string} authMethod  the authentication method. Either &lt;code>basic&lt;/code> or &lt;code>oauth&lt;/code>
- * @param {object} options  (optional) additional options (see above)
+ * @param {module:josm/api~SetOrGetCredentialOptions} [options] additional options
  * @static
- * @summary Gets the credentials.
- * @returns {object}  the credentials
- * @name getCredentials
- * @function
+ * @returns {BasicCredentials | OAuthCredentials}  the credentials
  * @memberof module:josm/api~ApiConfig
 */
-ApiConfig.getCredentials = function (authMethod, options) {
-  const CredentialsManager = Java.type('org.openstreetmap.josm.io.auth.CredentialsManager')
-  const OsmApi = Java.type('org.openstreetmap.josm.io.OsmApi')
-  const RequestorType = Java.type('java.net.Authenticator.RequestorType')
-  const String = Java.type('java.lang.String')
+function getCredentials(authMethod, options) {
 
   options = options || {}
   util.assert(typeof options === 'object',
     'options: expected an object with named options, got {0}', options)
+
+  // a hack to convert a Java 'char[]' into a JavaScript string
+  function charArrayToString(chars) {
+    let result = ""
+    for (let i=0; i &lt; chars.length; i++) {
+      const c = chars[i].toString()
+      result += c
+    }
+    return result
+  }
 
   function getBasicCredentials () {
     const cm = CredentialsManager.getInstance()
     if (options.host) options.host = util.trim(String(options.host))
     const host = options.host ? options.host : OsmApi.getOsmApi().getHost()
     const pa = cm.lookup(RequestorType.SERVER, host)
-    return pa ? {
-      host: host,
-      user: pa.getUserName(),
-      password: String.valueOf(pa.getPassword())
-    } : {
-      host: host,
-      user: undefined,
-      password: undefined
+    if (pa) {
+      return {
+        host: host,
+        user: pa.getUserName(),
+        password: charArrayToString(pa.getPassword())
+      }
+    } else {
+      return  {
+        host: host,
+        user: undefined,
+        password: undefined
+      }
     }
   }
 
@@ -1291,9 +1310,10 @@ ApiConfig.getCredentials = function (authMethod, options) {
   util.assert(false, 'Unsupported authentication method, got {0}',
     authMethod)
 }
+ApiConfig.getCredentials = getCredentials
+
 
 function normalizeBasicCredentials (credentials) {
-  const PasswordAuthentication = Java.type('java.net.PasswordAuthentication')
 
   if (util.isNothing(credentials)) return null
   util.assert(credentials instanceof PasswordAuthentication || typeof credentials === 'object',
@@ -1303,11 +1323,12 @@ function normalizeBasicCredentials (credentials) {
   if (credentials instanceof PasswordAuthentication) {
     return credentials
   } else {
-    const user = String.valueOf(credentials.user || '')
+    const user = String(credentials.user || '')
     let password = credentials.password || null
-    password = password
-      ? String.valueOf(password).toCharArray()
-      : password
+    if (password) {
+      // convert to char array
+      password = [...password]
+    }
     return new PasswordAuthentication(user, password)
   }
 }
@@ -1328,48 +1349,51 @@ function normalizeOAuthCredentials (credentials) {
 }
 
 /**
+ * Userid and password for basic authentication.
+ *
+ * @typdef BasicAuthParameters
+ * @param {string} user  the user id
+ * @param {string} password the password
+ */
+
+/**
+ * Parameters for OAuth authentication
+ *
+ * @typdef OAuthParameters
+ * @param {string} key  the key
+ * @param {string} secret the secret
+ */
+
+/**
  * Set the credentials, i.e. username and password for the basic
  * authentication method.
  *
  * Basic authentication credentials are either an instance of
- * java.net.PasswordAuthentication or
+ * {@class java.net.PasswordAuthentication} or
  * an object &lt;code>{user: string, password: string}&lt;/code>.
  *
  * OAuth authentication credentials are either an instance of
  * {@class org.openstreetmap.josm.data.oauth.OAuthToken} or
  * an object &lt;code>{key: string, secret: string}&lt;/code>.
- * &lt;p>
- * &lt;strong>Named options&lt;/strong>
- * &lt;/p>
- * &lt;dl>
- *    &lt;dt>&lt;code class='signature'>host:string&lt;/code>&lt;/dt>
- *    &lt;dd class="param-desc">The host name of the API server for which credentials are set.
- *    If missing, the host name of the currently configured OSM API server
- *    is used.&lt;/dd>
- * &lt;/dl>
  *
  * @example
  * import { ApiConfig } from 'josm/api'
  *
  * // set the credentials
- * ApiConfig.setCredentials('basic', { user:'test', password:'apassword' })
+ * ApiConfig.setCredentials('basic', { user:'test', password:'my-password' })
  *
  * @param {string} authMethod  the authentication method. Either 'basic' or 'oauth'.
- * @param {(object|org.openstreetmap.josm.data.oauth.OAuthToken|java.net.PasswordAuthentication)}
- *         credentials  the credentials.
- * @param {object} options  (optional) additional options (see above)
- * @function
+ * @param {(
+ *  module:josm/api~BasicAuthParameters
+ * | module:josm/api~OAuthParameters
+ * | org.openstreetmap.josm.data.oauth.OAuthToken
+ * | java.net.PasswordAuthentication)} credentials  the credentials
+ * @param {module:josm/api~SetOrGetCredentialOptions} [options] additional options
  * @static
- * @summary Set the credentials.
  * @returns {object} the credentials
- * @name setCredentials
  * @memberof module:josm/api~ApiConfig
  */
-ApiConfig.setCredentials = function (authMethod, credentials, options) {
-  const CredentialsManager = Java.type('org.openstreetmap.josm.io.auth.CredentialsManager')
-  const RequestorType = Java.type('java.net.Authenticator.RequestorType')
-  const OsmApi = Java.type('org.openstreetmap.josm.io.OsmApi')
-
+function setCredentials (authMethod, credentials, options) {
   options = options || {}
   util.assert(typeof options === 'object',
     'options: expected an object with named options, got {0}', options)
@@ -1383,7 +1407,7 @@ ApiConfig.setCredentials = function (authMethod, credentials, options) {
     const cm = CredentialsManager.getInstance()
     cm.store(RequestorType.SERVER, host, credentials)
   } else if (authMethod === 'oauth') {
-    credentials = normalizeOAuthCredentials(credentials)
+      credentials = normalizeOAuthCredentials(credentials)
     util.assert(credentials != null,
       'credentials: can\'\'t store null credentials')
     const cm = CredentialsManager.getInstance()
@@ -1393,6 +1417,7 @@ ApiConfig.setCredentials = function (authMethod, credentials, options) {
       authMethod)
   }
 }
+ApiConfig.setCredentials = setCredentials
 </pre>
     </article>
 </section>
@@ -1438,7 +1463,7 @@ ApiConfig.setCredentials = function (authMethod, credentials, options) {
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.10</a>
 	
-		on Mon Jun 20th 2022
+		on Tue Jun 21st 2022
 	
 	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>

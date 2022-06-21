@@ -40,7 +40,7 @@
 			<li class="dropdown">
 				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
 				<ul class="dropdown-menu ">
-					<li><a href="module-josm_api.ChangesetApi.html">josm/api.ChangesetApi</a></li><li><a href="module-josm_api-Api.html">josm/api~Api</a></li><li><a href="module-josm_api-ApiConfig.html">josm/api~ApiConfig</a></li><li><a href="module-josm_builder_node-NodeBuilder.html">josm/builder/node~NodeBuilder</a></li><li><a href="module-josm_builder_relation-RelationBuilder.html">josm/builder/relation~RelationBuilder</a></li><li><a href="module-josm_builder_way-WayBuilder.html">josm/builder/way~WayBuilder</a></li><li><a href="module-josm_command.ChangeCommand.html">josm/command.ChangeCommand</a></li><li><a href="module-josm_command.CommandHistory.html">josm/command.CommandHistory</a></li><li><a href="module-josm_command.DeleteCommand.html">josm/command.DeleteCommand</a></li><li><a href="module-josm_command-AddCommand.html">josm/command~AddCommand</a></li><li><a href="module-josm_ds.DataSetUtil.html">josm/ds.DataSetUtil</a></li><li><a href="module-josm_layers.Layers.html">josm/layers.Layers</a></li><li><a href="module-josm_ui_menu-MenuBar.html">josm/ui/menu~MenuBar</a></li><li><a href="NodeBuilder.NodeBuilder.html">NodeBuilder.NodeBuilder</a></li>
+					<li><a href="module-josm_api.Api.html">josm/api.Api</a></li><li><a href="module-josm_api.ChangesetApi.html">josm/api.ChangesetApi</a></li><li><a href="module-josm_api-ApiConfig.html">josm/api~ApiConfig</a></li><li><a href="module-josm_builder_node-NodeBuilder.html">josm/builder/node~NodeBuilder</a></li><li><a href="module-josm_builder_relation-RelationBuilder.html">josm/builder/relation~RelationBuilder</a></li><li><a href="module-josm_builder_way-WayBuilder.html">josm/builder/way~WayBuilder</a></li><li><a href="module-josm_builder_way-WayBuilder.WayBuilder.html">josm/builder/way~WayBuilder.WayBuilder</a></li><li><a href="module-josm_command.AddCommand.html">josm/command.AddCommand</a></li><li><a href="module-josm_command.ChangeCommand.html">josm/command.ChangeCommand</a></li><li><a href="module-josm_command.CommandHistory.html">josm/command.CommandHistory</a></li><li><a href="module-josm_command.DeleteCommand.html">josm/command.DeleteCommand</a></li><li><a href="module-josm_ds.DataSetUtil.html">josm/ds.DataSetUtil</a></li><li><a href="module-josm_layers.Layers.html">josm/layers.Layers</a></li><li><a href="module-josm_ui_menu-MenuBar.html">josm/ui/menu~MenuBar</a></li><li><a href="NodeBuilder.exports.NodeBuilder.html">NodeBuilder.exports.NodeBuilder</a></li>
 				</ul>
 			</li>
 			
@@ -154,7 +154,7 @@
 		<ul class="dummy">
 			<li>
 				<a href="josm_ui_menu.mjs.html">josm/ui/menu.mjs</a>,
-				 <a href="josm_ui_menu.mjs.html#sunlight-1-line-13">line 13</a>
+				 <a href="josm_ui_menu.mjs.html#sunlight-1-line-16">line 16</a>
 			</li>
 		</ul>
 	</dd>
@@ -200,197 +200,6 @@
         <h3 class="subsection-title">Members</h3>
 
         <dl>
-            
-<hr>
-<dt class="name" id=".JSAction">
-    <h4 id=".JSAction"><span class="type-signature">&lt;static> </span>JSAction<span class="type-signature"></span></h4>
-
-    
-</dt>
-<dd>
-    
-    <div class="description">
-        JSAction is an action for which a menu item or a toolbar item can be
-added to  JOSMs menu or JOSMs toolbar respectively.
-
-This is just a shortcut for the Java class
-<a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/plugins/scripting/js/JSAction.html" alt="org.openstreetmap.josm.plugins.scripting.js.JSAction" target="javadoc">JSAction</a>.
-
-The constructor accepts an object with the following optional named
-parameters.
-<dl>
-  <dt><code class="signature">name:string</code></dt>
-  <dd class="param-desc">The optional name of the action. Default: an auto generated name.</dd>
-
-  <dt><code class="signature">tooltip:string</code></dt>
-  <dd class="param-desc">The optional tooltip of the action. Default: empty string.</dd>
-
-  <dt><code class="signature">iconName:string</code></dt>
-  <dd class="param-desc">The optional name of an icon. Default: null.</dd>
-
-  <dt><code class="signature">toolbarId:string</code></dt>
-  <dd class="param-desc">The optional name of the tooblar to which this action is added.
-  Note that it isn't added automatically, when this action is created. Default: null.</dd>
-
-  <dt><code class="signature">onExecute:function</code></dt>
-  <dd class="param-desc">The (optional) function which is called when the action is executed.
-  Default: null.</dd>
-
-  <dt><code class="signature">onInitEnabled:function</code></dt>
-  <dd class="param-desc">The (optional) function which is called when the <em>enabled</em>
-  state of the function is evaluated the first time. Default: null.</dd>
-
-  <dt><code class="signature">onUpdateEnabled:function</code></dt>
-  <dd class="param-desc">The (optional) function which is called when the <em>enabled</em>
-  state of the function is reevaluated, in particular, when layer change
-  events or selection change events occur. Default: null.</dd>
-</dl>
-    </div>
-    
-
-    
-
-    
-<dl class="details">
-    
-
-    <h5 class="subsection-title">Properties:</h5>
-
-    <dl>
-
-<table class="props table table-striped">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>JSAction</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">org.openstreetmap.josm.plugins.scripting.graalvm.JSAction</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-</dl>
-
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="josm_ui_menu.mjs.html">josm/ui/menu.mjs</a>,
-				 <a href="josm_ui_menu.mjs.html#sunlight-1-line-120">line 120</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-        <h5>Example</h5>
-        
-    <pre class="sunlight-highlight-javascript">import {JSAction} from &#x27;josm/ui/menu&#x27;
-import * as util from &#x27;josm/util&#x27;
-import josm from &#x27;josm&#x27;
-const JMenuItem = Java.type(&#x27;javax.swing.JMenuItem&#x27;)
-
-// create the menu action
-const helloWorldAction = new JSAction({
-  name: &quot;My Action&quot;,
-  iconName: &#x27;myicon&#x27;,
-  toolbarId: &#x27;myToolbarId&#x27;,
-  tooltip: &quot;This is my action&quot;,
-
-  onInitEnabled: function() {
-    util.println(&#x27;onInitEnabled: entering ...&#x27;)
-  },
-
-  onUpdateEnabled: function() {
-    util.println(&#x27;onUpdateEnabled: entering ...&#x27;)
-  },
-
-  onExecute: function() {
-    util.println(&#x27;Hello World!&#x27;)
-  }
-})
-
-// register a new menu item in the file menu
-const fileMenu = josm.menu.get(&#x27;file&#x27;)
-fileMenu.addSeparator()
-fileMenu.add(new JMenuItem(helloWorldAction))</pre>
-
-
-    
-</dd>
-
-        
             
 <hr>
 <dt class="name" id=".length">
@@ -498,7 +307,7 @@ fileMenu.add(new JMenuItem(helloWorldAction))</pre>
 		<ul class="dummy">
 			<li>
 				<a href="josm_ui_menu.mjs.html">josm/ui/menu.mjs</a>,
-				 <a href="josm_ui_menu.mjs.html#sunlight-1-line-21">line 21</a>
+				 <a href="josm_ui_menu.mjs.html#sunlight-1-line-24">line 24</a>
 			</li>
 		</ul>
 	</dd>
@@ -631,7 +440,7 @@ josm.alert(josm.menu.length)</pre>
 		<ul class="dummy">
 			<li>
 				<a href="josm_ui_menu.mjs.html">josm/ui/menu.mjs</a>,
-				 <a href="josm_ui_menu.mjs.html#sunlight-1-line-102">line 102</a>
+				 <a href="josm_ui_menu.mjs.html#sunlight-1-line-105">line 105</a>
 			</li>
 		</ul>
 	</dd>
@@ -658,7 +467,7 @@ josm.alert(josm.menu.length)</pre>
             
 <hr>
 <dt>
-    <h4 class="name" id="get"><span class="type-signature"></span>get(key)</h4>
+    <h4 class="name" id=".get"><span class="type-signature">&lt;static> </span>get(key)</h4>
     
     
     <p class="summary">Replies a menu in the JOSM menu bar.</p>
@@ -781,7 +590,7 @@ symbolic names as string:
 		<ul class="dummy">
 			<li>
 				<a href="josm_ui_menu.mjs.html">josm/ui/menu.mjs</a>,
-				 <a href="josm_ui_menu.mjs.html#sunlight-1-line-43">line 43</a>
+				 <a href="josm_ui_menu.mjs.html#sunlight-1-line-46">line 46</a>
 			</li>
 		</ul>
 	</dd>
@@ -836,10 +645,10 @@ symbolic names as string:
         
     <pre class="sunlight-highlight-javascript">import josm from &#x27;josm&#x27;
 // get the edit menu with a numeric index
-const editmenu = josm.menu.get(1)
+const editMenu = josm.menu.get(1)
 
 // get the file menu with a symbolic name
-const filemenu = josm.menu.get(&#x27;file&#x27;)</pre>
+const fileMenu = josm.menu.get(&#x27;file&#x27;)</pre>
 
 
     
@@ -899,7 +708,7 @@ const filemenu = josm.menu.get(&#x27;file&#x27;)</pre>
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.10</a>
 	
-		on Mon Jun 20th 2022
+		on Tue Jun 21st 2022
 	
 	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>

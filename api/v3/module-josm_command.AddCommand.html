@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
-	<title>JOSM Scripting Plugin - JavaScript API V3 Class: CommandHistory</title>
+	<title>JOSM Scripting Plugin - JavaScript API V3 Class: AddCommand</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -72,7 +72,7 @@
 		<div id="main">
 			
 
-	<h1 class="page-title">Class: CommandHistory</h1>
+	<h1 class="page-title">Class: AddCommand</h1>
 <section>
 
 <header>
@@ -80,12 +80,10 @@
         <h2>
             <span class="ancestors"><a href="module-josm_command.html">josm/command</a>.</span>
         
-        CommandHistory
+        AddCommand
         </h2>
         
-            <div class="class-description">Accessor to the global command history.
-<p>
-Provides static methods to redo and undo commands.</div>
+            <div class="class-description">A command to add a collection of objects to a data layer.</div>
         
     
 </header>
@@ -103,10 +101,8 @@ Provides static methods to redo and undo commands.</div>
         
 <hr>
 <dt>
-    <h4 class="name" id="CommandHistory"><span class="type-signature"></span>new CommandHistory()</h4>
+    <h4 class="name" id="AddCommand"><span class="type-signature"></span>new AddCommand(objs)</h4>
     
-    
-    <p class="summary">Accessor to the global command history</p>
     
 </dt>
 <dd>
@@ -118,6 +114,59 @@ Provides static methods to redo and undo commands.</div>
     
 
     
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>objs</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="http://docs.oracle.com/javase/6/docs/api/java/util/Collection.html" alt="java.util.Collection" target="javadoc">Collection</a></span>
+|
+
+<span class="param-type">array</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the objects to add</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
     
 
     
@@ -156,7 +205,7 @@ Provides static methods to redo and undo commands.</div>
 		<ul class="dummy">
 			<li>
 				<a href="josm_command.mjs.html">josm/command.mjs</a>,
-				 <a href="josm_command.mjs.html#sunlight-1-line-441">line 441</a>
+				 <a href="josm_command.mjs.html#sunlight-1-line-101">line 101</a>
 			</li>
 		</ul>
 	</dd>
@@ -207,7 +256,7 @@ Provides static methods to redo and undo commands.</div>
             
 <hr>
 <dt>
-    <h4 class="name" id=".clear"><span class="type-signature">&lt;static> </span>clear( [layer])</h4>
+    <h4 class="name" id="createJOSMCommand"><span class="type-signature"></span>createJOSMCommand(layer)</h4>
     
     
 </dt>
@@ -215,8 +264,7 @@ Provides static methods to redo and undo commands.</div>
 
     
     <div class="description">
-        Removes commands in the command history, either all commands, or only the
-commands  applied to a specific layer.
+        Creates the internal JOSM command for this command
     </div>
     
 
@@ -238,8 +286,6 @@ commands  applied to a specific layer.
 
         <th>Type</th>
 
-        
-        <th>Argument</th>
         
 
         
@@ -259,7 +305,7 @@ commands  applied to a specific layer.
             <td class="type">
             
                 
-<span class="param-type"><a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/gui/layer/Layer.html" alt="org.openstreetmap.josm.gui.layer.Layer" target="javadoc">Layer</a></span>
+<span class="param-type"><a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/gui/layer/OsmDataLayer.html" alt="org.openstreetmap.josm.gui.layer.OsmDataLayer" target="javadoc">OsmDataLayer</a></span>
 
 
 
@@ -267,22 +313,10 @@ commands  applied to a specific layer.
             </td>
 
             
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
 
             
 
-            <td class="description last">the
-reference layer. Only commands applied to this layer are removed. Default
-if missing: <strong>all</strong> commands are removed.</td>
+            <td class="description last">the data layer</td>
         </tr>
 
     
@@ -327,7 +361,7 @@ if missing: <strong>all</strong> commands are removed.</td>
 		<ul class="dummy">
 			<li>
 				<a href="josm_command.mjs.html">josm/command.mjs</a>,
-				 <a href="josm_command.mjs.html#sunlight-1-line-489">line 489</a>
+				 <a href="josm_command.mjs.html#sunlight-1-line-115">line 115</a>
 			</li>
 		</ul>
 	</dd>
@@ -352,322 +386,30 @@ if missing: <strong>all</strong> commands are removed.</td>
     
 
     
-
+    <h5>Returns:</h5>
     
-</dd>
+            
+<div class="param-desc">
+    the command
+</div>
 
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
         
-            
-<hr>
-<dt>
-    <h4 class="name" id=".redo"><span class="type-signature">&lt;static> </span>redo( [depth])</h4>
-    
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Redoes the last <code>depth</code> commands.
-    </div>
-    
-
-    
-
-    
-
-    
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params table table-striped">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Argument</th>
-        
-
-        
-        <th>Default</th>
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>depth</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
+<span class="param-type"><a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/command/Command.html" alt="org.openstreetmap.josm.command.Command" target="javadoc">Command</a></span>
 
 
 
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    1
-                
-                </td>
-            
-
-            <td class="description last">the number of commands to be redone.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-    
-
-    
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="josm_command.mjs.html">josm/command.mjs</a>,
-				 <a href="josm_command.mjs.html#sunlight-1-line-467">line 467</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
+    </dd>
 </dl>
 
 
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dd>
-
         
-            
-<hr>
-<dt>
-    <h4 class="name" id=".undo"><span class="type-signature">&lt;static> </span>undo( [depth])</h4>
-    
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Undoes the last <code>depth</code> commands.
-    </div>
-    
-
-    
-
-    
-
-    
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params table table-striped">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Argument</th>
-        
-
-        
-        <th>Default</th>
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>depth</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    1
-                
-                </td>
-            
-
-            <td class="description last">the number of commands to be undone</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-    
-
-    
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="josm_command.mjs.html">josm/command.mjs</a>,
-				 <a href="josm_command.mjs.html#sunlight-1-line-448">line 448</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
 
     
 </dd>

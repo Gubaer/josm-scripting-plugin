@@ -40,7 +40,7 @@
 			<li class="dropdown">
 				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
 				<ul class="dropdown-menu ">
-					<li><a href="module-josm_api.ChangesetApi.html">josm/api.ChangesetApi</a></li><li><a href="module-josm_api-Api.html">josm/api~Api</a></li><li><a href="module-josm_api-ApiConfig.html">josm/api~ApiConfig</a></li><li><a href="module-josm_builder_node-NodeBuilder.html">josm/builder/node~NodeBuilder</a></li><li><a href="module-josm_builder_relation-RelationBuilder.html">josm/builder/relation~RelationBuilder</a></li><li><a href="module-josm_builder_way-WayBuilder.html">josm/builder/way~WayBuilder</a></li><li><a href="module-josm_command.ChangeCommand.html">josm/command.ChangeCommand</a></li><li><a href="module-josm_command.CommandHistory.html">josm/command.CommandHistory</a></li><li><a href="module-josm_command.DeleteCommand.html">josm/command.DeleteCommand</a></li><li><a href="module-josm_command-AddCommand.html">josm/command~AddCommand</a></li><li><a href="module-josm_ds.DataSetUtil.html">josm/ds.DataSetUtil</a></li><li><a href="module-josm_layers.Layers.html">josm/layers.Layers</a></li><li><a href="module-josm_ui_menu-MenuBar.html">josm/ui/menu~MenuBar</a></li><li><a href="NodeBuilder.NodeBuilder.html">NodeBuilder.NodeBuilder</a></li>
+					<li><a href="module-josm_api.Api.html">josm/api.Api</a></li><li><a href="module-josm_api.ChangesetApi.html">josm/api.ChangesetApi</a></li><li><a href="module-josm_api-ApiConfig.html">josm/api~ApiConfig</a></li><li><a href="module-josm_builder_node-NodeBuilder.html">josm/builder/node~NodeBuilder</a></li><li><a href="module-josm_builder_relation-RelationBuilder.html">josm/builder/relation~RelationBuilder</a></li><li><a href="module-josm_builder_way-WayBuilder.html">josm/builder/way~WayBuilder</a></li><li><a href="module-josm_builder_way-WayBuilder.WayBuilder.html">josm/builder/way~WayBuilder.WayBuilder</a></li><li><a href="module-josm_command.AddCommand.html">josm/command.AddCommand</a></li><li><a href="module-josm_command.ChangeCommand.html">josm/command.ChangeCommand</a></li><li><a href="module-josm_command.CommandHistory.html">josm/command.CommandHistory</a></li><li><a href="module-josm_command.DeleteCommand.html">josm/command.DeleteCommand</a></li><li><a href="module-josm_ds.DataSetUtil.html">josm/ds.DataSetUtil</a></li><li><a href="module-josm_layers.Layers.html">josm/layers.Layers</a></li><li><a href="module-josm_ui_menu-MenuBar.html">josm/ui/menu~MenuBar</a></li><li><a href="NodeBuilder.exports.NodeBuilder.html">NodeBuilder.exports.NodeBuilder</a></li>
 				</ul>
 			</li>
 			
@@ -159,7 +159,7 @@ API server.</p>
 		<ul class="dummy">
 			<li>
 				<a href="josm_api.mjs.html">josm/api.mjs</a>,
-				 <a href="josm_api.mjs.html#sunlight-1-line-145">line 145</a>
+				 <a href="josm_api.mjs.html#sunlight-1-line-179">line 179</a>
 			</li>
 		</ul>
 	</dd>
@@ -229,14 +229,6 @@ const cs = ChangesetApi.open()</pre>
     
     <div class="description">
         Closes a changeset
-
-<dl>
-  <dt><code class='signature'>close(id)</code></dt>
-  <dd class="param-desc">closes the changeset with the given id</dd>
-
-  <dt><code class='signature'>close(aChangeset)</code><dt>
-  <dd class="param-desc">Xloses the changeset given by <code>aChangeset</code></dd>
-</dl>
     </div>
     
 
@@ -336,7 +328,7 @@ const cs = ChangesetApi.open()</pre>
 		<ul class="dummy">
 			<li>
 				<a href="josm_api.mjs.html">josm/api.mjs</a>,
-				 <a href="josm_api.mjs.html#sunlight-1-line-240">line 240</a>
+				 <a href="josm_api.mjs.html#sunlight-1-line-258">line 258</a>
 			</li>
 		</ul>
 	</dd>
@@ -418,16 +410,6 @@ util.assert(cs2.closed)  // the changeset is now closed</pre>
     
     <div class="description">
         Get a changeset from the server
-
-<dl>
-  <dt><code class='signature>get(aChangeset)</code></dt>
-  <dd class="param-desc">Gets the changeset specified by <code>aChangeset</code>. aChangset
-  must be an instance of <code>Changeset</code>.
-  aChangeset.id &gt 0 expected.</dd>
-
-  <dt><code class='signature'>get(id)</code></dt>
-  <dd class="param-desc">gets the changeset for the id. id must be a number &gt 0.</dd>
-</dl>
     </div>
     
 
@@ -527,7 +509,7 @@ util.assert(cs2.closed)  // the changeset is now closed</pre>
 		<ul class="dummy">
 			<li>
 				<a href="josm_api.mjs.html">josm/api.mjs</a>,
-				 <a href="josm_api.mjs.html#sunlight-1-line-346">line 346</a>
+				 <a href="josm_api.mjs.html#sunlight-1-line-349">line 349</a>
 			</li>
 		</ul>
 	</dd>
@@ -607,14 +589,6 @@ cs2 = ChangesetApi.get(cs2)</pre>
     
     <div class="description">
         Creates and opens a changeset
-
-<ul>
-  <li><code>open()</code>  - open a new changeset with no tags</li>
-  <li><code>open(aChangeset)</code>  - open a new changeset with the tags
-  from <code>aChangeset</code></li>
-  <li><code>open(anObject)</code>  - open a new changeset with the tags
-  given by the properties of <code>anObject</code></li>
-</ul>
     </div>
     
 
@@ -726,7 +700,7 @@ cs2 = ChangesetApi.get(cs2)</pre>
 		<ul class="dummy">
 			<li>
 				<a href="josm_api.mjs.html">josm/api.mjs</a>,
-				 <a href="josm_api.mjs.html#sunlight-1-line-176">line 176</a>
+				 <a href="josm_api.mjs.html#sunlight-1-line-202">line 202</a>
 			</li>
 		</ul>
 	</dd>
@@ -810,11 +784,6 @@ const cs3 = ChangesetApi.open({comment: &#x27;a test comment&#x27;})</pre>
     
     <div class="description">
         Updates a changeset
-
-<dl>
-  <dt><code class='signature'>update(aChangeset)</code></dt>
-  <dd class="param-desc">Updates the changeset <code>aChangeset</code></dd>
-</dl>
     </div>
     
 
@@ -911,7 +880,7 @@ const cs3 = ChangesetApi.open({comment: &#x27;a test comment&#x27;})</pre>
 		<ul class="dummy">
 			<li>
 				<a href="josm_api.mjs.html">josm/api.mjs</a>,
-				 <a href="josm_api.mjs.html#sunlight-1-line-292">line 292</a>
+				 <a href="josm_api.mjs.html#sunlight-1-line-305">line 305</a>
 			</li>
 		</ul>
 	</dd>
@@ -1030,7 +999,7 @@ cs2 = ChangesetApi.update(cs2)</pre>
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.10</a>
 	
-		on Mon Jun 20th 2022
+		on Tue Jun 21st 2022
 	
 	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>

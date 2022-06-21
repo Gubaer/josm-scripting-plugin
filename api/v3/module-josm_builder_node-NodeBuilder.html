@@ -40,7 +40,7 @@
 			<li class="dropdown">
 				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
 				<ul class="dropdown-menu ">
-					<li><a href="module-josm_api.ChangesetApi.html">josm/api.ChangesetApi</a></li><li><a href="module-josm_api-Api.html">josm/api~Api</a></li><li><a href="module-josm_api-ApiConfig.html">josm/api~ApiConfig</a></li><li><a href="module-josm_builder_node-NodeBuilder.html">josm/builder/node~NodeBuilder</a></li><li><a href="module-josm_builder_relation-RelationBuilder.html">josm/builder/relation~RelationBuilder</a></li><li><a href="module-josm_builder_way-WayBuilder.html">josm/builder/way~WayBuilder</a></li><li><a href="module-josm_command.ChangeCommand.html">josm/command.ChangeCommand</a></li><li><a href="module-josm_command.CommandHistory.html">josm/command.CommandHistory</a></li><li><a href="module-josm_command.DeleteCommand.html">josm/command.DeleteCommand</a></li><li><a href="module-josm_command-AddCommand.html">josm/command~AddCommand</a></li><li><a href="module-josm_ds.DataSetUtil.html">josm/ds.DataSetUtil</a></li><li><a href="module-josm_layers.Layers.html">josm/layers.Layers</a></li><li><a href="module-josm_ui_menu-MenuBar.html">josm/ui/menu~MenuBar</a></li><li><a href="NodeBuilder.NodeBuilder.html">NodeBuilder.NodeBuilder</a></li>
+					<li><a href="module-josm_api.Api.html">josm/api.Api</a></li><li><a href="module-josm_api.ChangesetApi.html">josm/api.ChangesetApi</a></li><li><a href="module-josm_api-ApiConfig.html">josm/api~ApiConfig</a></li><li><a href="module-josm_builder_node-NodeBuilder.html">josm/builder/node~NodeBuilder</a></li><li><a href="module-josm_builder_relation-RelationBuilder.html">josm/builder/relation~RelationBuilder</a></li><li><a href="module-josm_builder_way-WayBuilder.html">josm/builder/way~WayBuilder</a></li><li><a href="module-josm_builder_way-WayBuilder.WayBuilder.html">josm/builder/way~WayBuilder.WayBuilder</a></li><li><a href="module-josm_command.AddCommand.html">josm/command.AddCommand</a></li><li><a href="module-josm_command.ChangeCommand.html">josm/command.ChangeCommand</a></li><li><a href="module-josm_command.CommandHistory.html">josm/command.CommandHistory</a></li><li><a href="module-josm_command.DeleteCommand.html">josm/command.DeleteCommand</a></li><li><a href="module-josm_ds.DataSetUtil.html">josm/ds.DataSetUtil</a></li><li><a href="module-josm_layers.Layers.html">josm/layers.Layers</a></li><li><a href="module-josm_ui_menu-MenuBar.html">josm/ui/menu~MenuBar</a></li><li><a href="NodeBuilder.exports.NodeBuilder.html">NodeBuilder.exports.NodeBuilder</a></li>
 				</ul>
 			</li>
 			
@@ -294,7 +294,1531 @@ const n3 = NodeBuilder.createProxy(2)</pre>
     
 
     
+        <h3 class="subsection-title">Methods</h3>
 
+        <dl>
+            
+<hr>
+<dt>
+    <h4 class="name" id="create"><span class="type-signature"></span>create( [id] [, options])</h4>
+    
+    
+    <p class="summary">Creates a new  <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html" alt="org.openstreetmap.josm.data.osm.Node" target="javadoc">Node</a></p>
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Creates a new  <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html" alt="org.openstreetmap.josm.data.osm.Node" target="javadoc">Node</a>.
+
+Can be used in an instance or in a static context.
+    </div>
+    
+
+    
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Argument</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">a global node id. If missing and
+    not set before using <code>withId(..)</code>, creates a new local id.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="module-josm_builder_node-NodeBuilder.html#.NodeBuilderOptions">module:josm/builder/node~NodeBuilder.NodeBuilderOptions</a></span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">additional options for creating the node</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_builder_node-builder.mjs.html">josm/builder/node-builder.mjs</a>,
+				 <a href="josm_builder_node-builder.mjs.html#sunlight-1-line-184">line 184</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    the created node
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html" alt="org.openstreetmap.josm.data.osm.Node" target="javadoc">Node</a></span>
+
+
+
+    </dd>
+</dl>
+
+
+        
+
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">import { NodeBuilder } from &#x27;josm/builder&#x27;
+// create a new local node at position [0,0]
+const n1 = NodeBuilder.create()
+
+// create a new global node with id 1111 at position [0,0]
+const n2 = NodeBuilder.create(1111)
+
+// create a new global node with version 3 at a specific position
+// and with some tags
+const n3 = NodeBuilder.create(2222, {
+    version: 3,
+    lat: 23.45,
+    lon: 87.23,
+    tags: {amenity: &#x27;restaurant&#x27;}
+})</pre>
+
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id="createProxy"><span class="type-signature"></span>createProxy(id)</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Creates a new <em>proxy</em>
+<a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html" alt="org.openstreetmap.josm.data.osm.Node" target="javadoc">Node</a>. A proxy node is a node,
+for which we only know its global id. In order to know more details
+(position, tags, etc.), we would have to download it from the OSM server.
+
+
+The method can be used in a static and in an instance context.
+    </div>
+    
+
+    
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the node id (not null, number > 0 expected)</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_builder_node-builder.mjs.html">josm/builder/node-builder.mjs</a>,
+				 <a href="josm_builder_node-builder.mjs.html#sunlight-1-line-276">line 276</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    the new proxy node
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Node.html" alt="org.openstreetmap.josm.data.osm.Node" target="javadoc">Node</a></span>
+
+
+
+    </dd>
+</dl>
+
+
+        
+
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">import { NodeBuilder } from &#x27;josm/builder&#x27;
+
+// a new proxy node for the global node with id 1111
+const n1 = NodeBuilder.createProxy(1111)</pre>
+
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id="forDataSet"><span class="type-signature"></span>forDataSet(ds)</h4>
+    
+    
+    <p class="summary">Creates a new NodeBuilder for a specific
+        <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/DataSet.html" alt="org.openstreetmap.josm.data.osm.DataSet" target="javadoc">DataSet</a>.</p>
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Creates or configures a NodeBuilder which will add created nodes
+to the dataset <code>ds</code>.
+    </div>
+    
+
+    
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>ds</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/DataSet.html" alt="org.openstreetmap.josm.data.osm.DataSet" target="javadoc">DataSet</a></span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the dataset which
+        created objects are added to</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_builder_node-builder.mjs.html">josm/builder/node-builder.mjs</a>,
+				 <a href="josm_builder_node-builder.mjs.html#sunlight-1-line-108">line 108</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    the node builder
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="module-josm_builder_node-NodeBuilder.html">module:josm/builder/node~NodeBuilder</a></span>
+
+
+
+    </dd>
+</dl>
+
+
+        
+
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">import { NodeBuilder } from &#x27;josm/builder&#x27;
+
+ // create a new node builder building to a data set
+ const DataSet = Java.type(&#x27;org.openstreetmap.josm.data.osm.DataSet&#x27;)
+ const ds = new DataSet()
+
+ // ... using a static method ...
+ const nb1 = NodeBuilder.forDataSet(ds)
+ // ... or the instance method
+ const nb2 = new NodeBuilder.forDataSet(ds)</pre>
+
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id="withId"><span class="type-signature"></span>withId(id [, version])</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Declares the global node id and the global node version.
+
+The method can be used in a static and in an instance context.
+    </div>
+    
+
+    
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Argument</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">the global node id. A number &gt; 0.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>version</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    1
+                
+                </td>
+            
+
+            <td class="description last">optional the global node version. If present,
+    a number &gt; 0.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_builder_node-builder.mjs.html">josm/builder/node-builder.mjs</a>,
+				 <a href="josm_builder_node-builder.mjs.html#sunlight-1-line-370">line 370</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    the node builder (for method chaining)
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="module-josm_builder_node-NodeBuilder.html">module:josm/builder/node~NodeBuilder</a></span>
+
+
+
+    </dd>
+</dl>
+
+
+        
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id="withPosition"><span class="type-signature"></span>withPosition(lat, lon)</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Declares the node position.
+
+The method can be used in a static and in an instance context.
+    </div>
+    
+
+    
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>lat</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the latitude. A number in the range [-90..90].</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>lon</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the longitude. A number in the range [-180..180].</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_builder_node-builder.mjs.html">josm/builder/node-builder.mjs</a>,
+				 <a href="josm_builder_node-builder.mjs.html#sunlight-1-line-313">line 313</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    a node builder (for method chaining)
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="module-josm_builder_node-NodeBuilder.html">module:josm/builder/node~NodeBuilder</a></span>
+
+
+
+    </dd>
+</dl>
+
+
+        
+
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">import { NodeBuilder } from &#x27;josm/builder&#x27;
+
+// a new global node with the global id 1111 at position (34,45)
+const n1 = NodeBuilder.withPosition(34,45).create(1111)
+
+// a new local node at position (23.2, 87.33)
+const n2 = NodeBuilder.withPosition(23.3,87.33).create()</pre>
+
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id="withTags"><span class="type-signature"></span>withTags( [tags])</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Declares the tags to be assigned to the new node.
+
+The method can be used in a static and in an instance context.
+    </div>
+    
+
+    
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Argument</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>tags</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">the tags</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_builder_node-builder.mjs.html">josm/builder/node-builder.mjs</a>,
+				 <a href="josm_builder_node-builder.mjs.html#sunlight-1-line-350">line 350</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    the node builder (for method chaining)
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="module-josm_builder_node-NodeBuilder.html">module:josm/builder/node~NodeBuilder</a></span>
+
+
+
+    </dd>
+</dl>
+
+
+        
+
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">import { NodeBuilder } from &#x27;josm/builder&#x27;
+
+// a new global node with the global id 1111 and tags name=test and
+// highway=road
+const n1 = NodeBuilder.withTags({&#x27;name&#x27;:&#x27;test&#x27;, &#x27;highway&#x27;:&#x27;road&#x27;}).create(1111)
+
+// a new local node with tags name=test and highway=road
+const tags = {
+     &#x27;name&#x27;    : &#x27;test&#x27;,
+     &#x27;highway&#x27; : &#x27;road&#x27;
+}
+const n2 = NodeBuilder.withTags(tags).create()</pre>
+
+
+    
+</dd>
+
+        </dl>
+    
+
+    
+        <h3 class="subsection-title">Type Definitions</h3>
+
+        <dl>
+                
+<hr>
+<dt class="name" id=".NodeBuilderOptions">
+    <h4 id=".NodeBuilderOptions">NodeBuilderOptions</h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        Named options for {@link module:josm/builder/node~NodeBuilder#create create}
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    <dl>
+
+<table class="props table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Argument</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>version</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    1
+                
+                </td>
+            
+
+            <td class="description last">the version (&gt 0) of the node. Default: 1.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>lat</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    0.0
+                
+                </td>
+            
+
+            <td class="description last">a valide latitude (number in the range [-90,90]. Default: 0.0</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>lon</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    0.0
+                
+                </td>
+            
+
+            <td class="description last">a valide longitude (number in the range[-180,180]. Default: 0.0</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>pos</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;number></span>
+|
+
+<span class="param-type">Object</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    null
+                
+                </td>
+            
+
+            <td class="description last">a position, either an array with
+  two numbers or as an object</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>tags</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">an object with tags. Null values and undefined
+      values are ignored. Any other value is converted to a string.
+      Leading and trailing white space in keys is removed.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+</dl>
+
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_builder_node-builder.mjs.html">josm/builder/node-builder.mjs</a>,
+				 <a href="josm_builder_node-builder.mjs.html#sunlight-1-line-130">line 130</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">// options to create a node at position (1.0, 2.0) with some tags
+const options = {
+  lat: 1.0,
+  lon: 2.0,
+  tags: {
+    amenity: &#x27;restaurant&#x27;
+  }  
+}</pre>
+
+
+    
+</dd>
+
+            </dl>
     
 
     
@@ -346,7 +1870,7 @@ const n3 = NodeBuilder.createProxy(2)</pre>
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.10</a>
 	
-		on Mon Jun 20th 2022
+		on Tue Jun 21st 2022
 	
 	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>

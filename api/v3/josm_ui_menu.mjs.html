@@ -40,7 +40,7 @@
 			<li class="dropdown">
 				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
 				<ul class="dropdown-menu ">
-					<li><a href="module-josm_api.ChangesetApi.html">josm/api.ChangesetApi</a></li><li><a href="module-josm_api-Api.html">josm/api~Api</a></li><li><a href="module-josm_api-ApiConfig.html">josm/api~ApiConfig</a></li><li><a href="module-josm_builder_node-NodeBuilder.html">josm/builder/node~NodeBuilder</a></li><li><a href="module-josm_builder_relation-RelationBuilder.html">josm/builder/relation~RelationBuilder</a></li><li><a href="module-josm_builder_way-WayBuilder.html">josm/builder/way~WayBuilder</a></li><li><a href="module-josm_command.ChangeCommand.html">josm/command.ChangeCommand</a></li><li><a href="module-josm_command.CommandHistory.html">josm/command.CommandHistory</a></li><li><a href="module-josm_command.DeleteCommand.html">josm/command.DeleteCommand</a></li><li><a href="module-josm_command-AddCommand.html">josm/command~AddCommand</a></li><li><a href="module-josm_ds.DataSetUtil.html">josm/ds.DataSetUtil</a></li><li><a href="module-josm_layers.Layers.html">josm/layers.Layers</a></li><li><a href="module-josm_ui_menu-MenuBar.html">josm/ui/menu~MenuBar</a></li><li><a href="NodeBuilder.NodeBuilder.html">NodeBuilder.NodeBuilder</a></li>
+					<li><a href="module-josm_api.Api.html">josm/api.Api</a></li><li><a href="module-josm_api.ChangesetApi.html">josm/api.ChangesetApi</a></li><li><a href="module-josm_api-ApiConfig.html">josm/api~ApiConfig</a></li><li><a href="module-josm_builder_node-NodeBuilder.html">josm/builder/node~NodeBuilder</a></li><li><a href="module-josm_builder_relation-RelationBuilder.html">josm/builder/relation~RelationBuilder</a></li><li><a href="module-josm_builder_way-WayBuilder.html">josm/builder/way~WayBuilder</a></li><li><a href="module-josm_builder_way-WayBuilder.WayBuilder.html">josm/builder/way~WayBuilder.WayBuilder</a></li><li><a href="module-josm_command.AddCommand.html">josm/command.AddCommand</a></li><li><a href="module-josm_command.ChangeCommand.html">josm/command.ChangeCommand</a></li><li><a href="module-josm_command.CommandHistory.html">josm/command.CommandHistory</a></li><li><a href="module-josm_command.DeleteCommand.html">josm/command.DeleteCommand</a></li><li><a href="module-josm_ds.DataSetUtil.html">josm/ds.DataSetUtil</a></li><li><a href="module-josm_layers.Layers.html">josm/layers.Layers</a></li><li><a href="module-josm_ui_menu-MenuBar.html">josm/ui/menu~MenuBar</a></li><li><a href="NodeBuilder.exports.NodeBuilder.html">NodeBuilder.exports.NodeBuilder</a></li>
 				</ul>
 			</li>
 			
@@ -82,9 +82,12 @@
  * JOSMs menu system.
  *
  * @module josm/ui/menu
+ * @example
+ * import {JSAction} from 'josm/ui/menu'
  */
 
 /* global Java */
+/* global Plugin */
 
 const MainApplication = Java.type('org.openstreetmap.josm.gui.MainApplication')
 import * as util from 'josm/util'
@@ -138,10 +141,10 @@ Object.defineProperty(MenuBar, 'length', {
  * @example
  * import josm from 'josm'
  * // get the edit menu with a numeric index
- * const editmenu = josm.menu.get(1)
+ * const editMenu = josm.menu.get(1)
  *
  * // get the file menu with a symbolic name
- * const filemenu = josm.menu.get('file')
+ * const fileMenu = josm.menu.get('file')
  *
  * @return {javax.swing.JMenu} the menu
  * @summary Replies a menu in the JOSM menu bar.
@@ -149,13 +152,13 @@ Object.defineProperty(MenuBar, 'length', {
  * @memberof module:josm/ui/menu~MenuBar
  * @name get
  * @function
- * @instance
+ * @static
  */
 MenuBar.get = function (key) {
   util.assert(util.isSomething(key), 'key: must not be null or undefined')
   const mainMenu = MainApplication.getMenu()
   if (util.isNumber(key)) {
-    util.assert(key >= 0 &amp;&amp; key &lt; exports.MenuBar.length,
+    util.assert(key >= 0 &amp;&amp; key &lt; MenuBar.length,
       'key: index out of range, got {0}', key)
     return mainMenu.getMenu(key)
   } else if (util.isString(key)) {
@@ -197,41 +200,37 @@ Object.defineProperty(MenuBar, 'menuNames', {
 })
 
 /**
+ * Callback type for JSAction
+ * 
+ * @callback JSActionCallback
+ */
+
+/**
+ * The named options for building a JSAction.
+ * 
+ * @typedef JSActionOptions 
+ * @property {string} [name]  The optional name of the action. Default: an auto generated name
+ * @property {string} [tooltip] The optional tooltip of the action. Default: empty string
+ * @property {string} [iconName] The optional name of an icon. Default: null
+ * @property {string} [toolbarId] The optional name of the tooblar to which this action is added.
+ *   Note that it isn't added automatically, when this action is created. Default: null.
+ * @property {module:josm/ui/menu~JSActionCallback} [onExecute=null] The optional function which is called when the action is executed.
+ *   Default: null.
+ * @property {module:josm/ui/menu~JSActionCallback} [onInitEnabled=null] The optional function which is called when the &lt;em>enabled&lt;/em>
+ *   state of the function is evaluated the first time. Default: null.
+ * @property {module:josm/ui/menu~JSActionCallback} [onUpdateEnabled=null] The (optional) function which is called when the &lt;em>enabled&lt;/em>
+ *   state of the function is reevaluated, in particular, when layer change
+ *   events or selection change events occur. Default: null.
+ */
+
+/**
  * JSAction is an action for which a menu item or a toolbar item can be
  * added to  JOSMs menu or JOSMs toolbar respectively.
  *
  * This is just a shortcut for the Java class
  * {@class org.openstreetmap.josm.plugins.scripting.js.JSAction}.
  *
- * The constructor accepts an object with the following optional named
- * parameters.
- * &lt;dl>
- *   &lt;dt>&lt;code class="signature">name:string&lt;/code>&lt;/dt>
- *   &lt;dd class="param-desc">The optional name of the action. Default: an auto generated name.&lt;/dd>
- *
- *   &lt;dt>&lt;code class="signature">tooltip:string&lt;/code>&lt;/dt>
- *   &lt;dd class="param-desc">The optional tooltip of the action. Default: empty string.&lt;/dd>
- *
- *   &lt;dt>&lt;code class="signature">iconName:string&lt;/code>&lt;/dt>
- *   &lt;dd class="param-desc">The optional name of an icon. Default: null.&lt;/dd>
- *
- *   &lt;dt>&lt;code class="signature">toolbarId:string&lt;/code>&lt;/dt>
- *   &lt;dd class="param-desc">The optional name of the tooblar to which this action is added.
- *   Note that it isn't added automatically, when this action is created. Default: null.&lt;/dd>
- *
- *   &lt;dt>&lt;code class="signature">onExecute:function&lt;/code>&lt;/dt>
- *   &lt;dd class="param-desc">The (optional) function which is called when the action is executed.
- *   Default: null.&lt;/dd>
- *
- *   &lt;dt>&lt;code class="signature">onInitEnabled:function&lt;/code>&lt;/dt>
- *   &lt;dd class="param-desc">The (optional) function which is called when the &lt;em>enabled&lt;/em>
- *   state of the function is evaluated the first time. Default: null.&lt;/dd>
- *
- *   &lt;dt>&lt;code class="signature">onUpdateEnabled:function&lt;/code>&lt;/dt>
- *   &lt;dd class="param-desc">The (optional) function which is called when the &lt;em>enabled&lt;/em>
- *   state of the function is reevaluated, in particular, when layer change
- *   events or selection change events occur. Default: null.&lt;/dd>
- * &lt;/dl>
+ * The constructor accepts an object with {@link module:josm/ui/menu~JSActionOptions named parameters}.
  *
  * @example
  * import {JSAction} from 'josm/ui/menu'
@@ -266,9 +265,6 @@ Object.defineProperty(MenuBar, 'menuNames', {
  *
  *
  * @property {org.openstreetmap.josm.plugins.scripting.graalvm.JSAction} JSAction
- * @static
- * @name JSAction
- * @memberof module:josm/ui/menu~MenuBar
  */
 export const JSAction = Plugin.type('org.openstreetmap.josm.plugins.scripting.graalvm.JSAction')
 </pre>
@@ -316,7 +312,7 @@ export const JSAction = Plugin.type('org.openstreetmap.josm.plugins.scripting.gr
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.10</a>
 	
-		on Mon Jun 20th 2022
+		on Tue Jun 21st 2022
 	
 	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>

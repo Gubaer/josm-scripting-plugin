@@ -40,7 +40,7 @@
 			<li class="dropdown">
 				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
 				<ul class="dropdown-menu ">
-					<li><a href="module-josm_api.ChangesetApi.html">josm/api.ChangesetApi</a></li><li><a href="module-josm_api-Api.html">josm/api~Api</a></li><li><a href="module-josm_api-ApiConfig.html">josm/api~ApiConfig</a></li><li><a href="module-josm_builder_node-NodeBuilder.html">josm/builder/node~NodeBuilder</a></li><li><a href="module-josm_builder_relation-RelationBuilder.html">josm/builder/relation~RelationBuilder</a></li><li><a href="module-josm_builder_way-WayBuilder.html">josm/builder/way~WayBuilder</a></li><li><a href="module-josm_command.ChangeCommand.html">josm/command.ChangeCommand</a></li><li><a href="module-josm_command.CommandHistory.html">josm/command.CommandHistory</a></li><li><a href="module-josm_command.DeleteCommand.html">josm/command.DeleteCommand</a></li><li><a href="module-josm_command-AddCommand.html">josm/command~AddCommand</a></li><li><a href="module-josm_ds.DataSetUtil.html">josm/ds.DataSetUtil</a></li><li><a href="module-josm_layers.Layers.html">josm/layers.Layers</a></li><li><a href="module-josm_ui_menu-MenuBar.html">josm/ui/menu~MenuBar</a></li><li><a href="NodeBuilder.NodeBuilder.html">NodeBuilder.NodeBuilder</a></li>
+					<li><a href="module-josm_api.Api.html">josm/api.Api</a></li><li><a href="module-josm_api.ChangesetApi.html">josm/api.ChangesetApi</a></li><li><a href="module-josm_api-ApiConfig.html">josm/api~ApiConfig</a></li><li><a href="module-josm_builder_node-NodeBuilder.html">josm/builder/node~NodeBuilder</a></li><li><a href="module-josm_builder_relation-RelationBuilder.html">josm/builder/relation~RelationBuilder</a></li><li><a href="module-josm_builder_way-WayBuilder.html">josm/builder/way~WayBuilder</a></li><li><a href="module-josm_builder_way-WayBuilder.WayBuilder.html">josm/builder/way~WayBuilder.WayBuilder</a></li><li><a href="module-josm_command.AddCommand.html">josm/command.AddCommand</a></li><li><a href="module-josm_command.ChangeCommand.html">josm/command.ChangeCommand</a></li><li><a href="module-josm_command.CommandHistory.html">josm/command.CommandHistory</a></li><li><a href="module-josm_command.DeleteCommand.html">josm/command.DeleteCommand</a></li><li><a href="module-josm_ds.DataSetUtil.html">josm/ds.DataSetUtil</a></li><li><a href="module-josm_layers.Layers.html">josm/layers.Layers</a></li><li><a href="module-josm_ui_menu-MenuBar.html">josm/ui/menu~MenuBar</a></li><li><a href="NodeBuilder.exports.NodeBuilder.html">NodeBuilder.exports.NodeBuilder</a></li>
 				</ul>
 			</li>
 			
@@ -156,7 +156,7 @@
 		<ul class="dummy">
 			<li>
 				<a href="josm_api.mjs.html">josm/api.mjs</a>,
-				 <a href="josm_api.mjs.html#sunlight-1-line-1002">line 1002</a>
+				 <a href="josm_api.mjs.html#sunlight-1-line-994">line 994</a>
 			</li>
 		</ul>
 	</dd>
@@ -329,7 +329,7 @@ JOSM uses two authentication methods:
 		<ul class="dummy">
 			<li>
 				<a href="josm_api.mjs.html">josm/api.mjs</a>,
-				 <a href="josm_api.mjs.html#sunlight-1-line-1106">line 1106</a>
+				 <a href="josm_api.mjs.html#sunlight-1-line-1101">line 1101</a>
 			</li>
 		</ul>
 	</dd>
@@ -464,7 +464,7 @@ ApiConfig.authMethod = &#x27;oauth&#x27;</pre>
 		<ul class="dummy">
 			<li>
 				<a href="josm_api.mjs.html">josm/api.mjs</a>,
-				 <a href="josm_api.mjs.html#sunlight-1-line-1076">line 1076</a>
+				 <a href="josm_api.mjs.html#sunlight-1-line-1071">line 1071</a>
 			</li>
 		</ul>
 	</dd>
@@ -608,7 +608,7 @@ ApiConfig.defaultServerUrl   // -&gt; the default server url</pre>
 		<ul class="dummy">
 			<li>
 				<a href="josm_api.mjs.html">josm/api.mjs</a>,
-				 <a href="josm_api.mjs.html#sunlight-1-line-1014">line 1014</a>
+				 <a href="josm_api.mjs.html#sunlight-1-line-1006">line 1006</a>
 			</li>
 		</ul>
 	</dd>
@@ -645,10 +645,8 @@ ApiConfig.serverUrl = &#x27;http://api06.dev.openstreetmap.org&#x27;</pre>
             
 <hr>
 <dt>
-    <h4 class="name" id=".getCredentials"><span class="type-signature">&lt;static> </span>getCredentials(authMethod, options)</h4>
+    <h4 class="name" id=".getCredentials"><span class="type-signature">&lt;static> </span>getCredentials(authMethod [, options])</h4>
     
-    
-    <p class="summary">Gets the credentials.</p>
     
 </dt>
 <dd>
@@ -657,15 +655,6 @@ ApiConfig.serverUrl = &#x27;http://api06.dev.openstreetmap.org&#x27;</pre>
     <div class="description">
         Gets the credentials, i.e. username and password for the basic
 authentication method.
-
-<p><strong>Named options</strong></p>
-
-<dl>
-   <dt><code class='signature'>host:string</code></dt>
-   <dd class="param-desc">The host name of the API server for which credentials are retrieved.
-   If missing, the host name of the currently configured OSM API server
-   is used.</dd>
-</dl>
     </div>
     
 
@@ -687,6 +676,8 @@ authentication method.
 
         <th>Type</th>
 
+        
+        <th>Argument</th>
         
 
         
@@ -714,6 +705,14 @@ authentication method.
             </td>
 
             
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
 
             
 
@@ -730,7 +729,7 @@ authentication method.
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type"><a href="module-josm_api.html#~SetOrGetCredentialOptions">module:josm/api~SetOrGetCredentialOptions</a></span>
 
 
 
@@ -738,10 +737,20 @@ authentication method.
             </td>
 
             
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
 
             
 
-            <td class="description last">(optional) additional options (see above)</td>
+            <td class="description last">additional options</td>
         </tr>
 
     
@@ -786,7 +795,7 @@ authentication method.
 		<ul class="dummy">
 			<li>
 				<a href="josm_api.mjs.html">josm/api.mjs</a>,
-				 <a href="josm_api.mjs.html#sunlight-1-line-1148">line 1148</a>
+				 <a href="josm_api.mjs.html#sunlight-1-line-1185">line 1185</a>
 			</li>
 		</ul>
 	</dd>
@@ -826,7 +835,10 @@ authentication method.
     </dt>
     <dd>
         
-<span class="param-type">object</span>
+<span class="param-type">BasicCredentials</span>
+|
+
+<span class="param-type">OAuthCredentials</span>
 
 
 
@@ -852,10 +864,8 @@ const credentials = ApiConfig.getCredentials(&#x27;basic&#x27;)</pre>
             
 <hr>
 <dt>
-    <h4 class="name" id=".setCredentials"><span class="type-signature">&lt;static> </span>setCredentials(authMethod, credentials, options)</h4>
+    <h4 class="name" id=".setCredentials"><span class="type-signature">&lt;static> </span>setCredentials(authMethod, credentials [, options])</h4>
     
-    
-    <p class="summary">Set the credentials.</p>
     
 </dt>
 <dd>
@@ -866,21 +876,12 @@ const credentials = ApiConfig.getCredentials(&#x27;basic&#x27;)</pre>
 authentication method.
 
 Basic authentication credentials are either an instance of
-java.net.PasswordAuthentication or
+<a href="http://docs.oracle.com/javase/6/docs/api/java/net/PasswordAuthentication.html" alt="java.net.PasswordAuthentication" target="javadoc">PasswordAuthentication</a> or
 an object <code>{user: string, password: string}</code>.
 
 OAuth authentication credentials are either an instance of
 <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/oauth/OAuthToken.html" alt="org.openstreetmap.josm.data.oauth.OAuthToken" target="javadoc">OAuthToken</a> or
 an object <code>{key: string, secret: string}</code>.
-<p>
-<strong>Named options</strong>
-</p>
-<dl>
-   <dt><code class='signature'>host:string</code></dt>
-   <dd class="param-desc">The host name of the API server for which credentials are set.
-   If missing, the host name of the currently configured OSM API server
-   is used.</dd>
-</dl>
     </div>
     
 
@@ -902,6 +903,8 @@ an object <code>{key: string, secret: string}</code>.
 
         <th>Type</th>
 
+        
+        <th>Argument</th>
         
 
         
@@ -929,6 +932,14 @@ an object <code>{key: string, secret: string}</code>.
             </td>
 
             
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
 
             
 
@@ -945,7 +956,10 @@ an object <code>{key: string, secret: string}</code>.
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">module:josm/api~BasicAuthParameters</span>
+|
+
+<span class="param-type">module:josm/api~OAuthParameters</span>
 |
 
 <span class="param-type"><a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/oauth/OAuthToken.html" alt="org.openstreetmap.josm.data.oauth.OAuthToken" target="javadoc">OAuthToken</a></span>
@@ -959,10 +973,18 @@ an object <code>{key: string, secret: string}</code>.
             </td>
 
             
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
 
             
 
-            <td class="description last">the credentials.</td>
+            <td class="description last">the credentials</td>
         </tr>
 
     
@@ -975,7 +997,7 @@ an object <code>{key: string, secret: string}</code>.
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type"><a href="module-josm_api.html#~SetOrGetCredentialOptions">module:josm/api~SetOrGetCredentialOptions</a></span>
 
 
 
@@ -983,10 +1005,20 @@ an object <code>{key: string, secret: string}</code>.
             </td>
 
             
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
 
             
 
-            <td class="description last">(optional) additional options (see above)</td>
+            <td class="description last">additional options</td>
         </tr>
 
     
@@ -1031,7 +1063,7 @@ an object <code>{key: string, secret: string}</code>.
 		<ul class="dummy">
 			<li>
 				<a href="josm_api.mjs.html">josm/api.mjs</a>,
-				 <a href="josm_api.mjs.html#sunlight-1-line-1251">line 1251</a>
+				 <a href="josm_api.mjs.html#sunlight-1-line-1317">line 1317</a>
 			</li>
 		</ul>
 	</dd>
@@ -1087,7 +1119,7 @@ an object <code>{key: string, secret: string}</code>.
     <pre class="sunlight-highlight-javascript">import { ApiConfig } from &#x27;josm/api&#x27;
 
 // set the credentials
-ApiConfig.setCredentials(&#x27;basic&#x27;, { user:&#x27;test&#x27;, password:&#x27;apassword&#x27; })</pre>
+ApiConfig.setCredentials(&#x27;basic&#x27;, { user:&#x27;test&#x27;, password:&#x27;my-password&#x27; })</pre>
 
 
     
@@ -1147,7 +1179,7 @@ ApiConfig.setCredentials(&#x27;basic&#x27;, { user:&#x27;test&#x27;, password:&#
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.10</a>
 	
-		on Mon Jun 20th 2022
+		on Tue Jun 21st 2022
 	
 	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>

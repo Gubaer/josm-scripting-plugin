@@ -40,7 +40,7 @@
 			<li class="dropdown">
 				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
 				<ul class="dropdown-menu ">
-					<li><a href="module-josm_api.ChangesetApi.html">josm/api.ChangesetApi</a></li><li><a href="module-josm_api-Api.html">josm/api~Api</a></li><li><a href="module-josm_api-ApiConfig.html">josm/api~ApiConfig</a></li><li><a href="module-josm_builder_node-NodeBuilder.html">josm/builder/node~NodeBuilder</a></li><li><a href="module-josm_builder_relation-RelationBuilder.html">josm/builder/relation~RelationBuilder</a></li><li><a href="module-josm_builder_way-WayBuilder.html">josm/builder/way~WayBuilder</a></li><li><a href="module-josm_command.ChangeCommand.html">josm/command.ChangeCommand</a></li><li><a href="module-josm_command.CommandHistory.html">josm/command.CommandHistory</a></li><li><a href="module-josm_command.DeleteCommand.html">josm/command.DeleteCommand</a></li><li><a href="module-josm_command-AddCommand.html">josm/command~AddCommand</a></li><li><a href="module-josm_ds.DataSetUtil.html">josm/ds.DataSetUtil</a></li><li><a href="module-josm_layers.Layers.html">josm/layers.Layers</a></li><li><a href="module-josm_ui_menu-MenuBar.html">josm/ui/menu~MenuBar</a></li><li><a href="NodeBuilder.NodeBuilder.html">NodeBuilder.NodeBuilder</a></li>
+					<li><a href="module-josm_api.Api.html">josm/api.Api</a></li><li><a href="module-josm_api.ChangesetApi.html">josm/api.ChangesetApi</a></li><li><a href="module-josm_api-ApiConfig.html">josm/api~ApiConfig</a></li><li><a href="module-josm_builder_node-NodeBuilder.html">josm/builder/node~NodeBuilder</a></li><li><a href="module-josm_builder_relation-RelationBuilder.html">josm/builder/relation~RelationBuilder</a></li><li><a href="module-josm_builder_way-WayBuilder.html">josm/builder/way~WayBuilder</a></li><li><a href="module-josm_builder_way-WayBuilder.WayBuilder.html">josm/builder/way~WayBuilder.WayBuilder</a></li><li><a href="module-josm_command.AddCommand.html">josm/command.AddCommand</a></li><li><a href="module-josm_command.ChangeCommand.html">josm/command.ChangeCommand</a></li><li><a href="module-josm_command.CommandHistory.html">josm/command.CommandHistory</a></li><li><a href="module-josm_command.DeleteCommand.html">josm/command.DeleteCommand</a></li><li><a href="module-josm_ds.DataSetUtil.html">josm/ds.DataSetUtil</a></li><li><a href="module-josm_layers.Layers.html">josm/layers.Layers</a></li><li><a href="module-josm_ui_menu-MenuBar.html">josm/ui/menu~MenuBar</a></li><li><a href="NodeBuilder.exports.NodeBuilder.html">NodeBuilder.exports.NodeBuilder</a></li>
 				</ul>
 			</li>
 			
@@ -115,8 +115,8 @@
 Methods of RelationBuilder can be used in a static and in an instance
 context.
 It isn't necessary to create an instance of RelationBuilder, unless it is
-configured with a <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/DataSet.html" alt="org.openstreetmap.josm.data.osm.DataSet" target="javadoc">DataSet</a>,
-which created ways are added to.
+configured with a <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/DataSet.html" alt="org.openstreetmap.josm.data.osm.DataSet" target="javadoc">DataSet</a> to
+which created ways are added.
     </div>
     
 
@@ -215,7 +215,7 @@ which created ways are added to.
 		<ul class="dummy">
 			<li>
 				<a href="josm_builder_relation-builder.mjs.html">josm/builder/relation-builder.mjs</a>,
-				 <a href="josm_builder_relation-builder.mjs.html#sunlight-1-line-36">line 36</a>
+				 <a href="josm_builder_relation-builder.mjs.html#sunlight-1-line-40">line 40</a>
 			</li>
 		</ul>
 	</dd>
@@ -285,7 +285,1739 @@ const r3 = rbuilder.createProxy(2222)</pre>
     
 
     
+        <h3 class="subsection-title">Methods</h3>
 
+        <dl>
+            
+<hr>
+<dt>
+    <h4 class="name" id=".forDataSet"><span class="type-signature">&lt;static> </span>forDataSet(ds)</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Creates or configures a RelationBuilder which will add created nodes
+to the dataset <code>ds</code>.
+    </div>
+    
+
+    
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>ds</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/DataSet.html" alt="org.openstreetmap.josm.data.osm.DataSet" target="javadoc">DataSet</a></span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">a JOSM
+    dataset which created ways are added to.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_builder_relation-builder.mjs.html">josm/builder/relation-builder.mjs</a>,
+				 <a href="josm_builder_relation-builder.mjs.html#sunlight-1-line-107">line 107</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    the relation builder
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="module-josm_builder_relation-RelationBuilder.html">module:josm/builder/relation~RelationBuilder</a></span>
+
+
+
+    </dd>
+</dl>
+
+
+        
+
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">import {RelationBuilder} = &#x27;josm/builder&#x27;
+
+// create a new relation builder building to a data set
+const DataSet = Java.type(&#x27;org.openstreetmap.josm.data.osm.DataSet&#x27;)
+const ds = new DataSet()
+const rb1 = RelationBuilder.forDataSet(ds)
+
+// configure an existing relation builder
+let rb2 = new RelationBuilder()
+rb2 = rb2.forDataSet(ds)</pre>
+
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id=".member"><span class="type-signature">&lt;static> </span>member( [role], primitive)</h4>
+    
+    
+    <p class="summary">Utility function - creates a relation member</p>
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Create a RelationMember
+
+<dl>
+  <dt>member(role, obj)</dt>
+  <dd class="param-desc">Create a relation member with role <var>role</var> and member object
+  <var>obj</var>. <var>role</var> can be null or undefined, obj must neither
+  be null nor undefinde. <var>role</var> is a string, <var>obj</var> is an
+  OSM node, a way, or a relation.
+  </dd>
+  <dt>member(obj)</dt>
+ <dd class="param-desc">Create a relation member for the member object <var>obj</var>.
+  <var>obj</var> must neither be null nor undefinde. <var>obj</var> is an
+  OSM node, a way, or a relation. The created relation member has no role.
+  </dd>
+</dl>
+    </div>
+    
+
+    
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Argument</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>role</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">the member role</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>primitive</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">primitive</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">the member primitive</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_builder_relation-builder.mjs.html">josm/builder/relation-builder.mjs</a>,
+				 <a href="josm_builder_relation-builder.mjs.html#sunlight-1-line-150">line 150</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    the relation member
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/RelationMember.html" alt="org.openstreetmap.josm.data.osm.RelationMember" target="javadoc">RelationMember</a></span>
+
+
+
+    </dd>
+</dl>
+
+
+        
+
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">import {RelationBuilder, NodeBuilder} from &#x27;josm/builder&#x27;
+
+// create a new RelationMember with role &#x27;house&#x27; for a new node
+const m1 = RelationBuilder.member(&#x27;house&#x27;, NodeBuilder.create())
+// create a new RelationMember with an empty role for a new node
+const m2 = RelationBuilder.member(NodeBuilder.create())</pre>
+
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id="create"><span class="type-signature"></span>create( [id] [, options])</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Creates a new relation.
+
+Can be used in an instance or in a static context.
+    </div>
+    
+
+    
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Argument</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">a global way id. If missing and not set
+    before using <code>withId(..)</code>, creates a new local id.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="module-josm_builder_relation-RelationBuilder.html#.RelationBuilderOptions">module:josm/builder/relation~RelationBuilder.RelationBuilderOptions</a></span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">options for creating the relation</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_builder_relation-builder.mjs.html">josm/builder/relation-builder.mjs</a>,
+				 <a href="josm_builder_relation-builder.mjs.html#sunlight-1-line-425">line 425</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    the relation
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Relation.html" alt="org.openstreetmap.josm.data.osm.Relation" target="javadoc">Relation</a></span>
+
+
+
+    </dd>
+</dl>
+
+
+        
+
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">import { NodeBuilder, RelationBuilder } from &#x27;josm/builder&#x27;
+const member = RelationBuilder.member
+// create a new local relation
+const r1 = RelationBuilder.create()
+
+// create a new global relation
+const r2 = RelationBuilder.create(1111)
+
+// create a new global relation with version 3 with some tags and two
+// members
+const r3 = RelationBuilder.create(2222, {
+   version: 3,
+   tags: {type: &#x27;route&#x27;},
+   members: [
+       member(&#x27;house&#x27;, NodeBuilder.create()),
+       member(NodeBuilder.create())
+   ]
+ })</pre>
+
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id="createProxy"><span class="type-signature"></span>createProxy(id)</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Creates a new <em>proxy</em> relation. A proxy relation is a relation,
+for which we only know its global id. In order to know more details
+(members, tags, etc.), we would have to download it from the OSM server.
+
+
+The method can be used in a static and in an instance context.
+    </div>
+    
+
+    
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the id for the proxy relation</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_builder_relation-builder.mjs.html">josm/builder/relation-builder.mjs</a>,
+				 <a href="josm_builder_relation-builder.mjs.html#sunlight-1-line-264">line 264</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    the new proxy relation
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Relation.html" alt="org.openstreetmap.josm.data.osm.Relation" target="javadoc">Relation</a></span>
+
+
+
+    </dd>
+</dl>
+
+
+        
+
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">import {RelationBuilder} from &#x27;josm/builder&#x27;
+
+// a new proxy relation for the global way with id 1111
+const r1 = RelationBuilder.createProxy(1111)</pre>
+
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id="withId"><span class="type-signature"></span>withId(id [, version])</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Declares the global relation id and the global relation version.
+
+The method can be used in a static and in an instance context.
+    </div>
+    
+
+    
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Argument</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">the global relation id. A number &gt; 0.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>version</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    1
+                
+                </td>
+            
+
+            <td class="description last">the global relation version. If present,
+   a number &gt; 0</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_builder_relation-builder.mjs.html">josm/builder/relation-builder.mjs</a>,
+				 <a href="josm_builder_relation-builder.mjs.html#sunlight-1-line-206">line 206</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    the relation builder (for method chaining)
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="module-josm_builder_relation-RelationBuilder.html">module:josm/builder/relation~RelationBuilder</a></span>
+
+
+
+    </dd>
+</dl>
+
+
+        
+
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">import {RelationBuilder} from &#x27;josm/builder&#x27;
+// creates a global relation with id 1111 an version 22
+const r = RelationBuilder.withId(1111, 22).create()</pre>
+
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id="withMembers"><span class="type-signature"></span>withMembers(members)</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Declares the members of a relation.
+
+Accepts either a vararg list of relation members, nodes, ways or
+relations, an array of relation members, nodes ways or relations, or a
+Java list of members, nodes, ways or relation.
+
+The method can be used in a static and in an instance context.
+    </div>
+    
+
+    
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Argument</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>members</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/OsmPrimitive.html" alt="org.openstreetmap.josm.data.osm.OsmPrimitive" target="javadoc">OsmPrimitive</a></span>
+|
+
+<span class="param-type"><a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/RelationMember.html" alt="org.openstreetmap.josm.data.osm.RelationMember" target="javadoc">RelationMember</a></span>
+|
+
+<span class="param-type">Array.&lt;(OsmPrimitive|RelationMember)></span>
+|
+
+<span class="param-type"><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html" alt="java.util.List" target="javadoc">List</a></span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                    &lt;repeatable><br>
+                
+                </td>
+            
+
+            
+
+            <td class="description last">the list of members. See description and examples.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_builder_relation-builder.mjs.html">josm/builder/relation-builder.mjs</a>,
+				 <a href="josm_builder_relation-builder.mjs.html#sunlight-1-line-321">line 321</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    the relation builder (for method chaining)
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="module-josm_builder_relation-RelationBuilder.html">module:josm/builder/relation~RelationBuilder</a></span>
+
+
+
+    </dd>
+</dl>
+
+
+        
+
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">import {RelationBuilder, NodeBuilder} from &#x27;josm/builder&#x27;
+const {member} = RelationBuilder
+const r1 = RelationBuilder.withMembers(
+    member(&#x27;house&#x27;, NodeBuilder.create()),
+    member(&#x27;house&#x27;, NodeBuilder.create())
+  )
+  .create()
+
+const members = [
+  NodeBuilder.create(),  // empty role
+  member(&#x27;house&#x27;, NodeBuilder.create()
+]
+
+const r2 = RelationBuilder.withMembers(
+   members, 
+   NodeBuilder.create(),
+).create()</pre>
+
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id="withTags"><span class="type-signature"></span>withTags( [tags])</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Declares the tags to be assigned to the new relation.
+
+The method can be used in a static and in an instance context.
+    </div>
+    
+
+    
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Argument</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>tags</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">the tags</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_builder_relation-builder.mjs.html">josm/builder/relation-builder.mjs</a>,
+				 <a href="josm_builder_relation-builder.mjs.html#sunlight-1-line-237">line 237</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    a relation builder (for method chaining)
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="module-josm_builder_relation-RelationBuilder.html">module:josm/builder/relation~RelationBuilder</a></span>
+
+
+
+    </dd>
+</dl>
+
+
+        
+
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">import {RelationBuilder} from &#x27;josm/builder&#x27;
+// a new global relation with the global id 1111 and tags route=&#x27;bicycle&#x27;
+//and name=&#x27;n8&#x27;
+const r1 = RelationBuilder.withTags({name:&#x27;n8&#x27;, route:&#x27;bicycle&#x27;}).create(1111)
+
+// a new local relation with tags name=test and highway=road
+const tags = {
+     name  : &#x27;n8&#x27;,
+     route : &#x27;bicycle&#x27;
+}
+const r2 = RelationBuilder.withTags(tags).create()</pre>
+
+
+    
+</dd>
+
+        </dl>
+    
+
+    
+        <h3 class="subsection-title">Type Definitions</h3>
+
+        <dl>
+                
+<hr>
+<dt class="name" id=".RelationBuilderOptions">
+    <h4 id=".RelationBuilderOptions">RelationBuilderOptions</h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        Named options for {@link module:josm/builder/relation~RelationBuilder#create create}
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    <dl>
+
+<table class="props table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Argument</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">the id (&gt 0) of the way. Default: creates new local id.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>version</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    1
+                
+                </td>
+            
+
+            <td class="description last">the version (&gt 0) of the way. Default: 1.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>tags</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">an object with tags. Null values and undefined
+      values are ignored. Any other value is converted to a string.
+      Leading and trailing white space in keys is removed.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>members</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/RelationMember.html" alt="org.openstreetmap.josm.data.osm.RelationMember" target="javadoc">RelationMember</a>[]</span>
+|
+
+<span class="param-type"><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html" alt="java.util.List" target="javadoc">List</a></span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">the member for the relation</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+</dl>
+
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_builder_relation-builder.mjs.html">josm/builder/relation-builder.mjs</a>,
+				 <a href="josm_builder_relation-builder.mjs.html#sunlight-1-line-368">line 368</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">import {RelationBuilder, NodeBuilder} from &#x27;josm/builder&#x27;
+const {member} = RelationBuilder
+// options to create a relation
+const options = {
+  version: 3,
+  tags: {type: &#x27;route&#x27;},
+  members: [
+    member(&#x27;house&#x27;, NodeBuilder.create()),
+    member(NodeBuilder.create())
+  ]
+} </pre>
+
+
+    
+</dd>
+
+            </dl>
     
 
     
@@ -337,7 +2069,7 @@ const r3 = rbuilder.createProxy(2222)</pre>
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.10</a>
 	
-		on Mon Jun 20th 2022
+		on Tue Jun 21st 2022
 	
 	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>

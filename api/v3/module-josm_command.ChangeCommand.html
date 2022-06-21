@@ -40,7 +40,7 @@
 			<li class="dropdown">
 				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
 				<ul class="dropdown-menu ">
-					<li><a href="module-josm_api.ChangesetApi.html">josm/api.ChangesetApi</a></li><li><a href="module-josm_api-Api.html">josm/api~Api</a></li><li><a href="module-josm_api-ApiConfig.html">josm/api~ApiConfig</a></li><li><a href="module-josm_builder_node-NodeBuilder.html">josm/builder/node~NodeBuilder</a></li><li><a href="module-josm_builder_relation-RelationBuilder.html">josm/builder/relation~RelationBuilder</a></li><li><a href="module-josm_builder_way-WayBuilder.html">josm/builder/way~WayBuilder</a></li><li><a href="module-josm_command.ChangeCommand.html">josm/command.ChangeCommand</a></li><li><a href="module-josm_command.CommandHistory.html">josm/command.CommandHistory</a></li><li><a href="module-josm_command.DeleteCommand.html">josm/command.DeleteCommand</a></li><li><a href="module-josm_command-AddCommand.html">josm/command~AddCommand</a></li><li><a href="module-josm_ds.DataSetUtil.html">josm/ds.DataSetUtil</a></li><li><a href="module-josm_layers.Layers.html">josm/layers.Layers</a></li><li><a href="module-josm_ui_menu-MenuBar.html">josm/ui/menu~MenuBar</a></li><li><a href="NodeBuilder.NodeBuilder.html">NodeBuilder.NodeBuilder</a></li>
+					<li><a href="module-josm_api.Api.html">josm/api.Api</a></li><li><a href="module-josm_api.ChangesetApi.html">josm/api.ChangesetApi</a></li><li><a href="module-josm_api-ApiConfig.html">josm/api~ApiConfig</a></li><li><a href="module-josm_builder_node-NodeBuilder.html">josm/builder/node~NodeBuilder</a></li><li><a href="module-josm_builder_relation-RelationBuilder.html">josm/builder/relation~RelationBuilder</a></li><li><a href="module-josm_builder_way-WayBuilder.html">josm/builder/way~WayBuilder</a></li><li><a href="module-josm_builder_way-WayBuilder.WayBuilder.html">josm/builder/way~WayBuilder.WayBuilder</a></li><li><a href="module-josm_command.AddCommand.html">josm/command.AddCommand</a></li><li><a href="module-josm_command.ChangeCommand.html">josm/command.ChangeCommand</a></li><li><a href="module-josm_command.CommandHistory.html">josm/command.CommandHistory</a></li><li><a href="module-josm_command.DeleteCommand.html">josm/command.DeleteCommand</a></li><li><a href="module-josm_ds.DataSetUtil.html">josm/ds.DataSetUtil</a></li><li><a href="module-josm_layers.Layers.html">josm/layers.Layers</a></li><li><a href="module-josm_ui_menu-MenuBar.html">josm/ui/menu~MenuBar</a></li><li><a href="NodeBuilder.exports.NodeBuilder.html">NodeBuilder.exports.NodeBuilder</a></li>
 				</ul>
 			</li>
 			
@@ -83,6 +83,8 @@
         ChangeCommand
         </h2>
         
+            <div class="class-description">A command to change a collection of objects in a data layer.</div>
+        
     
 </header>
 
@@ -102,15 +104,9 @@
     <h4 class="name" id="ChangeCommand"><span class="type-signature"></span>new ChangeCommand(objs, change)</h4>
     
     
-    <p class="summary">A command to change a collection of objects in a data layer.</p>
-    
 </dt>
 <dd>
 
-    
-    <div class="description">
-        A command to change a collection of objects in a data layer.
-    </div>
     
 
     
@@ -233,7 +229,7 @@
 		<ul class="dummy">
 			<li>
 				<a href="josm_command.mjs.html">josm/command.mjs</a>,
-				 <a href="josm_command.mjs.html#sunlight-1-line-355">line 355</a>
+				 <a href="josm_command.mjs.html#sunlight-1-line-317">line 317</a>
 			</li>
 		</ul>
 	</dd>
@@ -284,150 +280,8 @@
             
 <hr>
 <dt>
-    <h4 class="name" id="applyTo"><span class="type-signature"></span>applyTo(layer)</h4>
-    
-    
-    <p class="summary">Applies the command to a layer.</p>
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Applies the command to a layer.
-    </div>
-    
-
-    
-
-    
-
-    
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params table table-striped">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>layer</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/gui/layer/OsmDataLayer.html" alt="org.openstreetmap.josm.gui.layer.OsmDataLayer" target="javadoc">OsmDataLayer</a></span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">the data layer</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-    
-
-    
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="josm_command.mjs.html">josm/command.mjs</a>,
-				 <a href="josm_command.mjs.html#sunlight-1-line-360">line 360</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dd>
-
-        
-            
-<hr>
-<dt>
     <h4 class="name" id="createJOSMCommand"><span class="type-signature"></span>createJOSMCommand(layer)</h4>
     
-    
-    <p class="summary">Creates the internal JOSM command for this command</p>
     
 </dt>
 <dd>
@@ -531,7 +385,7 @@
 		<ul class="dummy">
 			<li>
 				<a href="josm_command.mjs.html">josm/command.mjs</a>,
-				 <a href="josm_command.mjs.html#sunlight-1-line-372">line 372</a>
+				 <a href="josm_command.mjs.html#sunlight-1-line-330">line 330</a>
 			</li>
 		</ul>
 	</dd>
@@ -638,7 +492,7 @@
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.10</a>
 	
-		on Mon Jun 20th 2022
+		on Tue Jun 21st 2022
 	
 	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>

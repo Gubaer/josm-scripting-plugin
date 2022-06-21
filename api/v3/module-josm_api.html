@@ -40,7 +40,7 @@
 			<li class="dropdown">
 				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
 				<ul class="dropdown-menu ">
-					<li><a href="module-josm_api.ChangesetApi.html">josm/api.ChangesetApi</a></li><li><a href="module-josm_api-Api.html">josm/api~Api</a></li><li><a href="module-josm_api-ApiConfig.html">josm/api~ApiConfig</a></li><li><a href="module-josm_builder_node-NodeBuilder.html">josm/builder/node~NodeBuilder</a></li><li><a href="module-josm_builder_relation-RelationBuilder.html">josm/builder/relation~RelationBuilder</a></li><li><a href="module-josm_builder_way-WayBuilder.html">josm/builder/way~WayBuilder</a></li><li><a href="module-josm_command.ChangeCommand.html">josm/command.ChangeCommand</a></li><li><a href="module-josm_command.CommandHistory.html">josm/command.CommandHistory</a></li><li><a href="module-josm_command.DeleteCommand.html">josm/command.DeleteCommand</a></li><li><a href="module-josm_command-AddCommand.html">josm/command~AddCommand</a></li><li><a href="module-josm_ds.DataSetUtil.html">josm/ds.DataSetUtil</a></li><li><a href="module-josm_layers.Layers.html">josm/layers.Layers</a></li><li><a href="module-josm_ui_menu-MenuBar.html">josm/ui/menu~MenuBar</a></li><li><a href="NodeBuilder.NodeBuilder.html">NodeBuilder.NodeBuilder</a></li>
+					<li><a href="module-josm_api.Api.html">josm/api.Api</a></li><li><a href="module-josm_api.ChangesetApi.html">josm/api.ChangesetApi</a></li><li><a href="module-josm_api-ApiConfig.html">josm/api~ApiConfig</a></li><li><a href="module-josm_builder_node-NodeBuilder.html">josm/builder/node~NodeBuilder</a></li><li><a href="module-josm_builder_relation-RelationBuilder.html">josm/builder/relation~RelationBuilder</a></li><li><a href="module-josm_builder_way-WayBuilder.html">josm/builder/way~WayBuilder</a></li><li><a href="module-josm_builder_way-WayBuilder.WayBuilder.html">josm/builder/way~WayBuilder.WayBuilder</a></li><li><a href="module-josm_command.AddCommand.html">josm/command.AddCommand</a></li><li><a href="module-josm_command.ChangeCommand.html">josm/command.ChangeCommand</a></li><li><a href="module-josm_command.CommandHistory.html">josm/command.CommandHistory</a></li><li><a href="module-josm_command.DeleteCommand.html">josm/command.DeleteCommand</a></li><li><a href="module-josm_ds.DataSetUtil.html">josm/ds.DataSetUtil</a></li><li><a href="module-josm_layers.Layers.html">josm/layers.Layers</a></li><li><a href="module-josm_ui_menu-MenuBar.html">josm/ui/menu~MenuBar</a></li><li><a href="NodeBuilder.exports.NodeBuilder.html">NodeBuilder.exports.NodeBuilder</a></li>
 				</ul>
 			</li>
 			
@@ -162,13 +162,13 @@ to an OSM server.</div>
         <h3 class="subsection-title">Classes</h3>
 
         <dl>
+            <dt><a href="module-josm_api.Api.html">Api</a></dt>
+            <dd>Collection of static methods to download objects from and upload objects
+ to the OSM server</dd>
+        
             <dt><a href="module-josm_api.ChangesetApi.html">ChangesetApi</a></dt>
             <dd>Provides methods to open, close, get, update, etc. changesets on the OSM
 API server.</dd>
-        
-            <dt><a href="module-josm_api-Api.html">Api</a></dt>
-            <dd>Collection of static methods to download objects from and upload objects
- to the OSM server</dd>
         
             <dt><a href="module-josm_api-ApiConfig.html">ApiConfig</a></dt>
             <dd>ApiConfig provides methods and properties for configuring API parameters</dd>
@@ -237,7 +237,10 @@ API server.</dd>
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">BoundsSpec1</span>
+|
+
+<span class="param-type">BoundsSpec2</span>
 
 
 
@@ -293,7 +296,7 @@ API server.</dd>
 		<ul class="dummy">
 			<li>
 				<a href="josm_api.mjs.html">josm/api.mjs</a>,
-				 <a href="josm_api.mjs.html#sunlight-1-line-63">line 63</a>
+				 <a href="josm_api.mjs.html#sunlight-1-line-119">line 119</a>
 			</li>
 		</ul>
 	</dd>
@@ -418,7 +421,7 @@ javascript object.
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type"><a href="module-josm_api.html#~LatLonSpec">module:josm/api~LatLonSpec</a></span>
 
 
 
@@ -429,8 +432,7 @@ javascript object.
 
             
 
-            <td class="description last">a javascript object with two number properties
-   <code>lat:</code> and <code>lon:</code></td>
+            <td class="description last">a specification of the position</td>
         </tr>
 
     
@@ -475,7 +477,7 @@ javascript object.
 		<ul class="dummy">
 			<li>
 				<a href="josm_api.mjs.html">josm/api.mjs</a>,
-				 <a href="josm_api.mjs.html#sunlight-1-line-29">line 29</a>
+				 <a href="josm_api.mjs.html#sunlight-1-line-55">line 55</a>
 			</li>
 		</ul>
 	</dd>
@@ -535,6 +537,1495 @@ const pos = buildLatLon({lat: 1, lon: 2});</pre>
     
 
     
+        <h3 class="subsection-title">Type Definitions</h3>
+
+        <dl>
+                
+<hr>
+<dt class="name" id="~BasicCredentials">
+    <h4 id="~BasicCredentials">BasicCredentials</h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        Basic credentials replied by getCredentials
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    <dl>
+
+<table class="props table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>host</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the host name</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>user</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the user name</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>password</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the password</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+</dl>
+
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_api.mjs.html">josm/api.mjs</a>,
+				 <a href="josm_api.mjs.html#sunlight-1-line-1152">line 1152</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+</dd>
+
+            
+                
+<hr>
+<dt class="name" id="~BoundsSpec1">
+    <h4 id="~BoundsSpec1">BoundsSpec1</h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        Specification of a bounds as JavaScript object.
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    <dl>
+
+<table class="props table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>minlat</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>minlon</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>maxlat</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>maxlon</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+</dl>
+
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_api.mjs.html">josm/api.mjs</a>,
+				 <a href="josm_api.mjs.html#sunlight-1-line-72">line 72</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">const bounds = {
+   minlat: 46.9479186, minlon: 7.4619484,
+   maxlat: 46.9497642, maxlon: 7.4660683
+}</pre>
+
+
+    
+</dd>
+
+            
+                
+<hr>
+<dt class="name" id="~BoundsSpec2">
+    <h4 id="~BoundsSpec2">BoundsSpec2</h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        Specification of a bounds as JavaScript object.
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    <dl>
+
+<table class="props table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>min</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="module-josm_api.html#~LatLonSpec">module:josm/api~LatLonSpec</a></span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the upper left point</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>max</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="module-josm_api.html#~LatLonSpec">module:josm/api~LatLonSpec</a></span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the lower right point</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+</dl>
+
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_api.mjs.html">josm/api.mjs</a>,
+				 <a href="josm_api.mjs.html#sunlight-1-line-87">line 87</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">const bounds = {
+   min: {lat: 46.9479186, lon: 7.4619484},
+   max: {lat: 46.9497642, lon: 7.4660683}
+}</pre>
+
+
+    
+</dd>
+
+            
+                
+<hr>
+<dt class="name" id="~DownloadObjectOptions">
+    <h4 id="~DownloadObjectOptions">DownloadObjectOptions</h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        Options for the method downloadObject()
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    <dl>
+
+<table class="props table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Argument</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>full</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    false
+                
+                </td>
+            
+
+            <td class="description last">if <code>true</code>, the object and its immediate children are
+  downloaded, i.e. the nodes of a way and the relation members of a relation. Default:
+  <code>false</code>.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>version</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">if present, the specified version of the object is downloaded.
+  If missing, the current version is downloaded. If present, the
+  option <code>full</code> is ignored.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+</dl>
+
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_api.mjs.html">josm/api.mjs</a>,
+				 <a href="josm_api.mjs.html#sunlight-1-line-525">line 525</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+</dd>
+
+            
+                
+<hr>
+<dt class="name" id="~DownloadReferrerOptions">
+    <h4 id="~DownloadReferrerOptions">DownloadReferrerOptions</h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        Options for the method donwloadReferrers()
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    <dl>
+
+<table class="props table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Argument</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>full</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    false
+                
+                </td>
+            
+
+            <td class="description last">If <code>true</code>, the <strong>full</strong> objects are
+  retrieved using multi-gets. If missing or <code>false</code>,
+  only proxy objects are downloaded. Default: false</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+</dl>
+
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_api.mjs.html">josm/api.mjs</a>,
+				 <a href="josm_api.mjs.html#sunlight-1-line-680">line 680</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+</dd>
+
+            
+                
+<hr>
+<dt class="name" id="~LatLonSpec">
+    <h4 id="~LatLonSpec">LatLonSpec</h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        Specification of position as lat/lon-pair.
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    <dl>
+
+<table class="props table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>lat</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the latitude</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>lon</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the longitude</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+</dl>
+
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_api.mjs.html">josm/api.mjs</a>,
+				 <a href="josm_api.mjs.html#sunlight-1-line-33">line 33</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+</dd>
+
+            
+                
+<hr>
+<dt class="name" id="~OAuthCredentials">
+    <h4 id="~OAuthCredentials">OAuthCredentials</h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        OAuth credentials replied by getCredentials
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    <dl>
+
+<table class="props table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>key</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the OAuth key</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>secret</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the OAuth secret</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+</dl>
+
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_api.mjs.html">josm/api.mjs</a>,
+				 <a href="josm_api.mjs.html#sunlight-1-line-1161">line 1161</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+</dd>
+
+            
+                
+<hr>
+<dt class="name" id="~SetOrGetCredentialOptions">
+    <h4 id="~SetOrGetCredentialOptions">SetOrGetCredentialOptions</h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        Options for the method setCredentials
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_api.mjs.html">josm/api.mjs</a>,
+				 <a href="josm_api.mjs.html#sunlight-1-line-1143">line 1143</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+</dd>
+
+            
+                
+<hr>
+<dt class="name" id="~UploadOptions">
+    <h4 id="~UploadOptions">UploadOptions</h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        Options for the method upload()
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    <dl>
+
+<table class="props table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Argument</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>strategy</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+|
+
+<span class="param-type"><a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/io/UploadStrategy.html" alt="org.openstreetmap.josm.io.UploadStrategy" target="javadoc">UploadStrategy</a></span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Indicates how the data is uploaded.
+   Either one of the strings
+    <ul>
+         <li>individualobjects</li>
+         <li>chunked</li>
+         <li>singlerequest</li>
+      </ul>
+   or one of the enumeration values in
+   {@class org.openstreetmap.josm.io.UploadStrategy}.
+   Default value: UploadStrategy.DEFAULT_UPLOAD_STRATEGY</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>changeset</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+|
+
+<span class="param-type"><a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Changeset.html" alt="org.openstreetmap.josm.data.osm.Changeset" target="javadoc">Changeset</a></span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">The changeset to which the data is uploaded.
+   Default: creates a new changeset</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>chunkSize</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">the size of an upload chunk  if the data is uploaded with the
+   upload strategy {@class org.openstreetmap.josm.io.UploadStrategy}.CHUNKED_DATASET_STRATEGY.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>closeChangeset</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    true
+                
+                </td>
+            
+
+            <td class="description last">if true, closes the changeset after the upload</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+</dl>
+
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_api.mjs.html">josm/api.mjs</a>,
+				 <a href="josm_api.mjs.html#sunlight-1-line-818">line 818</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+</dd>
+
+            </dl>
+    
 
     
 </article>
@@ -585,7 +2076,7 @@ const pos = buildLatLon({lat: 1, lon: 2});</pre>
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.10</a>
 	
-		on Mon Jun 20th 2022
+		on Tue Jun 21st 2022
 	
 	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>
