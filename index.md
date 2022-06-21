@@ -23,13 +23,14 @@ For historical reasons it also includes
 import josm from 'josm'
 import { buildAddCommand } from 'josm/command'
 import { NodeBuilder } from 'josm/builder'
-const restaurant = new NodeBuilder()
+const layer = josm.layers.addDataLayer('Obstberg')
+const restaurant = NodeBuilder
   .withTags({amenity: 'restaurant'})
   .withPosition(12.34,45.67)
   .create()
 buildAddCommand(restaurant)
-  .applyTo(josm.layers.activeLayer)
-josm.alert('Added a node')
+  .applyTo(layer)
+josm.alert('Added restaurant Obstberg')
 ```
 
 <img id="console-img" src="assets/img/scripting-console-sample.png"/>
