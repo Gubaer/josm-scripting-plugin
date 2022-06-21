@@ -2,12 +2,13 @@ releases:
   - label: v0.2.2
     minJosmVersion: 18427
     description: |
-      * adds support for ECMAScript Modules (ES Modules)
+      * adds support for [ECMAScript Modules (ES Modules)][es-modules-doc]
       * adds [API V3][api-v3-doc] based on ES Modules
       * [API V2][api-v2-doc] is **deprecated** and will be removed end of 2022
 
       [api-v2-doc]: https://gubaer.github.io/josm-scripting-plugin/docs/v2/v2.html
       [api-v3-doc]: https://gubaer.github.io/josm-scripting-plugin/docs/v3/v3.html
+      [es-modules-doc]: https://gubaer.github.io/josm-scripting-plugin/docs/v3/modules.html
 
   - label: v0.2.1
     minJosmVersion: 18427
