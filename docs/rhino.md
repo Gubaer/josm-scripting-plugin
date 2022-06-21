@@ -9,7 +9,7 @@ nav_order: 3
 The JOSM Scripting Plugin ships with an embedded scripting engine based on [Mozilla Rhino].
 
 Support for Moziall Rhino and the [API V1] is **deprecated**. It will be removed end of 2022.
-Consider to migrate your scripts to [GraalJS][graaljs] and [API V2].
+Consider to migrate your scripts to [GraalJS][graaljs] and [API V3].
 {: .m-4 .p-4 .bg-red-000}
 
 
@@ -35,4 +35,4 @@ Refer to the [API V1] documentation.
 [graaljs]: https://github.com/oracle/graaljs
 [Mozilla Rhino]: http://www.mozilla.org/rhino/
 [API V1]: v1/v1
-[API V2]: v2/v2
+[API V3]: v3/v3
