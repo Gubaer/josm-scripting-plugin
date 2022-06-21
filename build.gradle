@@ -224,7 +224,7 @@ def getGraalVMHome() {
  * Runs the API V2 JavaScript unit tests with JOSM and GraalJS
  * present. The tests are run with with a GraalVM 'java' binary.
  */
-task testScriptApiV2(type: Test) {
+task testScriptApiV2AndV3(type: Test) {
     dependsOn "downloadGraalVM"
     useJUnitPlatform()
     environment "JOSM_SCRIPTING_PLUGIN_HOME", project.projectDir
@@ -313,7 +313,7 @@ task testJSR223EnginePresent(type: Test) {
 }
 
 tasks.check.dependsOn(tasks.testScriptApiV1)
-tasks.check.dependsOn(tasks.testScriptApiV2)
+tasks.check.dependsOn(tasks.testScriptApiV2AndV3)
 tasks.check.dependsOn(tasks.testGraalVMSupportNotPresent)
 tasks.check.dependsOn(tasks.testJSR223EnginePresent)
 tasks.check.dependsOn(tasks.testWithGraalVMJDK)
