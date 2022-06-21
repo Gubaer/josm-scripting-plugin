@@ -11,9 +11,9 @@
  *   RelationBuilder
  * } from 'josm/builder'
  * 
- * @see module:josm/builder/node
- * @see module:josm/builder/way
- * @see module:josm/builder/relation
+ * @see module:josm/builder/node~NodeBuilder
+ * @see module:josm/builder/way~WayBuilder
+ * @see module:josm/builder/relation~RelationBuilder
  */
 
 export const DataSet = Java.type('org.openstreetmap.josm.data.osm.DataSet')
