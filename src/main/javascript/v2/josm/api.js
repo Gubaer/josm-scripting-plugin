@@ -1048,7 +1048,7 @@ exports.Api.upload = function (data, comment, options) {
  */
 exports.ApiConfig = function() {}
 
-const DEFAULT_URL = 'http://api.openstreetmap.com/api/0.6'
+const DEFAULT_URL = 'https://www.openstreetmap.org/api'
 
 /**
  * Get or set the API server URL.
