@@ -985,10 +985,12 @@ exports.Api.upload = function (data, comment, options) {
   }
 
   function uploadSpecFromOptions (options) {
-    let strategy = options.strategy ||
-      UploadStrategy.DEFAULT_UPLOAD_STRATEGY
-    strategy = UploadStrategy.from(strategy)
-
+    let strategy = options.strategy || UploadStrategy.DEFAULT_UPLOAD_STRATEGY
+    if (strategy instanceof String) {
+      strategy = UploadStrategy.valueOf(strategy)
+      util.assert(strategy, "invalid upload strategy ''{0}''", strategy)
+    }
+    
     let chunkSize = options.chunkSize ||
       UploadStrategySpecification.UNSPECIFIED_CHUNK_SIZE
     chunkSize = normalizeChunkSize(chunkSize)
