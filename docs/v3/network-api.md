@@ -1,6 +1,6 @@
 ---
   layout: page
-  title: Download or upload data
+  title: Download and upload data
   parent: API V3
   nav_order: 4
 ---
