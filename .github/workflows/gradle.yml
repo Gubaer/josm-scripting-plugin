@@ -46,6 +46,6 @@ jobs:
         uses: gradle/gradle-build-action@v2.2.0
         env:
             DISPLAY: ":19"
-            OSM_DEV_API_PASSWORD: "${{ secrets.OSM_DEV_API_PASSWORD }}""
+            OSM_DEV_API_PASSWORD: "${{ secrets.OSM_DEV_API_PASSWORD }}"
         with:
           arguments: build -Pplugin.josmCompileVersion=${{ matrix.josm-version}} -Pgraalvm.jdk=java${{ matrix.jdk }}
