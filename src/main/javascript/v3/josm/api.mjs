@@ -523,6 +523,18 @@ export class Api {
   }
 
   /**
+   * Options for the method downloadObject()
+   * 
+   * @typedef DownloadObjectOptions
+   * @property {boolean} [full=false] iff <code>true</code>, the object and its immediate children are
+   *   downloaded, i.e. the nodes of a way and the relation members of a relation. Default:
+   *   <code>false</code>.
+   * @property {number} [version] iff present, the specified version of the object is downloaded.
+   *   If missing, the current version is downloaded. If present, the
+   *   option <code>full</code> is ignored.
+   */
+  
+  /**
    * Downloads an object from the server.
    *
    * There are multiple options to specify what object to download.
@@ -548,21 +560,6 @@ export class Api {
    *   </dd>
    * </dl>
    *
-   * In both cases, <code>?options</code> is an (optional) object with the
-   * following two (optional) properties:
-   * <dl>
-   *   <dt><code class='signature'>full</code>: boolean</dt>
-   *   <dd class="param-desc">If <code>true</code>, the object and its immediate children are
-   *   downloaded, i.e. the nodes of a way and
-   *   the relation members of a relation. Default if missing is
-   *   <code>false</code>.</dd>
-   *
-   *   <dt><code class='signature'>version</code>: number</dt>
-   *   <dd class="param-desc">If present, the specified version of the object is downloaded.
-   *   If missing, the current version is downloaded. If present, the
-   *   option <code>full</code> is ignored.</dd>
-   * </dl>
-   *
    * @example
    * import { Api } from 'josm/api'
    * const SimplePrimitiveId = Java.type('org.openstreetmap.josm.data.osm.SimplePrimitiveId')
@@ -582,7 +579,9 @@ export class Api {
    * const ds4 = Api.downloadObject(12345, OsmPrimitiveType.WAY, {full: true, version: 5})
    *
    * @returns {org.openstreetmap.josm.data.osm.DataSet} the downloaded primitives
-   * @param args see description and examples
+   * @param {number|org.openstreetmap.josm.data.osm.PrimitiveId} id the id of the object
+   * @param {string|org.openstreetmap.josm.data.osm.OsmPrimitiveType} [type] the type of the object
+   * @param {module:josm/api~DownloadObjectOptions} [options] named options
    * @static
    */
   static downloadObject() {
