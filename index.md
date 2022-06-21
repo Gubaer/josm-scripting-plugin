@@ -27,17 +27,14 @@ const restaurant = new NodeBuilder()
   .withTags({amenity: 'restaurant'})
   .withPosition(12.34,45.67)
   .create()
-buildAddCommand(restaurant).applyTo(
-  josm.layers.activeLayer
-)
+buildAddCommand(restaurant)
+  .applyTo(josm.layers.activeLayer)
 josm.alert('Added a node')
 ```
 
 <img id="console-img" src="assets/img/scripting-console-sample.png"/>
 
 The plugin can execute scripts written in [Groovy], [Ruby], or any other language for which a JSR-223 compatible script engine is available.
-
-
 
 [Open Street Map]: http://www.openstreetmap.org
 [JOSM]: http://josm.openstreetmap.de
