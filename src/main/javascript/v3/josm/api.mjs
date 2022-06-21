@@ -407,7 +407,7 @@ export class Api {
         util.assert(false, 'Invalid primitive type, got \'\'{0}\'\'', type)
       }
     } else if (type instanceof OsmPrimitiveType) {
-      if (![OsmPrimitiveType.NODE, OsmPrimitiveType.WAY, OsmPrimitiveType.RELATION].contains(type)) {
+      if (![OsmPrimitiveType.NODE, OsmPrimitiveType.WAY, OsmPrimitiveType.RELATION].includes(type)) {
         util.assert(false, 'Invalid primitive type, got {0}', type)
       }
     } else {
@@ -493,7 +493,6 @@ export class Api {
       util.assert(false, 'Unsupported types of arguments')
     }
     let reader
-    util.println(`before calling: id=${id.toString()}}`)
     if (util.isDef(options.version)) {
       reader = new OsmServerObjectReader(id, options.version)
     } else {

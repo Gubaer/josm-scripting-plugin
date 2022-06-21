@@ -426,7 +426,7 @@ function normalizeType (type) {
       util.assert(false, 'Invalid primitive type, got \'\'{0}\'\'', type)
     }
   } else if (type instanceof OsmPrimitiveType) {
-    if (![OsmPrimitiveType.NODE, OsmPrimitiveType.WAY, OsmPrimitiveType.RELATION].contains(type)) {
+    if (![OsmPrimitiveType.NODE, OsmPrimitiveType.WAY, OsmPrimitiveType.RELATION].includes(type)) {
       util.assert(false, 'Invalid primitive type, got {0}', type)
     }
   } else {
