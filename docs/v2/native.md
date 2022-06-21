@@ -5,6 +5,8 @@ parent: API V2
 nav_order: 3
 ---
 
+{% include v2-deprecated.md %}
+
 # Scripting native JOSM classes and objects
 
 The embedded `Graal.JS`scripting engine is tightly integrated with the Java type system. Native java classes, both from the Java SDK and the [JOSM code base], are available for scripting.

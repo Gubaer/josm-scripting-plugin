@@ -5,6 +5,8 @@ parent: API V2
 nav_order: 2
 ---
 
+{% include v2-deprecated.md %}
+
 # Working with layers
 {: .no_toc }
 

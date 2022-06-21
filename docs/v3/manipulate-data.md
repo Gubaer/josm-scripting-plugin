@@ -125,13 +125,10 @@ There are two main differences between detached primitives and those attached to
     import { NodeBuilder, RelationBuilder } from 'josm/builder'
     import { DataSetUtil, DataSet } from 'josm/ds'
     const LatLon = Java.type('org.openstreetmap.josm.data.coor.LatLon')
-
     let dsutil = new DataSetUtil(new DataSet())
-    
     dsutil.nodeBuilder
       .withId(1)
       .create({lat: 12.45, lon: 45.56})
-
     dsutil.relationBuilder
       .withId(2)
       .withTags({'name': 'a-relation'})
@@ -161,19 +158,22 @@ import { buildChangeCommand } from 'josm/command'
 import { DataSetUtil, OsmPrimitiveType} from 'josm/ds'
 
 const dsutil = new DataSetUtil()
-dsutil.nodeBuilder.withId(1).withPosition(1.0, 2.0).create()
-dsutil.nodeBuilder.withId(2).withPosition(3.0, 4.0).withTags({'width': '3m'}).create()
-dsutil.wayBuilder.withId(3).withNodes(dsutil.node(1), dsutil.node(2)).create()
-dsutil.relationBuilder.withId(4).create()
-
-const layer = josm.layers.addDataLayer({name: 'my data layer', ds: dsutil.ds})
-
-// creates and applies three undoable/redoable commands
-buildChangeCommand(dsutil.node(1), {lat: 12.45}).applyTo(layer)
-buildChangeCommand(dsutil.relation(4), {tags: {name: 'a new name'}}).applyTo(layer)
-
-// to remove a tag, set its value to null
-buildChangeCommand(dsutil.way(3), {tags: {width: null}}).applyTo(layer)
+dsutil.nodeBuilder
+  .withId(1)
+  .withPosition(1.0, 2.0)
+  .create()
+dsutil.relationBuilder
+  .withId(4)
+  .create()
+const layer = josm.layers.addDataLayer({
+  name: 'my data layer', 
+  ds: dsutil.ds}
+)
+// creates and applies two undoable/redoable commands
+buildChangeCommand(dsutil.node(1), {lat: 12.45})
+  .applyTo(layer)
+buildChangeCommand(dsutil.relation(4), {tags: {name: 'a new name'}})
+  .applyTo(layer)
 ```
 
 ## Find primitives in a dataset
@@ -183,35 +183,42 @@ The easiest way to get a hold of a primitive in a dataset is to access it by its
 ```js
 import { DataSetUtil, OsmPrimitiveType } from 'josm/ds'
 
-// creates a data set util with empty new data set
+// creates a data set util with an empty new data set
 const dsutil = new DataSetUtil()
 // populate the data set with some objects
-dsutil.nodeBuilder.withId(1).withPosition(1.0,2.0).create()
-dsutil.nodeBuilder.withId(2).withPosition(1.0,2.0).create()
-dsutil.wayBuilder.withId(3).withNodes(dsutil.node(1), dsutil.node(2)).create()
-dsutil.relationBuilder.withId(4).create()
-
+dsutil.nodeBuilder
+  .withId(1)
+  .withPosition(1.0,2.0)
+  .create()
+dsutil.nodeBuilder
+  .withId(2)
+  .withPosition(1.0,2.0)
+  .create()
+dsutil.wayBuilder
+  .withId(3)
+  .withNodes(dsutil.node(1), dsutil.node(2))
+  .create()
+dsutil.relationBuilder
+  .withId(4).create()
 let node
 node = dsutil.get(1, 'node');
 // .. or
 node = dsutil.node(1)
-
 let way
 way = dsutil.get(3, 'way')
 // ... or
 way = dsutil.way(3)
-
 let relation
 relation = dsutil.get(4, OsmPrimitiveType.RELATION)
 // ... or
 relation = dsutil.relation(4)
 ```
 
-In addition, you can *search* in a dataset using the method `query()`.
-`query()` accepts two types of search expressions:
+In addition, you can *search* in a dataset using the method <code class="inline">query</code>.
+<code class="inline">query</code> accepts two types of search expressions:
 
 1.  a search expression as you would enter it in the JOSM search field
-2.  a predicate as JavaScript function, which replies either true or false for a primitive
+2.  a predicate as JavaScript function which replies either true or false for a primitive
 
 
 ```js
@@ -224,21 +231,16 @@ dsutil.nodeBuilder.withId(1)
   .withPosition(1.0,2.0)
   .withTags({'amenity': 'restaurant'})
   .create()
-
 dsutil.nodeBuilder.withId(2)
   .withPosition(1.0,2.0)
   .withTags({'amenity': 'hotel'})
   .create()
-
 let restaurants
-
 // query the dataset with a predicate
 restaurants = dsutil.query(primitive => {
     return primitive.get('amenity') === "restaurant"
 })
 console.println(`num restaurants: ${restaurants.length}`)
-
-
 // query the dataset with a JOSM search expression
 restaurants = dsutil.query('amenity=restaurant')
 console.println(`num restaurants: ${restaurants.length}`)

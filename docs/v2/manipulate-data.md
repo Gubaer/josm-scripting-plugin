@@ -5,6 +5,8 @@ parent: API V2
 nav_order: 3
 ---
 
+{% include v2-deprecated.md %}
+
 # Manipulating data
 {: .no_toc }
 

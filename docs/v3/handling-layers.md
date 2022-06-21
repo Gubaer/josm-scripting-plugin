@@ -12,7 +12,7 @@ nav_order: 2
 {: toc }
 
 The global object <code class="inline">josm.layers</code> represents the current layers in josm. The methods
-and properties of this object are defined in the module [`josm/layers`](josm/layers).
+and properties of this object are defined in the module [josm/layers].
 
 The following scripts prints the names of the currently opened layers:
 
@@ -53,4 +53,4 @@ josm.layers.addDataLayer({ds: dataset, name: 'Obstberg'})
 
 [josm/layers]: ../../api/v3/module-josm_layers.html
 [OsmDataLayer]: https://josm.openstreetmap.de/doc/org/openstreetmap/josm/gui/layer/OsmDataLayer.html
-[josm/api/Api]: ../../api/v3/module-josm_api-Api.html
+[josm/api/Api]: ../../api/v3/module-josm_api.Api.html

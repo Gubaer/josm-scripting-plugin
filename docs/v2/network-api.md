@@ -4,6 +4,8 @@
   parent: API V2
   nav_order: 4
 ---
+{% include v2-deprecated.md %}
+
 
 # Downloading and uploading data
 {: .no_toc }

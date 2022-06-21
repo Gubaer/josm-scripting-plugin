@@ -5,6 +5,8 @@ parent: API V2
 nav_order: 1
 ---
 
+{% include v2-deprecated.md %}
+
 # Working with modules
 {: .no_toc }
 

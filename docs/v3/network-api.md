@@ -42,7 +42,49 @@ the upload strategies JOSM supports:
 *   uploading objects in chunks
 *   uploading objects in one go
 
-[Api]: ../../api/v3/module-josm_api-Api.html
-[ChangesetApi]: ../../api/v3/module-josm_api-ChangesetApi.html
+```js
+import {DataSet, DataSetUtil} from 'josm/ds'
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// Be careful when uploading to the OSMs main database!
+//
+// This example uploads to the development instance
+// of the OSM database.
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+const DEV_API_URL = "https://master.apis.dev.openstreetmap.org/api"
+const DEV_API_HOST = "master.apis.dev.openstreetmap.org"
+ApiConfig.serverUrl = DEV_API_URL
+ApiConfig.authMethod = 'basic'
+ApiConfig.setCredentials(
+  'basic',
+  {
+    user: 'my-user-id',
+    password:'my-password'
+  },
+  {host: DEV_API_HOST}
+)
+
+const dsUtil = new DataSetUtil(new DataSet())
+// create two nodes ...
+const nodes = [
+  dsUtil.nodeBuilder.create(),
+  dsUtil.nodeBuilder.create()
+]
+// ... and a way with these nodes
+const ways = [
+  dsUtil.wayBuilder.withNodes(...nodes).create()
+]
+
+// upload the new data
+let processedPrimitives = Api.upload(dsUtil.ds)
+processedPrimitives.forEach(primitive => {
+  // after uploading the primitive is assigned a globally unique id
+  util.assert(primitive.getUniqueId() > 0)
+  // after uploading the initial version is 1
+  util.assert(primitive.getVersion() === 1)
+})
+```
+
+[Api]: ../../api/v3/module-josm_api.Api.html
+[ChangesetApi]: ../../api/v3/module-josm_api.ChangesetApi.html
 [josm/api]: ../../api/v3/module-josm_api.html
 [OSM API]: http://wiki.openstreetmap.org/wiki/API_v0.6
