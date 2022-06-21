@@ -18,6 +18,8 @@ import * as util from 'josm/util'
 import * as console from 'josm/scriptingconsole'
 import layers from 'josm/layers'
 import {MenuBar} from 'josm/ui/menu'
+import {CommandHistory} from 'josm/command'
+
 
 const josm = {}
 export default josm
@@ -242,7 +244,6 @@ josm.open = function () {
  * @summary the global command history
  * @static
  */
-const { CommandHistory } = require('josm/command')
 Object.defineProperty(josm, 'commands', {
   enumerable: true,
   value: CommandHistory
