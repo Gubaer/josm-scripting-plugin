@@ -30,7 +30,8 @@ class APIV3FunctionalTest extends AbstractGraalVMBasedTest{
         "menu-bar-test",
         "menu-test",
         "open-files-test",
-        "api-download-test"
+        "api-download-test",
+        "api-upload-test"
     ]
 
     @Test
