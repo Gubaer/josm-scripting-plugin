@@ -3,9 +3,12 @@
  * JOSMs menu system.
  *
  * @module josm/ui/menu
+ * @example
+ * import {JSAction} from 'josm/ui/menu'
  */
 
 /* global Java */
+/* global Plugin */
 
 const MainApplication = Java.type('org.openstreetmap.josm.gui.MainApplication')
 import * as util from 'josm/util'
@@ -59,10 +62,10 @@ Object.defineProperty(MenuBar, 'length', {
  * @example
  * import josm from 'josm'
  * // get the edit menu with a numeric index
- * const editmenu = josm.menu.get(1)
+ * const editMenu = josm.menu.get(1)
  *
  * // get the file menu with a symbolic name
- * const filemenu = josm.menu.get('file')
+ * const fileMenu = josm.menu.get('file')
  *
  * @return {javax.swing.JMenu} the menu
  * @summary Replies a menu in the JOSM menu bar.
@@ -70,13 +73,13 @@ Object.defineProperty(MenuBar, 'length', {
  * @memberof module:josm/ui/menu~MenuBar
  * @name get
  * @function
- * @instance
+ * @static
  */
 MenuBar.get = function (key) {
   util.assert(util.isSomething(key), 'key: must not be null or undefined')
   const mainMenu = MainApplication.getMenu()
   if (util.isNumber(key)) {
-    util.assert(key >= 0 && key < exports.MenuBar.length,
+    util.assert(key >= 0 && key < MenuBar.length,
       'key: index out of range, got {0}', key)
     return mainMenu.getMenu(key)
   } else if (util.isString(key)) {
@@ -118,41 +121,37 @@ Object.defineProperty(MenuBar, 'menuNames', {
 })
 
 /**
+ * Callback type for JSAction
+ * 
+ * @callback JSActionCallback
+ */
+
+/**
+ * The named options for building a JSAction.
+ * 
+ * @typedef JSActionOptions 
+ * @property {string} [name]  The optional name of the action. Default: an auto generated name
+ * @property {string} [tooltip] The optional tooltip of the action. Default: empty string
+ * @property {string} [iconName] The optional name of an icon. Default: null
+ * @property {string} [toolbarId] The optional name of the tooblar to which this action is added.
+ *   Note that it isn't added automatically, when this action is created. Default: null.
+ * @property {module:josm/ui/menu~JSActionCallback} [onExecute=null] The optional function which is called when the action is executed.
+ *   Default: null.
+ * @property {module:josm/ui/menu~JSActionCallback} [onInitEnabled=null] The optional function which is called when the <em>enabled</em>
+ *   state of the function is evaluated the first time. Default: null.
+ * @property {module:josm/ui/menu~JSActionCallback} [onUpdateEnabled=null] The (optional) function which is called when the <em>enabled</em>
+ *   state of the function is reevaluated, in particular, when layer change
+ *   events or selection change events occur. Default: null.
+ */
+
+/**
  * JSAction is an action for which a menu item or a toolbar item can be
  * added to  JOSMs menu or JOSMs toolbar respectively.
  *
  * This is just a shortcut for the Java class
  * {@class org.openstreetmap.josm.plugins.scripting.js.JSAction}.
  *
- * The constructor accepts an object with the following optional named
- * parameters.
- * <dl>
- *   <dt><code class="signature">name:string</code></dt>
- *   <dd class="param-desc">The optional name of the action. Default: an auto generated name.</dd>
- *
- *   <dt><code class="signature">tooltip:string</code></dt>
- *   <dd class="param-desc">The optional tooltip of the action. Default: empty string.</dd>
- *
- *   <dt><code class="signature">iconName:string</code></dt>
- *   <dd class="param-desc">The optional name of an icon. Default: null.</dd>
- *
- *   <dt><code class="signature">toolbarId:string</code></dt>
- *   <dd class="param-desc">The optional name of the tooblar to which this action is added.
- *   Note that it isn't added automatically, when this action is created. Default: null.</dd>
- *
- *   <dt><code class="signature">onExecute:function</code></dt>
- *   <dd class="param-desc">The (optional) function which is called when the action is executed.
- *   Default: null.</dd>
- *
- *   <dt><code class="signature">onInitEnabled:function</code></dt>
- *   <dd class="param-desc">The (optional) function which is called when the <em>enabled</em>
- *   state of the function is evaluated the first time. Default: null.</dd>
- *
- *   <dt><code class="signature">onUpdateEnabled:function</code></dt>
- *   <dd class="param-desc">The (optional) function which is called when the <em>enabled</em>
- *   state of the function is reevaluated, in particular, when layer change
- *   events or selection change events occur. Default: null.</dd>
- * </dl>
+ * The constructor accepts an object with {@link module:josm/ui/menu~JSActionOptions named parameters}.
  *
  * @example
  * import {JSAction} from 'josm/ui/menu'
@@ -187,8 +186,5 @@ Object.defineProperty(MenuBar, 'menuNames', {
  *
  *
  * @property {org.openstreetmap.josm.plugins.scripting.graalvm.JSAction} JSAction
- * @static
- * @name JSAction
- * @memberof module:josm/ui/menu~MenuBar
  */
 export const JSAction = Plugin.type('org.openstreetmap.josm.plugins.scripting.graalvm.JSAction')
