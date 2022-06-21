@@ -526,10 +526,10 @@ export class Api {
    * Options for the method downloadObject()
    *
    * @typedef DownloadObjectOptions
-   * @property {boolean} [full=false] iff <code>true</code>, the object and its immediate children are
+   * @property {boolean} [full=false] if <code>true</code>, the object and its immediate children are
    *   downloaded, i.e. the nodes of a way and the relation members of a relation. Default:
    *   <code>false</code>.
-   * @property {number} [version] iff present, the specified version of the object is downloaded.
+   * @property {number} [version] if present, the specified version of the object is downloaded.
    *   If missing, the current version is downloaded. If present, the
    *   option <code>full</code> is ignored.
    */
@@ -837,6 +837,7 @@ export class Api {
    *
    * @property {boolean} [closeChangeset=true] if true, closes the changeset after the upload
    */
+
   /**
    * Uploads objects to the server.
    *
@@ -877,7 +878,7 @@ export class Api {
    *  .forDataSet(ds)
    *  .withNodes(
    *     nb.withTags({name: 'node1'}).create(),
-   *     nb.withTags({name: 'node2'}.create()
+   *     nb.withTags({name: 'node2'}).create()
    *  )
    *  .withTags({name: 'way1'})
    *  .create()
