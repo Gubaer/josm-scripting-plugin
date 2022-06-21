@@ -24,6 +24,8 @@ const Preferences = Java.type('org.openstreetmap.josm.data.Preferences')
 const Bounds = Java.type('org.openstreetmap.josm.data.Bounds')
 const LatLon = Java.type('org.openstreetmap.josm.data.coor.LatLon')
 const BoundingBoxDownloader = Java.type('org.openstreetmap.josm.io.BoundingBoxDownloader')
+const CredentialsManager = Java.type('org.openstreetmap.josm.io.auth.CredentialsManager')
+const RequestorType = Java.type('java.net.Authenticator.RequestorType')
 
 import * as util from 'josm/util'
 
@@ -810,6 +812,28 @@ export class Api {
   }
 
   /**
+   * Options for the method upload()
+   * 
+   * @typedef UploadOptions
+   * @property {string|org.openstreetmap.josm.io.UploadStrategy}[strategy] Indicates how the data is uploaded. 
+   *    Either one of the strings
+   *     <ul>
+   *          <li>individualobjects</li>
+   *          <li>chunked</li>
+   *          <li>singlerequest</li>
+   *       </ul>
+   *    or one of the enumeration values in
+   *    {@class org.openstreetmap.josm.io.UploadStrategy}.
+   *    Default value: UploadStrategy.DEFAULT_UPLOAD_STRATEGY
+   * @property {number| org.openstreetmap.josm.data.osm.Changeset} [changeset] The changeset to which the data is uploaded.
+   *    Default: creates a new changeset
+   * 
+   * @property {number} [chunkSize]  the size of an upload chunk  if the data is uploaded with the
+   *    upload strategy {@class org.openstreetmap.josm.io.UploadStrategy}.CHUNKED_DATASET_STRATEGY.
+   * 
+   * @property {boolean} [closeChangeset=true] if true, closes the changeset after the upload
+   */
+  /**
    * Uploads objects to the server.
    *
    * You can submit data either as
@@ -838,39 +862,7 @@ export class Api {
    * have been uploaded successfully. In order to keep track, which pritives
    * have been uploaded successfully in case of an error, the method replies a
    * collection of the successfully uploaded objects.
-   * <p>
-   * <strong>Named options</strong>
-   * </p>
-   * <dl>
-   *   <dt><code class='signature'>strategy: string|
-   *   {@class org.openstreetmap.josm.io.UploadStrategy}</code></dt>
-   *   <dd class="param-desc">Indicates how the data is uploaded. Either one of the strings
-   *     <ul>
-   *          <li>individualobjects</li>
-   *          <li>chunked</li>
-   *          <li>singlerequest</li>
-   *       </ul>
-   *      or one of the enumeration values in
-   *      {@class org.openstreetmap.josm.io.UploadStrategy}.
-   *      Default falue: UploadStrategy.DEFAULT_UPLOAD_STRATEGY
-   *   </dd>
-   *
-   *    <dt><code class='signature'>changeset:
-   *        number|{@class org.openstreetmap.josm.data.osm.Changeset}</code></dt>
-   *    <dd class="param-desc">The changeset to which the data is uploaded. Either a number
-   *       (the changeset id) or a
-   *       {@class org.openstreetmap.josm.data.osm.Changeset} instance.
-   *       Default: creates a new changeset.</dd>
-   *
-   *    <dt><code class='signature'>chunkSize: number</code></dt>
-   *    <dd class="param-desc">The size of an upload chunk, if the data is uploaded with the
-   *    upload strategy
-   *    {@class org.openstreetmap.josm.io.UploadStrategy}.CHUNKED_DATASET_STRATEGY.</dd>
-   *
-   *    <dt><code class='signature'>closeChangeset: boolean</code></dt>
-   *    <dd class="param-desc">If true, closes the changeset after the upload. Default: true</dd>
-   * </dl>
-   *
+   * 
    * @example
    * const DataSet = Java.type('org.openstreetmap.josm.data.osm.DataSet')
    * import { WayBuilder } from 'josm/builder'
@@ -892,7 +884,7 @@ export class Api {
    * @param {org.openstreetmap.josm.data.osm.DataSet|
    *         org.openstreetmap.josm.data.APIDataSet|array|java.util.Collection} data the data to upload
    * @param {string} comment the upload comment
-   * @param {object} [options] various options (see above)
+   * @param {module:josm/api~UploadOptions} [options] named options
    * @returns {java.util.Collection}
    */
   static upload(data, comment, options) {
@@ -1124,7 +1116,7 @@ function normalizeAuthMethod (authMethod) {
 Object.defineProperty(ApiConfig, 'authMethod', {
   enumerate: true,
   get: function () {
-    var authMethod = Preferences.main().get('osm-server.auth-method', 'basic')
+    let authMethod = Preferences.main().get('osm-server.auth-method', 'basic')
     authMethod = util.trim(authMethod).toLowerCase()
     if (authMethod === 'basic' || authMethod === 'oauth') return authMethod
     // unsupported value for authMethod in the preferences. Returning
@@ -1138,18 +1130,18 @@ Object.defineProperty(ApiConfig, 'authMethod', {
 })
 
 /**
+ * Options for the method setCredentials
+ * 
+ * @typedef SetOrGetCredentialOptions
+ * @param {string} [host] the host name of the API server for which credentials are set.
+ *    If missing, the host name of the currently configured OSM API server
+ *    is used.
+ */
+
+/**
  * Gets the credentials, i.e. username and password for the basic
  * authentication method.
- *
- * <p><strong>Named options</strong></p>
- *
- * <dl>
- *    <dt><code class='signature'>host:string</code></dt>
- *    <dd class="param-desc">The host name of the API server for which credentials are retrieved.
- *    If missing, the host name of the currently configured OSM API server
- *    is used.</dd>
- * </dl>
- *
+ * 
  * @example
  * import { ApiConfig } from 'josm/api'
  *
@@ -1157,15 +1149,12 @@ Object.defineProperty(ApiConfig, 'authMethod', {
  * const credentials = ApiConfig.getCredentials('basic')
  *
  * @param {string} authMethod  the authentication method. Either <code>basic</code> or <code>oauth</code>
- * @param {object} options  (optional) additional options (see above)
+ * @param {module:josm/api~SetOrGetCredentialOptions} [options] additional options
  * @static
- * @summary Gets the credentials.
  * @returns {object}  the credentials
- * @name getCredentials
- * @function
  * @memberof module:josm/api~ApiConfig
 */
-ApiConfig.getCredentials = function (authMethod, options) {
+function getCredentials(authMethod, options) {
   const CredentialsManager = Java.type('org.openstreetmap.josm.io.auth.CredentialsManager')
   const OsmApi = Java.type('org.openstreetmap.josm.io.OsmApi')
   const RequestorType = Java.type('java.net.Authenticator.RequestorType')
@@ -1190,6 +1179,7 @@ ApiConfig.getCredentials = function (authMethod, options) {
       password: undefined
     }
   }
+  ApiConfig.getCredentials = getCredentials
 
   function getOAuthCredentials () {
     const cm = CredentialsManager.getInstance()
@@ -1241,48 +1231,51 @@ function normalizeOAuthCredentials (credentials) {
 }
 
 /**
+ * Userid and password for basic authentication.
+ * 
+ * @typdef BasicAuthParameters
+ * @param {string} user  the user id
+ * @param {string} password the password
+ */
+
+/**
+ * Parameters for OAuth authentication
+ * 
+ * @typdef OAuthParameters
+ * @param {string} key  the key
+ * @param {string} secret the secret
+ */
+
+/**
  * Set the credentials, i.e. username and password for the basic
  * authentication method.
  *
  * Basic authentication credentials are either an instance of
- * java.net.PasswordAuthentication or
+ * {@class java.net.PasswordAuthentication} or
  * an object <code>{user: string, password: string}</code>.
  *
  * OAuth authentication credentials are either an instance of
  * {@class org.openstreetmap.josm.data.oauth.OAuthToken} or
  * an object <code>{key: string, secret: string}</code>.
- * <p>
- * <strong>Named options</strong>
- * </p>
- * <dl>
- *    <dt><code class='signature'>host:string</code></dt>
- *    <dd class="param-desc">The host name of the API server for which credentials are set.
- *    If missing, the host name of the currently configured OSM API server
- *    is used.</dd>
- * </dl>
  *
  * @example
  * import { ApiConfig } from 'josm/api'
  *
  * // set the credentials
- * ApiConfig.setCredentials('basic', { user:'test', password:'apassword' })
+ * ApiConfig.setCredentials('basic', { user:'test', password:'my-password' })
  *
  * @param {string} authMethod  the authentication method. Either 'basic' or 'oauth'.
- * @param {(object|org.openstreetmap.josm.data.oauth.OAuthToken|java.net.PasswordAuthentication)}
- *         credentials  the credentials.
- * @param {object} options  (optional) additional options (see above)
- * @function
+ * @param {(
+ *  module:josm/api~BasicAuthParameters 
+ * | module:josm/api~OAuthParameters 
+ * | org.openstreetmap.josm.data.oauth.OAuthToken
+ * | java.net.PasswordAuthentication)} credentials  the credentials
+ * @param {module:josm/api~SetOrGetCredentialOptions} [options] additional options
  * @static
- * @summary Set the credentials.
  * @returns {object} the credentials
- * @name setCredentials
  * @memberof module:josm/api~ApiConfig
  */
-ApiConfig.setCredentials = function (authMethod, credentials, options) {
-  const CredentialsManager = Java.type('org.openstreetmap.josm.io.auth.CredentialsManager')
-  const RequestorType = Java.type('java.net.Authenticator.RequestorType')
-  const OsmApi = Java.type('org.openstreetmap.josm.io.OsmApi')
-
+ function setCredentials (authMethod, credentials, options) {
   options = options || {}
   util.assert(typeof options === 'object',
     'options: expected an object with named options, got {0}', options)
@@ -1305,4 +1298,5 @@ ApiConfig.setCredentials = function (authMethod, credentials, options) {
     util.assert(false, 'Unsupported authentication method, got {0}',
       authMethod)
   }
+  ApiConfig.setCredentials = setCredentials
 }

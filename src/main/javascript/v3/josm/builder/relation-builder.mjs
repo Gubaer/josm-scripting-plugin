@@ -291,16 +291,27 @@ RelationBuilder.prototype.createProxy = createProxy
  *
  * @example
  * import {RelationBuilder, NodeBuilder} from 'josm/builder'
- *
+ * const {member} = RelationBuilder
  * const r1 = RelationBuilder.withMembers(
- *   RelationBuilder.member('house', NodeBuilder.create()),
- *   RelationBuilder.member('house', NodeBuilder.create())
- * ).create()
+ *     member('house', NodeBuilder.create()),
+ *     member('house', NodeBuilder.create())
+ *   )
+ *   .create()
  *
+ * const members = [
+ *   NodeBuilder.create(),  // empty role
+ *   member('house', NodeBuilder.create()
+ * ]
+ * 
+ * const r2 = RelationBuilder.withMembers(
+ *    members, 
+ *    NodeBuilder.create(),
+ * ).create()
+ * 
  * @param {
  *   ...(org.openstreetmap.josm.data.osm.OsmPrimitive 
  *  | org.openstreetmap.josm.data.osm.RelationMember 
- *  | (org.openstreetmap.josm.data.osm.OsmPrimitive | org.openstreetmap.josm.data.osm.RelationMember)[]
+ *  | Array.<OsmPrimitive | RelationMember>
  *  | java.util.List)
  * } members  the list of members. See description and examples.
  * @returns {module:josm/builder/relation~RelationBuilder} the relation builder (for method chaining)
