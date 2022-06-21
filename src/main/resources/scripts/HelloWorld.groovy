@@ -1,5 +1,5 @@
 /*
- * HelloWorld.groovy - displays the number of actually open layers
+ * HelloWorld.groovy - displays the number of open layers
  */
 
 import javax.swing.JOptionPane

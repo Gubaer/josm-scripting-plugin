@@ -1,5 +1,5 @@
 /*
-* HelloWorld.js  -  displays the number of actually open layers
+* HelloWorld.js  -  displays the number of open layers
 */
 
 const JOptionPane = Java.type('javax.swing.JOptionPane')

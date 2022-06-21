@@ -1,5 +1,5 @@
 #
-# HelloWorld.py  - displays the number of actually open layers
+# HelloWorld.py  - displays the number of open layers
 #
 from javax.swing import JOptionPane
 from org.openstreetmap.josm.gui import MainApplication
