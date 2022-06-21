@@ -524,7 +524,7 @@ export class Api {
 
   /**
    * Options for the method downloadObject()
-   * 
+   *
    * @typedef DownloadObjectOptions
    * @property {boolean} [full=false] iff <code>true</code>, the object and its immediate children are
    *   downloaded, i.e. the nodes of a way and the relation members of a relation. Default:
@@ -678,6 +678,15 @@ export class Api {
   }
 
   /**
+   * Options for the method donwloadReferrers()
+   *
+   * @typedef DownloadReferrerOptions
+   * @property {boolean} [full=false] If <code>true</code>, the <strong>full</strong> objects are
+   *   retrieved using multi-gets. If missing or <code>false</code>,
+   *   only proxy objects are downloaded. Default: false
+   */
+
+  /**
    * Downloads the objects <em>referring</em> to another object from
    * the server.
    *
@@ -719,15 +728,6 @@ export class Api {
    *   </dd>
    * </dl>
    *
-   * In both cases, <code>?options</code> is an (optional) object with the
-   * following  (optional) property:
-   * <dl>
-   *   <dt><code class='signature'>full</code>:boolean</dt>
-   *   <dd class="param-desc">If <code>true</code>, the the <strong>full</strong> objects are
-   *   retrieved using multi-gets. If missing or <code>false</code>,
-   *   only proxy objects are downloaded. Default: false</dd>
-   * </dl>
-   *
    * @example
    * import { Api } from 'josm/api'
    * import { NodeBuilder } from 'josm/builder'
@@ -751,7 +751,9 @@ export class Api {
    * const ds = Api.downloadReferrer(node, { full: true })
    *
    * @returns {org.openstreetmap.josm.data.osm.DataSet} the downloaded primitives
-   * @param args see description and examples
+   * @param {number|org.openstreetmap.josm.data.osm.PrimitiveId} id the id of the object
+   * @param {string|org.openstreetmap.josm.data.osm.OsmPrimitiveType} [type] the type of the object
+   * @param {module:josm/api~DownloadReferrerOptions} [options] named options
    */
   static downloadReferrer() {
     switch (arguments.length) {
@@ -780,6 +782,8 @@ export class Api {
    *
    * @example
    * import { Api } from 'josm/api'
+   * const Bounds = Java.type('org.openstreetmap.josm.data.Bounds')
+   * const LatLon = Java.type('org.openstreetmap.josm.data.coor.LatLon')
    * const ds1 = Api.downloadArea(new Bounds(
    *     new LatLon(46.9479186,7.4619484),   // min
    *     new LatLon(46.9497642, 7.4660683)   // max
@@ -791,7 +795,7 @@ export class Api {
    * })
    *
    * @returns {org.openstreetmap.josm.data.osm.DataSet} the downloaded primitives
-   * @param {org.openstreetmap.josm.data.Bounds|module:josm/api~BoundsSpec1|module:josm/api~BoundsSpec12} bounds the bounding box
+   * @param {org.openstreetmap.josm.data.Bounds|module:josm/api~BoundsSpec1|module:josm/api~BoundsSpec2} bounds the bounding box
    */
   static downloadArea() {
 
