@@ -178,7 +178,7 @@ public class ESModuleResolver implements FileSystem, IRepositoriesSource  {
      */
     @Override
     public Path parsePath(String path) {
-        logFine(() -> MessageFormat.format("parsePath: path=''{0}'", path ));
+        logFine(() -> MessageFormat.format("parsePath: path=''{0}''", path ));
         var p = Path.of(path);
         if (p.isAbsolute() && ! startsWithESModuleRepoPathPrefix(p)) {
             return fullIO.getPath(path);
@@ -196,7 +196,7 @@ public class ESModuleResolver implements FileSystem, IRepositoriesSource  {
      */
     @Override
     public void checkAccess(Path path, Set<? extends AccessMode> modes, LinkOption... linkOptions) throws IOException {
-        logFine(() -> MessageFormat.format("checkAccess: path=''{0}'", path ));
+        logFine(() -> MessageFormat.format("checkAccess: path=''{0}''", path ));
         if (!startsWithESModuleRepoPathPrefix(path)) {
             fullIO.provider().checkAccess(path, modes.toArray(new AccessMode[]{}));
         }
@@ -231,7 +231,7 @@ public class ESModuleResolver implements FileSystem, IRepositoriesSource  {
      */
     @Override
     public SeekableByteChannel newByteChannel(Path path, Set<? extends OpenOption> options, FileAttribute<?>... attrs) throws IOException {
-        logFine(() -> MessageFormat.format("newByteChannel: path=''{0}'", path ));
+        logFine(() -> MessageFormat.format("newByteChannel: path=''{0}''", path ));
         var repo = lookupRepoForModulePath(path);
         if (repo == null) {
             return fullIO.provider().newByteChannel(path, options, attrs);
@@ -257,7 +257,7 @@ public class ESModuleResolver implements FileSystem, IRepositoriesSource  {
      */
     @Override
     public Path toAbsolutePath(Path path) {
-        logFine(() -> MessageFormat.format("toAbsolutePath: path=''{0}'", path ));
+        logFine(() -> MessageFormat.format("toAbsolutePath: path=''{0}''", path ));
         return path.toAbsolutePath();
     }
 
@@ -266,7 +266,7 @@ public class ESModuleResolver implements FileSystem, IRepositoriesSource  {
      */
     @Override
     public Path toRealPath(Path path, LinkOption... linkOptions) throws IOException {
-        logFine(() -> MessageFormat.format("toRealPath: path=''{0}'", path ));
+        logFine(() -> MessageFormat.format("toRealPath: path=''{0}''", path ));
         if (startsWithESModuleRepoPathPrefix(path)) {
             // If GraalJS encounters an import from a module './foo' in an already
             // resolved module '/es-module-repo/<uuid>/bar' it doesn't parse it,
@@ -288,7 +288,7 @@ public class ESModuleResolver implements FileSystem, IRepositoriesSource  {
      */
     @Override
     public Map<String, Object> readAttributes(Path path, String attributes, LinkOption... options) throws IOException {
-        logFine(() -> MessageFormat.format("readAttributes: path=''{0}'", path ));
+        logFine(() -> MessageFormat.format("readAttributes: path=''{0}''", path ));
         if (startsWithESModuleRepoPathPrefix(path)) {
             throw new UnsupportedOperationException();
         }
