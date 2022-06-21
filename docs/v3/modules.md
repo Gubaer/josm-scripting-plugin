@@ -13,7 +13,7 @@ nav_order: 1
 
 ## Loading and using ES Modules from API V3
 
-The embedded `Graal.JS` scripting engine can import [ES Modules][es-module-spec].
+The embedded `Graal.JS` scripting engine can import [ES Modules][es-modules-spec].
 
 Here's an example scripts which loads the built in module [josm/util]{:target="apidoc"}.
 
@@ -30,7 +30,7 @@ println('Hello World!')
 
 You can implement and use your own ES Modules.
 
-Here's an example of a simple module that exports the function `sayHello()`.
+Here's an example of a simple module that exports the function <code class="inline">sayHello()</code>.
 
 ```js
 // file: helloworld.js
