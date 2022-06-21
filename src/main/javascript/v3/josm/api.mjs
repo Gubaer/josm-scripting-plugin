@@ -481,7 +481,7 @@ export class Api {
 
     if (util.isNumber(arguments[0])) {
       id = Api.#normalizeId(arguments[0])
-      var type = Api.#normalizeType(arguments[1])
+      const type = Api.#normalizeType(arguments[1])
       id = new SimplePrimitiveId(id, type)
     } else if (arguments[0] instanceof PrimitiveId) {
       id = arguments[0]
@@ -493,6 +493,7 @@ export class Api {
       util.assert(false, 'Unsupported types of arguments')
     }
     let reader
+    util.println(`before calling: id=${id.toString()}}`)
     if (util.isDef(options.version)) {
       reader = new OsmServerObjectReader(id, options.version)
     } else {
@@ -533,7 +534,7 @@ export class Api {
    *   If missing, the current version is downloaded. If present, the
    *   option <code>full</code> is ignored.
    */
-  
+
   /**
    * Downloads an object from the server.
    *
@@ -993,7 +994,7 @@ export class Api {
  */
 export const ApiConfig = {}
 
-const DEFAULT_URL = 'http://api.openstreetmap.com/api/0.6'
+const DEFAULT_URL = 'https://www.openstreetmap.org/api'
 
 /**
  * Get or set the API server URL.
