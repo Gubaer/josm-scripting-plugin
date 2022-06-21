@@ -7,9 +7,9 @@ nav_order: 3
 
 # Scripting native JOSM classes and objects
 
-The embedded `Graal.JS`scripting engine is tightly integrated with the Java type system. Native java classes, both from the Java SDK and the [JOSM code base], are available for scripting.
+The embedded Graal.JS scripting engine is tightly integrated with the Java type system. Native java classes, both from the Java SDK and the [JOSM code base], are available for scripting.
 
-You can import Java class with `Java.type(...)`.
+You can import a Java class with <code class="inline">Java.type(...)</code>.
 
 
 ```js
