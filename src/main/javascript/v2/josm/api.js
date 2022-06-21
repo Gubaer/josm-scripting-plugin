@@ -109,10 +109,10 @@ exports.buildBounds = function (obj) {
   }
 
   if (util.isDef(obj.minlat)) {
-      const minlat = normalizeLat(obj.minlat)
-      const minlon = normalizeLat(obj.minlon)
-      const maxlat = normalizeLat(obj.maxlat)
-      const maxlon = normalizeLat(obj.maxlon)
+      const minlat = normalizeLat(obj, "minlat")
+      const minlon = normalizeLat(obj, "minlon")
+      const maxlat = normalizeLat(obj, "maxlat")
+      const maxlon = normalizeLat(obj, "maxlon")
       return new Bounds(minlat, minlon, maxlat, maxlon)
   } else if (util.isDef(obj.min)) {
       const min = exports.buildLatLon(obj.min)

@@ -141,10 +141,10 @@ export function buildBounds(obj) {
   }
 
   if (util.isDef(obj.minlat)) {
-      const minlat = normalizeLat(obj.minlat)
-      const minlon = normalizeLon(obj.minlon)
-      const maxlat = normalizeLat(obj.maxlat)
-      const maxlon = normalizeLon(obj.maxlon)
+      const minlat = normalizeLat(obj, "minlat")
+      const minlon = normalizeLon(obj, "minlon")
+      const maxlat = normalizeLat(obj, "maxlat")
+      const maxlon = normalizeLon(obj, "maxlon")
       return new Bounds(minlat, minlon, maxlat, maxlon)
   } else if (util.isDef(obj.min)) {
       const min = buildLatLon(obj.min)
