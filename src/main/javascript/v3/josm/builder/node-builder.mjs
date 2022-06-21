@@ -68,11 +68,10 @@ import {
 /**
  * Creates a new node builder.
  *
- *  @param {org.openstreetmap.josm.data.osm.DataSet} ds (optional) the dataset,
+ *  @param {org.openstreetmap.josm.data.osm.DataSet} [ds] the dataset
  *      to which created objects are added
  *  @constructor
  *  @memberOf NodeBuilder
- *  @name NodeBuilder
  */
 export function NodeBuilder(ds) {
   if (util.isSomething(ds)) {
@@ -98,13 +97,13 @@ export function NodeBuilder(ds) {
  *  // ... or the instance method
  *  const nb2 = new NodeBuilder.forDataSet(ds)
  *
- * @returns {module:josm/builder.NodeBuilder} the node builder
+ * @returns {module:josm/builder/node~NodeBuilder} the node builder
  * @param {org.openstreetmap.josm.data.osm.DataSet} ds the dataset which
  *         created objects are added to
  * @summary Creates a new NodeBuilder for a specific
  *         {@class org.openstreetmap.josm.data.osm.DataSet}.
- * @function
- * @memberof module:josm/builder~NodeBuilder
+ * @memberof module:josm/builder/node~NodeBuilder
+ * @instance
  */
 function forDataSet (ds) {
   const builder = receiver(this)
@@ -129,25 +128,33 @@ function initFromObject (builder, args) {
 }
 
 /**
+ * Named options for {@link module:josm/builder/node~NodeBuilder#create create}
+ * 
+ * @typedef NodeBuilderOptions
+ * @property {number} [version=1] the version (&gt 0) of the node. Default: 1.
+ * @property {number} [lat=0.0] a valide latitude (number in the range [-90,90]. Default: 0.0
+ * @property {number} [lon=0.0] a valide longitude (number in the range[-180,180]. Default: 0.0
+ * @property {number[] | {lat: number, lon: number }} [pos=null] a position, either an array with
+ *   two numbers or as an object
+ * @property {object} [tags] an object with tags. Null values and undefined
+ *       values are ignored. Any other value is converted to a string.
+ *       Leading and trailing white space in keys is removed.
+ * @memberOf module:josm/builder/node~NodeBuilder
+ * @example
+ * // options to create a node at position (1.0, 2.0) with some tags
+ * const options = {
+ *   lat: 1.0,
+ *   lon: 2.0,
+ *   tags: {
+ *     amenity: 'restaurant'
+ *   }  
+ * }
+ */
+
+/**
  * Creates a new  {@class org.openstreetmap.josm.data.osm.Node}.
  *
  * Can be used in an instance or in a static context.
- * <p>
- * <strong>Optional named arguments in the parameter <code>options</code></strong>
- * <ul>
- *   <li><code>version</code> - the version of a global node (number > 0)</li>
- *   <li><code>lat</code> - a valide latitude (number in the range
- *       [-90,90])</li>
- *   <li><code>lon</code> - a valide longitude (number in the range
- *       [-180,180])</li>
- *   <li><code>pos</code> - either an array <code>[lat,lon]</code>,
- *       an object <code>{lat: ..., lon: ...}</code>,
- *   or an instance of {@class org.openstreetmap.josm.data.coor.LatLon}</li>
- *   <li><code>tags</code> - an object with tags. Null values and undefined
- *       values are ignored. Any other value is converted to a string.
- *       Leading and trailing white space in keys is removed.</li>
- * </ul>
- *
  *
  * @example
  * import { NodeBuilder } from 'josm/builder'
@@ -168,12 +175,10 @@ function initFromObject (builder, args) {
  *
  * @param {number} [id]  a global node id. If missing and
  *     not set before using <code>withId(..)</code>, creates a new local id.
- * @param {object} [options] additional options for creating the node
+ * @param {module:josm/builder/node~NodeBuilderOptions} [options] additional options for creating the node
  * @returns {org.openstreetmap.josm.data.osm.Node}  the created node
  * @summary Creates a new  {@class org.openstreetmap.josm.data.osm.Node}
- * @function
- * @name create
- * @memberof module:josm/builder~NodeBuilder
+ * @memberof module:josm/builder/node~NodeBuilder
  * @instance
  */
 function create () {
@@ -265,10 +270,7 @@ NodeBuilder.prototype.create = create
  *
  * @param {number} id  the node id (not null, number > 0 expected)
  * @return {org.openstreetmap.josm.data.osm.Node} the new proxy node
- * @summary Creates a new <em>proxy</em> {@class org.openstreetmap.josm.data.osm.Node}
- * @function
- * @name createProxy
- * @memberof module:josm/builder~NodeBuilder
+ * @memberof module:josm/builder/node~NodeBuilder
  * @instance
  */
 function createProxy (id) {
@@ -304,11 +306,8 @@ NodeBuilder.prototype.createProxy =
  *
 * @param {Number} lat  the latitude. A number in the range [-90..90].
 * @param {Number} lon the longitude. A number in the range [-180..180].
-* @returns {module:josm/builder~NodeBuilder} a node builder (for method chaining)
-* @summary Declares the node position.
-* @function
-* @memberof module:josm/builder~NodeBuilder
-* @name withPosition
+* @returns {module:josm/builder/node~NodeBuilder} a node builder (for method chaining)
+* @memberof module:josm/builder/node~NodeBuilder
 * @instance
 */
 function withPosition (lat, lon) {
@@ -344,15 +343,12 @@ NodeBuilder.withPosition = withPosition
  * const n2 = NodeBuilder.withTags(tags).create()
  *
  * @param {object} [tags]  the tags
- * @returns {module:josm/builder~NodeBuilder} the node builder (for method chaining)
- * @summary Declares the node tags.
- * @function
- * @memberof module:josm/builder~NodeBuilder
- * @name withTags
+ * @returns {module:josm/builder/node~NodeBuilder} the node builder (for method chaining)
+ * @memberof module:josm/builder/node~NodeBuilder
  * @instance
  */
 function withTags (tags) {
-  const builder = typeof this === 'object' ? this : new  NodeBuilder()
+  const builder = receiver(this)
   rememberTags(builder, tags)
   return builder
 }
@@ -364,18 +360,15 @@ NodeBuilder.withTags = withTags
  *
  * The method can be used in a static and in an instance context.
  *
- * @param {number} id  (mandatory) the global node id. A number > 0.
- * @param {number} version (optional) the global node version. If present,
- *     a number > 0. If missing, the version 1 is assumed.
- * @returns {module:josm/builder~NodeBuilder} the node builder (for method chaining)
- * @summary Declares the node id and version.
- * @function
- * @memberof module:josm/builder~NodeBuilder
- * @name withId
+ * @param {number} id  the global node id. A number &gt; 0.
+ * @param {number} [version=1] optional the global node version. If present,
+ *     a number &gt; 0. 
+ * @returns {module:josm/builder/node~NodeBuilder} the node builder (for method chaining)
+ * @memberof module:josm/builder/node~NodeBuilder
  * @instance
  */
 function withId (id, version) {
-  const builder = typeof this === 'object' ? this : new  NodeBuilder()
+  const builder = receiver(this)
   rememberId(builder, id, version)
   return builder
 }
