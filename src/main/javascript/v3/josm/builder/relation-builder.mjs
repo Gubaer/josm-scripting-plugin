@@ -1,7 +1,11 @@
 /**
  * @module josm/builder/relation
+ * @example
+ * import {RelationBuilder} from 'josm/builder'
+ * // creates a new relation with no tags and a
+ * // local id
+ * const relation = RelationBuilder.create()
  */
-
 
 /* global Java */
 
@@ -40,8 +44,8 @@ function receiver (that) {
 * Methods of RelationBuilder can be used in a static and in an instance
 * context.
 * It isn't necessary to create an instance of RelationBuilder, unless it is
-* configured with a {@class org.openstreetmap.josm.data.osm.DataSet},
-* which created ways are added to.
+* configured with a {@class org.openstreetmap.josm.data.osm.DataSet} to
+* which created ways are added.
 * @example
 * import  {RelationBuilder} from 'josm/builder'
 * const DataSet = Java.type('org.openstreetmap.josm.data.osm.DataSet')
@@ -95,14 +99,10 @@ export function RelationBuilder(ds) {
  * let rb2 = new RelationBuilder()
  * rb2 = rb2.forDataSet(ds)
  *
- * @return {module:josm/builder.RelationBuilder} the relation builder
- * @summary Creates a new RelationBuilder which adds created relations to a
- *     dataset
+ * @return {module:josm/builder/relation~RelationBuilder} the relation builder
  * @param {org.openstreetmap.josm.data.osm.DataSet} ds  a JOSM
  *     dataset which created ways are added to.
- * @function
- * @name forDataSet
- * @memberof module:josm/builder~RelationBuilder
+ * @memberof module:josm/builder/relation~RelationBuilder
  */
 function forDataSet (ds) {
   const builder = receiver(this)
@@ -143,9 +143,7 @@ RelationBuilder.forDataSet = forDataSet
  * @static
  * @returns {org.openstreetmap.josm.data.osm.RelationMember} the relation member
  * @summary Utility function - creates a relation member
- * @memberof module:josm/builder~RelationBuilder
- * @name member
- * @function
+ * @memberof module:josm/builder/relation~RelationBuilder
  * @param {string} [role] the member role
  * @param {primitive} primitive the member primitive
  */
@@ -198,14 +196,11 @@ RelationBuilder.member = member
  * // creates a global relation with id 1111 an version 22
  * const r = RelationBuilder.withId(1111, 22).create()
  *
- * @param {number} id  (mandatory) the global relation id. A number &gt; 0.
- * @param {number} version  (optional) the global relation version. If present,
- *    a number &gt; 0. If missing, the version 1 is assumed.
- * @returns {module:josm/builder~RelationBuilder} the relation builder (for method chaining)
- * @summary Declares the relation id and version.
- * @memberof module:josm/builder~RelationBuilder
- * @name withId
- * @function
+ * @param {number} id the global relation id. A number &gt; 0.
+ * @param {number} [version=1] the global relation version. If present,
+ *    a number &gt; 0
+ * @returns {module:josm/builder/relation~RelationBuilder} the relation builder (for method chaining)
+ * @memberof module:josm/builder/relation~RelationBuilder
  * @instance
  */
 function withId (id, version) {
@@ -235,11 +230,8 @@ RelationBuilder.withId = withId
  * const r2 = RelationBuilder.withTags(tags).create()
  *
  * @param {object} [tags]  the tags
- * @returns {module:josm/builder~RelationBuilder} a relation builder (for method chaining)
- * @summary Declares the tags to be assigned to the new relation.
- * @memberof module:josm/builder~RelationBuilder
- * @name withTags
- * @function
+ * @returns {module:josm/builder/relation~RelationBuilder} a relation builder (for method chaining)
+ * @memberof module:josm/builder/relation~RelationBuilder
  * @instance
  */
 function withTags (tags) {
@@ -265,10 +257,7 @@ RelationBuilder.withTags = withTags
  * const r1 = RelationBuilder.createProxy(1111)
  *
  * @returns {org.openstreetmap.josm.data.osm.Relation} the new proxy relation
- * @summary Creates a new <em>proxy</em> relation.
- * @memberof module:josm/builder~RelationBuilder
- * @function
- * @name createProxy
+ * @memberof module:josm/builder/relation~RelationBuilder
  * @instance
  * @param {number} id the id for the proxy relation
  */
@@ -298,7 +287,6 @@ RelationBuilder.prototype.createProxy = createProxy
  * relations, an array of relation members, nodes ways or relations, or a
  * Java list of members, nodes, ways or relation.
  *
- *
  * The method can be used in a static and in an instance context.
  *
  * @example
@@ -309,12 +297,14 @@ RelationBuilder.prototype.createProxy = createProxy
  *   RelationBuilder.member('house', NodeBuilder.create())
  * ).create()
  *
- * @param nodes  the list of members. See description and examples.
- * @returns {module:josm/builder~RelationBuilder} the relation builder (for method chaining)
- * @summary Declares the members of a relation.
- * @memberof module:josm/builder~RelationBuilder
- * @function
- * @name withMembers
+ * @param {
+ *   ...(org.openstreetmap.josm.data.osm.OsmPrimitive 
+ *  | org.openstreetmap.josm.data.osm.RelationMember 
+ *  | (org.openstreetmap.josm.data.osm.OsmPrimitive | org.openstreetmap.josm.data.osm.RelationMember)[]
+ *  | java.util.List)
+ * } members  the list of members. See description and examples.
+ * @returns {module:josm/builder/relation~RelationBuilder} the relation builder (for method chaining)
+ * @memberof module:josm/builder/relation~RelationBuilder
  * @instance
  */
 function withMembers () {
@@ -363,25 +353,36 @@ function initFromObject (builder, args) {
   rememberMembersFromObject(builder, args)
 }
 
+
+/**
+ * Named options for {@link module:josm/builder/relation~RelationBuilder#create create}
+ * 
+ * @typedef RelationBuilderOptions
+ * @property {number} [id] the id (&gt 0) of the way. Default: creates new local id.
+ * @property {number} [version=1] the version (&gt 0) of the way. Default: 1.
+ * @property {object} [tags] an object with tags. Null values and undefined
+ *       values are ignored. Any other value is converted to a string.
+ *       Leading and trailing white space in keys is removed.
+ * @property {org.openstreetmap.josm.data.osm.RelationMember[]|java.util.List} [members] the member for the relation
+ * @memberOf module:josm/builder/relation~RelationBuilder
+ * @example
+ * import {RelationBuilder, NodeBuilder} from 'josm/builder'
+ * const {member} = RelationBuilder
+ * // options to create a relation
+ * const options = {
+ *   version: 3,
+ *   tags: {type: 'route'},
+ *   members: [
+ *     member('house', NodeBuilder.create()),
+ *     member(NodeBuilder.create())
+ *   ]
+ * } 
+ */
+
 /**
  * Creates a new relation.
  *
  * Can be used in an instance or in a static context.
- *
- * <strong>Optional named arguments in the parameters <code>args</code>
- * </strong>
- * <ul>
- *   <li><var>id</var> - the id of a global relation (number > 0)</li>
- *   <li><var>version</var> - the version of a global relation (number > 0)
- *   </li>
- *   <li><var>members</var> - an array or a list of relation members, nodes,
- *   ways, or relation</li>
- *   <li><var>tags</var> - an object with tags. Null values and undefined
- *   values are ignored. Any other value
- *   is converted to a string. Leading and trailing white space in keys is
- *   removed.</li>
- * </ul>
- *
  *
  * @example
  * import { NodeBuilder, RelationBuilder } from 'josm/builder'
@@ -405,12 +406,9 @@ function initFromObject (builder, args) {
  *
  * @param {number}  [id]  a global way id. If missing and not set
  *     before using <code>withId(..)</code>, creates a new local id.
- * @param {object} [args]  additional parameters for creating the relation
+ * @param {module:josm/builder/relation~RelationBuilder.RelationBuilderOptions} [options] options for creating the relation
  * @returns {org.openstreetmap.josm.data.osm.Relation} the relation
- * @summary Creates a new relation.
- * @memberof module:josm/builder~RelationBuilder
- * @function
- * @name create
+ * @memberof module:josm/builder/relation~RelationBuilder
  * @instance
  */
 function create () {
