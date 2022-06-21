@@ -29,7 +29,8 @@ class APIV3FunctionalTest extends AbstractGraalVMBasedTest{
         "layer-test",
         "menu-bar-test",
         "menu-test",
-        "open-files-test"
+        "open-files-test",
+        "api-download-test"
     ]
 
     @Test
