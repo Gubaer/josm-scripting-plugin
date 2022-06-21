@@ -26,12 +26,13 @@ const LatLon = Java.type('org.openstreetmap.josm.data.coor.LatLon')
 const BoundingBoxDownloader = Java.type('org.openstreetmap.josm.io.BoundingBoxDownloader')
 const CredentialsManager = Java.type('org.openstreetmap.josm.io.auth.CredentialsManager')
 const RequestorType = Java.type('java.net.Authenticator.RequestorType')
+const PasswordAuthentication = Java.type('java.net.PasswordAuthentication')
 
 import * as util from 'josm/util'
 
 /**
  * Specification of position as lat/lon-pair.
- * 
+ *
  * @typedef LatLonSpec
  * @property {number} lat  the latitude
  * @property {number} lon  the longitude
@@ -70,9 +71,9 @@ export function buildLatLon(obj) {
 
 /**
  * Specification of a bounds as JavaScript object.
- * 
- * @typedef BoundsSpec1 
- * @property {number} minlat 
+ *
+ * @typedef BoundsSpec1
+ * @property {number} minlat
  * @property {number} minlon
  * @property {number} maxlat
  * @property {number} maxlon
@@ -85,11 +86,11 @@ export function buildLatLon(obj) {
 
 /**
  * Specification of a bounds as JavaScript object.
- * 
- * @typedef BoundsSpec2 
+ *
+ * @typedef BoundsSpec2
  * @property {module:josm/api~LatLonSpec} min the upper left point
  * @property {module:josm/api~LatLonSpec} max the lower right point
- * @example 
+ * @example
  * const bounds = {
  *    min: {lat: 46.9479186, lon: 7.4619484},
  *    max: {lat: 46.9497642, lon: 7.4660683}
@@ -170,7 +171,7 @@ export function buildBounds(obj) {
  *
  * // create a new changeset on the server
  * const cs = ChangesetApi.open()
- * 
+ *
  * @summary Provides methods to open, close, get, update, etc. changesets on the OSM
  * API server.
  *
@@ -179,7 +180,7 @@ export class ChangesetApi {
 
   /**
    * Creates and opens a changeset
-   * 
+   *
    * @example
    * import { ChangesetApi } from 'josm/api'
    * const Changeset = Java.type('org.openstreetmap.josm.data.osm.Changeset')
@@ -288,7 +289,7 @@ export class ChangesetApi {
 
   /**
    * Updates a changeset
-   * 
+   *
    * @example
    * import { ChangesetApi } from 'josm/api'
    * const Changeset = Java.type('org.openstreetmap.josm.data.osm.Changeset')
@@ -813,9 +814,9 @@ export class Api {
 
   /**
    * Options for the method upload()
-   * 
+   *
    * @typedef UploadOptions
-   * @property {string|org.openstreetmap.josm.io.UploadStrategy}[strategy] Indicates how the data is uploaded. 
+   * @property {string|org.openstreetmap.josm.io.UploadStrategy}[strategy] Indicates how the data is uploaded.
    *    Either one of the strings
    *     <ul>
    *          <li>individualobjects</li>
@@ -827,10 +828,10 @@ export class Api {
    *    Default value: UploadStrategy.DEFAULT_UPLOAD_STRATEGY
    * @property {number| org.openstreetmap.josm.data.osm.Changeset} [changeset] The changeset to which the data is uploaded.
    *    Default: creates a new changeset
-   * 
+   *
    * @property {number} [chunkSize]  the size of an upload chunk  if the data is uploaded with the
    *    upload strategy {@class org.openstreetmap.josm.io.UploadStrategy}.CHUNKED_DATASET_STRATEGY.
-   * 
+   *
    * @property {boolean} [closeChangeset=true] if true, closes the changeset after the upload
    */
   /**
@@ -862,7 +863,7 @@ export class Api {
    * have been uploaded successfully. In order to keep track, which pritives
    * have been uploaded successfully in case of an error, the method replies a
    * collection of the successfully uploaded objects.
-   * 
+   *
    * @example
    * const DataSet = Java.type('org.openstreetmap.josm.data.osm.DataSet')
    * import { WayBuilder } from 'josm/builder'
@@ -1035,14 +1036,17 @@ Object.defineProperty(ApiConfig, 'serverUrl', {
     if (util.isNothing(value)) {
       Preferences.main().put('osm-server.url', null)
     } else if (value instanceof URL) {
-      util.assert(value.getProtocol() === 'http' || value.getProtocol() === 'https',
-        'url: expected a http or https URL, got {0}', value)
+      util.assert(
+        ['http', 'https'].includes(value.getProtocol()),
+        'url: expected a http or https URL, got {0}',
+        value)
       Preferences.main().put('osm-server.url', value.toString())
     } else if (util.isString(value)) {
       value = util.trim(value)
       try {
         const url = new URL(value)
-        util.assert(url.getProtocol() === 'http' || url.getProtocol() === 'https',
+        util.assert(
+          ['http', 'https'].includes(url.getProtocol()),
           'url: expected a http or https URL, got {0}',
           url.toString())
         Preferences.main().put('osm-server.url', url.toString())
@@ -1131,7 +1135,7 @@ Object.defineProperty(ApiConfig, 'authMethod', {
 
 /**
  * Options for the method setCredentials
- * 
+ *
  * @typedef SetOrGetCredentialOptions
  * @param {string} [host] the host name of the API server for which credentials are set.
  *    If missing, the host name of the currently configured OSM API server
@@ -1139,9 +1143,26 @@ Object.defineProperty(ApiConfig, 'authMethod', {
  */
 
 /**
+ * Basic credentials replied by getCredentials
+ *
+ * @typedef BasicCredentials
+ * @property {string} host  the host name
+ * @property {string} user  the user name
+ * @property {string} password  the password
+ */
+
+/**
+ * OAuth credentials replied by getCredentials
+ *
+ * @typedef OAuthCredentials
+ * @property {string} key  the OAuth key
+ * @property {string} secret  the OAuth secret
+ */
+
+/**
  * Gets the credentials, i.e. username and password for the basic
  * authentication method.
- * 
+ *
  * @example
  * import { ApiConfig } from 'josm/api'
  *
@@ -1151,35 +1172,44 @@ Object.defineProperty(ApiConfig, 'authMethod', {
  * @param {string} authMethod  the authentication method. Either <code>basic</code> or <code>oauth</code>
  * @param {module:josm/api~SetOrGetCredentialOptions} [options] additional options
  * @static
- * @returns {object}  the credentials
+ * @returns {BasicCredentials | OAuthCredentials}  the credentials
  * @memberof module:josm/api~ApiConfig
 */
 function getCredentials(authMethod, options) {
-  const CredentialsManager = Java.type('org.openstreetmap.josm.io.auth.CredentialsManager')
-  const OsmApi = Java.type('org.openstreetmap.josm.io.OsmApi')
-  const RequestorType = Java.type('java.net.Authenticator.RequestorType')
-  const String = Java.type('java.lang.String')
 
   options = options || {}
   util.assert(typeof options === 'object',
     'options: expected an object with named options, got {0}', options)
+
+  // a hack to convert a Java 'char[]' into a JavaScript string
+  function charArrayToString(chars) {
+    let result = ""
+    for (let i=0; i < chars.length; i++) {
+      const c = chars[i].toString()
+      result += c
+    }
+    return result
+  }
 
   function getBasicCredentials () {
     const cm = CredentialsManager.getInstance()
     if (options.host) options.host = util.trim(String(options.host))
     const host = options.host ? options.host : OsmApi.getOsmApi().getHost()
     const pa = cm.lookup(RequestorType.SERVER, host)
-    return pa ? {
-      host: host,
-      user: pa.getUserName(),
-      password: String.valueOf(pa.getPassword())
-    } : {
-      host: host,
-      user: undefined,
-      password: undefined
+    if (pa) {
+      return {
+        host: host,
+        user: pa.getUserName(),
+        password: charArrayToString(pa.getPassword())
+      }
+    } else {
+      return  {
+        host: host,
+        user: undefined,
+        password: undefined
+      }
     }
   }
-  ApiConfig.getCredentials = getCredentials
 
   function getOAuthCredentials () {
     const cm = CredentialsManager.getInstance()
@@ -1194,9 +1224,10 @@ function getCredentials(authMethod, options) {
   util.assert(false, 'Unsupported authentication method, got {0}',
     authMethod)
 }
+ApiConfig.getCredentials = getCredentials
+
 
 function normalizeBasicCredentials (credentials) {
-  const PasswordAuthentication = Java.type('java.net.PasswordAuthentication')
 
   if (util.isNothing(credentials)) return null
   util.assert(credentials instanceof PasswordAuthentication || typeof credentials === 'object',
@@ -1206,11 +1237,12 @@ function normalizeBasicCredentials (credentials) {
   if (credentials instanceof PasswordAuthentication) {
     return credentials
   } else {
-    const user = String.valueOf(credentials.user || '')
+    const user = String(credentials.user || '')
     let password = credentials.password || null
-    password = password
-      ? String.valueOf(password).toCharArray()
-      : password
+    if (password) {
+      // convert to char array
+      password = [...password]
+    }
     return new PasswordAuthentication(user, password)
   }
 }
@@ -1232,7 +1264,7 @@ function normalizeOAuthCredentials (credentials) {
 
 /**
  * Userid and password for basic authentication.
- * 
+ *
  * @typdef BasicAuthParameters
  * @param {string} user  the user id
  * @param {string} password the password
@@ -1240,7 +1272,7 @@ function normalizeOAuthCredentials (credentials) {
 
 /**
  * Parameters for OAuth authentication
- * 
+ *
  * @typdef OAuthParameters
  * @param {string} key  the key
  * @param {string} secret the secret
@@ -1266,8 +1298,8 @@ function normalizeOAuthCredentials (credentials) {
  *
  * @param {string} authMethod  the authentication method. Either 'basic' or 'oauth'.
  * @param {(
- *  module:josm/api~BasicAuthParameters 
- * | module:josm/api~OAuthParameters 
+ *  module:josm/api~BasicAuthParameters
+ * | module:josm/api~OAuthParameters
  * | org.openstreetmap.josm.data.oauth.OAuthToken
  * | java.net.PasswordAuthentication)} credentials  the credentials
  * @param {module:josm/api~SetOrGetCredentialOptions} [options] additional options
@@ -1275,7 +1307,7 @@ function normalizeOAuthCredentials (credentials) {
  * @returns {object} the credentials
  * @memberof module:josm/api~ApiConfig
  */
- function setCredentials (authMethod, credentials, options) {
+function setCredentials (authMethod, credentials, options) {
   options = options || {}
   util.assert(typeof options === 'object',
     'options: expected an object with named options, got {0}', options)
@@ -1289,7 +1321,7 @@ function normalizeOAuthCredentials (credentials) {
     const cm = CredentialsManager.getInstance()
     cm.store(RequestorType.SERVER, host, credentials)
   } else if (authMethod === 'oauth') {
-    credentials = normalizeOAuthCredentials(credentials)
+      credentials = normalizeOAuthCredentials(credentials)
     util.assert(credentials != null,
       'credentials: can\'\'t store null credentials')
     const cm = CredentialsManager.getInstance()
@@ -1298,5 +1330,5 @@ function normalizeOAuthCredentials (credentials) {
     util.assert(false, 'Unsupported authentication method, got {0}',
       authMethod)
   }
-  ApiConfig.setCredentials = setCredentials
 }
+ApiConfig.setCredentials = setCredentials
