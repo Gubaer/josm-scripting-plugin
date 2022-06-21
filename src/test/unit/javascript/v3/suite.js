@@ -9,6 +9,7 @@ import * as relation_builder_test from 'josm/relation-builder-test'
 import * as util_test from 'josm/util-test'
 import * as command_test from 'josm/command-test'
 import * as ds_test from 'josm/ds-test'
+import * as api_test from 'josm/api-test'
 
 const tests = [
   node_builder_tests,
@@ -16,13 +17,8 @@ const tests = [
   relation_builder_test,
   util_test,
   command_test,
-  ds_test
-  // 'josm/util-test',
-  // 'josm/node-builder-test.js',
-  // 'josm/way-builder-test.js',
-  // 'josm/relation-builder-test.js',
-  // 'josm/command-test.js',
-  // 'josm/ds-test.js'
+  ds_test,
+  api_test
 ]
 
 export function run () {
