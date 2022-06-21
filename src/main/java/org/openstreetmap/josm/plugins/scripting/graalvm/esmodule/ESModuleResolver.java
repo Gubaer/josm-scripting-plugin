@@ -276,7 +276,7 @@ public class ESModuleResolver implements FileSystem, IRepositoriesSource  {
             // file.
             var repo = lookupRepoForModulePath(path);
             if (repo == null) {
-                return path;
+                return path.toRealPath();
             }
             return repo.resolveModulePath(path);
         }
