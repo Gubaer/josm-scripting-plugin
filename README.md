@@ -8,7 +8,7 @@ Scripts can be written in any scripting language for which a [JSR-223][jsr223] c
 * [Ruby][ruby]
 * [Python][python]
 
-If the [GraalJS][graal-js] engine is on the classpath, you can use it to execute scripts in JavaScript. The plugin includes a JavaScript library to manage layers, edit OSM primitives, load and save data, upload data to the OSM server, and download primitives from the OSM server. Refer to the [API V2 documentation][api-v2].
+If the [GraalJS][graal-js] engine is on the classpath, you can use it to execute scripts in JavaScript. The plugin includes a JavaScript library to manage layers, edit OSM primitives, load and save data, upload data to the OSM server, and download primitives from the OSM server. Refer to the [API V3 documentation][api-v3].
 
 The plugin includes [Mozilla Rhino][rhino] as a scripting engine for historical reasons. Mozilla Rhino is deprecated in the scripting plugin. The plugin authors will remove it at the end of 2022. The plugin also includes a JavaScript library [API V1][api-v1] to be used with Mozilla Rhino. It is deprecated too. The plugin authors will remove it at the end of 2022 with Mozilla Rhino. If your current scripts use [API V1][api-v1], migrate them to [API V2][api-v2], and change to [GraalJS][doc-graaljs].
 
@@ -23,7 +23,7 @@ The scripting plugin requires Java 11 or higher.
 ## Documentation
 
 * [JOSM Scripting Plugin documentation][doc-home]
-* [API V2 documentation][api-v2] with [API V2 library doc][libdoc-api-v2]
+* [API V3 documentation][api-v3] with [API V3 library doc][libdoc-api-v3]
 * [API V1 documentation (deprecated)][api-v1] with [API V1 library doc][libdoc-api-v1]
 
 
@@ -175,7 +175,9 @@ Published under GPL Version 3 and higher. See included [LICENSE](LICENSE) file.
 [script-examples]:https://github.com/Gubaer/josm-scripting-plugin/tree/master/src/main/resources/scripts
 [graal-js]:https://github.com/oracle/graaljs
 [api-v2]:http://gubaer.github.io/josm-scripting-plugin/docs/v2/v2.html
+[api-v3]:http://gubaer.github.io/josm-scripting-plugin/docs/v3/v3.html
 [libdoc-api-v2]:http://gubaer.github.io/josm-scripting-plugin/api/v2/module-josm.html
+[libdoc-api-v3]:http://gubaer.github.io/josm-scripting-plugin/api/v3/module-josm.html
 [api-v1]:http://gubaer.github.io/josm-scripting-plugin/docs/v1/v1.html
 [libdoc-api-v1]:http://gubaer.github.io/josm-scripting-plugin/api/v1/module-josm.html
 [doc-graaljs]:http://gubaer.github.io/josm-scripting-plugin/docs/graaljs.html
