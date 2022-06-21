@@ -175,7 +175,7 @@ function initFromObject (builder, args) {
  *
  * @param {number} [id]  a global node id. If missing and
  *     not set before using <code>withId(..)</code>, creates a new local id.
- * @param {module:josm/builder/node~NodeBuilderOptions} [options] additional options for creating the node
+ * @param {module:josm/builder/node~NodeBuilder.NodeBuilderOptions} [options] additional options for creating the node
  * @returns {org.openstreetmap.josm.data.osm.Node}  the created node
  * @summary Creates a new  {@class org.openstreetmap.josm.data.osm.Node}
  * @memberof module:josm/builder/node~NodeBuilder
