@@ -232,6 +232,8 @@ task testScriptApiV2AndV3(type: Test) {
             "${project.projectDir}/src/test/resources/require/modules"
     executable new File(getGraalVMHome(), "bin/java").absolutePath
     environment "JAVA_HOME", getGraalVMHome().absolutePath
+    systemProperty "java.util.logging.config.file", "${project.projectDir}/src/test/resources/logging.properties"
+
     scanForTestClasses= false
     include "org/openstreetmap/josm/plugins/scripting/graalvm/api/*.class"
     testLogging {
