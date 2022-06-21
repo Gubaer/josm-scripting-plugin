@@ -41,7 +41,7 @@ class APIV3FunctionalTest extends AbstractGraalVMBasedTest{
                 import {run} from '$module'
                 run()
                 """
-            facade.eval(AbstractGraalVMBasedTest.graalJSDescriptor, source)
+            facade.eval(graalJSDescriptor, source)
         })
     }
 }
