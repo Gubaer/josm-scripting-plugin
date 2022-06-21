@@ -6,6 +6,8 @@ import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.PolyglotException;
 import org.graalvm.polyglot.Source;
 import org.graalvm.polyglot.Value;
+import org.openstreetmap.josm.plugins.scripting.graalvm.commonjs.CommonJSModuleCache;
+import org.openstreetmap.josm.plugins.scripting.graalvm.commonjs.CommonJSModuleRepositoryRegistry;
 
 import javax.validation.constraints.NotNull;
 import java.io.*;
@@ -116,7 +118,7 @@ public class RequireFunction implements Function<String, Value> {
     private String loadModuleSourceFromJarEntry(@NotNull URI uri)
         throws IOException {
         // pre: uri is a jar file URI - don't check again
-        final CommonJSModuleJarURI moduleUri = new CommonJSModuleJarURI(uri);
+        final ModuleJarURI moduleUri = new ModuleJarURI(uri);
 
         try (final JarFile jarFile = new JarFile(moduleUri.getJarFile())) {
             final JarEntry entry = jarFile.getJarEntry(

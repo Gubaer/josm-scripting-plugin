@@ -48,13 +48,13 @@ class APIV1TestSuite extends JOSMFixtureBasedTest {
     record -> record.getLevel().intValue() >= Level.WARNING.intValue())
     }
 
-    private static File localContourmergePluginJar() {
+    private File localContourmergePluginJar() {
         return new File(
             new File(fixture.getJosmHome()),
             "plugins/contourmerge.jar")
     }
 
-    static void downloadContourmergePluginForTesting() throws IOException {
+    void downloadContourmergePluginForTesting() throws IOException {
         logger.fine("Downloading contourmerge plugin for testing ...")
         final URL downloadUrl = new URL(
             "https://github.com/Gubaer/josm-contourmerge-plugin/"

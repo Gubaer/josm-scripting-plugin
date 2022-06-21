@@ -7,6 +7,10 @@ import org.openstreetmap.josm.plugins.PluginException
 import org.openstreetmap.josm.plugins.PluginInformation
 import org.openstreetmap.josm.plugins.scripting.JOSMFixtureBasedTest
 import org.openstreetmap.josm.plugins.scripting.ScriptingPlugin
+import org.openstreetmap.josm.plugins.scripting.graalvm.commonjs.CommonJSModuleRepositoryRegistry
+import org.openstreetmap.josm.plugins.scripting.graalvm.commonjs.FileSystemJSModuleRepository
+import org.openstreetmap.josm.plugins.scripting.graalvm.commonjs.ICommonJSModuleRepository
+import org.openstreetmap.josm.plugins.scripting.graalvm.commonjs.JarJSModuleRepository
 import org.openstreetmap.josm.tools.Logging
 
 import java.util.logging.Level

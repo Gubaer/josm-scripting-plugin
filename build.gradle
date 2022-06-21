@@ -32,6 +32,7 @@ dependencies {
 
     implementation group: 'com.github.spullara.mustache.java', name: 'compiler', version: '0.9.6'
     implementation group: 'com.fifesoft', name: 'rsyntaxtextarea', version: '3.2.0'
+    implementation group: 'org.apache.commons', name: 'commons-compress', version: '1.21'
 
     // graalvm
     implementation group: 'org.graalvm.sdk', name: 'graal-sdk', version: graalvmVersion
@@ -41,13 +42,12 @@ dependencies {
     graalvm group: 'org.graalvm.truffle', name: 'truffle-api', version: graalvmVersion
     graalvm group: 'org.graalvm.js', name: 'js', version: graalvmVersion
 
-
     packIntoJar group: "org.mozilla", name: "rhino", version: "1.7.14"
     packIntoJar group: 'javax.validation', name: 'validation-api', version: '1.0.0.GA'
     packIntoJar group: 'javax.activation', name: 'activation', version: '1.1.1'
     packIntoJar group: 'com.github.spullara.mustache.java', name: 'compiler', version: '0.9.10'
     packIntoJar group: 'com.fifesoft', name: 'rsyntaxtextarea', version: '3.2.0'
-
+    packIntoJar group: 'org.apache.commons', name: 'commons-compress', version: '1.21'
 
     testImplementation('org.openstreetmap.josm:josm-unittest:latest'){changing=true}
     testImplementation group: 'org.jmockit', name: 'jmockit', version: '1.40'
@@ -140,6 +140,12 @@ jar {
         into("js/v2")
         include("**/*.js")
     }
+
+    from("src/main/javascript/v3") {
+        into("js/v3")
+        include("**/*.js")
+        include("**/*.mjs")
+    }
 }
 
 compileJava {
@@ -183,6 +189,7 @@ test {
     include "org/openstreetmap/josm/plugins/scripting/model/*.class"
     include "org/openstreetmap/josm/plugins/scripting/preferences/graalvm/GraalVMPrivilegesModelTest.class"
     include "org/openstreetmap/josm/plugins/scripting/ui/console/*.class"
+    include "org/openstreetmap/josm/plugins/scripting/esmodules/PathTests.class"
     testLogging.events TestLogEvent.FAILED, TestLogEvent.PASSED
 }
 
@@ -217,14 +224,17 @@ def getGraalVMHome() {
  * Runs the API V2 JavaScript unit tests with JOSM and GraalJS
  * present. The tests are run with with a GraalVM 'java' binary.
  */
-task testScriptApiV2(type: Test) {
+task testScriptApiV2AndV3(type: Test) {
     dependsOn "downloadGraalVM"
     useJUnitPlatform()
     environment "JOSM_SCRIPTING_PLUGIN_HOME", project.projectDir
     environment "TEST_COMMONJS_MODULE_REPO",
             "${project.projectDir}/src/test/resources/require/modules"
+    environment "OSM_DEV_API_PASSWORD", System.getenv('OSM_DEV_API_PASSWORD')
     executable new File(getGraalVMHome(), "bin/java").absolutePath
     environment "JAVA_HOME", getGraalVMHome().absolutePath
+    systemProperty "java.util.logging.config.file", "${project.projectDir}/src/test/resources/logging.properties"
+
     scanForTestClasses= false
     include "org/openstreetmap/josm/plugins/scripting/graalvm/api/*.class"
     testLogging {
@@ -274,6 +284,7 @@ task testWithGraalVMJDK(type: Test) {
     environment "TEST_COMMONJS_MODULE_REPO",
             "${project.projectDir}/src/test/resources/require/modules"
     systemProperty "josm.home", josmHomeForTests().absolutePath
+    systemProperty "java.util.logging.config.file", "${project.projectDir}/src/test/resources/logging.properties"
 
     scanForTestClasses= false
     // configuration to use GraalVM
@@ -281,6 +292,7 @@ task testWithGraalVMJDK(type: Test) {
     environment "JAVA_HOME", getGraalVMHome()
     scanForTestClasses= false
     include "org/openstreetmap/josm/plugins/scripting/graalvm/with_graalvm/*.class"
+    include "org/openstreetmap/josm/plugins/scripting/graalvm/esmodule/*.class"
     testLogging {
         events TestLogEvent.FAILED, TestLogEvent.PASSED
         exceptionFormat = TestExceptionFormat.FULL
@@ -304,7 +316,7 @@ task testJSR223EnginePresent(type: Test) {
 }
 
 tasks.check.dependsOn(tasks.testScriptApiV1)
-tasks.check.dependsOn(tasks.testScriptApiV2)
+tasks.check.dependsOn(tasks.testScriptApiV2AndV3)
 tasks.check.dependsOn(tasks.testGraalVMSupportNotPresent)
 tasks.check.dependsOn(tasks.testJSR223EnginePresent)
 tasks.check.dependsOn(tasks.testWithGraalVMJDK)

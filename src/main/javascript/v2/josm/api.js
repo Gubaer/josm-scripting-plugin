@@ -109,10 +109,10 @@ exports.buildBounds = function (obj) {
   }
 
   if (util.isDef(obj.minlat)) {
-      const minlat = normalizeLat(obj.minlat)
-      const minlon = normalizeLat(obj.minlon)
-      const maxlat = normalizeLat(obj.maxlat)
-      const maxlon = normalizeLat(obj.maxlon)
+      const minlat = normalizeLat(obj, "minlat")
+      const minlon = normalizeLat(obj, "minlon")
+      const maxlat = normalizeLat(obj, "maxlat")
+      const maxlon = normalizeLat(obj, "maxlon")
       return new Bounds(minlat, minlon, maxlat, maxlon)
   } else if (util.isDef(obj.min)) {
       const min = exports.buildLatLon(obj.min)
@@ -426,7 +426,7 @@ function normalizeType (type) {
       util.assert(false, 'Invalid primitive type, got \'\'{0}\'\'', type)
     }
   } else if (type instanceof OsmPrimitiveType) {
-    if (![OsmPrimitiveType.NODE, OsmPrimitiveType.WAY, OsmPrimitiveType.RELATION].contains(type)) {
+    if (![OsmPrimitiveType.NODE, OsmPrimitiveType.WAY, OsmPrimitiveType.RELATION].includes(type)) {
       util.assert(false, 'Invalid primitive type, got {0}', type)
     }
   } else {
@@ -1048,7 +1048,7 @@ exports.Api.upload = function (data, comment, options) {
  */
 exports.ApiConfig = function() {}
 
-const DEFAULT_URL = 'http://api.openstreetmap.com/api/0.6'
+const DEFAULT_URL = 'https://www.openstreetmap.org/api'
 
 /**
  * Get or set the API server URL.
@@ -1216,11 +1216,20 @@ exports.ApiConfig.getCredentials = function (authMethod, options) {
   const CredentialsManager = Java.type('org.openstreetmap.josm.io.auth.CredentialsManager')
   const OsmApi = Java.type('org.openstreetmap.josm.io.OsmApi')
   const RequestorType = Java.type('java.net.Authenticator.RequestorType')
-  const String = Java.type('java.lang.String')
 
   options = options || {}
   util.assert(typeof options === 'object',
     'options: expected an object with named options, got {0}', options)
+
+  // a hack to convert a Java 'char[]' into a JavaScript string
+  function charArrayToString(chars) {
+    let result = ""
+    for (let i=0; i < chars.length; i++) {
+      const c = chars[i].toString()
+      result += c
+    }
+    return result
+  }
 
   function getBasicCredentials () {
     const cm = CredentialsManager.getInstance()
@@ -1230,7 +1239,7 @@ exports.ApiConfig.getCredentials = function (authMethod, options) {
     return pa ? {
       host: host,
       user: pa.getUserName(),
-      password: String.valueOf(pa.getPassword())
+      password: charArrayToString(pa.getPassword())
     } : {
       host: host,
       user: undefined,
@@ -1265,9 +1274,9 @@ function normalizeBasicCredentials (credentials) {
   } else {
     const user = String.valueOf(credentials.user || '')
     let password = credentials.password || null
-    password = password
-      ? String.valueOf(password).toCharArray()
-      : password
+    if (password) {
+      password = [...password]  // convert to char array
+    }
     return new PasswordAuthentication(user, password)
   }
 }

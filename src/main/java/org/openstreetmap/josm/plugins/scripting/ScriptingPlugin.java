@@ -10,8 +10,12 @@ import org.openstreetmap.josm.plugins.Plugin;
 import org.openstreetmap.josm.plugins.PluginClassLoader;
 import org.openstreetmap.josm.plugins.PluginHandler;
 import org.openstreetmap.josm.plugins.PluginInformation;
-import org.openstreetmap.josm.plugins.scripting.graalvm.CommonJSModuleRepositoryRegistry;
-import org.openstreetmap.josm.plugins.scripting.graalvm.JarJSModuleRepository;
+import org.openstreetmap.josm.plugins.scripting.graalvm.GraalVMFacadeFactory;
+import org.openstreetmap.josm.plugins.scripting.graalvm.commonjs.CommonJSModuleRepositoryRegistry;
+import org.openstreetmap.josm.plugins.scripting.graalvm.commonjs.JarJSModuleRepository;
+import org.openstreetmap.josm.plugins.scripting.graalvm.esmodule.ESModuleRepositoryBuilder;
+import org.openstreetmap.josm.plugins.scripting.graalvm.esmodule.ESModuleResolver;
+import org.openstreetmap.josm.plugins.scripting.graalvm.esmodule.IllegalESModuleBaseUri;
 import org.openstreetmap.josm.plugins.scripting.js.JOSMModuleScriptProvider;
 import org.openstreetmap.josm.plugins.scripting.js.RhinoEngine;
 import org.openstreetmap.josm.plugins.scripting.model.PreferenceKeys;
@@ -30,8 +34,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URI;
 import java.net.URL;
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
@@ -64,15 +68,15 @@ public class ScriptingPlugin extends Plugin implements PreferenceKeys{
     }
 
     private void initGraalVMJSModuleRepository(PluginInformation info) {
-        final Optional<URI> builtInRepoUri =
+        final var uri =
             CommonJSModuleRepositoryRegistry.buildRepositoryUrlForBuiltinModules(info);
-        if (builtInRepoUri.isPresent()) {
+        if (uri != null) {
             try {
                 CommonJSModuleRepositoryRegistry.getInstance().setBuiltInRepository(
-                    new JarJSModuleRepository(builtInRepoUri.get())
+                    new JarJSModuleRepository(uri)
                 );
             } catch(IOException e) {
-                logger.log(Level.SEVERE,
+                logger.log(Level.WARNING,
                     tr("Failed to configure built-in CommonJS module repository"), e);
             }
         }
@@ -80,6 +84,22 @@ public class ScriptingPlugin extends Plugin implements PreferenceKeys{
             .loadFromPreferences(Preferences.main());
     }
 
+    private void initGraalVMESModuleRepositories(PluginInformation info) {
+        final var uri = ESModuleResolver.buildRepositoryUrlForBuiltinModules(info);
+        if (uri != null) {
+            var builder = new ESModuleRepositoryBuilder();
+            try {
+                var repo = builder.build(uri);
+                ESModuleResolver.getInstance().setApiRepository(repo);
+            } catch (IllegalESModuleBaseUri e) {
+                logger.log(Level.WARNING, MessageFormat.format(
+                    "Failed to create ES Module repository for API V3 modules. uri=''{0}''", uri), e);
+            }
+
+        }
+    }
+
+    @SuppressWarnings("unused")
     public ScriptingPlugin(PluginInformation info) {
         this(info, false /* not in test environment */);
     }
@@ -91,7 +111,10 @@ public class ScriptingPlugin extends Plugin implements PreferenceKeys{
             installResourceFiles();
             installScriptsMenu();
             initLocalInstallation();
-            initGraalVMJSModuleRepository(info);
+            if (GraalVMFacadeFactory.isGraalVMPresent()) {
+                initGraalVMJSModuleRepository(info);
+                initGraalVMESModuleRepositories(info);
+            }
             SyntaxConstantsEngine.getInstance().loadRules(this);
             final RhinoEngine engine = RhinoEngine.getInstance();
             engine.initScope();

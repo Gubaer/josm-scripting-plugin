@@ -4,6 +4,8 @@ import groovy.test.GroovyTestCase
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
+import org.openstreetmap.josm.plugins.scripting.graalvm.commonjs.BaseJSModuleRepository
+import org.openstreetmap.josm.plugins.scripting.graalvm.commonjs.JarJSModuleRepository
 
 import java.util.jar.JarFile
 import java.util.logging.ConsoleHandler
@@ -241,7 +243,7 @@ class JarJSModuleRepositoryTest extends GroovyTestCase {
     void "resolve with context - given context refers to a dir, should resolve existing module with a relative id"() {
         def jar = testJarFile("jar-repo-2.jar")
         def repo = new JarJSModuleRepository(jar)
-        def contextUri = CommonJSModuleJarURI.buildJarUri(jar.toString(), "/foo")
+        def contextUri = ModuleJarURI.buildJarUri(jar.toString(), "/foo")
         def resolvedUri = repo.resolve("./baz", contextUri)
         assertTrue(resolvedUri.isPresent())
     }
@@ -250,7 +252,7 @@ class JarJSModuleRepositoryTest extends GroovyTestCase {
     void "resolve with context - given context refers to a dir, should resolve existing module with a relative id (2)"() {
         def jar = testJarFile("jar-repo-2.jar")
         def repo = new JarJSModuleRepository(jar)
-        def contextUri = CommonJSModuleJarURI.buildJarUri(jar.toString(), "/foo")
+        def contextUri = ModuleJarURI.buildJarUri(jar.toString(), "/foo")
         def resolvedUri = repo.resolve("./baz.js", contextUri)
         assertTrue(resolvedUri.isPresent())
     }
@@ -259,7 +261,7 @@ class JarJSModuleRepositoryTest extends GroovyTestCase {
     void "resolve with context - given context refers to a dir, should resolve existing module with a relative id (3)"() {
         def jar = testJarFile("jar-repo-2.jar")
         def repo = new JarJSModuleRepository(jar)
-        def contextUri = CommonJSModuleJarURI.buildJarUri(jar.toString(), "/foo")
+        def contextUri = ModuleJarURI.buildJarUri(jar.toString(), "/foo")
         def resolvedUri = repo.resolve("../foo/./baz", contextUri)
         assertTrue(resolvedUri.isPresent())
     }
@@ -268,7 +270,7 @@ class JarJSModuleRepositoryTest extends GroovyTestCase {
     void "resolve with context - given context refers to a file, should resolve existing module"() {
         def jar = testJarFile("jar-repo-2.jar")
         def repo = new JarJSModuleRepository(jar)
-        def contextUri = CommonJSModuleJarURI.buildJarUri(jar.toString(), "/foo/baz.js")
+        def contextUri = ModuleJarURI.buildJarUri(jar.toString(), "/foo/baz.js")
         def resolvedUri = repo.resolve("../bar", contextUri)
         assertTrue(resolvedUri.isPresent())
     }

@@ -260,10 +260,27 @@ public class JSAction extends JosmAction {
     /**
      * Set the tooltip of the JSAction
      *
-     * @param tooltip the tooltip. Ignored, if nullish; otherwise,
+     * @param tooltip the tooltip. Ignored, if null like; otherwise,
+     *   converted to a string with {@link #toString()}
+     * @deprecated invoking from JavaScript fails when invoked with a string
+     *    as value because the method overloads {@link #setTooltip(String)}. Use
+     *    {@link #setTooltipWithValue(Value)} instead.
+     */
+    @Deprecated(since = "0.2.2", forRemoval = true)
+    public void setTooltip(@Null Value tooltip) {
+        if (tooltip == null || tooltip.isNull()) {
+            return;
+        }
+        setTooltip(tooltip.toString());
+    }
+
+    /**
+     * Set the tooltip of the JSAction
+     *
+     * @param tooltip the tooltip. Ignored, if null like; otherwise,
      *   converted to a string with {@link #toString()}
      */
-    public void setTooltip(@Null Value tooltip) {
+    public void setTooltipWithValue(@Null Value tooltip) {
         if (tooltip == null || tooltip.isNull()) {
             return;
         }

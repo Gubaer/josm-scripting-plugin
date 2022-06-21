@@ -6,7 +6,10 @@ import java.io.File;
 import java.util.Optional;
 import java.util.logging.Logger;
 
+import org.openstreetmap.josm.plugins.scripting.graalvm.GraalVMFacadeFactory;
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
+
+import javax.validation.constraints.Null;
 
 /**
  * <p>Manages the state of the scripting console</p>
@@ -42,13 +45,46 @@ public class ScriptEditorModel {
         support.removePropertyChangeListener(l);
     }
 
-    public ScriptEditorModel() {
-        this.descriptor = ScriptEngineDescriptor.DEFAULT_SCRIPT_ENGINE;
+    protected ScriptEngineDescriptor selectDefaultScriptEngine() {
+        if (GraalVMFacadeFactory.isGraalVMPresent()) {
+            final var descriptor = GraalVMFacadeFactory.getOrCreateGraalVMFacade()
+                .getScriptEngineDescriptors().stream()
+                .filter(desc -> "js".equals(desc.getEngineId()))
+                .findFirst()
+                .orElse(null);
+            //TODO(gubaer): fix when Mozilla Rhino is removed
+            return descriptor == null
+                ? ScriptEngineDescriptor.DEFAULT_SCRIPT_ENGINE
+                : descriptor;
+
+        } else {
+            //TODO(gubaer); fix when Mozilla Rhino is removed
+            return ScriptEngineDescriptor.DEFAULT_SCRIPT_ENGINE;
+        }
     }
 
-    public ScriptEditorModel(ScriptEngineDescriptor desc) {
-        if (desc == null) desc = ScriptEngineDescriptor.DEFAULT_SCRIPT_ENGINE;
-        this.descriptor = desc;
+    /**
+     * Creates a new script editor model.
+     *
+     * Initializes the model with the default scripting engine.
+     */
+    public ScriptEditorModel() {
+        this.descriptor = selectDefaultScriptEngine();
+    }
+
+    /**
+     * Creates a new script editor model.
+     *
+     * Initializes the model with the scripting engine <code>desc</code>.
+     * If <code>desc</code> is null initializes the model with the default
+     * scripting engine.
+     *
+     * @param desc the scripting engine.
+     */
+    public ScriptEditorModel(final @Null ScriptEngineDescriptor desc) {
+        this.descriptor = desc == null
+            ? selectDefaultScriptEngine()
+            : desc;
     }
 
     /**

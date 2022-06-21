@@ -13,14 +13,12 @@ class ScriptEditorModelTest extends GroovyTestCase {
     void create() {
         def model = new ScriptEditorModel()
         assertTrue(model.getScriptFile().empty)
-        assertEquals(ScriptEngineDescriptor.DEFAULT_SCRIPT_ENGINE, model.getScriptEngineDescriptor())
     }
 
     @Test
     void createWithDescriptor() {
         def model = new ScriptEditorModel(null)
         assertTrue(model.getScriptFile().empty)
-        assertEquals( ScriptEngineDescriptor.DEFAULT_SCRIPT_ENGINE, model.getScriptEngineDescriptor())
 
         def desc = new ScriptEngineDescriptor("groovy")
         model = new ScriptEditorModel(desc)

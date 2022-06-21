@@ -24,6 +24,7 @@ public class GraalVMConfigurationPanel extends JPanel implements HyperlinkListen
             Logger.getLogger(GraalVMConfigurationPanel.class.getName());
 
     private CommonJSRepoConfigurationPanel pnlCommonJSRepoConfiguration;
+    private ESModuleRepoConfigurationPanel pnlESModuleRepoConfiguration;
 
     static private final String MESSAGE_01 = tr(
           "The scripting plugin can run JavaScript scripts using "
@@ -63,6 +64,8 @@ public class GraalVMConfigurationPanel extends JPanel implements HyperlinkListen
     protected JPanel buildTabs() {
         JPanel pnl = new JPanel(new BorderLayout());
         JTabbedPane tpPreferencesTabs = new JTabbedPane();
+        tpPreferencesTabs.add(tr("ES Module repositories"),
+            pnlESModuleRepoConfiguration = new ESModuleRepoConfigurationPanel());
         tpPreferencesTabs.add(tr("CommonJS module repositories"),
             pnlCommonJSRepoConfiguration = new CommonJSRepoConfigurationPanel());
         pnl.add(tpPreferencesTabs, BorderLayout.CENTER);
@@ -84,6 +87,7 @@ public class GraalVMConfigurationPanel extends JPanel implements HyperlinkListen
      */
     public void persistToPreferences() {
         pnlCommonJSRepoConfiguration.persistToPreferences();
+        pnlESModuleRepoConfiguration.persistToPreferences();
     }
 
     @Override

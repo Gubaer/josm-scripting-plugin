@@ -4,8 +4,8 @@ package org.openstreetmap.josm.plugins.scripting.graalvm.api
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.openstreetmap.josm.plugins.scripting.graalvm.AbstractGraalVMBasedTest
-import org.openstreetmap.josm.plugins.scripting.graalvm.CommonJSModuleRepositoryRegistry
-import org.openstreetmap.josm.plugins.scripting.graalvm.FileSystemJSModuleRepository
+import org.openstreetmap.josm.plugins.scripting.graalvm.commonjs.CommonJSModuleRepositoryRegistry
+import org.openstreetmap.josm.plugins.scripting.graalvm.commonjs.FileSystemJSModuleRepository
 
 class APIV2TestSuite extends AbstractGraalVMBasedTest {
 

@@ -3,6 +3,9 @@ package org.openstreetmap.josm.plugins.scripting.graalvm
 import groovy.test.GroovyTestCase
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
+import org.openstreetmap.josm.plugins.scripting.graalvm.commonjs.CommonJSModuleRepositoryFactory
+import org.openstreetmap.josm.plugins.scripting.graalvm.commonjs.FileSystemJSModuleRepository
+import org.openstreetmap.josm.plugins.scripting.graalvm.commonjs.JarJSModuleRepository
 
 class CommonJSModuleRepositoryFactoryTest extends GroovyTestCase{
 

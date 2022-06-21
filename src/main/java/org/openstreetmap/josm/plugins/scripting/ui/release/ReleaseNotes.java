@@ -98,7 +98,7 @@ public class ReleaseNotes extends JDialog implements HyperlinkListener {
         final java.util.List<String> empty = java.util.List.of();
         var in = ReleaseNotes.class.getResourceAsStream(RESOURCE_NAME_RELEASE_IDS);
         if (in == null) {
-            logger.warning(MessageFormat.format("Resource '{0}' not found", RESOURCE_NAME_RELEASE_IDS));
+            logger.warning(MessageFormat.format("Resource ''{0}'' not found", RESOURCE_NAME_RELEASE_IDS));
             return empty;
         }
         try {
@@ -106,7 +106,7 @@ public class ReleaseNotes extends JDialog implements HyperlinkListener {
             properties.load(in);
             var ids = properties.getProperty("release-notes");
             if (ids == null) {
-                logger.warning(MessageFormat.format("Property '{0}' not found in resource '{1}'",
+                logger.warning(MessageFormat.format("Property ''{0}'' not found in resource ''{1}''",
                     "release-notes", RESOURCE_NAME_RELEASE_IDS));
                 return empty;
             }
@@ -123,7 +123,7 @@ public class ReleaseNotes extends JDialog implements HyperlinkListener {
         final var resourceName = MessageFormat.format("/release-notes/{0}.html", releaseId);
         var in = ReleaseNotes.class.getResourceAsStream(resourceName);
         if (in == null) {
-            logger.warning(MessageFormat.format("Resource '{0}' not found", resourceName));
+            logger.warning(MessageFormat.format("Resource ''{0}'' not found", resourceName));
             return null;
         }
         try {
@@ -132,7 +132,7 @@ public class ReleaseNotes extends JDialog implements HyperlinkListener {
             }
         } catch (IOException e) {
             logger.log(Level.WARNING,
-                MessageFormat.format("Failed to read content of resource '{0}'", resourceName), e);
+                MessageFormat.format("Failed to read content of resource ''{0}''", resourceName), e);
             return null;
         }
     }
@@ -254,7 +254,7 @@ public class ReleaseNotes extends JDialog implements HyperlinkListener {
                     Desktop.getDesktop().browse(e.getURL().toURI());
                 } catch (IOException | URISyntaxException ex) {
                     logger.log(Level.WARNING,
-                        MessageFormat.format("Failed to open desktop browser with URL '{0}'", e.getURL()),
+                        MessageFormat.format("Failed to open desktop browser with URL ''{0}''", e.getURL()),
                         ex);
                 }
             }
