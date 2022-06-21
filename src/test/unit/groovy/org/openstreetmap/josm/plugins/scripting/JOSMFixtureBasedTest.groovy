@@ -1,7 +1,6 @@
 package org.openstreetmap.josm.plugins.scripting
 
 import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import org.openstreetmap.josm.plugins.scripting.fixtures.JOSMFixture
 
