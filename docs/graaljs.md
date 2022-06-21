@@ -74,14 +74,14 @@ is available in the JOSM Scripting Plugin and you can execute scripts written in
     ```
 
 
-## Using the JavaScript [API V2](v2/v2)
+## Using the JavaScript [API V3](v3/v3)
 
-The JOSM Scripting Plugin ships with a JavaScript API. [API V2](v2/v2) can only be used in the GraalJS scripting engine. Neither Mozilla Rhino nor Nashorn can execute scripts based on [API V2](v2/v2) (because the API V2 includes a `require()` function to load Common-JS modules, which is specific for GraalJS).
+The JOSM Scripting Plugin ships with a JavaScript API. [API V3](v3/v3) can only be used in the GraalJS scripting engine. Neither Mozilla Rhino nor Nashorn can execute scripts based on [API V3](v3/v3) (because API V3 is a set of ES Modules).
 
-[API V2](v2/v2) has the following main features:
+[API V3](v3/v3) has the following main features:
 
-* loading and using CommonJS-compatible modules
-* lookup, add, delete, and rename layers
+* loading and using ECMAScript Modules (ES Modules) modules
+* lookup, add, delete, and remove layers
 * load data into a layer, save data from a layer
 * download objects and changesets from the OSM server, upload objects and changesets to the OSM server
 * create data sets
@@ -91,7 +91,7 @@ The JOSM Scripting Plugin ships with a JavaScript API. [API V2](v2/v2) can only 
 * create undoable/redoable change objects to update nodes, ways, and relations
 * write to the scripting console
 
-Refer to the [API V2](v2/v2) documentation.
+Refer to the [API V3](v3/v3) documentation.
 
 
 
