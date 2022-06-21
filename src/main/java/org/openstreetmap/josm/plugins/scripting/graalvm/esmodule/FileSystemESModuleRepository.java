@@ -80,7 +80,7 @@ public class FileSystemESModuleRepository extends AbstractESModuleRepository {
         Objects.requireNonNull(absoluteRepoPath);
         if (!absoluteRepoPath.startsWith(root.toPath())) {
             throw new IllegalArgumentException(MessageFormat.format(
-                "Illegal absolute repository path. Path ''{0}'' doesn't start with the repository root path ''{1}''",
+                "Illegal absolute repository path. Path ''{0}'' doesn''t start with the repository root path ''{1}''",
                 absoluteRepoPath.toString(),
                 root.getAbsolutePath()
             ));
@@ -105,7 +105,7 @@ public class FileSystemESModuleRepository extends AbstractESModuleRepository {
         Objects.requireNonNull(absoluteModulePath);
         if (! absoluteModulePath.startsWith(getUniquePathPrefix())) {
             throw new IllegalArgumentException(MessageFormat.format(
-                "Illegal absolute module path. Path ''{0}'' doesn't start with the unique path prefix ''{1}''.",
+                "Illegal absolute module path. Path ''{0}'' doesn''t start with the unique path prefix ''{1}''.",
                 absoluteModulePath,
                 getUniquePathPrefix()
             ));
@@ -198,8 +198,8 @@ public class FileSystemESModuleRepository extends AbstractESModuleRepository {
             logFine(() -> MessageFormat.format("{0}: resolved absolute repo path is ''{1}''", modulePath, absoluteRepoPath));
             if (absoluteRepoPath == null) {
                 logFine(() -> MessageFormat.format(
-                    "'{0}: can't resolve relative module path in the file system based ES module with root ''{1}''. "
-                    +"The path doesn't refer to a readable file.",
+                    "{0}: can''t resolve relative module path in the file system based ES module with root ''{1}''. "
+                    +"The path doesn''t refer to a readable file.",
                     modulePath.toString(),
                     root.getAbsolutePath()
                 ));
