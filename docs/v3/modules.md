@@ -13,7 +13,7 @@ nav_order: 1
 
 ## Loading and using ES Modules from API V3
 
-The embedded `Graal.JS` scripting engine can import [ES Modules][es-modules-spec].
+The embedded Graal.JS scripting engine can import [ES Modules][es-modules-spec].
 
 Here's an example scripts which loads the built in module [josm/util]{:target="apidoc"}.
 
