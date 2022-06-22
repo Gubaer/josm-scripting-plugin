@@ -1,7 +1,6 @@
 package org.openstreetmap.josm.plugins.scripting.ui.console;
 
 
-import org.graalvm.polyglot.PolyglotException;
 import org.mozilla.javascript.EcmaError;
 import org.openstreetmap.josm.plugins.scripting.graalvm.GraalVMFacadeFactory;
 
@@ -39,7 +38,7 @@ public class ErrorOutputPanel extends JPanel {
         add(editorScrollPane, BorderLayout.CENTER);
     }
 
-    protected void displayPolyglotException(PolyglotException exception) {
+    protected void displayPolyglotException(Throwable exception) {
         paneOutput.setText(formatPolyglotException(exception));
         paneOutput.setCaretPosition(0);
     }
@@ -78,9 +77,16 @@ public class ErrorOutputPanel extends JPanel {
             return;
         }
         if (GraalVMFacadeFactory.isGraalVMPresent()) {
-            final var polyglotException = lookupCauseByExceptionType(exception, PolyglotException.class);
-            if (polyglotException != null) {
-                displayPolyglotException((PolyglotException) polyglotException);
+            try {
+                // dynamic lookup necessary
+                final var clazz = Class.forName("org.graalvm.polyglot.PolyglotException");
+                final var polyglotException = lookupCauseByExceptionType(exception, clazz);
+                if (polyglotException != null) {
+                    displayPolyglotException(polyglotException);
+                    return;
+                }
+
+            } catch(ClassNotFoundException e) {
                 return;
             }
         }
@@ -97,7 +103,7 @@ public class ErrorOutputPanel extends JPanel {
         displayGeneralException(exception);
     }
 
-    protected @Null Throwable lookupCauseByExceptionType(Throwable t, Class<? extends Throwable> clazz) {
+    protected @Null Throwable lookupCauseByExceptionType(Throwable t, Class<?> clazz) {
         while(t != null) {
             if (clazz.isInstance(t)) {
                 break;
@@ -107,7 +113,7 @@ public class ErrorOutputPanel extends JPanel {
         return t;
     }
 
-    protected String formatPolyglotException(@NotNull final PolyglotException exception) {
+    protected String formatPolyglotException(@NotNull final Throwable exception) {
         return exception.getMessage() +
             "\n" +
             Arrays.stream(exception.getStackTrace())
