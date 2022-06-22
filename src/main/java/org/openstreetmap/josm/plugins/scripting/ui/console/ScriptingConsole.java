@@ -59,9 +59,9 @@ public class ScriptingConsole extends JFrame {
                 instance.addWindowListener(new WindowAdapter() {
                     @Override
                     public void windowClosing(WindowEvent e) {
-                    final ScriptingConsole old = instance;
-                    instance = null;
-                    fireScriptingConsoleChanged(old, instance);
+                        final ScriptingConsole old = instance;
+                        instance = null;
+                        fireScriptingConsoleChanged(old, instance);
                     }
                 });
             }
@@ -77,7 +77,7 @@ public class ScriptingConsole extends JFrame {
         synchronized(ScriptingConsole.class){
             if (instance != null){
                 WindowEvent wev = new WindowEvent(instance,
-                        WindowEvent.WINDOW_CLOSING);
+                    WindowEvent.WINDOW_CLOSING);
                 Toolkit.getDefaultToolkit().getSystemEventQueue()
                     .postEvent(wev);
             }
