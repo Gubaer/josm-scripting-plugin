@@ -24,40 +24,39 @@ configurations {
 }
 
 dependencies {
-    def graalvmVersion = project.properties["graalvm.version"]
 
-    implementation group: 'org.apache.groovy', name: 'groovy-all', version: '4.0.2'
+    implementation group: 'org.apache.groovy', name: 'groovy-all', version: project.property('dep.groovy')
     implementation group: "org.python", name: "jython", version: "2.7.2"
     implementation group: 'javax.activation', name: 'activation', version: '1.1.1'
 
-    implementation group: 'com.github.spullara.mustache.java', name: 'compiler', version: '0.9.6'
+    implementation group: 'com.github.spullara.mustache.java', name: 'compiler', version: project.property('dep.mustache')
     implementation group: 'com.fifesoft', name: 'rsyntaxtextarea', version: '3.2.0'
     implementation group: 'org.apache.commons', name: 'commons-compress', version: '1.21'
 
     // graalvm
-    implementation group: 'org.graalvm.sdk', name: 'graal-sdk', version: graalvmVersion
-    implementation group: 'org.graalvm.truffle', name: 'truffle-api', version: graalvmVersion
-    implementation group: 'org.graalvm.js', name: 'js', version: graalvmVersion
-    graalvm group: 'org.graalvm.sdk', name: 'graal-sdk', version: graalvmVersion
-    graalvm group: 'org.graalvm.truffle', name: 'truffle-api', version: graalvmVersion
-    graalvm group: 'org.graalvm.js', name: 'js', version: graalvmVersion
+    implementation group: 'org.graalvm.sdk', name: 'graal-sdk', version:  project.properties["graalvm.version"]
+    implementation group: 'org.graalvm.truffle', name: 'truffle-api', version:  project.properties["graalvm.version"]
+    implementation group: 'org.graalvm.js', name: 'js', version:  project.properties["graalvm.version"]
+    graalvm group: 'org.graalvm.sdk', name: 'graal-sdk', version:  project.properties["graalvm.version"]
+    graalvm group: 'org.graalvm.truffle', name: 'truffle-api', version:  project.properties["graalvm.version"]
+    graalvm group: 'org.graalvm.js', name: 'js', version:  project.properties["graalvm.version"]
 
     packIntoJar group: "org.mozilla", name: "rhino", version: "1.7.14"
     packIntoJar group: 'javax.validation', name: 'validation-api', version: '1.0.0.GA'
     packIntoJar group: 'javax.activation', name: 'activation', version: '1.1.1'
-    packIntoJar group: 'com.github.spullara.mustache.java', name: 'compiler', version: '0.9.10'
+    packIntoJar group: 'com.github.spullara.mustache.java', name: 'compiler', version: project.property('dep.mustache')
     packIntoJar group: 'com.fifesoft', name: 'rsyntaxtextarea', version: '3.2.0'
     packIntoJar group: 'org.apache.commons', name: 'commons-compress', version: '1.21'
 
     testImplementation('org.openstreetmap.josm:josm-unittest:latest'){changing=true}
     testImplementation group: 'org.jmockit', name: 'jmockit', version: '1.40'
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
-    testImplementation group: 'org.apache.groovy', name: 'groovy-all', version: '4.0.2'
-    testImplementation group: 'org.apache.groovy', name: 'groovy-test', version: '4.0.2'
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.8.2'
+    testImplementation group: 'org.apache.groovy', name: 'groovy-all', version: project.property('dep.groovy')
+    testImplementation group: 'org.apache.groovy', name: 'groovy-test', version: project.property('dep.groovy')
     testImplementation group: 'com.github.tomakehurst', name: 'wiremock', version: '2.27.2'
     testImplementation group: 'org.awaitility', name: 'awaitility', version: '4.2.0'
 
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+    testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.8.2'
 }
 
 def releases = Releases.fromFile(file("releases.yml"))
