@@ -170,7 +170,7 @@ PropertyChangeListener, HyperlinkListener{
                     Desktop.getDesktop().browse(e.getURL().toURI());
                 } catch (IOException | URISyntaxException ex) {
                     logger.log(Level.WARNING, MessageFormat.format(
-                        "Failed to convert URL '{0}' to URI. Can't launch system web browser.",
+                        "Failed to convert URL ''{0}'' to URI. Can't launch system web browser.",
                         e.getURL().toString()
                     ));
                 }
