@@ -50,7 +50,7 @@ import org.openstreetmap.josm.gui.util.WindowGeometry;
 import org.openstreetmap.josm.tools.Utils;
 
 /**
- * <p>Provides a modal dialog for selecting and running a script.</p>
+ * Provides a modal dialog for selecting and running a script.
  */
 public class RunScriptDialog extends JDialog implements PreferenceKeys {
     @SuppressWarnings("unused")
@@ -106,8 +106,9 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys {
         btn.registerKeyboardAction(actRun, KeyStroke.getKeyStroke("ENTER"),
                 JComponent.WHEN_FOCUSED);
         pnl.add(new JButton(new CancelAction()));
-        pnl.add(new JButton(new ContextSensitiveHelpAction(
-                HelpUtil.ht("/Plugin/Scripting#Run"))));
+        final var helpAction =  new ContextSensitiveHelpAction(
+            HelpUtil.ht("/Plugin/Scripting#Run"));
+        pnl.add(new JButton(helpAction));
         return pnl;
     }
 
@@ -141,7 +142,7 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys {
         JPanel toolbarPnl = new JPanel(new FlowLayout(FlowLayout.LEADING));
         addOnToolbar = new JCheckBox(tr("Add toolbar button"), false);
         addOnToolbar.setToolTipText(
-            tr("Add a button for this script script file to the toolbar."));
+            tr("Add a button for this script file to the toolbar."));
         toolbarPnl.add(addOnToolbar);
 
         pnl.add(filePnl);
@@ -283,8 +284,8 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys {
 
     private class SelectScriptFileAction extends AbstractAction {
         SelectScriptFileAction() {
-            putValue(NAME, "..."); // don't translate
             putValue(SHORT_DESCRIPTION, tr("Launch file selection dialog"));
+            putValue(SMALL_ICON, ImageProvider.get("open", ImageProvider.ImageSizes.SMALLICON));
         }
 
         @Override
