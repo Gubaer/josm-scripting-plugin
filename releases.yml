@@ -4,7 +4,7 @@ releases:
     description: |
       * **New**: when scripts are run from the scripting console, errors are now
           displayed in an error console
-      
+
   - label: v0.2.2
     minJosmVersion: 18427
     description: |
