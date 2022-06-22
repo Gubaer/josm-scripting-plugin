@@ -179,7 +179,8 @@ public class ScriptingConsolePanel extends JPanel {
         final private ScriptEditorModel model;
         public RunScriptAction(ScriptEditorModel model) {
             this.model = model;
-            putValue(SMALL_ICON, ImageProvider.get("media-playback-start"));
+            putValue(SMALL_ICON, ImageProvider.get("media-playback-start",
+                ImageProvider.ImageSizes.SMALLICON));
             putValue(SHORT_DESCRIPTION, tr("Execute the script"));
             putValue(NAME, tr("Run"));
             model.addPropertyChangeListener(this);
