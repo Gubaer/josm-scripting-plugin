@@ -20,6 +20,7 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptException;
 import javax.swing.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import java.awt.*;
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
@@ -252,8 +253,8 @@ public class ScriptExecutor {
     }
 
     /**
-     * <p>Runs the script <tt>script</tt> using the script engine described
-     * in <tt>desc</tt> on the Swing EDT.</p>
+     * Runs the script <tt>script</tt> using the script engine described
+     * in <tt>desc</tt> on the Swing EDT.
      *
      * @param desc the script engine descriptor. Must not be null.
      * @param script the script. Ignored if null.
@@ -261,6 +262,21 @@ public class ScriptExecutor {
     public void runScriptWithPluggedEngine(
             @NotNull final ScriptEngineDescriptor desc,
             final String script) {
+        runScriptWithPluggedEngine(desc, script, null /* no error handler */);
+    }
+
+    /**
+     * Runs the script <tt>script</tt> using the script engine described
+     * in <tt>desc</tt> on the Swing EDT.
+     *
+     * @param desc the script engine descriptor. Must not be null.
+     * @param script the script. Ignored if null.
+     * @param handler the error handler
+     */
+    public void runScriptWithPluggedEngine(
+            @NotNull final ScriptEngineDescriptor desc,
+            final String script,
+            final IScriptErrorHandler handler) {
         Objects.requireNonNull(desc);
         if (script == null) return;
         final ScriptEngine engine = JSR223ScriptEngineProvider.getInstance()
@@ -273,11 +289,16 @@ public class ScriptExecutor {
             try {
                 engine.eval(script);
             } catch(ScriptException e){
-                warnExecutingScriptFailed(e);
+                if (handler != null) {
+                    handler.handleScriptExecutionError(e);
+                } else {
+                    warnExecutingScriptFailed(e);
+                }
             }
         };
         runOnSwingEDT(task);
     }
+
 
     /**
      * Runs a script with a GraalVM engine.
@@ -291,6 +312,23 @@ public class ScriptExecutor {
     public void runScriptWithGraalEngine(
             @NotNull final ScriptEngineDescriptor desc,
             final String script) {
+        runScriptWithGraalEngine(desc, script, null /* no error handler */);
+    }
+
+    /**
+     * Runs a script with a GraalVM engine.
+     *
+     * Runs the script on the Swing EDT. Handling errors is delegated to
+     * <code>errorHandler</code>.
+     *
+     * @param desc the descriptor
+     * @param script the script
+     * @param errorHandler callback to handle errors
+     */
+    public void runScriptWithGraalEngine(
+            @NotNull final ScriptEngineDescriptor desc,
+            final String script,
+            final @Null IScriptErrorHandler errorHandler) {
         Objects.requireNonNull(desc);
         if (!desc.getEngineType().equals(
             ScriptEngineDescriptor.ScriptEngineType.GRAALVM)) {
@@ -311,8 +349,18 @@ public class ScriptExecutor {
             try {
                 facade.resetContext();
                 facade.eval(desc, script);
-            } catch(GraalVMEvalException e){
-                warnExecutingScriptFailed(e);
+            } catch(GraalVMEvalException e) {
+                if (errorHandler == null) {
+                    warnExecutingScriptFailed(e);
+                } else {
+                    errorHandler.handleScriptExecutionError(e);
+                }
+            } catch(Throwable t)  {
+                if (errorHandler != null){
+                    errorHandler.handleScriptExecutionError(t);
+                } else {
+                    throw t;
+                }
             } finally {
                 facade.resetContext();
             }
@@ -367,6 +415,17 @@ public class ScriptExecutor {
      * @param script the script. Ignored if null.
      */
     public void runScriptWithEmbeddedEngine(final String script) {
+        runScriptWithEmbeddedEngine(script, null /* no error handler */);
+    }
+
+    /**
+     * Runs the script <tt>script</tt> using the embedded scripting engine
+     * on the Swing EDT.
+     *
+     * @param script the script. Ignored if null.
+     * @param handler the handler
+     */
+    public void runScriptWithEmbeddedEngine(final String script, final IScriptErrorHandler handler) {
         if (script  == null) return;
         try {
             RhinoEngine engine = RhinoEngine.getInstance();
@@ -374,13 +433,25 @@ public class ScriptExecutor {
             engine.evaluateOnSwingThread(script);
         } catch(JavaScriptException e){
             logger.log(Level.SEVERE, "failed to execute script", e);
-            warnJavaScriptExceptionCaught(e);
-        } catch(RhinoException e){
+            if (handler != null) {
+                handler.handleScriptExecutionError(e);
+            } else {
+                warnJavaScriptExceptionCaught(e);
+            }
+        } catch(RhinoException e) {
             logger.log(Level.SEVERE, "failed to execute script", e);
-            notifyRhinoException(e);
+            if (handler != null) {
+                handler.handleScriptExecutionError(e);
+            } else {
+                notifyRhinoException(e);
+            }
         } catch(RuntimeException e){
             logger.log(Level.SEVERE, "failed to execute script", e);
-            notifyRuntimeException(e);
+            if (handler != null) {
+                handler.handleScriptExecutionError(e);
+            } else {
+                notifyRuntimeException(e);
+            }
         }
     }
 }

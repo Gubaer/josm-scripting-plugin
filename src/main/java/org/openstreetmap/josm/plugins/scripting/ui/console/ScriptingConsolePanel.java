@@ -50,12 +50,30 @@ public class ScriptingConsolePanel extends JPanel {
         return pnl;
     }
 
+    protected JPanel buildOutputTabPanel() {
+        final var tabPane = new JTabbedPane();
+        final var errorOutput = new ErrorOutputPanel();
+        tabPane.addTab(tr("Console"), log = new ScriptLogPanel());
+        tabPane.setToolTipTextAt(0, tr("Displays script output"));
+        tabPane.addTab(tr("Errors"), errorOutput);
+        tabPane.setToolTipTextAt(1, tr("Displays scripting errors"));
+
+        ErrorModel.getInstance().addPropertyChangeListener(
+            new ErrorModelChangeListener(tabPane, errorOutput)
+        );
+
+        final var p = new JPanel();
+        p.setLayout(new BorderLayout());
+        p.add(tabPane, BorderLayout.CENTER);
+        return p;
+    }
+
     protected JSplitPane buildSplitPane() {
         final JSplitPane sp = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
         sp.setDividerSize(5);
         sp.setTopComponent(buildInputPanel());
-        sp.setBottomComponent(log = new ScriptLogPanel());
-        SwingUtilities.invokeLater(() ->sp.setDividerLocation(0.7));
+        sp.setBottomComponent(buildOutputTabPanel());
+        SwingUtilities.invokeLater(() -> sp.setDividerLocation(0.7));
         return sp;
     }
 
@@ -193,21 +211,24 @@ public class ScriptingConsolePanel extends JPanel {
             switch(model.getScriptEngineDescriptor().getEngineType()) {
             case EMBEDDED:
                 new ScriptExecutor(ScriptingConsolePanel.this)
-                    .runScriptWithEmbeddedEngine(source);
+                    .runScriptWithEmbeddedEngine(source, ErrorModel.getInstance());
                 break;
             case PLUGGED:
                 new ScriptExecutor(ScriptingConsolePanel.this)
                     .runScriptWithPluggedEngine(
                         model.getScriptEngineDescriptor(),
-                        source
-                        );
+                        source,
+                        ErrorModel.getInstance()
+                    );
                 break;
             case GRAALVM:
                 try {
                     new ScriptExecutor(ScriptingConsolePanel.this)
                         .runScriptWithGraalEngine(
                             model.getScriptEngineDescriptor(),
-                            source);
+                            source,
+                            ErrorModel.getInstance()
+                        );
                 } catch(Throwable ex) {
                     logger.log(Level.SEVERE, ex.getMessage(), ex);
                     throw ex;
@@ -227,6 +248,42 @@ public class ScriptingConsolePanel extends JPanel {
                 return;
             }
             updateEnabledState();
+        }
+    }
+
+    /**
+     * Listens to property changes in the editor model and updates the view
+     * accordingly
+     * <ul>
+     *     <li>updates the content of the error output panel</li>
+     *     <li>updates the visual feedback on the tab pane</li>
+     * </ul>
+     */
+    private static class ErrorModelChangeListener implements PropertyChangeListener {
+        final JTabbedPane outputTabs;
+        final ErrorOutputPanel outputPanel;
+
+        ErrorModelChangeListener(@NotNull final JTabbedPane pane, @NotNull final ErrorOutputPanel outputPanel) {
+            Objects.requireNonNull(pane);
+            Objects.requireNonNull(outputPanel);
+            this.outputTabs = pane;
+            this.outputPanel = outputPanel;
+        }
+        @Override
+        public void propertyChange(PropertyChangeEvent event) {
+            if (! ErrorModel.PROP_ERROR.equals(event.getPropertyName())) {
+                return;
+            }
+            //TODO(gubaer): set an icon depending on status instead of background colors
+            if (event.getNewValue() != null) {
+                outputTabs.setBackgroundAt(1, Color.RED);
+            } else {
+                outputTabs.setBackgroundAt(1, outputTabs.getBackgroundAt(0));
+            }
+            if (! (event.getNewValue() instanceof Throwable)) {
+                return;
+            }
+            outputPanel.displayException((Throwable) event.getNewValue());
         }
     }
 }
