@@ -157,7 +157,7 @@ public class ScriptExecutor {
     );
     }
 
-    private void notifyIOExeption(File scriptFile, IOException e) {
+    private void notifyIOException(File scriptFile, IOException e) {
         HelpAwareOptionPane.showOptionDialog(
             this.parent,
             "<html>"
@@ -352,7 +352,7 @@ public class ScriptExecutor {
         } catch(IOException e){
             logger.log(Level.SEVERE, String.format("failed to execute script file. file='%s'",
                 scriptFile.getAbsolutePath()), e);
-            notifyIOExeption(scriptFile, e);
+            notifyIOException(scriptFile, e);
         } catch(RuntimeException e){
             logger.log(Level.SEVERE, String.format("failed to execute script file. file='%s'",
                 scriptFile.getAbsolutePath()), e);
