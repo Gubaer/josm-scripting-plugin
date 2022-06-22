@@ -2,8 +2,10 @@ package org.openstreetmap.josm.plugins.scripting.ui.console;
 
 
 import org.graalvm.polyglot.PolyglotException;
+import org.mozilla.javascript.EcmaError;
 import org.openstreetmap.josm.plugins.scripting.graalvm.GraalVMFacadeFactory;
 
+import javax.script.ScriptException;
 import javax.swing.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
@@ -20,7 +22,6 @@ import java.util.stream.Collectors;
 public class ErrorOutputPanel extends JPanel {
 
     private JTextPane paneOutput;
-    private JScrollPane editorScrollPane;
 
     public ErrorOutputPanel() {
         build();
@@ -30,7 +31,7 @@ public class ErrorOutputPanel extends JPanel {
         setLayout(new BorderLayout());
         paneOutput = new JTextPane();
         paneOutput.setEditable(false);
-        editorScrollPane = new JScrollPane(paneOutput);
+        JScrollPane editorScrollPane = new JScrollPane(paneOutput);
         editorScrollPane.setVerticalScrollBarPolicy(
             JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         editorScrollPane.setHorizontalScrollBarPolicy(
@@ -40,6 +41,17 @@ public class ErrorOutputPanel extends JPanel {
 
     protected void displayPolyglotException(PolyglotException exception) {
         paneOutput.setText(formatPolyglotException(exception));
+        paneOutput.setCaretPosition(0);
+    }
+
+    protected void displayMozillaEcmaError(EcmaError exception) {
+        paneOutput.setText(exception.getMessage());
+        paneOutput.setCaretPosition(0);
+    }
+
+    protected void displayScriptException(ScriptException exception) {
+        paneOutput.setText(exception.getMessage());
+        paneOutput.setCaretPosition(0);
     }
 
     protected void displayGeneralException(Throwable exception) {
@@ -49,39 +61,50 @@ public class ErrorOutputPanel extends JPanel {
         final var writer = new StringWriter();
         exception.printStackTrace(new PrintWriter(writer));
         builder.append(writer.getBuffer());
-        paneOutput.setText(builder.toString());    }
-
-
-    /**
-     * Displays an exception
-     *
-     * @param exception the exception
-     */
-    public void displayException(@NotNull Throwable exception) {
-        if (GraalVMFacadeFactory.isGraalVMPresent()) {
-            final var polyglotException = lookupPolyglotException(exception);
-            if (polyglotException != null) {
-                displayPolyglotException(polyglotException);
-                return;
-            }
-        }
-        displayGeneralException(exception);
-        // scroll to top
+        paneOutput.setText(builder.toString());
         paneOutput.setCaretPosition(0);
     }
 
-    protected @Null PolyglotException lookupPolyglotException(Throwable t) {
+    /**
+     * Displays an exception. If <code>exception</code> is null, an empty
+     * string is displayed.
+     *
+     * @param exception the exception
+     */
+    public void displayException(@Null Throwable exception) {
+        if (exception == null) {
+            paneOutput.setText("");
+            paneOutput.setCaretPosition(0);
+            return;
+        }
+        if (GraalVMFacadeFactory.isGraalVMPresent()) {
+            final var polyglotException = lookupCauseByExceptionType(exception, PolyglotException.class);
+            if (polyglotException != null) {
+                displayPolyglotException((PolyglotException) polyglotException);
+                return;
+            }
+        }
+        final var mozillaEcmaError = lookupCauseByExceptionType(exception, EcmaError.class);
+        if (mozillaEcmaError != null) {
+            displayMozillaEcmaError((EcmaError) mozillaEcmaError);
+            return;
+        }
+        final var scriptException = lookupCauseByExceptionType(exception, ScriptException.class);
+        if (scriptException != null) {
+            displayScriptException((ScriptException) scriptException);
+            return;
+        }
+        displayGeneralException(exception);
+    }
+
+    protected @Null Throwable lookupCauseByExceptionType(Throwable t, Class<? extends Throwable> clazz) {
         while(t != null) {
-            if (t instanceof  PolyglotException) {
+            if (clazz.isInstance(t)) {
                 break;
             }
             t = t.getCause();
         }
-        if (t == null) {
-            return null;
-        } else {
-            return (PolyglotException) t;
-        }
+        return t;
     }
 
     protected String formatPolyglotException(@NotNull final PolyglotException exception) {

@@ -56,6 +56,9 @@ public class ScriptingConsolePanel extends JPanel {
         tabPane.addTab(tr("Console"), log = new ScriptLogPanel());
         tabPane.setToolTipTextAt(0, tr("Displays script output"));
         tabPane.addTab(tr("Errors"), errorOutput);
+        tabPane.setIconAt(1, ImageProvider.get(
+            "circle-check-solid",
+            ImageProvider.ImageSizes.SMALLICON));
         tabPane.setToolTipTextAt(1, tr("Displays scripting errors"));
 
         ErrorModel.getInstance().addPropertyChangeListener(
@@ -207,6 +210,7 @@ public class ScriptingConsolePanel extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            ErrorModel.getInstance().clearError();
             final String source = editor.getScript();
             switch(model.getScriptEngineDescriptor().getEngineType()) {
             case EMBEDDED:
@@ -274,16 +278,19 @@ public class ScriptingConsolePanel extends JPanel {
             if (! ErrorModel.PROP_ERROR.equals(event.getPropertyName())) {
                 return;
             }
-            //TODO(gubaer): set an icon depending on status instead of background colors
             if (event.getNewValue() != null) {
-                outputTabs.setBackgroundAt(1, Color.RED);
+                outputTabs.setIconAt(1, ImageProvider.get("bug-solid",
+                    ImageProvider.ImageSizes.SMALLICON));
             } else {
-                outputTabs.setBackgroundAt(1, outputTabs.getBackgroundAt(0));
+                outputTabs.setIconAt(1, ImageProvider.get("circle-check-solid",
+                    ImageProvider.ImageSizes.SMALLICON));
             }
-            if (! (event.getNewValue() instanceof Throwable)) {
-                return;
+            if (event.getNewValue() == null) {
+                // clear the panel
+                outputPanel.displayException(null);
+            } if (event.getNewValue() instanceof Throwable) {
+                outputPanel.displayException((Throwable) event.getNewValue());
             }
-            outputPanel.displayException((Throwable) event.getNewValue());
         }
     }
 }
