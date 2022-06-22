@@ -190,7 +190,7 @@ public class RunScriptService {
             throws IOException, GraalVMEvalException {
         if (logger.isLoggable(Level.FINE)) {
             final String message =  MessageFormat.format(
-                "executing script with GraalVM '{0}'. Script file: '{1}'",
+                "executing script with GraalVM ''{0}''. Script file: ''{1}''",
                 engine.getEngineId(),
                 script.getAbsolutePath()
             );
