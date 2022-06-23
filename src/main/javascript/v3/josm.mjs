@@ -23,7 +23,7 @@ import {CommandHistory} from 'josm/command'
 /**
  * Access to internal JOSM objects and functionality.
  */
-class Josm {
+export default class Josm {
 
   /**
    * Replies the current JOSM version string.
@@ -34,7 +34,7 @@ class Josm {
    *
    * @type {string}
    */
-  get version() {
+  static get version() {
     return Version.getInstance().getVersionString()
   }
 
@@ -50,7 +50,7 @@ class Josm {
    *
    * @type {module:josm/layers}
    */
-  get layers() {
+  static get layers() {
     return layers
   }
 
@@ -107,7 +107,7 @@ class Josm {
    * @param {string} message  the message
    * @param {module:josm~Josm~AlertOptions} [options] the named options
    */
-  alert(message, options){
+  static alert(message, options){
     const map = {
       information: JOptionPane.INFORMATION_MESSAGE,
       info: JOptionPane.INFORMATION_MESSAGE,
@@ -182,7 +182,7 @@ class Josm {
    *
    * @param {...(java.io.File | string)} files files to open
    */
-  open() {
+  static open() {
     const OpenFileAction = Java.type('org.openstreetmap.josm.actions.OpenFileAction')
     const File = Java.type('java.io.File')
 
@@ -220,7 +220,7 @@ class Josm {
    *
    * @type {module:josm/command.CommandHistory}
    */
-  get commands() {
+  static get commands() {
     return CommandHistory
   }
 
@@ -232,7 +232,7 @@ class Josm {
    *
    * @type {module:josm/ui/menu~MenuBar}
    */
-  get menu() {
+  static get menu() {
     return MenuBar
   }
 
@@ -243,17 +243,9 @@ class Josm {
    *
    * @type {module:josm/scriptingconsole}
    */
-  get console() {
+  static get console() {
     return console
   }
 }
 
-/**
- * @const 
- * @export the singleton josm instance
- * @type {module:josm~Josm}
- * @static
- */
- const josm = new Josm()
- export default josm
  
