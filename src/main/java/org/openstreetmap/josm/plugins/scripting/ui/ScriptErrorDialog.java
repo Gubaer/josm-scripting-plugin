@@ -1,63 +1,55 @@
 package org.openstreetmap.josm.plugins.scripting.ui;
 
+import org.openstreetmap.josm.gui.MainApplication;
+import org.openstreetmap.josm.gui.util.WindowGeometry;
+
 import javax.swing.*;
 import javax.validation.constraints.NotNull;
 import java.awt.*;
-import java.io.PrintWriter;
-import java.io.StringWriter;
+import java.util.Objects;
 
 import static org.openstreetmap.josm.tools.I18n.tr;
 
 public class ScriptErrorDialog  {
 
-    private static JPanel buildTopPanel() {
-        final JPanel pnl = new JPanel(new BorderLayout());
-        final JEditorPane pane = EditorPaneBuilder.buildInfoEditorPane();
-        final String infoTxt = "<html>" + tr(
-            "An error occurred when executing a script. This is most likely " +
-            "a bug in the script, and not in JOSM.<p>" +
-            "Please get in touch with the script author before you file " +
-            "a bug in JOSMs bug tracker."
+    private static class ContentPane extends JPanel {
+
+        private ScriptErrorViewer viewer;
+
+        private JPanel buildTopPanel() {
+            final JPanel pnl = new JPanel(new BorderLayout());
+            final JEditorPane pane = EditorPaneBuilder.buildInfoEditorPane();
+            final String infoTxt = "<html>" + tr(
+                "An error occurred when executing a script. This is most likely " +
+                "a bug in the script, and not in JOSM.<p>" +
+                "Please get in touch with the script author before you file " +
+                "a bug in JOSMs bug tracker."
             ) + "</html>";
-        pane.setText(infoTxt);
-        pnl.add(pane, BorderLayout.CENTER);
-        return pnl;
-    }
+            pane.setText(infoTxt);
+            pnl.add(pane, BorderLayout.CENTER);
+            return pnl;
+        }
 
-    private static String dumpStackTrace(Throwable t) {
-        final StringWriter sw = new StringWriter();
-        t.printStackTrace(new PrintWriter(sw));
-        return sw.toString();
-    }
+        private void build() {
+            setLayout(new BorderLayout());
+            add(buildTopPanel(), BorderLayout.NORTH);
+            add(viewer = new ScriptErrorViewer(), BorderLayout.CENTER);
+        }
 
-    private static Component buildStacktracePane(Throwable forException) {
-        // build  text pane
-        final JTextPane tp = new JTextPane();
-        tp.setText(dumpStackTrace(forException));
-        tp.setEditable(false);
-        tp.setCaretPosition(0); // scroll to top
+        public ContentPane() {
+            build();
+        }
 
-        // build scroll pane
-        final JScrollPane sp = new JScrollPane();
-        sp.setHorizontalScrollBarPolicy(
-            JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        sp.setVerticalScrollBarPolicy(
-            JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        sp.getViewport().add(tp);
-        return sp;
-    }
-
-    private static JPanel buildContentPanel(Throwable forException) {
-        final JPanel pnl = new JPanel(new BorderLayout());
-        pnl.add(buildTopPanel(), BorderLayout.NORTH);
-        pnl.add(buildStacktracePane(forException), BorderLayout.CENTER);
-        return pnl;
+        public ScriptErrorViewerModel getModel() {
+            return viewer.getModel();
+        }
     }
 
     /**
-     * Display an error dialog with the stack trace for the exception.
+     * Display an error dialog with the error information
      *
-     * @param forException the exception whose stack trace is displayed
+     * @param forException the exception
+     * @throws NullPointerException thrown if <code>forException</code> is null
      */
     @SuppressWarnings("unused")
     public static void showErrorDialog(@NotNull Throwable forException) {
@@ -65,22 +57,31 @@ public class ScriptErrorDialog  {
     }
 
     /**
-     * Display an error dialog with the stack trace for the exception and
+     * Display an error dialog with the error information and
      * a custom title.
      *
      * @param title the dialog title
      * @param forException the exception whose stack trace is displayed
+     * @throws NullPointerException thrown if <code>title</code> is null
+     * @throws NullPointerException thrown if <code>forException</code> is null
      */
     @SuppressWarnings("WeakerAccess") // part of the public API
     public static void showErrorDialog(@NotNull String title,
                                        @NotNull Throwable forException) {
+        Objects.requireNonNull(title);
+        Objects.requireNonNull(forException);
+        final var contentPane = new ContentPane();
         final JOptionPane pane = new JOptionPane(
-            buildContentPanel(forException),
+            contentPane,
             JOptionPane.ERROR_MESSAGE
         );
+        contentPane.getModel().setError(forException);
         final JDialog dialog = pane.createDialog(title);
-        dialog.setSize(600,400);
         dialog.setResizable(true);
+        WindowGeometry.centerInWindow(
+            MainApplication.getMainFrame(),
+            new Dimension(600, 400)
+        ).applySafe(dialog);
         dialog.setVisible(true);
     }
 }

@@ -1,34 +1,17 @@
-package org.openstreetmap.josm.plugins.scripting.ui.console;
+package org.openstreetmap.josm.plugins.scripting.ui;
 
-import org.openstreetmap.josm.plugins.scripting.ui.IScriptErrorHandler;
-
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
-public class ErrorModel implements IScriptErrorHandler {
+public class ScriptErrorViewerModel {
     /**
      * The name of the error property
      */
-    public static final String PROP_ERROR = ErrorModel.class.getName() + ".errorChanged";
-
-    private  static ErrorModel instance;
+    public static final String PROP_ERROR = ScriptErrorViewerModel.class.getName() + ".errorChanged";
 
     private Throwable error = null;
-
-    /**
-     * Replies the unique instance of the error model
-     *
-     * @return the error model
-     */
-    public static @NotNull ErrorModel getInstance() {
-        if (instance == null) {
-            instance = new ErrorModel();
-        }
-        return instance;
-    }
 
     final private PropertyChangeSupport support = new PropertyChangeSupport(this);
 
@@ -75,7 +58,7 @@ public class ErrorModel implements IScriptErrorHandler {
         support.firePropertyChange(event);
     }
 
-    private ErrorModel() {
+    public ScriptErrorViewerModel() {
     }
 
     /**
@@ -94,13 +77,5 @@ public class ErrorModel implements IScriptErrorHandler {
      */
     public void clearError() {
         setError(null);
-    }
-
-    /* -------------------------------------------------------------------- */
-    /* IScriptErrorHandler                                                  */
-    /* -------------------------------------------------------------------- */
-    @Override
-    public void handleScriptExecutionError(Throwable exception) {
-        setError(exception);
     }
 }

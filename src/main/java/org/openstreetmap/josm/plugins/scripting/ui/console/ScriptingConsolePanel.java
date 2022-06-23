@@ -4,6 +4,8 @@ import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.openstreetmap.josm.gui.HelpAwareOptionPane;
 import org.openstreetmap.josm.gui.HelpAwareOptionPane.ButtonSpec;
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
+import org.openstreetmap.josm.plugins.scripting.ui.ScriptErrorViewer;
+import org.openstreetmap.josm.plugins.scripting.ui.ScriptErrorViewerModel;
 import org.openstreetmap.josm.plugins.scripting.ui.ScriptExecutor;
 import org.openstreetmap.josm.tools.ImageProvider;
 
@@ -33,12 +35,13 @@ public class ScriptingConsolePanel extends JPanel {
 
     private ScriptLogPanel log;
     private ScriptEditor editor;
+    private ScriptErrorViewer errorViewer;
 
     protected JPanel buildControlPanel() {
         final JPanel pnl = new JPanel(new FlowLayout(FlowLayout.CENTER,0,0));
         pnl.setBorder(null);
         pnl.setBorder(BorderFactory.createEmptyBorder(2,2,2,2));
-        JButton btn = new JButton(new RunScriptAction(editor.getModel()));
+        JButton btn = new JButton(new RunScriptAction(editor.getModel(), errorViewer.getModel()));
         pnl.add(btn);
         return pnl;
     }
@@ -52,17 +55,16 @@ public class ScriptingConsolePanel extends JPanel {
 
     protected JPanel buildOutputTabPanel() {
         final var tabPane = new JTabbedPane();
-        final var errorOutput = new ErrorOutputPanel();
         tabPane.addTab(tr("Console"), log = new ScriptLogPanel());
         tabPane.setToolTipTextAt(0, tr("Displays script output"));
-        tabPane.addTab(tr("Errors"), errorOutput);
+        tabPane.addTab(tr("Errors"), errorViewer);
         tabPane.setIconAt(1, ImageProvider.get(
             "circle-check-solid",
             ImageProvider.ImageSizes.SMALLICON));
         tabPane.setToolTipTextAt(1, tr("Displays scripting errors"));
 
-        ErrorModel.getInstance().addPropertyChangeListener(
-            new ErrorModelChangeListener(tabPane, errorOutput)
+        errorViewer.getModel().addPropertyChangeListener(
+            new ErrorModelChangeListener(tabPane, errorViewer)
         );
 
         final var p = new JPanel();
@@ -81,21 +83,21 @@ public class ScriptingConsolePanel extends JPanel {
     }
 
     protected void build() {
+        // make sure errorViewer is built at the beginning
+        errorViewer = new ScriptErrorViewer();
+
         JSplitPane spConsole = buildSplitPane();
         setLayout(new BorderLayout());
         add(spConsole, BorderLayout.CENTER);
         editor.getModel().addPropertyChangeListener(evt -> {
-            if (! evt.getPropertyName()
-                    .equals(ScriptEditorModel.PROP_SCRIPT_ENGINE)) {
+            if (! evt.getPropertyName().equals(ScriptEditorModel.PROP_SCRIPT_ENGINE)) {
                 return;
             }
-            final ScriptEngineDescriptor desc =
-                    (ScriptEngineDescriptor)evt.getNewValue();
+            final ScriptEngineDescriptor desc = (ScriptEngineDescriptor)evt.getNewValue();
             updateScriptContentType(desc);
         });
         updateScriptContentType(editor.getModel().getScriptEngineDescriptor());
     }
-
 
     protected void warnMissingSyntaxStyle(@Null ScriptEngineDescriptor desc) {
         final StringBuilder sb = new StringBuilder();
@@ -198,8 +200,11 @@ public class ScriptingConsolePanel extends JPanel {
     class RunScriptAction extends AbstractAction
         implements PropertyChangeListener {
         final private ScriptEditorModel model;
-        public RunScriptAction(ScriptEditorModel model) {
+        final private ScriptErrorViewerModel errorModel;
+
+        public RunScriptAction(@NotNull final ScriptEditorModel model, @NotNull final ScriptErrorViewerModel errorModel) {
             this.model = model;
+            this.errorModel = errorModel;
             putValue(SMALL_ICON, ImageProvider.get("media-playback-start",
                 ImageProvider.ImageSizes.SMALLICON));
             putValue(SHORT_DESCRIPTION, tr("Execute the script"));
@@ -210,19 +215,19 @@ public class ScriptingConsolePanel extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            ErrorModel.getInstance().clearError();
+            errorModel.clearError();
             final String source = editor.getScript();
             switch(model.getScriptEngineDescriptor().getEngineType()) {
             case EMBEDDED:
                 new ScriptExecutor(ScriptingConsolePanel.this)
-                    .runScriptWithEmbeddedEngine(source, ErrorModel.getInstance());
+                    .runScriptWithEmbeddedEngine(source, errorModel);
                 break;
             case PLUGGED:
                 new ScriptExecutor(ScriptingConsolePanel.this)
                     .runScriptWithPluggedEngine(
                         model.getScriptEngineDescriptor(),
                         source,
-                        ErrorModel.getInstance()
+                        errorModel
                     );
                 break;
             case GRAALVM:
@@ -231,7 +236,7 @@ public class ScriptingConsolePanel extends JPanel {
                         .runScriptWithGraalEngine(
                             model.getScriptEngineDescriptor(),
                             source,
-                            ErrorModel.getInstance()
+                            errorModel
                         );
                 } catch(Throwable ex) {
                     logger.log(Level.SEVERE, ex.getMessage(), ex);
@@ -265,9 +270,9 @@ public class ScriptingConsolePanel extends JPanel {
      */
     private static class ErrorModelChangeListener implements PropertyChangeListener {
         final JTabbedPane outputTabs;
-        final ErrorOutputPanel outputPanel;
+        final ScriptErrorViewer outputPanel;
 
-        ErrorModelChangeListener(@NotNull final JTabbedPane pane, @NotNull final ErrorOutputPanel outputPanel) {
+        ErrorModelChangeListener(@NotNull final JTabbedPane pane, @NotNull final ScriptErrorViewer outputPanel) {
             Objects.requireNonNull(pane);
             Objects.requireNonNull(outputPanel);
             this.outputTabs = pane;
@@ -275,7 +280,7 @@ public class ScriptingConsolePanel extends JPanel {
         }
         @Override
         public void propertyChange(PropertyChangeEvent event) {
-            if (! ErrorModel.PROP_ERROR.equals(event.getPropertyName())) {
+            if (! ScriptErrorViewerModel.PROP_ERROR.equals(event.getPropertyName())) {
                 return;
             }
             if (event.getNewValue() != null) {
@@ -284,12 +289,6 @@ public class ScriptingConsolePanel extends JPanel {
             } else {
                 outputTabs.setIconAt(1, ImageProvider.get("circle-check-solid",
                     ImageProvider.ImageSizes.SMALLICON));
-            }
-            if (event.getNewValue() == null) {
-                // clear the panel
-                outputPanel.displayException(null);
-            } if (event.getNewValue() instanceof Throwable) {
-                outputPanel.displayException((Throwable) event.getNewValue());
             }
         }
     }

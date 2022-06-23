@@ -1,4 +1,4 @@
-package org.openstreetmap.josm.plugins.scripting.ui.console;
+package org.openstreetmap.josm.plugins.scripting.ui;
 
 
 import org.mozilla.javascript.EcmaError;
@@ -9,21 +9,52 @@ import javax.swing.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import java.awt.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.text.MessageFormat;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
- * Displays errors when the execution of a script fails
+ * A {@link JPanel} which displays an error thrown during the
+ * execution of a script.
  */
-public class ErrorOutputPanel extends JPanel {
+public class ScriptErrorViewer extends JPanel {
 
     private JTextPane paneOutput;
+    private final ScriptErrorViewerModel model;
 
-    public ErrorOutputPanel() {
+    /**
+     * Creates a new viewer with a new view model.
+     *
+     * @see #ScriptErrorViewer(ScriptErrorViewerModel)
+     */
+    public ScriptErrorViewer() {
+        this(new ScriptErrorViewerModel());
+    }
+
+    /**
+     * Creates a new viewer with a supplied model.
+     *
+     * @param model the model
+     * @throws NullPointerException thrown if <code>model</code> is null
+     */
+    public ScriptErrorViewer(@NotNull final ScriptErrorViewerModel model) {
+        Objects.requireNonNull(model);
+        this.model = model;
         build();
+    }
+
+    /**
+     * Replies the view model
+     *
+     * @return the model
+     */
+    public @NotNull ScriptErrorViewerModel getModel() {
+        return model;
     }
 
     protected void build() {
@@ -36,6 +67,7 @@ public class ErrorOutputPanel extends JPanel {
         editorScrollPane.setHorizontalScrollBarPolicy(
             JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         add(editorScrollPane, BorderLayout.CENTER);
+        model.addPropertyChangeListener(new ErrorModelChangeListener());
     }
 
     protected void displayPolyglotException(Throwable exception) {
@@ -124,5 +156,19 @@ public class ErrorOutputPanel extends JPanel {
                     element.getLineNumber()
                 ))
                 .collect(Collectors.joining("\n"));
+    }
+
+    class ErrorModelChangeListener implements PropertyChangeListener {
+        @Override
+        public void propertyChange(PropertyChangeEvent event) {
+            if (! ScriptErrorViewerModel.PROP_ERROR.equals(event.getPropertyName())) {
+                return;
+            }
+            if (event.getNewValue() == null) {
+                displayException(null);
+            } else if (event.getNewValue() instanceof Throwable) {
+                displayException((Throwable) event.getNewValue());
+            }
+        }
     }
 }

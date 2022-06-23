@@ -2,10 +2,9 @@ package org.openstreetmap.josm.plugins.scripting.ui;
 
 import org.openstreetmap.josm.data.Preferences;
 import org.openstreetmap.josm.gui.HelpAwareOptionPane;
+import org.openstreetmap.josm.gui.MainApplication;
 import org.openstreetmap.josm.gui.help.HelpUtil;
-import org.openstreetmap.josm.plugins.scripting.graalvm.GraalVMEvalException;
 import org.openstreetmap.josm.plugins.scripting.graalvm.GraalVMFacadeFactory;
-import org.openstreetmap.josm.plugins.scripting.graalvm.IGraalVMFacade;
 import org.openstreetmap.josm.plugins.scripting.model.JSR223ScriptEngineProvider;
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
 
@@ -16,7 +15,6 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.Reader;
-import java.text.MessageFormat;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -183,23 +181,7 @@ public class RunScriptService {
      * @throws NullPointerException thrown if engine is null
      */
     public void runScript(@NotNull String fileName, @NotNull ScriptEngineDescriptor engine) {
-        runScript(fileName, engine, null);
-    }
-
-    protected void runScriptWithGraalVM(
-            final File script, final ScriptEngineDescriptor engine)
-            throws IOException, GraalVMEvalException {
-        if (logger.isLoggable(Level.FINE)) {
-            final String message =  MessageFormat.format(
-                "executing script with GraalVM ''{0}''. Script file: ''{1}''",
-                engine.getEngineId(),
-                script.getAbsolutePath()
-            );
-            logger.log(Level.FINE, message);
-        }
-        final IGraalVMFacade facade = GraalVMFacadeFactory
-            .getOrCreateGraalVMFacade();
-        facade.eval(engine, script);
+        runScript(fileName, engine, null /* use default parent */);
     }
 
     /**
@@ -209,25 +191,28 @@ public class RunScriptService {
      *
      * @param fileName the script file name
      * @param engine the script engine descriptor
-     * @param parent the parent component
+     * @param parent the parent component. Uses {@link MainApplication#getMainFrame()} if null.
+     * @throws NullPointerException if <code>fileName</code> is null
+     * @throws NullPointerException if <code>engine</code> is null
      */
-    public void runScript(@NotNull String fileName,
-            @NotNull ScriptEngineDescriptor engine,
+    public void runScript(@NotNull final String fileName,
+            @NotNull final ScriptEngineDescriptor engine,
             @Null Component parent) {
         Objects.requireNonNull(fileName);
         Objects.requireNonNull(engine);
         File f  = new File(fileName);
+        if (parent == null) {
+            parent = MainApplication.getMainFrame();
+        }
 
-        MostRecentlyRunScriptsModel model = MostRecentlyRunScriptsModel
-                .getInstance();
+        final var model = MostRecentlyRunScriptsModel.getInstance();
         model.remember(f.getAbsolutePath());
         model.saveToPreferences(Preferences.main());
 
         switch(engine.getEngineType()){
             case EMBEDDED:
                 if (logger.isLoggable(Level.FINE)) {
-                    logger.log(Level.FINE,
-                        "executing script with embedded engine ...");
+                    logger.log(Level.FINE, "executing script with embedded engine ...");
                 }
                 new ScriptExecutor(parent).runScriptWithEmbeddedEngine(f);
                 break;
@@ -237,11 +222,7 @@ public class RunScriptService {
                 break;
 
             case GRAALVM:
-                try {
-                    runScriptWithGraalVM(f, engine);
-                } catch(IOException |GraalVMEvalException e) {
-                    logger.log(Level.SEVERE, e.getMessage(), e);
-                }
+                new ScriptExecutor(parent).runScriptWithGraalVM(f, engine);
                 break;
         }
     }
