@@ -234,8 +234,7 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys {
         }
 
         @Override
-        public void actionPerformed(ActionEvent evt,
-                                    Map<String, Object> parameters) {
+        public void actionPerformed(ActionEvent evt, Map<String, Object> parameters) {
             if (parameters.containsKey(SCRIPTING_FILENAME)) {
                 doRun((String) parameters.get(SCRIPTING_FILENAME), false);
             }
