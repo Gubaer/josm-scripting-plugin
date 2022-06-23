@@ -11,6 +11,7 @@ import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
 
 import javax.swing.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
@@ -34,43 +35,43 @@ public class RunScriptService {
 
     private void warnScriptFileDoesntExist(File f, Component parent){
         HelpAwareOptionPane.showOptionDialog(
-                parent,
-                tr("The script file ''{0}'' doesn''t exist.", f.toString()),
-                tr("File not found"),
-                JOptionPane.ERROR_MESSAGE,
-                HelpUtil.ht("/Plugin/Scripting")
+            parent,
+            tr("The script file ''{0}'' doesn''t exist.", f.toString()),
+            tr("File not found"),
+            JOptionPane.ERROR_MESSAGE,
+            HelpUtil.ht("/Plugin/Scripting")
         );
     }
 
     private void warnEmptyFile(Component parent){
         HelpAwareOptionPane.showOptionDialog(
-                parent,
-                tr("Please enter a file name first."),
-                tr("Empty file name"),
-                JOptionPane.ERROR_MESSAGE,
-                HelpUtil.ht("/Plugin/Scripting")
+            parent,
+            tr("Please enter a file name first."),
+            tr("Empty file name"),
+            JOptionPane.ERROR_MESSAGE,
+            HelpUtil.ht("/Plugin/Scripting")
         );
     }
 
     private void warnScriptFileIsntReadable(File f, Component parent){
         HelpAwareOptionPane.showOptionDialog(
-                parent,
-                tr("The script file ''{0}'' isn''t readable.", f.toString()),
-                tr("File not readable"),
-                JOptionPane.ERROR_MESSAGE,
-                HelpUtil.ht("/Plugin/Scripting")
+            parent,
+            tr("The script file ''{0}'' isn''t readable.", f.toString()),
+            tr("File not readable"),
+            JOptionPane.ERROR_MESSAGE,
+            HelpUtil.ht("/Plugin/Scripting")
         );
     }
 
     private void warnOpenScriptFileFailed(File f, Exception e,
             Component parent){
         HelpAwareOptionPane.showOptionDialog(
-                parent,
-                tr("Failed to read the script from the file ''{0}''.",
-                        f.toString()),
-                tr("IO error"),
-                JOptionPane.ERROR_MESSAGE,
-                HelpUtil.ht("/Plugin/Scripting")
+            parent,
+            tr("Failed to read the script from the file ''{0}''.",
+                f.toString()),
+            tr("IO error"),
+            JOptionPane.ERROR_MESSAGE,
+            HelpUtil.ht("/Plugin/Scripting")
         );
         logger.log(Level.SEVERE,
             tr("Failed to read the script from the file ''{0}''.", f.toString()),
@@ -110,7 +111,7 @@ public class RunScriptService {
             String fileName, Component parent) {
         File file = new File(fileName);
         JSR223ScriptEngineProvider provider =
-                JSR223ScriptEngineProvider.getInstance();
+            JSR223ScriptEngineProvider.getInstance();
         String mimeType = provider.getContentTypeForFile(file);
 
         // the default engine if the language is JavaScript
@@ -175,13 +176,13 @@ public class RunScriptService {
      * Runs the script in the file <tt>fileName</tt> using the scripting
      * engine <tt>engine</tt>.
      *
-     * @param fileName the script file name. Must not be null.
-     * @param engine the script engine descriptor. Must not be null.
+     * @param fileName the script file name
+     * @param engine the script engine descriptor
      *
-     * @throws IllegalArgumentException thrown if fileName is null
-     * @throws IllegalArgumentException thrown if engine is null
+     * @throws NullPointerException thrown if fileName is null
+     * @throws NullPointerException thrown if engine is null
      */
-    public void runScript(String fileName, ScriptEngineDescriptor engine) {
+    public void runScript(@NotNull String fileName, @NotNull ScriptEngineDescriptor engine) {
         runScript(fileName, engine, null);
     }
 
@@ -206,13 +207,13 @@ public class RunScriptService {
      * engine <tt>engine</tt>. <tt>parent</tt> is the parent component relative
      * to which dialogs and option panes are displayed.
      *
-     * @param fileName the script file name. Must not be null.
-     * @param engine the script engine descriptor. Must not be null.
-     * @param parent the parent component. May be null
+     * @param fileName the script file name
+     * @param engine the script engine descriptor
+     * @param parent the parent component
      */
     public void runScript(@NotNull String fileName,
             @NotNull ScriptEngineDescriptor engine,
-            Component parent) {
+            @Null Component parent) {
         Objects.requireNonNull(fileName);
         Objects.requireNonNull(engine);
         File f  = new File(fileName);
