@@ -12,6 +12,7 @@ import javax.script.ScriptEngineFactory;
 import javax.script.ScriptEngineManager;
 import javax.swing.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -53,9 +54,10 @@ public class JSR223ScriptEngineProvider
 
     /**
      * Replies the unique instance
+     *
      * @return the unique instance
      */
-    static public JSR223ScriptEngineProvider getInstance() {
+    static public @NotNull JSR223ScriptEngineProvider getInstance() {
         if (instance == null) {
             instance = new JSR223ScriptEngineProvider();
         }
@@ -69,7 +71,7 @@ public class JSR223ScriptEngineProvider
     private ClassLoader scriptClassLoader = getClass().getClassLoader();
     private ScriptEngineManager manager = null;
 
-    protected ScriptEngineManager getScriptEngineManager() {
+    protected @NotNull ScriptEngineManager getScriptEngineManager() {
         if (manager == null){
             manager = new ScriptEngineManager(scriptClassLoader);
         }
@@ -180,7 +182,7 @@ public class JSR223ScriptEngineProvider
      *
      * @return the list of jar files
      */
-    public List<File> getScriptEngineJars() {
+    public @NotNull List<File> getScriptEngineJars() {
         return new ArrayList<>(scriptEngineJars);
     }
 
@@ -188,8 +190,9 @@ public class JSR223ScriptEngineProvider
      * Replies a script engine by name or null, if no such script
      * engine exists.
      *
-     * @param name the name. Must not be null.
+     * @param name the name
      * @return the script engine
+     * @throws NullPointerException - if <code>name</code> is null
      */
     public ScriptEngine getEngineByName(@NotNull String name) {
         Objects.requireNonNull(name);
@@ -206,9 +209,10 @@ public class JSR223ScriptEngineProvider
      * Replies true, if a JSR223-compatible scripting engine with name
      * <code>name</code> is currently available.
      *
-     * @param name the name. Must not be null.
+     * @param name the name
      * @return true, if a JSR223-compatible scripting engine with name
      *      <code>name</code> is currently available; false, otherwise
+     * @throws NullPointerException - if <code>name</code> is null
      */
     public boolean hasEngineWithName(@NotNull String name){
         Objects.requireNonNull(name);
@@ -247,8 +251,9 @@ public class JSR223ScriptEngineProvider
     /**
      * Replies the content type for file {@code scriptFile}.
      *
-     * @param scriptFile the file. Must not be null.
+     * @param scriptFile the file
      * @return the content type
+     * @throws NullPointerException - if <code>scriptFile</code> is null
      */
     public String getContentTypeForFile(@NotNull File scriptFile){
         Objects.requireNonNull(scriptFile);
@@ -265,7 +270,7 @@ public class JSR223ScriptEngineProvider
      * @param jars the list of jar files. Can be null to set an empty list of
      *  jar files.
      */
-    public void setScriptEngineJars(List<File> jars){
+    public void setScriptEngineJars(@Null List<File> jars){
         this.scriptEngineJars.clear();
         if (jars != null){
             jars.stream()
@@ -296,9 +301,12 @@ public class JSR223ScriptEngineProvider
      * whose name matches with the name in the descriptor <code>desc</code>,
      * or null, if no such scripting engine is found.
      *
-     * @param desc the descriptor. Must not be null. It's type must be
+     * @param desc the descriptor
      * {@link ScriptEngineType#PLUGGED}
      * @return the script engine or null
+     * @throws NullPointerException - if <code>desc</code> is null
+     * @throws IllegalArgumentException - if <code>desc</code> isn't a descriptor
+     *  for a plugged engine
      */
     public ScriptEngine getScriptEngine(@NotNull ScriptEngineDescriptor desc) {
         Objects.requireNonNull(desc);
@@ -342,7 +350,7 @@ public class JSR223ScriptEngineProvider
      *
      * @return the factories
      */
-    public List<ScriptEngineFactory> getScriptEngineFactories() {
+    public @NotNull  List<ScriptEngineFactory> getScriptEngineFactories() {
         return new ArrayList<>(factories);
     }
 
