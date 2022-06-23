@@ -78,4 +78,13 @@ public class ScriptErrorViewerModel {
     public void clearError() {
         setError(null);
     }
+
+    /**
+     * Replies the currently set error or null
+     *
+     * @return the error
+     */
+    public @Null Throwable getError() {
+        return error;
+    }
 }

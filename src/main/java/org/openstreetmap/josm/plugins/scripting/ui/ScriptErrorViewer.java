@@ -2,6 +2,7 @@ package org.openstreetmap.josm.plugins.scripting.ui;
 
 
 import org.mozilla.javascript.EcmaError;
+import org.openstreetmap.josm.data.Preferences;
 import org.openstreetmap.josm.plugins.scripting.graalvm.GraalVMFacadeFactory;
 
 import javax.script.ScriptException;
@@ -18,14 +19,28 @@ import java.util.Arrays;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import static org.openstreetmap.josm.tools.I18n.tr;
+
 /**
  * A {@link JPanel} which displays an error thrown during the
  * execution of a script.
  */
 public class ScriptErrorViewer extends JPanel {
+    static private final String PREF_KEY_SHOW_STACKTRACE = ScriptErrorViewer.class.getName() + ".show-stack-trace-enabled";
+
+    private boolean loadFromPrefShowStackTraceEnabled() {
+        final var prefs = Preferences.main();
+        return prefs.getBoolean(PREF_KEY_SHOW_STACKTRACE);
+    }
+
+    private void saveToPrefShowStackTraceEnabled(boolean value) {
+        final var prefs = Preferences.main();
+        prefs.putBoolean(PREF_KEY_SHOW_STACKTRACE, value);
+    }
 
     private JTextPane paneOutput;
     private final ScriptErrorViewerModel model;
+    private boolean showStackTrace = false;
 
     /**
      * Creates a new viewer with a new view model.
@@ -57,43 +72,57 @@ public class ScriptErrorViewer extends JPanel {
         return model;
     }
 
-    protected void build() {
-        setLayout(new BorderLayout());
+    protected JPanel buildOptionsPanel() {
+        final var p = new JPanel();
+        p.setLayout(new FlowLayout(FlowLayout.LEFT));
+        final var cb = new JCheckBox();
+        p.add(cb);
+        showStackTrace = loadFromPrefShowStackTraceEnabled();
+        cb.setSelected(showStackTrace);
+        cb.addChangeListener(event -> {
+            showStackTrace = cb.isSelected();
+            saveToPrefShowStackTraceEnabled(showStackTrace);
+            refreshView();
+        });
+        p.add(new JLabel(tr("Show stack trace")));
+        return p;
+    }
+
+    protected JComponent buildViewerPanel() {
         paneOutput = new JTextPane();
         paneOutput.setEditable(false);
-        JScrollPane editorScrollPane = new JScrollPane(paneOutput);
+        final var editorScrollPane = new JScrollPane(paneOutput);
         editorScrollPane.setVerticalScrollBarPolicy(
             JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         editorScrollPane.setHorizontalScrollBarPolicy(
             JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         add(editorScrollPane, BorderLayout.CENTER);
         model.addPropertyChangeListener(new ErrorModelChangeListener());
+        return editorScrollPane;
     }
 
-    protected void displayPolyglotException(Throwable exception) {
-        paneOutput.setText(formatPolyglotException(exception));
-        paneOutput.setCaretPosition(0);
+    protected void build() {
+        setLayout(new BorderLayout());
+        add(buildOptionsPanel(), BorderLayout.NORTH);
+        add(buildViewerPanel(), BorderLayout.CENTER);
     }
 
-    protected void displayMozillaEcmaError(EcmaError exception) {
-        paneOutput.setText(exception.getMessage());
-        paneOutput.setCaretPosition(0);
+    protected String formatMozillaEcmaError(EcmaError exception) {
+        return exception.getMessage();
     }
 
-    protected void displayScriptException(ScriptException exception) {
-        paneOutput.setText(exception.getMessage());
-        paneOutput.setCaretPosition(0);
+    protected String formatScriptException(ScriptException exception) {
+        return exception.getMessage();
     }
 
-    protected void displayGeneralException(Throwable exception) {
+    protected String formatGeneralException(Throwable exception) {
         final var builder = new StringBuilder();
         builder.append(exception.getMessage());
         builder.append("\n");
         final var writer = new StringWriter();
         exception.printStackTrace(new PrintWriter(writer));
         builder.append(writer.getBuffer());
-        paneOutput.setText(builder.toString());
-        paneOutput.setCaretPosition(0);
+        return builder.toString();
     }
 
     /**
@@ -108,36 +137,54 @@ public class ScriptErrorViewer extends JPanel {
             paneOutput.setCaretPosition(0);
             return;
         }
-        if (GraalVMFacadeFactory.isGraalVMPresent()) {
+        var builder = new StringBuilder();
+        var mozillaEcmaError =
+            lookupCauseByExceptionType(exception, EcmaError.class);
+        var scriptException =
+            lookupCauseByExceptionType(exception, ScriptException.class);
+
+        if (mozillaEcmaError != null) {
+            builder.append(formatMozillaEcmaError((EcmaError) mozillaEcmaError));
+        } else if (scriptException != null) {
+            builder.append(formatScriptException((ScriptException) scriptException));
+        } else if (GraalVMFacadeFactory.isGraalVMPresent()) {
             try {
                 // dynamic lookup necessary
-                final var clazz = Class.forName("org.graalvm.polyglot.PolyglotException");
-                final var polyglotException = lookupCauseByExceptionType(exception, clazz);
+                var clazz = Class.forName("org.graalvm.polyglot.PolyglotException");
+                var polyglotException = lookupCauseByExceptionType(exception, clazz);
                 if (polyglotException != null) {
-                    displayPolyglotException(polyglotException);
-                    return;
+                    builder.append(formatPolyglotException(polyglotException));
                 }
-
             } catch(ClassNotFoundException e) {
-                return;
+                // ignore
             }
+        } else {
+            builder.append(formatGeneralException(exception));
         }
-        final var mozillaEcmaError = lookupCauseByExceptionType(exception, EcmaError.class);
-        if (mozillaEcmaError != null) {
-            displayMozillaEcmaError((EcmaError) mozillaEcmaError);
-            return;
+
+        if (showStackTrace) {
+            builder
+                .append("\n")
+                .append("--------------------------------------------------------")
+                .append("\n");
+            var sb = new StringWriter();
+            var writer = new PrintWriter(sb);
+            exception.printStackTrace(writer);
+            builder.append(sb);
         }
-        final var scriptException = lookupCauseByExceptionType(exception, ScriptException.class);
-        if (scriptException != null) {
-            displayScriptException((ScriptException) scriptException);
-            return;
-        }
-        displayGeneralException(exception);
+        paneOutput.setText(builder.toString());
+        paneOutput.setCaretPosition(0);
+    }
+
+    private void refreshView() {
+        final var exception = model.getError();
+        displayException(exception);
     }
 
     protected @Null Throwable lookupCauseByExceptionType(Throwable t, Class<?> clazz) {
         while(t != null) {
             if (clazz.isInstance(t)) {
+            // if (clazz.getName().equals(t.getClass().getName())) {
                 break;
             }
             t = t.getCause();
