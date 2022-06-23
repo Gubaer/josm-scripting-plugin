@@ -16,115 +16,87 @@ import * as util from 'josm/util'
 /**
  * Represents JOSMs global menu bar.
  *
- * @class
- * @name MenuBar
  */
-export const MenuBar =  {}
-
-/**
- * Replies the number of menus in the JOSM menu bar.
- *
- * @example
- * import josm from 'josm'
- * // display the number of menus
- * josm.alert(josm.menu.length)
- *
- * @property {number} length the number of menues
- * @name length
- * @summary the number of menus in the JOSM menu bar
- * @memberof module:josm/ui/menu~MenuBar
- * @static
- */
-Object.defineProperty(MenuBar, 'length', {
-  enumerable: true,
-  get: function () {
+export class MenuBar {
+  /**
+   * Replies the number of menus in the JOSM menu bar.
+   *
+   * @example
+   * import josm from 'josm'
+   * // display the number of menus
+   * josm.alert(josm.menu.length)
+   *
+   * @type {number}
+   */
+  static get length() {
     if (!MainApplication.getMenu()) return 0
     return MainApplication.getMenu().getMenuCount()
   }
-})
 
-/**
- * Replies a menu in the JOSM menu bar.
- *
- * <code>key</code> is either a numberic index or one of the following
- * symbolic names as string:
- * <ul>
- *   <li><code>file</code></li>
- *   <li><code>edit</code></li>
- *   <li><code>view</code></li>
- *   <li><code>tools</code></li>
- *   <li><code>presets</code></li>
- *   <li><code>imagery</code></li>
- *   <li><code>window</code></li>
- *   <li><code>help</code></li>
- * </ul>
- *
- * @example
- * import josm from 'josm'
- * // get the edit menu with a numeric index
- * const editMenu = josm.menu.get(1)
- *
- * // get the file menu with a symbolic name
- * const fileMenu = josm.menu.get('file')
- *
- * @return {javax.swing.JMenu} the menu
- * @summary Replies a menu in the JOSM menu bar.
- * @param {number|string} key  the key denoting the menu
- * @memberof module:josm/ui/menu~MenuBar
- * @name get
- * @function
- * @static
- */
-MenuBar.get = function (key) {
-  util.assert(util.isSomething(key), 'key: must not be null or undefined')
-  const mainMenu = MainApplication.getMenu()
-  if (util.isNumber(key)) {
-    util.assert(key >= 0 && key < MenuBar.length,
-      'key: index out of range, got {0}', key)
-    return mainMenu.getMenu(key)
-  } else if (util.isString(key)) {
-    key = util.trim(key).toLowerCase()
-    switch (key) {
-      case 'file': return mainMenu.fileMenu
-      case 'edit': return mainMenu.editMenu
-      case 'view': return mainMenu.viewMenu
-      case 'tools': return mainMenu.toolsMenu
-      case 'presets': return mainMenu.presetsMenu
-      case 'imagery': return mainMenu.imageryMenu
-      case 'window': return mainMenu.windowMenu
-      case 'help': return mainMenu.helpMenu
-      default:
-        util.assert(false,
-          'Unsupported key to access a menu, got {0}', key)
+  /**
+   * Replies a menu in the JOSM menu bar.
+   *
+   * <code>key</code> is either a numberic index or one of the following
+   * symbolic names as string:
+   * <ul>
+   *   <li><code>file</code></li>
+   *   <li><code>edit</code></li>
+   *   <li><code>view</code></li>
+   *   <li><code>tools</code></li>
+   *   <li><code>presets</code></li>
+   *   <li><code>imagery</code></li>
+   *   <li><code>window</code></li>
+   *   <li><code>help</code></li>
+   * </ul>
+   *
+   * @example
+   * import josm from 'josm'
+   * // get the edit menu with a numeric index
+   * const editMenu = josm.menu.get(1)
+   *
+   * // get the file menu with a symbolic name
+   * const fileMenu = josm.menu.get('file')
+   *
+   * @return {javax.swing.JMenu} the menu
+   * @param {number|string} key  the key denoting the menu
+   */
+  static get(key) {
+    util.assert(util.isSomething(key), 'key: must not be null or undefined')
+    const mainMenu = MainApplication.getMenu()
+    if (util.isNumber(key)) {
+      util.assert(key >= 0 && key < MenuBar.length,
+        'key: index out of range, got {0}', key)
+      return mainMenu.getMenu(key)
+    } else if (util.isString(key)) {
+      key = util.trim(key).toLowerCase()
+      switch (key) {
+        case 'file': return mainMenu.fileMenu
+        case 'edit': return mainMenu.editMenu
+        case 'view': return mainMenu.viewMenu
+        case 'tools': return mainMenu.toolsMenu
+        case 'presets': return mainMenu.presetsMenu
+        case 'imagery': return mainMenu.imageryMenu
+        case 'window': return mainMenu.windowMenu
+        case 'help': return mainMenu.helpMenu
+        default:
+          util.assert(false,
+            'Unsupported key to access a menu, got {0}', key)
+      }
+    } else {
+      util.assert(false, 'Unexpected value, got {0}', key)
     }
-  } else {
-    util.assert(false, 'Unexpected value, got {0}', key)
   }
-}
 
-/**
- * Replies an array with the symbolic menu names.
- *
- * @memberof module:josm/ui/menu~MenuBar
- * @name menuNames
- * @property {array} menuNames the names of the menues in the menu bar
- * @readOnly
- * @summary Replies an array with the symbolic menu names.
- *
- */
-Object.defineProperty(MenuBar, 'menuNames', {
-  enumerable: true,
-  get: function () {
+  /**
+   * Replies an array with the symbolic menu names.
+   *
+   * @type {string[]} 
+   */
+  static get menuNames() {
     return ['file', 'edit', 'view', 'tools', 'presets',
       'imagery', 'window', 'help']
   }
-})
-
-/**
- * Callback type for JSAction
- * 
- * @callback JSActionCallback
- */
+}
 
 /**
  * The named options for building a JSAction.
@@ -185,6 +157,7 @@ Object.defineProperty(MenuBar, 'menuNames', {
  * fileMenu.add(new JMenuItem(helloWorldAction))
  *
  *
- * @property {org.openstreetmap.josm.plugins.scripting.graalvm.JSAction} JSAction
+ * @type {org.openstreetmap.josm.plugins.scripting.graalvm.JSAction}
+ * @const
  */
 export const JSAction = Plugin.type('org.openstreetmap.josm.plugins.scripting.graalvm.JSAction')
