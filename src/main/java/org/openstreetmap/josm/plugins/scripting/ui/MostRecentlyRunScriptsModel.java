@@ -12,6 +12,7 @@ import java.beans.PropertyChangeSupport;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.beans.PropertyChangeListener;
 
@@ -24,8 +25,7 @@ import java.beans.PropertyChangeListener;
  * either an {@link PropertyChangeListener} or a {@link javax.swing.ComboBoxEditor}.
  *
  */
-public class MostRecentlyRunScriptsModel
-    implements PreferenceKeys {
+public class MostRecentlyRunScriptsModel implements PreferenceKeys {
 
     /**
      * Property name for the list of most recently run scripts
@@ -68,7 +68,7 @@ public class MostRecentlyRunScriptsModel
      * @param script the script to remember in the list
      */
     public void remember(String script) {
-        final List<String> oldScripts = scripts;
+        final List<String> oldScripts = List.copyOf(scripts);
         switch(scripts.indexOf(script)) {
         case -1:
             scripts.add(0, script);
@@ -84,9 +84,9 @@ public class MostRecentlyRunScriptsModel
         scripts = scripts.stream().limit(10).collect(Collectors.toList());
         if (hasChanged(oldScripts, scripts)) {
             propertyChangeSupport.firePropertyChange(
-                    PROP_SCRIPTS,
-                    oldScripts,
-                    scripts
+                PROP_SCRIPTS,
+                oldScripts,
+                scripts
             );
             comboBoxModel.fireContentChanged();
         }
