@@ -1,4 +1,4 @@
-package org.openstreetmap.josm.plugins.scripting.js.api
+package org.openstreetmap.josm.plugins.scripting.rhino.api
 
 import org.junit.jupiter.api.Test
 import org.openstreetmap.josm.data.coor.LatLon
@@ -7,6 +7,7 @@ import org.openstreetmap.josm.data.osm.Relation
 import org.openstreetmap.josm.data.osm.RelationMember
 import org.openstreetmap.josm.data.osm.Way
 import org.openstreetmap.josm.plugins.scripting.JOSMFixtureBasedTest
+import org.openstreetmap.josm.plugins.scripting.js.api.Change
 import org.openstreetmap.josm.plugins.scripting.js.api.Change.LatChange
 import org.openstreetmap.josm.plugins.scripting.js.api.Change.LonChange
 import org.openstreetmap.josm.plugins.scripting.js.api.Change.MemberChange

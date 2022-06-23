@@ -1,4 +1,4 @@
-package org.openstreetmap.josm.plugins.scripting.js;
+package org.openstreetmap.josm.plugins.scripting.rhino;
 
 import java.util.logging.Logger;
 

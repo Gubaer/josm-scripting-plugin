@@ -121,7 +121,7 @@ export class MenuBar {
  * added to  JOSMs menu or JOSMs toolbar respectively.
  *
  * This is just a shortcut for the Java class
- * {@class org.openstreetmap.josm.plugins.scripting.js.JSAction}.
+ * {@class org.openstreetmap.josm.plugins.scripting.js.api.JSAction}.
  *
  * The constructor accepts an object with {@link module:josm/ui/menu~JSActionOptions named parameters}.
  *

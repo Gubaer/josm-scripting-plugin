@@ -6,7 +6,7 @@
  */
 var util = require("josm/util");
 var User = org.openstreetmap.josm.data.osm.User;
-var Tags = org.openstreetmap.josm.plugins.scripting.js.api.Tags;
+var Tags = org.openstreetmap.josm.plugins.scripting.rhino.Tags;
 var OsmPrimitiveType = org.openstreetmap.josm.data.osm.OsmPrimitiveType;
 var Map  = java.util.Map;
 

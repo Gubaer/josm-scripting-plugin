@@ -128,7 +128,7 @@ function stringPropertyFromPara(para, name, defaultValue) {
  * added to  JOSMs menu or JOSMs toolbar respectively.
  *
  * This is just a shortcut for the Java class
- * {@class org.openstreetmap.josm.plugins.scripting.js.JSAction}.
+ * {@class org.openstreetmap.josm.plugins.scripting.js.api.JSAction}.
  *
  * The constructor accepts an object with the following optional named
  * parameters.
@@ -175,8 +175,8 @@ function stringPropertyFromPara(para, name, defaultValue) {
  *    josm.alert("Action is executing ...");
  * };
  *
- * @property {org.openstreetmap.josm.plugins.scripting.js.JSAction} JSAction
+ * @property {org.openstreetmap.josm.plugins.scripting.js.api.JSAction} JSAction
  * @static
  * @name JSAction
  */
-exports.JSAction = org.openstreetmap.josm.plugins.scripting.js.JSAction;
+exports.JSAction = org.openstreetmap.josm.plugins.scripting.js.api.JSAction;

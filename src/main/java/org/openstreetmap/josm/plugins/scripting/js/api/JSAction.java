@@ -1,4 +1,4 @@
-package org.openstreetmap.josm.plugins.scripting.js;
+package org.openstreetmap.josm.plugins.scripting.js.api;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -15,6 +15,7 @@ import org.mozilla.javascript.Undefined;
 import org.openstreetmap.josm.actions.JosmAction;
 import org.openstreetmap.josm.data.osm.OsmPrimitive;
 import org.openstreetmap.josm.gui.MainApplication;
+import org.openstreetmap.josm.plugins.scripting.rhino.RhinoEngine;
 import org.openstreetmap.josm.tools.ImageProvider;
 import org.openstreetmap.josm.tools.Shortcut;
 

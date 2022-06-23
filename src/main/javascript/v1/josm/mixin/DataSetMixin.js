@@ -125,7 +125,7 @@ function colToArray(col) {
  * @summary Adds one or more objects to the dataset.
  * @memberOf module:josm/mixin/DataSetMixin~DataSetMixin
  * @name add
- * @param {(...primitive|primitive[]|java.util.Collection)} primitives  primitives to add
+ * @param {...(primitive|primitive[]|java.util.Collection)} primitives  primitives to add
  * @function
  * @instance
  */

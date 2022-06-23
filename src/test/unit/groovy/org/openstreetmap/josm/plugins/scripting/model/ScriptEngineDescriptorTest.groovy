@@ -1,14 +1,14 @@
 package org.openstreetmap.josm.plugins.scripting.model
 
-import groovy.test.GroovyTestCase
+
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.condition.DisabledForJreRange
 import org.junit.jupiter.api.condition.JRE
 import org.openstreetmap.josm.data.Preferences
+import org.openstreetmap.josm.plugins.scripting.JOSMFixtureBasedTest
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor.ScriptEngineType
-import org.openstreetmap.josm.spi.preferences.Config
 
-class ScriptEngineDescriptorTest extends GroovyTestCase {
+class ScriptEngineDescriptorTest extends JOSMFixtureBasedTest {
 
     final oracleNashornId = "Oracle Nashorn"
 
@@ -78,14 +78,14 @@ class ScriptEngineDescriptorTest extends GroovyTestCase {
 
     @Test
     void buildFromPreferences_MissingPreference() {
-        def pref = new Preferences()
+        def pref = Preferences.main()
         def sd = ScriptEngineDescriptor.buildFromPreferences(pref)
         assert sd == ScriptEngineDescriptor.DEFAULT_SCRIPT_ENGINE
     }
 
     @Test
     void buildFromPreferences_EmbeddedScriptingEngine() {
-        def pref = new Preferences(Config.getPref())
+        def pref = Preferences.main()
         pref.put(PreferenceKeys.PREF_KEY_SCRIPTING_ENGINE, "embedded/rhino")
         def sd = ScriptEngineDescriptor.buildFromPreferences(pref)
         assert sd != null
@@ -94,9 +94,9 @@ class ScriptEngineDescriptorTest extends GroovyTestCase {
 
     @Test
     void buildFromPreferences_UnknownEmbeddedScriptingEngine() {
-        def pref = new Preferences(Config.getPref())
-        pref.put(PreferenceKeys.PREF_KEY_SCRIPTING_ENGINE,
-                "embedded/noSuchEmbeddedEngine")
+        def pref = Preferences.main()
+        assertNotNull(PreferenceKeys.PREF_KEY_SCRIPTING_ENGINE)
+        pref.put(PreferenceKeys.PREF_KEY_SCRIPTING_ENGINE, "embedded/noSuchEmbeddedEngine")
         def sd = ScriptEngineDescriptor.buildFromPreferences(pref)
         assert sd != null
         assert sd.isDefault()
@@ -110,7 +110,7 @@ class ScriptEngineDescriptorTest extends GroovyTestCase {
         provider.getScriptEngineFactories().each {factory ->
             println(factory.getEngineName())
         }
-        def pref = new Preferences(Config.getPref())
+        def pref = Preferences.main()
         pref.put(PreferenceKeys.PREF_KEY_SCRIPTING_ENGINE, "plugged/${oracleNashornId}")
         def sd = ScriptEngineDescriptor.buildFromPreferences(pref)
         assert sd != null
@@ -124,7 +124,7 @@ class ScriptEngineDescriptorTest extends GroovyTestCase {
 
     @Test
     void buildFromPreferences_UnknownPluggedScriptingEngine() {
-        def pref = new Preferences(Config.getPref());
+        def pref = Preferences.main()
         pref.put(PreferenceKeys.PREF_KEY_SCRIPTING_ENGINE,
                 "plugged/noSuchPluggedEngine")
         def sd = ScriptEngineDescriptor.buildFromPreferences(pref)

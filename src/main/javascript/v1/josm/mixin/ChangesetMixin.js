@@ -6,7 +6,7 @@
  */
 
 var util = require("josm/util");
-var Tags = org.openstreetmap.josm.plugins.scripting.js.api.Tags;
+var Tags = org.openstreetmap.josm.plugins.scripting.rhino.Tags;
 
 /**
  * This mixin is auto-loaded by the scripting plugin and mixed into the

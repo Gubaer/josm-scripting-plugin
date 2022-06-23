@@ -121,7 +121,7 @@ Object.defineProperty(exports.MenuBar, 'menuNames', {
  * added to  JOSMs menu or JOSMs toolbar respectively.
  *
  * This is just a shortcut for the Java class
- * {@class org.openstreetmap.josm.plugins.scripting.js.JSAction}.
+ * {@class org.openstreetmap.josm.plugins.scripting.graalvm.JSAction}.
  *
  * The constructor accepts an object with the following optional named
  * parameters.

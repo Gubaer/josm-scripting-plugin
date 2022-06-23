@@ -6,6 +6,9 @@
  */
 var command = require("josm/command");
 var nb = require("josm/builder").NodeBuilder;
+if (!josm.layers) {
+    throw Error('josm.layers is null')
+}
 var layer = josm.layers.addDataLayer();
 
 // add a node to a layer

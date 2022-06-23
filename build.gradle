@@ -184,11 +184,14 @@ test {
             "${project.projectDir}/src/main/javascript/v2"
     systemProperty "josm.home", josmHomeForTests().absolutePath
     scanForTestClasses = false
-    include "org/openstreetmap/josm/plugins/scripting/js/**/*.class"
+    include "org/openstreetmap/josm/plugins/scripting/rhino/**/*.class"
     include "org/openstreetmap/josm/plugins/scripting/model/*.class"
     include "org/openstreetmap/josm/plugins/scripting/preferences/graalvm/GraalVMPrivilegesModelTest.class"
     include "org/openstreetmap/josm/plugins/scripting/ui/console/*.class"
     include "org/openstreetmap/josm/plugins/scripting/esmodules/PathTests.class"
+
+    // tested in task testScriptApiV1
+    exclude "org/openstreetmap/josm/plugins/scripting/rhino/api/APIV1TestSuite.class"
     testLogging.events TestLogEvent.FAILED, TestLogEvent.PASSED
 }
 

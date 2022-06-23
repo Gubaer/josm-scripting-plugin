@@ -1,4 +1,4 @@
-package org.openstreetmap.josm.plugins.scripting.js;
+package org.openstreetmap.josm.plugins.scripting.rhino;
 
 import org.mozilla.javascript.*;
 import org.mozilla.javascript.commonjs.module.Require;

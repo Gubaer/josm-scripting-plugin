@@ -1,7 +1,7 @@
 /**
  * This module is auto-loaded by the scripting plugin and mixed into the
  * native java class
- * {@class org.openstreetmap.josm.plugins.scripting.js.JSAction}.
+ * {@class org.openstreetmap.josm.plugins.scripting.js.api.JSAction}.
  *
  * @module josm/mixin/JSActionMixin
  */
@@ -12,16 +12,16 @@ var Preferences = org.openstreetmap.josm.data.Preferences;
 /**
  * This mixin is auto-loaded by the scripting plugin and mixed into the
  * native java class
- * {@class org.openstreetmap.josm.plugins.scripting.js.JSAction}. It
+ * {@class org.openstreetmap.josm.plugins.scripting.js.api.JSAction}. It
  * provides additional properties and methods which you can invoke on an
  * instance of
- * {@class org.openstreetmap.josm.plugins.scripting.js.JSAction}.
+ * {@class org.openstreetmap.josm.plugins.scripting.js.api.JSAction}.
  *
  * @mixin JSActionMixin
- * @forClass org.openstreetmap.josm.plugins.scripting.js.JSAction
+ * @forClass org.openstreetmap.josm.plugins.scripting.js.api.JSAction
  */
 exports.mixin = {};
-exports.forClass = org.openstreetmap.josm.plugins.scripting.js.JSAction;
+exports.forClass = org.openstreetmap.josm.plugins.scripting.js.api.JSAction;
 
 /**
  * Set or get the function to be called when the <em>enabled</em> state

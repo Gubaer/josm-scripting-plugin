@@ -1,4 +1,4 @@
-package org.openstreetmap.josm.plugins.scripting.js.api
+package org.openstreetmap.josm.plugins.scripting.rhino.api
 
 
 import org.junit.jupiter.api.Test
@@ -9,6 +9,7 @@ import org.openstreetmap.josm.data.osm.Relation
 import org.openstreetmap.josm.data.osm.Way
 import org.openstreetmap.josm.gui.layer.OsmDataLayer
 import org.openstreetmap.josm.plugins.scripting.JOSMFixtureBasedTest
+import org.openstreetmap.josm.plugins.scripting.js.api.DeleteMultiCommand
 
 class DeleteMultiCommandTest extends JOSMFixtureBasedTest {
 
@@ -20,7 +21,7 @@ class DeleteMultiCommandTest extends JOSMFixtureBasedTest {
     void testCreate() {
         def n1 = new Node(new LatLon(0,0))
         def n2 = new Node(new LatLon(0,0))
-        def cmd = new DeleteMultiCommand(newLayer(), [n1,n2])
+        def cmd = new DeleteMultiCommand(newLayer(), [n1, n2])
         assert cmd
 
         shouldFail(NullPointerException) {

@@ -1,4 +1,4 @@
-package org.openstreetmap.josm.plugins.scripting.js.api
+package org.openstreetmap.josm.plugins.scripting.rhino.api
 
 
 import org.junit.jupiter.api.Test
@@ -9,6 +9,8 @@ import org.openstreetmap.josm.data.osm.Relation
 import org.openstreetmap.josm.data.osm.Way
 import org.openstreetmap.josm.gui.layer.OsmDataLayer
 import org.openstreetmap.josm.plugins.scripting.JOSMFixtureBasedTest
+import org.openstreetmap.josm.plugins.scripting.js.api.Change
+import org.openstreetmap.josm.plugins.scripting.js.api.ChangeMultiCommand
 
 class ChangeMultiCommandTest extends JOSMFixtureBasedTest {
 
@@ -22,7 +24,7 @@ class ChangeMultiCommandTest extends JOSMFixtureBasedTest {
         def n2 = new Node(new LatLon(0,0))
         def change = new Change()
         change.withLatChange(12.22)
-        def cmd = new ChangeMultiCommand(newLayer(), [n1,n2], change)
+        def cmd = new ChangeMultiCommand(newLayer(), [n1, n2], change)
         assertNotNull(cmd)
 
         shouldFail(NullPointerException) {

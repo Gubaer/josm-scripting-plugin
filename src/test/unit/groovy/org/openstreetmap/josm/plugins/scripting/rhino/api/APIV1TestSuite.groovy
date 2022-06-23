@@ -8,8 +8,8 @@ import org.openstreetmap.josm.plugins.PluginHandler
 import org.openstreetmap.josm.plugins.PluginInformation
 import org.openstreetmap.josm.plugins.scripting.JOSMFixtureBasedTest
 import org.openstreetmap.josm.plugins.scripting.ScriptingPlugin
-import org.openstreetmap.josm.plugins.scripting.js.JOSMModuleScriptProvider
-import org.openstreetmap.josm.plugins.scripting.js.RhinoEngine
+import org.openstreetmap.josm.plugins.scripting.rhino.JOSMModuleScriptProvider
+import org.openstreetmap.josm.plugins.scripting.rhino.RhinoEngine
 import org.openstreetmap.josm.tools.Logging
 
 import java.nio.channels.Channels

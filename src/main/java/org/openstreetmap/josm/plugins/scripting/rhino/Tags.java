@@ -1,4 +1,4 @@
-package org.openstreetmap.josm.plugins.scripting.js.api;
+package org.openstreetmap.josm.plugins.scripting.rhino;
 
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -9,7 +9,6 @@ import org.mozilla.javascript.TopLevel;
 import org.mozilla.javascript.Undefined;
 import org.openstreetmap.josm.data.osm.OsmPrimitive;
 import org.openstreetmap.josm.data.osm.Tagged;
-import org.openstreetmap.josm.plugins.scripting.js.RhinoEngine;
 
 @SuppressWarnings("unused")
 public class Tags extends ScriptableObject {
