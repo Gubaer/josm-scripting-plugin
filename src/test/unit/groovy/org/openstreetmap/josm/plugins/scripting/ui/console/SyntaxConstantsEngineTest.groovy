@@ -107,6 +107,8 @@ class SyntaxConstantsEngineTest extends GroovyTestCase {
         assertEquals("text/javascript", style)
         style = rules.deriveSuitableSyntaxStyle("application/GrOOvY")
         assertEquals("text/groovy", style)
+        style = rules.deriveSuitableSyntaxStyle("application/x-groovy")
+        assertEquals("text/groovy", style)
 
         // no matching rule
         style = rules.deriveSuitableSyntaxStyle("text/python")
@@ -183,4 +185,5 @@ class SyntaxConstantsEngineTest extends GroovyTestCase {
         style = rules.deriveSuitableSyntaxStyle("application/GrOOvY")
         assertEquals("text/groovy", style)
     }
+
 }

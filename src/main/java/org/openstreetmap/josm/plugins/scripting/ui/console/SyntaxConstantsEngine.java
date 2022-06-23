@@ -122,10 +122,16 @@ public class SyntaxConstantsEngine {
                         try {
                             return Integer.parseInt(matcher.group(1));
                         } catch(NumberFormatException e) {
+                            logger.log(Level.FINE, MessageFormat.format(
+                                    "Illegal property key ''{0}''", key
+                            ), e);
                             // shouldn't happen because of matching regexp
                             return null;
                         }
                     } else {
+                        logger.log(Level.FINE, MessageFormat.format(
+                            "Illegal property key ''{0}''", key
+                        ));
                         return null;
                     }
                 })
@@ -134,7 +140,7 @@ public class SyntaxConstantsEngine {
                 .collect(Collectors.toList());
 
             var syntaxStyleFormat = new MessageFormat("rule.{0}.syntax-style");
-            var patternFormat = new MessageFormat("rule.{0}.pattern");
+            var patternFormat = new MessageFormat("rule.{0}.regexp");
 
             var rules = ruleIds.stream().sorted()
                 .map(id -> {
@@ -144,6 +150,11 @@ public class SyntaxConstantsEngine {
                     var patternValue = properties.getProperty(
                         patternFormat.format(formatArgs));
                     if (syntaxStyleValue == null || patternValue == null) {
+                        logger.fine(MessageFormat.format(
+                            "Property for property key ''{0}'' or property key ''{1}'' not found in syntax rules",
+                            syntaxStyleFormat.format(formatArgs),
+                            patternFormat.format(formatArgs)
+                        ));
                         return null;
                     }
                     return Rule.fromProperties(syntaxStyleValue, patternValue);
@@ -274,7 +285,7 @@ public class SyntaxConstantsEngine {
             } else {
                 // if no configuration file is available try to load default
                 // rules from a resource
-                var resourceName = "/" + SYNTAX_STYLE_RULES_FILE;
+                var resourceName = "/resources/" + SYNTAX_STYLE_RULES_FILE;
                 if (logger.isLoggable(Level.FINE)) {
                     logger.fine(MessageFormat.format(
                         "Loading syntax style rules from resource ''{0}''",

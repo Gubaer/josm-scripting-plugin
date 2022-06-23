@@ -98,7 +98,7 @@ public class ScriptEditor extends JPanel implements PropertyChangeListener {
         Objects.requireNonNull(mimeType);
         var normalizedMimeType = mimeType.toLowerCase();
         return SyntaxConstantsEngine
-            .getInstance().deriveSyntaxStyle(mimeType);
+            .getInstance().deriveSyntaxStyle(normalizedMimeType);
     }
 
     public void changeSyntaxEditingStyle(@NotNull String syntaxStyle){
