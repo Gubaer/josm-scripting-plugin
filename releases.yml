@@ -1,4 +1,11 @@
 releases:
+  - label: v0.2.4
+    minJosmVersion: 18427
+    description: |
+      **New**: improved feedback in case of errors when running a script
+      **Bug fix**: fix bug with loading syntax style rules
+      **Bug fix**: fix bug with displaying the menu of most recently run scripts
+
   - label: v0.2.3
     minJosmVersion: 18427
     description: |
