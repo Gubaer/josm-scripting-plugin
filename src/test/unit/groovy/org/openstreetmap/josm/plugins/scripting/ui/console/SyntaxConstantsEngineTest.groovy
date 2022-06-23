@@ -119,10 +119,10 @@ class SyntaxConstantsEngineTest extends GroovyTestCase {
     void "Rules - can load valid properties"() {
         var source = """
         rule.1.syntax-style=text/javascript
-        rule.1.pattern=(?i).*javascript.*
+        rule.1.regexp=(?i).*javascript.*
         
         rule.2.syntax-style=text/groovy
-        rule.2.pattern=(?i).*groovy.*
+        rule.2.regexp=(?i).*groovy.*
         """
         var properties = new Properties()
         properties.load(new StringReader(source))
@@ -142,10 +142,10 @@ class SyntaxConstantsEngineTest extends GroovyTestCase {
     void "Rules - can load invalid properties with empty styles"() {
         var source = """
         rule.1.syntax-style=  
-        rule.1.pattern=(?i).*javascript.*/
+        rule.1.regexp=(?i).*javascript.*/
         
         rule.2.syntax-style=text/groovy
-        rule.2.pattern=(?i).*groovy.*
+        rule.2.regexp=(?i).*groovy.*
         """
         var properties = new Properties()
         properties.load(new StringReader(source))
@@ -166,10 +166,10 @@ class SyntaxConstantsEngineTest extends GroovyTestCase {
     void "Rules - can load invalid properties with invalid regexp"() {
         var source = """
         rule.1.syntax-style=text/javascript
-        rule.1.pattern=[Jj][Aa[Vv[Aa]
+        rule.1.regexp=[Jj][Aa[Vv[Aa]
         
         rule.2.syntax-style=text/groovy
-        rule.2.pattern=(?i).*groovy.*
+        rule.2.regexp=(?i).*groovy.*
         """
         var properties = new Properties()
         properties.load(new StringReader(source))
