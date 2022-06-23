@@ -207,7 +207,7 @@ public class SyntaxConstantsEngine {
                     return (String) field.get(value);
                 } catch (IllegalAccessException e) {
                     logger.log(Level.SEVERE, MessageFormat.format(
-                        "Failed to read syntax style constant '{0}'",
+                        "Failed to read syntax style constant ''{0}''",
                         field.getName()
                     ), e);
                     return null;
@@ -266,7 +266,7 @@ public class SyntaxConstantsEngine {
             if (file.isFile() && file.canRead()) {
                 if (logger.isLoggable(Level.FINE)) {
                     logger.fine(MessageFormat.format(
-                        "Loading syntax style rules from file '{0}'",
+                        "Loading syntax style rules from file ''{0}''",
                         file.getAbsolutePath()
                     ));
                 }
@@ -277,14 +277,14 @@ public class SyntaxConstantsEngine {
                 var resourceName = "/" + SYNTAX_STYLE_RULES_FILE;
                 if (logger.isLoggable(Level.FINE)) {
                     logger.fine(MessageFormat.format(
-                        "Loading syntax style rules from resource '{0}'",
+                        "Loading syntax style rules from resource ''{0}''",
                         resourceName
                     ));
                 }
                 input = SyntaxConstantsEngine.class.getResourceAsStream(resourceName);
                 if (input == null) {
                     logger.warning(MessageFormat.format(
-                        "Failed to read syntax style rules. Resource '{0}' not found.",
+                        "Failed to read syntax style rules. Resource ''{0}'' not found.",
                         resourceName
                     ));
                 }
