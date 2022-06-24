@@ -5,7 +5,7 @@ import org.openstreetmap.josm.gui.HelpAwareOptionPane;
 import org.openstreetmap.josm.gui.MainApplication;
 import org.openstreetmap.josm.gui.help.HelpUtil;
 import org.openstreetmap.josm.plugins.scripting.graalvm.GraalVMFacadeFactory;
-import org.openstreetmap.josm.plugins.scripting.model.JSR223ScriptEngineProvider;
+import org.openstreetmap.josm.plugins.scripting.jsr223.JSR223ScriptEngineProvider;
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
 
 import javax.swing.*;

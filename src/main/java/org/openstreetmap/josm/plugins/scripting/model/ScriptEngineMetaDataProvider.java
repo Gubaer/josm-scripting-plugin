@@ -1,6 +1,7 @@
 package org.openstreetmap.josm.plugins.scripting.model;
 
 import org.openstreetmap.josm.plugins.scripting.graalvm.GraalVMFacadeFactory;
+import org.openstreetmap.josm.plugins.scripting.jsr223.JSR223ScriptEngineProvider;
 
 import javax.validation.constraints.NotNull;
 import java.util.stream.Stream;

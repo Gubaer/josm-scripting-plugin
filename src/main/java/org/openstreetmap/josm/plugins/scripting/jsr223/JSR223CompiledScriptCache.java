@@ -1,4 +1,4 @@
-package org.openstreetmap.josm.plugins.scripting.model;
+package org.openstreetmap.josm.plugins.scripting.jsr223;
 
 import javax.script.Compilable;
 import javax.script.CompiledScript;

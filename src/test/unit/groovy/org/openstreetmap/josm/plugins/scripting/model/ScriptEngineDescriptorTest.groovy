@@ -6,6 +6,7 @@ import org.junit.jupiter.api.condition.DisabledForJreRange
 import org.junit.jupiter.api.condition.JRE
 import org.openstreetmap.josm.data.Preferences
 import org.openstreetmap.josm.plugins.scripting.JOSMFixtureBasedTest
+import org.openstreetmap.josm.plugins.scripting.jsr223.JSR223ScriptEngineProvider
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor.ScriptEngineType
 
 class ScriptEngineDescriptorTest extends JOSMFixtureBasedTest {

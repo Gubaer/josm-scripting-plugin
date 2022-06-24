@@ -1,7 +1,9 @@
-package org.openstreetmap.josm.plugins.scripting.model;
+package org.openstreetmap.josm.plugins.scripting.jsr223;
 
 import org.openstreetmap.josm.data.Preferences;
 import org.openstreetmap.josm.plugins.scripting.ScriptingPlugin;
+import org.openstreetmap.josm.plugins.scripting.model.PreferenceKeys;
+import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor.ScriptEngineType;
 import org.openstreetmap.josm.plugins.scripting.preferences.ScriptEngineJarInfo;
 import org.openstreetmap.josm.plugins.scripting.util.Assert;

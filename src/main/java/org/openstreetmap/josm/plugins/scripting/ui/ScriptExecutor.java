@@ -8,8 +8,8 @@ import org.openstreetmap.josm.plugins.scripting.graalvm.GraalVMEvalException;
 import org.openstreetmap.josm.plugins.scripting.graalvm.GraalVMFacadeFactory;
 import org.openstreetmap.josm.plugins.scripting.graalvm.IGraalVMFacade;
 import org.openstreetmap.josm.plugins.scripting.rhino.RhinoEngine;
-import org.openstreetmap.josm.plugins.scripting.model.JSR223CompiledScriptCache;
-import org.openstreetmap.josm.plugins.scripting.model.JSR223ScriptEngineProvider;
+import org.openstreetmap.josm.plugins.scripting.jsr223.JSR223CompiledScriptCache;
+import org.openstreetmap.josm.plugins.scripting.jsr223.JSR223ScriptEngineProvider;
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
 import org.openstreetmap.josm.plugins.scripting.util.Assert;
 

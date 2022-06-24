@@ -1,6 +1,6 @@
 package org.openstreetmap.josm.plugins.scripting.preferences;
 
-import org.openstreetmap.josm.plugins.scripting.model.JSR223ScriptEngineProvider;
+import org.openstreetmap.josm.plugins.scripting.jsr223.JSR223ScriptEngineProvider;
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
 
 import javax.script.ScriptEngineFactory;
