@@ -19,8 +19,8 @@ import org.openstreetmap.josm.plugins.scripting.graalvm.esmodule.IllegalESModule
 import org.openstreetmap.josm.plugins.scripting.rhino.JOSMModuleScriptProvider;
 import org.openstreetmap.josm.plugins.scripting.rhino.RhinoEngine;
 import org.openstreetmap.josm.plugins.scripting.model.PreferenceKeys;
-import org.openstreetmap.josm.plugins.scripting.preferences.ConfigureAction;
-import org.openstreetmap.josm.plugins.scripting.preferences.PreferenceEditor;
+import org.openstreetmap.josm.plugins.scripting.ui.preferences.ConfigureAction;
+import org.openstreetmap.josm.plugins.scripting.ui.preferences.PreferenceEditor;
 import org.openstreetmap.josm.plugins.scripting.ui.MostRecentlyRunScriptsModel;
 import org.openstreetmap.josm.plugins.scripting.ui.RunScriptAction;
 import org.openstreetmap.josm.plugins.scripting.ui.RunScriptDialog;

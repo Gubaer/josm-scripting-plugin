@@ -3,7 +3,7 @@ package org.openstreetmap.josm.plugins.scripting.graalvm;
 import org.graalvm.polyglot.*;
 import org.openstreetmap.josm.plugins.scripting.graalvm.esmodule.ESModuleResolver;
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
-import org.openstreetmap.josm.plugins.scripting.preferences.graalvm.GraalVMPrivilegesModel;
+import org.openstreetmap.josm.plugins.scripting.ui.preferences.graalvm.GraalVMPrivilegesModel;
 
 import javax.validation.constraints.NotNull;
 import java.io.File;

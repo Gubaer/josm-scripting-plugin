@@ -5,7 +5,7 @@ import org.openstreetmap.josm.plugins.scripting.ScriptingPlugin;
 import org.openstreetmap.josm.plugins.scripting.model.PreferenceKeys;
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor.ScriptEngineType;
-import org.openstreetmap.josm.plugins.scripting.preferences.ScriptEngineJarInfo;
+import org.openstreetmap.josm.plugins.scripting.ui.preferences.ScriptEngineJarInfo;
 import org.openstreetmap.josm.plugins.scripting.util.Assert;
 
 import javax.activation.MimetypesFileTypeMap;
