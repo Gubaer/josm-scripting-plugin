@@ -209,7 +209,7 @@ public class GraalVMFacade  implements IGraalVMFacade {
     /* context management                                                          */
     /* --------------------------------------------------------------------------- */
 
-    // the available default contexts for GraalVM engines
+    // the available default contexts for GraalVM enginescd
     private final Map<ScriptEngineDescriptor, IGraalVMContext> defaultContexts = new HashMap<>();
     // the available custom contexts for GraalVM engines
     private final Map<ScriptEngineDescriptor, List<IGraalVMContext>> contexts = new HashMap<>();

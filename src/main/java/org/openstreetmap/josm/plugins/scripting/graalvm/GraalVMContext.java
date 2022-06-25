@@ -5,6 +5,8 @@ import org.openstreetmap.josm.plugins.scripting.context.AbstractContext;
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
 
 import javax.validation.constraints.NotNull;
+import java.io.File;
+import java.io.IOException;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -42,5 +44,29 @@ public class GraalVMContext extends AbstractContext implements IGraalVMContext {
     @Override
     public Context getPolyglotContext() {
         return context;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void eval(@NotNull final String script) throws GraalVMEvalException {
+        Objects.requireNonNull(script);
+        getPolyglotContext().enter();
+        GraalVMFacadeFactory.getOrCreateGraalVMFacade()
+            .eval(getScriptEngine(), script);
+        getPolyglotContext().leave();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void eval(@NotNull final File scriptFile) throws GraalVMEvalException, IOException {
+        Objects.requireNonNull(scriptFile);
+        getPolyglotContext().enter();
+        GraalVMFacadeFactory.getOrCreateGraalVMFacade()
+            .eval(getScriptEngine(), scriptFile);
+        getPolyglotContext().leave();
     }
 }
