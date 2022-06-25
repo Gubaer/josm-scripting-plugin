@@ -9,10 +9,7 @@ import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -204,5 +201,103 @@ public class GraalVMFacade  implements IGraalVMFacade {
             );
             throw new GraalVMEvalException(message, e);
         }
+    }
+
+    /* --------------------------------------------------------------------------- */
+    /* context management                                                          */
+    /* --------------------------------------------------------------------------- */
+
+    // the available default contexts for GraalVM engines
+    private final Map<ScriptEngineDescriptor, IGraalVMContext> defaultContexts = new HashMap<>();
+    // the available custom contexts for GraalVM engines
+    private final Map<ScriptEngineDescriptor, List<IGraalVMContext>> contexts = new HashMap<>();
+
+
+    private void ensureValidEngine(final ScriptEngineDescriptor engine) {
+        Objects.requireNonNull(engine);
+        if (!engine.getEngineType().equals(ScriptEngineDescriptor.ScriptEngineType.GRAALVM)) {
+            throw new IllegalArgumentException(MessageFormat.format(
+                "Illegal script engine type, expected ''{0}'', got ''{1}''",
+                ScriptEngineDescriptor.ScriptEngineType.GRAALVM,
+                engine.getEngineType()
+            ));
+        }
+        if (!"js".equals(engine.getEngineId())) {
+            throw new IllegalArgumentException(MessageFormat.format(
+                "Illegal engine id. Currently only the engine with id ''js' is supported, "
+                + "got id ''{1}''",
+                engine.getEngineId()
+            ));
+        }
+    }
+
+    /**
+     * Creates the default context for the engine <code>engine</code>. If the default
+     * context already exists, replies the existing default context.
+     *
+     * @param engine the engine
+     * @throws NullPointerException - if <code>engine</code> is null
+     * @throws IllegalArgumentException - if <code>engine</code> doesn't describe a GraalVM
+     *   engine or if the described engine is not available
+     */
+    public IGraalVMContext getOrCreateDefaultContext(@NotNull final ScriptEngineDescriptor engine) {
+        ensureValidEngine(engine);
+        var context = defaultContexts.get(engine);
+        if (context != null) {
+            return context;
+        }
+        final Context.Builder builder = Context.newBuilder("js");
+        grantPrivilegesToContext(builder);
+        setOptionsOnContext(builder);
+        builder.fileSystem(ESModuleResolver.getInstance());
+        final var polyglotContext = builder.build();
+        populateContext(polyglotContext);
+        return new GraalVMContext(
+            //TODO(gubaer): from constant
+            "Default",
+            engine,
+            builder.build(),
+            true
+        );
+    }
+
+    /**
+     * Replies true if the default context for the engine <code>engine</code> exists.
+     *
+     * @param engine the engine
+     * @throws NullPointerException - if <code>engine</code> is null
+     * @throws IllegalArgumentException - if <code>engine</code> doesn't describe a GraalVM
+     *   engine or if the described engine is not available
+     *
+     * @return true if the default context exists; false, otherwise
+     */
+    public boolean existsDefaultContext(@NotNull final ScriptEngineDescriptor engine) {
+        ensureValidEngine(engine);
+        return defaultContexts.get(engine) != null;
+    }
+
+    /**
+     * Creates a new context hosted by the engine <code>engine</code>.
+     *
+     * @param displayName the display name for the context
+     * @param engine the engine
+     * @throws NullPointerException - if <code>engine</code> is null
+     * @throws NullPointerException - if <code>displayName</code> is null
+     * @throws IllegalArgumentException  - if <code>displayName</code> is blank
+     * @throws IllegalArgumentException - if <code>engine</code> doesn't describe a GraalVM
+     *   engine or if the described engine is not available
+     * @return the new context
+     */
+    public IGraalVMContext createContext(@NotNull final String displayName, @NotNull final ScriptEngineDescriptor engine) {
+        //TODO(gubaer): implement
+        return null;
+    }
+
+    public void resetContext(@NotNull final IGraalVMContext context) {
+        //TODO(gubaer): implement
+    }
+
+    public void deleteContext(@NotNull final IGraalVMContext context) {
+        //TODO(gubaer): implement
     }
 }

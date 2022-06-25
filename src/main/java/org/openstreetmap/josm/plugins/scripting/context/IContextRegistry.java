@@ -7,23 +7,33 @@ import javax.validation.constraints.Null;
 import java.beans.PropertyChangeListener;
 import java.util.List;
 
-public interface INamedContextRegistry {
+public interface IContextRegistry {
 
-    String PROP_NAMED_CONTEXTS = INamedContext.class.getName() + ".namedContexts";
+    String PROP_NAMED_CONTEXTS = IContext.class.getName() + ".namedContexts";
 
     /**
-     * Replies the named context with name <code>name</code> hosted by the
+     * Replies the default context for the scripting engine <code>engine</code>.
+     *
+     * @return the default context or null, if no such context exists
+     * @throws NullPointerException - if <code>engine</code> is null
+     */
+    @Null
+    IContext lookupDefaultContext(@NotNull final ScriptEngineDescriptor engine);
+
+    /**
+     * Replies the context with id <code>id</code> hosted by the
      * scripting engine <code>desc</code>.
      *
-     * @param name the name
+     * @param id the contexts id
      * @param engine the scripting engine
      * @return the named context. Null if no such context is available in
      *   the registry
      * @throws NullPointerException - if <code>name</code> is null
      * @throws NullPointerException - if <code>engine</code> is null
      */
-    @Null INamedContext lookupNamedContext(
-        @NotNull final String name,
+    @Null
+    IContext lookupContext(
+        @NotNull final String id,
         @NotNull final ScriptEngineDescriptor engine);
 
     /**
@@ -36,22 +46,26 @@ public interface INamedContextRegistry {
      *  are registered
      * @throws NullPointerException - if <code>engine</code> is null
      */
-    @NotNull List<INamedContext> lookupContexts(@NotNull final ScriptEngineDescriptor engine);
+    @NotNull List<IContext> lookupContexts(@NotNull final ScriptEngineDescriptor engine);
 
     /**
-     * Registers a named context in the registry.
+     * Creates, initializes, registers, and replies a context hosted by the
+     * engine <code>engine</code>.
      *
-     * @param context the context
-     * @throws NullPointerException - if <code>context</code> is null
+     * @param displayName the display name
+     * @param engine the engine
+     * @throws NullPointerException - if <code>displayName</code> is null
+     * @throws NullPointerException - if <code>engine</code> is null
+     * @throws IllegalArgumentException - if <code>displayName</code> is empty or blank
      */
-    void registerNamedContext(@NotNull final INamedContext context);
+    @NotNull IContext createContext(@NotNull final String displayName, @NotNull final ScriptEngineDescriptor engine);
 
     /**
      * Removes a named context from the registry.
      *
      * @param context the context to be removed. Ignored if null.
      */
-    void removeNamedContext(@Null final INamedContext context);
+    void removeContext(@Null final IContext context);
 
     /**
      * Adds a property change listener which is notified when the list
