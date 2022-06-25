@@ -6,6 +6,7 @@ import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
 import org.openstreetmap.josm.plugins.scripting.ui.preferences.graalvm.GraalVMPrivilegesModel;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
@@ -17,8 +18,7 @@ import java.util.stream.Collectors;
 import static org.openstreetmap.josm.tools.I18n.tr;
 
 public class GraalVMFacade  implements IGraalVMFacade {
-    static private final Logger logger =
-        Logger.getLogger(GraalVMFacade.class.getName());
+    static private final Logger logger = Logger.getLogger(GraalVMFacade.class.getName());
 
     static final private Map<String, TypeResolveFunction> pluginObject =
         Collections.singletonMap("type", new TypeResolveFunction());
@@ -91,7 +91,8 @@ public class GraalVMFacade  implements IGraalVMFacade {
     }
 
     public GraalVMFacade() {
-        initContext();
+        //TODO(gubaer): don't initialize a default context anymore
+        //initContext();
     }
 
     /**
@@ -140,7 +141,8 @@ public class GraalVMFacade  implements IGraalVMFacade {
      * @inheritDoc
      */
     public @NotNull List<ScriptEngineDescriptor> getScriptEngineDescriptors() {
-        return buildDescriptorsForGraalVMBasedEngines(context.getEngine());
+        var engine = Engine.newBuilder("js").build();
+        return buildDescriptorsForGraalVMBasedEngines(engine);
     }
 
     private void ensureEngineIdPresent(String engineId) {
@@ -268,15 +270,18 @@ public class GraalVMFacade  implements IGraalVMFacade {
         ensureValidEngine(engine);
         var context = defaultContexts.get(engine);
         if (context != null) {
+            logger.fine("Returning existing default context ...");
             return context;
         }
-        return new GraalVMContext(
-            //TODO(gubaer): from constant
-            "Default",
+        logger.fine("Creating new default context ...");
+        context = new GraalVMContext(
+            tr("Default"),
             engine,
             createAndInitContext(),
             true
         );
+        defaultContexts.put(engine, context);
+        return context;
     }
 
     /**
@@ -306,7 +311,7 @@ public class GraalVMFacade  implements IGraalVMFacade {
      *   engine or if the described engine is not available
      * @return the new context
      */
-    public IGraalVMContext createContext(@NotNull final String displayName, @NotNull final ScriptEngineDescriptor engine) {
+    public @NotNull IGraalVMContext createContext(@NotNull final String displayName, @NotNull final ScriptEngineDescriptor engine) {
         ensureValidDisplayName(displayName);
         ensureValidEngine(engine);
         final var context = new GraalVMContext(
@@ -319,11 +324,52 @@ public class GraalVMFacade  implements IGraalVMFacade {
         return context;
     }
 
-    public void resetContext(@NotNull final IGraalVMContext context) {
-        //TODO(gubaer): implement
+    /**
+     * Replies the context with id <code>id</code> hosted by the engine <code>engine</code>.
+     *
+     * @param id the id
+     * @param engine the engine
+     * @return the context or null, if no such context exists
+     * @throws NullPointerException - if <code>engine</code> is null
+     * @throws NullPointerException - if <code>is</code> is null
+     * @throws IllegalArgumentException - if <code>engine</code> doesn't describe a GraalVM
+     *   engine or if the described engine is not available
+     */
+    public @Null IGraalVMContext lookupContext(@NotNull final String id, @NotNull final ScriptEngineDescriptor engine) {
+        Objects.requireNonNull(id);
+        ensureValidEngine(engine);
+
+        return contexts.getOrDefault(engine, List.of()).stream()
+            .filter(context -> context.getId().equals(id))
+            .findFirst()
+            .orElse(null);
     }
 
-    public void deleteContext(@NotNull final IGraalVMContext context) {
-        //TODO(gubaer): implement
+    /**
+     * Closes a context and removes it.
+     *
+     * @param context the context
+     * @throws NullPointerException - if <code>context</code> is null
+     */
+    public void closeAndRemoveContext(@NotNull final IGraalVMContext context) {
+        Objects.requireNonNull(context);
+        try {
+            context.getPolyglotContext().close(true);
+        } catch(IllegalStateException e) {
+            logger.log(Level.WARNING, MessageFormat.format(
+                 "Failed to close GraalVM context with id ''{0}''",
+                 context.getId()
+            ),e);
+        }
+        // discard the default context if it is the closed context
+        var defaultContext = defaultContexts.get(context.getScriptEngine());
+        if (defaultContext != null && defaultContext.getId().equals(context.getId())) {
+            defaultContexts.remove(context.getScriptEngine());
+        }
+        // remove the closed context from the list of contexts hosted by this
+        // engine
+        var contextList = contexts.getOrDefault(context.getScriptEngine(), new ArrayList<>());
+        contextList.remove(context);
+        contexts.put(context.getScriptEngine(), contextList);
     }
 }
