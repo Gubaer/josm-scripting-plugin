@@ -10,7 +10,7 @@ import java.util.UUID;
 
 public class GraalVMContext extends AbstractContext implements IGraalVMContext {
 
-    private Context context;
+    final private Context context;
 
     /**
      * Creates a new GraalVM context.

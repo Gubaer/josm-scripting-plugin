@@ -213,6 +213,12 @@ public class GraalVMFacade  implements IGraalVMFacade {
     private final Map<ScriptEngineDescriptor, List<IGraalVMContext>> contexts = new HashMap<>();
 
 
+    private void ensureValidDisplayName(String displayName) {
+        Objects.requireNonNull(displayName);
+        if (displayName.isBlank()) {
+            throw new IllegalArgumentException("displayName must not be blank");
+        }
+    }
     private void ensureValidEngine(final ScriptEngineDescriptor engine) {
         Objects.requireNonNull(engine);
         if (!engine.getEngineType().equals(ScriptEngineDescriptor.ScriptEngineType.GRAALVM)) {
@@ -231,6 +237,24 @@ public class GraalVMFacade  implements IGraalVMFacade {
         }
     }
 
+    private void rememberContext(ScriptEngineDescriptor engine, IGraalVMContext context) {
+        synchronized (contexts) {
+            var l = contexts.getOrDefault(engine, new ArrayList<>());
+            l.add(context);
+            contexts.put(engine, l);
+        }
+    }
+
+    private Context createAndInitContext() {
+        final Context.Builder builder = Context.newBuilder("js");
+        grantPrivilegesToContext(builder);
+        setOptionsOnContext(builder);
+        builder.fileSystem(ESModuleResolver.getInstance());
+        final var polyglotContext = builder.build();
+        populateContext(polyglotContext);
+        return polyglotContext;
+    }
+
     /**
      * Creates the default context for the engine <code>engine</code>. If the default
      * context already exists, replies the existing default context.
@@ -246,17 +270,11 @@ public class GraalVMFacade  implements IGraalVMFacade {
         if (context != null) {
             return context;
         }
-        final Context.Builder builder = Context.newBuilder("js");
-        grantPrivilegesToContext(builder);
-        setOptionsOnContext(builder);
-        builder.fileSystem(ESModuleResolver.getInstance());
-        final var polyglotContext = builder.build();
-        populateContext(polyglotContext);
         return new GraalVMContext(
             //TODO(gubaer): from constant
             "Default",
             engine,
-            builder.build(),
+            createAndInitContext(),
             true
         );
     }
@@ -289,8 +307,16 @@ public class GraalVMFacade  implements IGraalVMFacade {
      * @return the new context
      */
     public IGraalVMContext createContext(@NotNull final String displayName, @NotNull final ScriptEngineDescriptor engine) {
-        //TODO(gubaer): implement
-        return null;
+        ensureValidDisplayName(displayName);
+        ensureValidEngine(engine);
+        final var context = new GraalVMContext(
+            displayName,
+            engine,
+            createAndInitContext(),
+            true
+        );
+        rememberContext(engine, context);
+        return context;
     }
 
     public void resetContext(@NotNull final IGraalVMContext context) {
