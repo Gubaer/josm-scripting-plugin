@@ -6,12 +6,17 @@ import javax.validation.constraints.NotNull;
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * Abstract implementation of {@link org.openstreetmap.josm.plugins.scripting.context.IContext}.
+ */
+
+
 abstract public class AbstractContext implements IContext {
 
-    private String id;
-    private String displayName;
-    private ScriptEngineDescriptor engine;
-    private boolean isDefault;
+    final private String id;
+    final private String displayName;
+    final private ScriptEngineDescriptor engine;
+    final private boolean isDefault;
 
 
     /**

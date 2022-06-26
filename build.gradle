@@ -189,6 +189,7 @@ test {
     include "org/openstreetmap/josm/plugins/scripting/preferences/graalvm/GraalVMPrivilegesModelTest.class"
     include "org/openstreetmap/josm/plugins/scripting/ui/console/*.class"
     include "org/openstreetmap/josm/plugins/scripting/esmodules/PathTests.class"
+    include "org/openstreetmap/josm/plugins/scripting/context/*.class"
 
     // tested in task testScriptApiV1
     exclude "org/openstreetmap/josm/plugins/scripting/rhino/api/APIV1TestSuite.class"

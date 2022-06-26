@@ -4,6 +4,9 @@ import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
 
 import javax.validation.constraints.NotNull;
 
+/**
+ * Represents a scripting context hosted by a scripting engine.
+ */
 public interface IContext {
 
     /**
