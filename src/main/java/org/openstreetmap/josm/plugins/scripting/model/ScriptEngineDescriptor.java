@@ -216,7 +216,7 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
                     .findFirst();
                 if (engine.isEmpty()) {
                     logger.warning(tr("preference with key ''{0}'' refers to an GraalVM engine "
-                        + "with id''{1}''. The GraalVM for this language is currently not "
+                        + "with id ''{1}''. The GraalVM for this language is currently not "
                         + "present. Assuming default scripting engine.",
                         PREF_KEY_SCRIPTING_ENGINE,
                         id
