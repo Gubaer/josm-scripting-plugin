@@ -18,6 +18,20 @@ import static org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescrip
 public class ContextRegistry implements IContextRegistry {
     static private final Logger logger = Logger.getLogger(ContextRegistry.class.getName());
 
+    static private ContextRegistry instance = null;
+
+    /**
+     * Replies the unique instance of the context registry.
+     *
+     * @return the unique instance
+     */
+    static public @NotNull  IContextRegistry getInstance() {
+        if (instance == null) {
+            instance = new ContextRegistry();
+        }
+        return instance;
+    }
+
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);
     private final Map<ScriptEngineDescriptor, IContext> defaultContexts = new HashMap<>();
     private final Map<ScriptEngineDescriptor, List<IContext>> userDefinedContexts = new HashMap<>();
