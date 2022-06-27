@@ -37,12 +37,20 @@ public class ScriptingConsolePanel extends JPanel {
     private ScriptEditor editor;
     private ScriptErrorViewer errorViewer;
 
+    private ContextComboBoxModel contextComboBoxModel;
+
     protected JPanel buildControlPanel() {
-        final JPanel pnl = new JPanel(new FlowLayout(FlowLayout.CENTER,0,0));
+        final JPanel pnl = new JPanel(new FlowLayout(FlowLayout.LEFT,0,0));
         pnl.setBorder(null);
         pnl.setBorder(BorderFactory.createEmptyBorder(2,2,2,2));
         JButton btn = new JButton(new RunScriptAction(editor.getModel(), errorViewer.getModel()));
         pnl.add(btn);
+        final var lbl = new JLabel(tr("in context"));
+        lbl.setBorder(BorderFactory.createEmptyBorder(0,10,0,0));
+        pnl.add(lbl);
+        final var cb =new ContextComboBox(contextComboBoxModel = new ContextComboBoxModel());
+        cb.setBorder(BorderFactory.createEmptyBorder(0,10,0,0));
+        pnl.add(cb);
         return pnl;
     }
 
@@ -95,8 +103,10 @@ public class ScriptingConsolePanel extends JPanel {
             }
             final ScriptEngineDescriptor desc = (ScriptEngineDescriptor)evt.getNewValue();
             updateScriptContentType(desc);
+            contextComboBoxModel.setEngine(desc);
         });
         updateScriptContentType(editor.getModel().getScriptEngineDescriptor());
+        contextComboBoxModel.setEngine(editor.getModel().getScriptEngineDescriptor());
     }
 
     protected void warnMissingSyntaxStyle(@Null ScriptEngineDescriptor desc) {
@@ -252,8 +262,7 @@ public class ScriptingConsolePanel extends JPanel {
 
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
-            if (!evt.getPropertyName()
-                    .equals(ScriptEditorModel.PROP_SCRIPT_ENGINE)) {
+            if (!evt.getPropertyName().equals(ScriptEditorModel.PROP_SCRIPT_ENGINE)) {
                 return;
             }
             updateEnabledState();
