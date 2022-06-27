@@ -1,7 +1,5 @@
 package org.openstreetmap.josm.plugins.scripting.graalvm;
 
-import org.graalvm.polyglot.Context;
-import org.graalvm.polyglot.Value;
 import org.openstreetmap.josm.plugins.scripting.context.IContext;
 
 import javax.validation.constraints.NotNull;
@@ -11,15 +9,7 @@ import java.io.IOException;
 public interface IGraalVMContext extends IContext {
 
     /**
-     * Replies the {@link Context polyglot context}
-     *
-     * @return the polyglot context
-     */
-    @NotNull
-    Context getPolyglotContext();
-
-    /**
-     * Evaluates a script in the {@link #getPolyglotContext() polyglot context}.
+     * Evaluates a script in this context.
      *
      * @param script the script
      * @throws NullPointerException - if <code>script</code> is null
@@ -28,7 +18,7 @@ public interface IGraalVMContext extends IContext {
     Object eval(@NotNull final String script) throws GraalVMEvalException;
 
     /**
-     * Evaluates the content of a script file in the {@link #getPolyglotContext()} polyglot context}.
+     * Evaluates the content of a script file in this context.
      *
      * @param scriptFile the script file
      * @throws GraalVMEvalException - if an error occurs when the script is executed.
@@ -36,4 +26,7 @@ public interface IGraalVMContext extends IContext {
      * @throws NullPointerException - if <code>scriptFile</code> is null
      */
     Object eval(@NotNull final File scriptFile) throws GraalVMEvalException, IOException;
+
+
+    void close();
 }

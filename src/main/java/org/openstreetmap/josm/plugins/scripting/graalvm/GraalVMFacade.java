@@ -329,14 +329,7 @@ public class GraalVMFacade  implements IGraalVMFacade {
     @Override
     public void closeAndRemoveContext(@NotNull final IGraalVMContext context) {
         Objects.requireNonNull(context);
-        try {
-            context.getPolyglotContext().close(true);
-        } catch(IllegalStateException e) {
-            logger.log(Level.WARNING, MessageFormat.format(
-                 "Failed to close GraalVM context with id ''{0}''",
-                 context.getId()
-            ),e);
-        }
+        context.close();
         // discard the default context if it is the closed context
         var defaultContext = defaultContexts.get(context.getScriptEngine());
         if (defaultContext != null && defaultContext.getId().equals(context.getId())) {

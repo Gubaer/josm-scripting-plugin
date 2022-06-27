@@ -70,7 +70,7 @@ class GraalVMFacadeTest extends AbstractGraalVMBasedTest {
         final context = facade.createContext("test", graalJSDescriptor)
         assertTrue(context instanceof IGraalVMContext)
 
-        final graalVMContext = (IGraalVMContext) context;
+        final graalVMContext = (IGraalVMContext) context
         final script = """
             let foo = "bar"
             foo

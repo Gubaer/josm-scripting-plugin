@@ -50,18 +50,10 @@ public class GraalVMContext extends AbstractContext implements IGraalVMContext {
      * {@inheritDoc}
      */
     @Override
-    public Context getPolyglotContext() {
-        return context;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Object eval(@NotNull final String script) throws GraalVMEvalException {
         Objects.requireNonNull(script);
         try {
-            getPolyglotContext().enter();
+            context.enter();
             final var source = Source.newBuilder(getScriptEngine().getEngineId(), script, null)
                 .mimeType("application/javascript+module")
                 .build();
@@ -79,7 +71,7 @@ public class GraalVMContext extends AbstractContext implements IGraalVMContext {
             logger.log(Level.INFO, e.getMessage(), e);
             throw new GraalVMEvalException(message, e);
         } finally {
-            getPolyglotContext().leave();
+            context.leave();
         }
     }
 
@@ -90,7 +82,7 @@ public class GraalVMContext extends AbstractContext implements IGraalVMContext {
     public Object eval(@NotNull final File scriptFile) throws GraalVMEvalException, IOException {
         Objects.requireNonNull(scriptFile);
         try {
-            getPolyglotContext().enter();
+            context.enter();
             final Source source = Source.newBuilder(getScriptEngine().getEngineId(), scriptFile)
                 .mimeType("application/javascript+module")
                 .build();
@@ -101,7 +93,20 @@ public class GraalVMContext extends AbstractContext implements IGraalVMContext {
             );
             throw new GraalVMEvalException(message, e);
         } finally {
-            getPolyglotContext().leave();
+            context.leave();
+        }
+    }
+
+    @Override
+    public void close() {
+        try {
+            context.close(true);
+        } catch(IllegalStateException e) {
+            logger.log(Level.WARNING, MessageFormat.format(
+                "Failed to close GraalVM context ''{0}/{1}''",
+                getId(),
+                getDisplayName()
+            ),e);
         }
     }
 }
