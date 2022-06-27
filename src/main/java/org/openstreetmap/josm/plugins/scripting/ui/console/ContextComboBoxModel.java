@@ -10,7 +10,6 @@ import javax.validation.constraints.Null;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
-import java.util.Objects;
 
 public class ContextComboBoxModel extends DefaultComboBoxModel<IContext> implements PropertyChangeListener {
 
@@ -56,7 +55,6 @@ public class ContextComboBoxModel extends DefaultComboBoxModel<IContext> impleme
      * @param engine the engine
      */
     public void setEngine(@Null final ScriptEngineDescriptor engine) {
-        Objects.requireNonNull(engine);
         this.engine = engine;
         if (this.engine != null) {
             final var registry = ContextRegistry.getInstance();
@@ -75,7 +73,6 @@ public class ContextComboBoxModel extends DefaultComboBoxModel<IContext> impleme
     /* ------------------------------------------------------------------------------- */
     /* ComboBoxModel                                                                   */
     /* ------------------------------------------------------------------------------- */
-
     @Override
     public int getSize() {
         if (defaultContext == null && userDefinedContexts == null) {
