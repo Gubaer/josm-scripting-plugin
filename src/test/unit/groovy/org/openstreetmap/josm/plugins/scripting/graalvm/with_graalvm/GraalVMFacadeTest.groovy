@@ -1,14 +1,16 @@
 package org.openstreetmap.josm.plugins.scripting.graalvm.with_graalvm
 
+import org.graalvm.polyglot.Value
 import org.junit.jupiter.api.Test
 import org.openstreetmap.josm.plugins.scripting.graalvm.AbstractGraalVMBasedTest
 import org.openstreetmap.josm.plugins.scripting.graalvm.GraalVMFacade
+import org.openstreetmap.josm.plugins.scripting.graalvm.IGraalVMContext
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor
 
 class GraalVMFacadeTest extends AbstractGraalVMBasedTest {
 
     @Test
-    void "getOrCreateDefaultContent() - can create a default context"() {
+    void "getOrCreateDefaultContext() - can create a default context"() {
         final facade = new GraalVMFacade()
         // should create a default context
         assertFalse(facade.existsDefaultContext(graalJSDescriptor))
@@ -27,7 +29,7 @@ class GraalVMFacadeTest extends AbstractGraalVMBasedTest {
     }
 
     @Test
-    void "getOrCreateDefaultContent() - rejects null engine descriptor"() {
+    void "getOrCreateDefaultContext() - rejects null engine descriptor"() {
         final facade = new GraalVMFacade()
         shouldFail(NullPointerException) {
             facade.getOrCreateDefaultContext(null)
@@ -35,7 +37,7 @@ class GraalVMFacadeTest extends AbstractGraalVMBasedTest {
     }
 
     @Test
-    void "getOrCreateDefaultContent() - rejects non-GraalJS descriptor"() {
+    void "getOrCreateDefaultContext() - rejects non-GraalJS descriptor"() {
         final engine = new ScriptEngineDescriptor(
             ScriptEngineDescriptor.ScriptEngineType.EMBEDDED,
             "nashorn"
@@ -47,7 +49,7 @@ class GraalVMFacadeTest extends AbstractGraalVMBasedTest {
     }
 
     @Test
-    void "can create and delete a named context"() {
+    void "can create and delete a user defined context context"() {
         final facade = new GraalVMFacade()
         final context = facade.createContext("test", graalJSDescriptor)
         assertNotNull(context)
@@ -60,5 +62,22 @@ class GraalVMFacadeTest extends AbstractGraalVMBasedTest {
         facade.closeAndRemoveContext(context)
         final context3 = facade.lookupContext(context.id, graalJSDescriptor)
         assertNull(context3)
+    }
+
+    @Test
+    void "can evaluate a script in a user defined context"() {
+        final facade = new GraalVMFacade()
+        final context = facade.createContext("test", graalJSDescriptor)
+        assertTrue(context instanceof IGraalVMContext)
+
+        final graalVMContext = (IGraalVMContext) context;
+        final script = """
+            let foo = "bar"
+            foo
+        """
+        final object = graalVMContext.eval(script)
+        assertTrue(object instanceof Value)
+        final value = (Value) object
+        assertEquals("bar", value.asString())
     }
 }

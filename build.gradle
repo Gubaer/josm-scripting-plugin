@@ -296,6 +296,8 @@ task testWithGraalVMJDK(type: Test) {
     scanForTestClasses= false
     include "org/openstreetmap/josm/plugins/scripting/graalvm/with_graalvm/*.class"
     include "org/openstreetmap/josm/plugins/scripting/graalvm/esmodule/*.class"
+    //TODO(gubaer): also test with a stock JDK. Tests should work there too.
+    include "org/openstreetmap/josm/plugins/scripting/context/ContextRegistryTest.class"
     testLogging {
         events TestLogEvent.FAILED, TestLogEvent.PASSED
         exceptionFormat = TestExceptionFormat.FULL

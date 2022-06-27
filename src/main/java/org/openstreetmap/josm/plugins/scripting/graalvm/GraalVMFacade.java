@@ -258,22 +258,15 @@ public class GraalVMFacade  implements IGraalVMFacade {
     }
 
     /**
-     * Creates the default context for the engine <code>engine</code>. If the default
-     * context already exists, replies the existing default context.
-     *
-     * @param engine the engine
-     * @throws NullPointerException - if <code>engine</code> is null
-     * @throws IllegalArgumentException - if <code>engine</code> doesn't describe a GraalVM
-     *   engine or if the described engine is not available
+     * {@inheritDoc}
      */
+    @Override
     public IGraalVMContext getOrCreateDefaultContext(@NotNull final ScriptEngineDescriptor engine) {
         ensureValidEngine(engine);
         var context = defaultContexts.get(engine);
         if (context != null) {
-            logger.fine("Returning existing default context ...");
             return context;
         }
-        logger.fine("Creating new default context ...");
         context = new GraalVMContext(
             tr("Default"),
             engine,
@@ -300,17 +293,9 @@ public class GraalVMFacade  implements IGraalVMFacade {
     }
 
     /**
-     * Creates a new context hosted by the engine <code>engine</code>.
-     *
-     * @param displayName the display name for the context
-     * @param engine the engine
-     * @throws NullPointerException - if <code>engine</code> is null
-     * @throws NullPointerException - if <code>displayName</code> is null
-     * @throws IllegalArgumentException  - if <code>displayName</code> is blank
-     * @throws IllegalArgumentException - if <code>engine</code> doesn't describe a GraalVM
-     *   engine or if the described engine is not available
-     * @return the new context
+     * {@inheritDoc}
      */
+    @Override
     public @NotNull IGraalVMContext createContext(@NotNull final String displayName, @NotNull final ScriptEngineDescriptor engine) {
         ensureValidDisplayName(displayName);
         ensureValidEngine(engine);
@@ -325,16 +310,9 @@ public class GraalVMFacade  implements IGraalVMFacade {
     }
 
     /**
-     * Replies the context with id <code>id</code> hosted by the engine <code>engine</code>.
-     *
-     * @param id the id
-     * @param engine the engine
-     * @return the context or null, if no such context exists
-     * @throws NullPointerException - if <code>engine</code> is null
-     * @throws NullPointerException - if <code>is</code> is null
-     * @throws IllegalArgumentException - if <code>engine</code> doesn't describe a GraalVM
-     *   engine or if the described engine is not available
+     * {@inheritDoc}
      */
+    @Override
     public @Null IGraalVMContext lookupContext(@NotNull final String id, @NotNull final ScriptEngineDescriptor engine) {
         Objects.requireNonNull(id);
         ensureValidEngine(engine);
@@ -346,11 +324,9 @@ public class GraalVMFacade  implements IGraalVMFacade {
     }
 
     /**
-     * Closes a context and removes it.
-     *
-     * @param context the context
-     * @throws NullPointerException - if <code>context</code> is null
+     * {@inheritDoc}
      */
+    @Override
     public void closeAndRemoveContext(@NotNull final IGraalVMContext context) {
         Objects.requireNonNull(context);
         try {

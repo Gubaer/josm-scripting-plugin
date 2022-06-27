@@ -1,16 +1,24 @@
 package org.openstreetmap.josm.plugins.scripting.graalvm;
 
 import org.graalvm.polyglot.Context;
+import org.graalvm.polyglot.PolyglotException;
+import org.graalvm.polyglot.Source;
 import org.openstreetmap.josm.plugins.scripting.context.AbstractContext;
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
 
 import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import static org.openstreetmap.josm.tools.I18n.tr;
 
 public class GraalVMContext extends AbstractContext implements IGraalVMContext {
+    static private final Logger logger = Logger.getLogger(GraalVMContext.class.getName());
 
     final private Context context;
 
@@ -50,23 +58,50 @@ public class GraalVMContext extends AbstractContext implements IGraalVMContext {
      * {@inheritDoc}
      */
     @Override
-    public void eval(@NotNull final String script) throws GraalVMEvalException {
+    public Object eval(@NotNull final String script) throws GraalVMEvalException {
         Objects.requireNonNull(script);
-        getPolyglotContext().enter();
-        GraalVMFacadeFactory.getOrCreateGraalVMFacade()
-            .eval(getScriptEngine(), script);
-        getPolyglotContext().leave();
+        try {
+            getPolyglotContext().enter();
+            final var source = Source.newBuilder(getScriptEngine().getEngineId(), script, null)
+                .mimeType("application/javascript+module")
+                .build();
+            return context.eval(source);
+        } catch(IOException e) {
+            // shouldn't happen because we don't load the script from a file,
+            // but just in case
+            final var message = tr("Failed to create ECMAScript source object");
+            logger.log(Level.SEVERE, message, e);
+            throw new GraalVMEvalException(message, e);
+        } catch(PolyglotException e) {
+            final String message = MessageFormat.format(
+                tr("failed to eval script"), script
+            );
+            logger.log(Level.INFO, e.getMessage(), e);
+            throw new GraalVMEvalException(message, e);
+        } finally {
+            getPolyglotContext().leave();
+        }
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void eval(@NotNull final File scriptFile) throws GraalVMEvalException, IOException {
+    public Object eval(@NotNull final File scriptFile) throws GraalVMEvalException, IOException {
         Objects.requireNonNull(scriptFile);
-        getPolyglotContext().enter();
-        GraalVMFacadeFactory.getOrCreateGraalVMFacade()
-            .eval(getScriptEngine(), scriptFile);
-        getPolyglotContext().leave();
+        try {
+            getPolyglotContext().enter();
+            final Source source = Source.newBuilder(getScriptEngine().getEngineId(), scriptFile)
+                .mimeType("application/javascript+module")
+                .build();
+            return context.eval(source);
+        } catch(PolyglotException e) {
+            final String message = MessageFormat.format(
+                tr("Failed to eval script in file ''{0}''"), scriptFile
+            );
+            throw new GraalVMEvalException(message, e);
+        } finally {
+            getPolyglotContext().leave();
+        }
     }
 }
