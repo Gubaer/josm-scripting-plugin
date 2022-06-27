@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface IContextRegistry {
 
-    String PROP_NAMED_CONTEXTS = IContext.class.getName() + ".namedContexts";
+    String PROP_HOSTED_CONTEXTS = IContext.class.getName() + ".hostedContexts";
 
     /**
      * Replies the default context for the scripting engine <code>engine</code>.
@@ -32,7 +32,7 @@ public interface IContextRegistry {
      * @throws NullPointerException - if <code>engine</code> is null
      */
     @Null
-    IContext lookupContext(
+    IContext lookupUserDefinedContext(
         @NotNull final String id,
         @NotNull final ScriptEngineDescriptor engine);
 
@@ -46,7 +46,7 @@ public interface IContextRegistry {
      *  are registered
      * @throws NullPointerException - if <code>engine</code> is null
      */
-    @NotNull List<IContext> lookupContexts(@NotNull final ScriptEngineDescriptor engine);
+    @NotNull List<IContext> lookupUserDefinedContexts(@NotNull final ScriptEngineDescriptor engine);
 
     /**
      * Creates, initializes, registers, and replies a context hosted by the
@@ -54,11 +54,24 @@ public interface IContextRegistry {
      *
      * @param displayName the display name
      * @param engine the engine
+     * @return the context
      * @throws NullPointerException - if <code>displayName</code> is null
      * @throws NullPointerException - if <code>engine</code> is null
      * @throws IllegalArgumentException - if <code>displayName</code> is empty or blank
+     * @throws IllegalArgumentException - if <code>engine</code> isn't supported
      */
-    @NotNull IContext createContext(@NotNull final String displayName, @NotNull final ScriptEngineDescriptor engine);
+    @NotNull IContext createUserDefinedContext(@NotNull final String displayName, @NotNull final ScriptEngineDescriptor engine);
+
+    /**
+     * Replies and, if necessary, creates the default context hosted by the scripting
+     * engine <code>engine</code>.
+     *
+     * @param engine the engine
+     * @return the context
+     * @throws NullPointerException - if <code>engine</code> is null
+     * @throws IllegalArgumentException - if <code>engine</code> isn't supported
+     */
+    @NotNull IContext getOrCreateDefaultContext(@NotNull final ScriptEngineDescriptor engine);
 
     /**
      * Removes a named context from the registry.
