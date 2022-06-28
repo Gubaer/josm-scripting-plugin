@@ -13,17 +13,6 @@ import java.awt.*;
 public class ContextComboBox extends JComboBox<IContext> {
 
     /**
-     * Creates the combo box with a new model.
-     */
-    public ContextComboBox() {
-        super(new ContextComboBoxModel());
-        setPreferredSize(new Dimension(200, getPreferredSize().height));
-        setEditable(true);
-        setRenderer(renderer);
-        setEditor(editor);
-    }
-
-    /**
      * Creates the combo box for the combo box model <code>model</code>.
      *
      * @param model the model
@@ -31,7 +20,7 @@ public class ContextComboBox extends JComboBox<IContext> {
     public ContextComboBox(@NotNull final ComboBoxModel<IContext> model) {
         super(model);
         setPreferredSize(new Dimension(200, getPreferredSize().height));
-        setEditable(true);
+        setEditable(false);
         setRenderer(renderer);
         setEditor(editor);
     }
@@ -40,7 +29,7 @@ public class ContextComboBox extends JComboBox<IContext> {
     private static final Editor editor = new Editor();
 
     static private class Editor extends BasicComboBoxEditor {
-        private JTextField editor = new JTextField();
+        final private JTextField editor = new JTextField();
 
         @Override
         public Component getEditorComponent() {

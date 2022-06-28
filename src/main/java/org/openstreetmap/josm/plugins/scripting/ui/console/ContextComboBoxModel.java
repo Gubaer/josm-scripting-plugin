@@ -6,6 +6,7 @@ import org.openstreetmap.josm.plugins.scripting.context.IHostedContextsState;
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
 
 import javax.swing.*;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -68,6 +69,25 @@ public class ContextComboBoxModel extends DefaultComboBoxModel<IContext> impleme
             this.userDefinedContexts = null;
         }
         fireContentsChanged(this, 0, getSize()-1);
+    }
+
+    /**
+     * Replies true if <code>name</code> is a suitable new display name for a context.
+     *
+     * @param name the name
+     * @return true if <code>name</code> is a suitable new display name for a context
+     * @throws NullPointerException - if <code>name</code> is null
+     */
+    public boolean isAllowedNewContextName(@NotNull final String name) {
+        if (defaultContext != null && defaultContext.getDisplayName().equalsIgnoreCase(name.trim())) {
+            return false;
+        }
+        if (userDefinedContexts != null) {
+            return ! userDefinedContexts.stream()
+                .map(IContext::getDisplayName)
+                .anyMatch(displayName -> displayName.equalsIgnoreCase(name.trim()));
+        }
+        return true;
     }
 
     /* ------------------------------------------------------------------------------- */

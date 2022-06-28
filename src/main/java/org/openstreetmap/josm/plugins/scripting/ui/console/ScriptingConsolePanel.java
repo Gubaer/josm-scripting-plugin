@@ -4,6 +4,7 @@ import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.openstreetmap.josm.gui.HelpAwareOptionPane;
 import org.openstreetmap.josm.gui.HelpAwareOptionPane.ButtonSpec;
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
+import org.openstreetmap.josm.plugins.scripting.ui.GridBagConstraintBuilder;
 import org.openstreetmap.josm.plugins.scripting.ui.ScriptErrorViewer;
 import org.openstreetmap.josm.plugins.scripting.ui.ScriptErrorViewerModel;
 import org.openstreetmap.josm.plugins.scripting.ui.ScriptExecutor;
@@ -39,18 +40,55 @@ public class ScriptingConsolePanel extends JPanel {
 
     private ContextComboBoxModel contextComboBoxModel;
 
+    protected JPanel buildContextSelectionPanel() {
+        final JPanel pnl = new JPanel(new GridBagLayout());
+        pnl.setBorder(
+            BorderFactory.createTitledBorder(tr("Select or create context"))
+        );
+        final var builder = new GridBagConstraintBuilder();
+        contextComboBoxModel = new ContextComboBoxModel();
+        final var insets = new Insets(2,2,2,2);
+        pnl.add(
+            new JLabel(tr("Existing:")),
+            builder.gridx(0).gridy(0).weightx(0.0).insets(insets).constraints()
+        );
+        pnl.add(
+            new ContextComboBox(contextComboBoxModel),
+            builder.gridx(1).gridy(0).weightx(1.0).insets(insets).constraints()
+        );
+        pnl.add(
+            new JPanel(),
+            builder.gridx(2).gridy(0).weightx(0.0).insets(insets).constraints()
+        );
+        pnl.add(
+            new JLabel(tr("New:")),
+            builder.gridx(0).gridy(1).weightx(0.0).insets(insets).constraints()
+        );
+        pnl.add(
+            new ContextNameTextField(contextComboBoxModel),
+            builder.gridx(1).gridy(1).weightx(1.0).insets(insets).constraints()
+        );
+        pnl.add(
+            new JButton("Create"),
+            builder.gridx(2).gridy(1).weightx(0.0).insets(insets).constraints()
+        );
+        return pnl;
+    }
+
     protected JPanel buildControlPanel() {
         final JPanel pnl = new JPanel(new FlowLayout(FlowLayout.LEFT,0,0));
         pnl.setBorder(null);
         pnl.setBorder(BorderFactory.createEmptyBorder(2,2,2,2));
         JButton btn = new JButton(new RunScriptAction(editor.getModel(), errorViewer.getModel()));
         pnl.add(btn);
-        final var lbl = new JLabel(tr("in context"));
-        lbl.setBorder(BorderFactory.createEmptyBorder(0,10,0,0));
-        pnl.add(lbl);
-        final var cb =new ContextComboBox(contextComboBoxModel = new ContextComboBoxModel());
-        cb.setBorder(BorderFactory.createEmptyBorder(0,10,0,0));
-        pnl.add(cb);
+        final var contextSelectionPanel = buildContextSelectionPanel();
+        contextSelectionPanel.setBorder(
+            BorderFactory.createCompoundBorder(
+                BorderFactory.createEmptyBorder(0,5,0,0),
+                contextSelectionPanel.getBorder()
+            )
+        );
+        pnl.add(contextSelectionPanel);
         return pnl;
     }
 
