@@ -95,8 +95,8 @@ public class ScriptingPlugin extends Plugin implements PreferenceKeys{
                 logger.log(Level.WARNING, MessageFormat.format(
                     "Failed to create ES Module repository for API V3 modules. uri=''{0}''", uri), e);
             }
-
         }
+        ESModuleResolver.getInstance().loadFromPreferences(Preferences.main());
     }
 
     @SuppressWarnings("unused")
