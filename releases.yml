@@ -1,4 +1,9 @@
 releases:
+  - label: v0.2.5
+    minJosmVersion: 18427
+    description: |
+      **Bug fix**: fix #96 - scripting.graalvm.es-module-repositories entries not read by plugin
+
   - label: v0.2.4
     minJosmVersion: 18427
     description: |
