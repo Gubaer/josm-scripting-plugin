@@ -1,6 +1,7 @@
 package org.openstreetmap.josm.plugins.scripting.graalvm.api
 
 import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.openstreetmap.josm.plugins.scripting.graalvm.AbstractGraalVMBasedTest
 import org.openstreetmap.josm.plugins.scripting.graalvm.esmodule.ESModuleResolver
@@ -10,8 +11,8 @@ class APIV3FunctionalTest extends AbstractGraalVMBasedTest{
 
     static private ESModuleResolver resolver
 
-    @BeforeAll
-    static void setupResolverAndContext() {
+    @BeforeEach
+    void setupResolverAndContext() {
         resolver = ESModuleResolver.instance
         final repo = new FileSystemESModuleRepository(new File(
             getProjectHome(),
