@@ -64,8 +64,10 @@ public class GraalVMConfigurationPanel extends JPanel implements HyperlinkListen
     protected JPanel buildTabs() {
         JPanel pnl = new JPanel(new BorderLayout());
         JTabbedPane tpPreferencesTabs = new JTabbedPane();
-        tpPreferencesTabs.add(tr("ES Module repositories"),
-            pnlESModuleRepoConfiguration = new ESModuleRepoConfigurationPanel());
+        if (GraalVMFacadeFactory.isGraalVMPresent()) {
+            tpPreferencesTabs.add(tr("ES Module repositories"),
+                pnlESModuleRepoConfiguration = new ESModuleRepoConfigurationPanel());
+        }
         tpPreferencesTabs.add(tr("CommonJS module repositories"),
             pnlCommonJSRepoConfiguration = new CommonJSRepoConfigurationPanel());
         pnl.add(tpPreferencesTabs, BorderLayout.CENTER);
