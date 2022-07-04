@@ -1,4 +1,9 @@
 releases:
+  - label: v0.2.6
+    minJosmVersion: 18427
+    description: |
+      **Bug fix**: ix ClassNotFoundException when running on a stock JDK without GraalJS
+
   - label: v0.2.5
     minJosmVersion: 18427
     description: |
