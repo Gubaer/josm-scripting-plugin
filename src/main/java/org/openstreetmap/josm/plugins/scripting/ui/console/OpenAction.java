@@ -11,8 +11,7 @@ import java.util.logging.Logger;
 import static org.openstreetmap.josm.tools.I18n.tr;
 
 public class OpenAction extends AbstractAction {
-    private static final long serialVersionUID = 1L;
-
+    
     @SuppressWarnings("unused")
     static private final Logger logger = Logger.getLogger(
         OpenAction.class.getName());
