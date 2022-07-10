@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 import static org.openstreetmap.josm.tools.I18n.tr;
 
 public class OpenAction extends AbstractAction {
-    
+
     @SuppressWarnings("unused")
     static private final Logger logger = Logger.getLogger(
         OpenAction.class.getName());
