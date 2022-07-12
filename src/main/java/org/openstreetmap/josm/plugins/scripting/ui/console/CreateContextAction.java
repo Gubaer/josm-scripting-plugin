@@ -1,6 +1,7 @@
 package org.openstreetmap.josm.plugins.scripting.ui.console;
 
 import org.openstreetmap.josm.plugins.scripting.context.ContextRegistry;
+import org.openstreetmap.josm.tools.ImageProvider;
 
 import javax.swing.*;
 import javax.validation.constraints.NotNull;
@@ -28,8 +29,9 @@ public class CreateContextAction extends AbstractAction implements PropertyChang
         Objects.requireNonNull(contextComboBoxModel);
         this.contextComboBoxModel = contextComboBoxModel;
         this.contextNameTextField = contextNameTextField;
-        putValue(NAME, tr("Create"));
+        //putValue(NAME, tr("Create"));
         putValue(SHORT_DESCRIPTION, tr("Create a new context"));
+        putValue(SMALL_ICON, ImageProvider.get("add", ImageProvider.ImageSizes.SMALLICON));
     }
 
     @Override
@@ -42,6 +44,7 @@ public class CreateContextAction extends AbstractAction implements PropertyChang
             name, contextComboBoxModel.getEngine()
         );
         contextNameTextField.setText("");
+        contextComboBoxModel.selectByName(name);
     }
 
     @Override

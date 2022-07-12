@@ -90,6 +90,31 @@ public class ContextComboBoxModel extends DefaultComboBoxModel<IContext> impleme
         return true;
     }
 
+    /**
+     * Selects the context with name <code>name</code>
+     *
+     * @param name the name of the context to be selected
+     * @throws NullPointerException - if <code>name</code> is null
+     */
+    public void selectByName(@NotNull final String name) {
+        if (defaultContext != null && defaultContext.getDisplayName().equals(name)) {
+            setSelectedItem(defaultContext);
+            return;
+        }
+        if (userDefinedContexts != null) {
+            userDefinedContexts.stream()
+                .filter(context -> context.getDisplayName().equals(name))
+                .findFirst()
+                .ifPresent(this::setSelectedItem);
+        }
+    }
+
+    public void selectDefaultContext() {
+        if (defaultContext != null) {
+            setSelectedItem(defaultContext);
+        }
+    }
+
     /* ------------------------------------------------------------------------------- */
     /* ComboBoxModel                                                                   */
     /* ------------------------------------------------------------------------------- */

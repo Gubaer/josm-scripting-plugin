@@ -58,12 +58,21 @@ public class ScriptingConsolePanel extends JPanel {
             new JLabel(tr("Existing:")),
             builder.gridx(0).gridy(0).weightx(0.0).insets(insets).constraints()
         );
+        var contextComboBox = new ContextComboBox(contextComboBoxModel);
         pnl.add(
-            new ContextComboBox(contextComboBoxModel),
+            contextComboBox,
             builder.gridx(1).gridy(0).weightx(1.0).insets(insets).constraints()
         );
+
+        // the 'delete' button with its action
+        final var deleteContextAction = new DeleteContextAction(contextComboBoxModel);
+        final var btnDelete = new JButton(deleteContextAction);
+        btnDelete.setMargin(new Insets(0,0,0,0));
+        btnDelete.setContentAreaFilled(false);
+        contextComboBox.addItemListener(deleteContextAction);
+
         pnl.add(
-            new JPanel(),
+            btnDelete,
             builder.gridx(2).gridy(0).weightx(0.0).insets(insets).constraints()
         );
         pnl.add(
@@ -79,6 +88,8 @@ public class ScriptingConsolePanel extends JPanel {
         // the 'create' button with its action
         final var createContextAction = new CreateContextAction(contextNameTextField, contextComboBoxModel);
         final var btnCreate = new JButton(createContextAction);
+        btnCreate.setMargin(new Insets(0,0,0,0));
+        btnCreate.setContentAreaFilled(false);
         contextNameTextField.addPropertyChangeListener(createContextAction);
 
         // the context name field action. Don't listen to property changes PROP_IS_VALID_CONTEXT_NAME
