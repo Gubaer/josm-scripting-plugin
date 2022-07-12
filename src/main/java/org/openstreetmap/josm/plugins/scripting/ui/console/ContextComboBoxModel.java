@@ -83,9 +83,9 @@ public class ContextComboBoxModel extends DefaultComboBoxModel<IContext> impleme
             return false;
         }
         if (userDefinedContexts != null) {
-            return ! userDefinedContexts.stream()
+            return userDefinedContexts.stream()
                 .map(IContext::getDisplayName)
-                .anyMatch(displayName -> displayName.equalsIgnoreCase(name.trim()));
+                .noneMatch(displayName -> displayName.equalsIgnoreCase(name.trim()));
         }
         return true;
     }
@@ -103,8 +103,6 @@ public class ContextComboBoxModel extends DefaultComboBoxModel<IContext> impleme
             size++;
         }
         if (userDefinedContexts != null && ! userDefinedContexts.isEmpty()) {
-            // add one entry for the separator
-            size++;
             size += userDefinedContexts.size();
         }
         return size;
@@ -112,11 +110,10 @@ public class ContextComboBoxModel extends DefaultComboBoxModel<IContext> impleme
 
     @Override
     public IContext getElementAt(int i) {
-        switch(i) {
-            case 0: return defaultContext;
-            case 1: return null;  // the separator
-            default:
-                return userDefinedContexts.get(i-2);
+        if (i == 0) {
+            return defaultContext;
+        } else {
+            return userDefinedContexts.get(i-1);
         }
     }
 

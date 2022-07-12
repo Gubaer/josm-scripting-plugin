@@ -271,7 +271,7 @@ public class GraalVMFacade  implements IGraalVMFacade {
             tr("Default"),
             engine,
             createAndInitContext(),
-            true
+            true /* default context */
         );
         defaultContexts.put(engine, context);
         return context;
@@ -303,7 +303,7 @@ public class GraalVMFacade  implements IGraalVMFacade {
             displayName,
             engine,
             createAndInitContext(),
-            true
+            false /* not a default context */
         );
         rememberContext(engine, context);
         return context;

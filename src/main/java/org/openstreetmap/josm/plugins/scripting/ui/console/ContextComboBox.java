@@ -57,14 +57,11 @@ public class ContextComboBox extends JComboBox<IContext> {
         @Override
         public Component getListCellRendererComponent(JList<? extends IContext> list, IContext context,
                                           int i, boolean isSelected, boolean cellHasFocus) {
-            if (context == null) {
+            if (context.isDefault()) {
                 setFont(getFont().deriveFont(Font.ITALIC));
-                setForeground(list.getForeground());
-                setBackground(list.getBackground());
-                setText("User defined contexts");
-                return this;
+            } else {
+                setFont(getFont().deriveFont(Font.PLAIN));
             }
-            setFont(getFont().deriveFont(Font.PLAIN));
             setText(context.getDisplayName());
             setForeground(isSelected ? list.getSelectionForeground() : list.getForeground());
             setBackground(isSelected ? list.getSelectionBackground() : list.getBackground());
