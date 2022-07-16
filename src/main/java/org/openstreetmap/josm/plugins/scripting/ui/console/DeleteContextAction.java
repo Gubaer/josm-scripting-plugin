@@ -36,10 +36,7 @@ public class DeleteContextAction extends AbstractAction implements ItemListener 
     @Override
     public void actionPerformed(ActionEvent event) {
         var selectedContext = (IContext) contextComboBoxModel.getSelectedItem();
-        if (selectedContext == null) {
-            return;
-        }
-        if (selectedContext.isDefault()) {
+        if (selectedContext == null || selectedContext.isDefault()) {
             return;
         }
         ContextRegistry.getInstance().removeContext(selectedContext);
