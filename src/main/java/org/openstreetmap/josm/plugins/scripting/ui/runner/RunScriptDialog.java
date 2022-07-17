@@ -1,39 +1,5 @@
 package org.openstreetmap.josm.plugins.scripting.ui.runner;
 
-import static org.openstreetmap.josm.plugins.scripting.ui
-        .GridBagConstraintBuilder.gbc;
-import static org.openstreetmap.josm.tools.I18n.tr;
-
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.io.File;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.logging.Logger;
-
-import javax.swing.AbstractAction;
-import javax.swing.Action;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComponent;
-import javax.swing.JDialog;
-import javax.swing.JFileChooser;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.KeyStroke;
-import javax.validation.constraints.NotNull;
-
 import org.openstreetmap.josm.actions.ActionParameter;
 import org.openstreetmap.josm.actions.JosmAction;
 import org.openstreetmap.josm.actions.ParameterizedAction;
@@ -42,14 +8,26 @@ import org.openstreetmap.josm.gui.MainApplication;
 import org.openstreetmap.josm.gui.help.ContextSensitiveHelpAction;
 import org.openstreetmap.josm.gui.help.HelpUtil;
 import org.openstreetmap.josm.gui.preferences.ToolbarPreferences;
+import org.openstreetmap.josm.gui.util.WindowGeometry;
 import org.openstreetmap.josm.gui.widgets.HtmlPanel;
-import org.openstreetmap.josm.gui.widgets.SelectAllOnFocusGainedDecorator;
 import org.openstreetmap.josm.plugins.scripting.model.PreferenceKeys;
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
 import org.openstreetmap.josm.plugins.scripting.ui.RunScriptService;
 import org.openstreetmap.josm.tools.ImageProvider;
-import org.openstreetmap.josm.gui.util.WindowGeometry;
 import org.openstreetmap.josm.tools.Utils;
+
+import javax.swing.*;
+import javax.validation.constraints.NotNull;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Logger;
+
+import static org.openstreetmap.josm.tools.I18n.tr;
 
 /**
  * Provides a modal dialog for selecting and running a script.
@@ -73,7 +51,9 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys {
     /**
      * the input field for the script file name
      */
-    private MostRecentlyRunScriptsComboBox cbScriptFile;
+    //private MostRecentlyRunScriptsComboBox cbScriptFile;
+    private ScriptFileInputPanel pnlScriptFileInput;
+
     private Action actRun;
     private JCheckBox addOnToolbar;
 
@@ -120,31 +100,7 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys {
     }
 
     private JPanel buildScriptFileInputPanel() {
-        JPanel pnl = new JPanel();
-
-        JPanel filePnl = new JPanel(new GridBagLayout());
-        GridBagConstraints gc = gbc().cell(0, 0).weight(0, 0).fillboth()
-                .insets(3, 3, 3, 3).constraints();
-        filePnl.add(new JLabel(tr("File:")), gc);
-
-        cbScriptFile = new MostRecentlyRunScriptsComboBox(
-            MostRecentlyRunScriptsModel.getInstance()
-        );
-        SelectAllOnFocusGainedDecorator.decorate((JTextField) cbScriptFile
-                .getEditor().getEditorComponent());
-        cbScriptFile.setToolTipText(tr("Enter the name of a script file"));
-        gc = gbc(gc).cell(1, 0).weightx(1.0).spacingright(0).constraints();
-        filePnl.add(cbScriptFile, gc);
-
-        gc = gbc(gc).cell(2, 0).weightx(0.0).spacingleft(0).constraints();
-        JButton btn;
-        filePnl.add(btn = new JButton(new SelectScriptFileAction()), gc);
-        btn.setFocusable(false);
-
-        // just a filler
-        JPanel filler = new JPanel();
-        gc = gbc(gc).cell(0, 1, 3, 1).weight(1.0, 1.0).fillboth().constraints();
-        filePnl.add(filler, gc);
+        pnlScriptFileInput = new ScriptFileInputPanel();
 
         JPanel toolbarPnl = new JPanel(new FlowLayout(FlowLayout.LEADING));
         addOnToolbar = new JCheckBox(tr("Add toolbar button"), false);
@@ -152,9 +108,10 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys {
             tr("Add a button for this script file to the toolbar."));
         toolbarPnl.add(addOnToolbar);
 
-        pnl.add(filePnl);
-        pnl.add(toolbarPnl);
+        JPanel pnl = new JPanel();
         pnl.setLayout(new BoxLayout(pnl, BoxLayout.Y_AXIS));
+        pnl.add(pnlScriptFileInput);
+        pnl.add(toolbarPnl);
 
         return pnl;
     }
@@ -181,7 +138,7 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowActivated(WindowEvent e) {
-                cbScriptFile.requestFocusInWindow();
+                pnlScriptFileInput.requestFocusInWindow();
             }
         });
     }
@@ -189,18 +146,18 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys {
     @Override
     public void setVisible(boolean visible) {
         if (visible) {
-            String lastFile = Preferences.main().get(PREF_KEY_LAST_FILE);
+            final var lastFile = Preferences.main().get(PREF_KEY_LAST_FILE);
             if (lastFile != null && !lastFile.trim().isEmpty()) {
-                cbScriptFile.setText(lastFile.trim());
+                pnlScriptFileInput.setFileName(lastFile.trim());
             }
             WindowGeometry.centerInWindow(getParent(), new Dimension(600, 180))
-                    .applySafe(this);
+                .applySafe(this);
         } else {
             /*
              * Persist the file history script file name
              * in the preferences
              */
-            String currentFile = cbScriptFile.getText();
+            final var currentFile = pnlScriptFileInput.getFileName();
             Preferences.main().put(PREF_KEY_LAST_FILE, currentFile.trim());
         }
         super.setVisible(visible);
@@ -249,7 +206,7 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys {
 
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
-            doRun(cbScriptFile.getText().trim(), addOnToolbar.isSelected());
+            doRun(pnlScriptFileInput.getFileName().trim(), addOnToolbar.isSelected());
         }
 
         private void doRun(String fileName, boolean addToToolbar) {
@@ -285,36 +242,6 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys {
             if (engine == null) return;
             setVisible(false);
             service.runScript(fileName, engine, RunScriptDialog.this);
-        }
-    }
-
-    private class SelectScriptFileAction extends AbstractAction {
-        SelectScriptFileAction() {
-            putValue(SHORT_DESCRIPTION, tr("Launch file selection dialog"));
-            putValue(SMALL_ICON, ImageProvider.get("open", ImageProvider.ImageSizes.SMALLICON));
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent evt) {
-            String fileName = cbScriptFile.getText().trim();
-            File currentFile = null;
-            if (!fileName.isEmpty()) {
-                currentFile = new File(fileName);
-            }
-            JFileChooser chooser = new JFileChooser();
-            chooser.setDialogTitle(tr("Select a script file"));
-            chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-            chooser.setMultiSelectionEnabled(false);
-            chooser.setFileHidingEnabled(false);
-            if (currentFile != null) {
-                chooser.setCurrentDirectory(currentFile);
-                chooser.setSelectedFile(currentFile);
-            }
-            int ret = chooser.showOpenDialog(RunScriptDialog.this);
-            if (ret != JFileChooser.APPROVE_OPTION) return;
-
-            currentFile = chooser.getSelectedFile();
-            cbScriptFile.setText(currentFile.toString());
         }
     }
 }
