@@ -8,19 +8,16 @@ import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
 import org.openstreetmap.josm.plugins.scripting.ui.GridBagConstraintBuilder;
 import org.openstreetmap.josm.plugins.scripting.ui.ScriptErrorViewer;
 import org.openstreetmap.josm.plugins.scripting.ui.ScriptErrorViewerModel;
-import org.openstreetmap.josm.plugins.scripting.ui.ScriptExecutor;
 import org.openstreetmap.josm.tools.ImageProvider;
 
 import javax.swing.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.util.Objects;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Stream;
 
@@ -40,6 +37,7 @@ public class ScriptingConsolePanel extends JPanel {
     private ScriptErrorViewer errorViewer;
 
     private ContextComboBoxModel contextComboBoxModel;
+    private ContextComboBox contextComboBox;
 
     protected JPanel buildContextSelectionPanel() {
         final JPanel pnl = new JPanel(new GridBagLayout());
@@ -58,7 +56,7 @@ public class ScriptingConsolePanel extends JPanel {
             new JLabel(tr("Existing:")),
             builder.gridx(0).gridy(0).weightx(0.0).insets(insets).constraints()
         );
-        var contextComboBox = new ContextComboBox(contextComboBoxModel);
+        contextComboBox = new ContextComboBox(contextComboBoxModel);
         pnl.add(
             contextComboBox,
             builder.gridx(1).gridy(0).weightx(1.0).insets(insets).constraints()
@@ -108,9 +106,20 @@ public class ScriptingConsolePanel extends JPanel {
         final JPanel pnl = new JPanel(new FlowLayout(FlowLayout.LEFT,0,0));
         pnl.setBorder(null);
         pnl.setBorder(BorderFactory.createEmptyBorder(2,2,2,2));
-        JButton btn = new JButton(new RunScriptAction(editor.getModel(), errorViewer.getModel()));
-        pnl.add(btn);
         final var contextSelectionPanel = buildContextSelectionPanel();
+        final var runScriptAction = new RunScriptAction(
+            editor,
+            errorViewer.getModel(),
+            contextComboBoxModel
+        );
+        // runScriptAction listen to select/deselect events, to enable/disable the runScriptAction
+        contextComboBox.addItemListener(runScriptAction);
+        // runScriptAction listens to  ScriptEditorModel.PROP_SCRIPT_ENGINE events, to enable/disable
+        // the runScriptAction
+        getScriptEditorModel().addPropertyChangeListener(runScriptAction);
+
+        JButton btn = new JButton(runScriptAction);
+        pnl.add(btn);
         contextSelectionPanel.setBorder(
             BorderFactory.createCompoundBorder(
                 BorderFactory.createEmptyBorder(0,5,0,0),
@@ -274,67 +283,6 @@ public class ScriptingConsolePanel extends JPanel {
         return log;
     }
 
-    class RunScriptAction extends AbstractAction
-        implements PropertyChangeListener {
-        final private ScriptEditorModel model;
-        final private ScriptErrorViewerModel errorModel;
-
-        public RunScriptAction(@NotNull final ScriptEditorModel model, @NotNull final ScriptErrorViewerModel errorModel) {
-            this.model = model;
-            this.errorModel = errorModel;
-            putValue(SMALL_ICON, ImageProvider.get("media-playback-start",
-                ImageProvider.ImageSizes.SMALLICON));
-            putValue(SHORT_DESCRIPTION, tr("Execute the script"));
-            putValue(NAME, tr("Run"));
-            model.addPropertyChangeListener(this);
-            updateEnabledState();
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            errorModel.clearError();
-            final String source = editor.getScript();
-            switch(model.getScriptEngineDescriptor().getEngineType()) {
-            case EMBEDDED:
-                new ScriptExecutor(ScriptingConsolePanel.this)
-                    .runScriptWithEmbeddedEngine(source, errorModel);
-                break;
-            case PLUGGED:
-                new ScriptExecutor(ScriptingConsolePanel.this)
-                    .runScriptWithPluggedEngine(
-                        model.getScriptEngineDescriptor(),
-                        source,
-                        errorModel
-                    );
-                break;
-            case GRAALVM:
-                try {
-                    new ScriptExecutor(ScriptingConsolePanel.this)
-                        .runScriptWithGraalEngine(
-                            model.getScriptEngineDescriptor(),
-                            source,
-                            errorModel
-                        );
-                } catch(Throwable ex) {
-                    logger.log(Level.SEVERE, ex.getMessage(), ex);
-                    throw ex;
-                }
-                break;
-            }
-        }
-
-        protected void updateEnabledState() {
-            setEnabled(model.getScriptEngineDescriptor() != null);
-        }
-
-        @Override
-        public void propertyChange(PropertyChangeEvent evt) {
-            if (!evt.getPropertyName().equals(ScriptEditorModel.PROP_SCRIPT_ENGINE)) {
-                return;
-            }
-            updateEnabledState();
-        }
-    }
 
     /**
      * Listens to property changes in the editor model and updates the view
