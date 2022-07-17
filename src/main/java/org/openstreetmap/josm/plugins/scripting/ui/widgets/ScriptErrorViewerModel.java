@@ -1,4 +1,4 @@
-package org.openstreetmap.josm.plugins.scripting.ui;
+package org.openstreetmap.josm.plugins.scripting.ui.widgets;
 
 import javax.validation.constraints.Null;
 import java.beans.PropertyChangeEvent;

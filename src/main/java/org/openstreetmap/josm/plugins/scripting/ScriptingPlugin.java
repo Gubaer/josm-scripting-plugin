@@ -22,7 +22,7 @@ import org.openstreetmap.josm.plugins.scripting.model.PreferenceKeys;
 import org.openstreetmap.josm.plugins.scripting.ui.preferences.ConfigureAction;
 import org.openstreetmap.josm.plugins.scripting.ui.preferences.PreferenceEditor;
 import org.openstreetmap.josm.plugins.scripting.ui.runner.MostRecentlyRunScriptsModel;
-import org.openstreetmap.josm.plugins.scripting.ui.RunScriptAction;
+import org.openstreetmap.josm.plugins.scripting.ui.runner.RunScriptAction;
 import org.openstreetmap.josm.plugins.scripting.ui.runner.RunScriptDialog;
 import org.openstreetmap.josm.plugins.scripting.ui.ToggleConsoleAction;
 import org.openstreetmap.josm.plugins.scripting.ui.console.SyntaxConstantsEngine;

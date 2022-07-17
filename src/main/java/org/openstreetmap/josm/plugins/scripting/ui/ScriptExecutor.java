@@ -11,6 +11,8 @@ import org.openstreetmap.josm.plugins.scripting.rhino.RhinoEngine;
 import org.openstreetmap.josm.plugins.scripting.jsr223.JSR223CompiledScriptCache;
 import org.openstreetmap.josm.plugins.scripting.jsr223.JSR223ScriptEngineProvider;
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
+import org.openstreetmap.josm.plugins.scripting.ui.runner.ScriptErrorDialog;
+import org.openstreetmap.josm.plugins.scripting.ui.widgets.ScriptErrorViewerModel;
 import org.openstreetmap.josm.plugins.scripting.util.Assert;
 
 import javax.script.Compilable;

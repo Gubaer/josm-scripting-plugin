@@ -1,7 +1,7 @@
 package org.openstreetmap.josm.plugins.scripting.ui.console;
 
 import org.openstreetmap.josm.plugins.scripting.graalvm.IGraalVMContext;
-import org.openstreetmap.josm.plugins.scripting.ui.ScriptErrorViewerModel;
+import org.openstreetmap.josm.plugins.scripting.ui.widgets.ScriptErrorViewerModel;
 import org.openstreetmap.josm.plugins.scripting.ui.widgets.ICurrentContextSource;
 import org.openstreetmap.josm.tools.ImageProvider;
 

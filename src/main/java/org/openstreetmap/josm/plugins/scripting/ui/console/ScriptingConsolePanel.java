@@ -4,8 +4,8 @@ import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.openstreetmap.josm.gui.HelpAwareOptionPane;
 import org.openstreetmap.josm.gui.HelpAwareOptionPane.ButtonSpec;
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
-import org.openstreetmap.josm.plugins.scripting.ui.ScriptErrorViewer;
-import org.openstreetmap.josm.plugins.scripting.ui.ScriptErrorViewerModel;
+import org.openstreetmap.josm.plugins.scripting.ui.widgets.ScriptErrorViewer;
+import org.openstreetmap.josm.plugins.scripting.ui.widgets.ScriptErrorViewerModel;
 import org.openstreetmap.josm.plugins.scripting.ui.widgets.SelectContextPanel;
 import org.openstreetmap.josm.tools.ImageProvider;
 

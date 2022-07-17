@@ -1,7 +1,10 @@
-package org.openstreetmap.josm.plugins.scripting.ui;
+package org.openstreetmap.josm.plugins.scripting.ui.runner;
 
 import org.openstreetmap.josm.gui.MainApplication;
 import org.openstreetmap.josm.gui.util.WindowGeometry;
+import org.openstreetmap.josm.plugins.scripting.ui.EditorPaneBuilder;
+import org.openstreetmap.josm.plugins.scripting.ui.widgets.ScriptErrorViewer;
+import org.openstreetmap.josm.plugins.scripting.ui.widgets.ScriptErrorViewerModel;
 
 import javax.swing.*;
 import javax.validation.constraints.NotNull;
