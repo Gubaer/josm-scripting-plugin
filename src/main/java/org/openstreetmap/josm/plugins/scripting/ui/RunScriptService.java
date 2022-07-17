@@ -8,6 +8,7 @@ import org.openstreetmap.josm.plugins.scripting.graalvm.GraalVMFacadeFactory;
 import org.openstreetmap.josm.plugins.scripting.jsr223.JSR223ScriptEngineProvider;
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
 import org.openstreetmap.josm.plugins.scripting.ui.runner.MostRecentlyRunScriptsModel;
+import org.openstreetmap.josm.plugins.scripting.ui.widgets.ScriptEngineSelectionDialog;
 
 import javax.swing.*;
 import javax.validation.constraints.NotNull;

@@ -2,7 +2,7 @@ package org.openstreetmap.josm.plugins.scripting;
 
 import org.openstreetmap.josm.plugins.scripting.fixtures.JOSMFixture;
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
-import org.openstreetmap.josm.plugins.scripting.ui.ScriptEngineSelectionDialog;
+import org.openstreetmap.josm.plugins.scripting.ui.widgets.ScriptEngineSelectionDialog;
 
 import javax.swing.*;
 import java.awt.*;

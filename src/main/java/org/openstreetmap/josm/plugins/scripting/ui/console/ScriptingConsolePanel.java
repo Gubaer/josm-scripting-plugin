@@ -180,8 +180,8 @@ public class ScriptingConsolePanel extends JPanel {
             updateScriptContentType(desc);
             contextComboBoxModel.setEngine(desc);
         });
-        updateScriptContentType(editor.getModel().getScriptEngineDescriptor());
-        contextComboBoxModel.setEngine(editor.getModel().getScriptEngineDescriptor());
+        updateScriptContentType(editor.getModel().getEngine());
+        contextComboBoxModel.setEngine(editor.getModel().getEngine());
     }
 
     protected void warnMissingSyntaxStyle(@Null ScriptEngineDescriptor desc) {

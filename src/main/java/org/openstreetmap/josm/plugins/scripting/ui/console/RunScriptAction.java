@@ -112,7 +112,7 @@ public class RunScriptAction extends AbstractAction implements PropertyChangeLis
         }
 
         final String source = scriptEditor.getScript();
-        switch(model.getScriptEngineDescriptor().getEngineType()) {
+        switch(model.getEngine().getEngineType()) {
             case EMBEDDED:
                 // TODO(gubaer): implement
 //                new ScriptExecutor(ScriptingConsolePanel.this)
@@ -150,7 +150,7 @@ public class RunScriptAction extends AbstractAction implements PropertyChangeLis
     }
 
     protected void updateEnabledState() {
-        boolean enabled = model.getScriptEngineDescriptor() != null;
+        boolean enabled = model.getEngine() != null;
         enabled = enabled && contextComboBoxModel.getSelectedItem() != null;
         setEnabled(enabled);
     }

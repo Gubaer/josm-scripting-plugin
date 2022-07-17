@@ -13,6 +13,7 @@ import org.openstreetmap.josm.gui.widgets.HtmlPanel;
 import org.openstreetmap.josm.plugins.scripting.model.PreferenceKeys;
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
 import org.openstreetmap.josm.plugins.scripting.ui.RunScriptService;
+import org.openstreetmap.josm.plugins.scripting.ui.widgets.ScriptEngineInfoPanel;
 import org.openstreetmap.josm.tools.ImageProvider;
 import org.openstreetmap.josm.tools.Utils;
 
@@ -57,6 +58,17 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys {
     private Action actRun;
     private JCheckBox addOnToolbar;
 
+    private final RunScriptDialogModel model;
+
+    /**
+     * Replies the dialog model.
+     *
+     * @return the model
+     */
+    public @NotNull RunScriptDialogModel getModel() {
+        return model;
+    }
+
     /**
      * Constructor
      *
@@ -65,6 +77,7 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys {
     public RunScriptDialog(Component parent) {
         super(JOptionPane.getFrameForComponent(parent),
                 ModalityType.DOCUMENT_MODAL);
+        model = new RunScriptDialogModel();
         build();
         HelpUtil.setHelpContext(this.getRootPane(),
                 HelpUtil.ht("/Plugin/Scripting"));
@@ -99,27 +112,37 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys {
         return pnl;
     }
 
-    private JPanel buildScriptFileInputPanel() {
+    private JPanel buildMainPanel() {
+        // the widget for editing a script file name
         pnlScriptFileInput = new ScriptFileInputPanel();
 
-        JPanel toolbarPnl = new JPanel(new FlowLayout(FlowLayout.LEADING));
+        // the panel with info about the current script engine
+        final var enginePanel = new ScriptEngineInfoPanel(model);
+        enginePanel.setBorder(
+            BorderFactory.createTitledBorder(tr("Script engine"))
+        );
+
+        // a panel with a checkbox for whether the script should
+        // be added to the toolbar
+        final var toolbarPnl = new JPanel(new FlowLayout(FlowLayout.LEADING));
         addOnToolbar = new JCheckBox(tr("Add toolbar button"), false);
-        addOnToolbar.setToolTipText(
-            tr("Add a button for this script file to the toolbar."));
+        addOnToolbar.setToolTipText(tr("Add a button for this script file to the toolbar."));
         toolbarPnl.add(addOnToolbar);
 
-        JPanel pnl = new JPanel();
-        pnl.setLayout(new BoxLayout(pnl, BoxLayout.Y_AXIS));
-        pnl.add(pnlScriptFileInput);
-        pnl.add(toolbarPnl);
+        // assemble the main panel
+        final var pnlMain = new JPanel();
+        pnlMain.setLayout(new BoxLayout(pnlMain, BoxLayout.Y_AXIS));
+        pnlMain.add(pnlScriptFileInput);
+        pnlMain.add(enginePanel);
+        pnlMain.add(toolbarPnl);
 
-        return pnl;
+        return pnlMain;
     }
 
     private JPanel buildContentPanel() {
         JPanel pnl = new JPanel(new BorderLayout());
         pnl.add(buildInfoPanel(), BorderLayout.NORTH);
-        pnl.add(buildScriptFileInputPanel(), BorderLayout.CENTER);
+        pnl.add(buildMainPanel(), BorderLayout.CENTER);
         pnl.add(buildControlButtonPanel(), BorderLayout.SOUTH);
         return pnl;
     }

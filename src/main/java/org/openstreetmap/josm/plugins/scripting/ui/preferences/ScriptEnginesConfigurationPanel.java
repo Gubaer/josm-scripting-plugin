@@ -10,7 +10,7 @@ import org.openstreetmap.josm.gui.widgets.VerticallyScrollablePanel;
 import org.openstreetmap.josm.plugins.scripting.ScriptingPlugin;
 import org.openstreetmap.josm.plugins.scripting.jsr223.JSR223ScriptEngineProvider;
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
-import org.openstreetmap.josm.plugins.scripting.ui.ScriptEngineCellRenderer;
+import org.openstreetmap.josm.plugins.scripting.ui.widgets.ScriptEngineCellRenderer;
 import org.openstreetmap.josm.tools.ImageProvider;
 
 import javax.swing.*;

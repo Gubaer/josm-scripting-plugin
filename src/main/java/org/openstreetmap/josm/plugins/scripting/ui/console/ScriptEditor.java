@@ -4,6 +4,7 @@ import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rtextarea.RTextScrollPane;
 import org.openstreetmap.josm.gui.HelpAwareOptionPane;
+import org.openstreetmap.josm.plugins.scripting.ui.widgets.ScriptEngineInfoPanel;
 
 import javax.swing.*;
 import javax.swing.text.BadLocationException;

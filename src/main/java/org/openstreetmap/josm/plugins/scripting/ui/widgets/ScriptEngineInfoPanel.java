@@ -1,9 +1,7 @@
-package org.openstreetmap.josm.plugins.scripting.ui.console;
+package org.openstreetmap.josm.plugins.scripting.ui.widgets;
 
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
 import org.openstreetmap.josm.plugins.scripting.ui.EditorPaneBuilder;
-import org.openstreetmap.josm.plugins.scripting.ui.ScriptEngineCellRenderer;
-import org.openstreetmap.josm.plugins.scripting.ui.ScriptEngineSelectionDialog;
 
 import javax.swing.*;
 import javax.swing.event.HyperlinkEvent;
@@ -25,26 +23,25 @@ import static org.openstreetmap.josm.tools.I18n.tr;
  * Displays summary information about the currently selected scripting engine.
  */
 @SuppressWarnings("unused")
-public class ScriptEngineInfoPanel extends JPanel implements
-PropertyChangeListener, HyperlinkListener{
+public class ScriptEngineInfoPanel extends JPanel implements PropertyChangeListener, HyperlinkListener{
     @SuppressWarnings("unused")
     static private final Logger logger =
         Logger.getLogger(ScriptEngineInfoPanel.class.getName());
 
     private JEditorPane jepInfo;
-    private ScriptEditorModel model;
+    private final IScriptEngineInfoModel model;
 
     /**
      * Creates a new info panel
      *
      * @param model the model to listen too for updated script engines
      */
-    public ScriptEngineInfoPanel(@NotNull ScriptEditorModel model){
+    public ScriptEngineInfoPanel(@NotNull final IScriptEngineInfoModel model){
         Objects.requireNonNull(model);
         model.addPropertyChangeListener(this);
         this.model = model;
         build();
-        refreshInfo(model.getScriptEngineDescriptor());
+        refreshInfo(model.getEngine());
     }
 
     protected void build() {
@@ -54,9 +51,6 @@ PropertyChangeListener, HyperlinkListener{
         add(jepInfo, BorderLayout.CENTER);
     }
 
-    public ScriptEngineInfoPanel() {
-        build();
-    }
 
     private static String buildSelectScriptEngineLink(final String label) {
         // http://josm/select-script-engine is "internal" URL, HyperlinkListener
@@ -130,14 +124,14 @@ PropertyChangeListener, HyperlinkListener{
 
     protected void promptForScriptEngine() {
         final var desc = ScriptEngineSelectionDialog.select(
-            this, model.getScriptEngineDescriptor());
+            this, model.getEngine());
         if (desc != null){
             logger.log(Level.FINE, String.format(
                 "Interactively selected script engine. id=%s, language=%s",
                 desc.getEngineId(),
                 desc.getLanguageName()
             ));
-            model.setScriptEngineDescriptor(desc);
+            model.setEngine(desc);
         } else {
             logger.log(Level.FINE, "No script engine selected");
         }
@@ -148,8 +142,7 @@ PropertyChangeListener, HyperlinkListener{
     /* --------------------------------------------------------------------- */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if (!evt.getPropertyName().equals(
-                ScriptEditorModel.PROP_SCRIPT_ENGINE)) {
+        if (!evt.getPropertyName().equals(IScriptEngineInfoModel.PROP_SCRIPT_ENGINE)) {
             return;
         }
         refreshInfo((ScriptEngineDescriptor)evt.getNewValue());

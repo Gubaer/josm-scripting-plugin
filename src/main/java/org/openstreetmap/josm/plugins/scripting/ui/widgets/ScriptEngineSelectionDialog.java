@@ -1,4 +1,4 @@
-package org.openstreetmap.josm.plugins.scripting.ui;
+package org.openstreetmap.josm.plugins.scripting.ui.widgets;
 
 import org.openstreetmap.josm.gui.MainApplication;
 import org.openstreetmap.josm.gui.help.ContextSensitiveHelpAction;

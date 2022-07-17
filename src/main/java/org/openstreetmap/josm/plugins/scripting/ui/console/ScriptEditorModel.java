@@ -8,13 +8,14 @@ import java.util.logging.Logger;
 
 import org.openstreetmap.josm.plugins.scripting.graalvm.GraalVMFacadeFactory;
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
+import org.openstreetmap.josm.plugins.scripting.ui.widgets.IScriptEngineInfoModel;
 
 import javax.validation.constraints.Null;
 
 /**
  * <p>Manages the state of the scripting console</p>
  */
-public class ScriptEditorModel {
+public class ScriptEditorModel implements IScriptEngineInfoModel {
     @SuppressWarnings("unused")
     static private final Logger logger =
             Logger.getLogger(ScriptEditorModel.class.getName());
@@ -94,7 +95,7 @@ public class ScriptEditorModel {
      * @param desc the descriptor. If null, assumes
      *  {@link ScriptEngineDescriptor#DEFAULT_SCRIPT_ENGINE}
      */
-    public void setScriptEngineDescriptor(ScriptEngineDescriptor desc) {
+    public void setEngine(ScriptEngineDescriptor desc) {
         if (desc == null) desc = ScriptEngineDescriptor.DEFAULT_SCRIPT_ENGINE;
         if (desc.equals(this.descriptor)) return;
         ScriptEngineDescriptor old = this.descriptor;
@@ -107,7 +108,7 @@ public class ScriptEditorModel {
      *
      * @return the descriptor
      */
-    public ScriptEngineDescriptor getScriptEngineDescriptor() {
+    public ScriptEngineDescriptor getEngine() {
         return this.descriptor;
     }
 
