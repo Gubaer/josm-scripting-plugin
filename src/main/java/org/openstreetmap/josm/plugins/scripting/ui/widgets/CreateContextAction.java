@@ -1,4 +1,4 @@
-package org.openstreetmap.josm.plugins.scripting.ui.console;
+package org.openstreetmap.josm.plugins.scripting.ui.widgets;
 
 import org.openstreetmap.josm.plugins.scripting.context.ContextRegistry;
 import org.openstreetmap.josm.tools.ImageProvider;

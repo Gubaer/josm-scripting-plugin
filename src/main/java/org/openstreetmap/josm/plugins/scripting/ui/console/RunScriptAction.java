@@ -2,14 +2,13 @@ package org.openstreetmap.josm.plugins.scripting.ui.console;
 
 import org.openstreetmap.josm.plugins.scripting.graalvm.IGraalVMContext;
 import org.openstreetmap.josm.plugins.scripting.ui.ScriptErrorViewerModel;
+import org.openstreetmap.josm.plugins.scripting.ui.widgets.ICurrentContextSource;
 import org.openstreetmap.josm.tools.ImageProvider;
 
 import javax.swing.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import java.awt.event.ActionEvent;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.lang.reflect.InvocationTargetException;
@@ -23,26 +22,26 @@ import static org.openstreetmap.josm.tools.I18n.tr;
 /**
  * Action to run the script which is currently edited in the scripting console.
  */
-public class RunScriptAction extends AbstractAction implements PropertyChangeListener, ItemListener {
+public class RunScriptAction extends AbstractAction implements PropertyChangeListener {
 
     static public final Logger logger = Logger.getLogger(RunScriptAction.class.getName());
 
     final private ScriptEditorModel model;
     final private ScriptErrorViewerModel errorModel;
-    final private ContextComboBoxModel contextComboBoxModel;
+    final private ICurrentContextSource contextSource;
 
     final private ScriptEditor scriptEditor;
 
     public RunScriptAction(@NotNull final ScriptEditor scriptEditor,
                            @NotNull final ScriptErrorViewerModel errorModel,
-                           @NotNull final ContextComboBoxModel contextComboBoxModel) {
+                           @NotNull final ICurrentContextSource contextSource) {
         Objects.requireNonNull(scriptEditor);
         Objects.requireNonNull(errorModel);
-        Objects.requireNonNull(contextComboBoxModel);
+        Objects.requireNonNull(contextSource);
         this.scriptEditor = scriptEditor;
         this.model = scriptEditor.getModel();
         this.errorModel = errorModel;
-        this.contextComboBoxModel  = contextComboBoxModel;
+        this.contextSource  = contextSource;
         putValue(SMALL_ICON, ImageProvider.get("media-playback-start", ImageProvider.ImageSizes.SMALLICON));
         putValue(SHORT_DESCRIPTION, tr("Execute the script"));
         putValue(NAME, tr("Run"));
@@ -105,7 +104,7 @@ public class RunScriptAction extends AbstractAction implements PropertyChangeLis
     @Override
     public void actionPerformed(ActionEvent e) {
         errorModel.clearError();
-        final var context = contextComboBoxModel.getSelectedItem();
+        final var context = contextSource.getSelectedContext();
         if (context == null) {
             logger.warning("No scripting context selected. Can't execute the script");
             return;
@@ -151,24 +150,17 @@ public class RunScriptAction extends AbstractAction implements PropertyChangeLis
 
     protected void updateEnabledState() {
         boolean enabled = model.getEngine() != null;
-        enabled = enabled && contextComboBoxModel.getSelectedItem() != null;
+        enabled = enabled && contextSource.getSelectedContext() != null;
         setEnabled(enabled);
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if (!evt.getPropertyName().equals(ScriptEditorModel.PROP_SCRIPT_ENGINE)) {
+        final var name = evt.getPropertyName();
+        if (! (name.equals(ScriptEditorModel.PROP_SCRIPT_ENGINE)
+            || name.equals(ICurrentContextSource.PROP_SELECTED_CONTEXT))) {
             return;
         }
         updateEnabledState();
-    }
-
-    @Override
-    public void itemStateChanged(ItemEvent itemEvent) {
-        switch(itemEvent.getStateChange()) {
-            case ItemEvent.SELECTED:
-            case ItemEvent.DESELECTED:
-                updateEnabledState();
-        }
     }
 }

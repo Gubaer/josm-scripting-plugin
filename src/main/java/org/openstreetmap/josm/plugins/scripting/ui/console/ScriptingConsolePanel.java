@@ -3,11 +3,10 @@ package org.openstreetmap.josm.plugins.scripting.ui.console;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.openstreetmap.josm.gui.HelpAwareOptionPane;
 import org.openstreetmap.josm.gui.HelpAwareOptionPane.ButtonSpec;
-import org.openstreetmap.josm.plugins.scripting.context.ContextRegistry;
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
-import org.openstreetmap.josm.plugins.scripting.ui.GridBagConstraintBuilder;
 import org.openstreetmap.josm.plugins.scripting.ui.ScriptErrorViewer;
 import org.openstreetmap.josm.plugins.scripting.ui.ScriptErrorViewerModel;
+import org.openstreetmap.josm.plugins.scripting.ui.widgets.SelectContextPanel;
 import org.openstreetmap.josm.tools.ImageProvider;
 
 import javax.swing.*;
@@ -36,97 +35,45 @@ public class ScriptingConsolePanel extends JPanel {
     private ScriptEditor editor;
     private ScriptErrorViewer errorViewer;
 
-    private ContextComboBoxModel contextComboBoxModel;
-    private ContextComboBox contextComboBox;
+    private SelectContextPanel pnlSelectContext;
 
-    protected JPanel buildContextSelectionPanel() {
-        final JPanel pnl = new JPanel(new GridBagLayout());
-        pnl.setBorder(
+    //private ContextComboBoxModel contextComboBoxModel;
+    //private ContextComboBox contextComboBox;
+
+    protected SelectContextPanel buildContextSelectionPanel() {
+        final var selectContextPanel = new SelectContextPanel();
+        selectContextPanel.setBorder(
             BorderFactory.createTitledBorder(tr("Select or create context"))
         );
-        final var builder = new GridBagConstraintBuilder();
-
-        // the model listens to property change events from the
-        // context registry
-        contextComboBoxModel = new ContextComboBoxModel();
-        ContextRegistry.getInstance().addPropertyChangeListener(contextComboBoxModel);
-
-        final var insets = new Insets(2,2,2,2);
-        pnl.add(
-            new JLabel(tr("Existing:")),
-            builder.gridx(0).gridy(0).weightx(0.0).insets(insets).constraints()
-        );
-        contextComboBox = new ContextComboBox(contextComboBoxModel);
-        pnl.add(
-            contextComboBox,
-            builder.gridx(1).gridy(0).weightx(1.0).insets(insets).constraints()
-        );
-
-        // the 'delete' button with its action
-        final var deleteContextAction = new DeleteContextAction(contextComboBoxModel);
-        final var btnDelete = new JButton(deleteContextAction);
-        btnDelete.setMargin(new Insets(0,0,0,0));
-        btnDelete.setContentAreaFilled(false);
-        contextComboBox.addItemListener(deleteContextAction);
-
-        pnl.add(
-            btnDelete,
-            builder.gridx(2).gridy(0).weightx(0.0).insets(insets).constraints()
-        );
-        pnl.add(
-            new JLabel(tr("New:")),
-            builder.gridx(0).gridy(1).weightx(0.0).insets(insets).constraints()
-        );
-        final var contextNameTextField = new ContextNameTextField(contextComboBoxModel);
-        pnl.add(
-            contextNameTextField,
-            builder.gridx(1).gridy(1).weightx(1.0).insets(insets).constraints()
-        );
-
-        // the 'create' button with its action
-        final var createContextAction = new CreateContextAction(contextNameTextField, contextComboBoxModel);
-        final var btnCreate = new JButton(createContextAction);
-        btnCreate.setMargin(new Insets(0,0,0,0));
-        btnCreate.setContentAreaFilled(false);
-        contextNameTextField.addPropertyChangeListener(createContextAction);
-
-        // the context name field action. Don't listen to property changes PROP_IS_VALID_CONTEXT_NAME
-        // because text field is always enabled, even if current input is invalid
-        final var contextNameTextFieldAction = new CreateContextAction(contextNameTextField, contextComboBoxModel);
-        contextNameTextField.setAction(contextNameTextFieldAction);
-
-        pnl.add(
-            btnCreate,
-            builder.gridx(2).gridy(1).weightx(0.0).fillboth().insets(insets).constraints()
-        );
-        return pnl;
+        return selectContextPanel;
     }
 
     protected JPanel buildControlPanel() {
         final JPanel pnl = new JPanel(new FlowLayout(FlowLayout.LEFT,0,0));
         pnl.setBorder(null);
         pnl.setBorder(BorderFactory.createEmptyBorder(2,2,2,2));
-        final var contextSelectionPanel = buildContextSelectionPanel();
+        pnlSelectContext = buildContextSelectionPanel();
         final var runScriptAction = new RunScriptAction(
             editor,
             errorViewer.getModel(),
-            contextComboBoxModel
+                pnlSelectContext
         );
-        // runScriptAction listen to select/deselect events, to enable/disable the runScriptAction
-        contextComboBox.addItemListener(runScriptAction);
+        // runScriptAction listen to changes of the selected scripting context
+        pnlSelectContext.addPropertyChangeListener(runScriptAction);
+
         // runScriptAction listens to  ScriptEditorModel.PROP_SCRIPT_ENGINE events, to enable/disable
         // the runScriptAction
         getScriptEditorModel().addPropertyChangeListener(runScriptAction);
 
         JButton btn = new JButton(runScriptAction);
         pnl.add(btn);
-        contextSelectionPanel.setBorder(
+        pnlSelectContext.setBorder(
             BorderFactory.createCompoundBorder(
                 BorderFactory.createEmptyBorder(0,5,0,0),
-                contextSelectionPanel.getBorder()
+                    pnlSelectContext.getBorder()
             )
         );
-        pnl.add(contextSelectionPanel);
+        pnl.add(pnlSelectContext);
         return pnl;
     }
 
@@ -178,10 +125,10 @@ public class ScriptingConsolePanel extends JPanel {
             }
             final ScriptEngineDescriptor desc = (ScriptEngineDescriptor)evt.getNewValue();
             updateScriptContentType(desc);
-            contextComboBoxModel.setEngine(desc);
+            pnlSelectContext.setEngine(desc);
         });
         updateScriptContentType(editor.getModel().getEngine());
-        contextComboBoxModel.setEngine(editor.getModel().getEngine());
+        pnlSelectContext.setEngine(editor.getModel().getEngine());
     }
 
     protected void warnMissingSyntaxStyle(@Null ScriptEngineDescriptor desc) {

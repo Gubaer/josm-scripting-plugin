@@ -1,4 +1,4 @@
-package org.openstreetmap.josm.plugins.scripting.ui.console;
+package org.openstreetmap.josm.plugins.scripting.ui.widgets;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;

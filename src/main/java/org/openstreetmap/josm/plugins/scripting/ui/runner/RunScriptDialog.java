@@ -14,6 +14,7 @@ import org.openstreetmap.josm.plugins.scripting.model.PreferenceKeys;
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
 import org.openstreetmap.josm.plugins.scripting.ui.RunScriptService;
 import org.openstreetmap.josm.plugins.scripting.ui.widgets.ScriptEngineInfoPanel;
+import org.openstreetmap.josm.plugins.scripting.ui.widgets.SelectContextPanel;
 import org.openstreetmap.josm.tools.ImageProvider;
 import org.openstreetmap.josm.tools.Utils;
 
@@ -119,7 +120,7 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys {
         // the panel with info about the current script engine
         final var enginePanel = new ScriptEngineInfoPanel(model);
         enginePanel.setBorder(
-            BorderFactory.createTitledBorder(tr("Script engine"))
+            BorderFactory.createTitledBorder(tr("Select script engine"))
         );
 
         // a panel with a checkbox for whether the script should
@@ -129,11 +130,19 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys {
         addOnToolbar.setToolTipText(tr("Add a button for this script file to the toolbar."));
         toolbarPnl.add(addOnToolbar);
 
+        final var pnlSelectContext = new SelectContextPanel();
+        pnlSelectContext.setBorder(
+            BorderFactory.createTitledBorder(tr("Select scripting context"))
+        );
+
+        getModel().addPropertyChangeListener(pnlSelectContext);
+
         // assemble the main panel
         final var pnlMain = new JPanel();
         pnlMain.setLayout(new BoxLayout(pnlMain, BoxLayout.Y_AXIS));
         pnlMain.add(pnlScriptFileInput);
         pnlMain.add(enginePanel);
+        pnlMain.add(pnlSelectContext);
         pnlMain.add(toolbarPnl);
 
         return pnlMain;
@@ -173,7 +182,7 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys {
             if (lastFile != null && !lastFile.trim().isEmpty()) {
                 pnlScriptFileInput.setFileName(lastFile.trim());
             }
-            WindowGeometry.centerInWindow(getParent(), new Dimension(600, 180))
+            WindowGeometry.centerInWindow(getParent(), new Dimension(600, 400))
                 .applySafe(this);
         } else {
             /*

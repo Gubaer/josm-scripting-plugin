@@ -1,4 +1,4 @@
-package org.openstreetmap.josm.plugins.scripting.ui.console;
+package org.openstreetmap.josm.plugins.scripting.ui.widgets;
 
 import org.openstreetmap.josm.plugins.scripting.context.IContext;
 
@@ -57,6 +57,13 @@ public class ContextComboBox extends JComboBox<IContext> {
         @Override
         public Component getListCellRendererComponent(JList<? extends IContext> list, IContext context,
                                           int i, boolean isSelected, boolean cellHasFocus) {
+            if (context == null) {
+                setFont(getFont().deriveFont(Font.PLAIN));
+                setForeground(list.getForeground());
+                setBackground(list.getBackground());
+                setText("");
+                return this;
+            }
             if (context.isDefault()) {
                 setFont(getFont().deriveFont(Font.ITALIC));
             } else {
