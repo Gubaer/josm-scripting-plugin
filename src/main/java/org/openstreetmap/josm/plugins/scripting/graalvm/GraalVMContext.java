@@ -17,6 +17,9 @@ import java.util.logging.Logger;
 
 import static org.openstreetmap.josm.tools.I18n.tr;
 
+/**
+ * Default implementation of {@link IGraalVMContext}.
+ */
 public class GraalVMContext extends AbstractContext implements IGraalVMContext {
     static private final Logger logger = Logger.getLogger(GraalVMContext.class.getName());
 
@@ -54,7 +57,11 @@ public class GraalVMContext extends AbstractContext implements IGraalVMContext {
         Objects.requireNonNull(script);
         try {
             context.enter();
-            final var source = Source.newBuilder(getScriptEngine().getEngineId(), script, null)
+            // build a unique name for this source. This forces GraalJS to parse and evaluate the source.
+            // The source isn't cached, though, because we expect it to be evaluated only once.
+            final var sourceName = MessageFormat.format("{0}-{1}", getDisplayName(), UUID.randomUUID());
+            final var source = Source.newBuilder(getScriptEngine().getEngineId(), script, sourceName)
+                .cached(false)
                 .mimeType("application/javascript+module")
                 .build();
             return context.eval(source);
@@ -63,10 +70,9 @@ public class GraalVMContext extends AbstractContext implements IGraalVMContext {
             // but just in case
             final var message = tr("Failed to create ECMAScript source object");
             throw new GraalVMEvalException(message, e);
-        } catch(PolyglotException e) {
-            final String message = MessageFormat.format(
-                tr("failed to eval script"), script
-            );
+        } catch(Throwable e) {
+            // this includes PolyglotException
+            final String message = tr("Failed to evaluate script");
             throw new GraalVMEvalException(message, e);
         } finally {
             context.leave();
