@@ -62,13 +62,11 @@ public class GraalVMContext extends AbstractContext implements IGraalVMContext {
             // shouldn't happen because we don't load the script from a file,
             // but just in case
             final var message = tr("Failed to create ECMAScript source object");
-            logger.log(Level.SEVERE, message, e);
             throw new GraalVMEvalException(message, e);
         } catch(PolyglotException e) {
             final String message = MessageFormat.format(
                 tr("failed to eval script"), script
             );
-            logger.log(Level.INFO, e.getMessage(), e);
             throw new GraalVMEvalException(message, e);
         } finally {
             context.leave();
