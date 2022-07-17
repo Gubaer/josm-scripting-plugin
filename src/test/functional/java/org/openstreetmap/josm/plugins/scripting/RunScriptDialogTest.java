@@ -1,7 +1,7 @@
 package org.openstreetmap.josm.plugins.scripting;
 
 import org.openstreetmap.josm.plugins.scripting.fixtures.JOSMFixture;
-import org.openstreetmap.josm.plugins.scripting.ui.RunScriptDialog;
+import org.openstreetmap.josm.plugins.scripting.ui.runner.RunScriptDialog;
 
 import javax.swing.*;
 import java.awt.*;

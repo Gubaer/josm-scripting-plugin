@@ -1,4 +1,4 @@
-package org.openstreetmap.josm.plugins.scripting.ui;
+package org.openstreetmap.josm.plugins.scripting.ui.runner;
 
 import static org.openstreetmap.josm.plugins.scripting.ui
         .GridBagConstraintBuilder.gbc;
@@ -32,6 +32,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
+import javax.validation.constraints.NotNull;
 
 import org.openstreetmap.josm.actions.ActionParameter;
 import org.openstreetmap.josm.actions.JosmAction;
@@ -45,6 +46,7 @@ import org.openstreetmap.josm.gui.widgets.HtmlPanel;
 import org.openstreetmap.josm.gui.widgets.SelectAllOnFocusGainedDecorator;
 import org.openstreetmap.josm.plugins.scripting.model.PreferenceKeys;
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
+import org.openstreetmap.josm.plugins.scripting.ui.RunScriptService;
 import org.openstreetmap.josm.tools.ImageProvider;
 import org.openstreetmap.josm.gui.util.WindowGeometry;
 import org.openstreetmap.josm.tools.Utils;
@@ -54,12 +56,17 @@ import org.openstreetmap.josm.tools.Utils;
  */
 public class RunScriptDialog extends JDialog implements PreferenceKeys {
     @SuppressWarnings("unused")
-    static private final Logger logger =
-            Logger.getLogger(RunScriptDialog.class.getName());
+    static private final Logger logger = Logger.getLogger(RunScriptDialog.class.getName());
 
     static private final RunScriptDialog instance =
         new RunScriptDialog(MainApplication.getMainFrame());
-    static public RunScriptDialog getInstance() {
+
+    /**
+     * Replies the unique instance of the dialog
+     *
+     * @return the unique instance
+     */
+    static public @NotNull RunScriptDialog getInstance() {
         return instance;
     }
 
@@ -112,7 +119,7 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys {
         return pnl;
     }
 
-    private JPanel buildMacroFileInputPanel() {
+    private JPanel buildScriptFileInputPanel() {
         JPanel pnl = new JPanel();
 
         JPanel filePnl = new JPanel(new GridBagLayout());
@@ -121,7 +128,7 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys {
         filePnl.add(new JLabel(tr("File:")), gc);
 
         cbScriptFile = new MostRecentlyRunScriptsComboBox(
-                MostRecentlyRunScriptsModel.getInstance()
+            MostRecentlyRunScriptsModel.getInstance()
         );
         SelectAllOnFocusGainedDecorator.decorate((JTextField) cbScriptFile
                 .getEditor().getEditorComponent());
@@ -155,7 +162,7 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys {
     private JPanel buildContentPanel() {
         JPanel pnl = new JPanel(new BorderLayout());
         pnl.add(buildInfoPanel(), BorderLayout.NORTH);
-        pnl.add(buildMacroFileInputPanel(), BorderLayout.CENTER);
+        pnl.add(buildScriptFileInputPanel(), BorderLayout.CENTER);
         pnl.add(buildControlButtonPanel(), BorderLayout.SOUTH);
         return pnl;
     }

@@ -1,8 +1,9 @@
-package org.openstreetmap.josm.plugins.scripting.ui;
+package org.openstreetmap.josm.plugins.scripting.ui.runner;
 
 import org.openstreetmap.josm.data.Preferences;
 import org.openstreetmap.josm.plugins.scripting.model.PreferenceKeys;
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
+import org.openstreetmap.josm.plugins.scripting.ui.RunScriptService;
 import org.openstreetmap.josm.tools.ImageProvider;
 
 import javax.swing.*;

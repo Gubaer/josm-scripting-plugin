@@ -2,6 +2,7 @@ package org.openstreetmap.josm.plugins.scripting.ui;
 
 import org.openstreetmap.josm.actions.JosmAction;
 import org.openstreetmap.josm.gui.help.HelpUtil;
+import org.openstreetmap.josm.plugins.scripting.ui.runner.RunScriptDialog;
 import org.openstreetmap.josm.tools.Shortcut;
 
 import java.awt.event.ActionEvent;
