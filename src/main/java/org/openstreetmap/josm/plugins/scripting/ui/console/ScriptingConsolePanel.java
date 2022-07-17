@@ -142,8 +142,7 @@ public class ScriptingConsolePanel extends JPanel {
         tabPane.addTab(tr("Console"), log = new ScriptLogPanel());
         tabPane.setToolTipTextAt(0, tr("Displays script output"));
         tabPane.addTab(tr("Errors"), errorViewer);
-        tabPane.setIconAt(1, ImageProvider.get(
-            "circle-check-solid",
+        tabPane.setIconAt(1, ImageProvider.get("misc/green_check",
             ImageProvider.ImageSizes.SMALLICON));
         tabPane.setToolTipTextAt(1, tr("Displays scripting errors"));
 
@@ -308,10 +307,10 @@ public class ScriptingConsolePanel extends JPanel {
                 return;
             }
             if (event.getNewValue() != null) {
-                outputTabs.setIconAt(1, ImageProvider.get("bug-solid",
+                outputTabs.setIconAt(1, ImageProvider.get("misc/error",
                     ImageProvider.ImageSizes.SMALLICON));
             } else {
-                outputTabs.setIconAt(1, ImageProvider.get("circle-check-solid",
+                outputTabs.setIconAt(1, ImageProvider.get("misc/green_check",
                     ImageProvider.ImageSizes.SMALLICON));
             }
         }
