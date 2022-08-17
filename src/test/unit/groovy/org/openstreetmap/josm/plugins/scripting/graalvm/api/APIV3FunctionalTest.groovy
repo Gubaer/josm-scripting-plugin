@@ -1,6 +1,6 @@
 package org.openstreetmap.josm.plugins.scripting.graalvm.api
 
-import org.junit.jupiter.api.BeforeAll
+
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.openstreetmap.josm.plugins.scripting.graalvm.AbstractGraalVMBasedTest
@@ -31,8 +31,9 @@ class APIV3FunctionalTest extends AbstractGraalVMBasedTest{
         "menu-bar-test",
         "menu-test",
         "open-files-test",
-        "api-download-test",
-        "api-upload-test"
+        "api-download-test"
+        // don't run api-upload-test as part of the test suite
+        // "api-upload-test"
     ]
 
     @Test
