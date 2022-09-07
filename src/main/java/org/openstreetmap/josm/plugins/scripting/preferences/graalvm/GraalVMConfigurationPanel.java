@@ -67,9 +67,10 @@ public class GraalVMConfigurationPanel extends JPanel implements HyperlinkListen
         if (GraalVMFacadeFactory.isGraalVMPresent()) {
             tpPreferencesTabs.add(tr("ES Module repositories"),
                 pnlESModuleRepoConfiguration = new ESModuleRepoConfigurationPanel());
+            tpPreferencesTabs.add(tr("CommonJS module repositories"),
+                pnlCommonJSRepoConfiguration = new CommonJSRepoConfigurationPanel());
         }
-        tpPreferencesTabs.add(tr("CommonJS module repositories"),
-            pnlCommonJSRepoConfiguration = new CommonJSRepoConfigurationPanel());
+
         pnl.add(tpPreferencesTabs, BorderLayout.CENTER);
         return pnl;
     }
@@ -88,8 +89,12 @@ public class GraalVMConfigurationPanel extends JPanel implements HyperlinkListen
      * Persist preferences to the JOSM preferences file.
      */
     public void persistToPreferences() {
-        pnlCommonJSRepoConfiguration.persistToPreferences();
-        pnlESModuleRepoConfiguration.persistToPreferences();
+        if (pnlCommonJSRepoConfiguration != null) {
+            pnlCommonJSRepoConfiguration.persistToPreferences();
+        }
+        if (pnlESModuleRepoConfiguration != null) {
+            pnlESModuleRepoConfiguration.persistToPreferences();
+        }
     }
 
     @Override
