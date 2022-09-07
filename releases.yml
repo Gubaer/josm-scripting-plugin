@@ -1,8 +1,15 @@
 releases:
+  - label: v0.2.7
+    minJosmVersion: 18427
+    description: |
+      **Bug fix**: fix [trac issue #22342][trac-22342]
+
+      [trac-22342]: https://josm.openstreetmap.de/ticket/22342
+
   - label: v0.2.6
     minJosmVersion: 18427
     description: |
-      **Bug fix**: ix ClassNotFoundException when running on a stock JDK without GraalJS
+      **Bug fix**: fix ClassNotFoundException when running on a stock JDK without GraalJS
 
   - label: v0.2.5
     minJosmVersion: 18427
