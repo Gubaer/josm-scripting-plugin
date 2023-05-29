@@ -42,9 +42,14 @@ public class ModuleJarURI {
         throws MalformedURLException, URISyntaxException {
         Objects.requireNonNull(jarFilePath);
         Objects.requireNonNull(jarEntryPath);
-        final URI uri = new URI(MessageFormat.format(
-            "jar:file://{0}!{1}", jarFilePath, jarEntryPath
-        ));
+        
+        String jarFilePath2 = jarFilePath.replace("\\", "/");
+        String template = "jar:file:/{0}!{1}";
+        String jarFullPath = MessageFormat.format(template, jarFilePath2, jarEntryPath);
+        
+        final URI uri = new URI(jarFullPath);
+        
+        
         // try to convert the uri to an URL. This will make sure, the URI
         // includes a valid jar entry path
         //noinspection ResultOfMethodCallIgnored
