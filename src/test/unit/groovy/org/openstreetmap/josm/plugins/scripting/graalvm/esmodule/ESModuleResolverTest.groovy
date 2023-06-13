@@ -32,7 +32,7 @@ class ESModuleResolverTest extends BaseTestCase{
 
         final context = Context.newBuilder("js")
             .allowHostAccess(HostAccess.ALL)
-            .allowHostClassLookup(className -> true)
+            .allowHostClassLookup{className -> true}
             .allowIO(true)
             .fileSystem(resolver)
             .build()
@@ -59,7 +59,7 @@ class ESModuleResolverTest extends BaseTestCase{
         resolver.setUserDefinedRepositories(List.of(repo))
         final context = Context.newBuilder("js")
             .allowHostAccess(HostAccess.ALL)
-            .allowHostClassLookup(className -> true)
+            .allowHostClassLookup{className -> true}
             .allowIO(true)
             .fileSystem(resolver)
             .build()
@@ -87,7 +87,7 @@ class ESModuleResolverTest extends BaseTestCase{
 
         final context = Context.newBuilder("js")
                 .allowHostAccess(HostAccess.ALL)
-                .allowHostClassLookup(className -> true)
+                .allowHostClassLookup{className -> true}
                 .allowIO(true)
                 .fileSystem(resolver)
                 .build()

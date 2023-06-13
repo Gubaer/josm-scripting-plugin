@@ -161,7 +161,7 @@ public class FileSystemESModuleRepository extends AbstractESModuleRepository {
     public Path resolveModulePath(@NotNull final Path modulePath) {
         Objects.requireNonNull(modulePath);
         logFine(() -> MessageFormat.format("{0}: start resolving", modulePath));
-        if (modulePath.isAbsolute()) {
+        if (modulePath.startsWith("\\") || modulePath.startsWith("/")) /*pp 4*/ {
             var normalizedModulePath= modulePath.normalize();
             logFine(() -> MessageFormat.format("{0}: normalized module path is ''{1}''", modulePath, normalizedModulePath));
             if (normalizedModulePath.startsWith(getUniquePathPrefix())) {

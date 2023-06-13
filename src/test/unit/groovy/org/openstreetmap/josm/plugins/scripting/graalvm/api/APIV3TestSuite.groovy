@@ -31,7 +31,7 @@ class APIV3TestSuite extends AbstractGraalVMBasedTest {
 
         context = Context.newBuilder("js")
             .allowHostAccess(HostAccess.ALL)
-            .allowHostClassLookup(className -> true)
+            .allowHostClassLookup{className -> true}
             .allowIO(true)
             .fileSystem(resolver)
             .build()

@@ -130,11 +130,7 @@ josm {
 }
 
 jar {
-    from("src/main/javascript/v1") {
-        into("js/v1")
-        include("**/*.js")
-    }
-
+    
     from("src/main/javascript/v2") {
         into("js/v2")
         include("**/*.js")

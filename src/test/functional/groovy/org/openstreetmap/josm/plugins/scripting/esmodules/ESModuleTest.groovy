@@ -123,7 +123,7 @@ class ESModuleTest extends JOSMFixtureBasedTest {
         final Context cx = Context.newBuilder("js")
            .fileSystem(customFS)
            .allowIO(true)
-           .allowHostClassLookup(s -> true)
+           .allowHostClassLookup{s -> true}
            .allowHostAccess(HostAccess.ALL)
            .build()
         cx.enter()

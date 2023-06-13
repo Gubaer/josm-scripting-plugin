@@ -38,7 +38,7 @@ class APIV3FunctionalTest extends AbstractGraalVMBasedTest{
 
     @Test
     void "can execute functional tests"() {
-        testModules.forEach(module -> {
+        testModules.forEach{ module -> 
             facade.resetContext()
             getLogger().info("Running tests in module $module ...")
             final source = """
@@ -46,6 +46,6 @@ class APIV3FunctionalTest extends AbstractGraalVMBasedTest{
                 run()
                 """
             facade.eval(graalJSDescriptor, source)
-        })
+         }
     }
 }

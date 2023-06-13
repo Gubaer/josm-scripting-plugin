@@ -17,9 +17,9 @@ class JSR223CompatibleEnginePresentTest extends GroovyTestCase {
         assertFalse(engines.isEmpty())
 
         final  allEnginesArePluggedEngines =
-            engines.stream().allMatch(engine ->
+            engines.stream().allMatch{engine ->
                 engine.getEngineType() == ScriptEngineDescriptor.ScriptEngineType.PLUGGED
-            )
+        }
         assertTrue(allEnginesArePluggedEngines)
     }
 }

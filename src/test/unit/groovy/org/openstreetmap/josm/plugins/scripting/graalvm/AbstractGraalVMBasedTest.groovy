@@ -59,8 +59,8 @@ class AbstractGraalVMBasedTest extends JOSMFixtureBasedTest {
         if (!GraalVMFacadeFactory.isGraalVMPresent()) {
             throw new IllegalStateException("GraalJS must be present on the classpath")
         }
-        Logging.getLogger().setFilter(
-        record -> record.getLevel().intValue() >= Level.WARNING.intValue())
+        Logging.getLogger().setFilter{
+        record -> record.getLevel().intValue() >= Level.WARNING.intValue()}
     }
 
     protected IGraalVMFacade facade

@@ -36,13 +36,13 @@ public class JarESModuleRepository extends AbstractESModuleRepository {
     private final File jarFile;
     private final Path root;
 
-    final private static Pattern LEADING_SLASHES = Pattern.compile("^/+");
+    final private static Pattern LEADING_SLASHES = Pattern.compile("^(/|\\\\)+"); /* pp 2 */
     static private String removeLeadingSlashes(String path) {
         return LEADING_SLASHES.matcher(path).replaceFirst("");
     }
     private static final List<String> SUFFIXES = List.of("", ".mjs", ".js");
     private Path resolveZipEntryPath(@NotNull Path relativeModulePath) {
-        if (relativeModulePath.isAbsolute()) {
+        if (relativeModulePath.startsWith("\\") || relativeModulePath.startsWith("/")) /* pp 3 */ { 
             // paths to zip entries in a jar file don't start with
             // a '/'. Remove leading '/'.
             relativeModulePath = Path.of(removeLeadingSlashes(relativeModulePath.toString()));

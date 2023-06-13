@@ -43,7 +43,7 @@ public class ModuleJarURI {
         Objects.requireNonNull(jarFilePath);
         Objects.requireNonNull(jarEntryPath);
         
-        String jarFilePath2 = jarFilePath.replace("\\", "/");
+        String jarFilePath2 = jarFilePath.replace("\\", "/"); /* pp 1 */
         String template = "jar:file:/{0}!{1}";
         String jarFullPath = MessageFormat.format(template, jarFilePath2, jarEntryPath);
         
