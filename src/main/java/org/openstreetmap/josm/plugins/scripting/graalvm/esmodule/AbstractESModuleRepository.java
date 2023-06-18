@@ -21,8 +21,8 @@ abstract public class AbstractESModuleRepository implements IESModuleRepository 
         if (modulePath == null) {
             return false;
         }
-        if (!modulePath.isAbsolute()
-                || ! (modulePath.getNameCount() >= 2)
+        if ( /* !modulePath.isAbsolute()
+                || */ ! (modulePath.getNameCount() >= 2)
                 || ! modulePath.getName(0).toString().equalsIgnoreCase(ES_MODULE_REPO_PATH_PREFIX)) {
             return false;
         }

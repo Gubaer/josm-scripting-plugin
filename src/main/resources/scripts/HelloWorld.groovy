@@ -1,3 +1,4 @@
+package scripts
 /*
  * HelloWorld.groovy - displays the number of open layers
  */

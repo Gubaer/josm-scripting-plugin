@@ -188,6 +188,7 @@ public class ESModuleResolver implements FileSystem, IRepositoriesSource  {
             .filter(Objects::nonNull)
             .findFirst()
             .orElse(null);
+        
         return Objects.requireNonNullElseGet(resolvedPath, () -> fullIO.getPath(path));
     }
 
@@ -278,7 +279,8 @@ public class ESModuleResolver implements FileSystem, IRepositoriesSource  {
             if (repo == null) {
                 return path.toRealPath();
             }
-            return repo.resolveModulePath(path);
+            var r = repo.resolveModulePath(path);
+            return r;
         }
         return path.toRealPath();
     }

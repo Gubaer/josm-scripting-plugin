@@ -21,6 +21,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
+import java.util.logging.ConsoleHandler;
+
 /**
  * <code>JarESModuleRepository</code> is a repository of ES Modules stored in a jar file.
  */
@@ -42,7 +44,7 @@ public class JarESModuleRepository extends AbstractESModuleRepository {
     }
     private static final List<String> SUFFIXES = List.of("", ".mjs", ".js");
     private Path resolveZipEntryPath(@NotNull Path relativeModulePath) {
-        if (relativeModulePath.startsWith("\\") || relativeModulePath.startsWith("/")) /* pp 3 */ { 
+    	if (relativeModulePath.startsWith("\\") || relativeModulePath.startsWith("/")) /* pp 3 */ { 
             // paths to zip entries in a jar file don't start with
             // a '/'. Remove leading '/'.
             relativeModulePath = Path.of(removeLeadingSlashes(relativeModulePath.toString()));
@@ -59,8 +61,10 @@ public class JarESModuleRepository extends AbstractESModuleRepository {
         // try to locate a suitable zip entry
         return SUFFIXES.stream().map(suffix -> path + suffix)
             .filter(p -> {
-                var entry = jar.getEntry(p);
-                logFine(() -> MessageFormat.format("Tried relative repo path ''{0}'', found entry ''{1}''", p, entry));
+            	var p2 = p.replaceAll("\\\\", "/");
+                var entry = jar.getEntry(p2); /* pp 5 */
+
+                logFine(() -> MessageFormat.format("Tried relative repo path ''{0}'', found entry ''{1}''", p2, entry));
                 return entry != null && !entry.isDirectory();
             })
             .findFirst()
@@ -172,7 +176,7 @@ public class JarESModuleRepository extends AbstractESModuleRepository {
     @Override
     public @Null Path resolveModulePath(@NotNull Path modulePath) {
         Objects.requireNonNull(modulePath);
-        if (modulePath.isAbsolute()) {
+        if (modulePath.isAbsolute() || modulePath.toString().startsWith("\\")) /* pp 7 */ {
             var normalizedModulePath= modulePath.normalize();
             logFine(() -> MessageFormat.format(
                 "{0}: normalized module path is ''{1}''",
@@ -199,12 +203,11 @@ public class JarESModuleRepository extends AbstractESModuleRepository {
                 if (root.toString().isEmpty()) {
                     return Path.of(getUniquePathPrefix().toString(), resolvedRelativeRepoPath.toString());
                 } else {
-                    return Path.of(
-                        getUniquePathPrefix().toString(),
-                        resolvedRelativeRepoPath.subpath(
+                	String s1 = getUniquePathPrefix().toString();
+                	String s2 = resolvedRelativeRepoPath.subpath(
                             root.getNameCount(),
-                            resolvedRelativeRepoPath.getNameCount()).toString()
-                    );
+                            resolvedRelativeRepoPath.getNameCount()).toString(); 
+                    return Path.of( s1, s2 );
                 }
             } else {
                 logFine(() -> MessageFormat.format(

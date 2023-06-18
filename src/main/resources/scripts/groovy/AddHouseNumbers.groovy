@@ -1,3 +1,4 @@
+package scripts.groovy
 /*
  * This scripts sets a sequence of consecutive house numbers on the currently selected nodes.
  *  
@@ -18,7 +19,7 @@ import groovy.swing.SwingBuilder;
 import groovy.util.ProxyGenerator;
 
 import javax.swing.JOptionPane;
-import org.openstreetmap.josm.Main;
+/* import org.openstreetmap.josm.Main; */
 import org.openstreetmap.josm.command.ChangeCommand;
 import org.openstreetmap.josm.command.SequenceCommand;
 import org.openstreetmap.josm.data.osm.OsmPrimitive;
@@ -28,7 +29,7 @@ import org.openstreetmap.josm.gui.layer.OsmDataLayer;
 import org.openstreetmap.josm.gui.widgets.HtmlPanel;
 import org.openstreetmap.josm.gui.widgets.SelectAllOnFocusGainedDecorator;
 import org.openstreetmap.josm.tools.ImageProvider;
-import org.openstreetmap.josm.tools.WindowGeometry;
+/* import org.openstreetmap.josm.tools.WindowGeometry; */
 import org.openstreetmap.josm.data.osm.DataSet
 import org.openstreetmap.josm.data.osm.Node;
 import javax.swing.JDialog;
@@ -65,7 +66,7 @@ class AddHouseNumberDialog extends JDialog {
 	private def actApply;
 	
 	public AddHouseNumberDialog(){
-		super(Main.parent,true)
+		 /* super(Main.parent,true) */
 		build();
 	}
 	

@@ -41,6 +41,12 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import java.io.PrintStream;
+import java.util.logging.LogManager;
+import java.util.logging.Handler;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.FileHandler;
+
 import static org.openstreetmap.josm.gui.help.HelpUtil.ht;
 import static org.openstreetmap.josm.tools.I18n.tr;
 
@@ -104,10 +110,70 @@ public class ScriptingPlugin extends Plugin implements PreferenceKeys{
         this(info, false /* not in test environment */);
     }
 
+    private static Handler newSystemOut() {
+        Handler h = null;
+        final PrintStream err = System.err;
+        System.setErr(System.out);
+        try {
+            h = new ConsoleHandler(); // Snapshot of System.err
+        } finally {
+            System.setErr(err);
+        }
+        return h;
+    }
+    
+    public static final Logger applog = Logger.getGlobal();
+    
+    
     public ScriptingPlugin(PluginInformation info, boolean inTestEnvironment) {
         super(info);
         try {
             instance = this;
+            
+            Logger.getLogger("java.awt").setLevel(Level.OFF);
+            Logger.getLogger("sun.awt").setLevel(Level.OFF);
+            Logger.getLogger("javax.swing").setLevel(Level.OFF);
+            
+            Logger.getLogger("org.openstreetmap.josm.plugins.scripting.graalvm").setLevel(Level.ALL);
+            Logger.getLogger("org.openstreetmap.josm.plugins.scripting.graalvm.esmodule").setLevel(Level.ALL);
+            
+            // Create and set handler
+            Handler systemOut = new ConsoleHandler();
+            systemOut.setLevel( Level.ALL );
+            applog.addHandler( systemOut );
+            applog.setLevel( Level.ALL );
+
+            // Prevent logs from processed by default Console handler.
+            Logger rootLog = Logger.getLogger("");
+            rootLog.setLevel( Level.FINE );
+            rootLog.getHandlers()[0].setLevel( Level.FINE ); // Default console handle
+            
+            
+            // LogManager.getLogManager().reset();
+            logger.setLevel(Level.FINER);
+            
+            Handler out = newSystemOut();
+            out.setLevel(Level.FINEST);
+            logger.addHandler(out);
+            
+            Handler consoleHandler = new ConsoleHandler();
+            consoleHandler.setLevel(Level.FINER);
+            logger.addHandler(consoleHandler);
+            
+            try {
+                
+                Handler fileHandler = new FileHandler("logger.log", 2000, 5);
+                logger.addHandler(fileHandler);
+                
+            } catch (SecurityException | IOException e) {
+                e.printStackTrace();
+            }
+            
+            logger.log(Level.WARNING, "Hello!");
+            logger.log(Level.INFO, "Info Hello!");
+            logger.log(Level.FINE, "Fine Hello!");
+            logger.log(Level.FINEST, "Finest Hello!");
+            
             installResourceFiles();
             installScriptsMenu();
             initLocalInstallation();
@@ -120,6 +186,8 @@ public class ScriptingPlugin extends Plugin implements PreferenceKeys{
             engine.initScope();
             JOSMModuleScriptProvider provider = JOSMModuleScriptProvider.getInstance();
             Optional<URL> url = provider.lookup(START_MODULE_NAME);
+            
+            
             if (url.isEmpty()) {
                 logger.info(tr("No startup module ''{0}'' found.", START_MODULE_NAME));
             } else {
