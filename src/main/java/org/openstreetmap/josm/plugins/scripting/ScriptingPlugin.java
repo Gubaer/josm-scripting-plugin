@@ -134,8 +134,8 @@ public class ScriptingPlugin extends Plugin implements PreferenceKeys{
             Logger.getLogger("sun.awt").setLevel(Level.OFF);
             Logger.getLogger("javax.swing").setLevel(Level.OFF);
             
-            Logger.getLogger("org.openstreetmap.josm.plugins.scripting.graalvm").setLevel(Level.ALL);
-            Logger.getLogger("org.openstreetmap.josm.plugins.scripting.graalvm.esmodule").setLevel(Level.ALL);
+            Logger.getLogger("org.openstreetmap.josm.plugins.scripting.graalvm").setLevel(Level.FINE);
+            Logger.getLogger("org.openstreetmap.josm.plugins.scripting.graalvm.esmodule").setLevel(Level.FINE);
             
             // Create and set handler
             Handler systemOut = new ConsoleHandler();
@@ -148,31 +148,6 @@ public class ScriptingPlugin extends Plugin implements PreferenceKeys{
             rootLog.setLevel( Level.FINE );
             rootLog.getHandlers()[0].setLevel( Level.FINE ); // Default console handle
             
-            
-            // LogManager.getLogManager().reset();
-            logger.setLevel(Level.FINER);
-            
-            Handler out = newSystemOut();
-            out.setLevel(Level.FINEST);
-            logger.addHandler(out);
-            
-            Handler consoleHandler = new ConsoleHandler();
-            consoleHandler.setLevel(Level.FINER);
-            logger.addHandler(consoleHandler);
-            
-            try {
-                
-                Handler fileHandler = new FileHandler("logger.log", 2000, 5);
-                logger.addHandler(fileHandler);
-                
-            } catch (SecurityException | IOException e) {
-                e.printStackTrace();
-            }
-            
-            logger.log(Level.WARNING, "Hello!");
-            logger.log(Level.INFO, "Info Hello!");
-            logger.log(Level.FINE, "Fine Hello!");
-            logger.log(Level.FINEST, "Finest Hello!");
             
             installResourceFiles();
             installScriptsMenu();
