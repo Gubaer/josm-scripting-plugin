@@ -21,8 +21,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
-import java.util.logging.ConsoleHandler;
-
 /**
  * <code>JarESModuleRepository</code> is a repository of ES Modules stored in a jar file.
  */

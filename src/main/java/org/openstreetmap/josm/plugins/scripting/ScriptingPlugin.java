@@ -42,10 +42,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import java.io.PrintStream;
-import java.util.logging.LogManager;
 import java.util.logging.Handler;
 import java.util.logging.ConsoleHandler;
-import java.util.logging.FileHandler;
 
 import static org.openstreetmap.josm.gui.help.HelpUtil.ht;
 import static org.openstreetmap.josm.tools.I18n.tr;
@@ -109,18 +107,6 @@ public class ScriptingPlugin extends Plugin implements PreferenceKeys{
     public ScriptingPlugin(PluginInformation info) {
         this(info, false /* not in test environment */);
     }
-
-    private static Handler newSystemOut() {
-        Handler h = null;
-        final PrintStream err = System.err;
-        System.setErr(System.out);
-        try {
-            h = new ConsoleHandler(); // Snapshot of System.err
-        } finally {
-            System.setErr(err);
-        }
-        return h;
-    }
     
     public static final Logger applog = Logger.getGlobal();
     
@@ -132,6 +118,7 @@ public class ScriptingPlugin extends Plugin implements PreferenceKeys{
             
             Logger.getLogger("java.awt").setLevel(Level.OFF);
             Logger.getLogger("sun.awt").setLevel(Level.OFF);
+            Logger.getLogger("sun.net").setLevel(Level.OFF);
             Logger.getLogger("javax.swing").setLevel(Level.OFF);
             
             Logger.getLogger("org.openstreetmap.josm.plugins.scripting.graalvm").setLevel(Level.FINE);
