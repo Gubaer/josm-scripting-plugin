@@ -44,12 +44,14 @@ public class ModuleJarURI {
         Objects.requireNonNull(jarEntryPath);
         
         /* replace backslashes with forward slashes - pp 1 */
-        String jarFilePath2 = jarFilePath.replace("\\", "/"); 
-        String template = "jar:file:/{0}!{1}";
-        String jarFullPath = MessageFormat.format(template, jarFilePath2, jarEntryPath);
-        
+        String jarFilePath2 = jarFilePath.replace("\\", "/");
+        String jarFullPath = "";
+        if (jarFilePath.startsWith("/")) {
+        	jarFullPath = MessageFormat.format("jar:file:{0}!{1}", jarFilePath2, jarEntryPath);	
+        } else {
+        	jarFullPath = MessageFormat.format("jar:file:/{0}!{1}", jarFilePath2, jarEntryPath);
+        }
         final URI uri = new URI(jarFullPath);
-        
         
         // try to convert the uri to an URL. This will make sure, the URI
         // includes a valid jar entry path
