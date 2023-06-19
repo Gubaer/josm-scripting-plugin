@@ -2,7 +2,9 @@ package org.openstreetmap.josm.plugins.scripting.graalvm.commonjs;
 
 @SuppressWarnings("unused")
 public class IllegalCommonJSModuleBaseURI extends Exception {
-    public IllegalCommonJSModuleBaseURI(String s) {
+    private static final long serialVersionUID = -6987925501214149150L;
+
+	public IllegalCommonJSModuleBaseURI(String s) {
         super(s);
     }
 

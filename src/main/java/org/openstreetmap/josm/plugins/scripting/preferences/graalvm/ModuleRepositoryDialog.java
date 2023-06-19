@@ -26,7 +26,9 @@ import static org.openstreetmap.josm.tools.I18n.tr;
 
 public class ModuleRepositoryDialog extends JDialog {
 
-    @SuppressWarnings("unused")
+    private static final long serialVersionUID = -7785636892019809742L;
+
+	@SuppressWarnings("unused")
     static private final Logger logger =
         Logger.getLogger(ModuleRepositoryDialog.class.getName());
 
@@ -259,7 +261,9 @@ public class ModuleRepositoryDialog extends JDialog {
     }
 
     private class CancelAction extends AbstractAction {
-        public CancelAction() {
+        private static final long serialVersionUID = 2303569851778745258L;
+
+		public CancelAction() {
             putValue(Action.NAME, tr("Cancel"));
             putValue(Action.SMALL_ICON, ImageProvider.get("cancel",
                 ImageProvider.ImageSizes.SMALLICON));
@@ -272,7 +276,9 @@ public class ModuleRepositoryDialog extends JDialog {
     }
 
     private class OKAction extends AbstractAction {
-        public OKAction() {
+        private static final long serialVersionUID = 1195007614614553529L;
+
+		public OKAction() {
             putValue(Action.NAME, tr("OK"));
             putValue(Action.SMALL_ICON, ImageProvider.get("ok",
                 ImageProvider.ImageSizes.SMALLICON));

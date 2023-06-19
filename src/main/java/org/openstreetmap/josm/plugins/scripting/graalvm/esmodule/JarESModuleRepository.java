@@ -80,7 +80,14 @@ public class JarESModuleRepository extends AbstractESModuleRepository {
     @Override
     public URI getBaseURI() {
         try {
-            return ModuleJarURI.buildJarUri(jarFile.getAbsolutePath(), root.toString());
+        	if (!root.toString().isEmpty()) {
+        		return ModuleJarURI.buildJarUri(jarFile.getAbsolutePath(), root.toString());
+        	} else {
+        		/* adding jar repo file in settings - pp 8 */
+        		return ModuleJarURI.buildJarUri(jarFile.getAbsolutePath(), "/");	
+        	}
+        	
+            
         } catch (MalformedURLException | URISyntaxException e) {
             // shouldn't happen
             throw new RuntimeException(e);
