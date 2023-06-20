@@ -146,10 +146,6 @@ jar {
         include("**/*.js")
         include("**/*.mjs")
     }
-
-    destinationDirectory.set(file("/home/plamen/.local/share/JOSM/plugins"))
-    archiveName = 'scripting.jar'
-
 }
 
 compileJava {
