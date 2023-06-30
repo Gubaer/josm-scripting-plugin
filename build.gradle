@@ -50,13 +50,13 @@ dependencies {
 
     testImplementation('org.openstreetmap.josm:josm-unittest:latest'){changing=true}
     testImplementation group: 'org.jmockit', name: 'jmockit', version: '1.49'
-    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.9.0'
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: project.property('dep.jupiter')
     testImplementation group: 'org.apache.groovy', name: 'groovy-all', version: project.property('dep.groovy')
     testImplementation group: 'org.apache.groovy', name: 'groovy-test', version: project.property('dep.groovy')
     testImplementation group: 'com.github.tomakehurst', name: 'wiremock', version: '2.27.2'
     testImplementation group: 'org.awaitility', name: 'awaitility', version: '4.2.0'
 
-    testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.9.0'
+    testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: project.property('dep.jupiter')
 }
 
 def releases = Releases.fromFile(file("releases.yml"))
