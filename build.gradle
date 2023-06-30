@@ -30,7 +30,7 @@ dependencies {
     implementation group: 'javax.activation', name: 'activation', version: '1.1.1'
 
     implementation group: 'com.github.spullara.mustache.java', name: 'compiler', version: project.property('dep.mustache')
-    implementation group: 'com.fifesoft', name: 'rsyntaxtextarea', version: '3.2.0'
+    implementation group: 'com.fifesoft', name: 'rsyntaxtextarea', version: project.property("dep.rsyntaxtextarea")
     implementation group: 'org.apache.commons', name: 'commons-compress', version: '1.21'
 
     // graalvm
@@ -45,7 +45,7 @@ dependencies {
     packIntoJar group: 'javax.validation', name: 'validation-api', version: '1.0.0.GA'
     packIntoJar group: 'javax.activation', name: 'activation', version: '1.1.1'
     packIntoJar group: 'com.github.spullara.mustache.java', name: 'compiler', version: project.property('dep.mustache')
-    packIntoJar group: 'com.fifesoft', name: 'rsyntaxtextarea', version: '3.2.0'
+    packIntoJar group: 'com.fifesoft', name: 'rsyntaxtextarea', version: project.property("dep.rsyntaxtextarea")
     packIntoJar group: 'org.apache.commons', name: 'commons-compress', version: '1.21'
 
     testImplementation('org.openstreetmap.josm:josm-unittest:latest'){changing=true}
