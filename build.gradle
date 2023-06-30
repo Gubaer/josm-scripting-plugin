@@ -26,7 +26,7 @@ configurations {
 dependencies {
 
     implementation group: 'org.apache.groovy', name: 'groovy-all', version: project.property('dep.groovy')
-    implementation group: "org.python", name: "jython", version: "2.7.2"
+    implementation group: "org.python", name: "jython", version: "2.7.3"
     implementation group: 'javax.activation', name: 'activation', version: '1.1.1'
 
     implementation group: 'com.github.spullara.mustache.java', name: 'compiler', version: project.property('dep.mustache')
