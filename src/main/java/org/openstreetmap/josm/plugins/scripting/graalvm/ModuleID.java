@@ -7,7 +7,7 @@ import static java.text.MessageFormat.format;
 
 /**
  * The ID of a CommonJS module.
- * 
+ * <p>
  * A module ID consists of a sequence of segments, separated by <code>/</code>.
  * It may include and/or start with the segments <code>.</code> and <code>..</code>.
  * It must not start with a leading <code>/</code>.
@@ -17,7 +17,7 @@ public class ModuleID {
 
     /**
      * Throws an exception, if <code>moduleId</code> isn't valid.
-     *
+     * <p>
      * It is valid, if
      * <ul>
      *     <li>it is neither null nor empty</li>
@@ -98,7 +98,7 @@ public class ModuleID {
 
     /**
      * Returns the normalized module ID equal to this module ID.
-     *
+     * <p>
      * Normalized:
      * <ul>
      *     <li>without an trailing <code>.js</code></li>

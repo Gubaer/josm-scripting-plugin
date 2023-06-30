@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 /**
  * A ModuleJarURI is a jar-URI with an embedded file-URI and an optional
  * path to a root entry in the jar-file.
- *
+ * <p>
  * A ModuleJarURI refers to the root of repository for CommonJS or ES
  * Modules.
  */
@@ -218,7 +218,7 @@ public class ModuleJarURI {
 
     /**
      * Replies the name of the jar entry to which this URI refers.
-     *
+     * <p>
      * The name is equal to the jar entry path ({@link #getJarEntryPath()}, but
      * without the leading '/'. It is used to lookup the jar entry, see
      * {@link JarFile#getEntry(String)} or {@link JarFile#getJarEntry(String)}.
@@ -356,13 +356,13 @@ public class ModuleJarURI {
     /**
      * Replies the CommonJS module jar URI which which is a suitable
      * resolution context URI for resolving CommonJS module IDs.
-     *
+     * <p>
      * If this jar entry path of this URI is '/', this URI is already a
      * suitable resolution context.
-     *
+     * <p>
      * If this jar entry path refers to a directory in the jar file, it is
      * already a suitable resolution context.
-     *
+     * <p>
      * If, however, it refers to a file entry in the jar file, then the
      * parent directory entry is used as resolution context.
      *
