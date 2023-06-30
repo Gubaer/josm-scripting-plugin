@@ -31,7 +31,7 @@ dependencies {
 
     implementation group: 'com.github.spullara.mustache.java', name: 'compiler', version: project.property('dep.mustache')
     implementation group: 'com.fifesoft', name: 'rsyntaxtextarea', version: project.property("dep.rsyntaxtextarea")
-    implementation group: 'org.apache.commons', name: 'commons-compress', version: '1.21'
+    implementation group: 'org.apache.commons', name: 'commons-compress', version: project.property("dep.commons-compress")
 
     // graalvm
     implementation group: 'org.graalvm.sdk', name: 'graal-sdk', version:  project.properties["graalvm.version"]
@@ -46,7 +46,7 @@ dependencies {
     packIntoJar group: 'javax.activation', name: 'activation', version: '1.1.1'
     packIntoJar group: 'com.github.spullara.mustache.java', name: 'compiler', version: project.property('dep.mustache')
     packIntoJar group: 'com.fifesoft', name: 'rsyntaxtextarea', version: project.property("dep.rsyntaxtextarea")
-    packIntoJar group: 'org.apache.commons', name: 'commons-compress', version: '1.21'
+    packIntoJar group: 'org.apache.commons', name: 'commons-compress', version: project.property("dep.commons-compress")
 
     testImplementation('org.openstreetmap.josm:josm-unittest:latest'){changing=true}
     testImplementation group: 'org.jmockit', name: 'jmockit', version: '1.49'
