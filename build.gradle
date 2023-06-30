@@ -10,8 +10,8 @@ plugins {
 //   handling strategy has been set. Please refer to
 //   https://docs.gradle.org/7.4.2/dsl/org.gradle.api.tasks.Copy.html#org.gradle.api.tasks.Copy:duplicatesStrategy
 //   for details.
-tasks.withType(Jar).all {
-    duplicatesStrategy 'exclude'
+tasks.withType(Jar).configureEach {
+    duplicatesStrategy DuplicatesStrategy.EXCLUDE
 }
 
 repositories {
@@ -90,7 +90,7 @@ logger.info("Compiling for JOSM ${configuredJosmCompileVersion}")
 version = releases.currentPluginLabel
 archivesBaseName = "scripting"
 
-task dumpGraalVMJars() {
+tasks.register('dumpGraalVMJars') {
     doLast {
         println "GRAALVM_CLASS_PATH=" + configurations.graalvm.asPath
     }
@@ -196,7 +196,7 @@ test {
  * Runs the API V1 JavaScript unit tests with JOSM and Mozilla
  * Rhino present.
  */
-task testScriptApiV1 (type: Test) {
+tasks.register('testScriptApiV1', Test) {
     useJUnitPlatform()
     environment "JOSM_SCRIPTING_PLUGIN_HOME", project.projectDir
     scanForTestClasses = false
@@ -223,7 +223,7 @@ def getGraalVMHome() {
  * Runs the API V2 JavaScript unit tests with JOSM and GraalJS
  * present. The tests are run with a GraalVM 'java' binary.
  */
-task testScriptApiV2AndV3(type: Test) {
+tasks.register('testScriptApiV2AndV3', Test) {
     dependsOn "downloadGraalVM"
     useJUnitPlatform()
     environment "JOSM_SCRIPTING_PLUGIN_HOME", project.projectDir
@@ -234,10 +234,10 @@ task testScriptApiV2AndV3(type: Test) {
     environment "JAVA_HOME", getGraalVMHome().absolutePath
     systemProperty "java.util.logging.config.file", "${project.projectDir}/src/test/resources/logging.properties"
 
-    scanForTestClasses= false
+    scanForTestClasses = false
     include "org/openstreetmap/josm/plugins/scripting/graalvm/api/*.class"
     testLogging {
-        outputs.upToDateWhen {false}
+        outputs.upToDateWhen { false }
         showStandardStreams = true
         events TestLogEvent.FAILED, TestLogEvent.PASSED
         exceptionFormat = TestExceptionFormat.FULL
@@ -249,11 +249,11 @@ task testScriptApiV2AndV3(type: Test) {
  * present or not. Runs with the current stock Java VM and JDK and makes
  * sure that GraalJS/GraalVM isn't present on the classpath.
  */
-task testGraalVMSupportNotPresent(type: Test) {
+tasks.register('testGraalVMSupportNotPresent', Test) {
     // remove GraalVM from classpath under test
-    classpath = classpath.filter {! it.toString().toLowerCase().contains("graalvm")}
+    classpath = classpath.filter { !it.toString().toLowerCase().contains("graalvm") }
     useJUnitPlatform()
-    scanForTestClasses= false
+    scanForTestClasses = false
     include "**/graalvm/GraalVMNotPresentTest.class"
     testLogging {
         events TestLogEvent.FAILED, TestLogEvent.PASSED
@@ -265,7 +265,7 @@ task testGraalVMSupportNotPresent(type: Test) {
  * Run unit tests for GraalJS functionality. Run it with the GraalVM java
  * executable.
  */
-task testWithGraalVMJDK(type: Test) {
+tasks.register('testWithGraalVMJDK', Test) {
     dependsOn "downloadGraalVM"
     doFirst {
         // prepare a suitable 'preferences.xml' for the test cases in this
@@ -273,9 +273,9 @@ task testWithGraalVMJDK(type: Test) {
         def josmHome = josmHomeForTests()
         josmHome.mkdirs()
         Files.copy(
-            Paths.get("${project.projectDir}/src/test/resources/josm-test-environments/env01/preferences.xml"),
-            Paths.get("${josmHome.absolutePath}/preferences.xml"),
-            StandardCopyOption.REPLACE_EXISTING
+                Paths.get("${project.projectDir}/src/test/resources/josm-test-environments/env01/preferences.xml"),
+                Paths.get("${josmHome.absolutePath}/preferences.xml"),
+                StandardCopyOption.REPLACE_EXISTING
         )
     }
     useJUnitPlatform()
@@ -285,11 +285,11 @@ task testWithGraalVMJDK(type: Test) {
     systemProperty "josm.home", josmHomeForTests().absolutePath
     systemProperty "java.util.logging.config.file", "${project.projectDir}/src/test/resources/logging.properties"
 
-    scanForTestClasses= false
+    scanForTestClasses = false
     // configuration to use GraalVM
     executable new File(getGraalVMHome(), "bin/java").absolutePath
     environment "JAVA_HOME", getGraalVMHome()
-    scanForTestClasses= false
+    scanForTestClasses = false
     include "org/openstreetmap/josm/plugins/scripting/graalvm/with_graalvm/*.class"
     include "org/openstreetmap/josm/plugins/scripting/graalvm/esmodule/*.class"
     testLogging {
@@ -302,11 +302,11 @@ task testWithGraalVMJDK(type: Test) {
  * Run tests on a stock JDK with the groovy and python scripting
  * engines present.
  */
-task testJSR223EnginePresent(type: Test) {
+tasks.register('testJSR223EnginePresent', Test) {
     useJUnitPlatform()
 
     // groovy and python are on the classpath
-    scanForTestClasses= false
+    scanForTestClasses = false
     include "org/openstreetmap/josm/plugins/scripting/jsr223/JSR223CompatibleEnginePresentTest.class"
     testLogging {
         events TestLogEvent.FAILED, TestLogEvent.PASSED
