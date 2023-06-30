@@ -130,7 +130,7 @@ public class JarESModuleRepository extends AbstractESModuleRepository {
      * Creates a repository of ES Modules stored in a jar file.
      *
      * @param uri a jar-URI
-     * @throws IOException thrown if the jar-file doesn't exist or isnt' readable
+     * @throws IOException thrown if the jar-file doesn't exist or isn't readable
      * @throws IOException thrown if the jar-URI includes a root entry which doesn't exist,
      *    isn't directory entry, or isn't readable
      * @throws IllegalESModuleBaseUri thrown if <code>uri</code> isn't a valid jar-URI

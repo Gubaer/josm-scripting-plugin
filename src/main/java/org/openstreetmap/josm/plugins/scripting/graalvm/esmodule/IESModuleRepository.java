@@ -24,7 +24,7 @@ public interface IESModuleRepository {
     /**
      * Replies the unique path prefix for absolute module paths which refer to a module
      * in this repository.
-     *
+     * <p>
      * The unique path prefix starts with <code>/es-module-repo</code> followed by a {@link java.util.UUID}.
      * Example: <code>/es-modules/23e4567-e89b-12d3-a456-426614174000</code>.
      *
@@ -35,7 +35,7 @@ public interface IESModuleRepository {
     /**
      * Replies true if <code>modulePath</code> is an absolute module path
      * which refers to a module in this repository.
-     *
+     * <p>
      * An absolute module path starts with the prefix <code>/es-modules/&lt;uuid&gt;</code>,
      * for example with <code>/es-module-repo/23e4567-e89b-12d3-a456-426614174000</code>. Each
      * ES Modules repository has a unique UUID.
@@ -48,7 +48,7 @@ public interface IESModuleRepository {
     /**
      * Resolves a module path in the repository and replies a repository path
      * if the module exists in the repository, or null, if it doesn't exist.
-     *
+     * <p>
      * A module path is either an absolute or a relative path, i.e.
      * <ul>
      *     <li>/es-module-repo/23e4567-e89b-12d3-a456-426614174000/baz</li> - an absolute module path
@@ -58,7 +58,7 @@ public interface IESModuleRepository {
      * </ul>
      *
      * A module path can include <code>./</code> and <code>../</code> segments.
-     *
+     * <p>
      * The file suffix is optional. A module path <code>foo/bar/baz</code> is always
      * resolved against <code>foo/bar/baz</code>, <code>foo/bar/baz.mjs</code>, and
      * <code>foo/bar/baz.js</code>, in this order. It is resolved against the first
