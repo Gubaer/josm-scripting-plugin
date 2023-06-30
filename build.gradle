@@ -221,7 +221,7 @@ def getGraalVMHome() {
 
 /**
  * Runs the API V2 JavaScript unit tests with JOSM and GraalJS
- * present. The tests are run with with a GraalVM 'java' binary.
+ * present. The tests are run with a GraalVM 'java' binary.
  */
 task testScriptApiV2AndV3(type: Test) {
     dependsOn "downloadGraalVM"
