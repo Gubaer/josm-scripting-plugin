@@ -1,4 +1,9 @@
 releases:
+  - label: v0.2.8
+    minJosmVersion: 18427
+    description: |
+      **Bug fix**: fix #104 - Console.clear() doesn't work
+
   - label: v0.2.7
     minJosmVersion: 18427
     description: |
