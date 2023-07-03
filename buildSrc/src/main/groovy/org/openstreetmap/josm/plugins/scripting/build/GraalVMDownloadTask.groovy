@@ -7,6 +7,8 @@ import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.Optional
 import org.gradle.api.tasks.TaskAction
+import java.util.Locale
+import groovy.ant.AntBuilder
 
 /**
  * The platforms for which distributions of the GraalVM are available
@@ -111,7 +113,7 @@ abstract class GraalVMDownloadTask extends DefaultTask {
         final jdk = this.configuredGraalVMJDK
         final version = this.configuredGraalVMVersion
         final suffix = platform.isWindows() ? "zip" : "tar.gz"
-        def fileName = "graalvm-ce-$jdk.name-$platform.name-$version.$suffix"
+        def fileName = "graalvm-ce-${jdk.name}-${platform.name}-${version}.${suffix}"
         return fileName
     }
 
@@ -160,7 +162,12 @@ abstract class GraalVMDownloadTask extends DefaultTask {
             }
             return platform
         }
-        return DEFAULT_GRAALVM_PLATFORM
+        def os = System.getProperty("os.name").toLowerCase(Locale.ENGLISH)
+        if (os.contains("windows")) {
+            return GraalVMPlatform.WINDOWS_AMD64
+        } else {
+            return DEFAULT_GRAALVM_PLATFORM
+        }
     }
 
     @Internal
@@ -241,16 +248,23 @@ abstract class GraalVMDownloadTask extends DefaultTask {
 
     def installGraalVM(final File tempFile) {
         def installDir = new File(project.projectDir, "software")
-        def command = "tar xvf ${tempFile.absolutePath} --directory ${installDir.absolutePath}"
-        def process = command.execute()
-        process.out.close()
-        process.inputStream.withReader {reader ->
-            reader.readLines()
-        }
-        process.waitFor()
-        if (process.exitValue()) {
-            logger.error("Failed to install GraalVM: ${process.getErrorStream()}")
-            throw new GradleException("Failed to install GraalVM")
+        if (configuredGraalVMPlatform.isWindows()) {
+            // windows OS: extract .zip file
+            def ant = new AntBuilder()
+            ant.unzip(src: tempFile.absolutePath, dest: installDir.absolutePath, overwrite: false)
+        } else {
+            // linux OS: extract .tgz file
+            def command = "tar xvf ${tempFile.absolutePath} --directory ${installDir.absolutePath}"
+            def process = command.execute()
+            process.out.close()
+            process.inputStream.withReader {reader ->
+                reader.readLines()
+            }
+            process.waitFor()
+            if (process.exitValue()) {
+                logger.error("Failed to install GraalVM: ${process.getErrorStream()}")
+                throw new GradleException("Failed to install GraalVM")
+            }
         }
 
         // Starting from GraalVM 22.2 JavaScript support is decoupled from the base GraalVM
@@ -258,10 +272,13 @@ abstract class GraalVMDownloadTask extends DefaultTask {
         // https://www.graalvm.org/release-notes/22_2/
         if (isMajorMinorVersionOrHigher(22,2)) {
             def binDir = new File(buildInstallationDirName(), "bin")
-            command = "${binDir}/gu install js"
-            process = command.execute()
+            def guCommand = configuredGraalVMPlatform.isWindows() 
+                ? new File(binDir, "gu.cmd") 
+                : new File(binDir, "gu") 
+            def command = "${guCommand} install js"
+            def process = command.execute()
             process.inputStream.withReader { reader ->
-                reader.readLines()
+                logger.info(reader.readLines().join(System.lineSeparator()))
             }
             process.waitFor()
             if (process.exitValue()) {
@@ -275,13 +292,11 @@ abstract class GraalVMDownloadTask extends DefaultTask {
     def downloadAndInstall() {
         final platform = this.configuredGraalVMPlatform
         final version = this.configuredGraalVMVersion
+        logger.info("Downloading GraalVM '$version' for platform '$platform' ...")
         def installDir = new File(buildInstallationDirName())
         if (installDir.exists() && installDir.isDirectory()) {
-            logger.info("GraalVM '$configuredGraalVMVersion' already installed in '$installDir.absolutePath. Skipping download.'")
+            logger.info("GraalVM '$configuredGraalVMVersion' already installed in '${installDir.absolutePath}. Skipping download.'")
             return
-        }
-        if (platform.isWindows()) {
-            throw new GradleException("GraalVM download is not supported yet on the Windows platform")
         }
 
         def url = buildDownloadUrl()
@@ -290,7 +305,7 @@ abstract class GraalVMDownloadTask extends DefaultTask {
         installGraalVM(distribFile)
         installDir = new File(installBaseDir, distribFile.name)
         logger.info("Successfully downloaded GraalVM '$version'")
-        logger.info("Successfully installed GraalVM '$version' in '$installDir.absolutePath' ...")
+        logger.info("Successfully installed GraalVM '$version' in '${installDir.absolutePath}' ...")
         distribFile.delete()
     }
 }
