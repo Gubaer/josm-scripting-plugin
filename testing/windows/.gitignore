@@ -1,0 +1,6 @@
+*.jar
+jdk*
+josm-home
+graaljs-*
+graalvm-*
+logging.properties
