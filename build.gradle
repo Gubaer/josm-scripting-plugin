@@ -219,6 +219,12 @@ def getGraalVMHome() {
     return new File(project.projectDir, "software/graalvm-ce-$jdk-$version")
 }
 
+def getGraalVMJavaExecutable() {
+    return System.getProperty("os.name").toLowerCase(Locale.ENGLISH).contains("windows")
+        ? new File(getGraalVMHome(), "bin/java.exe").absolutePath
+        : new File(getGraalVMHome(), "bin/java").absolutePath
+}
+
 /**
  * Runs the API V2 JavaScript unit tests with JOSM and GraalJS
  * present. The tests are run with a GraalVM 'java' binary.
@@ -230,9 +236,7 @@ tasks.register('testScriptApiV2AndV3', Test) {
     environment "TEST_COMMONJS_MODULE_REPO",
             "${project.projectDir}/src/test/resources/require/modules"
     environment "OSM_DEV_API_PASSWORD", System.getenv('OSM_DEV_API_PASSWORD')
-    executable System.getProperty("os.name").toLowerCase(Locale.ENGLISH).contains("windows")
-        ? new File(getGraalVMHome(), "bin/java.exe").absolutePath
-        : new File(getGraalVMHome(), "bin/java").absolutePath
+    executable getGraalVMJavaExecutable()
 
     environment "JAVA_HOME", getGraalVMHome().absolutePath
     systemProperty "java.util.logging.config.file", "${project.projectDir}/src/test/resources/logging.properties"
@@ -290,11 +294,12 @@ tasks.register('testWithGraalVMJDK', Test) {
 
     scanForTestClasses = false
     // configuration to use GraalVM
-    executable new File(getGraalVMHome(), "bin/java").absolutePath
+    executable getGraalVMJavaExecutable()
     environment "JAVA_HOME", getGraalVMHome()
     scanForTestClasses = false
     include "org/openstreetmap/josm/plugins/scripting/graalvm/with_graalvm/*.class"
     include "org/openstreetmap/josm/plugins/scripting/graalvm/esmodule/*.class"
+    include "org/openstreetmap/josm/plugins/scripting/graalvm/*.class"
     testLogging {
         events TestLogEvent.FAILED, TestLogEvent.PASSED
         exceptionFormat = TestExceptionFormat.FULL
