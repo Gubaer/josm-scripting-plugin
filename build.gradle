@@ -230,7 +230,10 @@ tasks.register('testScriptApiV2AndV3', Test) {
     environment "TEST_COMMONJS_MODULE_REPO",
             "${project.projectDir}/src/test/resources/require/modules"
     environment "OSM_DEV_API_PASSWORD", System.getenv('OSM_DEV_API_PASSWORD')
-    executable new File(getGraalVMHome(), "bin/java").absolutePath
+    executable System.getProperty("os.name").toLowerCase(Locale.ENGLISH).contains("windows")
+        ? new File(getGraalVMHome(), "bin/java.exe").absolutePath
+        : new File(getGraalVMHome(), "bin/java").absolutePath
+
     environment "JAVA_HOME", getGraalVMHome().absolutePath
     systemProperty "java.util.logging.config.file", "${project.projectDir}/src/test/resources/logging.properties"
 
