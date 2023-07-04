@@ -1,10 +1,13 @@
 package org.openstreetmap.josm.plugins.scripting.graalvm
 
-import groovy.test.GroovyTestCase
+import static org.junit.Assert.assertTrue
+import static org.junit.Assert.assertFalse
+import static org.junit.Assert.assertEquals
+import static groovy.test.GroovyAssert.shouldFail
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 
-class ModuleJarURITest extends GroovyTestCase{
+class ModuleJarURITest {
 
     static def projectHome
 
@@ -218,6 +221,5 @@ class ModuleJarURITest extends GroovyTestCase{
         def resolutionContextUri = uri.toResolutionContextUri()
         assertEquals(expectd, resolutionContextUri.toString())
     }
-
 }
 
