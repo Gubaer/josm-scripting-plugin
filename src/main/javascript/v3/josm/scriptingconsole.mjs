@@ -88,7 +88,7 @@ export function println() {
  *
  */
 export function clear() {
-  const action = ScriptingConsole.getInstance().getScriptLog().getClearAction()
+  const action = ScriptingConsole.static.getInstance().getScriptLog().getClearAction()
   action.actionPerformed(null)
 }
 
@@ -100,7 +100,7 @@ export function clear() {
  * console.show()
  */
 export function show() {
-  ScriptingConsole.showScriptingConsole()
+  ScriptingConsole.static.showScriptingConsole()
 }
 
 /**
@@ -111,7 +111,7 @@ export function show() {
  * console.hide()
  */
 export function hide() {
-  ScriptingConsole.hideScriptingConsole()
+  ScriptingConsole.static.hideScriptingConsole()
 }
 
 /**
@@ -122,5 +122,5 @@ export function hide() {
  * console.toggle()
  */
 export function toggle() {
-  ScriptingConsole.toggleScriptingConsole()
+  ScriptingConsole.static.toggleScriptingConsole()
 }

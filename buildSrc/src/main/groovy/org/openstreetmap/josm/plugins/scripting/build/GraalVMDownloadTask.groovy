@@ -66,7 +66,7 @@ enum GraalVMJDK {
 abstract class GraalVMDownloadTask extends DefaultTask {
 
     static final DEFAULT_DOWNLOAD_BASE_URL = "https://github.com/graalvm/graalvm-ce-builds/releases/download"
-    static final DEFAULT_GRAALVM_VERSION = "22.1.0"
+    static final DEFAULT_GRAALVM_VERSION = "22.3.2"
     static final DEFAULT_GRAALVM_PLATFORM = GraalVMPlatform.LINUX_AMD64
     static final DEFAULT_GRAALVM_JDK = GraalVMJDK.JDK11
 
@@ -102,7 +102,6 @@ abstract class GraalVMDownloadTask extends DefaultTask {
     @Optional
     abstract Property<Object> getGraalVMPlatform()
 
-
     @Input
     @Optional
     abstract Property<Object> getGraalVMJDK()
@@ -126,6 +125,13 @@ abstract class GraalVMDownloadTask extends DefaultTask {
             return version
         }
         return DEFAULT_GRAALVM_VERSION
+    }
+
+    private boolean isMajorMinorVersionOrHigher(major, minor) {
+        def versionComponents = getConfiguredGraalVMVersion().split("\\.")
+        def curMajor = versionComponents[0].toInteger()
+        def curMinor = versionComponents[1].toInteger()
+        return curMajor >= major && curMinor >= minor
     }
 
     @Internal
@@ -169,7 +175,7 @@ abstract class GraalVMDownloadTask extends DefaultTask {
                 final jdk = GraalVMJDK.fromString(value.toString())
                 if (jdk == null) {
                     throw new GradleException(
-                        "Illegal value for property 'graalVMJDK' in task '$this.name. Got value '$value.toString()'")
+                        "Illegal value for property 'graalVMJDK' in task '$this.name. Got value '$value'")
                 }
                 return jdk
             }
@@ -245,6 +251,23 @@ abstract class GraalVMDownloadTask extends DefaultTask {
         if (process.exitValue()) {
             logger.error("Failed to install GraalVM: ${process.getErrorStream()}")
             throw new GradleException("Failed to install GraalVM")
+        }
+
+        // Starting from GraalVM 22.2 JavaScript support is decoupled from the base GraalVM
+        // installation. We explicitly have to add it with 'gu install js', see
+        // https://www.graalvm.org/release-notes/22_2/
+        if (isMajorMinorVersionOrHigher(22,2)) {
+            def binDir = new File(buildInstallationDirName(), "bin")
+            command = "${binDir}/gu install js"
+            process = command.execute()
+            process.inputStream.withReader { reader ->
+                reader.readLines()
+            }
+            process.waitFor()
+            if (process.exitValue()) {
+                logger.error("Failed to add js language to GraalVM: ${process.getErrorStream()}")
+                throw new GradleException("Failed to add js language to GraalVM")
+            }
         }
     }
 

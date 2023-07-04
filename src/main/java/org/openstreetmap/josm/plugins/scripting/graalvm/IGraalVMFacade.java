@@ -22,7 +22,7 @@ public interface IGraalVMFacade {
     /**
      * Evaluate a script in language <code>desc.getLanguageName()</code>in
      * the GraalVM.
-     *
+     * <p>
      * Replies a {@link org.graalvm.polyglot.Value} as result. We don't
      * declare it in the facade API because we want to load
      * <code></code>org.graalmv.*</code> dynamically.
@@ -39,7 +39,7 @@ public interface IGraalVMFacade {
     /**
      * Evaluate a script file in language <code>desc.getLanguageName()</code> in
      * the GraalVM.
-     *
+     * <p>
      * Replies a {@link org.graalvm.polyglot.Value} as result. We don't
      * declare it in the facade API because we want to load
      * <code></code>org.graalmv.*</code> dynamically.

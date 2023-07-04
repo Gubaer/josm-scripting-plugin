@@ -30,7 +30,7 @@ public class GraalVMFacade  implements IGraalVMFacade {
 
     /**
      * Initializes a GraalVM context with the standard bindings.
-     *
+     * <p>
      * Can be used in test cases to properly initialize a
      * GraalVM context for testing.
      *
