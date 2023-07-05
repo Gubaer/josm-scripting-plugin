@@ -1,6 +1,9 @@
 package org.openstreetmap.josm.plugins.scripting.graalvm
 
-import groovy.test.GroovyTestCase
+import static org.junit.Assert.assertTrue
+import static org.junit.Assert.assertFalse
+import static org.junit.Assert.assertEquals
+import static groovy.test.GroovyAssert.shouldFail
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.openstreetmap.josm.plugins.scripting.graalvm.commonjs.BaseJSModuleRepository
@@ -10,7 +13,7 @@ import java.util.logging.ConsoleHandler
 import java.util.logging.Level
 import java.util.logging.Logger
 
-class FileSystemJSModuleRepositoryTest extends GroovyTestCase {
+class FileSystemJSModuleRepositoryTest {
 
     private static String moduleRepo
 
