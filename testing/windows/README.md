@@ -14,3 +14,9 @@ Run `manage.ps1 -help` for additional information.
 Use [`josm.ps`](josm.ps1) to launch JOSM and the scripting plugin either with a stock JDK (with or without GraalJS) or with a GraalVM version.
 
 Run `josm.ps1 -help` for additional information.
+
+If you get an error *execution of scripts is disabled on this system* run the following command in the PowerShell console:
+```powershell
+# enable execution of the scripts on the local machine
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine
+```
