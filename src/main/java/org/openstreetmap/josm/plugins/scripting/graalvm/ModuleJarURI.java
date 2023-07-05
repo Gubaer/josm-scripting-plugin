@@ -42,9 +42,11 @@ public class ModuleJarURI {
         throws MalformedURLException, URISyntaxException {
         Objects.requireNonNull(jarFilePath);
         Objects.requireNonNull(jarEntryPath);
+        final String fileUri = new File(jarFilePath).toURI().toString();
         final URI uri = new URI(MessageFormat.format(
-            "jar:file://{0}!{1}", jarFilePath, jarEntryPath
+            "jar:{0}!{1}", fileUri, jarEntryPath
         ));
+
         // try to convert the uri to an URL. This will make sure, the URI
         // includes a valid jar entry path
         //noinspection ResultOfMethodCallIgnored
@@ -172,7 +174,9 @@ public class ModuleJarURI {
                 "jar URI=''{0}''", uri.toString()
             ), e);
         }
-        jarEntryPath = fileUri.toString().substring(i+1);
+        jarEntryPath = fileUri.toString().substring(i+1)
+            // always use / as delimiter, also on windows platform
+            .replace("\\", "/");
     }
 
     /**
@@ -325,7 +329,9 @@ public class ModuleJarURI {
                 .toPath().normalize().toString();
 
         final ModuleJarURI normalizedURI = new ModuleJarURI();
-        normalizedURI.jarEntryPath = normalizedJarEntryPath;
+        normalizedURI.jarEntryPath = normalizedJarEntryPath
+            // always us '/' as delimiter, also on windows platform
+            .replace("\\", "/");
         normalizedURI.jarFilePath = normalizedFilePath;
         return normalizedURI;
     }
@@ -374,7 +380,8 @@ public class ModuleJarURI {
             throws IOException {
 
         String normalizedJarEntryPath =
-            new File(jarEntryPath).toPath().normalize().toString();
+            new File(jarEntryPath).toPath().normalize().toString()
+                .replace("\\", "/");
 
         // jar entry name without leading '/'
         final String normalizedJarEntryName =
@@ -395,7 +402,8 @@ public class ModuleJarURI {
             if (entry != null) {
                 if (!entry.isDirectory()) {
                     normalizedJarEntryPath = new File(normalizedJarEntryPath)
-                        .toPath().getParent().toString();
+                        .toPath().getParent().toString()
+                        .replace("\\", "/");
                 }
             }
         }
