@@ -21,7 +21,7 @@ class CommonJSModuleRepositoryFactoryTest {
     }
 
     static String jarReposBaseDir() {
-        return "${projectHome}/test/data/jar-repos"
+        return "${projectHome}/src/test/resources/jar-repos"
     }
 
     static File testJarFile(String name){
@@ -31,7 +31,7 @@ class CommonJSModuleRepositoryFactoryTest {
     @Test
     void "should build a repo with a valid file uri"() {
         def factory = CommonJSModuleRepositoryFactory.instance
-        def uri = "file:///foo/bar".toURI()
+        def uri = new File("/foo/bar").toURI()
         def repo = factory.build(uri)
         assertTrue(repo instanceof FileSystemJSModuleRepository)
     }
@@ -39,7 +39,7 @@ class CommonJSModuleRepositoryFactoryTest {
     @Test
     void "should build a repo with a valid jar uri"() {
         def factory = CommonJSModuleRepositoryFactory.instance
-        def uri = "jar:file://${testJarFile('jar-repo-2.jar')}!/foo"
+        def uri = "jar:${testJarFile('jar-repo-2.jar').toURI().toString()}!/foo"
         def repo = factory.build(uri)
         assertTrue(repo instanceof JarJSModuleRepository)
     }
