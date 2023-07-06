@@ -84,7 +84,7 @@ if ($jdk -and $useGraalVM) {
 }
 
 $josmJar = ""
-if ($josm -eq "latest" -or $josm -eq "test") {
+if ($josm -eq "latest" -or $josm -eq "tested") {
     $josmJar = Join-Path $(Get-Location) -ChildPath "josm-$josm.jar"
 } else {
     $josmJar = Join-Path $(Get-Location) -ChildPath "josm-snapshot-$josm.jar"
