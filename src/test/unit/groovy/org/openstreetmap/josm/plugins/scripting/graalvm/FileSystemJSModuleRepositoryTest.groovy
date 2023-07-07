@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test
 import org.openstreetmap.josm.plugins.scripting.graalvm.commonjs.BaseJSModuleRepository
 import org.openstreetmap.josm.plugins.scripting.graalvm.commonjs.FileSystemJSModuleRepository
 
+import java.nio.file.Path
+import java.nio.file.Paths
 import java.util.logging.ConsoleHandler
 import java.util.logging.Level
 import java.util.logging.Logger
@@ -37,6 +39,20 @@ class FileSystemJSModuleRepositoryTest {
             }.each {
                 it.level = Level.FINE
             }
+    }
+
+    // testing Path.of(), Paths.get() and Path.normalize() using relative paths.
+    // This should work on the windows and the linux platform.
+    @Test
+    void "Path - should normalize and resolve"() {
+        def rootPath = moduleRepo.toPath()
+        def repoPath = Path.of("foo/bar/../baz/./").normalize()
+        def expectedRepoPath = Path.of("foo/baz")
+        assertEquals(expectedRepoPath, repoPath)
+
+        def fullPath = Paths.get(rootPath.toString(), repoPath.toString())
+        def expectedFullPath = Paths.get(rootPath.toString(), "foo/baz")
+        assertEquals(expectedFullPath.toUri(), fullPath.toUri())
     }
 
     @Test
