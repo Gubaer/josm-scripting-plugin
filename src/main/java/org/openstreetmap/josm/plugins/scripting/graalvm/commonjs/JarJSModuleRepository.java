@@ -250,16 +250,21 @@ public class JarJSModuleRepository extends BaseJSModuleRepository {
      * {@inheritDoc}
      */
     @Override
-    public Optional<URI> resolve(@NotNull final String id) {
-        Objects.requireNonNull(id);
+    public Optional<URI> resolve(@NotNull final String moduleId) {
+        Objects.requireNonNull(moduleId);
+        if (getLogger().isLoggable(Level.FINE)) {
+            getLogger().log(Level.FINE, MessageFormat.format(
+           "*** Starting to resolve module id *** moduleId = ''{0}''", moduleId
+            ));
+        }
         try {
-            ModuleID.ensureValid(id);
+            ModuleID.ensureValid(moduleId);
         } catch(IllegalArgumentException e) {
-            logInvalidModuleID(id, e);
+            logInvalidModuleID(moduleId, e);
             return Optional.empty();
         }
         return resolveInternal(
-            new ModuleID(id).normalized(),
+            new ModuleID(moduleId).normalized(),
             jarUri.toURI());
     }
 
@@ -267,14 +272,21 @@ public class JarJSModuleRepository extends BaseJSModuleRepository {
      * {@inheritDoc}
      */
     @Override
-    public Optional<URI> resolve(@NotNull final String id,
+    public Optional<URI> resolve(@NotNull final String moduleId,
                                  @NotNull final URI contextUri) {
-        Objects.requireNonNull(id);
+        Objects.requireNonNull(moduleId);
         Objects.requireNonNull(contextUri);
+        if (getLogger().isLoggable(Level.FINE)) {
+            getLogger().log(Level.FINE, MessageFormat.format(
+        "*** Starting to resolve module id *** moduleId = ''{0}'', contextUri = ''{1}''",
+                moduleId, contextUri
+            ));
+        }
+
         try {
-            ModuleID.ensureValid(id);
+            ModuleID.ensureValid(moduleId);
         } catch (IllegalArgumentException e) {
-            logInvalidModuleID(id, e);
+            logInvalidModuleID(moduleId, e);
             return Optional.empty();
         }
         ModuleJarURI contextModuleUri;
@@ -284,7 +296,7 @@ public class JarJSModuleRepository extends BaseJSModuleRepository {
             getLogger().log(Level.SEVERE, MessageFormat.format(
                 "failed to resolve module id, context URI is invalid." +
                 "id=''{0}'', contextUri=''{1}''",
-                id, contextUri.toString()
+                moduleId, contextUri.toString()
             ));
             return Optional.empty();
         }
@@ -309,14 +321,14 @@ public class JarJSModuleRepository extends BaseJSModuleRepository {
             "failed to resolve module id, normalized context URI isn''t " +
                     "child of base URI. id=''{0}'', contextUri=''{1}'', " +
                     "contextModuleUri=''{2}'', baseUri=''{3}''",
-                    id, contextUri.toString(),contextModuleUri.toString(),
+                    moduleId, contextUri.toString(),contextModuleUri.toString(),
                     getBaseURI().toString()
                 ));
             }
             return Optional.empty();
         }
         return resolveInternal(
-                new ModuleID(id).normalized(),
+                new ModuleID(moduleId).normalized(),
                 contextModuleUri.toURI());
     }
 
