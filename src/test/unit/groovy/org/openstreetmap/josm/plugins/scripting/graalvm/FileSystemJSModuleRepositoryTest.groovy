@@ -41,18 +41,29 @@ class FileSystemJSModuleRepositoryTest {
             }
     }
 
-    // testing Path.of(), Paths.get() and Path.normalize() using relative paths.
+    // testing Path.of(), Paths.get(), Path.relativize(), and Path.normalize() using relative paths.
     // This should work on the windows and the linux platform.
     @Test
     void "Path - should normalize and resolve"() {
+        // can we normalize a relative path?
         def rootPath = moduleRepo.toPath()
         def repoPath = Path.of("foo/bar/../baz/./").normalize()
         def expectedRepoPath = Path.of("foo/baz")
         assertEquals(expectedRepoPath, repoPath)
 
+        // can we concatenate an absolute root path with a module path relative to the root path?
         def fullPath = Paths.get(rootPath.toString(), repoPath.toString())
         def expectedFullPath = Paths.get(rootPath.toString(), "foo/baz")
         assertEquals(expectedFullPath.toUri(), fullPath.toUri())
+
+        // can we relativize() to paths on the windows platform?
+        def relativePath = rootPath.relativize(fullPath)
+        assertEquals(Path.of("foo/baz"), relativePath)
+
+        // on windows, if we compare paths directly, the path delimiter doesn't matter
+        def p1 = Path.of("foo/bar")
+        def p2 = Path.of("foo\\bar")
+        assertEquals(p2, p1)
     }
 
     @Test
