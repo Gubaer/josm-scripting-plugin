@@ -9,6 +9,7 @@ import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.text.MessageFormat;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.logging.Level;
@@ -18,7 +19,7 @@ import java.util.logging.Logger;
  * A ModuleJarURI is a jar-URI with an embedded file-URI and an optional
  * path to a root entry in the jar-file.
  * <p>
- * A ModuleJarURI refers to the root of repository for CommonJS or ES
+ * A ModuleJarURI refers to the root of the repository for CommonJS or ES
  * Modules.
  */
 public class ModuleJarURI {
@@ -30,7 +31,7 @@ public class ModuleJarURI {
      * of the jar entry.
      *
      * @param jarFilePath the path to the jar file
-     * @param jarEntryPath the path to the jar entry in the jar file
+     * @param jarEntryPath the path to the jar entry in the jar file.
      * @return the jar URI
      * @throws URISyntaxException thrown, if the  URI isn't a
      *  valid jar URI
@@ -44,7 +45,7 @@ public class ModuleJarURI {
         Objects.requireNonNull(jarEntryPath);
         final String fileUri = new File(jarFilePath).toURI().toString();
         final URI uri = new URI(MessageFormat.format(
-            "jar:{0}!{1}", fileUri, jarEntryPath
+            "jar:{0}!{1}", fileUri, jarEntryPath.startsWith("/") ? jarEntryPath : "/" + jarEntryPath
         ));
 
         // try to convert the uri to an URL. This will make sure, the URI
@@ -104,7 +105,13 @@ public class ModuleJarURI {
     }
 
     private String jarFilePath;
-    private String jarEntryPath = "/";
+
+    /**
+     * The root path of the module repository <bold>within</bold> the jar file.
+     * Always a <bold>relative</bold> path, although in URL itself the path always
+     * starts with a leading '/'.
+     */
+    private String jarEntryPath = "";
 
     private ModuleJarURI() {}
 
@@ -177,6 +184,9 @@ public class ModuleJarURI {
         jarEntryPath = fileUri.toString().substring(i+1)
             // always use / as delimiter, also on windows platform
             .replace("\\", "/");
+        if (jarEntryPath.startsWith("/")) {
+            jarEntryPath = jarEntryPath.substring(1);
+        }
     }
 
     /**
@@ -189,7 +199,7 @@ public class ModuleJarURI {
     }
 
     /**
-     * Replies the file object representing the the jar file this URI
+     * Replies the file object representing the jar file this URI
      * refers to
      *
      * @return the jar file
@@ -200,46 +210,36 @@ public class ModuleJarURI {
     }
 
     /**
-     * Replies the path of the jar entry, i.e. <code>/foo/bar/mymodule.js</code>
-     * this URI refers to
-     *
-     * @return the path of the jar entry
-     */
-    public String getJarEntryPathAsString() {
-        return jarEntryPath;
-    }
-
-    /**
-     * Replies the path of the jar entry, i.e. <code>/foo/bar/mymodule.js</code>
+     * Replies the path of the jar entry, i.e. <code>foo/bar/mymodule.js</code>
      * this URI refers to
      *
      * @return the path of the jar entry
      */
     @SuppressWarnings("WeakerAccess") // part of the public API
     public Path getJarEntryPath() {
-        return new File(jarEntryPath).toPath();
+        return Path.of(jarEntryPath);
     }
 
     /**
      * Replies the name of the jar entry to which this URI refers.
      * <p>
-     * The name is equal to the jar entry path ({@link #getJarEntryPath()}, but
-     * without the leading '/'. It is used to lookup the jar entry, see
+     * The name is equal to the jar entry path ({@link #getJarEntryPath()},
+     * without a leading '/'. It is used to lookup the jar entry, see
      * {@link JarFile#getEntry(String)} or {@link JarFile#getJarEntry(String)}.
      *
      * @return the jar entry name
      */
     @SuppressWarnings("WeakerAccess") // part of the public API
     public String getJarEntryName() {
-        final String path = getJarEntryPathAsString();
-        if (!path.startsWith("/")) {
+        final String path = getJarEntryPath().toString().replace("\\", "/");
+        if (path.startsWith("/")) {
             throw new IllegalStateException(MessageFormat.format(
-                "jar entry path doesn''t start with ''/''. " +
+                "jar entry path must not start with ''/''. " +
                 "jar entry path=''{0}''",
                 path
             ));
         }
-        return path.substring(1);
+        return path;
     }
 
     /**
@@ -292,8 +292,12 @@ public class ModuleJarURI {
      */
     public boolean isBaseOf(@NotNull final ModuleJarURI other) {
         Objects.requireNonNull(other);
+        logger.log(Level.FINE, MessageFormat.format("this=''{0}'', other=''{1}''", this, other)); //TODO(Gubaer): remove after debugging
         return jarFilePath.equals(other.jarFilePath)
-            && other.getJarEntryPath().startsWith(getJarEntryPath());
+            && (
+                this.getJarEntryPath().toString().equals("") // this is the empty (or root) path
+                || other.getJarEntryPath().startsWith(this.getJarEntryPath())
+            );
     }
 
     /**
@@ -313,27 +317,34 @@ public class ModuleJarURI {
     /**
      * Replies a normalized version of this URI.
      * <ul>
-     *     <li>the file path is converted to an absolute, normalized path</li>
+     *     <li>the file path is converted to a canonical, normalized path</li>
      *     <li>the jar entry path is converted to an absolute,
      *     normalized path</li>
      * </ul>
      * @return the normalized CommonJS module jar URI
      */
-    public @NotNull ModuleJarURI normalized() {
-        final String normalizedFilePath = new File(jarFilePath)
-                .toPath().toAbsolutePath().normalize().toString();
-        // don't apply toAbsolutePath(). The jar entry path is already
-        // absolute (starts with an /); and it doesn't refer to a file
-        // in the local file system, but to a jar entry in the jar file
-        final String normalizedJarEntryPath = new File(jarEntryPath)
-                .toPath().normalize().toString();
+    public @NotNull Optional<ModuleJarURI> normalized() {
+        try {
+            final String normalizedFilePath = Path.of(jarFilePath)
+                    .normalize().toFile().getCanonicalPath();
+            // don't apply toAbsolutePath(). The jar entry path is already
+            // absolute (starts with an /); and it doesn't refer to a file
+            // in the local file system, but to a jar entry in the jar file
+            final String normalizedJarEntryPath = Path.of(jarEntryPath).normalize()
+                    .toString();
 
-        final ModuleJarURI normalizedURI = new ModuleJarURI();
-        normalizedURI.jarEntryPath = normalizedJarEntryPath
-            // always us '/' as delimiter, also on windows platform
-            .replace("\\", "/");
-        normalizedURI.jarFilePath = normalizedFilePath;
-        return normalizedURI;
+            final ModuleJarURI normalizedURI = new ModuleJarURI();
+            normalizedURI.jarEntryPath = normalizedJarEntryPath
+                    // always use '/' as delimiter, also on windows platform
+                    .replace("\\", "/");
+            normalizedURI.jarFilePath = normalizedFilePath;
+            return Optional.of(normalizedURI);
+        } catch(IOException e) {
+            logger.log(Level.WARNING, MessageFormat.format(
+            "Failed to canonicalize path ''{0}''", Path.of(jarFilePath).normalize()
+            ),e);
+            return Optional.empty();
+        }
     }
 
     /**

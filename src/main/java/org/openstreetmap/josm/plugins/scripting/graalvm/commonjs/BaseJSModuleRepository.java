@@ -8,7 +8,6 @@ import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,7 +19,7 @@ abstract public class BaseJSModuleRepository
     static protected final Logger logger =
          Logger.getLogger(BaseJSModuleRepository.class.getName());
 
-    protected Logger getLogger() {
+    static protected Logger getLogger() {
         return logger;
     }
 
@@ -43,25 +42,27 @@ abstract public class BaseJSModuleRepository
      */
     abstract protected boolean isRepoFile(@NotNull final String repoPath);
 
-    private @NotNull Optional<Path> tryResolve(@NotNull final ModuleID moduleId,
+    private @NotNull Optional<Path> tryResolve(@NotNull ModuleID moduleId,
                                                @NotNull Path context) {
 
         if (logger.isLoggable(Level.FINE)) {
             final String message = MessageFormat.format(
                 "moduleId=''{0}'', context=''{1}''",
                 moduleId,
-                context
+                context.toString().replace("\\", "/")
             );
             logger.log(Level.FINE, message);
         }
-        final Path modulePath = context.resolve(moduleId.toString())
-            .normalize();
-
-        final Object[] params = new Object[]{
-            moduleId.toString(),
-            modulePath.toString(),
-            context.toString()
-        };
+        final Path modulePath = context.resolve(moduleId.toString()).normalize();
+        if (logger.isLoggable(Level.FINE)) {
+            final String message = MessageFormat.format(
+                "moduleId=''{0}'', context=''{1}'', modulePath=''{2}''",
+                moduleId,
+                context.toString().replace("\\", "/"),
+                modulePath.toString().replace("\\", "/")
+            );
+            logger.log(Level.FINE, message);
+        }
 
         if (isRepoFile(modulePath.toString())) {
             if (logger.isLoggable(Level.FINE)) {
@@ -69,7 +70,7 @@ abstract public class BaseJSModuleRepository
             "MODULE PATH ALTERNATIVE-01: " +
                     "succeeded to resolve module id ''{0}''. " +
                     "Resolved path ''{1}'' refers to a readable file",
-                    params
+                    moduleId, modulePath.toString().replace("\\", "/")
                 );
                 logger.log(Level.FINE, message);
             }
@@ -79,7 +80,7 @@ abstract public class BaseJSModuleRepository
             final String message = MessageFormat.format(
         "MODULE PATH ALTERNATIVE-02: failed to resolve module id ''{0}''. " +
                 "resolved path ''{1}'' doesn''t refer to a readable file",
-                params
+                moduleId, modulePath.toString().replace("\\", "/")
             );
             logger.log(Level.FINE, message);
         }
@@ -92,7 +93,7 @@ abstract public class BaseJSModuleRepository
             final String message = MessageFormat.format(
                 "moduleId=''{0}'', context=''{1}''",
                 moduleId,
-                contextPath
+                contextPath.toString().replace("\\", "/")
             );
             logger.log(Level.FINE, message);
         }
@@ -104,7 +105,9 @@ abstract public class BaseJSModuleRepository
                 "resolved: failed to resolve module ID. " +
                 "context path must not be absolute. moduleId=''{0}'', " +
                 "contextPath=''{1}''",
-                moduleId.toString(), contextPath.toString().replace("\\", "/"));
+                moduleId.toString(),
+                contextPath.toString().replace("\\", "/")
+            );
             logger.log(Level.WARNING, message);
             return Optional.empty();
         }
