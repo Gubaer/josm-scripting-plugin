@@ -6,18 +6,20 @@ import static org.junit.Assert.assertEquals
 import static groovy.test.GroovyAssert.shouldFail
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
+import java.nio.file.Path
 
 class ModuleJarURITest {
 
-    static String projectHome
+    static File projectHome
 
     @BeforeAll
     static void readEnvironmentVariables() {
-        projectHome = System.getenv("JOSM_SCRIPTING_PLUGIN_HOME")
-        if (projectHome == null) {
+        var configuredProjectHome = System.getenv("JOSM_SCRIPTING_PLUGIN_HOME")
+        if (configuredProjectHome == null) {
             throw new Exception(
                "environment variable JOSM_SCRIPTING_PLUGIN_HOME missing")
         }
+        projectHome = new File(configuredProjectHome)
     }
 
     static File jarReposBaseDir() {
@@ -36,7 +38,7 @@ class ModuleJarURITest {
     void "constructor - accept valid URI"() {
         def urispec = "jar:${testJarFileUri('jar-repo-1.jar')}!/foo/bar.js"
         def uri = new ModuleJarURI(new URI(urispec))
-        assertEquals("/foo/bar.js", uri.getJarEntryPathAsString())
+        assertEquals(Path.of("foo/bar.js"), uri.getJarEntryPath())
         assertEquals(
             testJarFile('jar-repo-1.jar').toString(),
             uri.getJarFilePath())
@@ -125,11 +127,11 @@ class ModuleJarURITest {
         def uri = new ModuleJarURI(new URI(urispec))
         def normalizedUri = uri.normalized()
         assertEquals(
-            new File(new URI(expectedFileUri)).getAbsolutePath(),
-            normalizedUri.jarFilePath)
+            new File(new URI(expectedFileUri)),
+            normalizedUri.get().jarFile)
         assertEquals(
-            "/foo.js",
-            normalizedUri.jarEntryPathAsString)
+            "foo.js",
+            normalizedUri.get().jarEntryName)
     }
 
     @Test

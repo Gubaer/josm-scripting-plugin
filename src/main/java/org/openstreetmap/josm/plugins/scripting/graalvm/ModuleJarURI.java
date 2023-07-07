@@ -396,7 +396,9 @@ public class ModuleJarURI {
 
         // jar entry name without leading '/'
         final String normalizedJarEntryName =
-            normalizedJarEntryPath.substring(1);
+            normalizedJarEntryPath.startsWith("/")
+                ? normalizedJarEntryPath.substring(1)
+                : normalizedJarEntryPath;
 
         if (normalizedJarEntryName.isEmpty()) {
             final ModuleJarURI resolutionContextUri =
