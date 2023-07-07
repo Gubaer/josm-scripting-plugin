@@ -1,9 +1,5 @@
 package org.openstreetmap.josm.plugins.scripting.graalvm
 
-import static org.junit.Assert.assertTrue
-import static org.junit.Assert.assertFalse
-import static org.junit.Assert.assertEquals
-import static groovy.test.GroovyAssert.shouldFail
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
@@ -14,6 +10,9 @@ import java.util.jar.JarFile
 import java.util.logging.ConsoleHandler
 import java.util.logging.Level
 import java.util.logging.Logger
+
+import static groovy.test.GroovyAssert.shouldFail
+import static org.junit.Assert.*
 
 class JarJSModuleRepositoryTest {
 
