@@ -1,6 +1,5 @@
 package org.openstreetmap.josm.plugins.scripting.graalvm
 
-import groovy.test.GroovyTestCase
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -12,7 +11,10 @@ import java.util.logging.ConsoleHandler
 import java.util.logging.Level
 import java.util.logging.Logger
 
-class ModuleRepositoriesTest extends GroovyTestCase{
+import static groovy.test.GroovyAssert.shouldFail
+import static org.junit.Assert.*
+
+class ModuleRepositoriesTest {
 
     @BeforeEach
     void clearRepositories() {
@@ -140,7 +142,7 @@ class ModuleRepositoriesTest extends GroovyTestCase{
     }
 }
 
-class ModuleRepositoriesResolveTest extends GroovyTestCase {
+class ModuleRepositoriesResolveTest {
 
     static String moduleRepoPath
     static ICommonJSModuleRepository moduleRepo
