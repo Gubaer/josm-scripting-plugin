@@ -8,7 +8,7 @@ public interface IModuleResolver {
     /**
      * Resolves the CommonJS module id against the base URI and replies
      * its module URI
-     *
+     * <p>
      * A module id is either a &laquo;toplevel&raquo; or a &laquo;relative&raquo;
      * id.
      * <ul>
@@ -30,7 +30,7 @@ public interface IModuleResolver {
     /**
      * Resolves the CommonJS module id against the base contextUri and replies
      * its module URI
-     *
+     * <p>
      * A module id is either a &laquo;toplevel&raquo; or a &laquo;relative&raquo;
      * id.
      * <ul>
@@ -40,9 +40,9 @@ public interface IModuleResolver {
      * </ul>
      *
      * A module id must not start with <code>/</code>.
-     *
+     * <p>
      * The context URI must be a child URI of base URI of this repository.
-     *
+     * <p>
      * The resolution fails (an empty optional is replied), if the resolved
      * module URI isn't a child URI of the base URI.
      *

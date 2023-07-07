@@ -9,9 +9,11 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.file.Path;
 import java.text.MessageFormat;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Supplier;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.logging.Level;
@@ -20,6 +22,15 @@ import java.util.logging.Level;
  * A collection of common JS modules packaged into a jar file.
  */
 public class JarJSModuleRepository extends BaseJSModuleRepository {
+
+    @SuppressWarnings("WeakerAccess") // used in subclasses
+    protected void logFine(Supplier<String> messageBuilder) {
+        if (logger.isLoggable(Level.FINE)) {
+            final String message = messageBuilder.get();
+            logger.log(Level.FINE, message);
+        }
+    }
+
     private void ensureReadableJarFile() throws IOException {
         if (! (jarUri.refersToReadableFile() && jarUri.refersToJarFile())) {
             throw new IOException(MessageFormat.format(
@@ -319,9 +330,9 @@ public class JarJSModuleRepository extends BaseJSModuleRepository {
 
         final ModuleJarURI contextJSModuleUri =
             new ModuleJarURI(contextUri).normalized();
-        final Optional<String> resolvedModulePath =
+        final Optional<Path> resolvedModulePath =
             resolve(id, contextJSModuleUri.getJarEntryPath());
-        if (! resolvedModulePath.isPresent()) {
+        if (resolvedModulePath.isEmpty()) {
             logFine(() -> MessageFormat.format(
                 "failed to resolve module. moduleId=''{0}''",
                 id.toString()
@@ -333,7 +344,7 @@ public class JarJSModuleRepository extends BaseJSModuleRepository {
         try {
             resolvedModuleUri = ModuleJarURI.buildJarUri(
                 contextJSModuleUri.getJarFilePath(),
-                resolvedModulePath.get());
+                resolvedModulePath.get().toString()); //TODO(gubaer): fix '\'?
         } catch(final URISyntaxException | IOException e) {
             logFine(() -> MessageFormat.format(
                 "failed to build resolved module URI. " +

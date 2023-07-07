@@ -17,7 +17,7 @@ import static java.text.MessageFormat.format;
 abstract public class BaseJSModuleRepository
         implements ICommonJSModuleRepository {
 
-    static private final Logger logger =
+    static protected final Logger logger =
          Logger.getLogger(BaseJSModuleRepository.class.getName());
 
     protected Logger getLogger() {
@@ -34,36 +34,26 @@ abstract public class BaseJSModuleRepository
      *     <li><code>repoPath</code> refers to a readable file entry</li>
      * </ul>
      *
-     * <code>repoPath</code> should be an absolute path, not a JAR entry key.
-     * Example: <code>/foo/bar/module.js</code>, not
-     * <code>foo/bar/module.js</code>.
+     * <code>repoPath</code> <bold>must not</bold> be an absolute path.
+     * Example: <code>foo/bar/module.js</code>, not
+     * <code>/foo/bar/module.js</code>.
      *
-     * @param repoPath the path to the entry in a JAR file
-     * @return true, if <code>repoPath</code> refers to a readable file entry
+     * @param repoPath the path to the entry in a module repository
+     * @return true, if <code>repoPath</code> refers to a readable file entry in the module repository
      */
     abstract protected boolean isRepoFile(@NotNull final String repoPath);
 
-    @SuppressWarnings("unused")
-    static public @NotNull String moduleIdToModulePath(
-            @NotNull final ModuleID moduleId) {
-        if (moduleId.isAbsolute()) {
-            return "/" + moduleId;
-        } else {
-            return moduleId.toString();
-        }
-    }
+    private @NotNull Optional<Path> tryResolve(@NotNull final ModuleID moduleId,
+                                               @NotNull Path context) {
 
-    @SuppressWarnings("WeakerAccess") // used in subclasses
-    protected void logFine(Supplier<String> messageBuilder) {
         if (logger.isLoggable(Level.FINE)) {
-            final String message = messageBuilder.get();
+            final String message = MessageFormat.format(
+                "moduleId=''{0}'', context=''{1}''",
+                moduleId,
+                context
+            );
             logger.log(Level.FINE, message);
         }
-    }
-
-    private @NotNull Optional<Path> tryResolve(@NotNull final ModuleID moduleId,
-                                                 @NotNull Path context) {
-
         final Path modulePath = context.resolve(moduleId.toString())
             .normalize();
 
@@ -74,51 +64,62 @@ abstract public class BaseJSModuleRepository
         };
 
         if (isRepoFile(modulePath.toString())) {
-            logFine(() -> MessageFormat.format(
-                "MODULE PATH ALTERNATIVE: " +
-                "succeeded to resolve module id ''{0}''. " +
-                "Resolved path ''{1}'' refers to a readable file",
-                params
-            ));
+            if (logger.isLoggable(Level.FINE)) {
+                final String message = MessageFormat.format(
+            "MODULE PATH ALTERNATIVE-01: " +
+                    "succeeded to resolve module id ''{0}''. " +
+                    "Resolved path ''{1}'' refers to a readable file",
+                    params
+                );
+                logger.log(Level.FINE, message);
+            }
             return Optional.of(modulePath);
         }
-        logFine(() -> MessageFormat.format(
-            "MODULE PATH ALTERNATIVE: failed to resolve module id ''{0}''. " +
-            "resolved path ''{1}'' doesn''t refer to a readable file",
-            params
-        ));
-
+        if (logger.isLoggable(Level.FINE)) {
+            final String message = MessageFormat.format(
+        "MODULE PATH ALTERNATIVE-02: failed to resolve module id ''{0}''. " +
+                "resolved path ''{1}'' doesn''t refer to a readable file",
+                params
+            );
+            logger.log(Level.FINE, message);
+        }
         return Optional.empty();
     }
 
-    protected @NotNull Optional<String> resolve(@NotNull final ModuleID moduleId,
+    protected @NotNull Optional<Path> resolve(@NotNull final ModuleID moduleId,
                                        @NotNull Path contextPath) {
-
+        if (logger.isLoggable(Level.FINE)) {
+            final String message = MessageFormat.format(
+                "moduleId=''{0}'', context=''{1}''",
+                moduleId,
+                contextPath
+            );
+            logger.log(Level.FINE, message);
+        }
+        Objects.requireNonNull(moduleId);
         Objects.requireNonNull(contextPath);
         contextPath = contextPath.normalize();
-        if (!contextPath.startsWith("/")) {
+        if (contextPath.startsWith("/")) {
             final String message = format(
                 "resolved: failed to resolve module ID. " +
-                "context path isn''t absolute. moduleId=''{0}'', " +
+                "context path must not be absolute. moduleId=''{0}'', " +
                 "contextPath=''{1}''",
-                moduleId.toString(), contextPath.toString());
+                moduleId.toString(), contextPath.toString().replace("\\", "/"));
             logger.log(Level.WARNING, message);
             return Optional.empty();
         }
-        Path context = contextPath;
-        final String workingModuleId = moduleId.normalized().toString();
+        final String workingModuleId = moduleId.normalized().toString().replace("\\", "/");
         final String[] alternatives =  new String[]{
             workingModuleId,
             workingModuleId + ".js",
             workingModuleId + "/index.js"
         };
 
-        Optional<Path> path = Arrays.stream(alternatives)
+        final Path context = contextPath;
+        return Arrays.stream(alternatives)
             .map(ModuleID::new)
             .map(id -> tryResolve(id, context))
             .filter(Optional::isPresent)
             .findFirst().orElse(Optional.empty());
-
-        return path.map(Path::toString);
     }
 }

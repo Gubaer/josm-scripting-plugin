@@ -25,7 +25,7 @@ class FileSystemJSModuleRepositoryTest {
         if (repoHome == null) {
             fail("environment variable JOSM_SCRIPTING_PLUGIN_HOME not set")
         }
-        moduleRepo = new File(new File(repoHome), "/test/data/require/modules")
+        moduleRepo = new File(new File(repoHome), "/src/test/resources/require/modules")
     }
 
     @BeforeAll
@@ -94,14 +94,23 @@ class FileSystemJSModuleRepositoryTest {
         }
     }
 
+    @Test
+    void "should reject relative directory as base dir"() {
+        shouldFail(IllegalArgumentException.class) {
+            new FileSystemJSModuleRepository("foo/bar")
+        }
+        shouldFail(IllegalArgumentException.class) {
+            new FileSystemJSModuleRepository("..\\foo\\bar")
+        }
+    }
+
     @SuppressWarnings('GroovyUnusedAssignment')
     @Test
     void "resolve - should fail if repo base doesn't exist"() {
-        shouldFail(IllegalStateException.class) {
-            def base = "/no/such/dir"
-            def repo = new FileSystemJSModuleRepository(base)
-            def moduleUri = repo.resolve("./my-module")
-        }
+        def base= new File(moduleRepo, "no-such-directory")
+        def repo = new FileSystemJSModuleRepository(moduleRepo)
+        def moduleUri = repo.resolve("./my-module")
+        assertFalse(moduleUri.isPresent())
     }
 
     @Test
@@ -131,7 +140,7 @@ class FileSystemJSModuleRepositoryTest {
     @Test
     void "resolve - should reject a module which refers to a directory"() {
         def repo = new FileSystemJSModuleRepository(moduleRepo)
-        def moduleUri = repo.resolve("sub")
+        def moduleUri = repo.resolve("emptyDir")
         assertFalse(moduleUri.isPresent())
     }
 
@@ -152,10 +161,10 @@ class FileSystemJSModuleRepositoryTest {
     }
 
     @Test
-    void "resolve - should ignore too many _dot__dot_ segments in a module URI "() {
+    void "resolve - should check for too many _dot__dot_ segments in a module URI and fail to resolve "() {
         def repo = new FileSystemJSModuleRepository(moduleRepo)
         def moduleUri = repo.resolve("../../module1")
-        assertTrue(moduleUri.isPresent())
+        assertFalse(moduleUri.isPresent())
     }
 
     @Test
@@ -170,7 +179,7 @@ class FileSystemJSModuleRepositoryTest {
     // resolution against a context path
     @Test
     void "resolve with context - should succeed for top level module id"() {
-        def contextUri = new File(moduleRepo, "sub").toURI()
+        def contextUri = moduleRepo.toURI()
         def repo = new FileSystemJSModuleRepository(moduleRepo)
         def moduleUri = repo.resolve("module2", contextUri)
         def expected = new File(moduleRepo, "module2").toURI()
@@ -179,7 +188,7 @@ class FileSystemJSModuleRepositoryTest {
 
     @Test
     void "resolve with context - should succeed for top level module id with suffix _dot_js"() {
-        def contextUri = new File(moduleRepo, "sub").toURI()
+        def contextUri = moduleRepo.toURI()
         def repo = new FileSystemJSModuleRepository(moduleRepo)
         def moduleUri = repo.resolve("module1", contextUri)
         def expected = new File(moduleRepo, "module1.js").toURI()
@@ -222,10 +231,10 @@ class FileSystemJSModuleRepositoryTest {
     }
 
     @Test
-    void "resolve with context - should accept relative ids leaving with too many _dot__dot_ segments"() {
+    void "resolve with context - should accept relative ids leading with too many _dot__dot_ segments"() {
         def repo = new FileSystemJSModuleRepository(moduleRepo)
         def contextUri = new File(moduleRepo, "sub/module4").toURI()
         def moduleUri = repo.resolve("../../../../module1", contextUri)
-        assertTrue(moduleUri.isPresent())
+        assertFalse(moduleUri.isPresent())
     }
 }
