@@ -5,12 +5,15 @@ import org.openstreetmap.josm.plugins.scripting.BaseTestCase
 
 import java.nio.file.Path
 
+import static org.junit.Assert.assertFalse
+import static org.junit.Assert.assertTrue
+
 class AbstractESModuleRepositoryTest extends BaseTestCase{
 
     @Test
     void "accepts ES Module path with correct prefix"() {
-        final path = Path.of("/" + IESModuleRepository.ES_MODULE_REPO_PATH_PREFIX, UUID.randomUUID().toString());
-        assertTrue(AbstractESModuleRepository.startsWithESModuleRepoPathPrefix(path));
+        final path = Path.of("/" + IESModuleRepository.ES_MODULE_REPO_PATH_PREFIX, UUID.randomUUID().toString())
+        assertTrue(AbstractESModuleRepository.startsWithESModuleRepoPathPrefix(path))
     }
 
     @Test

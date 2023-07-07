@@ -1,12 +1,14 @@
 package org.openstreetmap.josm.plugins.scripting.graalvm.esmodule
 
-
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.openstreetmap.josm.plugins.scripting.BaseTestCase
 
 import java.nio.channels.Channels
 import java.nio.file.Path
+
+import static groovy.test.GroovyAssert.shouldFail
+import static org.junit.Assert.*
 
 class JarESModuleRepositoryTest extends BaseTestCase {
 
@@ -34,20 +36,20 @@ class JarESModuleRepositoryTest extends BaseTestCase {
     void "reject creating a repo when jar file doesn't exist"()  {
         final file = new File("no-such-jar.jar")
         shouldFail(IOException) {
-            final repo = new JarESModuleRepository(file)
+            new JarESModuleRepository(file)
         }
     }
 
     @Test
     void "reject creating a repo with nulls as parameters"() {
         shouldFail(NullPointerException) {
-            final repo = new JarESModuleRepository(null, "foo")
+            new JarESModuleRepository(null, "foo")
         }
         shouldFail(NullPointerException) {
-            final repo = new JarESModuleRepository(new File("foo"), null)
+            new JarESModuleRepository(new File("foo"), null)
         }
         shouldFail(NullPointerException) {
-            final repo = new JarESModuleRepository(null, null)
+            new JarESModuleRepository(null, null)
         }
     }
 
@@ -56,7 +58,7 @@ class JarESModuleRepositoryTest extends BaseTestCase {
         final file = new File(getProjectHome(), "src/test/resources/es-modules/es-modules.jar")
         final root = "no/such/root"
         shouldFail(IllegalArgumentException) {
-            final repo = new JarESModuleRepository(file, root)
+            new JarESModuleRepository(file, root)
         }
     }
 
@@ -184,7 +186,7 @@ class JarESModuleRepositoryTest extends BaseTestCase {
     void "fails read of non-existing module with IllegalArgumentException"() {
         def resolvedPath = Path.of(repo.getUniquePathPrefix().toString(), "no-such-module")
         shouldFail(IllegalArgumentException) {
-            def channel = repo.newByteChannel(resolvedPath)
+            repo.newByteChannel(resolvedPath)
         }
     }
 }

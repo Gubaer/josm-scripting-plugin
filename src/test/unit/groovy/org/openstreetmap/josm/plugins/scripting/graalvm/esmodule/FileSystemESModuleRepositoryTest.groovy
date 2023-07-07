@@ -8,6 +8,9 @@ import org.openstreetmap.josm.plugins.scripting.BaseTestCase
 import java.nio.file.Files
 import java.nio.file.Path
 
+import static groovy.test.GroovyAssert.shouldFail
+import static org.junit.Assert.*
+
 class FileSystemESModuleRepositoryTest extends BaseTestCase {
 
     @Test
@@ -20,14 +23,14 @@ class FileSystemESModuleRepositoryTest extends BaseTestCase {
     @Test
     void "create repo with null root - should fail"() {
         shouldFail(NullPointerException) {
-            final repo = new FileSystemESModuleRepository(null)
+            new FileSystemESModuleRepository(null)
         }
     }
 
     @Test
     void "create repo with non-existing root - should fail"() {
         shouldFail(IllegalArgumentException) {
-            final repo = new FileSystemESModuleRepository(new File("/no/such/directory"))
+            new FileSystemESModuleRepository(new File("/no/such/directory"))
         }
     }
 
@@ -35,7 +38,7 @@ class FileSystemESModuleRepositoryTest extends BaseTestCase {
     void "create repo with file as root instead of directory - should fail"() {
         final file = Files.createTempFile("fake-esmodules-root", "txt").toFile()
         shouldFail(IllegalArgumentException) {
-            final repo = new FileSystemESModuleRepository(file)
+            new FileSystemESModuleRepository(file)
         }
     }
 

@@ -9,6 +9,9 @@ import org.openstreetmap.josm.plugins.scripting.graalvm.GraalVMFacade
 
 import java.nio.file.Path
 
+import static org.junit.Assert.assertEquals
+import static org.junit.Assert.assertNotNull
+
 class ESModuleResolverTest extends BaseTestCase{
 
     @Test
