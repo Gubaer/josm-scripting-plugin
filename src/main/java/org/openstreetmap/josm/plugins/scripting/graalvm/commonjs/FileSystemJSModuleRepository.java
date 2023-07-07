@@ -1,7 +1,6 @@
 package org.openstreetmap.josm.plugins.scripting.graalvm.commonjs;
 
 import org.openstreetmap.josm.plugins.scripting.graalvm.ModuleID;
-import org.openstreetmap.josm.plugins.scripting.graalvm.commonjs.BaseJSModuleRepository;
 
 import javax.validation.constraints.NotNull;
 import java.io.File;
@@ -24,7 +23,7 @@ public class FileSystemJSModuleRepository extends BaseJSModuleRepository {
      * {@inheritDoc}
      */
     @Override
-    protected boolean isRepoFile(String repoPath) {
+    protected boolean isRepoFile(final String repoPath) {
         final Path moduleFilePath = Paths.get(
             baseDir.toString(),
             Paths.get("/", repoPath).toString());
