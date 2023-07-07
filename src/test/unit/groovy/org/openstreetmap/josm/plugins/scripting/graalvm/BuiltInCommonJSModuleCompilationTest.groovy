@@ -3,45 +3,25 @@ package org.openstreetmap.josm.plugins.scripting.graalvm
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.openstreetmap.josm.plugins.scripting.JOSMFixtureBasedTest
 import org.openstreetmap.josm.plugins.scripting.graalvm.commonjs.CommonJSModuleRepositoryRegistry
 import org.openstreetmap.josm.plugins.scripting.graalvm.commonjs.FileSystemJSModuleRepository
 import org.openstreetmap.josm.plugins.scripting.graalvm.commonjs.ICommonJSModuleRepository
 
-import java.util.logging.ConsoleHandler
-import java.util.logging.Level
-import java.util.logging.Logger
+// have to extend JOSMFixtureBasedTest because module 'clipboard' can only be
+// compiled if a JOSM fixture is available
+class BuiltInCommonJSModuleCompilationTest extends JOSMFixtureBasedTest {
 
-import static org.junit.Assert.fail
-
-class BuiltInCommonJSModuleCompilationTest {
-
-    static String moduleRepoPath
     static ICommonJSModuleRepository moduleRepo
 
     @BeforeAll
     static void readEnvironmentVariables() {
-        moduleRepoPath = System.getenv("JOSM_SCRIPTING_PLUGIN_HOME")
-        if (moduleRepoPath == null) {
-            fail("environment variable JOSM_SCRIPTING_PLUGIN_HOME not set.")
-        }
-        moduleRepoPath = "${moduleRepoPath}/src/main/javascript/v2"
+        def moduleRepoPath = "${getProjectHome()}/src/main/javascript/v2"
         moduleRepo = new FileSystemJSModuleRepository(moduleRepoPath)
     }
 
-    @BeforeAll
-    static void enableLogging() {
-        Logger.getLogger(FileSystemJSModuleRepository.class.getName())
-                .setLevel(Level.FINE)
-
-        Logger.getLogger("")
-                .getHandlers().findAll {
-            it instanceof ConsoleHandler
-        }.each {
-            it.level = Level.FINE
-        }
-    }
-
     static IGraalVMFacade facade
+
     @BeforeAll
     static void initGraalVMFacade() {
         facade = GraalVMFacadeFactory.getOrCreateGraalVMFacade()
