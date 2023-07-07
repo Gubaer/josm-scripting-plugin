@@ -15,6 +15,8 @@ import org.openstreetmap.josm.tools.Logging
 
 import java.util.logging.Level
 
+import static org.junit.Assert.fail
+
 class AbstractGraalVMBasedTest extends JOSMFixtureBasedTest {
 
     static def graalJSDescriptor = GraalVMFacadeFactory.getOrCreateGraalVMFacade()

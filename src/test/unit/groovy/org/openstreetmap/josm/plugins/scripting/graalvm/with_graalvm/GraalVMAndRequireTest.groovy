@@ -5,6 +5,9 @@ import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.openstreetmap.josm.plugins.scripting.graalvm.AbstractGraalVMBasedTest
 
+import static groovy.test.GroovyAssert.shouldFail
+import static org.junit.Assert.*
+
 class GraalVMAndRequireTest extends AbstractGraalVMBasedTest{
 
     //TODO(gubaer): fix later

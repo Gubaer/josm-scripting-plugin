@@ -10,6 +10,8 @@ import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineMetaDataProvider
 
 import java.util.stream.Collectors
+import static groovy.test.GroovyAssert.shouldFail
+import static org.junit.Assert.*
 
 class GraalVMPresentTest extends AbstractGraalVMBasedTest {
 
