@@ -1,20 +1,22 @@
 package org.openstreetmap.josm.plugins.scripting.graalvm
 
-import groovy.test.GroovyTestCase
+
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 import java.nio.file.Paths
 
+import static org.junit.Assert.assertEquals
+
 /**
  * test cases to explore the behaviour of
  * {@link java.nio.file.Path#resolve()}
  *
- * Annotated with @Ignore, because doesn't belong to the set of unit
+ * Annotated with @Disabled, because doesn't belong to the set of unit
  * tests for the scripting plugin.
  */
 @Disabled
-class PathsResolveTest extends GroovyTestCase {
+class PathsResolveTest {
 
     @Test
     void "resolve top level module id"() {
