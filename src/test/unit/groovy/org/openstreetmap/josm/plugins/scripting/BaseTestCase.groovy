@@ -1,11 +1,10 @@
 package org.openstreetmap.josm.plugins.scripting
 
-import groovy.test.GroovyTestCase
 import org.junit.jupiter.api.BeforeAll
 
 import java.util.logging.Logger
 
-class BaseTestCase extends GroovyTestCase {
+class BaseTestCase {
     static final def logger = Logger.getLogger(BaseTestCase.class.name)
 
     protected static File scriptingJarFile

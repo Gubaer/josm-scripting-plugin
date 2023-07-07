@@ -3,6 +3,7 @@ package org.openstreetmap.josm.plugins.scripting.graalvm
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.openstreetmap.josm.plugins.scripting.JOSMFixtureBasedTest
 import org.openstreetmap.josm.plugins.scripting.graalvm.commonjs.CommonJSModuleRepositoryRegistry
 import org.openstreetmap.josm.plugins.scripting.graalvm.commonjs.FileSystemJSModuleRepository
 import org.openstreetmap.josm.plugins.scripting.graalvm.commonjs.ICommonJSModuleRepository
@@ -11,10 +12,11 @@ import java.util.logging.ConsoleHandler
 import java.util.logging.Level
 import java.util.logging.Logger
 
+import static groovy.test.GroovyAssert.fail
 import static groovy.test.GroovyAssert.shouldFail
 import static org.junit.Assert.*
 
-class ModuleRepositoriesTest {
+class ModuleRepositoriesTest extends JOSMFixtureBasedTest {
 
     @BeforeEach
     void clearRepositories() {
@@ -29,7 +31,7 @@ class ModuleRepositoriesTest {
 
     @Test
     void "add - can add a user defined repository"() {
-        def repo = new FileSystemJSModuleRepository(new File("/foo/bar"))
+        def repo = new FileSystemJSModuleRepository(new File(getProjectHome(), "foo/bar"))
         def repos = CommonJSModuleRepositoryRegistry.getInstance()
         repos.addUserDefinedRepository(repo)
         assertNotNull(repos.userDefinedRepositories.find {
@@ -39,7 +41,7 @@ class ModuleRepositoriesTest {
 
     @Test
     void "add - don't add a user defined repository twice"() {
-        def repo = new FileSystemJSModuleRepository(new File("/foo/bar"))
+        def repo = new FileSystemJSModuleRepository(new File(getProjectHome(),"foo/bar"))
         def repos = CommonJSModuleRepositoryRegistry.getInstance()
         repos.addUserDefinedRepository(repo)
         repos.addUserDefinedRepository(repo)
@@ -59,7 +61,7 @@ class ModuleRepositoriesTest {
 
     @Test
     void "remove - can remove a user defined repo"() {
-        def repo = new FileSystemJSModuleRepository(new File("/foo/bar"))
+        def repo = new FileSystemJSModuleRepository(new File(getProjectHome(),"foo/bar"))
         def repos = CommonJSModuleRepositoryRegistry.getInstance()
         repos.addUserDefinedRepository(repo)
         repos.removeUserDefinedRepository(repo)
@@ -68,7 +70,7 @@ class ModuleRepositoriesTest {
 
     @Test
     void "remove - can remove a user defined repo given a base URI"() {
-        def repo = new FileSystemJSModuleRepository(new File("/foo/bar"))
+        def repo = new FileSystemJSModuleRepository(new File(getProjectHome(),"foo/bar"))
         def repos = CommonJSModuleRepositoryRegistry.getInstance()
         repos.addUserDefinedRepository(repo)
         repos.removeUserDefinedRepository(repo.baseURI)
@@ -93,9 +95,9 @@ class ModuleRepositoriesTest {
     void "clear - can clear the registry"() {
         def repos = CommonJSModuleRepositoryRegistry.getInstance()
         repos.addUserDefinedRepository(new FileSystemJSModuleRepository(
-            new File("/foo/bar1")))
+            new File(getProjectHome(),"foo/bar1")))
         repos.addUserDefinedRepository(new FileSystemJSModuleRepository(
-            new File("/foo/bar2")))
+            new File(getProjectHome(),"foo/bar2")))
         repos.clear()
         assertTrue(repos.userDefinedRepositories.isEmpty())
     }
@@ -104,9 +106,9 @@ class ModuleRepositoriesTest {
     void "getRepositories - can retrieve the repositories"() {
         def repos = CommonJSModuleRepositoryRegistry.getInstance()
         repos.addUserDefinedRepository(new FileSystemJSModuleRepository(
-            new File("/foo/bar1")))
+            new File(getProjectHome(),"foo/bar1")))
         repos.addUserDefinedRepository(new FileSystemJSModuleRepository(
-            new File("/foo/bar2")))
+            new File(getProjectHome(), "foo/bar2")))
         def registeredRepos = repos.userDefinedRepositories
         assertEquals(2, registeredRepos.size())
     }
@@ -114,7 +116,7 @@ class ModuleRepositoriesTest {
     @Test
     void "getRepositoryForModule - does correctly lookup a module"() {
         def repos = CommonJSModuleRepositoryRegistry.getInstance()
-        def repo = new FileSystemJSModuleRepository(new File("/foo/bar1"))
+        def repo = new FileSystemJSModuleRepository(new File(getProjectHome(),"foo/bar1"))
         repos.addUserDefinedRepository(repo)
         def moduleUri = new File(new File(repo.baseURI), "my/module.js").toURI()
 
@@ -126,7 +128,7 @@ class ModuleRepositoriesTest {
     @Test
     void "getRepositoryForModule - doesn't find an arbitrary module URI"() {
         def repos = CommonJSModuleRepositoryRegistry.getInstance()
-        def repo = new FileSystemJSModuleRepository(new File("/foo/bar1"))
+        def repo = new FileSystemJSModuleRepository(new File(getProjectHome(),"foo/bar1"))
         repos.addUserDefinedRepository(repo)
         def moduleUri = new File("/yet/another/location/my/module.js").toURI()
 
@@ -142,7 +144,7 @@ class ModuleRepositoriesTest {
     }
 }
 
-class ModuleRepositoriesResolveTest {
+class ModuleRepositoriesResolveTest extends JOSMFixtureBasedTest{
 
     static String moduleRepoPath
     static ICommonJSModuleRepository moduleRepo
