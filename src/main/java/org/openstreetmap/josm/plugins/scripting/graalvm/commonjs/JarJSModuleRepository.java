@@ -238,14 +238,6 @@ public class JarJSModuleRepository extends BaseJSModuleRepository {
         return this.jarUri.isBaseOf(other);
     }
 
-    private void logInvalidModuleID(String id, IllegalArgumentException e) {
-        if (getLogger().isLoggable(Level.FINE)) {
-            getLogger().log(Level.FINE, MessageFormat.format(
-                "can''t resolve invalid module id. id=''{0}''", id
-            ), e);
-        }
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -260,7 +252,11 @@ public class JarJSModuleRepository extends BaseJSModuleRepository {
         try {
             ModuleID.ensureValid(moduleId);
         } catch(IllegalArgumentException e) {
-            logInvalidModuleID(moduleId, e);
+            if (getLogger().isLoggable(Level.FINE)) {
+                getLogger().log(Level.FINE, MessageFormat.format(
+                    "can''t resolve invalid module id. id=''{0}''", moduleId
+                ), e);
+            }
             return Optional.empty();
         }
         return resolveInternal(
@@ -286,7 +282,11 @@ public class JarJSModuleRepository extends BaseJSModuleRepository {
         try {
             ModuleID.ensureValid(moduleId);
         } catch (IllegalArgumentException e) {
-            logInvalidModuleID(moduleId, e);
+            if (getLogger().isLoggable(Level.FINE)) {
+                getLogger().log(Level.FINE, MessageFormat.format(
+            "can''t resolve invalid module id. id=''{0}''", moduleId
+                ), e);
+            }
             return Optional.empty();
         }
         ModuleJarURI contextModuleUri;
