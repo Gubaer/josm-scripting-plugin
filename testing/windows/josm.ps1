@@ -167,8 +167,7 @@ if (!$graalJs) {
         '-Xmx2g', `
         "-Djosm.home=$josmHome", `
         "-Djava.util.logging.config.file=$loggingPropertiesFile", `
-        "-classpath", $josmJar, `
-        "org.openstreetmap.josm.gui.MainApplication" 
+        -jar, $josmJar
 } else {
     Start-Process `
     -FilePath "$javaBinPath" `
