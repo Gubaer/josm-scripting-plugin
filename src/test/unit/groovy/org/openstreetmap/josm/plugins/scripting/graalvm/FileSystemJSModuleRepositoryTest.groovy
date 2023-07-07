@@ -60,10 +60,16 @@ class FileSystemJSModuleRepositoryTest {
         def relativePath = rootPath.relativize(fullPath)
         assertEquals(Path.of("foo/baz"), relativePath)
 
-        // on windows, if we compare paths directly, the path delimiter doesn't matter
+        // on windows, if we compare paths directly, the path delimiter doesn't matter.
+        // However, on linux the difference matters.
         def p1 = Path.of("foo/bar")
         def p2 = Path.of("foo\\bar")
-        assertEquals(p2, p1)
+        def isWindows = System.getProperty("os.name").toLowerCase(Locale.ENGLISH).contains("windows")
+        if (isWindows) {
+            assertEquals(p2, p1)
+        } else {
+            assertNotEquals(p2, p1)
+        }
 
         // can we resolve two relative paths?
         p1 = Path.of("foo/bar")
