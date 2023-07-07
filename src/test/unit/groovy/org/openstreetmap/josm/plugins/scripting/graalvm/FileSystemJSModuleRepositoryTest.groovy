@@ -64,6 +64,13 @@ class FileSystemJSModuleRepositoryTest {
         def p1 = Path.of("foo/bar")
         def p2 = Path.of("foo\\bar")
         assertEquals(p2, p1)
+
+        // can we resolve two relative paths?
+        p1 = Path.of("foo/bar")
+        p2 = Path.of("baz.js")
+        def p3 = p1.resolve(p2)
+        def expectedP3 = Path.of("foo/bar/baz.js")
+        assertEquals(expectedP3, p3)
     }
 
     @Test
