@@ -13,7 +13,6 @@ import java.nio.file.Path;
 import java.text.MessageFormat;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.function.Supplier;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.logging.Level;
@@ -22,14 +21,6 @@ import java.util.logging.Level;
  * A collection of common JS modules packaged into a jar file.
  */
 public class JarJSModuleRepository extends BaseJSModuleRepository {
-
-    @SuppressWarnings("WeakerAccess") // used in subclasses
-    protected void logFine(Supplier<String> messageBuilder) {
-        if (logger.isLoggable(Level.FINE)) {
-            final String message = messageBuilder.get();
-            logger.log(Level.FINE, message);
-        }
-    }
 
     private void ensureReadableJarFile() throws IOException {
         if (! (jarUri.refersToReadableFile() && jarUri.refersToJarFile())) {
@@ -98,19 +89,25 @@ public class JarJSModuleRepository extends BaseJSModuleRepository {
         }
         repoPath = repoPath.trim();
         if (!repoPath.startsWith("/")) {
-            logFine(() -> MessageFormat.format(
-                "unexpected repo path, doesn''t start with ''/''. " +
-                "repoPath=''{0}''",
-                jarUri.getJarFilePath()
-            ));
+            if (logger.isLoggable(Level.FINE)) {
+                final String message = MessageFormat.format(
+            "unexpected repo path, doesn''t start with ''/''. " +
+                    "repoPath=''{0}''",
+                    jarUri.getJarFilePath()
+                );
+                logger.log(Level.FINE, message);
+            }
             return false;
         }
         final String jarEntryName = repoPath.substring(1);
         if (jarEntryName.isEmpty()) {
-            logFine(() -> MessageFormat.format(
-                "unexpected empty jar entry name",
-                jarEntryName
-            ));
+            if (logger.isLoggable(Level.FINE)) {
+                final String message = MessageFormat.format(
+                    "unexpected empty jar entry name ''{0}''",
+                    jarEntryName
+                );
+                logger.log(Level.FINE, message);
+            }
             return false;
         }
         try {
@@ -118,7 +115,7 @@ public class JarJSModuleRepository extends BaseJSModuleRepository {
         } catch(IOException e) {
             if (getLogger().isLoggable(Level.FINE)) {
                 getLogger().log(Level.FINE, MessageFormat.format(
-                    "jar entry isn''t doesn''t exist or isn''t a file entry. " +
+                    "jar entry doesn''t exist or isn''t a file entry. " +
                     "jar file=''{0}'', entry name=''{1}''",
                     jarUri.getJarFilePath(), jarEntryName
                ),e);
@@ -284,7 +281,7 @@ public class JarJSModuleRepository extends BaseJSModuleRepository {
         try {
             contextModuleUri = new ModuleJarURI(contextUri);
         } catch (IllegalArgumentException e) {
-            getLogger().log(Level.FINE, MessageFormat.format(
+            getLogger().log(Level.SEVERE, MessageFormat.format(
                 "failed to resolve module id, context URI is invalid." +
                 "id=''{0}'', contextUri=''{1}''",
                 id, contextUri.toString()
@@ -307,14 +304,15 @@ public class JarJSModuleRepository extends BaseJSModuleRepository {
         }
 
         if (!jarUri.isBaseOf(contextModuleUri)) {
-            final ModuleJarURI _contextModuleUri = contextModuleUri;
-            logFine(() -> MessageFormat.format(
-                "failed to resolve module id, normalized context URI isn''t " +
-                "child of base URI. id=''{0}'', contextUri=''{1}'', " +
-                "contextModuleUri=''{2}'', baseUri=''{3}''",
-                id, contextUri.toString(),_contextModuleUri.toString(),
-                getBaseURI().toString()
-            ));
+            if (getLogger().isLoggable(Level.FINE)) {
+                getLogger().log(Level.FINE, MessageFormat.format(
+            "failed to resolve module id, normalized context URI isn''t " +
+                    "child of base URI. id=''{0}'', contextUri=''{1}'', " +
+                    "contextModuleUri=''{2}'', baseUri=''{3}''",
+                    id, contextUri.toString(),contextModuleUri.toString(),
+                    getBaseURI().toString()
+                ));
+            }
             return Optional.empty();
         }
         return resolveInternal(
@@ -333,10 +331,12 @@ public class JarJSModuleRepository extends BaseJSModuleRepository {
         final Optional<Path> resolvedModulePath =
             resolve(id, contextJSModuleUri.getJarEntryPath());
         if (resolvedModulePath.isEmpty()) {
-            logFine(() -> MessageFormat.format(
-                "failed to resolve module. moduleId=''{0}''",
-                id.toString()
-            ));
+            if (getLogger().isLoggable(Level.FINE)) {
+                getLogger().log(Level.FINE, MessageFormat.format(
+                    "failed to resolve module. moduleId=''{0}''",
+                    id.toString()
+                ));
+            }
             return Optional.empty();
         }
 
@@ -344,27 +344,31 @@ public class JarJSModuleRepository extends BaseJSModuleRepository {
         try {
             resolvedModuleUri = ModuleJarURI.buildJarUri(
                 contextJSModuleUri.getJarFilePath(),
-                resolvedModulePath.get().toString()); //TODO(gubaer): fix '\'?
+                resolvedModulePath.get().toString());  //TODO(gubaer): fix '\'?
         } catch(final URISyntaxException | IOException e) {
-            logFine(() -> MessageFormat.format(
-                "failed to build resolved module URI. " +
-                "jar file path=''{0}'', resolved module path=''{1}''",
-                contextJSModuleUri.getJarFilePath(),
-                resolvedModulePath.get()
-            ));
+            if (getLogger().isLoggable(Level.FINE)) {
+                getLogger().log(Level.FINE, MessageFormat.format(
+            "failed to build resolved module URI. " +
+                    "jar file path=''{0}'', resolved module path=''{1}''",
+                    contextJSModuleUri.getJarFilePath(),
+                    resolvedModulePath.get()
+                ));
+            }
             return Optional.empty();
         }
 
         // make sure the resolved module URI is still a child URI of the
         // base URI of this repo
         if (!isBaseOf(resolvedModuleUri)) {
-            logFine(() -> MessageFormat.format(
-                "failed to resolve module. moduleId=''{0}''. " +
-                "resolved module URI isn''t a child of the base URI. " +
-                "module id=''{0}'', base URI=''{1}'', resolved URI=''{2}''",
-                id.toString(), jarUri.toURI().toString(),
-                resolvedModuleUri.toString()
-            ));
+            if (getLogger().isLoggable(Level.FINE)) {
+                getLogger().log(Level.FINE, MessageFormat.format(
+            "failed to resolve module. moduleId=''{0}''. " +
+                    "resolved module URI isn''t a child of the base URI. " +
+                    "module id=''{0}'', base URI=''{1}'', resolved URI=''{2}''",
+                    id.toString(), jarUri.toURI().toString(),
+                    resolvedModuleUri.toString()
+                ));
+            }
             return Optional.empty();
         }
         return Optional.of(resolvedModuleUri);
