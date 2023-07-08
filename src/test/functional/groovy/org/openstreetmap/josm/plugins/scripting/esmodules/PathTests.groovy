@@ -1,12 +1,13 @@
 package org.openstreetmap.josm.plugins.scripting.esmodules
 
-
 import org.junit.jupiter.api.Test
 import org.openstreetmap.josm.plugins.scripting.BaseTestCase
 
 import java.nio.file.Path
 import java.util.jar.JarFile
 import java.util.regex.Pattern
+
+import static org.junit.Assert.*
 
 class PathTests extends BaseTestCase {
 

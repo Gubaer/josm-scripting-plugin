@@ -14,6 +14,8 @@ import java.nio.file.attribute.FileAttribute
 import java.util.logging.Level
 import java.util.logging.Logger
 
+import static org.junit.Assert.assertNotNull
+
 class ESModuleTest extends JOSMFixtureBasedTest {
     static class CustomFileSystem implements FileSystem {
         static private final Logger logger = Logger.getLogger(CustomFileSystem.class.name)

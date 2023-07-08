@@ -1,6 +1,5 @@
 package org.openstreetmap.josm.plugins.scripting.js.api
 
-
 import org.junit.jupiter.api.Test
 import org.openstreetmap.josm.data.coor.LatLon
 import org.openstreetmap.josm.data.osm.DataSet
@@ -10,7 +9,11 @@ import org.openstreetmap.josm.data.osm.Way
 import org.openstreetmap.josm.gui.layer.OsmDataLayer
 import org.openstreetmap.josm.plugins.scripting.JOSMFixtureBasedTest
 
+import static groovy.test.GroovyAssert.shouldFail
+import static org.junit.Assert.*
+
 class ChangeMultiCommandTest extends JOSMFixtureBasedTest {
+    def static DELTA = 1e-15
 
     static OsmDataLayer newLayer() {
         return new OsmDataLayer(new DataSet(), null, null)
@@ -61,16 +64,16 @@ class ChangeMultiCommandTest extends JOSMFixtureBasedTest {
         def result = cmd.executeCommand()
         assertTrue(result)
 
-        assertEquals(11.11d, n1.getCoor().lat())
-        assertEquals(0, n2.getCoor().lat())
+        assertEquals(11.11d, n1.getCoor().lat(), DELTA)
+        assertEquals(0, n2.getCoor().lat(), DELTA)
         assertEquals("newvalue", n1.get("name"))
         assertEquals("newvalue", w1.get("name"))
         assertEquals("newvalue", r1.get("name"))
 
         // undo
         cmd.undoCommand()
-        assertEquals(0, n1.getCoor().lat())
-        assertEquals(0, n2.getCoor().lat())
+        assertEquals(0, n1.getCoor().lat(), DELTA)
+        assertEquals(0, n2.getCoor().lat(), DELTA)
         assertTrue(!n1.hasKey("name"))
         assertTrue( !w1.hasKey("name"))
         assertEquals("oldname", r1.get("name"))
@@ -79,8 +82,8 @@ class ChangeMultiCommandTest extends JOSMFixtureBasedTest {
         result = cmd.executeCommand()
         assertTrue(result)
 
-        assertEquals(11.11d, n1.getCoor().lat())
-        assertEquals(0, n2.getCoor().lat())
+        assertEquals(11.11d, n1.getCoor().lat(), DELTA)
+        assertEquals(0, n2.getCoor().lat(), DELTA)
         assertEquals("newvalue", n1.get("name"))
         assertEquals("newvalue", w1.get("name"))
         assertEquals("newvalue", r1.get("name"))

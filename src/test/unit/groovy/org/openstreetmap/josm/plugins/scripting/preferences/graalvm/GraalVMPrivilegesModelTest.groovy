@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test
 import org.openstreetmap.josm.data.Preferences
 import org.openstreetmap.josm.plugins.scripting.JOSMFixtureBasedTest
 
+import static org.junit.Assert.*
 import static org.openstreetmap.josm.plugins.scripting.model.PreferenceKeys.*
 import static org.openstreetmap.josm.plugins.scripting.preferences.graalvm.GraalVMPrivilegesModel.DefaultAccessPolicy.ALLOW_ALL
 import static org.openstreetmap.josm.plugins.scripting.preferences.graalvm.GraalVMPrivilegesModel.TernaryAccessPolicy.*

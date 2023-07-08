@@ -14,6 +14,9 @@ import org.openstreetmap.josm.plugins.scripting.js.api.Change.NodesChange
 import org.openstreetmap.josm.plugins.scripting.js.api.Change.PosChange
 import org.openstreetmap.josm.plugins.scripting.js.api.Change.TagsChange
 
+import static groovy.test.GroovyAssert.shouldFail
+import static org.junit.Assert.assertNotNull
+
 class ChangeTest extends JOSMFixtureBasedTest {
 
     @Test

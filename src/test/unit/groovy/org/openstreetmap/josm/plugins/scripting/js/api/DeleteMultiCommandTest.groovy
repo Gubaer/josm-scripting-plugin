@@ -1,6 +1,5 @@
 package org.openstreetmap.josm.plugins.scripting.js.api
 
-
 import org.junit.jupiter.api.Test
 import org.openstreetmap.josm.data.coor.LatLon
 import org.openstreetmap.josm.data.osm.DataSet
@@ -9,6 +8,8 @@ import org.openstreetmap.josm.data.osm.Relation
 import org.openstreetmap.josm.data.osm.Way
 import org.openstreetmap.josm.gui.layer.OsmDataLayer
 import org.openstreetmap.josm.plugins.scripting.JOSMFixtureBasedTest
+
+import static groovy.test.GroovyAssert.shouldFail
 
 class DeleteMultiCommandTest extends JOSMFixtureBasedTest {
 

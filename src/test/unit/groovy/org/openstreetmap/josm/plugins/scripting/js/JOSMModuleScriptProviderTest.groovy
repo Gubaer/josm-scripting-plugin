@@ -5,6 +5,9 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.openstreetmap.josm.plugins.scripting.JOSMFixtureBasedTest
 
+import static org.junit.Assert.assertNotNull
+import static org.junit.Assert.assertTrue
+
 class JOSMModuleScriptProviderTest extends JOSMFixtureBasedTest {
 
     /**
