@@ -1,6 +1,7 @@
 package org.openstreetmap.josm.plugins.scripting.esmodules
 
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.condition.DisabledOnOs
 import org.openstreetmap.josm.plugins.scripting.BaseTestCase
 
 import java.nio.file.Path
@@ -8,6 +9,7 @@ import java.util.jar.JarFile
 import java.util.regex.Pattern
 
 import static org.junit.Assert.*
+import static org.junit.jupiter.api.condition.OS.WINDOWS
 
 class PathTests extends BaseTestCase {
 
@@ -45,6 +47,8 @@ class PathTests extends BaseTestCase {
     }
 
     @Test
+    // doesn't work on windows platform
+    @DisabledOnOs(WINDOWS)
     void "remove leading _SLASH_"() {
         def path = Path.of("/foo/bar/baz")
         assertTrue(path.isAbsolute())
