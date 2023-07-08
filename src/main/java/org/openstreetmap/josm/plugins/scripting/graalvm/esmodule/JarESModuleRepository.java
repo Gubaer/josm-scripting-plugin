@@ -15,7 +15,6 @@ import java.nio.file.Path;
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.Objects;
-import java.util.function.Supplier;
 import java.util.jar.JarFile;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,11 +26,6 @@ import java.util.regex.Pattern;
 public class JarESModuleRepository extends AbstractESModuleRepository {
     private static final Logger logger = Logger.getLogger(JarESModuleRepository.class.getName());
 
-    static private void logFine(Supplier<String> supplier) {
-        if (logger.isLoggable(Level.FINE)) {
-            logger.fine(supplier.get());
-        }
-    }
     private final JarFile jar;
     private final File jarFile;
     private final Path root;
@@ -54,13 +48,16 @@ public class JarESModuleRepository extends AbstractESModuleRepository {
             root.toString(),
             relativeModulePath.normalize().toString()
         );
-        logFine(() -> MessageFormat.format("normalized relative repo path is ''{0}''", path));
-
+        if (logger.isLoggable(Level.FINE)) {
+            logger.fine(MessageFormat.format("normalized relative repo path is ''{0}''", path));
+        }
         // try to locate a suitable zip entry
         return SUFFIXES.stream().map(suffix -> path + suffix)
             .filter(p -> {
                 var entry = jar.getEntry(p);
-                logFine(() -> MessageFormat.format("Tried relative repo path ''{0}'', found entry ''{1}''", p, entry));
+                if (logger.isLoggable(Level.FINE)) {
+                    logger.fine(MessageFormat.format("Tried relative repo path ''{0}'', found entry ''{1}''", p, entry));
+                }
                 return entry != null && !entry.isDirectory();
             })
             .findFirst()
@@ -172,28 +169,36 @@ public class JarESModuleRepository extends AbstractESModuleRepository {
     @Override
     public @Null Path resolveModulePath(@NotNull Path modulePath) {
         Objects.requireNonNull(modulePath);
-        if (modulePath.isAbsolute()) {
+        if (modulePath.getNameCount() >= 1 && modulePath.getName(1).toString().equals(ES_MODULE_REPO_PATH_PREFIX)) {
             var normalizedModulePath= modulePath.normalize();
-            logFine(() -> MessageFormat.format(
-                "{0}: normalized module path is ''{1}''",
-                modulePath,
-                normalizedModulePath
-            ));
+            if (logger.isLoggable(Level.FINE)) {
+                logger.fine(MessageFormat.format(
+                    "{0}: normalized module path is ''{1}''",
+                    modulePath,
+                    normalizedModulePath
+                ));
+            }
             if (normalizedModulePath.startsWith(getUniquePathPrefix())) {
                 if (normalizedModulePath.getNameCount() < 3) {
-                    logFine(() -> MessageFormat.format(
-                        "{0}: normalized absolute module path ''{1}'' is too short",
-                        modulePath,
-                        normalizedModulePath
-                    ));
-                    logFine(() -> MessageFormat.format("{0}: resolution FAILED", modulePath));
+                    if (logger.isLoggable(Level.FINE)) {
+                        logger.fine(MessageFormat.format(
+                                "{0}: normalized absolute module path ''{1}'' is too short",
+                                modulePath,
+                                normalizedModulePath
+                        ));
+                        logger.fine(MessageFormat.format("{0}: resolution FAILED", modulePath));
+                    }
                     return null;
                 }
                 final var relativeRepoPath =  normalizedModulePath.subpath(2, normalizedModulePath.getNameCount());
-                logFine(() -> MessageFormat.format("{0}: relative repo path is ''{1}''", modulePath, relativeRepoPath));
+                if (logger.isLoggable(Level.FINE)) {
+                    logger.fine(MessageFormat.format("{0}: relative repo path is ''{1}''", modulePath, relativeRepoPath));
+                }
                 var resolvedRelativeRepoPath = resolveZipEntryPath(relativeRepoPath);
                 if (resolvedRelativeRepoPath == null) {
-                    logFine(() -> MessageFormat.format("{0}: resolution FAILED", modulePath));
+                    if (logger.isLoggable(Level.FINE)) {
+                        logger.fine(MessageFormat.format("{0}: resolution FAILED", modulePath));
+                    }
                     return null;
                 }
                 if (root.toString().isEmpty()) {
@@ -207,23 +212,27 @@ public class JarESModuleRepository extends AbstractESModuleRepository {
                     );
                 }
             } else {
-                logFine(() -> MessageFormat.format(
-                    "{0}: can''t resolve absolute module path in the file system based ES module repository with unique prefix ''{1}''",
-                    modulePath.toString(),
-                    getUniquePathPrefix().toString()
-                ));
+                if (logger.isLoggable(Level.FINE)) {
+                    logger.fine(MessageFormat.format(
+                        "{0}: can''t resolve absolute module path in the file system based ES module repository with unique prefix ''{1}''",
+                        modulePath.toString(),
+                        getUniquePathPrefix().toString()
+                    ));
+                }
                 return null;
             }
         } else {
             var repoPath = resolveZipEntryPath(modulePath);
             if (repoPath == null) {
-                logFine(() -> MessageFormat.format(
-                    "{0}: can''t resolve relative module path in the jar file based ES Module repository ''{1}''. "
-                    +"The path doesn''t refer to a readable zip entry.",
-                    modulePath.toString(),
-                    jarFile.getAbsolutePath()
-                ));
-                logFine(() -> MessageFormat.format("{0}: resolution FAILED", modulePath));
+                if (logger.isLoggable(Level.FINE)) {
+                    logger.fine(MessageFormat.format(
+                        "{0}: can''t resolve relative module path in the jar file based ES Module repository ''{1}''. "
+                                +"The path doesn''t refer to a readable zip entry.",
+                        modulePath.toString(),
+                        jarFile.getAbsolutePath()
+                    ));
+                    logger.fine(MessageFormat.format("{0}: resolution FAILED", modulePath));
+                }
                 return null;
             }
             return Path.of(
