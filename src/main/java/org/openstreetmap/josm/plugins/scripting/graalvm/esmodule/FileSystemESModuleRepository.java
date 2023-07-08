@@ -12,7 +12,6 @@ import java.nio.file.StandardOpenOption;
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.Objects;
-import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -22,12 +21,6 @@ import java.util.logging.Logger;
 public class FileSystemESModuleRepository extends AbstractESModuleRepository {
     static private final Logger logger = Logger.getLogger(FileSystemESModuleRepository.class.getName());
     private final File root;
-
-    static private void logFine(Supplier<String> supplier) {
-        if (logger.isLoggable(Level.FINE)) {
-            logger.fine(supplier.get());
-        }
-    }
 
     /**
      * Creates a new ES module repository for modules stored in a directory in the file system.
@@ -132,12 +125,14 @@ public class FileSystemESModuleRepository extends AbstractESModuleRepository {
             absoluteRepoFile = new File(root, repoPath.toString()).toPath().normalize().toAbsolutePath().toFile();
         }
         if (!absoluteRepoFile.toPath().startsWith(root.toPath())) {
-            logFine(() -> MessageFormat.format(
-                "repo path ''{0}'' resolves to absolute repo path ''{1}'' which is outside of the repo with root ''{2}''",
-                repoPath,
-                absoluteRepoFile.getAbsolutePath(),
-                root.getAbsolutePath()
-            ));
+            if (logger.isLoggable(Level.FINE)) {
+                logger.fine(MessageFormat.format(
+                    "repo path ''{0}'' resolves to absolute repo path ''{1}'' which is outside of the repo with root ''{2}''",
+                    repoPath,
+                    absoluteRepoFile.getAbsolutePath(),
+                    root.getAbsolutePath()
+                ));
+            }
             return null;
         }
         return SUFFIXES.stream()
@@ -160,58 +155,82 @@ public class FileSystemESModuleRepository extends AbstractESModuleRepository {
     @Override
     public Path resolveModulePath(@NotNull final Path modulePath) {
         Objects.requireNonNull(modulePath);
-        logFine(() -> MessageFormat.format("{0}: start resolving", modulePath));
+        if (logger.isLoggable(Level.FINE)) {
+            logger.fine(MessageFormat.format("{0}: start resolving", modulePath));
+        }
         if (modulePath.isAbsolute()) {
             var normalizedModulePath= modulePath.normalize();
-            logFine(() -> MessageFormat.format("{0}: normalized module path is ''{1}''", modulePath, normalizedModulePath));
+            if (logger.isLoggable(Level.FINE)) {
+                logger.fine(MessageFormat.format("{0}: normalized module path is ''{1}''", modulePath, normalizedModulePath));
+            }
             if (normalizedModulePath.startsWith(getUniquePathPrefix())) {
                 var relativeRepoPath =  normalizedModulePath.subpath(2, normalizedModulePath.getNameCount());
-                logFine(() -> MessageFormat.format("{0}: relative repo path is ''{1}''", modulePath, relativeRepoPath));
+                if (logger.isLoggable(Level.FINE)) {
+                    logger.fine(MessageFormat.format("{0}: relative repo path is ''{1}''", modulePath, relativeRepoPath));
+                }
                 var absoluteRepoPath = resolveRepoPath(relativeRepoPath);
-                logFine(() -> MessageFormat.format("{0}: absolute repo path is ''{1}''", modulePath, absoluteRepoPath));
+                if (logger.isLoggable(Level.FINE)) {
+                    logger.fine(MessageFormat.format("{0}: absolute repo path is ''{1}''", modulePath, absoluteRepoPath));
+                }
                 if (absoluteRepoPath == null) {
-                    logFine(() -> MessageFormat.format("{0}: resolution FAILED", modulePath));
+                    if (logger.isLoggable(Level.FINE)) {
+                        logger.fine(MessageFormat.format("{0}: resolution FAILED", modulePath));
+                    }
                     return null;
                 }
                 return convertAbsoluteRepoPathToAbsoluteModulePath(absoluteRepoPath);
             } else {
-                logFine(() -> MessageFormat.format(
-                    "{0}: can''t resolve absolute module path in the file system based ES module repository with unique prefix ''{1}''",
-                    modulePath.toString(),
-                    getUniquePathPrefix().toString()
-                ));
+                if (logger.isLoggable(Level.FINE)) {
+                    logger.fine(MessageFormat.format(
+                        "{0}: can''t resolve absolute module path in the file system based ES module repository with unique prefix ''{1}''",
+                        modulePath.toString(),
+                        getUniquePathPrefix().toString()
+                    ));
+                }
                 return null;
             }
         } else {
             var repoPath = Path.of(root.toPath().toString(), modulePath.toString()).normalize();
-            logFine(() -> MessageFormat.format("{0}: absolute repo path is ''{1}''", modulePath, repoPath));
+            if (logger.isLoggable(Level.FINE)) {
+                logger.fine(MessageFormat.format("{0}: absolute repo path is ''{1}''", modulePath, repoPath));
+            }
             if (!repoPath.startsWith(root.toPath())) {
-                logFine(() -> MessageFormat.format(
-                    "{0}: can''t resolve relative module path  in the file system based ES module. "
-                    + "The module path refers to a file outside of the repo.",
-                    modulePath.toString()
-                ));
-                logFine(() -> MessageFormat.format("{0}: resolution FAILED", modulePath));
+                if (logger.isLoggable(Level.FINE)) {
+                    logger.fine(MessageFormat.format(
+                        "{0}: can''t resolve relative module path  in the file system based ES module. "
+                                + "The module path refers to a file outside of the repo.",
+                        modulePath.toString()
+                    ));
+                    logger.fine(MessageFormat.format("{0}: resolution FAILED", modulePath));
+                }
                 return null;
             }
             var absoluteRepoPath = resolveRepoPath(repoPath);
-            logFine(() -> MessageFormat.format("{0}: resolved absolute repo path is ''{1}''", modulePath, absoluteRepoPath));
+            if (logger.isLoggable(Level.FINE)) {
+                logger.fine(MessageFormat.format("{0}: resolved absolute repo path is ''{1}''", modulePath, absoluteRepoPath));
+            }
             if (absoluteRepoPath == null) {
-                logFine(() -> MessageFormat.format(
-                    "{0}: can''t resolve relative module path in the file system based ES module with root ''{1}''. "
-                    +"The path doesn''t refer to a readable file.",
-                    modulePath.toString(),
-                    root.getAbsolutePath()
-                ));
-                logFine(() -> MessageFormat.format("{0}: resolution FAILED", modulePath));
+                if (logger.isLoggable(Level.FINE)) {
+                    logger.fine(MessageFormat.format(
+                            "{0}: can''t resolve relative module path in the file system based ES module with root ''{1}''. "
+                                    +"The path doesn''t refer to a readable file.",
+                            modulePath.toString(),
+                            root.getAbsolutePath()
+                    ));
+                    logger.fine(MessageFormat.format("{0}: resolution FAILED", modulePath));
+                }
                 return null;
             }
             var resolvedPath = convertAbsoluteRepoPathToAbsoluteModulePath(absoluteRepoPath);
             if (resolvedPath == null) {
-                logFine(() -> MessageFormat.format("{0}: failed to lookup a matching file for absolute repo path ''{1}''", modulePath, absoluteRepoPath));
-                logFine(() -> MessageFormat.format("{0}: resolution FAILED", modulePath));
+                if (logger.isLoggable(Level.FINE)) {
+                    logger.fine(MessageFormat.format("{0}: failed to lookup a matching file for absolute repo path ''{1}''", modulePath, absoluteRepoPath));
+                    logger.fine(MessageFormat.format("{0}: resolution FAILED", modulePath));
+                }
             } else {
-                logFine(() -> MessageFormat.format("{0}: SUCCESS. Resolved path is ''{1}''", modulePath, resolvedPath));
+                if (logger.isLoggable(Level.FINE)) {
+                    logger.fine(MessageFormat.format("{0}: SUCCESS. Resolved path is ''{1}''", modulePath, resolvedPath));
+                }
             }
             return resolvedPath;
         }
