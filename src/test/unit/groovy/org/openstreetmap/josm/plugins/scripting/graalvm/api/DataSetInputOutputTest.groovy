@@ -3,7 +3,10 @@ package org.openstreetmap.josm.plugins.scripting.graalvm.api
 import org.junit.jupiter.api.Test
 import org.openstreetmap.josm.plugins.scripting.graalvm.AbstractGraalVMBasedTest
 
+import static groovy.test.GroovyAssert.shouldFail
+
 class DataSetInputOutputTest extends AbstractGraalVMBasedTest{
+
     @Test
     void "can load an osm file - default options"() {
         final file = new File(
@@ -14,7 +17,7 @@ class DataSetInputOutputTest extends AbstractGraalVMBasedTest{
         const josm = require('josm')
         const {DataSetUtil} = require('josm/ds')
         
-        DataSetUtil.load('$file.absolutePath')
+        DataSetUtil.load('${escapeWindowsPathDelimiter(file)}')
         """
         facade.eval(graalJSDescriptor, src)
     }
@@ -29,7 +32,7 @@ class DataSetInputOutputTest extends AbstractGraalVMBasedTest{
         const josm = require('josm')
         const {DataSetUtil} = require('josm/ds')
         const File = Java.type('java.io.File')
-        const file = new File('$file.absolutePath')
+        const file = new File('${escapeWindowsPathDelimiter(file)}')
         DataSetUtil.load(file)
         """
         facade.eval(graalJSDescriptor, src)
@@ -45,7 +48,7 @@ class DataSetInputOutputTest extends AbstractGraalVMBasedTest{
         const josm = require('josm')
         const {DataSetUtil} = require('josm/ds')
         
-        DataSetUtil.load('$file.absolutePath', {format: 'osm'})
+        DataSetUtil.load('${escapeWindowsPathDelimiter(file)}', {format: 'osm'})
         """
         facade.eval(graalJSDescriptor, src)
     }
@@ -60,7 +63,7 @@ class DataSetInputOutputTest extends AbstractGraalVMBasedTest{
         const josm = require('josm')
         const {DataSetUtil} = require('josm/ds')
         
-        DataSetUtil.load('$file.absolutePath', {format: 'osm.gz'})
+        DataSetUtil.load('${escapeWindowsPathDelimiter(file)}', {format: 'osm.gz'})
         """
         shouldFail(Throwable) {
             facade.eval(graalJSDescriptor, src)
@@ -78,11 +81,10 @@ class DataSetInputOutputTest extends AbstractGraalVMBasedTest{
         const josm = require('josm')
         const {DataSetUtil} = require('josm/ds')
         
-        const loadedData = DataSetUtil.load('$file.absolutePath')
-        loadedData.save('$tempOutputFile.absolutePath')
-        const loadedAgain = DataSetUtil.load('$tempOutputFile.absolutePath', {format: 'osm'})
+        const loadedData = DataSetUtil.load('${escapeWindowsPathDelimiter(file)}')
+        loadedData.save('${escapeWindowsPathDelimiter(tempOutputFile)}')
+        const loadedAgain = DataSetUtil.load('${escapeWindowsPathDelimiter(tempOutputFile)}', {format: 'osm'})
         """
         facade.eval(graalJSDescriptor, src)
     }
-
 }

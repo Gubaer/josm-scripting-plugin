@@ -19,6 +19,14 @@ import static org.junit.Assert.fail
 
 class AbstractGraalVMBasedTest extends JOSMFixtureBasedTest {
 
+    static String escapeWindowsPathDelimiter(String path) {
+        return path.replace("\\", "\\\\")
+    }
+
+    static String escapeWindowsPathDelimiter(File path) {
+        escapeWindowsPathDelimiter(path.toString())
+    }
+
     static def graalJSDescriptor = GraalVMFacadeFactory.getOrCreateGraalVMFacade()
         .getScriptEngineDescriptors().find {desc ->
             desc.getLanguageName().filter{it == "JavaScript"}

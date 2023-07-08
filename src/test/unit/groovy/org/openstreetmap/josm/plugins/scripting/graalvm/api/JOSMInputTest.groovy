@@ -14,7 +14,7 @@ class JOSMInputTest extends AbstractGraalVMBasedTest {
 
         final src = """
         const josm = require('josm')
-        josm.open('$file.absolutePath')
+        josm.open('${escapeWindowsPathDelimiter(file)}')
         """
         facade.eval(graalJSDescriptor, src)
     }
@@ -27,7 +27,7 @@ class JOSMInputTest extends AbstractGraalVMBasedTest {
 
         final src = """
         const josm = require('josm')
-        josm.open('$file.absolutePath')
+        josm.open('${escapeWindowsPathDelimiter(file)}')
         """
         facade.eval(graalJSDescriptor, src)
     }
@@ -40,7 +40,7 @@ class JOSMInputTest extends AbstractGraalVMBasedTest {
 
         final src = """
         const josm = require('josm')
-        josm.open('$file.absolutePath')
+        josm.open('${escapeWindowsPathDelimiter(file)}')
         """
         facade.eval(graalJSDescriptor, src)
     }
@@ -53,7 +53,7 @@ class JOSMInputTest extends AbstractGraalVMBasedTest {
 
         final src = """
         const josm = require('josm')
-        josm.open('$file.absolutePath')
+        josm.open('${escapeWindowsPathDelimiter(file)}')
         """
         facade.eval(graalJSDescriptor, src)
     }
@@ -61,20 +61,19 @@ class JOSMInputTest extends AbstractGraalVMBasedTest {
     @Test
     void "can load multiple files"() {
         final files = [
-            new File(
-                getProjectHome(),
-                "src/test/resources/sample-data-files/test-datasetutil-load.osc"),
-            new File(
-                getProjectHome(),
-                "src/test/resources/sample-data-files/test-josm-open.gpx"),
-            new File(
-                getProjectHome(),
-                "src/test/resources/sample-data-files/test-josm-open.osm")
+            "src/test/resources/sample-data-files/test-datasetutil-load.osc",
+            "src/test/resources/sample-data-files/test-josm-open.gpx",
+            "src/test/resources/sample-data-files/test-josm-open.osm"
         ]
+        .collect {new File(getProjectHome(), it)}
+        .collect {escapeWindowsPathDelimiter(it)}
 
         final src = """
         const josm = require('josm')
-        josm.open('${files[0].absolutePath}', '${files[1].absolutePath}', '${files[2].absolutePath}')
+        josm.open(
+            '${files[0]}', 
+            '${files[1]}', 
+            '${files[2]}')
         """
         facade.eval(graalJSDescriptor, src)
     }
@@ -88,7 +87,7 @@ class JOSMInputTest extends AbstractGraalVMBasedTest {
         final src = """
         const josm = require('josm')
         const File = Java.type('java.io.File')
-        const file = new File('$file.absolutePath')
+        const file = new File('${escapeWindowsPathDelimiter(file)}')
         josm.open(file)
         """
         facade.eval(graalJSDescriptor, src)
