@@ -1,8 +1,9 @@
 package org.openstreetmap.josm.plugins.scripting.rhino.api
 
-
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.condition.DisabledOnOs
+import org.junit.jupiter.api.condition.OS
 import org.openstreetmap.josm.plugins.PluginException
 import org.openstreetmap.josm.plugins.PluginHandler
 import org.openstreetmap.josm.plugins.PluginInformation
@@ -17,6 +18,10 @@ import java.nio.channels.ReadableByteChannel
 import java.util.logging.Level
 import java.util.logging.Logger
 
+// individual unit tests crash from time to time on windows with
+//      java.lang.RuntimeException: No Context associated with current Thread
+// Only running them on the linux platform
+@DisabledOnOs(OS.WINDOWS)
 class APIV1TestSuite extends JOSMFixtureBasedTest {
     static final Logger logger = Logger.getLogger(APIV1TestSuite.class.name)
 
