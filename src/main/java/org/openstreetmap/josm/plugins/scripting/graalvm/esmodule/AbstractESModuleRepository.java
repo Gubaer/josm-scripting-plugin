@@ -7,7 +7,7 @@ import java.util.UUID;
 
 abstract public class AbstractESModuleRepository implements IESModuleRepository {
     // the unique path prefix for absolute paths that refer to modules in this repo
-    private final Path uniquePathPrefix = Path.of("/es-module-repo", UUID.randomUUID().toString());
+    private final Path uniquePathPrefix = Path.of(ES_MODULE_REPO_PATH_PREFIX, UUID.randomUUID().toString());
 
     /**
      * Replies true if <code>modulePath</code> starts with the prefix for a module path
@@ -21,9 +21,8 @@ abstract public class AbstractESModuleRepository implements IESModuleRepository 
         if (modulePath == null) {
             return false;
         }
-        if (!modulePath.isAbsolute()
-                || ! (modulePath.getNameCount() >= 2)
-                || ! modulePath.getName(0).toString().equalsIgnoreCase(ES_MODULE_REPO_PATH_PREFIX)) {
+        if (! (modulePath.getNameCount() >= 2)
+            || ! modulePath.getName(0).toString().equalsIgnoreCase(ES_MODULE_REPO_PATH_PREFIX)) {
             return false;
         }
         var uuid = modulePath.getName(1).toString();
@@ -33,6 +32,20 @@ abstract public class AbstractESModuleRepository implements IESModuleRepository 
         } catch(IllegalArgumentException e) {
             return false;
         }
+    }
+
+    /**
+     * Replies a string representation of path in Unix notation with <code>/</code> as
+     * path delimiter regardless of whether the code is running on a Unix or a Windows
+     * platform.
+     *
+     * @param path the path. Must not be null.
+     * @return the string representation in Unix notation
+     * @throws NullPointerException thrown if <code>path</code> is null
+     */
+    static public String toUnixNotation(@NotNull Path path) {
+        Objects.requireNonNull(path);
+        return path.toString().replace("\\", "/");
     }
 
     /**

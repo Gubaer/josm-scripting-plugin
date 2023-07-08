@@ -158,7 +158,7 @@ public class FileSystemESModuleRepository extends AbstractESModuleRepository {
         if (logger.isLoggable(Level.FINE)) {
             logger.fine(MessageFormat.format("{0}: start resolving", modulePath));
         }
-        if (modulePath.isAbsolute()) {
+        if (startsWithESModuleRepoPathPrefix(modulePath)) {
             var normalizedModulePath= modulePath.normalize();
             if (logger.isLoggable(Level.FINE)) {
                 logger.fine(MessageFormat.format("{0}: normalized module path is ''{1}''", modulePath, normalizedModulePath));

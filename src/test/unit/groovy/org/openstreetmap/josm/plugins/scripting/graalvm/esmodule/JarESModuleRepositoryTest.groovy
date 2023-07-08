@@ -27,7 +27,7 @@ class JarESModuleRepositoryTest extends BaseTestCase {
         assertNotNull(repo)
 
         // should work with an absolute path too
-        root = "/josm"
+        root = "josm"
         repo = new JarESModuleRepository(file, root)
         assertNotNull(repo)
     }
@@ -64,7 +64,7 @@ class JarESModuleRepositoryTest extends BaseTestCase {
 
     @Test
     void "can create a repo with a valid jar URI"() {
-        final jarUri = "jar:file://${getProjectHome()}/src/test/resources/es-modules/es-modules.jar!/"
+        final jarUri = "jar:${getProjectHome().toURI()}/src/test/resources/es-modules/es-modules.jar!/"
         final repo = new JarESModuleRepository(new URI(jarUri))
         assertNotNull(repo)
     }
@@ -77,13 +77,13 @@ class JarESModuleRepositoryTest extends BaseTestCase {
 
         shouldFail(IllegalESModuleBaseUri) {
             // non-existing jar
-            final jarUri = "jar:file://${getProjectHome()}/no-such-jar.jar!/"
+            final jarUri = "jar:${getProjectHome().toURI()}/no-such-jar.jar!/"
             new JarESModuleRepository(new URI(jarUri))
         }
 
         shouldFail (IllegalESModuleBaseUri){
             // non-existing root entry
-            final jarUri = "jar:file://${getProjectHome()}/src/test/resources/es-modules/es-modules.jar!/no-such-entry"
+            final jarUri = "jar:${getProjectHome().toURI()}/src/test/resources/es-modules/es-modules.jar!/no-such-entry"
             new JarESModuleRepository(new URI(jarUri))
         }
     }
@@ -97,7 +97,7 @@ class JarESModuleRepositoryTest extends BaseTestCase {
     }
 
     @Test
-    void "can resolve path to existing module in jar"() {
+    void "can resolve path to existing module in a jar file"() {
 
         def modulePath = "foo"
         def resolvedPath = repo.resolveModulePath(modulePath)
