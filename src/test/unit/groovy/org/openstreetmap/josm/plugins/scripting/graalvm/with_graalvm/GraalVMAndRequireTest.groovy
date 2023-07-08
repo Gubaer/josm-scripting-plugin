@@ -1,12 +1,10 @@
 package org.openstreetmap.josm.plugins.scripting.graalvm.with_graalvm
 
 import org.graalvm.polyglot.Value
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.openstreetmap.josm.plugins.scripting.graalvm.AbstractGraalVMBasedTest
 
-import static groovy.test.GroovyAssert.shouldFail
-import static org.junit.Assert.*
+import static org.junit.Assert.assertEquals
 
 class GraalVMAndRequireTest extends AbstractGraalVMBasedTest{
 
