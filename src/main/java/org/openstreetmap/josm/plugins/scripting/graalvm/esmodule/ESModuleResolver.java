@@ -18,7 +18,6 @@ import java.nio.file.*;
 import java.nio.file.attribute.FileAttribute;
 import java.text.MessageFormat;
 import java.util.*;
-import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -51,13 +50,6 @@ public class ESModuleResolver implements FileSystem, IRepositoriesSource  {
     static private final Logger logger = Logger.getLogger(ESModuleResolver.class.getName());
 
     private static final ESModuleResolver instance = new ESModuleResolver();
-
-
-    static private void logFine(Supplier<String> supplier) {
-        if (logger.isLoggable(Level.FINE)) {
-            logger.fine(supplier.get());
-        }
-    }
 
     /**
      * Replies the jar URI referring to the built-in ES Modules
@@ -169,7 +161,9 @@ public class ESModuleResolver implements FileSystem, IRepositoriesSource  {
      */
     @Override
     public Path parsePath(URI uri) {
-        logFine(() -> MessageFormat.format("parsePath: uri=''{0}''", uri));
+        if (logger.isLoggable(Level.FINE)) {
+            logger.fine(MessageFormat.format("parsePath: uri=''{0}''", uri));
+        }
         return fullIO.provider().getPath(uri);
     }
 
@@ -178,7 +172,9 @@ public class ESModuleResolver implements FileSystem, IRepositoriesSource  {
      */
     @Override
     public Path parsePath(String path) {
-        logFine(() -> MessageFormat.format("parsePath: path=''{0}''", path ));
+        if (logger.isLoggable(Level.FINE)) {
+            logger.fine(MessageFormat.format("parsePath: path=''{0}''", path ));
+        }
         var p = Path.of(path);
         if (p.isAbsolute() && ! startsWithESModuleRepoPathPrefix(p)) {
             return fullIO.getPath(path);
@@ -196,7 +192,9 @@ public class ESModuleResolver implements FileSystem, IRepositoriesSource  {
      */
     @Override
     public void checkAccess(Path path, Set<? extends AccessMode> modes, LinkOption... linkOptions) throws IOException {
-        logFine(() -> MessageFormat.format("checkAccess: path=''{0}''", path ));
+        if (logger.isLoggable(Level.FINE)) {
+            logger.fine(MessageFormat.format("checkAccess: path=''{0}''", path ));
+        }
         if (!startsWithESModuleRepoPathPrefix(path)) {
             fullIO.provider().checkAccess(path, modes.toArray(new AccessMode[]{}));
         }
@@ -231,12 +229,16 @@ public class ESModuleResolver implements FileSystem, IRepositoriesSource  {
      */
     @Override
     public SeekableByteChannel newByteChannel(Path path, Set<? extends OpenOption> options, FileAttribute<?>... attrs) throws IOException {
-        logFine(() -> MessageFormat.format("newByteChannel: path=''{0}''", path ));
+        if (logger.isLoggable(Level.FINE)) {
+            logger.fine(MessageFormat.format("newByteChannel: path=''{0}''", path ));
+        }
         var repo = lookupRepoForModulePath(path);
         if (repo == null) {
             return fullIO.provider().newByteChannel(path, options, attrs);
         } else {
-            logFine(() -> MessageFormat.format("newByteChannel: creating byteChannel, path:=''{0}''", path ));
+            if (logger.isLoggable(Level.FINE)) {
+                logger.fine(MessageFormat.format("newByteChannel: creating byteChannel, path:=''{0}''", path ));
+            }
             return repo.newByteChannel(path);
         }
     }
@@ -257,7 +259,9 @@ public class ESModuleResolver implements FileSystem, IRepositoriesSource  {
      */
     @Override
     public Path toAbsolutePath(Path path) {
-        logFine(() -> MessageFormat.format("toAbsolutePath: path=''{0}''", path ));
+        if (logger.isLoggable(Level.FINE)) {
+            logger.fine( MessageFormat.format("toAbsolutePath: path=''{0}''", path ));
+        }
         return path.toAbsolutePath();
     }
 
@@ -266,7 +270,9 @@ public class ESModuleResolver implements FileSystem, IRepositoriesSource  {
      */
     @Override
     public Path toRealPath(Path path, LinkOption... linkOptions) throws IOException {
-        logFine(() -> MessageFormat.format("toRealPath: path=''{0}''", path ));
+        if (logger.isLoggable(Level.FINE)) {
+            logger.fine(MessageFormat.format("toRealPath: path=''{0}''", path ));
+        }
         if (startsWithESModuleRepoPathPrefix(path)) {
             // If GraalJS encounters an import from a module './foo' in an already
             // resolved module '/es-module-repo/<uuid>/bar' it doesn't parse it,
@@ -288,7 +294,9 @@ public class ESModuleResolver implements FileSystem, IRepositoriesSource  {
      */
     @Override
     public Map<String, Object> readAttributes(Path path, String attributes, LinkOption... options) throws IOException {
-        logFine(() -> MessageFormat.format("readAttributes: path=''{0}''", path ));
+        if (logger.isLoggable(Level.FINE)) {
+            logger.fine(MessageFormat.format("readAttributes: path=''{0}''", path ));
+        }
         if (startsWithESModuleRepoPathPrefix(path)) {
             throw new UnsupportedOperationException();
         }
