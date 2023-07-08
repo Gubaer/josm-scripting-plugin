@@ -1,16 +1,18 @@
 package org.openstreetmap.josm.plugins.scripting.model
 
-import groovy.test.GroovyTestCase
 import org.junit.jupiter.api.Test
+import org.openstreetmap.josm.plugins.scripting.BaseTestCase
 
+import static groovy.test.GroovyAssert.shouldFail
+import static org.junit.Assert.assertEquals
 
-class CommonJSModuleRepositoryTest extends GroovyTestCase {
+class CommonJSModuleRepositoryTest extends BaseTestCase{
 
     @Test
     void createWithFile() {
-        def path = "/path/to/a/directory"
-        def repo = new CommonJSModuleRepository(new File(path))
-        assert repo.getFile() == new File(path)
+        def path = new File(getProjectHome().toString(), "path/to/a/directory")
+        def repo = new CommonJSModuleRepository(path)
+        assertEquals(path, repo.getFile())
 
         shouldFail(NullPointerException) {
             repo = new CommonJSModuleRepository((File)null)
@@ -19,21 +21,21 @@ class CommonJSModuleRepositoryTest extends GroovyTestCase {
 
     @Test
     void createWithUrl() {
-        def path = "/path/to/a/directory"
-        def repo = new CommonJSModuleRepository(new File(path).toURI().toURL())
-        assert repo.getFile() == new File(path)
+        def path = new File(getProjectHome(), "path/to/a/directory")
+        def repo = new CommonJSModuleRepository(path.toURI().toURL())
+        assertEquals(path, repo.getFile())
 
 
-        path = "/path/to/a/directory/jarfile.jar"
-        def url = new URL("jar:${new File(path).toURI().toURL()}!/")
+        path = new File(getProjectHome(), "path/to/a/directory/jarfile.jar")
+        def url = new URL("jar:${path.toURI()}!/")
         repo = new CommonJSModuleRepository(url)
-        assert repo.getFile() == new File(path)
-        assert repo.getJarEntry() == "/"
+        assertEquals(path, repo.getFile())
+        assertEquals("/", repo.getJarEntry())
 
-        url = new URL("jar:${new File(path).toURI().toURL()}!/my/module/directory")
+        url = new URL("jar:${path.toURI()}!/my/module/directory")
         repo = new CommonJSModuleRepository(url)
-        assert repo.getFile() == new File(path)
-        assert repo.getJarEntry() == "/my/module/directory"
+        assertEquals(path, repo.getFile())
+        assertEquals("/my/module/directory", repo.getJarEntry())
 
         shouldFail(NullPointerException) {
             repo = new CommonJSModuleRepository((URL)null)
@@ -42,20 +44,20 @@ class CommonJSModuleRepositoryTest extends GroovyTestCase {
 
     @Test
     void createWithString() {
-        def path = "/path/to/a/directory"
-        def repo = new CommonJSModuleRepository(new File(path).toURI().toURL().toString())
-        assert repo.getFile() == new File(path)
+        def path = new File(getProjectHome().toString(), "path/to/a/directory")
+        def repo = new CommonJSModuleRepository(path.toURI().toURL().toString())
+        assertEquals(path, repo.getFile())
 
-        path = "/path/to/a/directory/jarfile.jar"
-        def url = new URL("jar:${new File(path).toURI().toURL()}!/")
+        path = new File(getProjectHome(), "path/to/a/directory/jarfile.jar")
+        def url = new URL("jar:${path.toURI()}!/")
         repo = new CommonJSModuleRepository(url.toString())
-        assert repo.getFile() == new File(path)
-        assert repo.getJarEntry() == "/"
+        assertEquals(path, repo.getFile())
+        assertEquals("/", repo.getJarEntry())
 
-        url = new URL("jar:${new File(path).toURI().toURL()}!/my/module/directory")
+        url = new URL("jar:${path.toURI()}!/my/module/directory")
         repo = new CommonJSModuleRepository(url.toString())
-        assert repo.getFile() == new File(path)
-        assert repo.getJarEntry() == "/my/module/directory"
+        assertEquals(path, repo.getFile())
+        assertEquals("/my/module/directory", repo.getJarEntry())
 
         shouldFail(NullPointerException) {
             repo = new CommonJSModuleRepository((String)null)
@@ -66,5 +68,4 @@ class CommonJSModuleRepositoryTest extends GroovyTestCase {
             repo = new CommonJSModuleRepository(url)
         }
     }
-
 }
