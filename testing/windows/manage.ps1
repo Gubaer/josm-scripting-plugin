@@ -1,6 +1,6 @@
 #
 # manage.ps1  - manage the environment for interactively testing JOSM and the 
-#   JOSM scripting plugin on windows 
+#   JOSM scripting plugin on Windows 
 # 
 # For usage information, run 
 #   .\manage.ps1 help
@@ -12,7 +12,7 @@
 
 # display messages emitted by Write-Information
 $InformationPreference = 'Continue'
-# don't display a progress bar during Invoke-WebRequest => trenmendously faster downloads
+# Don't display a progress bar during Invoke-WebRequest => tremendously faster downloads
 $ProgressPreference = 'SilentlyContinue'
 
 function Usage() {
@@ -24,13 +24,13 @@ Usage: manage.ps1 action <args>
         download-josm latest|tested|<version>  
             download a JOSM version
         download-jdk jdk11|jdk17
-            downloads a portable OpenJDK and installs it in the current
-            directory
+            downloads a portable OpenJDK and installs it in the current directory
         download-graalvm jdk11|jdk17
-            downloads a GraalVM for windows and installs it in the current
-            directory
+            downloads a GraalVM for Windows and installs it in the current directory
+        download-graaljs 
+            downloads a GraalJS for Windows and installs it in the current directory
         clean-jars
-            delete the downloaded josm versions
+            delete the downloaded JOSM versions
         create-josm-home
             creates the JOSM home directory 
         delete-josm-home
@@ -121,7 +121,7 @@ class JosmHome {
     }
 
     static [void] installLocalScriptingJar() {
-        # the directory where the scripting.jar is locally built
+        # The directory where the scripting.jar is locally built
         $distDir = $(Join-Path $(Get-Location) -ChildPath "..\..\build\dist")
         $jarFile = $(Join-Path $distDir -ChildPath "scripting.jar")
         if (!(Test-Path $jarFile)) {
