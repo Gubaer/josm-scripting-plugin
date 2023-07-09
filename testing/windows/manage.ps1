@@ -187,6 +187,9 @@ function downloadGraalVM([string]$version) {
     Invoke-WebRequest -Uri $downloadUrl -OutFile $localFile
     Expand-Archive -Path $(Join-Path $(Get-Location) -ChildPath $localFile) -DestinationPath $(Get-Location)
     Remove-Item -Path $(Join-Path $(Get-Location) -ChildPath $localFile)
+
+    # initiallize the JavaScript language
+    . $graalVMDirectory\bin\gu.cmd install js
 }
 
 function downloadGraalJS([string] $version) {
