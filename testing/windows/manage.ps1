@@ -79,6 +79,10 @@ class JosmHome {
             $defaultPreferencesFile = @"
 <?xml version="1.0" encoding="UTF-8"?>
 <preferences xmlns='http://josm.openstreetmap.de/preferences-1.0' version='18770'>
+    <!-- don't prompt for interactively updating JOSM -->
+    <tag key='pluginmanager.version-based-update.policy' value='never'/>
+    <!-- don't display scripting plugin release notes -->
+    <tag key='org.openstreetmap.josm.plugins.scripting.ui.release.ReleaseNotes.last-seen-release-note' value='v0.2.6'/>
     <list key='plugins'>
         <entry value='scripting'/>
     </list>  
