@@ -179,5 +179,6 @@ if (!$graalJs) {
         "-classpath", $josmJar, `
         "--module-path", "$graalJsHome\lib", `
         "--add-modules", "org.graalvm.sdk,org.graalvm.js,com.oracle.truffle.regex,org.graalvm.truffle", `
+        "--add-opens", "java.prefs/java.util.prefs=ALL-UNNAMED", `
         "org.openstreetmap.josm.gui.MainApplication" 
 }
