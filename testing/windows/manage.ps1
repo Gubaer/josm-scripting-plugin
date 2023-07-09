@@ -21,6 +21,11 @@ Usage: manage.ps1 action <args>
     Actions:
         help
             display usage information
+        prepare
+            fully prepares the testing environment, by running download-josm for jdk11 and jdk17,
+            running download-graalvm for jdk11 and jdk17, running download graaljs, 
+            download-josm for latest and tested, and creating the josm home directory with
+            create-josm-home
         download-josm latest|tested|<version>  
             download a JOSM version
         download-jdk jdk11|jdk17
@@ -171,7 +176,7 @@ function downloadJDK([string]$version) {
     $jdkDirectory = Join-Path -Path $(Get-Location) -ChildPath $JDK_PARAMS[$version]["directory"]
     if (Test-Path $jdkDirectory) {
         Write-Warning "JDK with version '$version' already available in '$jdkDirectory'. Skipping download."
-        Exit 0
+        return
     }
     Invoke-WebRequest -Uri $downloadUrl -OutFile "$version.zip"
     Expand-Archive -Path $(Join-Path $(Get-Location) -ChildPath "$version.zip") -DestinationPath $(Get-Location)
@@ -183,7 +188,7 @@ function downloadGraalVM([string]$version) {
     $graalVMDirectory = Join-Path -Path $(Get-Location) -ChildPath $GRAALVM_PARAMS[$version]["directory"]
     if (Test-Path $graalVMDirectory) {
         Write-Warning "GraalVM for JDK '$version' already available in '$graalVMDirectory'. Skipping download."
-        Exit 0
+        return
     }
 
     Write-Information "Downloading GraalVM for JDK '$version' from $downloadUrl' ..."    
@@ -205,7 +210,7 @@ function downloadGraalJS([string] $version) {
     $graalJSDirectory = Join-Path $(Get-Location) -ChildPath "graaljs-$version"
     if (Test-Path $graalJSDirectory) {
         Write-Warning "GraalJS version '$version' already available in '$graalJSDirectory'. Skipping download."
-        Exit 0
+        return
     }
     New-Item $graalJSDirectory -ItemType Directory
 
@@ -230,6 +235,17 @@ switch($action) {
     "help" {
         Usage
         Exit 0
+    }
+
+    "prepare" {
+        downloadJDK("jdk11")
+        downloadJDK("jdk17")
+        downloadGraalVM("jdk11")
+        downloadGraalVM("jdk17")
+        downloadGraalJS($GRAALJS_PARAMS["latest"])
+        downloadJosm("latest")
+        downloadJosm("tested")
+        [JosmHome]::create()
     }
 
     "download-josm" {
