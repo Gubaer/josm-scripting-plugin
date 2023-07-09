@@ -27,7 +27,7 @@ Usage: manage.ps1 action <args>
             downloads a portable OpenJDK and installs it in the current directory
         download-graalvm jdk11|jdk17
             downloads a GraalVM for Windows and installs it in the current directory
-        downloadGraalJS 
+        download-graaljs 
             downloads a GraalJS for Windows and installs it in the current directory
         clean-jars
             delete the downloaded JOSM versions
