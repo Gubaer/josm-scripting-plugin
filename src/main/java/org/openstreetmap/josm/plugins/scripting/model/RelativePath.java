@@ -166,6 +166,29 @@ public class RelativePath {
         return new RelativePath(Arrays.stream(segments).collect(Collectors.toList()));
     }
 
+    /**
+     * Creates a relative path from a list of path segments.
+     *
+     * @param segments a list of path segments, all must not be null
+     * @return the relative path
+     * @throws NullPointerException if one of the segments is null
+     * @throws IllegalArgumentException if one of the segments contains / or \
+     * @throws IllegalArgumentException if one of the segments is blank
+     */
+    static public @NotNull RelativePath of(@NotNull final List<String> segments) {
+        Objects.requireNonNull(segments);
+        if (segments.stream().anyMatch(Objects::isNull)) {
+            throw new NullPointerException("segment must not be null");
+        }
+        if (segments.stream().anyMatch(s -> s.contains("\\") || s.contains("/"))) {
+            throw new IllegalArgumentException("segment must neither contain '/' nor '\\'");
+        }
+        if (segments.stream().anyMatch(String::isBlank)) {
+            throw new IllegalArgumentException("segment must not be blank");
+        }
+        return new RelativePath(segments);
+    }
+
     RelativePath(@Null List<String> segments) {
         if (segments != null) {
             this.segments.addAll(segments);
@@ -188,6 +211,19 @@ public class RelativePath {
      */
     public @NotNull List<String> getSegments() {
         return Collections.unmodifiableList(this.segments);
+    }
+
+    /**
+     * Replies the i-th segment of the relative path
+     *
+     * @param i the index
+     * @return the i-th segment
+     */
+    public @NotNull String getSegment(final int i) {
+        if (i < 0 || i >= segments.size()) {
+            throw new IndexOutOfBoundsException(MessageFormat.format("index {0} is out of bounds", i));
+        }
+        return segments.get(i);
     }
 
     /**
