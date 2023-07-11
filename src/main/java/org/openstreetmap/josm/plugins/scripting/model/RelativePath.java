@@ -47,13 +47,49 @@ public class RelativePath {
     final private List<String> segments = new ArrayList<>();
 
     /**
+     * Parses the string representation of a relative path. Examples of <strong>valid</strong> relative
+     * paths are:
+     * <ul>
+     *     <li>"" - the empty path</li>
+     *     <li>"foo" - a path consisting of one segment</li>
+     *     <li>"foo/bar/baz.js" - a path consisting of three segments</li>
+     *     <li>"foo///bar" - sequences of '/' are treated as one '/'</li>
+     * </ul>
+     *
+     * Examples of <strong>invalid</strong> relative paths are:
+     * <ul>
+     *     <li>"/" - a relative path must not consist of a '/' only</li>
+     *     <li>"/foo/bar" - a relative path must not start with a '/'</li>
+     *     <li>"foo\baz" - a relative path must not include the character '\'</li>
+     * </ul>
+     *
+     * @param path the path as string
+     * @return the parsed relative path
+     * @throws NullPointerException if <code>path</code> is null
+     * @throws IllegalArgumentException if <code>path</code> is invalid
+     */
+    static public @NotNull  RelativePath parse(@NotNull String path) {
+        Objects.requireNonNull(path);
+        if (path.contains("\\")) {
+            throw new IllegalArgumentException(
+                MessageFormat.format("illegal relative path ''{0}''. Must not contain ''\\''", path)
+            );
+        }
+        final var segments = path.split("/+");
+        if (path.isBlank()) {
+            return EMPTY;
+        }
+        return new RelativePath(Arrays.asList(segments));
+    }
+
+    /**
      * Creates a copy of a relative path
      *
      * @param other the other path. Must not be null.
      * @return a copy of the path
      * @throws NullPointerException if <code>other</code> is null
      */
-    static public RelativePath of(@NotNull RelativePath other) {
+    static public @NotNull RelativePath of(@NotNull RelativePath other) {
         Objects.requireNonNull(other);
         if (other.isEmpty()) {
             return new RelativePath(null);
@@ -71,12 +107,15 @@ public class RelativePath {
      * @throws NullPointerException if <code>path</code> is null
      * @throws IllegalArgumentException if <code>path</code> is absolute
      */
-    static public RelativePath of(@NotNull Path path) {
+    static public @NotNull RelativePath of(@NotNull Path path) {
         Objects.requireNonNull(path);
         if (path.isAbsolute()) {
             throw new IllegalArgumentException(
                 MessageFormat.format("path must not be absolute, got ''{0}''", path)
             );
+        }
+        if (path.getNameCount() == 1 && "".equals(path.getName(0).toString())) {
+            return EMPTY;
         }
         final List<String> segments = new ArrayList<>();
         path.iterator().forEachRemaining(p -> segments.add(p.toString()));
@@ -92,7 +131,7 @@ public class RelativePath {
      * @throws NullPointerException if <code>file</code> is null
      * @throws IllegalArgumentException if <code>file</code> is absolute
      */
-    static public RelativePath of(@NotNull File file) {
+    static public @NotNull RelativePath of(@NotNull File file) {
         Objects.requireNonNull(file);
         if (file.isAbsolute()) {
             throw new IllegalArgumentException(
@@ -108,13 +147,21 @@ public class RelativePath {
      * @param segments a sequence of path segments, all must not be null
      * @return the relative path
      * @throws NullPointerException if one of the segments is null
+     * @throws IllegalArgumentException if one of the segments contains / or \
+     * @throws IllegalArgumentException if one of the segments is blank
      */
-    static public RelativePath of(String... segments) {
+    static public @NotNull RelativePath of(String... segments) {
         if (segments.length == 0) {
             return new RelativePath(null);
         }
         if (Arrays.stream(segments).anyMatch(Objects::isNull)) {
             throw new NullPointerException("segment must not be null");
+        }
+        if (Arrays.stream(segments).anyMatch(s -> s.contains("\\") || s.contains("/"))) {
+            throw new IllegalArgumentException("segment must neither contain '/' nor '\\'");
+        }
+        if (Arrays.stream(segments).anyMatch(String::isBlank)) {
+            throw new IllegalArgumentException("segment must not be blank");
         }
         return new RelativePath(Arrays.stream(segments).collect(Collectors.toList()));
     }
@@ -139,7 +186,7 @@ public class RelativePath {
      *
      * @return an unmodifiable list of the segments of this path
      */
-    public List<String> getSegments() {
+    public @NotNull List<String> getSegments() {
         return Collections.unmodifiableList(this.segments);
     }
 
@@ -170,7 +217,7 @@ public class RelativePath {
             return Optional.empty();
         }
         if (segments.size() == 1) {
-            return Optional.of(new RelativePath(null));
+            return Optional.of(RelativePath.EMPTY);
         }
         final var parentSegments = segments.subList(0,segments.size() - 1);
         return Optional.of(new RelativePath(parentSegments));
@@ -183,7 +230,7 @@ public class RelativePath {
      * @return a new path where <code>other</code> is appended to this path
      * @throws NullPointerException if <code>other</code> is null
      */
-    public @NotNull  RelativePath append(@NotNull RelativePath other) {
+    public @NotNull RelativePath append(@NotNull RelativePath other) {
         Objects.requireNonNull(other);
         List<String> segments = new ArrayList<>();
         segments.addAll(this.segments);
@@ -205,12 +252,33 @@ public class RelativePath {
         return append(RelativePath.of(segments));
     }
 
-    public @NotNull  RelativePath resolveAgainstDirectoryContext(@NotNull RelativePath directoryContext) {
+    /**
+     * Resolves this path against another path where the other path is considered to represent a
+     * directory.
+     * <p>
+     * This is equivalent to append this path to context and to canonicalize the result.
+     *
+     * @param directoryContext the context
+     * @return the resolved path
+     * @throws NullPointerException if <code>directoryContext</code> is null
+     */
+    public @NotNull RelativePath resolveAgainstDirectoryContext(@NotNull RelativePath directoryContext) {
         Objects.requireNonNull(directoryContext);
         return directoryContext.append(this).canonicalize();
     }
 
-    public @NotNull  RelativePath resolveAgainstFileContext(@NotNull RelativePath fileContext) {
+    /**
+     * Resolves this path against another path where the other path is considered to represent a
+     * file.
+     * <p>
+     * This is equivalent to append this path to <bold>the parent</bold> of the context and to canonicalize the result.
+     * If the context path doesn't have a parent, this is equivalent to only canonicalize this path.
+     *
+     * @param fileContext the context
+     * @return the resolved path
+     * @throws NullPointerException if <code>directoryContext</code> is null
+     */
+    public @NotNull RelativePath resolveAgainstFileContext(@NotNull RelativePath fileContext) {
         final var parent = fileContext.getParent();
         if (parent.isPresent()) {
             return parent.get().append(this).canonicalize();
@@ -247,6 +315,29 @@ public class RelativePath {
     }
 
     /**
+     * Replies true if this path start with the path <code>prefix</code>.
+     *
+     * @param prefix the prefix
+     * @return true if this path start with the path <code>prefix</code>.
+     * @throws NullPointerException if <code>prefix</code> is null
+     */
+    public boolean startsWith(@NotNull RelativePath prefix) {
+        Objects.requireNonNull(prefix);
+        if (prefix.isEmpty()) {
+            return true;
+        }
+        if (prefix.getLength() > this.getLength()) {
+            return false;
+        }
+        for (int i=0; i < prefix.segments.size(); i++) {
+            if (! segments.get(i).equals(prefix.segments.get(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * Returns true if this relative path is equal to <code>other</code>.
      * <p>
      * Two relative paths are considered to be equal if they consist of
@@ -270,5 +361,10 @@ public class RelativePath {
     @Override
     public int hashCode() {
         return Objects.hash(segments);
+    }
+
+    @Override
+    public String toString() {
+        return String.join("/", segments);
     }
 }
