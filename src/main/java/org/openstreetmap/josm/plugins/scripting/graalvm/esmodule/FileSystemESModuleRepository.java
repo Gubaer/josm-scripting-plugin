@@ -1,5 +1,7 @@
 package org.openstreetmap.josm.plugins.scripting.graalvm.esmodule;
 
+import org.openstreetmap.josm.plugins.scripting.model.RelativePath;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import java.io.File;
@@ -54,9 +56,9 @@ public class FileSystemESModuleRepository extends AbstractESModuleRepository {
      * {@inheritDoc}
      */
     @Override
-    public Path resolveModulePath(@NotNull String modulePath) {
+    public RelativePath resolveModulePath(@NotNull RelativePath modulePath) {
         Objects.requireNonNull(modulePath);
-        return this.resolveModulePath(Path.of(modulePath));
+        return this.resolveModulePath(modulePath);
     }
 
     /**
@@ -93,7 +95,7 @@ public class FileSystemESModuleRepository extends AbstractESModuleRepository {
         return Path.of(getUniquePathPrefix().toString(), relativeRepoPath.toString());
     }
 
-    protected Path convertAbsoluteModulePathToAbsoluteRepoPath(@NotNull final Path absoluteModulePath)
+    protected RelativePath convertAbsoluteModulePathToAbsoluteRepoPath(@NotNull final RelativePath absoluteModulePath)
         throws IllegalArgumentException, NullPointerException {
         Objects.requireNonNull(absoluteModulePath);
         if (! absoluteModulePath.startsWith(getUniquePathPrefix())) {
@@ -103,26 +105,33 @@ public class FileSystemESModuleRepository extends AbstractESModuleRepository {
                 getUniquePathPrefix()
             ));
         }
-        if (absoluteModulePath.getNameCount() < 3) {
+        if (absoluteModulePath.getLength() <= 3) {
             throw new IllegalArgumentException(MessageFormat.format(
                 "Illegal absolute module path. Path ''{0}'' should have at least 3 segments, but only has {1}.",
                 absoluteModulePath,
-                absoluteModulePath.getNameCount()
+                absoluteModulePath.getLength()
             ));
         }
-        final var relativePathStart = 2;
-        final var relativeModulePath = absoluteModulePath.subpath(relativePathStart, absoluteModulePath.getNameCount());
-        return new File(root, relativeModulePath.toString()).toPath();
+        final var relativeModulePath = RelativePath.of(
+            absoluteModulePath.getSegments().subList(2, absoluteModulePath.getLength()));
+        return RelativePath.of(new File(root, relativeModulePath.toString()));
     }
 
     private static final List<String> SUFFIXES = List.of("", ".mjs", ".js");
-    protected @Null Path resolveRepoPath(@NotNull final Path repoPath) {
+
+    protected @Null RelativePath resolveRepoPath(@NotNull final RelativePath repoPath) {
         Objects.requireNonNull(repoPath);
-        File absoluteRepoFile;
-        if (repoPath.isAbsolute()) {
-            absoluteRepoFile = repoPath.normalize().toFile();
-        } else {
-            absoluteRepoFile = new File(root, repoPath.toString()).toPath().normalize().toAbsolutePath().toFile();
+        File absoluteRepoFile = new File(root, repoPath.canonicalize().toString());
+        try {
+            absoluteRepoFile = absoluteRepoFile.getCanonicalFile();
+        } catch(IOException e) {
+            if (logger.isLoggable(Level.FINE)) {
+                logger.fine(MessageFormat.format(
+                    "failed to build canonical file for file ''{0}''",
+                    absoluteRepoFile
+                ));
+            }
+            return null;
         }
         if (!absoluteRepoFile.toPath().startsWith(root.toPath())) {
             if (logger.isLoggable(Level.FINE)) {
@@ -135,16 +144,16 @@ public class FileSystemESModuleRepository extends AbstractESModuleRepository {
             }
             return null;
         }
+        final File repoFile = absoluteRepoFile;
         return SUFFIXES.stream()
             // build a candidate for the path with one of the candidate suffixes
-            .map(suffix -> absoluteRepoFile.getAbsoluteFile().toPath().resolveSibling(absoluteRepoFile.getName() + suffix))
-            // reject the path if it doesn't point to a file in the repo
-            .filter(path -> path.normalize().startsWith(root.toPath()))
+            .map(suffix -> repoFile.toPath().resolveSibling(repoFile.getName() + suffix))
             // reject the path if it doesn't refer to a readable file
             .filter(path -> {
                 var f = path.toFile();
                 return f.isFile() && f.exists() && f.canRead();
             })
+            .map(RelativePath::of)
             .findFirst()
             .orElse(null);
     }
@@ -153,18 +162,20 @@ public class FileSystemESModuleRepository extends AbstractESModuleRepository {
      * {@inheritDoc}
      */
     @Override
-    public Path resolveModulePath(@NotNull final Path modulePath) {
+    public RelativePath resolveModulePath(@NotNull final RelativePath modulePath) {
         Objects.requireNonNull(modulePath);
         if (logger.isLoggable(Level.FINE)) {
             logger.fine(MessageFormat.format("{0}: start resolving", modulePath));
         }
         if (startsWithESModuleRepoPathPrefix(modulePath)) {
-            var normalizedModulePath= modulePath.normalize();
+            var canonicalizedModulePath= modulePath.canonicalize();
             if (logger.isLoggable(Level.FINE)) {
                 logger.fine(MessageFormat.format("{0}: normalized module path is ''{1}''", modulePath, normalizedModulePath));
             }
-            if (normalizedModulePath.startsWith(getUniquePathPrefix())) {
-                var relativeRepoPath =  normalizedModulePath.subpath(2, normalizedModulePath.getNameCount());
+            if (canonicalizedModulePath.startsWith(getUniquePathPrefix())) {
+                var relativeRepoPath = RelativePath.of(
+                    canonicalizedModulePath.getSegments().subList(2, canonicalizedModulePath.getLength())
+                );
                 if (logger.isLoggable(Level.FINE)) {
                     logger.fine(MessageFormat.format("{0}: relative repo path is ''{1}''", modulePath, relativeRepoPath));
                 }
@@ -240,9 +251,9 @@ public class FileSystemESModuleRepository extends AbstractESModuleRepository {
      * {@inheritDoc}
      */
     @Override
-    public @NotNull SeekableByteChannel newByteChannel(@NotNull final Path absoluteModulePath) throws IOException {
-        Objects.requireNonNull(absoluteModulePath);
-        final var absoluteRepoPath = convertAbsoluteModulePathToAbsoluteRepoPath(absoluteModulePath);
+    public @NotNull SeekableByteChannel newByteChannel(@NotNull final RelativePath path) throws IOException {
+        Objects.requireNonNull(path);
+        final var absoluteRepoPath = convertAbsoluteModulePathToAbsoluteRepoPath(path);
         return Files.newByteChannel(absoluteRepoPath, StandardOpenOption.READ);
     }
 }

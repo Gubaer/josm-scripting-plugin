@@ -1,6 +1,7 @@
 package org.openstreetmap.josm.plugins.scripting.graalvm.commonjs;
 
 import org.openstreetmap.josm.plugins.scripting.graalvm.ModuleID;
+import org.openstreetmap.josm.plugins.scripting.model.RelativePath;
 
 import javax.validation.constraints.NotNull;
 import java.io.File;
@@ -25,10 +26,10 @@ public class FileSystemJSModuleRepository extends BaseJSModuleRepository {
      * {@inheritDoc}
      */
     @Override
-    protected boolean isRepoFile(final String repoPath) {
+    protected boolean isRepoFile(final RelativePath repoPath) {
         try {
             // make sure that all '.' and '..' segments in the repo path are resolved
-            final Path moduleFilePath = Path.of(baseDir.toPath().resolve(repoPath)
+            final Path moduleFilePath = Path.of(baseDir.toPath().resolve(repoPath.toPath())
                 .toFile().getCanonicalPath());
 
             if (!moduleFilePath.startsWith(baseDir.toPath())) {
@@ -52,7 +53,7 @@ public class FileSystemJSModuleRepository extends BaseJSModuleRepository {
         } catch(IOException e) {
             final String message = MessageFormat.format(
         "failed to canonicalize path ''{0}''",
-                baseDir.toPath().resolve(repoPath)
+                baseDir.toPath().resolve(repoPath.toPath())
             );
             logger.log(Level.SEVERE, message);
             return false;
@@ -118,7 +119,7 @@ public class FileSystemJSModuleRepository extends BaseJSModuleRepository {
      */
     @Override
     public Optional<URI> resolve(@NotNull String id) {
-        ModuleID.ensureValid(id);
+        final var moduleId  = new ModuleID(RelativePath.of(id));
         if (logger.isLoggable(Level.FINE)) {
             final String message = MessageFormat.format(
                 "**** Starting to resolve module with id ''{0}'' ****",
@@ -126,7 +127,7 @@ public class FileSystemJSModuleRepository extends BaseJSModuleRepository {
             );
             logger.log(Level.FINE, message);
         }
-        return internalResolve(new ModuleID(id), baseDir.toURI());
+        return internalResolve(moduleId, baseDir.toURI());
     }
 
     /**
@@ -134,8 +135,9 @@ public class FileSystemJSModuleRepository extends BaseJSModuleRepository {
      */
     @Override
     public Optional<URI> resolve(@NotNull String moduleId, @NotNull URI contextUri) {
-        ModuleID.ensureValid(moduleId);
         Objects.requireNonNull(contextUri);
+        Objects.requireNonNull(moduleId);
+        final var modulePath = RelativePath.parse(moduleId);
         if (logger.isLoggable(Level.FINE)) {
             final String message = MessageFormat.format(
                 "*********** Starting to resolve module with id ''{0}''",
@@ -155,7 +157,7 @@ public class FileSystemJSModuleRepository extends BaseJSModuleRepository {
             }
             return Optional.empty();
         }
-        return internalResolve(new ModuleID(moduleId), contextUri);
+        return internalResolve(new ModuleID(modulePath), contextUri);
     }
 
     private boolean isModuleReadable(Path moduleFilePath) {
@@ -165,13 +167,13 @@ public class FileSystemJSModuleRepository extends BaseJSModuleRepository {
             && moduleFile.canRead();
     }
 
-    private boolean checkBaseDirExistAndReadable(String moduleId) {
+    private boolean checkBaseDirExistAndReadable(ModuleID moduleId) {
         if (! (baseDir.exists() && baseDir.canRead() && baseDir.isDirectory())) {
             if (logger.isLoggable(Level.FINE)) {
                 final String message = MessageFormat.format(
             "failed to resolve module moduleId ''{0}''. base dir ''{1}'' "
                     + "doesn''t exist, isn''t readable, or isn''t a directory",
-                    moduleId, baseDir.getAbsolutePath()
+                    moduleId, baseDir
                 );
                 logger.log(Level.FINE, message);
             }
@@ -190,7 +192,7 @@ public class FileSystemJSModuleRepository extends BaseJSModuleRepository {
             getLogger().log(Level.FINE, message);
         }
         // make sure baseDir is an existing and readable directory
-        if (!checkBaseDirExistAndReadable(moduleId.toString())) {
+        if (!checkBaseDirExistAndReadable(moduleId)) {
             return Optional.empty();
         }
         moduleId = moduleId.normalized();
@@ -201,24 +203,21 @@ public class FileSystemJSModuleRepository extends BaseJSModuleRepository {
         if (contextFilePath.toFile().isFile()) {
             contextFilePath = contextFilePath.getParent().normalize();
         }
-        final Path contextRepoPath =  baseDir.toPath().relativize(contextFilePath);
+        final RelativePath contextRepoPath = RelativePath.of(baseDir.toPath().relativize(contextFilePath));
 
-        final Optional<Path> moduleRepoPath = resolve(moduleId, contextRepoPath);
+        final Optional<RelativePath> moduleRepoPath = resolve(moduleId, contextRepoPath);
         if (moduleRepoPath.isEmpty()) {
-            final Object[] params = {
-                moduleId.toString()
-            };
             if (getLogger().isLoggable(Level.FINE)) {
                 final String message = MessageFormat.format(
             "resolve: failed to resolve module with id ''{0}''. " +
                     "no matching module repo path found",
-                    params
+                    moduleId
                 );
                 getLogger().log(Level.FINE, message);
             }
             return Optional.empty();
         }
-        final Path moduleFilePath = baseDir.toPath().resolve(moduleRepoPath.get());
+        final Path moduleFilePath = baseDir.toPath().resolve(moduleRepoPath.get().toPath());
 
         final Object[] params = {
             moduleId.toString(),

@@ -2,6 +2,7 @@ package org.openstreetmap.josm.plugins.scripting.graalvm.commonjs;
 
 import org.openstreetmap.josm.plugins.scripting.graalvm.ModuleID;
 import org.openstreetmap.josm.plugins.scripting.graalvm.ModuleJarURI;
+import org.openstreetmap.josm.plugins.scripting.model.RelativePath;
 
 import javax.validation.constraints.NotNull;
 import java.io.File;
@@ -9,7 +10,6 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.nio.file.Path;
 import java.text.MessageFormat;
 import java.util.Objects;
 import java.util.Optional;
@@ -32,11 +32,10 @@ public class JarJSModuleRepository extends BaseJSModuleRepository {
         }
     }
 
-    static private JarEntry lookupJarEntry(final File jar, String entryKey)
+    static private JarEntry lookupJarEntry(final File jar, RelativePath entryKey)
         throws IOException {
-        entryKey = entryKey.replace("\\", "/");
         try(final JarFile jarFile = new JarFile(jar)) {
-            final JarEntry entry = jarFile.getJarEntry(entryKey);
+            final JarEntry entry = jarFile.getJarEntry(entryKey.toString());
             if (entry == null) {
                 throw new IOException(MessageFormat.format(
                 "jar entry in jar file doesn''t exist. " +
@@ -55,7 +54,7 @@ public class JarJSModuleRepository extends BaseJSModuleRepository {
     }
 
     static private void ensureJarEntryIsDirectory(final File jar,
-                                                  final String entryName)
+                                                  final RelativePath entryName)
         throws IOException {
         final JarEntry entry = lookupJarEntry(jar, entryName);
         if (!entry.isDirectory()) {
@@ -68,7 +67,7 @@ public class JarJSModuleRepository extends BaseJSModuleRepository {
     }
 
     static private void ensureJarEntryIsFile(final File jar,
-                                                  final String entryName)
+                                             final RelativePath entryName)
             throws IOException {
         final JarEntry entry = lookupJarEntry(jar, entryName);
         if (entry.isDirectory()) {
@@ -84,32 +83,28 @@ public class JarJSModuleRepository extends BaseJSModuleRepository {
      * {@inheritDoc}
      */
     @Override
-    protected boolean isRepoFile(@NotNull String repoPath) {
-        if (repoPath == null || repoPath.trim().isEmpty()) {
+    protected boolean isRepoFile(@NotNull RelativePath repoPath) {
+        if (repoPath == null || repoPath.isEmpty()) {
             return false;
         }
-        String jarEntryName = repoPath.trim();
-        if (jarEntryName.startsWith("/")) {
-            jarEntryName = jarEntryName.substring(1);
-        }
-        if (jarEntryName.isEmpty()) {
+        if (repoPath.isEmpty()) {
             if (logger.isLoggable(Level.FINE)) {
                 final String message = MessageFormat.format(
                     "unexpected empty jar entry name ''{0}''",
-                    jarEntryName
+                    repoPath
                 );
                 logger.log(Level.FINE, message);
             }
             return false;
         }
         try {
-            ensureJarEntryIsFile(jarUri.getJarFile(), jarEntryName);
+            ensureJarEntryIsFile(jarUri.getJarFile(), repoPath);
         } catch(IOException e) {
             if (getLogger().isLoggable(Level.FINE)) {
                 getLogger().log(Level.FINE, MessageFormat.format(
                     "jar entry doesn''t exist or isn''t a file entry. " +
                     "jar file=''{0}'', entry name=''{1}''",
-                    jarUri.getJarFilePath(), jarEntryName
+                    jarUri.getJarFilePath(), repoPath
                ),e);
             }
             return false;
@@ -153,7 +148,7 @@ public class JarJSModuleRepository extends BaseJSModuleRepository {
      * in the jar file <code>jar</code>
      */
     public JarJSModuleRepository(@NotNull final File jar,
-             @NotNull final String rootPath) throws IOException {
+             @NotNull final RelativePath rootPath) throws IOException {
         Objects.requireNonNull(jar);
         Objects.requireNonNull(rootPath);
         final URI uri;
@@ -170,7 +165,7 @@ public class JarJSModuleRepository extends BaseJSModuleRepository {
         ensureReadableJarFile();
         if (!jarUri.getJarEntryName().isEmpty()) {
             ensureJarEntryIsDirectory(
-                jarUri.getJarFile(), jarUri.getJarEntryName());
+                jarUri.getJarFile(), jarUri.getJarEntryPath());
         }
     }
 
@@ -194,7 +189,7 @@ public class JarJSModuleRepository extends BaseJSModuleRepository {
         ensureReadableJarFile();
         if (!jarUri.getJarEntryName().isEmpty()) {
             ensureJarEntryIsDirectory(
-                jarUri.getJarFile(), jarUri.getJarEntryName());
+                jarUri.getJarFile(), jarUri.getJarEntryPath());
         }
     }
 
@@ -233,13 +228,14 @@ public class JarJSModuleRepository extends BaseJSModuleRepository {
     @Override
     public Optional<URI> resolve(@NotNull final String moduleId) {
         Objects.requireNonNull(moduleId);
+        final RelativePath modulePath;
         if (getLogger().isLoggable(Level.FINE)) {
             getLogger().log(Level.FINE, MessageFormat.format(
            "*** Starting to resolve module id *** moduleId = ''{0}''", moduleId
             ));
         }
         try {
-            ModuleID.ensureValid(moduleId);
+            modulePath = RelativePath.parse(moduleId);
         } catch(IllegalArgumentException e) {
             if (getLogger().isLoggable(Level.FINE)) {
                 getLogger().log(Level.FINE, MessageFormat.format(
@@ -249,7 +245,7 @@ public class JarJSModuleRepository extends BaseJSModuleRepository {
             return Optional.empty();
         }
         return resolveInternal(
-            new ModuleID(moduleId).normalized(),
+            new ModuleID(modulePath).normalized(),
             jarUri.toURI());
     }
 
@@ -261,6 +257,7 @@ public class JarJSModuleRepository extends BaseJSModuleRepository {
                                  @NotNull final URI contextUri) {
         Objects.requireNonNull(moduleId);
         Objects.requireNonNull(contextUri);
+        final RelativePath modulePath;
         if (getLogger().isLoggable(Level.FINE)) {
             getLogger().log(Level.FINE, MessageFormat.format(
         "*** Starting to resolve module id *** moduleId = ''{0}'', contextUri = ''{1}''",
@@ -269,7 +266,7 @@ public class JarJSModuleRepository extends BaseJSModuleRepository {
         }
 
         try {
-            ModuleID.ensureValid(moduleId);
+            modulePath = RelativePath.parse(moduleId);
         } catch (IllegalArgumentException e) {
             if (getLogger().isLoggable(Level.FINE)) {
                 getLogger().log(Level.FINE, MessageFormat.format(
@@ -319,7 +316,7 @@ public class JarJSModuleRepository extends BaseJSModuleRepository {
             return Optional.empty();
         }
         return resolveInternal(
-                new ModuleID(moduleId).normalized(),
+                new ModuleID(modulePath).normalized(),
                 contextModuleUri.toURI());
     }
 
@@ -335,7 +332,7 @@ public class JarJSModuleRepository extends BaseJSModuleRepository {
             return Optional.empty();
         }
         contextJSModuleUri = normalizedUri.get();
-        final Optional<Path> resolvedModulePath =
+        final Optional<RelativePath> resolvedModulePath =
             resolve(id, contextJSModuleUri.getJarEntryPath());
         if (resolvedModulePath.isEmpty()) {
             if (getLogger().isLoggable(Level.FINE)) {
@@ -351,7 +348,7 @@ public class JarJSModuleRepository extends BaseJSModuleRepository {
         try {
             resolvedModuleUri = ModuleJarURI.buildJarUri(
                 contextJSModuleUri.getJarFilePath(),
-                resolvedModulePath.get().toString().replace("\\", "/"));
+                resolvedModulePath.get());
         } catch(final URISyntaxException | IOException e) {
             if (getLogger().isLoggable(Level.FINE)) {
                 getLogger().log(Level.FINE, MessageFormat.format(

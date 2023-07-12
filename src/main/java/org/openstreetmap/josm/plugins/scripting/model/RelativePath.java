@@ -403,4 +403,8 @@ public class RelativePath {
     public String toString() {
         return String.join("/", segments);
     }
+
+    public Path toPath() {
+        return Path.of(toString());
+    }
 }

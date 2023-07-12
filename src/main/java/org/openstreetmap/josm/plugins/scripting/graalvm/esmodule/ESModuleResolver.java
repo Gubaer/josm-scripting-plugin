@@ -6,6 +6,7 @@ import org.openstreetmap.josm.plugins.PluginInformation;
 import org.openstreetmap.josm.plugins.scripting.graalvm.IRepositoriesSource;
 import org.openstreetmap.josm.plugins.scripting.graalvm.ModuleJarURI;
 import org.openstreetmap.josm.plugins.scripting.model.PreferenceKeys;
+import org.openstreetmap.josm.plugins.scripting.model.RelativePath;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
@@ -61,7 +62,7 @@ public class ESModuleResolver implements FileSystem, IRepositoriesSource  {
     static public @Null URI buildRepositoryUrlForBuiltinModules(@NotNull PluginInformation info) {
         Objects.requireNonNull(info);
         try {
-            return ModuleJarURI.buildJarUri(info.file.getAbsolutePath(), "/js/v3");
+            return ModuleJarURI.buildJarUri(info.file.getAbsolutePath(), RelativePath.parse("js/v3"));
         } catch(MalformedURLException | URISyntaxException e) {
             logger.log(Level.WARNING, "Failed to create URI referring to the "
                     + "ES Modules in the plugin jar. Cannot load ES "
@@ -151,7 +152,7 @@ public class ESModuleResolver implements FileSystem, IRepositoriesSource  {
             Stream.ofNullable(apiRepo),
             userDefinedRepos.stream()
         )
-        .filter(repo -> repo.matchesWithUniquePathPrefix(path))
+        .filter(repo -> repo.matchesWithUniquePathPrefix(RelativePath.of(path)))
         .findFirst()
         .orElse(null);
     }
@@ -176,15 +177,15 @@ public class ESModuleResolver implements FileSystem, IRepositoriesSource  {
             logger.fine(MessageFormat.format("parsePath: path=''{0}''", path ));
         }
         var p = Path.of(path);
-        if (p.isAbsolute() && ! startsWithESModuleRepoPathPrefix(p)) {
+        if (! startsWithESModuleRepoPathPrefix(RelativePath.of(p))) {
             return fullIO.getPath(path);
         }
         var resolvedPath = Stream.concat(Stream.ofNullable(apiRepo), userDefinedRepos.stream())
-            .map(repo -> repo.resolveModulePath(path))
+            .map(repo -> repo.resolveModulePath(RelativePath.parse(path)))
             .filter(Objects::nonNull)
             .findFirst()
             .orElse(null);
-        return Objects.requireNonNullElseGet(resolvedPath, () -> fullIO.getPath(path));
+        return Objects.requireNonNullElseGet(resolvedPath.toPath(), () -> fullIO.getPath(path));
     }
 
     /**
@@ -195,7 +196,7 @@ public class ESModuleResolver implements FileSystem, IRepositoriesSource  {
         if (logger.isLoggable(Level.FINE)) {
             logger.fine(MessageFormat.format("checkAccess: path=''{0}''", path ));
         }
-        if (!startsWithESModuleRepoPathPrefix(path)) {
+        if (!startsWithESModuleRepoPathPrefix(RelativePath.of(path))) {
             fullIO.provider().checkAccess(path, modes.toArray(new AccessMode[]{}));
         }
         // since path was successfully resolved against a file in an ES Module repository,
@@ -207,7 +208,7 @@ public class ESModuleResolver implements FileSystem, IRepositoriesSource  {
      */
     @Override
     public void createDirectory(Path dir, FileAttribute<?>... attrs) throws IOException {
-        if (startsWithESModuleRepoPathPrefix(dir)) {
+        if (startsWithESModuleRepoPathPrefix(RelativePath.of(dir))) {
             throw new UnsupportedOperationException();
         }
         fullIO.provider().createDirectory(dir, attrs);
@@ -218,7 +219,7 @@ public class ESModuleResolver implements FileSystem, IRepositoriesSource  {
      */
     @Override
     public void delete(Path path) throws IOException {
-        if (startsWithESModuleRepoPathPrefix(path)) {
+        if (startsWithESModuleRepoPathPrefix(RelativePath.of(path))) {
             throw new UnsupportedOperationException();
         }
         fullIO.provider().delete(path);
@@ -230,7 +231,7 @@ public class ESModuleResolver implements FileSystem, IRepositoriesSource  {
     @Override
     public SeekableByteChannel newByteChannel(Path path, Set<? extends OpenOption> options, FileAttribute<?>... attrs) throws IOException {
         if (logger.isLoggable(Level.FINE)) {
-            logger.fine(MessageFormat.format("newByteChannel: path=''{0}''", path ));
+            logger.fine(MessageFormat.format("newByteChannel: path=''{0}''", path));
         }
         var repo = lookupRepoForModulePath(path);
         if (repo == null) {
@@ -239,7 +240,7 @@ public class ESModuleResolver implements FileSystem, IRepositoriesSource  {
             if (logger.isLoggable(Level.FINE)) {
                 logger.fine(MessageFormat.format("newByteChannel: creating byteChannel, path:=''{0}''", path ));
             }
-            return repo.newByteChannel(path);
+            return repo.newByteChannel(RelativePath.of(path));
         }
     }
 
@@ -248,7 +249,7 @@ public class ESModuleResolver implements FileSystem, IRepositoriesSource  {
      */
     @Override
     public DirectoryStream<Path> newDirectoryStream(Path dir, DirectoryStream.Filter<? super Path> filter) throws IOException {
-        if (startsWithESModuleRepoPathPrefix(dir)) {
+        if (startsWithESModuleRepoPathPrefix(RelativePath.of(dir))) {
             throw new UnsupportedOperationException();
         }
         return fullIO.provider().newDirectoryStream(dir, filter);
@@ -273,7 +274,7 @@ public class ESModuleResolver implements FileSystem, IRepositoriesSource  {
         if (logger.isLoggable(Level.FINE)) {
             logger.fine(MessageFormat.format("toRealPath: path=''{0}''", path ));
         }
-        if (startsWithESModuleRepoPathPrefix(path)) {
+        if (startsWithESModuleRepoPathPrefix(RelativePath.of(path))) {
             // If GraalJS encounters an import from a module './foo' in an already
             // resolved module '/es-module-repo/<uuid>/bar' it doesn't parse it,
             // but directly calls 'toRealPath' on '/es-module-repo/<uuid>/bar'.
@@ -284,7 +285,7 @@ public class ESModuleResolver implements FileSystem, IRepositoriesSource  {
             if (repo == null) {
                 return path.toRealPath();
             }
-            return repo.resolveModulePath(path);
+            return repo.resolveModulePath(RelativePath.of(path)).toPath();
         }
         return path.toRealPath();
     }
@@ -297,7 +298,7 @@ public class ESModuleResolver implements FileSystem, IRepositoriesSource  {
         if (logger.isLoggable(Level.FINE)) {
             logger.fine(MessageFormat.format("readAttributes: path=''{0}''", path ));
         }
-        if (startsWithESModuleRepoPathPrefix(path)) {
+        if (startsWithESModuleRepoPathPrefix(RelativePath.of(path))) {
             throw new UnsupportedOperationException();
         }
         return fullIO.provider().readAttributes(path, attributes, options);

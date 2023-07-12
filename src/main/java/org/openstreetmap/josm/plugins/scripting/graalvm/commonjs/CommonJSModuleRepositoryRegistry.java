@@ -2,8 +2,11 @@ package org.openstreetmap.josm.plugins.scripting.graalvm.commonjs;
 
 import org.openstreetmap.josm.data.Preferences;
 import org.openstreetmap.josm.plugins.PluginInformation;
-import org.openstreetmap.josm.plugins.scripting.graalvm.*;
+import org.openstreetmap.josm.plugins.scripting.graalvm.IRepositoriesSource;
+import org.openstreetmap.josm.plugins.scripting.graalvm.ModuleID;
+import org.openstreetmap.josm.plugins.scripting.graalvm.ModuleJarURI;
 import org.openstreetmap.josm.plugins.scripting.model.PreferenceKeys;
+import org.openstreetmap.josm.plugins.scripting.model.RelativePath;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
@@ -42,7 +45,7 @@ public class CommonJSModuleRepositoryRegistry implements IModuleResolver, IRepos
     static public @Null URI buildRepositoryUrlForBuiltinModules(@NotNull PluginInformation info) {
         Objects.requireNonNull(info);
         try {
-            return ModuleJarURI.buildJarUri(info.file.getAbsolutePath(), "/js/v2");
+            return ModuleJarURI.buildJarUri(info.file.getAbsolutePath(), RelativePath.parse("js/v2"));
         } catch(MalformedURLException | URISyntaxException e) {
             logger.log(Level.WARNING, "Failed to create URI referring to the "
                   + "CommonJS modules in the plugin jar. Cannot load CommonJS "
@@ -56,8 +59,7 @@ public class CommonJSModuleRepositoryRegistry implements IModuleResolver, IRepos
      *
      * @return the singleton instance
      */
-    static public @NotNull
-    CommonJSModuleRepositoryRegistry getInstance() {
+    static public @NotNull CommonJSModuleRepositoryRegistry getInstance() {
         if (instance == null) {
             instance = new CommonJSModuleRepositoryRegistry();
         }
@@ -233,7 +235,7 @@ public class CommonJSModuleRepositoryRegistry implements IModuleResolver, IRepos
                                  final @NotNull  URI contextUri) {
         Objects.requireNonNull(id);
         Objects.requireNonNull(contextUri);
-        final ModuleID moduleID = new ModuleID(id);
+        final ModuleID moduleID = new ModuleID(RelativePath.parse(id));
         if (moduleID.isRelative()) {
             // try to resolve a relative module against each available module
             // repo, but only accept resolved modules from the same repo, to

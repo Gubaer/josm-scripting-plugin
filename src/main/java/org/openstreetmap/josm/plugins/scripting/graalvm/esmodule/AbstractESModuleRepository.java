@@ -1,13 +1,15 @@
 package org.openstreetmap.josm.plugins.scripting.graalvm.esmodule;
 
+import org.openstreetmap.josm.plugins.scripting.model.RelativePath;
+
 import javax.validation.constraints.NotNull;
-import java.nio.file.Path;
+import javax.validation.constraints.Null;
 import java.util.Objects;
 import java.util.UUID;
 
 abstract public class AbstractESModuleRepository implements IESModuleRepository {
     // the unique path prefix for absolute paths that refer to modules in this repo
-    private final Path uniquePathPrefix = Path.of(ES_MODULE_REPO_PATH_PREFIX, UUID.randomUUID().toString());
+    private final RelativePath uniquePathPrefix = RelativePath.of(ES_MODULE_REPO_PATH_PREFIX, UUID.randomUUID().toString());
 
     /**
      * Replies true if <code>modulePath</code> starts with the prefix for a module path
@@ -17,15 +19,17 @@ abstract public class AbstractESModuleRepository implements IESModuleRepository 
      * @param modulePath the module path
      * @return true if <code>modulePath</code> starts with the prefix; false, otherwise
      */
-    static public boolean startsWithESModuleRepoPathPrefix(@NotNull final Path modulePath) {
+    static public boolean startsWithESModuleRepoPathPrefix(@Null final RelativePath modulePath) {
         if (modulePath == null) {
             return false;
         }
-        if (! (modulePath.getNameCount() >= 2)
-            || ! modulePath.getName(0).toString().equalsIgnoreCase(ES_MODULE_REPO_PATH_PREFIX)) {
+        if (modulePath.getLength() < 2 ) {
             return false;
         }
-        var uuid = modulePath.getName(1).toString();
+        if (! ES_MODULE_REPO_PATH_PREFIX.equals(modulePath.getSegment(0))) {
+            return false;
+        }
+        var uuid = modulePath.getSegment(1);
         try {
             UUID.fromString(uuid);
             return true;
@@ -35,24 +39,10 @@ abstract public class AbstractESModuleRepository implements IESModuleRepository 
     }
 
     /**
-     * Replies a string representation of path in Unix notation with <code>/</code> as
-     * path delimiter regardless of whether the code is running on a Unix or a Windows
-     * platform.
-     *
-     * @param path the path. Must not be null.
-     * @return the string representation in Unix notation
-     * @throws NullPointerException thrown if <code>path</code> is null
-     */
-    static public String toUnixNotation(@NotNull Path path) {
-        Objects.requireNonNull(path);
-        return path.toString().replace("\\", "/");
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override
-    public @NotNull Path getUniquePathPrefix() {
+    public @NotNull RelativePath getUniquePathPrefix() {
         return uniquePathPrefix;
     }
 
@@ -61,7 +51,7 @@ abstract public class AbstractESModuleRepository implements IESModuleRepository 
      * {@inheritDoc}
      */
     @Override
-    public boolean matchesWithUniquePathPrefix(@NotNull Path modulePath) {
+    public boolean matchesWithUniquePathPrefix(@NotNull RelativePath modulePath) {
         Objects.requireNonNull(modulePath);
         return modulePath.startsWith(uniquePathPrefix);
     }

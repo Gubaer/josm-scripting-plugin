@@ -178,4 +178,13 @@ class RelativePathTest extends BaseTestCase {
         path = RelativePath.of("foo").append(RelativePath.of("bar", "baz"))
         assertEquals(RelativePath.parse("foo/bar/baz"), path)
     }
+
+    @Test
+    void "toPath - should convert to path"() {
+        def relPath = RelativePath.parse("foo/bar")
+
+        def path = relPath.toPath()
+        def expected = Path.of("foo", "bar")
+        assertEquals(expected, path)
+    }
 }

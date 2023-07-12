@@ -2,6 +2,7 @@ package org.openstreetmap.josm.plugins.scripting.graalvm.esmodule;
 
 import org.apache.commons.compress.utils.SeekableInMemoryByteChannel;
 import org.openstreetmap.josm.plugins.scripting.graalvm.ModuleJarURI;
+import org.openstreetmap.josm.plugins.scripting.model.RelativePath;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
@@ -11,14 +12,12 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.channels.SeekableByteChannel;
-import java.nio.file.Path;
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.Objects;
 import java.util.jar.JarFile;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.regex.Pattern;
 
 /**
  * <code>JarESModuleRepository</code> is a repository of ES Modules stored in a jar file.
@@ -40,31 +39,19 @@ public class JarESModuleRepository extends AbstractESModuleRepository {
      * The root path of the repository with ES modules <bold>within</bold> the jar file.
      * This path is always <bold>relative</bold>.
      */
-    private final Path root;
-    final private static Pattern LEADING_SLASHES = Pattern.compile("^[/\\\\]+");
-    static private String removeLeadingSlashes(String path) {
-        return LEADING_SLASHES.matcher(path).replaceFirst("");
-    }
-    private static final List<String> SUFFIXES = List.of("", ".mjs", ".js");
-    private Path resolveZipEntryPath(@NotNull Path relativeModulePath) {
-        if (relativeModulePath.isAbsolute()) {
-            // paths to zip entries in a jar file don't start with
-            // a '/'. Remove leading '/'.
-            relativeModulePath = Path.of(removeLeadingSlashes(relativeModulePath.toString()));
-        }
+    private final RelativePath root;
 
-        // remove/resolve any './' or '..' in the path and prepend the repository
-        // root
-        //TODO(Gubaer): normalize isn't enough here. Need to canonicalize?
-        final var path = Path.of(
-            root.toString(),
-            relativeModulePath.normalize().toString()
-        );
+    private static final List<String> SUFFIXES = List.of("", ".mjs", ".js");
+    private RelativePath resolveZipEntryPath(@NotNull RelativePath relativeModulePath) {
+
+
+        final var canonicalizedPath = relativeModulePath.canonicalize();
+
         if (logger.isLoggable(Level.FINE)) {
-            logger.fine(MessageFormat.format("normalized relative module path is ''{0}''", toUnixNotation(path)));
+            logger.fine(MessageFormat.format("canonicalized relative module path is ''{0}''", canonicalizedPath));
         }
         // try to locate a suitable zip entry
-        return SUFFIXES.stream().map(suffix -> toUnixNotation(path) + suffix)
+        return SUFFIXES.stream().map(suffix -> canonicalizedPath.toString() + suffix)
             .filter(p -> {
                 var entry = jar.getEntry(p);
                 if (logger.isLoggable(Level.FINE)) {
@@ -73,7 +60,7 @@ public class JarESModuleRepository extends AbstractESModuleRepository {
                 return entry != null && !entry.isDirectory();
             })
             .findFirst()
-            .map(Path::of)
+            .map(RelativePath::parse)
             .orElse(null);
     }
 
@@ -83,7 +70,7 @@ public class JarESModuleRepository extends AbstractESModuleRepository {
     @Override
     public URI getBaseURI() {
         try {
-            return ModuleJarURI.buildJarUri(jarFile.getAbsolutePath(), root.toString());
+            return ModuleJarURI.buildJarUri(jarFile.getAbsolutePath(), root);
         } catch (MalformedURLException | URISyntaxException e) {
             // shouldn't happen
             throw new RuntimeException(e);
@@ -101,7 +88,7 @@ public class JarESModuleRepository extends AbstractESModuleRepository {
         Objects.requireNonNull(jarFile);
         this.jarFile = jarFile;
         this.jar = new JarFile(jarFile);
-        this.root = Path.of("");
+        this.root = RelativePath.EMPTY;
     }
 
     /**
@@ -116,28 +103,29 @@ public class JarESModuleRepository extends AbstractESModuleRepository {
      * @throws IOException if <code>jarFile</code> or <code>rootEntry</code> is null
      * @throws IllegalArgumentException if there isn't an entry with name <code>rootEntry</code> in the <code>jarFile</code>
      */
-    public JarESModuleRepository(@NotNull final File jarFile, @NotNull final String rootEntry) throws IOException {
+    public JarESModuleRepository(@NotNull final File jarFile, @NotNull final RelativePath rootEntry) throws IOException {
         Objects.requireNonNull(jarFile);
         Objects.requireNonNull(rootEntry);
         this.jarFile = jarFile;
         this.jar = new JarFile(jarFile);
-        var relativeRootEntry = removeLeadingSlashes(rootEntry);
-        if (!relativeRootEntry.equals(rootEntry)) {
-            logger.warning(MessageFormat.format(
-                    "removed leading slashes from root entry ''{0}''. "
-                    + "Root entry now is ''{1}''",
-                    rootEntry, relativeRootEntry
-            ));
-        }
-        //TODO(Gubaer): normalize not good enough? Need to canonicalize?
-        this.root = Path.of(relativeRootEntry).normalize();
-        var entry = this.jar.getEntry(toUnixNotation(this.root));
-        if (entry == null) {
-            throw new IllegalArgumentException(MessageFormat.format(
-                "Root entry ''{0}'' not found in jar file ''{1}''",
-                rootEntry,
-                this.jarFile
-            ));
+
+        this.root = rootEntry.canonicalize();
+        if (!this.root.isEmpty()) {
+            var entry = this.jar.getEntry(this.root.toString());
+            if (entry == null) {
+                throw new IllegalArgumentException(MessageFormat.format(
+                    "Root entry ''{0}'' not found in jar file ''{1}''",
+                    rootEntry,
+                    this.jarFile
+                ));
+            }
+            if (!entry.isDirectory()) {
+                throw new IllegalArgumentException(MessageFormat.format(
+                    "Root entry ''{0}'' isn''t a directory entry in the jar file ''{1}''",
+                    rootEntry,
+                    this.jarFile
+                ));
+            }
         }
     }
 
@@ -165,10 +153,10 @@ public class JarESModuleRepository extends AbstractESModuleRepository {
             }
             this.jarFile = moduleJarUri.getJarFile();
             this.jar = new JarFile(jarFile);
-            this.root = Path.of(moduleJarUri.getJarEntryName());
+            this.root = moduleJarUri.getJarEntryPath();
         } catch(IllegalArgumentException e) {
             throw new IllegalESModuleBaseUri(MessageFormat.format(
-                "Illegal base URI for jar-file based ES Module repository. uri=''{0}''", uri), e);
+                "Illegal base URI for jar file based ES Module repository. uri=''{0}''", uri), e);
         }
     }
 
@@ -176,92 +164,71 @@ public class JarESModuleRepository extends AbstractESModuleRepository {
      * {@inheritDoc}
      */
     @Override
-    public @Null Path resolveModulePath(@NotNull String modulePath) {
-        Objects.requireNonNull(modulePath);
-        return resolveModulePath(Path.of(modulePath));
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public @Null Path resolveModulePath(@NotNull Path modulePath) {
+    public @Null RelativePath resolveModulePath(@NotNull RelativePath modulePath) {
         Objects.requireNonNull(modulePath);
         if (logger.isLoggable(Level.FINE)) {
-            logger.fine(MessageFormat.format("**** Starting to resolve module path ''{0}''", toUnixNotation(modulePath)));
+            logger.fine(MessageFormat.format("**** Starting to resolve module path ''{0}''", modulePath));
         }
         if (startsWithESModuleRepoPathPrefix(modulePath)) {
-            var normalizedModulePath= modulePath.normalize();
-            if (logger.isLoggable(Level.FINE)) {
-                logger.fine(MessageFormat.format(
-                    "{0}: normalized module path is ''{1}''",
-                    toUnixNotation(modulePath),
-                    toUnixNotation(normalizedModulePath)
-                ));
-            }
-            if (normalizedModulePath.startsWith(getUniquePathPrefix())) {
-                if (normalizedModulePath.getNameCount() <= 2) {
-                    if (logger.isLoggable(Level.FINE)) {
-                        logger.fine(MessageFormat.format(
-                            "{0}: normalized absolute module path ''{1}'' is too short",
-                            toUnixNotation(modulePath),
-                            toUnixNotation(normalizedModulePath)
-                        ));
-                        logger.fine(MessageFormat.format("{0}: resolution FAILED", toUnixNotation(modulePath)));
-                    }
-                    return null;
-                }
-                final var relativeRepoPath =  normalizedModulePath.subpath(2, normalizedModulePath.getNameCount());
-                if (logger.isLoggable(Level.FINE)) {
-                    logger.fine(MessageFormat.format("{0}: relative repo path is ''{1}''",
-                        toUnixNotation(modulePath),
-                        toUnixNotation(relativeRepoPath)));
-                }
-                var resolvedRelativeRepoPath = resolveZipEntryPath(relativeRepoPath);
-                if (resolvedRelativeRepoPath == null) {
-                    if (logger.isLoggable(Level.FINE)) {
-                        logger.fine(MessageFormat.format("{0}: resolution FAILED", toUnixNotation(modulePath)));
-                    }
-                    return null;
-                }
-                if (root.toString().isEmpty()) {
-                    return Path.of(getUniquePathPrefix().toString(), resolvedRelativeRepoPath.toString());
-                } else {
-                    return Path.of(
-                        getUniquePathPrefix().toString(),
-                        resolvedRelativeRepoPath.subpath(
-                            root.getNameCount(),
-                            resolvedRelativeRepoPath.getNameCount()).toString()
-                    );
-                }
-            } else {
+            // modulePath is a path starting with 'es-module-repo/<uuid>'. First, make sure that <uuid> is
+            // the unique id of this repository
+            if (!getUniquePathPrefix().getSegment(1).equals(modulePath.getSegment(1))) {
                 if (logger.isLoggable(Level.FINE)) {
                     logger.fine(MessageFormat.format(
-                        "{0}: can''t resolve absolute module path in the file system based ES module repository with unique prefix ''{1}''",
-                        toUnixNotation(modulePath),
-                        toUnixNotation(getUniquePathPrefix())
+                            "{0}: module path doesn''t refer entry in this repository ''{1}''",
+                            modulePath,
+                            getUniquePathPrefix()
                     ));
+                }
+                return RelativePath.EMPTY;
+            }
+            var canonicalizedModulePath= modulePath.canonicalize();
+            if (logger.isLoggable(Level.FINE)) {
+                logger.fine(MessageFormat.format(
+                    "{0}: canonicalized module path is ''{1}''",
+                    modulePath,
+                    canonicalizedModulePath
+                ));
+            }
+            final var relativeRepoPath =  RelativePath.of(
+                canonicalizedModulePath.getSegments().subList(2, canonicalizedModulePath.getLength())
+            );
+
+            if (logger.isLoggable(Level.FINE)) {
+                logger.fine(MessageFormat.format("{0}: relative repo path is ''{1}''",
+                    modulePath,
+                    relativeRepoPath));
+            }
+            var resolvedRelativeRepoPath = resolveZipEntryPath(relativeRepoPath);
+            if (resolvedRelativeRepoPath == null) {
+                if (logger.isLoggable(Level.FINE)) {
+                    logger.fine(MessageFormat.format("{0}: resolution FAILED", modulePath));
                 }
                 return null;
             }
+            if (root.isEmpty()) {
+                return relativeRepoPath;
+            } else {
+                return relativeRepoPath.resolveAgainstDirectoryContext(root).canonicalize();
+            }
         } else {
-            var repoPath = resolveZipEntryPath(modulePath);
+            // modulePath isn't a path starting  with 'es-module-repo/<uuid>'. Resolve it against
+            // the root
+            var repoPath = modulePath.resolveAgainstDirectoryContext(root).canonicalize();
+            repoPath = resolveZipEntryPath(repoPath);
             if (repoPath == null) {
                 if (logger.isLoggable(Level.FINE)) {
                     logger.fine(MessageFormat.format(
                         "{0}: can''t resolve relative module path in the jar file based ES Module repository ''{1}''. "
                                 +"The path doesn''t refer to a readable zip entry.",
-                        toUnixNotation(modulePath),
+                        modulePath,
                         jarFile
                     ));
                     logger.fine(MessageFormat.format("{0}: resolution FAILED", modulePath));
                 }
                 return null;
             }
-            return Path.of(
-                getUniquePathPrefix().toString(),
-                modulePath.normalize().toString()
-            );
+            return getUniquePathPrefix().append(repoPath);
         }
     }
 
@@ -269,37 +236,39 @@ public class JarESModuleRepository extends AbstractESModuleRepository {
      * {@inheritDoc}
      */
     @Override
-    public @NotNull SeekableByteChannel newByteChannel(@NotNull Path absolutePath) throws IOException {
-        if (!startsWithESModuleRepoPathPrefix(absolutePath)) {
+    public @NotNull SeekableByteChannel newByteChannel(@NotNull RelativePath path) throws IOException {
+        if (!startsWithESModuleRepoPathPrefix(path)) {
             throw new IllegalArgumentException(MessageFormat.format(
                 "Can''t resolve path ''{0}''. Path doesn''t match unique path prefix ''{1}'' of jar file based ES Module repository",
-                toUnixNotation(absolutePath),
-                toUnixNotation(getUniquePathPrefix())
+                path,
+                getUniquePathPrefix()
             ));
         }
-        if (absolutePath.getNameCount() <= 2) {
+        if (path.getLength() <= 2) {
             throw new IllegalArgumentException(MessageFormat.format(
                 "Can''t resolve path ''{0}''. Path is too short.",
-                toUnixNotation(absolutePath),
-                toUnixNotation(getUniquePathPrefix())
+                path,
+                getUniquePathPrefix()
             ));
         }
-        final var relativeRepoPath = absolutePath.subpath(2, absolutePath.getNameCount());
+        final var relativeRepoPath = RelativePath.of(
+            path.getSegments().subList(2, path.getLength())
+        );
         final var zipEntryPath = resolveZipEntryPath(relativeRepoPath);
         if (zipEntryPath == null) {
             throw new IllegalArgumentException(MessageFormat.format(
                 "Can''t resolve path ''{0}''. Didn''t find a zip entry under this path in the repo ''{1}''",
-                toUnixNotation(absolutePath),
-                toUnixNotation(getUniquePathPrefix())
+                path,
+                getUniquePathPrefix()
             ));
         }
-        final var zipEntry = jar.getEntry(toUnixNotation(zipEntryPath));
+        final var zipEntry = jar.getEntry(zipEntryPath.toString());
         if (zipEntry == null) {
             // shouldn't happen, but just in case
             throw new IllegalArgumentException(MessageFormat.format(
                 "Can''t resolve path ''{0}''. Didn''t find a zip entry under this path in the repo ''{1}''",
-                toUnixNotation(absolutePath),
-                toUnixNotation(getUniquePathPrefix())
+                path,
+                getUniquePathPrefix()
             ));
         }
         final var bytes = jar.getInputStream(zipEntry).readAllBytes();
