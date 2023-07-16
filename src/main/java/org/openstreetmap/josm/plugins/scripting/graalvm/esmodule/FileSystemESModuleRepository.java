@@ -19,6 +19,22 @@ import java.util.logging.Logger;
 
 /**
  * A repository for ES Modules stored in the local file system.
+ * <p>
+ * The repository represents a subtree in the local file system, below its {@link #getRoot() root directory}.
+ * <p>
+ * Its main purpose is to <strong>resolve</strong> a {@link org.openstreetmap.josm.plugins.scripting.graalvm.ModuleID module id}.
+ * Successful esolution means that the repository can map a module ID to a source file somewhere in the file system below the repository root.
+ * <p>
+ * Terminology:
+ * <ul>
+ *     <li>module ID path - the module ID represented as {@link RelativePath}</li>
+ *     <li>full module repo path - a full module repo path always starts with two segments 'es-module-repo/uuid'.
+ *     It uniquely identifies the ES module repository and the path to the file within the repository. It is
+ *     represented as {@link RelativePath}</li>
+ *     <li>relative module repo path - the relative path to the source file within a repository. It is represented as {@link RelativePath}</li>
+ *     <li>module file path - the absolute path to a source file in the file system. It is represented as {@link Path}.</li>
+ * </ul>
+ *
  */
 public class FileSystemESModuleRepository extends AbstractESModuleRepository {
     static private final Logger logger = Logger.getLogger(FileSystemESModuleRepository.class.getName());
@@ -28,13 +44,20 @@ public class FileSystemESModuleRepository extends AbstractESModuleRepository {
      * Creates a new ES module repository for modules stored in a directory in the file system.
      *
      * @param root the root directory of the repository
-     * @throws IllegalArgumentException thrown if <code>root</code> isn't a directory or isn't
+     * @throws IllegalArgumentException if <code>root</code> isn't a directory or isn't
      *   readable
-     * @throws NullPointerException thrown if <code>root</code> is null
+     * @throws IllegalArgumentException if <code>root</code> isn't absolute file
+     * @throws NullPointerException  if <code>root</code> is null
      */
     public FileSystemESModuleRepository(@NotNull final File root) throws IllegalArgumentException {
         Objects.requireNonNull(root);
-        this.root = root.getAbsoluteFile();
+        this.root = root;
+        if (!root.isAbsolute()) {
+            throw new IllegalArgumentException(MessageFormat.format(
+                "Illegal root directory ''{0}''. The root directory must be an absolute file.",
+                root
+            ));
+        }
         if (!this.root.isDirectory() || !this.root.canRead()) {
             throw new IllegalArgumentException(MessageFormat.format(
                "Illegal root directory ''{0}''. Directory doesn''t exist or isn''t readable.",
@@ -53,98 +76,112 @@ public class FileSystemESModuleRepository extends AbstractESModuleRepository {
     }
 
     /**
-     * {@inheritDoc}
+     * Replies the root directory of this repository.
+     *
+     * @return the root directory
      */
-    @Override
-    public RelativePath resolveModulePath(@NotNull RelativePath modulePath) {
-        Objects.requireNonNull(modulePath);
-        return this.resolveModulePath(modulePath);
+    public @NotNull File getRoot() {
+        return root;
     }
 
+//    /**
+//     * {@inheritDoc}
+//     */
+//    @Override
+//    public RelativePath resolveModulePath(@NotNull RelativePath modulePath) {
+//        Objects.requireNonNull(modulePath);
+//        return this.resolveModulePath(modulePath);
+//    }
+
     /**
-     * Converts an absolute path in the underlying file system to an absolute module
-     * path with the unique prefix for this repository (see {@link #getUniquePathPrefix()}).
+     * Converts a module file path in the underlying file system to a full module rep
+     * path with the unique prefix for this repository (see {@link #getUniquePathPrefix()}) (for
+     * terminology see the class comment above).
+     * <p>
+     * <strong>Example:</strong> Convert the Windows path <code>c:\path\to\root\sub\module-a.mjs</code> to the full
+     * module path <code>es-module-repo/8122b2b4-776f-4812-82d7-3b961e531793/sub/module-a.mjs</code>
      *
-     * @param absoluteRepoPath the absolute path in the underlying file system
-     * @return the absolute module path
-     * @throws IllegalArgumentException thrown if <code>absoluteRepoPath</code> isn't a valid absolute path
+     * @param moduleFilePath the module file path in the underlying file system
+     * @return the full module path
+     * @throws IllegalArgumentException thrown if <code>moduleFilePath</code> isn't a valid absolute path
      *   into this repository
-     * @throws NullPointerException thrown if <code>absoluteRepoPath</code> is null
+     * @throws NullPointerException thrown if <code>moduleFilePath</code> is null
      */
-    protected Path convertAbsoluteRepoPathToAbsoluteModulePath(@NotNull final Path absoluteRepoPath) throws IllegalArgumentException {
-        Objects.requireNonNull(absoluteRepoPath);
-        if (!absoluteRepoPath.startsWith(root.toPath())) {
+    protected RelativePath convertModuleFilePathToFullModuleRepoPath(@NotNull final Path moduleFilePath) throws IllegalArgumentException {
+        Objects.requireNonNull(moduleFilePath);
+        if (!moduleFilePath.startsWith(root.toPath())) {
             throw new IllegalArgumentException(MessageFormat.format(
                 "Illegal absolute repository path. Path ''{0}'' doesn''t start with the repository root path ''{1}''",
-                absoluteRepoPath.toString(),
+                moduleFilePath.toString(),
                 root.getAbsolutePath()
             ));
         }
         final var relativePathStart = root.toPath().getNameCount();
-        final var relativePathLength = absoluteRepoPath.getNameCount() - root.toPath().getNameCount();
+        final var relativePathLength = moduleFilePath.getNameCount() - root.toPath().getNameCount();
         if (relativePathLength < 1) {
             throw new IllegalArgumentException(MessageFormat.format(
-                "Illegal absolute repository path. Path ''{0}'' must include at least 1 segment after the repository root ''{1}'', "
+                "Illegal module file path. Path ''{0}'' must include at least 1 segment after the repository root ''{1}'', "
                 + "but only has {2}.",
-                absoluteRepoPath,
-                root.getAbsoluteFile().toString(),
+                moduleFilePath,
+                root,
                 relativePathLength
         ));
         }
-        final var relativeRepoPath = absoluteRepoPath.subpath(relativePathStart, absoluteRepoPath.getNameCount());
-        return Path.of(getUniquePathPrefix().toString(), relativeRepoPath.toString());
+        final var relativeModuleRepoPath = moduleFilePath.subpath(relativePathStart, moduleFilePath.getNameCount());
+        return getUniquePathPrefix()
+                .append(RelativePath.of(relativeModuleRepoPath));
     }
 
-    protected RelativePath convertAbsoluteModulePathToAbsoluteRepoPath(@NotNull final RelativePath absoluteModulePath)
+    protected Path convertFullModuleRepoPathToModuleFilePath(@NotNull final RelativePath fullModuleRepoPath)
         throws IllegalArgumentException, NullPointerException {
-        Objects.requireNonNull(absoluteModulePath);
-        if (! absoluteModulePath.startsWith(getUniquePathPrefix())) {
+        Objects.requireNonNull(fullModuleRepoPath);
+        if (! fullModuleRepoPath.startsWith(getUniquePathPrefix())) {
             throw new IllegalArgumentException(MessageFormat.format(
-                "Illegal absolute module path. Path ''{0}'' doesn''t start with the unique path prefix ''{1}''.",
-                absoluteModulePath,
+                "Illegal full module repo path. Path ''{0}'' doesn''t start with the unique path prefix ''{1}''.",
+                fullModuleRepoPath,
                 getUniquePathPrefix()
             ));
         }
-        if (absoluteModulePath.getLength() <= 3) {
+        if (fullModuleRepoPath.getLength() <= 3) {
             throw new IllegalArgumentException(MessageFormat.format(
-                "Illegal absolute module path. Path ''{0}'' should have at least 3 segments, but only has {1}.",
-                absoluteModulePath,
-                absoluteModulePath.getLength()
+                "Illegal full module repo path. Path ''{0}'' should have at least 3 segments, but only has {1}.",
+                fullModuleRepoPath,
+                fullModuleRepoPath.getLength()
             ));
         }
-        final var relativeModulePath = RelativePath.of(
-            absoluteModulePath.getSegments().subList(2, absoluteModulePath.getLength()));
-        return RelativePath.of(new File(root, relativeModulePath.toString()));
+        final var relativeModuleRepoPath = RelativePath.of(
+            fullModuleRepoPath.getSegments().subList(2, fullModuleRepoPath.getLength()));
+        return new File(root, relativeModuleRepoPath.toString()).toPath();
     }
 
     private static final List<String> SUFFIXES = List.of("", ".mjs", ".js");
 
-    protected @Null RelativePath resolveRepoPath(@NotNull final RelativePath repoPath) {
-        Objects.requireNonNull(repoPath);
-        File absoluteRepoFile = new File(root, repoPath.canonicalize().toString());
+    protected @Null Path resolveModuleRepoPathToModuleFilePath(@NotNull final RelativePath moduleRepoPath) {
+        Objects.requireNonNull(moduleRepoPath);
+        File absoluteModuleFile = new File(root, moduleRepoPath.canonicalize().toString());
         try {
-            absoluteRepoFile = absoluteRepoFile.getCanonicalFile();
+            absoluteModuleFile = absoluteModuleFile.getCanonicalFile();
         } catch(IOException e) {
             if (logger.isLoggable(Level.FINE)) {
                 logger.fine(MessageFormat.format(
                     "failed to build canonical file for file ''{0}''",
-                    absoluteRepoFile
+                    absoluteModuleFile
                 ));
             }
             return null;
         }
-        if (!absoluteRepoFile.toPath().startsWith(root.toPath())) {
+        if (!absoluteModuleFile.toPath().startsWith(root.toPath())) {
             if (logger.isLoggable(Level.FINE)) {
                 logger.fine(MessageFormat.format(
                     "repo path ''{0}'' resolves to absolute repo path ''{1}'' which is outside of the repo with root ''{2}''",
-                    repoPath,
-                    absoluteRepoFile.getAbsolutePath(),
+                    moduleRepoPath,
+                    absoluteModuleFile.getAbsolutePath(),
                     root.getAbsolutePath()
                 ));
             }
             return null;
         }
-        final File repoFile = absoluteRepoFile;
+        final File repoFile = absoluteModuleFile;
         return SUFFIXES.stream()
             // build a candidate for the path with one of the candidate suffixes
             .map(suffix -> repoFile.toPath().resolveSibling(repoFile.getName() + suffix))
@@ -153,7 +190,6 @@ public class FileSystemESModuleRepository extends AbstractESModuleRepository {
                 var f = path.toFile();
                 return f.isFile() && f.exists() && f.canRead();
             })
-            .map(RelativePath::of)
             .findFirst()
             .orElse(null);
     }
@@ -167,83 +203,75 @@ public class FileSystemESModuleRepository extends AbstractESModuleRepository {
         if (logger.isLoggable(Level.FINE)) {
             logger.fine(MessageFormat.format("{0}: start resolving", modulePath));
         }
-        if (startsWithESModuleRepoPathPrefix(modulePath)) {
-            var canonicalizedModulePath= modulePath.canonicalize();
+        if (modulePath.startsWith(getUniquePathPrefix())) {
+            var relativeModuleRepoPath = RelativePath.of(
+                modulePath.getSegments().subList(2, modulePath.getLength())
+            );
             if (logger.isLoggable(Level.FINE)) {
-                logger.fine(MessageFormat.format("{0}: normalized module path is ''{1}''", modulePath, normalizedModulePath));
+                logger.fine(MessageFormat.format("{0}: relative module repo path is ''{1}''", modulePath, relativeModuleRepoPath));
             }
-            if (canonicalizedModulePath.startsWith(getUniquePathPrefix())) {
-                var relativeRepoPath = RelativePath.of(
-                    canonicalizedModulePath.getSegments().subList(2, canonicalizedModulePath.getLength())
-                );
+            var moduleFilePath = resolveModuleRepoPathToModuleFilePath(relativeModuleRepoPath);
+            if (logger.isLoggable(Level.FINE)) {
+                logger.fine(MessageFormat.format("{0}: full module file path is ''{1}''", modulePath, moduleFilePath));
+            }
+            if (moduleFilePath == null) {
                 if (logger.isLoggable(Level.FINE)) {
-                    logger.fine(MessageFormat.format("{0}: relative repo path is ''{1}''", modulePath, relativeRepoPath));
-                }
-                var absoluteRepoPath = resolveRepoPath(relativeRepoPath);
-                if (logger.isLoggable(Level.FINE)) {
-                    logger.fine(MessageFormat.format("{0}: absolute repo path is ''{1}''", modulePath, absoluteRepoPath));
-                }
-                if (absoluteRepoPath == null) {
-                    if (logger.isLoggable(Level.FINE)) {
-                        logger.fine(MessageFormat.format("{0}: resolution FAILED", modulePath));
-                    }
-                    return null;
-                }
-                return convertAbsoluteRepoPathToAbsoluteModulePath(absoluteRepoPath);
-            } else {
-                if (logger.isLoggable(Level.FINE)) {
-                    logger.fine(MessageFormat.format(
-                        "{0}: can''t resolve absolute module path in the file system based ES module repository with unique prefix ''{1}''",
-                        modulePath.toString(),
-                        getUniquePathPrefix().toString()
-                    ));
+                    logger.fine(MessageFormat.format("{0}: resolution FAILED", modulePath));
                 }
                 return null;
             }
+            return convertModuleFilePathToFullModuleRepoPath(moduleFilePath);
         } else {
-            var repoPath = Path.of(root.toPath().toString(), modulePath.toString()).normalize();
-            if (logger.isLoggable(Level.FINE)) {
-                logger.fine(MessageFormat.format("{0}: absolute repo path is ''{1}''", modulePath, repoPath));
+            var moduleFilePath = Path.of(root.toPath().toString(), modulePath.toString()).normalize();
+            try {
+                moduleFilePath = moduleFilePath.toFile().getCanonicalFile().toPath();
+            } catch(IOException e) {
+                //TODO(Gubaer): log it
+                return null;
             }
-            if (!repoPath.startsWith(root.toPath())) {
+            if (logger.isLoggable(Level.FINE)) {
+                logger.fine(MessageFormat.format("{0}: module file path is ''{1}''", modulePath, moduleFilePath));
+            }
+            if (!moduleFilePath.startsWith(root.toPath())) {
                 if (logger.isLoggable(Level.FINE)) {
                     logger.fine(MessageFormat.format(
-                        "{0}: can''t resolve relative module path  in the file system based ES module. "
-                                + "The module path refers to a file outside of the repo.",
-                        modulePath.toString()
+                        "{0}: can''t resolve relative module path in the file system based ES module. "
+                                + "The module file path ''{1}'' refers to a file outside of the repo.",
+                        modulePath.toString(),
+                        moduleFilePath
                     ));
                     logger.fine(MessageFormat.format("{0}: resolution FAILED", modulePath));
                 }
                 return null;
             }
-            var absoluteRepoPath = resolveRepoPath(repoPath);
+            moduleFilePath = resolveModuleRepoPathToModuleFilePath(modulePath);
             if (logger.isLoggable(Level.FINE)) {
-                logger.fine(MessageFormat.format("{0}: resolved absolute repo path is ''{1}''", modulePath, absoluteRepoPath));
+                logger.fine(MessageFormat.format("{0}: resolved module file path is ''{1}''", modulePath, moduleFilePath));
             }
-            if (absoluteRepoPath == null) {
+            if (moduleFilePath == null) {
                 if (logger.isLoggable(Level.FINE)) {
                     logger.fine(MessageFormat.format(
                             "{0}: can''t resolve relative module path in the file system based ES module with root ''{1}''. "
                                     +"The path doesn''t refer to a readable file.",
                             modulePath.toString(),
-                            root.getAbsolutePath()
+                            root
                     ));
                     logger.fine(MessageFormat.format("{0}: resolution FAILED", modulePath));
                 }
                 return null;
             }
-            var resolvedPath = convertAbsoluteRepoPathToAbsoluteModulePath(absoluteRepoPath);
-            if (resolvedPath == null) {
+            var fullModuleRepoPath = convertModuleFilePathToFullModuleRepoPath(moduleFilePath);
+            if (fullModuleRepoPath == null) {
                 if (logger.isLoggable(Level.FINE)) {
-                    logger.fine(MessageFormat.format("{0}: failed to lookup a matching file for absolute repo path ''{1}''", modulePath, absoluteRepoPath));
+                    logger.fine(MessageFormat.format("{0}: failed to convert module file path ''{1}'' into a full module repo path", modulePath, moduleFilePath));
                     logger.fine(MessageFormat.format("{0}: resolution FAILED", modulePath));
                 }
             } else {
                 if (logger.isLoggable(Level.FINE)) {
-                    logger.fine(MessageFormat.format("{0}: SUCCESS. Resolved path is ''{1}''", modulePath, resolvedPath));
+                    logger.fine(MessageFormat.format("{0}: SUCCESS. Resolved path is ''{1}''", modulePath, fullModuleRepoPath));
                 }
             }
-            return resolvedPath;
+            return fullModuleRepoPath;
         }
     }
 
@@ -253,7 +281,7 @@ public class FileSystemESModuleRepository extends AbstractESModuleRepository {
     @Override
     public @NotNull SeekableByteChannel newByteChannel(@NotNull final RelativePath path) throws IOException {
         Objects.requireNonNull(path);
-        final var absoluteRepoPath = convertAbsoluteModulePathToAbsoluteRepoPath(path);
+        final var absoluteRepoPath = convertFullModuleRepoPathToModuleFilePath(path);
         return Files.newByteChannel(absoluteRepoPath, StandardOpenOption.READ);
     }
 }

@@ -147,5 +147,4 @@ class FileSystemESModuleRepositoryTest extends BaseTestCase {
         resolved = repo.resolveModulePath(modulePath)
         assertNull(resolved)
     }
-
 }

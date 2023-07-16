@@ -42,20 +42,21 @@ public class JarESModuleRepository extends AbstractESModuleRepository {
     private final RelativePath root;
 
     private static final List<String> SUFFIXES = List.of("", ".mjs", ".js");
-    private RelativePath resolveZipEntryPath(@NotNull RelativePath relativeModulePath) {
+
+    private RelativePath resolveZipEntryPath(@NotNull RelativePath relativeModuleRepoPath) {
 
 
-        final var canonicalizedPath = relativeModulePath.canonicalize();
+        final var canonicalPath = relativeModuleRepoPath.canonicalize();
 
         if (logger.isLoggable(Level.FINE)) {
-            logger.fine(MessageFormat.format("canonicalized relative module path is ''{0}''", canonicalizedPath));
+            logger.fine(MessageFormat.format("canonical relative module path is ''{0}''", canonicalPath));
         }
         // try to locate a suitable zip entry
-        return SUFFIXES.stream().map(suffix -> canonicalizedPath.toString() + suffix)
+        return SUFFIXES.stream().map(suffix -> canonicalPath.toString() + suffix)
             .filter(p -> {
                 var entry = jar.getEntry(p);
                 if (logger.isLoggable(Level.FINE)) {
-                    logger.fine(MessageFormat.format("Tried relative repo path ''{0}'', found entry ''{1}''", p, entry));
+                    logger.fine(MessageFormat.format("Tried relative module repo path ''{0}'', found entry ''{1}''", p, entry));
                 }
                 return entry != null && !entry.isDirectory();
             })
@@ -78,7 +79,8 @@ public class JarESModuleRepository extends AbstractESModuleRepository {
     }
 
     /**
-     * Creates a repository of ES Modules stored in a jar file.
+     * Creates a repository of ES Modules stored in a jar file. The sources files
+     * are available in the root directory of the jar file.
      *
      * @param jarFile the jar file
      * @throws IOException if <code>jarFile</code> doesn't exist or isn't a jar file
@@ -172,32 +174,27 @@ public class JarESModuleRepository extends AbstractESModuleRepository {
         if (startsWithESModuleRepoPathPrefix(modulePath)) {
             // modulePath is a path starting with 'es-module-repo/<uuid>'. First, make sure that <uuid> is
             // the unique id of this repository
-            if (!getUniquePathPrefix().getSegment(1).equals(modulePath.getSegment(1))) {
+            if (!modulePath.startsWith(getUniquePathPrefix())) {
                 if (logger.isLoggable(Level.FINE)) {
                     logger.fine(MessageFormat.format(
-                            "{0}: module path doesn''t refer entry in this repository ''{1}''",
+                            "{0}: module path doesn''t refer to an entry in this repository ''{1}''",
                             modulePath,
                             getUniquePathPrefix()
                     ));
                 }
                 return RelativePath.EMPTY;
             }
-            var canonicalizedModulePath= modulePath.canonicalize();
+
+            final var relativeRepoPath =  RelativePath.of(
+                modulePath.getSegments().subList(2, modulePath.getLength())
+            );
+            var canonicalModulePath= relativeRepoPath.canonicalize();
             if (logger.isLoggable(Level.FINE)) {
                 logger.fine(MessageFormat.format(
-                    "{0}: canonicalized module path is ''{1}''",
-                    modulePath,
-                    canonicalizedModulePath
+                        "{0}: canonical module path is ''{1}''",
+                        modulePath,
+                        canonicalModulePath
                 ));
-            }
-            final var relativeRepoPath =  RelativePath.of(
-                canonicalizedModulePath.getSegments().subList(2, canonicalizedModulePath.getLength())
-            );
-
-            if (logger.isLoggable(Level.FINE)) {
-                logger.fine(MessageFormat.format("{0}: relative repo path is ''{1}''",
-                    modulePath,
-                    relativeRepoPath));
             }
             var resolvedRelativeRepoPath = resolveZipEntryPath(relativeRepoPath);
             if (resolvedRelativeRepoPath == null) {
@@ -206,17 +203,13 @@ public class JarESModuleRepository extends AbstractESModuleRepository {
                 }
                 return null;
             }
-            if (root.isEmpty()) {
-                return relativeRepoPath;
-            } else {
-                return relativeRepoPath.resolveAgainstDirectoryContext(root).canonicalize();
-            }
+            return root.append(resolvedRelativeRepoPath);
         } else {
             // modulePath isn't a path starting  with 'es-module-repo/<uuid>'. Resolve it against
             // the root
-            var repoPath = modulePath.resolveAgainstDirectoryContext(root).canonicalize();
-            repoPath = resolveZipEntryPath(repoPath);
-            if (repoPath == null) {
+            var repoPath = root.append(modulePath.canonicalize());
+            var resolvedZipEntryPath = repoPath = resolveZipEntryPath(repoPath);
+            if (resolvedZipEntryPath == null) {
                 if (logger.isLoggable(Level.FINE)) {
                     logger.fine(MessageFormat.format(
                         "{0}: can''t resolve relative module path in the jar file based ES Module repository ''{1}''. "
@@ -237,7 +230,7 @@ public class JarESModuleRepository extends AbstractESModuleRepository {
      */
     @Override
     public @NotNull SeekableByteChannel newByteChannel(@NotNull RelativePath path) throws IOException {
-        if (!startsWithESModuleRepoPathPrefix(path)) {
+        if (!path.startsWith(getUniquePathPrefix())) {
             throw new IllegalArgumentException(MessageFormat.format(
                 "Can''t resolve path ''{0}''. Path doesn''t match unique path prefix ''{1}'' of jar file based ES Module repository",
                 path,

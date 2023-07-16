@@ -1,13 +1,11 @@
 package org.openstreetmap.josm.plugins.scripting.graalvm
 
-
 import org.junit.jupiter.api.Test
 import org.openstreetmap.josm.plugins.scripting.model.RelativePath
 
 import static org.junit.Assert.*
 
 class ModuleIDTest {
-
 
     @Test
     void "isAbsolute or isRelative - for absolute module ID"() {
