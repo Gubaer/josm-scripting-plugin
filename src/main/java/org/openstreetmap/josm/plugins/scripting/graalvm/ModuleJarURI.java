@@ -50,7 +50,7 @@ public class ModuleJarURI {
             "jar:{0}!{1}", fileUri, "/" + jarEntryPath
         ));
 
-        // try to convert the uri to an URL. This will make sure, the URI
+        // try to convert the uri to a URL. This will make sure, the URI
         // includes a valid jar entry path
         //noinspection ResultOfMethodCallIgnored
         uri.toURL();
@@ -221,7 +221,7 @@ public class ModuleJarURI {
      * Replies the name of the jar entry to which this URI refers.
      * <p>
      * The name is equal to the jar entry path ({@link #getJarEntryPath()},
-     * without a leading '/'. It is used to lookup the jar entry, see
+     * without a leading '/'. It is used to look up the jar entry, see
      * {@link JarFile#getEntry(String)} or {@link JarFile#getJarEntry(String)}.
      *
      * @return the jar entry name
@@ -355,7 +355,7 @@ public class ModuleJarURI {
     }
 
     /**
-     * Replies the CommonJS module jar URI which which is a suitable
+     * Replies the CommonJS module jar URI which is a suitable
      * resolution context URI for resolving CommonJS module IDs.
      * <p>
      * If this jar entry path of this URI is '/', this URI is already a
