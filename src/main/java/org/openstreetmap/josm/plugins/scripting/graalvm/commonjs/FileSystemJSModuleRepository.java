@@ -119,7 +119,7 @@ public class FileSystemJSModuleRepository extends BaseJSModuleRepository {
      */
     @Override
     public Optional<URI> resolve(@NotNull String id) {
-        final var moduleId  = new ModuleID(RelativePath.of(id));
+        final var moduleId  = new ModuleID(RelativePath.parse(id));
         if (logger.isLoggable(Level.FINE)) {
             final String message = MessageFormat.format(
                 "**** Starting to resolve module with id ''{0}'' ****",
