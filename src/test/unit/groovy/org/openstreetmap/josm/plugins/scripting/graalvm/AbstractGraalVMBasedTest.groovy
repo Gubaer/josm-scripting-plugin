@@ -11,6 +11,7 @@ import org.openstreetmap.josm.plugins.scripting.graalvm.commonjs.CommonJSModuleR
 import org.openstreetmap.josm.plugins.scripting.graalvm.commonjs.FileSystemJSModuleRepository
 import org.openstreetmap.josm.plugins.scripting.graalvm.commonjs.ICommonJSModuleRepository
 import org.openstreetmap.josm.plugins.scripting.graalvm.commonjs.JarJSModuleRepository
+import org.openstreetmap.josm.plugins.scripting.model.RelativePath
 import org.openstreetmap.josm.tools.Logging
 
 import java.util.logging.Level
@@ -51,7 +52,7 @@ class AbstractGraalVMBasedTest extends JOSMFixtureBasedTest {
     void resetRepositoryRegistry() {
         // Initialize the CommonJS module repositories
         def registry = CommonJSModuleRepositoryRegistry.getInstance()
-        registry.setBuiltInRepository( new JarJSModuleRepository(scriptingJarFile, "/js/v2"))
+        registry.setBuiltInRepository( new JarJSModuleRepository(scriptingJarFile, RelativePath.parse("js/v2")))
         registry.addUserDefinedRepository(
                 new FileSystemJSModuleRepository(
                         new File(getProjectHome(), "src/test/unit/javascript/v2")
