@@ -3,6 +3,8 @@ package org.openstreetmap.josm.plugins.scripting.graalvm;
 import org.openstreetmap.josm.plugins.scripting.model.RelativePath;
 
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -59,8 +61,8 @@ public class ModuleID {
      * @return the normalized module ID
      */
     public @NotNull ModuleID normalized() {
-        var segments = this.value.getSegments();
-        if (segments.size() == 0) {
+        final List<String> segments = new ArrayList<>(this.value.getSegments());
+        if (segments.isEmpty()) {
             return this;
         }
         var segment = segments.remove(segments.size()-1);
