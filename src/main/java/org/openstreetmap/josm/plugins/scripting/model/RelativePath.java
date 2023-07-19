@@ -75,6 +75,11 @@ public class RelativePath {
                 MessageFormat.format("illegal relative path ''{0}''. Must not contain ''\\''", path)
             );
         }
+        if (path.strip().startsWith("/")) {
+            throw new IllegalArgumentException(
+                    MessageFormat.format("illegal relative path ''{0}''. Must not start with ''/''", path)
+            );
+        }
         final var segments = path.split("/+");
         if (path.isBlank()) {
             return EMPTY;

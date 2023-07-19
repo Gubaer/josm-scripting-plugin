@@ -183,7 +183,13 @@ public class ModuleJarURI {
                 "jar URI=''{0}''", uri.toString()
             ), e);
         }
-        jarEntryPath = RelativePath.parse(fileUri.toString().substring(i+1));
+
+        final var path = fileUri.toString().substring(i+1);
+        if (path.isBlank() || path.equals("/")) {
+            jarEntryPath = RelativePath.EMPTY;
+        } else {
+            jarEntryPath = RelativePath.parse(path.substring(1));
+        }
     }
 
     /**
