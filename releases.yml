@@ -1,4 +1,11 @@
 releases:
+  - label: v0.2.9
+    minJosmVersion: 18427
+    description: |
+      **Feature request**: #106 - monospace font in stack console log 
+      **BugFix**: #97 - Can't load josm object as ES Module (partially solved on Windows platform)
+
+
   - label: v0.2.8
     minJosmVersion: 18427
     description: |

@@ -91,6 +91,8 @@ public class ScriptErrorViewer extends JPanel {
     protected JComponent buildViewerPanel() {
         paneOutput = new JTextPane();
         paneOutput.setEditable(false);
+        final var fontSize = paneOutput.getFont().getSize();
+        paneOutput.setFont(new Font(Font.MONOSPACED, Font.PLAIN, fontSize));
         final var editorScrollPane = new JScrollPane(paneOutput);
         editorScrollPane.setVerticalScrollBarPolicy(
             JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
