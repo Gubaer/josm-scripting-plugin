@@ -288,12 +288,12 @@ tasks.register('testWithGraalVMJDK', Test) {
     executable getGraalVMJavaExecutable()
     environment "JAVA_HOME", getGraalVMHome()
     scanForTestClasses = false
-    include "org/openstreetmap/josm/plugins/scripting/graalvm/with_graalvm/*.class"
-    include "org/openstreetmap/josm/plugins/scripting/graalvm/esmodule/*.class"
-    include "org/openstreetmap/josm/plugins/scripting/graalvm/*.class"
+//    include "org/openstreetmap/josm/plugins/scripting/graalvm/with_graalvm/*.class"
+//    include "org/openstreetmap/josm/plugins/scripting/graalvm/esmodule/*.class"
+//    include "org/openstreetmap/josm/plugins/scripting/graalvm/*.class"
 
     exclude "org/openstreetmap/josm/plugins/scripting/graalvm/GraalVMNotPresentTest.class"
-//    include "org/openstreetmap/josm/plugins/scripting/esmodules/ESModuleUsageTest.class"
+    include "org/openstreetmap/josm/plugins/scripting/esmodules/ESModuleUsageTest.class"
     testLogging {
         events TestLogEvent.FAILED, TestLogEvent.PASSED
         exceptionFormat = TestExceptionFormat.FULL

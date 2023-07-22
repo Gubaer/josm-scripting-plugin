@@ -195,7 +195,7 @@ public class ESModuleResolver implements FileSystem, IRepositoriesSource  {
         }
 
         var resolvedPath = Stream.concat(Stream.ofNullable(apiRepo), userDefinedRepos.stream())
-            .map(repo -> repo.resolveModulePath(RelativePath.parse(path)))
+            .map(repo -> repo.resolveModulePath(RelativePath.of(p)))
             .filter(Objects::nonNull)
             .findFirst()
             .orElse(null);
