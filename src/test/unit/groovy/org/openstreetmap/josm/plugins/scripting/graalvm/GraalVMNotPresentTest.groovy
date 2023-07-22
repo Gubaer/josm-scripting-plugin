@@ -1,12 +1,15 @@
 package org.openstreetmap.josm.plugins.scripting.graalvm
 
-import groovy.test.GroovyTestCase
+
 import org.junit.jupiter.api.Test
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineMetaDataProvider
 
 import java.util.stream.Collectors
 
-class GraalVMNotPresentTest extends GroovyTestCase {
+import static org.junit.Assert.assertFalse
+import static org.junit.Assert.assertTrue
+
+class GraalVMNotPresentTest  {
 
     @Test
     void shouldDetectGraalVMNotPresent() {
