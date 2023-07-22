@@ -10,7 +10,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * The scripting plugin has to deal with <bold>relative paths</bold>. A relative path is a
+ * The scripting plugin has to deal with <strong>relative paths</strong>. A relative path is a
  * sequence of <code>path segments</code>. The <code>empty path</code> consists of zero segments.
  * <p>
  * Relative paths can include two special types of segments:
@@ -326,21 +326,19 @@ public class RelativePath {
      * Resolves this path against another path where the other path is considered to represent a
      * file.
      * <p>
-     * This is equivalent to append this path to <bold>the parent</bold> of the context and to canonicalize the result.
+     * This is equivalent to append this path to <strong>the parent</strong> of the context and to canonicalize the result.
      * If the context path doesn't have a parent, this is equivalent to only canonicalize this path.
      * <p>
      * <strong>Examples</strong><p>
-     * <ul>
-     *     <li><pre>{@code
+     * <pre>{@code
      * // a source file 'foo/bar/source.mjs' includes an import statement
      * //    import './my-module.mjs'
      * var sourcePath = RelativePath.parse("foo/bar/source.mjs");
      * var modulePath = RelativePath.parse("./my-module.mjs");
      * var resolved = module.resolveAgainstFileContext(sourcePath)
      * System.out.println(resolved.get());  // -> foo/bar/my-module.mjs
-     *     }
-     *     </pre>
-     *     </li>
+     *
+     * }</pre>
      * </ul>
      *
      * @param fileContext the context
@@ -362,7 +360,7 @@ public class RelativePath {
      * <p>
      * The canonical version is a relative path where
      * <ul>
-     *     <li>all segments <code>.</code> are remove</li>
+     *     <li>all segments <code>.</code> are removed</li>
      *     <li>all segments <code>..</code> are resolved</li>
      * </ul>
      * Two relative paths and their canonical version:
@@ -388,7 +386,7 @@ public class RelativePath {
                 case "..": {
                     if (canonicalSegs.isEmpty()) {
                         // can't resolve '..' against the empty path, canonicalization
-                        // fails. Therefore return an empty optional.
+                        // fails. Therefore, return an empty optional.
                         return Optional.empty();
                     }
                     canonicalSegs.remove(canonicalSegs.size() - 1);
