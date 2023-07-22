@@ -16,6 +16,7 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static java.text.MessageFormat.format;
 
 /**
  * A ModuleJarURI is a jar-URI with an embedded file-URI and an optional
@@ -25,8 +26,7 @@ import java.util.logging.Logger;
  * Modules.
  */
 public class ModuleJarURI {
-    static private final Logger logger =
-        Logger.getLogger(ModuleJarURI.class.getName());
+    static private final Logger logger = Logger.getLogger(ModuleJarURI.class.getName());
 
     /**
      * Builds a jar URI given the path of the jar file and the path
@@ -46,9 +46,7 @@ public class ModuleJarURI {
         Objects.requireNonNull(jarFilePath);
         Objects.requireNonNull(jarEntryPath);
         final String fileUri = new File(jarFilePath).toURI().toString();
-        final URI uri = new URI(MessageFormat.format(
-            "jar:{0}!{1}", fileUri, "/" + jarEntryPath
-        ));
+        final URI uri = new URI(format("jar:{0}!{1}", fileUri, "/" + jarEntryPath));
 
         // try to convert the uri to a URL. This will make sure, the URI
         // includes a valid jar entry path
@@ -131,9 +129,8 @@ public class ModuleJarURI {
     public ModuleJarURI(@NotNull final URI uri) {
         Objects.requireNonNull(uri);
         if (!"jar".equalsIgnoreCase(uri.getScheme())) {
-            throw new IllegalArgumentException(MessageFormat.format(
-                "illegal URI. Expected scheme ''jar'', got ''{0}''",
-                uri.getScheme()
+            throw new IllegalArgumentException(format(
+                "illegal URI. Expected scheme ''jar'', got ''{0}''", uri.getScheme()
             ));
         }
         try {
@@ -141,9 +138,8 @@ public class ModuleJarURI {
             //noinspection ResultOfMethodCallIgnored
             uri.toURL();
         } catch(MalformedURLException e) {
-            throw new IllegalArgumentException(MessageFormat.format(
-                "illegal URI. Failed to convert to URL. uri=''{0}''",
-                uri.toString()
+            throw new IllegalArgumentException(format(
+                "illegal URI. Failed to convert to URL. uri=''{0}''", uri
             ), e);
         }
         final String jarSpecificPart = uri.getSchemeSpecificPart();
@@ -152,35 +148,29 @@ public class ModuleJarURI {
         try {
             fileUri = new URI(jarSpecificPart);
         } catch(URISyntaxException e) {
-            throw new IllegalArgumentException(MessageFormat.format(
-                "illegal URI. Failed to build URI for embedded file URI. " +
-                "uri=''{0}''",
-                uri.toString()
+            throw new IllegalArgumentException(format(
+                "illegal URI. Failed to build URI for embedded file URI. uri=''{0}''", uri
             ), e);
         }
         if (! "file".equalsIgnoreCase(fileUri.getScheme())) {
             throw new IllegalArgumentException(MessageFormat.format(
-                "illegal URI. Expected embedded URI with scheme ''file'', " +
-                "got scheme ''{0}''. uri=''{1}''",
-                fileUri.getScheme(), uri.toString()
+                "illegal URI. Expected embedded URI with scheme ''file'', got scheme ''{0}''. uri=''{1}''",
+                fileUri.getScheme(), uri
             ));
         }
         final int i = fileUri.toString().lastIndexOf("!");
         if (i < 0) {
             // shouldn't happen, but just in case
-            throw new IllegalArgumentException(MessageFormat.format(
-                "illegal URI. embedded file URI doesn''t include a jar entry " +
-                "path after ''!''. uri=''{0}''",
-                uri.toString()
+            throw new IllegalArgumentException(format(
+                "illegal URI. embedded file URI doesn''t include a jar entry path after ''!''. uri=''{0}''", uri
              ));
         }
         try {
             jarFilePath = new File(new URI(fileUri.toString().substring(0, i)))
                     .toString();
         } catch(URISyntaxException | IllegalArgumentException e) {
-            throw new IllegalArgumentException(MessageFormat.format(
-                "failed to rebuild file URI embedded in jar URI. " +
-                "jar URI=''{0}''", uri.toString()
+            throw new IllegalArgumentException(format(
+                "failed to rebuild file URI embedded in jar URI. jar URI=''{0}''", uri
             ), e);
         }
 
@@ -264,9 +254,8 @@ public class ModuleJarURI {
             }
             return entry.isDirectory();
         } catch(IOException e) {
-            logger.log(Level.WARNING, MessageFormat.format(
-                "failed to open and read jar file. jar file=''{0}''",
-                getJarFile().toString()
+            logger.log(Level.WARNING, format(
+                "failed to open and read jar file. jar file=''{0}''", getJarFile()
             ),e);
             return false;
         }
@@ -323,15 +312,18 @@ public class ModuleJarURI {
             // don't apply toAbsolutePath(). The jar entry path is already
             // absolute (starts with an /); and it doesn't refer to a file
             // in the local file system, but to a jar entry in the jar file
-            final RelativePath canonicalPath = jarEntryPath.canonicalize();
+            final var canonicalPath = jarEntryPath.canonical();
+            if (canonicalPath.isEmpty()) {
+                return Optional.empty();
+            }
 
             final ModuleJarURI normalizedURI = new ModuleJarURI();
-            normalizedURI.jarEntryPath = canonicalPath;
+            normalizedURI.jarEntryPath = canonicalPath.get();
             normalizedURI.jarFilePath = normalizedFilePath;
             return Optional.of(normalizedURI);
         } catch(IOException e) {
             logger.log(Level.WARNING, MessageFormat.format(
-            "Failed to canonicalize path ''{0}''", jarFilePath
+                "Failed to canonicalize path ''{0}''", jarFilePath
             ),e);
             return Optional.empty();
         }
@@ -347,10 +339,10 @@ public class ModuleJarURI {
             return buildJarUri(jarFilePath, jarEntryPath);
         } catch(URISyntaxException | MalformedURLException e) {
             // shouldn't happen, but just in case
-            throw new IllegalStateException(MessageFormat.format(
+            throw new IllegalStateException(format(
                 "failed to build URI from jar file path and jar entry path. " +
                 "jar file path=''{0}'', jar entry path=''{1}''",
-                 jarFilePath,jarEntryPath
+                 jarFilePath, jarEntryPath
             ),e);
         }
     }
@@ -364,10 +356,10 @@ public class ModuleJarURI {
      * Replies the CommonJS module jar URI which is a suitable
      * resolution context URI for resolving CommonJS module IDs.
      * <p>
-     * If this jar entry path of this URI is '/', this URI is already a
+     * If the jar entry path of this URI is empty, this URI is already a
      * suitable resolution context.
      * <p>
-     * If this jar entry path refers to a directory in the jar file, it is
+     * If the jar entry path of this URI refers to a directory in the jar file, it is
      * already a suitable resolution context.
      * <p>
      * If, however, it refers to a file entry in the jar file, then the
@@ -380,7 +372,8 @@ public class ModuleJarURI {
     public @NotNull ModuleJarURI toResolutionContextUri()
             throws IOException {
 
-        RelativePath normalizedJarEntryPath = jarEntryPath.canonicalize();
+        RelativePath normalizedJarEntryPath = jarEntryPath.canonical()
+                .orElse(RelativePath.EMPTY);
 
         if (normalizedJarEntryPath.isEmpty()) {
             final ModuleJarURI resolutionContextUri = new ModuleJarURI();

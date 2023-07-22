@@ -14,7 +14,7 @@ abstract public class AbstractESModuleRepository implements IESModuleRepository 
     /**
      * Replies true if <code>modulePath</code> starts with the prefix for a module path
      * which refers into an ES Module repository. Such a path has to be absolute. It
-     * has to match the pattern <code>/es-module-repo/&ltuuid&gt</code>.
+     * has to start with the path segments <code>es-module-repo/&ltuuid&gt</code>.
      *
      * @param modulePath the module path
      * @return true if <code>modulePath</code> starts with the prefix; false, otherwise
@@ -31,6 +31,7 @@ abstract public class AbstractESModuleRepository implements IESModuleRepository 
         }
         var uuid = modulePath.getSegment(1);
         try {
+            //noinspection ResultOfMethodCallIgnored
             UUID.fromString(uuid);
             return true;
         } catch(IllegalArgumentException e) {

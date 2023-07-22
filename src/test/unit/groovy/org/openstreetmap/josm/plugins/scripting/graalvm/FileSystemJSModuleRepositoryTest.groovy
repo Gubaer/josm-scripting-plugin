@@ -183,7 +183,8 @@ class FileSystemJSModuleRepositoryTest {
     @Test
     void "resolve with context - should accept and resolve relative segments _dot__dot_ in a module id"() {
         def repo = new FileSystemJSModuleRepository(moduleRepo)
-        def contextUri = new File(moduleRepo, "sub").toURI()
+        // sub/module4 is a source file!
+        def contextUri = new File(moduleRepo, "sub/module4").toURI()
         def moduleUri = repo.resolve("./foo/../module4", contextUri)
         def expected = new File(moduleRepo, "sub/module4").toURI()
         assertEquals(expected, moduleUri.get())
@@ -192,6 +193,7 @@ class FileSystemJSModuleRepositoryTest {
     @Test
     void "resolve with context - should accept and resolve relative segments _dot_ in a module id"() {
         def repo = new FileSystemJSModuleRepository(moduleRepo)
+        // sub/module4 is a source file!
         def contextUri = new File(moduleRepo, "sub/module4").toURI()
         def moduleUri = repo.resolve("./module3", contextUri)
         def expected = new File(moduleRepo, "sub/module3.js").toURI()

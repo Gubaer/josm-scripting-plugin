@@ -97,58 +97,95 @@ class JarESModuleRepositoryTest extends BaseTestCase {
     }
 
     @Test
-    void "can resolve path to existing module in a jar file"() {
+    void "can resolve path to existing module in a jar file 01"() {
 
         def modulePath = RelativePath.of("foo")
-        def resolvedPath = repo.resolveModulePath(modulePath)
-        assertNotNull(resolvedPath)
-        assertTrue(resolvedPath.startsWith(repo.getUniquePathPrefix()))
+        def resolved = repo.resolveModulePath(modulePath)
+        def expected = repo.getUniquePathPrefix().append(RelativePath.of("foo.mjs"))
+        assertNotNull(resolved)
+        assertEquals(expected, resolved)
+    }
 
-        modulePath = RelativePath.parse("./foo")
-        resolvedPath = repo.resolveModulePath(modulePath)
-        assertNotNull(resolvedPath)
-        assertEquals(repo.getUniquePathPrefix().append("foo"), resolvedPath)
+    @Test
+    void "can resolve path to existing module in a jar file 02"() {
+        def modulePath = RelativePath.parse("./foo")
+        def resolved = repo.resolveModulePath(modulePath)
+        def expected = repo.getUniquePathPrefix().append(RelativePath.of("foo.mjs"))
+        assertNotNull(resolved)
+        assertEquals(expected, resolved)
+    }
 
-        modulePath = RelativePath.parse("foo.mjs")
-        resolvedPath = repo.resolveModulePath(modulePath)
-        assertNotNull(resolvedPath)
-        assertEquals(repo.getUniquePathPrefix().append("foo.mjs"), resolvedPath)
+    @Test
+    void "can resolve path to existing module in a jar file 03"() {
+        def modulePath = RelativePath.parse("foo.mjs")
+        def resolved = repo.resolveModulePath(modulePath)
+        def expected = repo.getUniquePathPrefix().append(RelativePath.of("foo.mjs"))
+        assertNotNull(resolved)
+        assertEquals(expected, resolved)
+    }
 
-        modulePath = RelativePath.parse("sub/../foo")
-        resolvedPath = repo.resolveModulePath(modulePath)
-        assertNotNull(resolvedPath)
-        assertEquals(repo.getUniquePathPrefix().append("foo"), resolvedPath)
+    @Test
+    void "can resolve path to existing module in a jar file 04"() {
+        def modulePath = RelativePath.parse("sub/../foo")
+        def resolved = repo.resolveModulePath(modulePath)
+        def expected = repo.getUniquePathPrefix().append(RelativePath.of("foo.mjs"))
+        assertNotNull(resolved)
+        assertEquals(expected, resolved)
+    }
 
-        modulePath = repo.getUniquePathPrefix().append("foo")
-        resolvedPath = repo.resolveModulePath(modulePath)
-        assertNotNull(resolvedPath)
-        assertEquals(repo.getUniquePathPrefix().append("foo.mjs"), resolvedPath)
+    @Test
+    void "can resolve path to existing module in a jar file 05"() {
+        def modulePath = repo.getUniquePathPrefix().append("foo")
+        def resolved = repo.resolveModulePath(modulePath)
+        def expected = repo.getUniquePathPrefix().append(RelativePath.of("foo.mjs"))
+        assertNotNull(resolved)
+        assertEquals(expected, resolved)
+    }
 
-        modulePath = RelativePath.parse("sub/bar")
-        resolvedPath = repo.resolveModulePath(modulePath)
-        assertNotNull(resolvedPath)
-        assertEquals(repo.getUniquePathPrefix().append(RelativePath.parse("sub/bar")), resolvedPath)
+    @Test
+    void "can resolve path to existing module in a jar file 06"() {
+        def modulePath = RelativePath.parse("sub/bar")
+        def resolved = repo.resolveModulePath(modulePath)
+        def expected = repo.getUniquePathPrefix().append(RelativePath.parse("sub/bar.mjs"))
+        assertNotNull(resolved)
+        assertEquals(expected, resolved)
+    }
 
-        modulePath = RelativePath.parse("sub/bar.mjs")
-        resolvedPath = repo.resolveModulePath(modulePath)
-        assertNotNull(resolvedPath)
-        assertEquals(repo.getUniquePathPrefix().append(RelativePath.parse("sub/bar.mjs")), resolvedPath)
+    @Test
+    void "can resolve path to existing module in a jar file 07"() {
+        def modulePath = RelativePath.parse("sub/bar.mjs")
+        def resolved = repo.resolveModulePath(modulePath)
+        def expected = repo.getUniquePathPrefix().append(RelativePath.parse("sub/bar.mjs"))
+        assertNotNull(resolved)
+        assertEquals(expected, resolved)
+    }
 
-        modulePath = RelativePath.parse("sub/././bar.mjs")
-        resolvedPath = repo.resolveModulePath(modulePath)
-        assertNotNull(resolvedPath)
-        assertEquals(repo.getUniquePathPrefix().append(RelativePath.parse("sub/bar.mjs")), resolvedPath)
+    @Test
+    void "can resolve path to existing module in a jar file 08"() {
+        def modulePath = RelativePath.parse("sub/././bar.mjs")
+        def resolved = repo.resolveModulePath(modulePath)
+        def expected = repo.getUniquePathPrefix().append(RelativePath.parse("sub/bar.mjs"))
+        assertNotNull(resolved)
+        assertEquals(expected, resolved)
+    }
 
-        modulePath = RelativePath.parse("sub/baz/.././bar")
-        resolvedPath = repo.resolveModulePath(modulePath)
-        assertNotNull(resolvedPath)
-        assertEquals(repo.getUniquePathPrefix().append(RelativePath.parse("sub/bar")), resolvedPath)
+    @Test
+    void "can resolve path to existing module in a jar file 09"() {
+        def modulePath = RelativePath.parse("sub/baz/.././bar")
+        def resolved = repo.resolveModulePath(modulePath)
+        def expected = repo.getUniquePathPrefix().append(RelativePath.parse("sub/bar.mjs"))
+        assertNotNull(resolved)
+        assertEquals(expected, resolved)
+    }
 
+    @Test
+    void "can resolve path to existing module in a jar file 10"() {
         // resolves against a .js file
-        modulePath = RelativePath.parse("sub/baz")
-        resolvedPath = repo.resolveModulePath(modulePath)
-        assertNotNull(resolvedPath)
-        assertEquals(repo.getUniquePathPrefix().append(RelativePath.parse("sub/baz")), resolvedPath)
+        def modulePath = RelativePath.parse("sub/baz")
+        def resolved = repo.resolveModulePath(modulePath)
+        def expected = repo.getUniquePathPrefix().append(RelativePath.parse("sub/baz.js"))
+        assertNotNull(resolved)
+        assertEquals(expected, resolved)
     }
 
     @Test
@@ -172,11 +209,12 @@ class JarESModuleRepositoryTest extends BaseTestCase {
     void "can read existing module from channel"() {
 
         def modulePath = RelativePath.parse("foo")
-        def resolvedPath = repo.resolveModulePath(modulePath)
-        assertNotNull(resolvedPath)
-        assertTrue(resolvedPath.startsWith(repo.getUniquePathPrefix()))
+        def resolved = repo.resolveModulePath(modulePath)
+        def expected = repo.getUniquePathPrefix().append(RelativePath.of("foo.mjs"))
+        assertNotNull(resolved)
+        assertEquals(expected, resolved)
 
-        def channel = repo.newByteChannel(resolvedPath)
+        def channel = repo.newByteChannel(resolved)
         assertNotNull(channel)
         def content = Channels.newReader(channel, "utf-8").text
         assertTrue(content.indexOf("foo") >= 0)

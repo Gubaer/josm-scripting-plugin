@@ -36,7 +36,7 @@ public interface IESModuleRepository {
     /**
      * Replies true if <code>modulePath</code> is a module path which refers to a module in this repository.
      * <p>
-     * An  module path starts with the prefix <code>es-modules/&lt;uuid&gt;</code>,
+     * A module path starts with the prefix <code>es-modules/&lt;uuid&gt;</code>,
      * for example with <code>es-module-repo/23e4567-e89b-12d3-a456-426614174000</code>. Each
      * ES Modules repository has a unique UUID.
      *
@@ -46,7 +46,7 @@ public interface IESModuleRepository {
     boolean matchesWithUniquePathPrefix(@NotNull final RelativePath modulePath);
 
     /**
-     * Resolves a module path in the repository and replies a repository path
+     * Resolves a module path in the repository and replies a absolute module path
      * if the module exists in the repository, or null, if it doesn't exist.
      * <p>
      * A module path is either an absolute or a relative path, i.e.

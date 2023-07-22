@@ -9,6 +9,7 @@ import java.net.URI;
  */
 public interface ICommonJSModuleRepository extends IModuleResolver {
 
+
     /**
      * Replies the base URI of this repository
      *

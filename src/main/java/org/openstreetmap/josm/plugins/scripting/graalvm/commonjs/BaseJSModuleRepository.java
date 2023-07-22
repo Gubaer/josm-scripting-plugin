@@ -4,15 +4,16 @@ import org.openstreetmap.josm.plugins.scripting.graalvm.ModuleID;
 import org.openstreetmap.josm.plugins.scripting.model.RelativePath;
 
 import javax.validation.constraints.NotNull;
-import java.text.MessageFormat;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-abstract public class BaseJSModuleRepository
-        implements ICommonJSModuleRepository {
+import static java.text.MessageFormat.format;
+
+abstract public class BaseJSModuleRepository implements ICommonJSModuleRepository {
 
     static protected final Logger logger =
          Logger.getLogger(BaseJSModuleRepository.class.getName());
@@ -20,6 +21,13 @@ abstract public class BaseJSModuleRepository
     static protected Logger getLogger() {
         return logger;
     }
+
+    public enum ContextType {
+        FILE_CONTEXT,
+        DIRECTORY_CONTEXT
+    }
+
+    protected abstract @NotNull ContextType getContextType(@NotNull final RelativePath context) throws IOException;
 
     /**
      * Implementations should return true, if the following conditions
@@ -44,44 +52,56 @@ abstract public class BaseJSModuleRepository
                                                @NotNull RelativePath context) {
 
         if (logger.isLoggable(Level.FINE)) {
-            final String message = MessageFormat.format(
-                "moduleId=''{0}'', context=''{1}''",
-                moduleId,
-                context.toString().replace("\\", "/")
-            );
-            logger.log(Level.FINE, message);
+            logger.log(Level.FINE, format("moduleId=''{0}'', context=''{1}''", moduleId, context));
         }
-        final RelativePath modulePath = moduleId
-                .toRelativePath()
-                .resolveAgainstFileContext(context)
-                .canonicalize();
-        if (logger.isLoggable(Level.FINE)) {
-            final String message = MessageFormat.format(
-                "moduleId=''{0}'', context=''{1}'', modulePath=''{2}''",
-                moduleId, context, modulePath
-            );
-            logger.log(Level.FINE, message);
+        final ContextType contextType;
+        try {
+            contextType = getContextType(context);
+        } catch(IOException e) {
+            //TODO(gubaer): log it
+           return Optional.empty();
+        }
+        final Optional<RelativePath> modulePath;
+        switch(contextType) {
+            case FILE_CONTEXT:
+                modulePath = moduleId.toRelativePath().resolveAgainstFileContext(context);
+                break;
+            case DIRECTORY_CONTEXT:
+                modulePath = moduleId.toRelativePath().resolveAgainstDirectoryContext(context);
+                break;
+            default:
+                // should not happen
+                throw new IllegalStateException();
+        }
+        if (modulePath.isEmpty()) {
+            if (logger.isLoggable(Level.FINE)) {
+                logger.log(Level.FINE, format(
+                    "moduleId=''{0}'', context=''{1}'': failed to resolve against file context", moduleId, context
+                ));
+            }
+            return Optional.empty();
         }
 
-        if (isRepoFile(modulePath)) {
+        if (logger.isLoggable(Level.FINE)) {
+            logger.log(Level.FINE, format(
+                "moduleId=''{0}'', context=''{1}'', modulePath=''{2}''", moduleId, context, modulePath.get()
+            ));
+        }
+
+        if (isRepoFile(modulePath.get())) {
             if (logger.isLoggable(Level.FINE)) {
-                final String message = MessageFormat.format(
-            "MODULE PATH ALTERNATIVE-01: " +
-                    "succeeded to resolve module id ''{0}''. " +
-                    "Resolved path ''{1}'' refers to a readable file",
-                    moduleId, modulePath
-                );
-                logger.log(Level.FINE, message);
+                logger.log(Level.FINE, format(
+                    "succeeded to resolve module id ''{0}''. Resolved path ''{1}'' refers to a readable file",
+                    moduleId, modulePath.get()
+                ));
             }
-            return Optional.of(modulePath);
+            return modulePath;
         }
         if (logger.isLoggable(Level.FINE)) {
-            final String message = MessageFormat.format(
-        "MODULE PATH ALTERNATIVE-02: failed to resolve module id ''{0}''. " +
-                "resolved path ''{1}'' doesn''t refer to a readable file",
-                moduleId, modulePath
-            );
-            logger.log(Level.FINE, message);
+            logger.log(Level.FINE, format(
+                "failed to resolve module id ''{0}''. resolved path ''{1}'' doesn''t refer to a readable file",
+                moduleId, modulePath.get()
+            ));
         }
         return Optional.empty();
     }
@@ -89,17 +109,14 @@ abstract public class BaseJSModuleRepository
     protected @NotNull Optional<RelativePath> resolve(@NotNull final ModuleID moduleId,
                                        @NotNull RelativePath contextPath) {
         if (logger.isLoggable(Level.FINE)) {
-            final String message = MessageFormat.format(
-                "moduleId=''{0}'', context=''{1}''",
-                moduleId,
-                contextPath
-            );
-            logger.log(Level.FINE, message);
+            logger.log(Level.FINE, format(
+                "moduleId=''{0}'', context=''{1}''", moduleId, contextPath
+            ));
         }
         Objects.requireNonNull(moduleId);
         Objects.requireNonNull(contextPath);
-        contextPath = contextPath.canonicalize();
-        final String workingModuleId = moduleId.toRelativePath().canonicalize().toString();
+
+        final String workingModuleId = moduleId.toRelativePath().toString();
         final String[] alternatives =  new String[]{
             workingModuleId,
             workingModuleId + ".js",

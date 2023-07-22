@@ -275,7 +275,7 @@ class JarJSModuleRepositoryTest {
     void "resolve with context - given context refers to a dir, should resolve existing module with a relative id (2)"() {
         def jar = testJarFile("jar-repo-2.jar")
         def repo = new JarJSModuleRepository(jar)
-        def contextUri = ModuleJarURI.buildJarUri(jar.toString(), RelativePath.parse("foo"))
+        def contextUri = ModuleJarURI.buildJarUri(jar.toString(), RelativePath.parse("foo/baz.js"))
         def resolvedUri = repo.resolve("./baz.js", contextUri)
         assertTrue(resolvedUri.isPresent())
     }

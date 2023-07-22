@@ -3,16 +3,18 @@ package org.openstreetmap.josm.plugins.scripting.graalvm.esmodule
 import org.graalvm.polyglot.Context
 import org.graalvm.polyglot.HostAccess
 import org.graalvm.polyglot.Source
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.openstreetmap.josm.plugins.scripting.BaseTestCase
 import org.openstreetmap.josm.plugins.scripting.graalvm.GraalVMFacade
+import org.openstreetmap.josm.plugins.scripting.model.RelativePath
 
 import java.nio.file.Path
 
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertNotNull
 
-class ESModuleResolverTest extends BaseTestCase{
+class ESModuleResolverTest extends BaseTestCase {
 
     @Test
     void "can resolve an existing module in the file system"() {
@@ -22,7 +24,7 @@ class ESModuleResolverTest extends BaseTestCase{
             "src/test/resources/es-modules"
         ))
         resolver.setUserDefinedRepositories(List.of(repo))
-        final resolvedPath = resolver.parsePath(Path.of("foo").toString())
+        final resolvedPath = resolver.parsePath(RelativePath.of("foo").toString())
         final expectedPath = Path.of(repo.getUniquePathPrefix().toString(), "foo.mjs")
         assertEquals(expectedPath.toString(), resolvedPath.toString())
 

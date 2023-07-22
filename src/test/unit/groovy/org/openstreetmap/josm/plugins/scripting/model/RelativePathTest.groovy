@@ -127,23 +127,28 @@ class RelativePathTest extends BaseTestCase {
 
     @Test
     void "canonicalize - should properly canonicalize paths"() {
-        def path = RelativePath.parse("./").canonicalize()
+        def path = RelativePath.parse("./").canonical()
         def expected = RelativePath.EMPTY
-        assertEquals(expected, path)
+        assertTrue(path.isPresent())
+        assertEquals(expected, path.get())
 
-        path = RelativePath.parse("./foo/./bar").canonicalize()
+        path = RelativePath.parse("./foo/./bar").canonical()
         expected = RelativePath.of("foo", "bar")
-        assertEquals(expected, path)
+        assertTrue(path.isPresent())
+        assertEquals(expected, path.get())
 
-        path = RelativePath.parse("foo/..").canonicalize()
-        assertEquals(RelativePath.EMPTY, path)
+        path = RelativePath.parse("foo/..").canonical()
+        assertTrue(path.isPresent())
+        assertEquals(RelativePath.EMPTY, path.get())
 
-        path = RelativePath.parse("foo/../bar/baz/..").canonicalize()
+        path = RelativePath.parse("foo/../bar/./baz/..").canonical()
         expected = RelativePath.of("bar")
-        assertEquals(expected, path)
+        assertTrue(path.isPresent())
+        assertEquals(expected, path.get())
 
-        path = RelativePath.parse("foo/../../../").canonicalize()
-        assertEquals(RelativePath.EMPTY, path)
+        // canonicalize not possible
+        path = RelativePath.parse("foo/../../../").canonical()
+        assertTrue(path.isEmpty())
     }
 
     @Test
@@ -186,5 +191,51 @@ class RelativePathTest extends BaseTestCase {
         def path = relPath.toPath()
         def expected = Path.of("foo", "bar")
         assertEquals(expected, path)
+    }
+
+    @Test
+    void "resolveAgainstDirectoryContext - should properly resolve"() {
+        def path = RelativePath.parse("foo/bar")
+        def context = RelativePath.parse("my/context")
+        def expected = RelativePath.parse("my/context/foo/bar")
+        def resolved = path.resolveAgainstDirectoryContext(context)
+        assertTrue(resolved.isPresent())
+        assertEquals(expected, resolved.get())
+
+        path = RelativePath.parse("foo/../../../../")
+        context = RelativePath.parse("my/context")
+        resolved = path.resolveAgainstDirectoryContext(context)
+        assertTrue(resolved.isEmpty())
+    }
+
+    @Test
+    void "resolveAgainstFileContext - should properly resolve"() {
+        // source file 'foo/bar/my-source.mjs' includes and import statement
+        //    import './my-module.mjs'
+        // Resolution should succeeed
+        def path = RelativePath.parse("./my-module.mjs")
+        def context = RelativePath.parse("foo/bar/my-source.mjs")
+        def expected = RelativePath.parse("foo/bar/my-module.mjs")
+        def resolved = path.resolveAgainstFileContext(context)
+        assertTrue(resolved.isPresent())
+        assertEquals(expected, resolved.get())
+
+        // source file 'foo/bar/my-source.mjs' includes and import statement
+        //   import '../my-module.mjs'
+        // Resolution should succeed
+        path = RelativePath.parse("../my-module.mjs")
+        context = RelativePath.parse("foo/bar/my-source.mjs")
+        expected = RelativePath.parse("foo/my-module.mjs")
+        resolved = path.resolveAgainstFileContext(context)
+        assertTrue(resolved.isPresent())
+        assertEquals(expected, resolved.get())
+
+        // source file 'foo/bar/my-source.mjs' includes an import statement
+        //   import '../../../../my-module.mjs'
+        // Resolution should fail
+        path = RelativePath.parse("foo/bar/my-source.mjs")
+        context = RelativePath.parse("../../../../my-module.mjs")
+        resolved = path.resolveAgainstFileContext(context)
+        assertTrue(resolved.isEmpty())
     }
 }

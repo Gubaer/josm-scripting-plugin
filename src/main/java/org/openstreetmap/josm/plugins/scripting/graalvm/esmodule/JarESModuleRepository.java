@@ -45,18 +45,27 @@ public class JarESModuleRepository extends AbstractESModuleRepository {
 
     private RelativePath resolveZipEntryPath(@NotNull RelativePath relativeModuleRepoPath) {
 
-
-        final var canonicalPath = relativeModuleRepoPath.canonicalize();
+        final var canonicalPath = relativeModuleRepoPath.canonical();
+        if (canonicalPath.isEmpty()) {
+            if (logger.isLoggable(Level.FINE)) {
+                logger.fine(MessageFormat.format(
+                    "Failed to canonicalize relative module repo path ''{0}''", relativeModuleRepoPath
+                ));
+            }
+            return null;
+        }
 
         if (logger.isLoggable(Level.FINE)) {
-            logger.fine(MessageFormat.format("canonical relative module path is ''{0}''", canonicalPath));
+            logger.fine(MessageFormat.format("canonical relative module path is ''{0}''", canonicalPath.get()));
         }
         // try to locate a suitable zip entry
-        return SUFFIXES.stream().map(suffix -> canonicalPath.toString() + suffix)
+        return SUFFIXES.stream().map(suffix -> canonicalPath.get() + suffix)
             .filter(p -> {
                 var entry = jar.getEntry(p);
                 if (logger.isLoggable(Level.FINE)) {
-                    logger.fine(MessageFormat.format("Tried relative module repo path ''{0}'', found entry ''{1}''", p, entry));
+                    logger.fine(MessageFormat.format(
+                        "Tried relative module repo path ''{0}'', found entry ''{1}''", p, entry
+                    ));
                 }
                 return entry != null && !entry.isDirectory();
             })
@@ -111,21 +120,24 @@ public class JarESModuleRepository extends AbstractESModuleRepository {
         this.jarFile = jarFile;
         this.jar = new JarFile(jarFile);
 
-        this.root = rootEntry.canonicalize();
+        final var canonicalRootEntry = rootEntry.canonical();
+        if (canonicalRootEntry.isEmpty()) {
+            throw new IllegalArgumentException(MessageFormat.format(
+                "Root entry ''{0}'' doesn''t have canonical representation", rootEntry
+            ));
+        }
+
+        this.root = canonicalRootEntry.get();
         if (!this.root.isEmpty()) {
             var entry = this.jar.getEntry(this.root.toString());
             if (entry == null) {
                 throw new IllegalArgumentException(MessageFormat.format(
-                    "Root entry ''{0}'' not found in jar file ''{1}''",
-                    rootEntry,
-                    this.jarFile
+                    "Root entry ''{0}'' not found in jar file ''{1}''", rootEntry, this.jarFile
                 ));
             }
             if (!entry.isDirectory()) {
                 throw new IllegalArgumentException(MessageFormat.format(
-                    "Root entry ''{0}'' isn''t a directory entry in the jar file ''{1}''",
-                    rootEntry,
-                    this.jarFile
+                    "Root entry ''{0}'' isn''t a directory entry in the jar file ''{1}''", rootEntry, this.jarFile
                 ));
             }
         }
@@ -147,18 +159,21 @@ public class JarESModuleRepository extends AbstractESModuleRepository {
             final var moduleJarUri = new ModuleJarURI(uri);
             if (!moduleJarUri.refersToJarFile()) {
                 throw new IllegalESModuleBaseUri(MessageFormat.format(
-                    "Jar file doesn''t exist or isn''t readable. uri=''{0}''", uri));
+                    "Jar file doesn''t exist or isn''t readable. uri=''{0}''", uri
+                ));
             }
             if (!moduleJarUri.getJarEntryName().isEmpty() && !moduleJarUri.refersToDirectoryJarEntry()) {
                 throw new IllegalESModuleBaseUri(MessageFormat.format(
-                    "Root entry doesn''t exist or isn''t a directory entry. uri=''{0}''", uri));
+                    "Root entry doesn''t exist or isn''t a directory entry. uri=''{0}''", uri
+                ));
             }
             this.jarFile = moduleJarUri.getJarFile();
             this.jar = new JarFile(jarFile);
             this.root = moduleJarUri.getJarEntryPath();
         } catch(IllegalArgumentException e) {
             throw new IllegalESModuleBaseUri(MessageFormat.format(
-                "Illegal base URI for jar file based ES Module repository. uri=''{0}''", uri), e);
+                "Illegal base URI for jar file based ES Module repository. uri=''{0}''", uri
+            ), e);
         }
     }
 
@@ -177,23 +192,29 @@ public class JarESModuleRepository extends AbstractESModuleRepository {
             if (!modulePath.startsWith(getUniquePathPrefix())) {
                 if (logger.isLoggable(Level.FINE)) {
                     logger.fine(MessageFormat.format(
-                            "{0}: module path doesn''t refer to an entry in this repository ''{1}''",
-                            modulePath,
-                            getUniquePathPrefix()
+                        "{0}: module path doesn''t refer to an entry in this repository ''{1}''",
+                        modulePath,
+                        getUniquePathPrefix()
                     ));
                 }
-                return RelativePath.EMPTY;
+                return null;
             }
 
             final var relativeRepoPath =  RelativePath.of(
                 modulePath.getSegments().subList(2, modulePath.getLength())
             );
-            var canonicalModulePath= relativeRepoPath.canonicalize();
+            var canonicalModulePath= relativeRepoPath.canonical();
+            if (canonicalModulePath.isEmpty()) {
+                if (logger.isLoggable(Level.FINE)) {
+                    logger.fine(MessageFormat.format(
+                        "{0}: failed to canonicalize path ''{0}''", relativeRepoPath
+                    ));
+                }
+                return null;
+            }
             if (logger.isLoggable(Level.FINE)) {
                 logger.fine(MessageFormat.format(
-                        "{0}: canonical module path is ''{1}''",
-                        modulePath,
-                        canonicalModulePath
+                    "{0}: canonical module path is ''{1}''", modulePath, canonicalModulePath.get()
                 ));
             }
             var resolvedRelativeRepoPath = resolveZipEntryPath(relativeRepoPath);
@@ -203,19 +224,18 @@ public class JarESModuleRepository extends AbstractESModuleRepository {
                 }
                 return null;
             }
-            return root.append(resolvedRelativeRepoPath);
+            return getUniquePathPrefix().append(resolvedRelativeRepoPath);
         } else {
             // modulePath isn't a path starting  with 'es-module-repo/<uuid>'. Resolve it against
             // the root
-            var repoPath = root.append(modulePath.canonicalize());
+            var repoPath = root.append(modulePath);
             var resolvedZipEntryPath = repoPath = resolveZipEntryPath(repoPath);
             if (resolvedZipEntryPath == null) {
                 if (logger.isLoggable(Level.FINE)) {
                     logger.fine(MessageFormat.format(
-                        "{0}: can''t resolve relative module path in the jar file based ES Module repository ''{1}''. "
-                                +"The path doesn''t refer to a readable zip entry.",
-                        modulePath,
-                        jarFile
+                        "{0}: can''t resolve relative module path in the jar file based ES Module repository ''{1}''. " +
+                        "The path doesn''t refer to a readable zip entry.",
+                        modulePath, jarFile
                     ));
                     logger.fine(MessageFormat.format("{0}: resolution FAILED", modulePath));
                 }
@@ -232,16 +252,14 @@ public class JarESModuleRepository extends AbstractESModuleRepository {
     public @NotNull SeekableByteChannel newByteChannel(@NotNull RelativePath path) throws IOException {
         if (!path.startsWith(getUniquePathPrefix())) {
             throw new IllegalArgumentException(MessageFormat.format(
-                "Can''t resolve path ''{0}''. Path doesn''t match unique path prefix ''{1}'' of jar file based ES Module repository",
-                path,
-                getUniquePathPrefix()
+                "Can''t resolve path ''{0}''. Path doesn''t match unique path prefix ''{1}'' of jar file " +
+                "based ES Module repository",
+                path, getUniquePathPrefix()
             ));
         }
         if (path.getLength() <= 2) {
             throw new IllegalArgumentException(MessageFormat.format(
-                "Can''t resolve path ''{0}''. Path is too short.",
-                path,
-                getUniquePathPrefix()
+                "Can''t resolve path ''{0}''. Path is too short.", path
             ));
         }
         final var relativeRepoPath = RelativePath.of(
@@ -251,8 +269,7 @@ public class JarESModuleRepository extends AbstractESModuleRepository {
         if (zipEntryPath == null) {
             throw new IllegalArgumentException(MessageFormat.format(
                 "Can''t resolve path ''{0}''. Didn''t find a zip entry under this path in the repo ''{1}''",
-                path,
-                getUniquePathPrefix()
+                path, getUniquePathPrefix()
             ));
         }
         final var zipEntry = jar.getEntry(zipEntryPath.toString());
@@ -260,8 +277,7 @@ public class JarESModuleRepository extends AbstractESModuleRepository {
             // shouldn't happen, but just in case
             throw new IllegalArgumentException(MessageFormat.format(
                 "Can''t resolve path ''{0}''. Didn''t find a zip entry under this path in the repo ''{1}''",
-                path,
-                getUniquePathPrefix()
+                path, getUniquePathPrefix()
             ));
         }
         final var bytes = jar.getInputStream(zipEntry).readAllBytes();

@@ -199,9 +199,7 @@ public class GraalVMFacade  implements IGraalVMFacade {
         try {
             return context.eval(source);
         } catch(PolyglotException e) {
-            final String message = MessageFormat.format(
-                tr("failed to eval script in file {0}"), script
-            );
+            final String message = tr("failed to eval script in file {0}", script);
             throw new GraalVMEvalException(message, e);
         }
     }

@@ -53,8 +53,9 @@ class FileSystemESModuleRepositoryTest extends BaseTestCase {
     void "can resolve absolute module path into this repository"() {
         final path = repo.getUniquePathPrefix().append("josm")
         final resolved = repo.resolveModulePath(path)
+        final expected = repo.getUniquePathPrefix().append("josm.mjs")
         assertNotNull(resolved)
-        assertTrue(resolved.startsWith(path))
+        assertEquals(expected, resolved)
     }
 
     @Test

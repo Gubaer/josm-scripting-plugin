@@ -298,14 +298,28 @@ public class RelativePath {
      * directory.
      * <p>
      * This is equivalent to append this path to context and to canonicalize the result.
+     * <p>
+     * <strong>Examples</strong><p>
+     * <ul>
+     *     <li><pre>{@code
+     * // a module repository in jar file is stored in the directory entry 'my/module/repo'. We want
+     * // to resolve the module with id 'foo/bar/../my-module.mjs' against it.
+     * var rootPath = RelativePath.parse("my/module/repo");
+     * var modulePath = RelativePath.parse("foo/bar/../my-module.mjs");
+     * var resolved = module.resolveAgainstDirectoryContext(sourcePath)
+     * System.out.println(resolved.get());  // -> my/module/repo/foo/my-module.mjs
+     *     }
+     *     </pre>
+     *     </li>
+     * </ul>
      *
      * @param directoryContext the context
      * @return the resolved path
      * @throws NullPointerException if <code>directoryContext</code> is null
      */
-    public @NotNull RelativePath resolveAgainstDirectoryContext(@NotNull RelativePath directoryContext) {
+    public @NotNull Optional<RelativePath> resolveAgainstDirectoryContext(@NotNull RelativePath directoryContext) {
         Objects.requireNonNull(directoryContext);
-        return directoryContext.append(this).canonicalize();
+        return directoryContext.append(this).canonical();
     }
 
     /**
@@ -314,45 +328,77 @@ public class RelativePath {
      * <p>
      * This is equivalent to append this path to <bold>the parent</bold> of the context and to canonicalize the result.
      * If the context path doesn't have a parent, this is equivalent to only canonicalize this path.
+     * <p>
+     * <strong>Examples</strong><p>
+     * <ul>
+     *     <li><pre>{@code
+     * // a source file 'foo/bar/source.mjs' includes an import statement
+     * //    import './my-module.mjs'
+     * var sourcePath = RelativePath.parse("foo/bar/source.mjs");
+     * var modulePath = RelativePath.parse("./my-module.mjs");
+     * var resolved = module.resolveAgainstFileContext(sourcePath)
+     * System.out.println(resolved.get());  // -> foo/bar/my-module.mjs
+     *     }
+     *     </pre>
+     *     </li>
+     * </ul>
      *
      * @param fileContext the context
      * @return the resolved path
      * @throws NullPointerException if <code>directoryContext</code> is null
      */
-    public @NotNull RelativePath resolveAgainstFileContext(@NotNull RelativePath fileContext) {
+    public @NotNull Optional<RelativePath> resolveAgainstFileContext(@NotNull RelativePath fileContext) {
         final var parent = fileContext.getParent();
         if (parent.isPresent()) {
-            return parent.get().append(this).canonicalize();
+            return parent.get().append(this).canonical();
         } else {
-            return this.canonicalize();
+            return this.canonical();
         }
     }
 
     /**
-     * Returns the canonical version of this relative path.
+     * Returns the canonical version of this relative path if canonicalization
+     * is possible.
      * <p>
      * The canonical version is a relative path where
      * <ul>
      *     <li>all segments <code>.</code> are remove</li>
      *     <li>all segments <code>..</code> are resolved</li>
      * </ul>
+     * Two relative paths and their canonical version:
+     * <ul>
+     *     <code>foo/bar/../../baz</code> -&gt; <code>baz</code>
+     *     <code>foo/bar/../baz</code> -&gt; <code>foo/baz</code>
+     * </ul>
      *
+     * Two relative paths for which this method fails and returns an
+     * empty {@link Optional}:
+     * <ul>
+     *     <li><code>foo/../../bar</code>- the second <code>..</code> segment can't be resolved</li>
+     *     <li><code>foo/../bar/../baz/../..</code> - the fourth <code>..</code> segment can't be resolved</li>
+     * </ul>
      * @return the canonical relative path
      */
-    public @NotNull RelativePath canonicalize() {
+    public @NotNull Optional<RelativePath> canonical() {
         final List<String> canonicalSegs = new ArrayList<>();
-        this.segments.stream()
-            .filter(s -> ! ".".equals(s))
-            .forEach(s -> {
-                if ("..".equals(s)) {
-                    if (!canonicalSegs.isEmpty()) {
-                        canonicalSegs.remove(canonicalSegs.size()-1);
+        for (final String s : this.segments) {
+            switch (s) {
+                case ".":
+                    continue;
+                case "..": {
+                    if (canonicalSegs.isEmpty()) {
+                        // can't resolve '..' against the empty path, canonicalization
+                        // fails. Therefore return an empty optional.
+                        return Optional.empty();
                     }
-                } else {
-                    canonicalSegs.add(s);
+                    canonicalSegs.remove(canonicalSegs.size() - 1);
+                    break;
                 }
-            });
-        return new RelativePath(canonicalSegs);
+                default:
+                    canonicalSegs.add(s);
+            }
+        }
+        return Optional.of(RelativePath.of(canonicalSegs));
     }
 
     /**
@@ -386,7 +432,7 @@ public class RelativePath {
      * and <code>'..'</code>.
      * <p>
      * To check whether two paths are equal <strong>after canonicalization</strong>,
-     * you have to {@link #canonicalize() canonicalize} them first.
+     * you have to {@link #canonical() canonicalize} them first.
      *
      * @param other the other path
      * @return true, if this relative path is equal to <code>other</code>
