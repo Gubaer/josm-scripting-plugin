@@ -73,7 +73,7 @@ public class FileSystemJSModuleRepository extends BaseJSModuleRepository {
      *
      * @param baseDir the base directory. Must not be null. Must not
      *                be empty.
-     * @throws IllegalArgumentException thrown if <code>baseDir</code> isn't an
+     * @throws IllegalArgumentException thrown if <code>baseDir</code> isn't
      *  an absolute directory
      *
      */
@@ -92,7 +92,7 @@ public class FileSystemJSModuleRepository extends BaseJSModuleRepository {
      * in the directory <code>baseDir</code>
      *
      * @param baseDir the base directory. Must not be null.
-     * @throws IllegalArgumentException thrown if <code>baseDir</code> isn't an
+     * @throws IllegalArgumentException thrown if <code>baseDir</code> isn't
      *   an absolute directory
      */
     public FileSystemJSModuleRepository(@NotNull File baseDir) {
@@ -221,16 +221,12 @@ public class FileSystemJSModuleRepository extends BaseJSModuleRepository {
         }
         final Path moduleFilePath = baseDir.toPath().resolve(moduleRepoPath.get().toPath());
 
-        final Object[] params = {
-            moduleId.toString(),
-            moduleFilePath.toString()
-        };
         if (! isModuleReadable(moduleFilePath)) {
             if (getLogger().isLoggable(Level.FINE)) {
                 final String message = format(
                     "failed to resolve module with id ''{0}''. " +
                     "resolved file path ''{1}'' doesn''t refer to a readable file",
-                    params
+                    moduleId, moduleFilePath
                 );
                 getLogger().log(Level.FINE, message);
             }
@@ -240,7 +236,7 @@ public class FileSystemJSModuleRepository extends BaseJSModuleRepository {
             final String message = format(
                 "succeeded to resolve module with id ''{0}''. " +
                 "resolved file path ''{1}'' refers to a readable file",
-                params
+                moduleId, moduleFilePath
             );
             getLogger().log(Level.FINE, message);
         }

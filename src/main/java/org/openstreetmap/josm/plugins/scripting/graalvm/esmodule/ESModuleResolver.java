@@ -162,7 +162,7 @@ public class ESModuleResolver implements FileSystem, IRepositoriesSource  {
     @Override
     public Path parsePath(URI uri) {
         if (logger.isLoggable(Level.FINE)) {
-            logger.fine(format("parsePath: uri=''{0}''", uri));
+            logger.fine(format("uri=''{0}''", uri));
         }
         return fullIO.provider().getPath(uri);
     }
@@ -183,7 +183,7 @@ public class ESModuleResolver implements FileSystem, IRepositoriesSource  {
     @Override
     public Path parsePath(String path) {
         if (logger.isLoggable(Level.FINE)) {
-            logger.fine(format("parsePath: path=''{0}''", path));
+            logger.fine(format("path=''{0}''", path));
         }
         var p = Path.of(path);
         if (isAbsoluteFilePath(p)) {
@@ -217,7 +217,7 @@ public class ESModuleResolver implements FileSystem, IRepositoriesSource  {
     @Override
     public void checkAccess(Path path, Set<? extends AccessMode> modes, LinkOption... linkOptions) throws IOException {
         if (logger.isLoggable(Level.FINE)) {
-            logger.fine(format("checkAccess: path=''{0}''", path));
+            logger.fine(format("path=''{0}''", path));
         }
         if (isAbsoluteFilePath(path) || !startsWithESModuleRepoPathPrefix(RelativePath.of(path))) {
             fullIO.provider().checkAccess(path, modes.toArray(new AccessMode[]{}));
@@ -254,14 +254,14 @@ public class ESModuleResolver implements FileSystem, IRepositoriesSource  {
     @Override
     public SeekableByteChannel newByteChannel(Path path, Set<? extends OpenOption> options, FileAttribute<?>... attrs) throws IOException {
         if (logger.isLoggable(Level.FINE)) {
-            logger.fine(format("newByteChannel: path=''{0}''", path));
+            logger.fine(format("path=''{0}''", path));
         }
         var repo = lookupRepoForModulePath(path);
         if (repo == null) {
             return fullIO.provider().newByteChannel(path, options, attrs);
         } else {
             if (logger.isLoggable(Level.FINE)) {
-                logger.fine(format("newByteChannel: creating byteChannel, path:=''{0}''", path));
+                logger.fine(format("creating byteChannel, path=''{0}''", path));
             }
             return repo.newByteChannel(RelativePath.of(path));
         }

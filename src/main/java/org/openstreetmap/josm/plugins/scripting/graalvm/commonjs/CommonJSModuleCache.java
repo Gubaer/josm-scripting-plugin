@@ -3,7 +3,6 @@ package org.openstreetmap.josm.plugins.scripting.graalvm.commonjs;
 import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.Value;
 
-
 import javax.validation.constraints.NotNull;
 import java.net.URI;
 import java.util.HashMap;
@@ -35,7 +34,7 @@ public class CommonJSModuleCache {
 
     /**
      * Remembers a module in the cache.
-     *
+     * <p>
      * The <code>module</code> is the value returned by the <tt>require()</tt>
      * function. It is remembered in the cache for a given <code>moduleURI</code>
      * and a given {@link Context}.
@@ -43,6 +42,7 @@ public class CommonJSModuleCache {
      * @param moduleURI the module URI. Must not be null.
      * @param module the module. Must not be null.
      * @param forContext the polyglot context where the module was required
+     * @throws NullPointerException if one of the parameters is null
      */
     public void remember(@NotNull final URI moduleURI,
                          @NotNull final Value module,
@@ -61,6 +61,7 @@ public class CommonJSModuleCache {
      *
      * @param moduleURI the module URI
      * @param inContext the polyglot context where the module was required
+     * @throws NullPointerException if one of the parameters is null
      */
     public void clear(@NotNull  final URI moduleURI,
                       @NotNull  final Context inContext) {
@@ -76,6 +77,7 @@ public class CommonJSModuleCache {
      * the cache.
      *
      * @param context the polyglot context. Must not be null.
+     * @throws NullPointerException if <code>context</code> is null
      */
     public void clear(@NotNull  final Context context) {
         Objects.requireNonNull(context);
@@ -90,6 +92,7 @@ public class CommonJSModuleCache {
      * @param context the polyglot context. Must not be null.
      * @return the exported value if it is cached. Empty, if no module value
      * is in the cache
+     * @throws NullPointerException if one of the parameters is null
      */
     public Optional<Value> lookup(
             @NotNull final URI moduleURI,

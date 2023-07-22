@@ -4,10 +4,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static org.openstreetmap.josm.tools.I18n.tr;
+import static java.text.MessageFormat.format;
 
 public class GraalVMFacadeFactory {
-    static private final  Logger logger =
-        Logger.getLogger(GraalVMFacadeFactory.class.getName());
+    static private final  Logger logger = Logger.getLogger(GraalVMFacadeFactory.class.getName());
 
     /**
      * Replies true, if the GraalVM is present and if the GraalVM polyglot API
@@ -35,8 +35,7 @@ public class GraalVMFacadeFactory {
      */
     static public IGraalVMFacade createGraalVMFacade() {
         if (!isGraalVMPresent()) {
-            logger.warning(tr("GraalVM polyglot API isn''t on the class path. "
-                    + "Support for GraalVM is disabled."));
+            logger.warning("GraalVM polyglot API isn't on the class path. Support for GraalVM is disabled.");
             return null;
         }
         return new GraalVMFacade();

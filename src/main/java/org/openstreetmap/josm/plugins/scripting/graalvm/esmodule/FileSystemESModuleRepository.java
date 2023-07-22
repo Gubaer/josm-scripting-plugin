@@ -24,7 +24,8 @@ import static java.text.MessageFormat.format;
  * The repository represents a subtree in the local file system, below its {@link #getRoot() root directory}.
  * <p>
  * Its main purpose is to <strong>resolve</strong> a {@link org.openstreetmap.josm.plugins.scripting.graalvm.ModuleID module id}.
- * Successful esolution means that the repository can map a module ID to a source file somewhere in the file system below the repository root.
+ * Successful resolution means that the repository can map a module ID to a source file somewhere in the file system
+ * below the repository root.
  * <p>
  * Terminology:
  * <ul>

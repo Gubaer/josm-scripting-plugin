@@ -8,6 +8,8 @@ import java.net.URL;
 import java.util.Objects;
 import java.util.logging.Logger;
 
+import static java.text.MessageFormat.format;
+
 @SuppressWarnings("unused")
 public class CommonJSModuleRepositoryFactory {
 
@@ -23,7 +25,7 @@ public class CommonJSModuleRepositoryFactory {
 
     /**
      * Builds a CommonJS module repository given the URI of its base.
-     *
+     * <p>
      * Expects either a valid file- or a valid jar-URI.
      *
      * @param uri the URI
@@ -50,10 +52,9 @@ public class CommonJSModuleRepositoryFactory {
                     }
 
                 default:
-                    throw new IllegalCommonJSModuleBaseURI(String.format(
-                        "unsupported protocol for CommonJS module base. url=%s",
-                        url
-                        ));
+                    throw new IllegalCommonJSModuleBaseURI(format(
+                        "unsupported protocol for CommonJS module base. url=''{0}''", url
+                    ));
             }
         } catch(MalformedURLException e) {
             throw new IllegalCommonJSModuleBaseURI(e);
@@ -62,7 +63,7 @@ public class CommonJSModuleRepositoryFactory {
 
     /**
      * Builds a CommonJS module repository given the URI of its base.
-     *
+     * <p>
      * Expects either a valid file- or a valid jar-URI.
      *
      * @param uri the URI

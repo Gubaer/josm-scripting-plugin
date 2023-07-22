@@ -9,13 +9,13 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
-import java.text.MessageFormat;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import static java.text.MessageFormat.format;
 
 /**
@@ -153,7 +153,7 @@ public class ModuleJarURI {
             ), e);
         }
         if (! "file".equalsIgnoreCase(fileUri.getScheme())) {
-            throw new IllegalArgumentException(MessageFormat.format(
+            throw new IllegalArgumentException(format(
                 "illegal URI. Expected embedded URI with scheme ''file'', got scheme ''{0}''. uri=''{1}''",
                 fileUri.getScheme(), uri
             ));
@@ -322,7 +322,7 @@ public class ModuleJarURI {
             normalizedURI.jarFilePath = normalizedFilePath;
             return Optional.of(normalizedURI);
         } catch(IOException e) {
-            logger.log(Level.WARNING, MessageFormat.format(
+            logger.log(Level.WARNING, format(
                 "Failed to canonicalize path ''{0}''", jarFilePath
             ),e);
             return Optional.empty();

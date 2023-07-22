@@ -143,13 +143,13 @@ public class JarJSModuleRepository extends BaseJSModuleRepository {
      *
      * @param jar the jar file
      * @param rootPath the path in the jar file
-     * @throws IOException thrown, if <code>jar</code> isn't an existing and
-     * readable jar file
-     * @throws IOException thrown, if there is no directory <code>rootPath</code>
-     * in the jar file <code>jar</code>
+     * @throws IOException if <code>jar</code> isn't an existing and
+     *  readable jar file
+     * @throws IOException if there is no directory <code>rootPath</code>
+     *  in the jar file <code>jar</code>
+     * @throws NullPointerException if one of the parameters is null
      */
-    public JarJSModuleRepository(@NotNull final File jar,
-             @NotNull final RelativePath rootPath) throws IOException {
+    public JarJSModuleRepository(@NotNull final File jar, @NotNull final RelativePath rootPath) throws IOException {
         Objects.requireNonNull(jar);
         Objects.requireNonNull(rootPath);
         final URI uri;
@@ -172,14 +172,15 @@ public class JarJSModuleRepository extends BaseJSModuleRepository {
      * Creates the repository for a given jar URI.
      *
      * @param uri the jar URI
-     * @throws IllegalArgumentException thrown, if <code>uri</code> isn't a
+     * @throws IllegalArgumentException if <code>uri</code> isn't a
      * jar URI
-     * @throws IllegalArgumentException thrown, if <code>uri</code> isn't a
-     * <em>valid</em> CommonJS module URI
-     * @throws IOException thrown, if <code>uri</code> doesn't refer to
-     * an existing and readable jar file
-     * @throws IOException thrown, if <code>uri</code> doesn't refer to an
-     * existing and readable directory entry in the jar file
+     * @throws IllegalArgumentException if <code>uri</code> isn't a
+     *  <em>valid</em> CommonJS module URI
+     * @throws IOException if <code>uri</code> doesn't refer to
+     *  an existing and readable jar file
+     * @throws IOException if <code>uri</code> doesn't refer to an
+     *  existing and readable directory entry in the jar file
+     * @throws NullPointerException if <code>uri</code> is null
      */
     public JarJSModuleRepository(@NotNull final URI uri) throws IOException {
         Objects.requireNonNull(uri);
@@ -322,7 +323,7 @@ public class JarJSModuleRepository extends BaseJSModuleRepository {
         final Optional<RelativePath> resolvedModulePath = resolve(id, contextJSModuleUri.getJarEntryPath());
         if (resolvedModulePath.isEmpty()) {
             if (getLogger().isLoggable(Level.FINE)) {
-                getLogger().log(Level.FINE, "failed to resolve module. moduleId=''{0}''", id.toString());
+                getLogger().log(Level.FINE, "failed to resolve module. moduleId=''{0}''", id);
             }
             return Optional.empty();
         }

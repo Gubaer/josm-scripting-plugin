@@ -30,7 +30,7 @@ public class ESModuleRepositoryBuilder {
      * @param uri the root of the repository
      * @return the module repository
      * @throws IllegalESModuleBaseUri thrown if <code>uri</code> doesn't refer to a valid
-     *    root for a ES Module repository
+     *    root for an ES Module repository
      * @throws NullPointerException thrown if <code>uri</code> is null
      */
     public @NotNull IESModuleRepository build(@NotNull final URI uri) throws IllegalESModuleBaseUri {

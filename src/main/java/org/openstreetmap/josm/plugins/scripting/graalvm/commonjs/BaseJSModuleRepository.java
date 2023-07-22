@@ -15,18 +15,33 @@ import static java.text.MessageFormat.format;
 
 abstract public class BaseJSModuleRepository implements ICommonJSModuleRepository {
 
-    static protected final Logger logger =
-         Logger.getLogger(BaseJSModuleRepository.class.getName());
+    static protected final Logger logger = Logger.getLogger(BaseJSModuleRepository.class.getName());
 
     static protected Logger getLogger() {
         return logger;
     }
 
     public enum ContextType {
+        /**
+         * the context is a file-like element, i.e. a file in a file system or a
+         * zip/jar-entry of type file
+         */
         FILE_CONTEXT,
+        /**
+         * the context is a directory like element, i.e. a directory in a file system or a
+         * zip/jar-entry of type directory
+         */
         DIRECTORY_CONTEXT
     }
 
+
+    /**
+     * Replies the context type for the element <code>context</code> refers to.
+     *
+     * @param context the context
+     * @return the context type
+     * @throws IOException if an IO error occurs
+     */
     protected abstract @NotNull ContextType getContextType(@NotNull final RelativePath context) throws IOException;
 
     /**
@@ -58,7 +73,9 @@ abstract public class BaseJSModuleRepository implements ICommonJSModuleRepositor
         try {
             contextType = getContextType(context);
         } catch(IOException e) {
-            //TODO(gubaer): log it
+            if (logger.isLoggable(Level.FINE)) {
+                logger.log(Level.FINE, format("failed to infer the context type for context ''{0}''", context), e);
+            }
            return Optional.empty();
         }
         final Optional<RelativePath> modulePath;
@@ -108,14 +125,14 @@ abstract public class BaseJSModuleRepository implements ICommonJSModuleRepositor
 
     protected @NotNull Optional<RelativePath> resolve(@NotNull final ModuleID moduleId,
                                        @NotNull RelativePath contextPath) {
-        if (logger.isLoggable(Level.FINE)) {
-            logger.log(Level.FINE, format(
-                "moduleId=''{0}'', context=''{1}''", moduleId, contextPath
-            ));
-        }
+
         Objects.requireNonNull(moduleId);
         Objects.requireNonNull(contextPath);
-
+        if (logger.isLoggable(Level.FINE)) {
+            logger.log(Level.FINE, format(
+                    "moduleId=''{0}'', context=''{1}''", moduleId, contextPath
+            ));
+        }
         final String workingModuleId = moduleId.toRelativePath().toString();
         final String[] alternatives =  new String[]{
             workingModuleId,

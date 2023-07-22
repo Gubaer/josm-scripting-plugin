@@ -13,25 +13,24 @@ import javax.validation.constraints.Null;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.text.MessageFormat;
 import java.util.*;
-import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static java.text.MessageFormat.format;
+
 /**
  * Registry of available CommonJS module repositories where we look for
  * CommonJS modules.
- *
+ * <p>
  * Provides methods to resolve a module ID against the repositories
  * managed in this registry.
  */
 @SuppressWarnings("unused")
 public class CommonJSModuleRepositoryRegistry implements IModuleResolver, IRepositoriesSource {
-    static private final Logger logger =
-        Logger.getLogger(CommonJSModuleRepositoryRegistry.class.getName());
+    static private final Logger logger = Logger.getLogger(CommonJSModuleRepositoryRegistry.class.getName());
 
     static private CommonJSModuleRepositoryRegistry instance;
 
@@ -41,6 +40,7 @@ public class CommonJSModuleRepositoryRegistry implements IModuleResolver, IRepos
      *
      * @param info plugin information
      * @return the URI
+     * @throws NullPointerException if <code>info</code> is null
      */
     static public @Null URI buildRepositoryUrlForBuiltinModules(@NotNull PluginInformation info) {
         Objects.requireNonNull(info);
@@ -71,8 +71,8 @@ public class CommonJSModuleRepositoryRegistry implements IModuleResolver, IRepos
 
     /**
      * Sets the built-in repository for CommonJS modules.
-     *
-     * This repo can't be deleted or overriden in the preferences settings.
+     * <p>
+     * This repo can't be deleted or overridden in the preferences settings.
      * It refers to the CommonJS modules shipped with the scripting plugin
      * jar.
      *
@@ -84,6 +84,7 @@ public class CommonJSModuleRepositoryRegistry implements IModuleResolver, IRepos
 
     /**
      * Replies the built-in repository for CommonJS modules.
+     *
      * @return the built-in repository
      */
     public @Null ICommonJSModuleRepository getBuiltInRepository() {
@@ -109,15 +110,15 @@ public class CommonJSModuleRepositoryRegistry implements IModuleResolver, IRepos
 
     /**
      * Adds a CommonJS module repository to the registry.
-     *
+     * <p>
      * Ignores the repo if it is already present in the registry. Appends
      * <code>repo</code> to the end of the repo list. Modules in this repository
      * are therefore looked up last.
      *
      * @param repo the repository. Must not be null.
+     * @throws NullPointerException if <code>repo</code> is null
      */
-    public void addUserDefinedRepository(
-        final @NotNull ICommonJSModuleRepository repo) {
+    public void addUserDefinedRepository(final @NotNull ICommonJSModuleRepository repo) {
         Objects.requireNonNull(repo);
         if (isPresent(repo.getBaseURI())) {
             return;
@@ -130,9 +131,9 @@ public class CommonJSModuleRepositoryRegistry implements IModuleResolver, IRepos
      * Removes a CommonJS module repository from the registry.
      *
      * @param repo the repository. Must not be null.
+     * @throws NullPointerException if <code>repo</code> is null
      */
-    public void removeUserDefinedRepository(
-        final @NotNull ICommonJSModuleRepository repo) {
+    public void removeUserDefinedRepository(final @NotNull ICommonJSModuleRepository repo) {
         Objects.requireNonNull(repo);
         removeUserDefinedRepository(repo.getBaseURI());
     }
@@ -142,6 +143,7 @@ public class CommonJSModuleRepositoryRegistry implements IModuleResolver, IRepos
      * <code>baseUri</code> from the registry.
      *
      * @param baseUri the base URI. Must not be null.
+     * @throws NullPointerException if <code>baseUri</code> is null
      */
     public void removeUserDefinedRepository(final @NotNull URI baseUri) {
         Objects.requireNonNull(baseUri);
@@ -154,15 +156,15 @@ public class CommonJSModuleRepositoryRegistry implements IModuleResolver, IRepos
     /**
      * Lookup and reply the CommonJS repository providing the module with
      * the module URI <code>moduleURI</code>.
-     *
+     * <p>
      * Just replies the repository which would provide the module, but
      * doesn't make sure, that the module with this module URI actually
      * exists.
      *
      * @param moduleUri the module URI
+     * @throws NullPointerException if <code>moduleUri</code> is null
      */
-    public @NotNull Optional<ICommonJSModuleRepository> getRepositoryForModule(
-            final @NotNull URI moduleUri) {
+    public @NotNull Optional<ICommonJSModuleRepository> getRepositoryForModule(final @NotNull URI moduleUri) {
         Objects.requireNonNull(moduleUri);
         return userDefinedRepos.stream()
             .filter(repo -> repo.isBaseOf(moduleUri))
@@ -183,6 +185,7 @@ public class CommonJSModuleRepositoryRegistry implements IModuleResolver, IRepos
      * Sets the user defined repositories managed by this registry.
      *
      * @param repos the list of user defined CommonJS module repositories
+     * @throws NullPointerException if <code>repos</code> is null
      */
     public void setUserDefinedRepositories(@NotNull final List<ICommonJSModuleRepository> repos) {
         Objects.requireNonNull(repos);
@@ -191,20 +194,11 @@ public class CommonJSModuleRepositoryRegistry implements IModuleResolver, IRepos
         saveToPreferences(Preferences.main());
     }
 
-
-
     /**
      * Remove all repositories from the registry.
      */
     public void clear() {
         userDefinedRepos = new ArrayList<>();
-    }
-
-    private void logFine(Supplier<String> messageBuilder) {
-        if (logger.isLoggable(Level.FINE)) {
-            final String message = messageBuilder.get();
-            logger.log(Level.FINE, message);
-        }
     }
 
     /**
@@ -215,11 +209,12 @@ public class CommonJSModuleRepositoryRegistry implements IModuleResolver, IRepos
         Objects.requireNonNull(id);
         return getRepositoriesAsStream()
             .map(repo -> {
-                logFine(() -> MessageFormat.format(
-                    "Resolve module in repository. module ID=''{0}'', " +
-                    "repository URI=''{1}''",
-                    id, repo.getBaseURI().toString()
-                ));
+                if (logger.isLoggable(Level.FINE)) {
+                    logger.log(Level.FINE, format(
+                        "Resolve module in repository. module ID=''{0}'', repository URI=''{1}''",
+                        id, repo.getBaseURI()
+                    ));
+                }
                 return repo.resolve(id);
             })
             .filter(Optional::isPresent)
@@ -242,12 +237,13 @@ public class CommonJSModuleRepositoryRegistry implements IModuleResolver, IRepos
             // which the contextUri refers
             return getRepositoriesAsStream()
                 .map(repo -> {
-                    logFine(() -> MessageFormat.format(
-                        "Resolve module in repository with context. " +
-                        "module ID=''{0}'', repository URI=''{1}'', " +
-                        "context URI=''{2}''",
-                        id, repo.getBaseURI().toString(),contextUri.toString()
-                    ));
+                    if (logger.isLoggable(Level.FINE)) {
+                        logger.log(Level.FINE, format(
+                            "Resolve module in repository with context. module ID=''{0}'', repository URI=''{1}'', " +
+                            "context URI=''{2}''",
+                            id, repo.getBaseURI(), contextUri
+                        ));
+                    }
                     return repo.resolve(id, contextUri);
                 })
                 .filter(Optional::isPresent)
@@ -274,9 +270,7 @@ public class CommonJSModuleRepositoryRegistry implements IModuleResolver, IRepos
                     return repo.getBaseURI().toURL().toString();
                 } catch (MalformedURLException e) {
                     // should not happen, just in case
-                    logger.log(Level.WARNING,
-                        "failed to convert CommonJS module base URI to URL",
-                        e);
+                    logger.log(Level.WARNING, "failed to convert CommonJS module base URI to URL", e);
                 }
                 return null;
             })
@@ -304,12 +298,11 @@ public class CommonJSModuleRepositoryRegistry implements IModuleResolver, IRepos
                 try {
                     return factory.build(value);
                 } catch(IllegalCommonJSModuleBaseURI e) {
-                    final String message = String.format(
-                          "illegal preference value for CommonJS module base URI. "
-                        + "Ignoring preference value. preference: key=%s, value=%s ",
-                        PreferenceKeys.PREF_KEY_GRAALVM_COMMONJS_MODULE_REPOSITORIES,
-                        value);
-                    logger.log(Level.WARNING,message, e);
+                    logger.log(Level.WARNING,format(
+                        "illegal preference value for CommonJS module base URI. " +
+                        "Ignoring preference value. preference: key={0}, value={1} ",
+                        PreferenceKeys.PREF_KEY_GRAALVM_COMMONJS_MODULE_REPOSITORIES, value
+                    ), e);
                     return null;
                 }
             })
@@ -341,8 +334,7 @@ public class CommonJSModuleRepositoryRegistry implements IModuleResolver, IRepos
                 try {
                     return CommonJSModuleRepositoryFactory.getInstance().build(uri);
                 } catch (IllegalCommonJSModuleBaseURI e) {
-                    logger.log(Level.WARNING, MessageFormat.format(
-                            "Illegal base URI for CommonJS module. uri=''{0}''", uri), e);
+                    logger.log(Level.WARNING, format("Illegal base URI for CommonJS module. uri=''{0}''", uri), e);
                     return null;
                 }
             })

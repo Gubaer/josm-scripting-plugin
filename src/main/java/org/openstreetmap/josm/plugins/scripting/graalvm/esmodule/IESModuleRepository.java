@@ -46,7 +46,7 @@ public interface IESModuleRepository {
     boolean matchesWithUniquePathPrefix(@NotNull final RelativePath modulePath);
 
     /**
-     * Resolves a module path in the repository and replies a absolute module path
+     * Resolves a module path in the repository and replies an absolute module path
      * if the module exists in the repository, or null, if it doesn't exist.
      * <p>
      * A module path is either an absolute or a relative path, i.e.
