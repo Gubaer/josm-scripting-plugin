@@ -101,15 +101,15 @@ public class ImportPathModel extends AbstractListModel<File> implements Preferen
     }
 
     public void up(int i) {
-        File tomove = paths.remove(i);
-        paths.add(i-1, tomove);
+        File toMove = paths.remove(i);
+        paths.add(i-1, toMove);
         selectionModel.setSelectionInterval(i-1, i-1);
         fireContentsChanged(this,0,getSize());
     }
 
     public void down(int i) {
-        File tomove = paths.remove(i);
-        paths.add(i+1, tomove);
+        File toMove = paths.remove(i);
+        paths.add(i+1, toMove);
         selectionModel.setSelectionInterval(i+1, i+1);
         fireContentsChanged(this,0,getSize());
     }

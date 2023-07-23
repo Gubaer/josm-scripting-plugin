@@ -31,7 +31,7 @@ public class GraalVMPrivilegesModel implements PreferenceChangedListener {
         if (instance == null) {
             instance = new GraalVMPrivilegesModel();
             instance.initFromPreferences(Preferences.main());
-            //TODO (karl): Register as preferences listener
+            //TODO(Gubaer): Register as preferences listener
         }
         return instance;
     }

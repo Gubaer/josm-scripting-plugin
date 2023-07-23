@@ -8,8 +8,8 @@ import java.text.MessageFormat;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
 /**
- * <p>Represents a jar file which potentially provides a JSR 223 compatible scripting
- * engine.</p>
+ * Represents a jar file which potentially provides a JSR 223 compatible scripting
+ * engine.
  */
 public class ScriptEngineJarInfo implements Comparable<ScriptEngineJarInfo>{
     /**
@@ -22,8 +22,8 @@ public class ScriptEngineJarInfo implements Comparable<ScriptEngineJarInfo>{
     private String statusMessage = null;
 
     /**
-     * <p>Analyses whether the jar file is providing a JSR 223 compatible scripting engine.
-     * Invoke {@link #getStatusMessage()} to retrieve the respective status message.</p>
+     * Analyses whether the jar file is providing a JSR 223 compatible scripting engine.
+     * Invoke {@link #getStatusMessage()} to retrieve the respective status message.
      */
     public void analyse(){
         File jar;
@@ -54,7 +54,7 @@ public class ScriptEngineJarInfo implements Comparable<ScriptEngineJarInfo>{
     }
 
     /**
-     * <p>Creates a new info object for a script engine jar.</p>
+     * Creates a new info object for a script engine jar.
      *
      * @param fileName the jar file. Empty string assumed, if null.
      */
@@ -65,8 +65,8 @@ public class ScriptEngineJarInfo implements Comparable<ScriptEngineJarInfo>{
     }
 
     /**
-     * <p>Replies a localized status message describing the error status of this
-     * scripting jar file or {@link #OK_MESSAGE} if this jar file is OK.</p>
+     * Replies a localized status message describing the error status of this
+     * scripting jar file or {@link #OK_MESSAGE} if this jar file is OK.
      *
      * @return the status message
      */
@@ -76,7 +76,8 @@ public class ScriptEngineJarInfo implements Comparable<ScriptEngineJarInfo>{
     }
 
     /**
-     * <p>Replies the full path of the jar file.</p>
+     * Replies the full path of the jar file.
+     *
      * @return the path
      */
     public String getJarFilePath() {
@@ -84,7 +85,7 @@ public class ScriptEngineJarInfo implements Comparable<ScriptEngineJarInfo>{
     }
 
     /**
-     * <p>Sets the path of the jar file.</p>
+     * Sets the path of the jar file.
      *
      * @param path the path. Assumes "" if null.
      */

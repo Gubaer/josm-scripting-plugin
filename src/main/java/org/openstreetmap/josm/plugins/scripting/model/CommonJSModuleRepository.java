@@ -85,9 +85,9 @@ public class CommonJSModuleRepository {
     }
 
     /**
-     * <p>Creates a repository.</p>
-     *
-     * <p><code>url</code> must be a valid file or jar URL.</p>
+     * Creates a repository.
+     * <p>
+     * <code>url</code> must be a valid file or jar URL.
      *
      * @param url an acceptable URL for a module repository. Must not be null.
      */
@@ -98,9 +98,9 @@ public class CommonJSModuleRepository {
     }
 
     /**
-     * <p>Creates a repository.</p>
-     *
-     * <p><code>jar</code> must be an existing local jar file.</p>
+     * Creates a repository.
+     * <p>
+     * <code>jar</code> must be an existing local jar file.
      *
      * @param jar an existing and readable local jar file. Must not be null.
      * @throws IllegalArgumentException thrown if jar is null or if the jar
@@ -112,9 +112,9 @@ public class CommonJSModuleRepository {
     }
 
     /**
-     * <p>Creates a repository.</p>
-     *
-     * <p><code>jar</code> must be an existing local jar file.</p>
+     * Creates a repository.
+     * <p>
+     * <code>jar</code> must be an existing local jar file.
      *
      * @param jar an existing and readable local jar file. Must not be null.
      * @param jarPath the jar path. May be null.
@@ -141,10 +141,10 @@ public class CommonJSModuleRepository {
 
 
     /**
-     * <p>Replies the local file for this module repository, either a directory,
-     * or the local jar file.</p>
+     * Replies the local file for this module repository, either a directory,
+     * or the local jar file.
      *
-     * @return the file, or null, in something unexpected happens
+     * @return the file, or null, if something unexpected happens
      */
     public File getFile() {
         if (url.getProtocol().equals("file")) {

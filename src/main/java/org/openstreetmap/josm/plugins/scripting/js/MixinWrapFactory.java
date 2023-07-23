@@ -7,10 +7,10 @@ import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.WrapFactory;
 
 /**
- * <p>Custom WrapFactory for the embedded JOSM scripting engine. Wraps java
+ * Custom WrapFactory for the embedded JOSM scripting engine. Wraps java
  * objects and classes in the custom wrappers
  * {@link NativeJavaClassWithJSMixin} and {@link NativeJavaObjectWithJSMixin}
- * respectively.</p>
+ * respectively.
  *
  */
 public class MixinWrapFactory extends WrapFactory{

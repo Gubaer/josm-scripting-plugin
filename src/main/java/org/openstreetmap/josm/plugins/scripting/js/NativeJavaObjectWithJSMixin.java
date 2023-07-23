@@ -10,9 +10,9 @@ import org.mozilla.javascript.ScriptRuntime;
 import org.mozilla.javascript.Scriptable;
 
 /**
- * <p>An extension for {@link NativeJavaObject}. In addition to the properties
+ * An extension for {@link NativeJavaObject}. In addition to the properties
  * derived from the fields and methods of a java class it "mixes in" a set of
- * properties defined in an external javascript mixin module.</p>
+ * properties defined in an external javascript mixin module.
  *
  */public class NativeJavaObjectWithJSMixin extends NativeJavaObject {
     private static final long serialVersionUID = 1L;

@@ -14,7 +14,6 @@ import static org.openstreetmap.josm.tools.I18n.tr;
 
 /**
  * Describes a scripting engine used in the scripting plugin.
- *
  */
 public class ScriptEngineDescriptor implements PreferenceKeys {
     static private final Logger logger =
@@ -42,11 +41,11 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
         }
 
         /**
-         * <p>Infers the script engine type from preference value. The value is
+         * Infers the script engine type from preference value. The value is
          * a string <code>type/engineId</code>. This methods decodes the
          * component <code>type</code>. Replies <code>null</code> if no type
-         * can be inferred.</p>
-         *
+         * can be inferred.
+         * <p>
          * <strong>Examples</strong>
          * <pre>
          *    type = ScriptEngineType.fromPreferencesValue("embedded/rhino");
@@ -102,8 +101,8 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
             DEFAULT_SCRIPT_ENGINE);
 
     /**
-     * <p>Replies a script engine descriptor derived from a preference value
-     * <code>engineType/engineId</code> in {@link Preferences#main()}.<p>
+     * Replies a script engine descriptor derived from a preference value
+     * <code>engineType/engineId</code> in {@link Preferences#main()}.
      *
      * @return the scripting engine descriptor
      * @see #buildFromPreferences(Preferences)
@@ -114,15 +113,15 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
     }
 
     /**
-     * <p>Replies a script engine descriptor derived from a preference value
-     * <code>engineType/engineId</code>.<p>
-     *
-     * <p>Looks for  the preference value with key
+     * Replies a script engine descriptor derived from a preference value
+     * <code>engineType/engineId</code>.
+     * <p>
+     * Looks for  the preference value with key
      * {@link PreferenceKeys#PREF_KEY_SCRIPTING_ENGINE}.
      * If this key doesn't exist or if it doesn't refer to a supported
      * combination of <code>engineType</code> and <code>engineId</code>, the
      * default scripting engine descriptor {@link #DEFAULT_SCRIPT_ENGINE} is
-     * replied.</p>
+     * replied.
      *
      * @param preferences the preferences
      * @return the scripting engine descriptor
@@ -135,8 +134,8 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
     }
 
     /**
-     * <p>Replies a script engine descriptor derived from a preference value
-     * <code>engineType/engineId</code>.<p>
+     * Replies a script engine descriptor derived from a preference value
+     * <code>engineType/engineId</code>.
      *
      * @param preferenceValue the preference value. If null, replies the
      *      {@link #DEFAULT_SCRIPT_ENGINE}
@@ -363,6 +362,7 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
 
     /**
      * Replies true, if this is the descriptor for the default scripting engine.
+     *
      * @return true, if this is the descriptor for the default scripting engine.
      */
     public boolean isDefault() {

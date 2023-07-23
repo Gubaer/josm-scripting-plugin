@@ -11,8 +11,7 @@ import static org.openstreetmap.josm.tools.I18n.tr;
 public class IconUtil {
 
     @SuppressWarnings("unused")
-    static private final Logger logger =
-            Logger.getLogger(IconUtil.class.getName());
+    static private final Logger logger = Logger.getLogger(IconUtil.class.getName());
 
     static public Icon saveImageGet(String name) {
         ImageIcon icon = ImageProvider.getIfAvailable(name);

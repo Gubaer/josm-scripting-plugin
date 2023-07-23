@@ -235,5 +235,4 @@ public abstract class AbstractRepoConfigurationPanel extends JPanel  {
             updateEnabledState();
         }
     }
-
 }

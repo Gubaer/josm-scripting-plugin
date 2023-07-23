@@ -8,22 +8,20 @@ import org.openstreetmap.josm.tools.ImageProvider;
 import javax.swing.*;
 import javax.validation.constraints.NotNull;
 import java.awt.event.ActionEvent;
+import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
-import java.beans.PropertyChangeListener;
 
 /**
  * This model manages a list of most recently run scripts.
- *
+ * <p>
  * Use {@link #remember(String)} to remember an entry.
- *
+ * <p>
  * There is a unique instance of this model which can be connected to
  * either an {@link PropertyChangeListener} or a {@link javax.swing.ComboBoxEditor}.
- *
  */
 public class MostRecentlyRunScriptsModel implements PreferenceKeys {
 

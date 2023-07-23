@@ -38,10 +38,10 @@ import org.openstreetmap.josm.plugins.scripting.model.PreferenceKeys;
 import org.openstreetmap.josm.plugins.scripting.util.Assert;
 
 /**
- * <p>Simple module script provider. It loads modules only from the local file
+ * Simple module script provider. It loads modules only from the local file
  * system, either as file or as jar file entry. It doesn't accept HTTP URLs as
  * repository location. Caching is simple too: modules are loaded exactly once
- * and then served from memory until the JOSM application is terminated.</p>
+ * and then served from memory until the JOSM application is terminated.
  *
  */
 public class JOSMModuleScriptProvider implements ModuleScriptProvider,
@@ -310,7 +310,7 @@ public class JOSMModuleScriptProvider implements ModuleScriptProvider,
             return cache.get(moduleId);
         }
         final Optional<URL> url = lookup(moduleId);
-        if (! url.isPresent()) return null;
+        if (url.isEmpty()) return null;
         final ModuleScript script = load(url.get(),null);
         if (script == null) return null;
         cache.put(moduleId, script);

@@ -27,8 +27,7 @@ import static org.openstreetmap.josm.tools.I18n.tr;
 public class ModuleRepositoryDialog extends JDialog {
 
     @SuppressWarnings("unused")
-    static private final Logger logger =
-        Logger.getLogger(ModuleRepositoryDialog.class.getName());
+    static private final Logger logger = Logger.getLogger(ModuleRepositoryDialog.class.getName());
 
     private JTextField tfRepositoryUrl;
     private OKAction actOK;

@@ -2,6 +2,7 @@ package org.openstreetmap.josm.plugins.scripting.js;
 
 import java.text.MessageFormat;
 
+@SuppressWarnings("unused")
 public class JSMixinException extends Exception {
 
     static public JSMixinException make(String msg, Object...args) {
