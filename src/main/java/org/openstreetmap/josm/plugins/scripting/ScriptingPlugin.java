@@ -1,14 +1,10 @@
 package org.openstreetmap.josm.plugins.scripting;
 
-import org.mozilla.javascript.*;
 import org.openstreetmap.josm.data.Preferences;
 import org.openstreetmap.josm.gui.MainApplication;
 import org.openstreetmap.josm.gui.MainMenu;
-import org.openstreetmap.josm.gui.MapFrame;
 import org.openstreetmap.josm.gui.preferences.PreferenceSetting;
 import org.openstreetmap.josm.plugins.Plugin;
-import org.openstreetmap.josm.plugins.PluginClassLoader;
-import org.openstreetmap.josm.plugins.PluginHandler;
 import org.openstreetmap.josm.plugins.PluginInformation;
 import org.openstreetmap.josm.plugins.scripting.graalvm.GraalVMFacadeFactory;
 import org.openstreetmap.josm.plugins.scripting.graalvm.commonjs.CommonJSModuleRepositoryRegistry;
@@ -16,8 +12,6 @@ import org.openstreetmap.josm.plugins.scripting.graalvm.commonjs.JarJSModuleRepo
 import org.openstreetmap.josm.plugins.scripting.graalvm.esmodule.ESModuleRepositoryBuilder;
 import org.openstreetmap.josm.plugins.scripting.graalvm.esmodule.ESModuleResolver;
 import org.openstreetmap.josm.plugins.scripting.graalvm.esmodule.IllegalESModuleBaseUri;
-import org.openstreetmap.josm.plugins.scripting.js.JOSMModuleScriptProvider;
-import org.openstreetmap.josm.plugins.scripting.js.RhinoEngine;
 import org.openstreetmap.josm.plugins.scripting.model.PreferenceKeys;
 import org.openstreetmap.josm.plugins.scripting.preferences.ConfigureAction;
 import org.openstreetmap.josm.plugins.scripting.preferences.PreferenceEditor;
@@ -29,15 +23,12 @@ import org.openstreetmap.josm.plugins.scripting.ui.console.SyntaxConstantsEngine
 import org.openstreetmap.josm.plugins.scripting.ui.release.ReleaseNotes;
 
 import javax.swing.*;
-import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 import java.text.MessageFormat;
 import java.util.List;
-import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -47,13 +38,7 @@ import static org.openstreetmap.josm.tools.I18n.tr;
 @SuppressWarnings("ClassInitializerMayBeStatic")
 public class ScriptingPlugin extends Plugin implements PreferenceKeys{
     static private final Logger logger = Logger.getLogger(ScriptingPlugin.class.getName());
-
-    @SuppressWarnings("WeakerAccess")
-    static public final String START_MODULE_NAME = "ScriptingPlugin_Start";
-
     private static ScriptingPlugin instance;
-    private static Scriptable startModule;
-
     private void initLocalInstallation() {
         final File f = new File(getPluginDirs().getUserDataDirectory(false), "modules");
         if (!f.exists()) {
@@ -106,80 +91,20 @@ public class ScriptingPlugin extends Plugin implements PreferenceKeys{
 
     public ScriptingPlugin(PluginInformation info, boolean inTestEnvironment) {
         super(info);
-        try {
-            instance = this;
-            installResourceFiles();
-            installScriptsMenu();
-            initLocalInstallation();
-            if (GraalVMFacadeFactory.isGraalVMPresent()) {
-                initGraalVMJSModuleRepository(info);
-                initGraalVMESModuleRepositories(info);
-            }
-            SyntaxConstantsEngine.getInstance().loadRules(this);
-            final RhinoEngine engine = RhinoEngine.getInstance();
-            engine.initScope();
-            JOSMModuleScriptProvider provider = JOSMModuleScriptProvider.getInstance();
-            Optional<URL> url = provider.lookup(START_MODULE_NAME);
-            if (url.isEmpty()) {
-                logger.info(tr("No startup module ''{0}'' found.", START_MODULE_NAME));
-            } else {
-                try {
-                    startModule = engine.require(START_MODULE_NAME);
-                } catch (RhinoException e) {
-                    logger.log(Level.SEVERE, tr(
-                        "Failed to load start module ''{0}'' from URL ''{1}''.",
-                        START_MODULE_NAME, url.get()), e);
-                }
-                if (startModule != null) {
-                    logger.info(tr(
-                        "Successfully loaded startup module ''{0}'' from URL ''{1}.''",
-                        START_MODULE_NAME, url.get()));
-                    jsOnStart();
-                }
-            }
+        instance = this;
+        installResourceFiles();
+        installScriptsMenu();
+        initLocalInstallation();
+        if (GraalVMFacadeFactory.isGraalVMPresent()) {
+            initGraalVMJSModuleRepository(info);
+            initGraalVMESModuleRepositories(info);
+        }
+        SyntaxConstantsEngine.getInstance().loadRules(this);
 
-            if (!inTestEnvironment && !ReleaseNotes.hasSeenLatestReleaseNotes()) {
-                var dialog = new ReleaseNotes(MainApplication.getMainFrame());
-                dialog.setVisible(true);
-            }
-        } catch(JavaScriptException e) {
-            logger.log(Level.WARNING,
-                tr("Failed to initialize scripting plugin"),e);
+        if (!inTestEnvironment && !ReleaseNotes.hasSeenLatestReleaseNotes()) {
+            var dialog = new ReleaseNotes(MainApplication.getMainFrame());
+            dialog.setVisible(true);
         }
-    }
-
-    private void jsOnStart() {
-        if (startModule == null)
-            return;
-        Object o = startModule.get("onStart", startModule);
-        if (o == Scriptable.NOT_FOUND){
-            return;
-        }
-        if (!(o instanceof Function)) {
-            logger.warning(tr(
-                  "Property ''{0}'' of module ''start'' should be a function, "
-                + "got ''{1}'' instead",
-                 "onStart", o));
-            return;
-        }
-        RhinoEngine.getInstance().executeOnSwingEDT((Function) o);
-    }
-
-    private void jsOnMapFrameChanged(MapFrame oldFrame, MapFrame newFrame) {
-        if (startModule == null)
-            return;
-        final Object o = startModule.get("onMapFrameChanged", startModule);
-        if (o == Scriptable.NOT_FOUND)
-            return;
-        if (!(o instanceof Function)) {
-            logger.warning(tr(
-                "Property ''{0}'' of module ''start'' should be a function, " +
-                "got ''{1}'' instead", "onMapFrameChanged", o)
-             );
-            return;
-        }
-        RhinoEngine.getInstance().executeOnSwingEDT((Function) o,
-            new Object[] { oldFrame, newFrame });
     }
 
     private final Action toggleConsoleAction = new ToggleConsoleAction();
@@ -242,11 +167,6 @@ public class ScriptingPlugin extends Plugin implements PreferenceKeys{
         return new PreferenceEditor();
     }
 
-    @Override
-    public void mapFrameInitialized(MapFrame oldFrame, MapFrame newFrame) {
-        jsOnMapFrameChanged(oldFrame, newFrame);
-    }
-
     /**
      * Installs the default mime types shipped in the resource
      * <tt>/resources/mime.types.default</tt> in the plugin directory.
@@ -290,37 +210,5 @@ public class ScriptingPlugin extends Plugin implements PreferenceKeys{
                   e
             ));
         }
-    }
-
-    static public class PluginNotFoundException extends Exception {
-        PluginNotFoundException(String message) {
-            super(message);
-        }
-    }
-
-    /**
-     * Loads a class from a 3d-party plugin present in JOSM
-     *
-     * @param pluginName the short plugin name, i.e. <pre>contourmerge</pre>
-     * @param className the fully qualified class name
-     * @return the loaded class
-     * @throws PluginNotFoundException thrown, if the plugin isn't available,
-     *      i.e. because it isn't configured or loaded in JOSM
-     * @throws ClassNotFoundException thrown, if the class could not be
-     *      loaded using the class loader of the 3d-party plugin
-     */
-    @SuppressWarnings("unused") // public API, used from JavaScript
-    static public NativeJavaClass loadClassFrom3dPartyPlugin(
-            @NotNull final String pluginName,
-            @NotNull final String className)
-        throws PluginNotFoundException, ClassNotFoundException{
-        final PluginClassLoader cl =
-            PluginHandler.getPluginClassLoader(pluginName);
-        if (cl == null) {
-            throw new PluginNotFoundException(
-                tr("plugin class loader for plugin ''{0}'' not found", pluginName));
-        }
-        return new NativeJavaClass(RhinoEngine.getInstance().getScope(),
-            cl.loadClass(className));
     }
 }
