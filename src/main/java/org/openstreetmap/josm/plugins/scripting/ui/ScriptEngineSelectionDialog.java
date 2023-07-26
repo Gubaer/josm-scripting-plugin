@@ -15,6 +15,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.validation.constraints.NotNull;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -22,6 +23,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -74,8 +76,7 @@ public class ScriptEngineSelectionDialog extends JDialog {
     static public ScriptEngineDescriptor select(Component parent,
             ScriptEngineDescriptor current){
         if (parent == null) parent = MainApplication.getMainFrame();
-        ScriptEngineSelectionDialog dialog =
-                new ScriptEngineSelectionDialog(parent);
+        final var dialog = new ScriptEngineSelectionDialog(parent);
         dialog.setSelectedScriptEngine(current);
         dialog.setVisible(true);
         return dialog.selectedEngine;
@@ -88,7 +89,6 @@ public class ScriptEngineSelectionDialog extends JDialog {
     private ScriptEngineDescriptor selectedEngine;
 
     private ButtonGroup bgScriptingEngineType;
-    private JRadioButton rbEmbeddedScriptingEngine;
     private JRadioButton rbPluggableScriptingEngine;
     private JRadioButton rbGraalVMScriptingEngine;
 
@@ -106,32 +106,6 @@ public class ScriptEngineSelectionDialog extends JDialog {
         HelpUtil.setHelpContext(getRootPane(),
                 HelpUtil.ht("/Plugin/Scripting"));
 
-    }
-
-    private JPanel buildEmbeddedScriptingEnginePanel() {
-        if (bgScriptingEngineType == null) {
-            bgScriptingEngineType = new ButtonGroup();
-        }
-        JPanel pnl = new JPanel(new GridBagLayout());
-        GridBagConstraints gc  = gbc().cell(0, 0).weight(0.0, 1.0)
-                .anchor(GridBagConstraints.NORTHWEST).nofill().constraints();
-
-        rbEmbeddedScriptingEngine = new JRadioButton();
-        rbEmbeddedScriptingEngine.addChangeListener(clEngineTypeChanged);
-        rbEmbeddedScriptingEngine.addChangeListener(actOK);
-        bgScriptingEngineType.add(rbEmbeddedScriptingEngine);
-        pnl.add(rbEmbeddedScriptingEngine, gc);
-
-        gc = gbc(gc).cell(1, 0).weight(1.0, 1.0).fillboth().constraints();
-        HtmlPanel ht = new HtmlPanel();
-        ht.setText("<html>" + tr(
-              "Use the embedded scripting engine for "
-            + "<strong>JavaScript</strong> (ECMAScript 5.0) based on "
-            + "<strong>Mozilla Rhino</strong>.")
-            + " </html>"
-        );
-        pnl.add(ht, gc);
-        return pnl;
     }
 
     private JPanel buildControlButtonPanel() {
@@ -186,17 +160,11 @@ public class ScriptEngineSelectionDialog extends JDialog {
      * <code>selected</code>. If <code>selected</code> is <code>null</code>,
      * assumes the default scripting engine.
      *
-     * @param selected the descriptor for the selected scripting engine
-     * @see ScriptEngineDescriptor#DEFAULT_SCRIPT_ENGINE
+     * @param selected the descriptor for the selected scripting engine. Must not be null.
      */
-    public void setSelectedScriptEngine(ScriptEngineDescriptor selected) {
-        if (selected == null) {
-            selected= ScriptEngineDescriptor.DEFAULT_SCRIPT_ENGINE;
-        }
+    public void setSelectedScriptEngine(@NotNull ScriptEngineDescriptor selected) {
+        Objects.requireNonNull(selected);
         switch(selected.getEngineType()){
-            case EMBEDDED:
-                rbEmbeddedScriptingEngine.setSelected(true);
-                break;
             case PLUGGED:
                 rbPluggableScriptingEngine.setSelected(true);
                 setSelectedEngine(lstPluggedEngines, selected);
@@ -351,7 +319,7 @@ public class ScriptEngineSelectionDialog extends JDialog {
         c.setLayout(new BorderLayout());
 
         //NORTH: display the default embedded script language
-        c.add(buildEmbeddedScriptingEnginePanel(), BorderLayout.NORTH);
+        // c.add(buildEmbeddedScriptingEnginePanel(), BorderLayout.NORTH);
 
         //CENTER: always display the list of plugged engines. Optionally,
         // if a GraalVM is present, display the list of languages
@@ -399,9 +367,7 @@ public class ScriptEngineSelectionDialog extends JDialog {
         }
 
         public void execute() {
-            if (rbEmbeddedScriptingEngine.isSelected()) {
-                selectedEngine = ScriptEngineDescriptor.DEFAULT_SCRIPT_ENGINE;
-            } else if (rbPluggableScriptingEngine.isSelected()) {
+           if (rbPluggableScriptingEngine.isSelected()) {
                 selectedEngine = lstPluggedEngines.getSelectedValue();
             } else if (rbGraalVMScriptingEngine.isSelected()) {
                 selectedEngine = lstGraalVMEngines.getSelectedValue();
@@ -415,9 +381,7 @@ public class ScriptEngineSelectionDialog extends JDialog {
         }
 
         private void updateEnabledState() {
-            if (rbEmbeddedScriptingEngine.isSelected()) {
-                setEnabled(true);
-            } else if (rbPluggableScriptingEngine.isSelected()) {
+            if (rbPluggableScriptingEngine.isSelected()) {
                 setEnabled(lstPluggedEngines.getSelectedIndex() >= 0);
             }
         }

@@ -92,7 +92,7 @@ public class ScriptEditorModel {
      * with a property change event for the property {@link #PROP_SCRIPT_ENGINE}.
      *
      * @param desc the descriptor. If null, assumes
-     *  {@link ScriptEngineDescriptor#DEFAULT_SCRIPT_ENGINE}
+     *  {@link ScriptEngineDescriptor#DEFAULT_SCRIPT_ENGINE}gi 
      */
     public void setScriptEngineDescriptor(ScriptEngineDescriptor desc) {
         if (desc == null) desc = ScriptEngineDescriptor.DEFAULT_SCRIPT_ENGINE;
