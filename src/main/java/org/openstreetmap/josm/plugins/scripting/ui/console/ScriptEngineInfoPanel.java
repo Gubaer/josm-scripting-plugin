@@ -132,8 +132,7 @@ PropertyChangeListener, HyperlinkListener{
     }
 
     protected void promptForScriptEngine() {
-        final var desc = ScriptEngineSelectionDialog.select(
-            this, model.getScriptEngineDescriptor());
+        final var desc = ScriptEngineSelectionDialog.select(this, model.getScriptEngineDescriptor());
         if (desc != null){
             logger.log(Level.FINE, String.format(
                 "Interactively selected script engine. id=%s, language=%s",

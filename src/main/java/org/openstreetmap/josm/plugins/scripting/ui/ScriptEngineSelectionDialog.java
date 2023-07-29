@@ -15,7 +15,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -23,7 +23,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -73,9 +72,10 @@ public class ScriptEngineSelectionDialog extends JDialog {
      * @return the selected script engine, or null, if the user didn't select
      *  an engine
      */
-    static public ScriptEngineDescriptor select(Component parent,
-            ScriptEngineDescriptor current){
-        if (parent == null) parent = MainApplication.getMainFrame();
+    static public @Null ScriptEngineDescriptor select(Component parent, ScriptEngineDescriptor current){
+        if (parent == null) {
+            parent = MainApplication.getMainFrame();
+        }
         final var dialog = new ScriptEngineSelectionDialog(parent);
         dialog.setSelectedScriptEngine(current);
         dialog.setVisible(true);
@@ -100,11 +100,9 @@ public class ScriptEngineSelectionDialog extends JDialog {
      *   owner frame.
      */
     public ScriptEngineSelectionDialog(Component parent) {
-        super(JOptionPane.getFrameForComponent(parent),
-            ModalityType.APPLICATION_MODAL);
+        super(JOptionPane.getFrameForComponent(parent), ModalityType.APPLICATION_MODAL);
         build();
-        HelpUtil.setHelpContext(getRootPane(),
-                HelpUtil.ht("/Plugin/Scripting"));
+        HelpUtil.setHelpContext(getRootPane(), HelpUtil.ht("/Plugin/Scripting"));
 
     }
 
@@ -136,21 +134,17 @@ public class ScriptEngineSelectionDialog extends JDialog {
         return pnl;
     }
 
-    private void setSelectedEngine(
-            final JList<ScriptEngineDescriptor> list,
-            final ScriptEngineDescriptor selected) {
-
+    private void setSelectedEngine(final JList<ScriptEngineDescriptor> list, final ScriptEngineDescriptor selected) {
         if (selected == null) {
             return;
         }
-        ListModel<ScriptEngineDescriptor> model = list.getModel();
+        final var model = list.getModel();
         IntStream.range(0,model.getSize())
             .mapToObj(model::getElementAt)
             .filter(selected::equals)
             .findFirst()
             .ifPresentOrElse(
-                (desc) -> list.setSelectedValue(
-                    desc, true /* scroll to selected */),
+                (desc) -> list.setSelectedValue(desc, true /* scroll to selected */),
                 () -> list.setSelectedIndex(0)
             );
     }
@@ -160,10 +154,19 @@ public class ScriptEngineSelectionDialog extends JDialog {
      * <code>selected</code>. If <code>selected</code> is <code>null</code>,
      * assumes the default scripting engine.
      *
-     * @param selected the descriptor for the selected scripting engine. Must not be null.
+     * @param selected the descriptor for the selected scripting engine. If null,
+     *                 no scripting engine is selected
      */
-    public void setSelectedScriptEngine(@NotNull ScriptEngineDescriptor selected) {
-        Objects.requireNonNull(selected);
+    public void setSelectedScriptEngine(@Null ScriptEngineDescriptor selected) {
+        if (selected == null) {
+            rbPluggableScriptingEngine.setSelected(false);
+            setSelectedEngine(lstPluggedEngines, null /* nothing selected */);
+            if (rbGraalVMScriptingEngine != null) {
+                rbGraalVMScriptingEngine.setSelected(false);
+                setSelectedEngine(lstGraalVMEngines, null /* nothing selected */);
+            }
+            return;
+        }
         switch(selected.getEngineType()){
             case PLUGGED:
                 rbPluggableScriptingEngine.setSelected(true);
