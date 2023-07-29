@@ -33,7 +33,7 @@ dependencies {
     graalvm group: 'org.graalvm.truffle', name: 'truffle-api', version:  project.properties["graalvm.version"]
     graalvm group: 'org.graalvm.js', name: 'js', version:  project.properties["graalvm.version"]
 
-    packIntoJar group: "org.mozilla", name: "rhino", version: "1.7.14"
+//    packIntoJar group: "org.mozilla", name: "rhino", version: "1.7.14"
     packIntoJar group: 'javax.validation', name: 'validation-api', version: '1.0.0.GA'
     packIntoJar group: 'javax.activation', name: 'activation', version: '1.1.1'
     packIntoJar group: 'com.github.spullara.mustache.java', name: 'compiler', version: project.property('dep.mustache')
@@ -177,16 +177,16 @@ test {
  * Runs the API V1 JavaScript unit tests with JOSM and Mozilla
  * Rhino present.
  */
-tasks.register('testScriptApiV1', Test) {
-    useJUnitPlatform()
-    environment "JOSM_SCRIPTING_PLUGIN_HOME", project.projectDir
-    scanForTestClasses = false
-    include "org/openstreetmap/josm/plugins/scripting/rhino/api/APIV1TestSuite.class"
-    testLogging {
-        events TestLogEvent.FAILED, TestLogEvent.PASSED
-        exceptionFormat = TestExceptionFormat.FULL
-    }
-}
+//tasks.register('testScriptApiV1', Test) {
+//    useJUnitPlatform()
+//    environment "JOSM_SCRIPTING_PLUGIN_HOME", project.projectDir
+//    scanForTestClasses = false
+//    include "org/openstreetmap/josm/plugins/scripting/rhino/api/APIV1TestSuite.class"
+//    testLogging {
+//        events TestLogEvent.FAILED, TestLogEvent.PASSED
+//        exceptionFormat = TestExceptionFormat.FULL
+//    }
+//}
 
 def getGraalVMHome() {
     if (!project.hasProperty("graalvm.version")) {
@@ -306,7 +306,7 @@ tasks.register('testJSR223EnginePresent', Test) {
     }
 }
 
-tasks.check.dependsOn(tasks.testScriptApiV1)
+//tasks.check.dependsOn(tasks.testScriptApiV1)
 tasks.check.dependsOn(tasks.testScriptApiV2AndV3)
 tasks.check.dependsOn(tasks.testGraalVMSupportNotPresent)
 tasks.check.dependsOn(tasks.testJSR223EnginePresent)

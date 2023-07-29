@@ -1,7 +1,6 @@
 package org.openstreetmap.josm.plugins.scripting.ui;
 
 
-import org.mozilla.javascript.EcmaError;
 import org.openstreetmap.josm.data.Preferences;
 import org.openstreetmap.josm.plugins.scripting.graalvm.GraalVMFacadeFactory;
 
@@ -109,9 +108,9 @@ public class ScriptErrorViewer extends JPanel {
         add(buildViewerPanel(), BorderLayout.CENTER);
     }
 
-    protected String formatMozillaEcmaError(EcmaError exception) {
-        return exception.getMessage();
-    }
+//    protected String formatMozillaEcmaError(EcmaError exception) {
+//        return exception.getMessage();
+//    }
 
     protected String formatScriptException(ScriptException exception) {
         return exception.getMessage();
@@ -140,14 +139,15 @@ public class ScriptErrorViewer extends JPanel {
             return;
         }
         var builder = new StringBuilder();
-        var mozillaEcmaError =
-            lookupCauseByExceptionType(exception, EcmaError.class);
+//        var mozillaEcmaError =
+//            lookupCauseByExceptionType(exception, EcmaError.class);
         var scriptException =
             lookupCauseByExceptionType(exception, ScriptException.class);
 
-        if (mozillaEcmaError != null) {
-            builder.append(formatMozillaEcmaError((EcmaError) mozillaEcmaError));
-        } else if (scriptException != null) {
+//        if (mozillaEcmaError != null) {
+//            builder.append(formatMozillaEcmaError((EcmaError) mozillaEcmaError));
+//        } else
+        if (scriptException != null) {
             builder.append(formatScriptException((ScriptException) scriptException));
         } else if (GraalVMFacadeFactory.isGraalVMPresent()) {
             try {
