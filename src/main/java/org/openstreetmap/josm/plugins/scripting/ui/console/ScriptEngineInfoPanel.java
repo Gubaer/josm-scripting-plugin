@@ -66,18 +66,19 @@ PropertyChangeListener, HyperlinkListener{
 
     private static String buildJavascriptAPIHint(ScriptEngineDescriptor desc) {
         final var sb = new StringBuilder();
-        if (desc.isDescribingMozillaRhino()) {
-            sb.append("<p>");
-            sb.append(tr(
-                "Mozilla Rhino and the <a href=\"{0}\">JavaScript API V1</a> " +
-                "are <span class=\"warning\">deprecated</span>. They will be " +
-                "removed end of 2022.",
-                "https://gubaer.github.io/josm-scripting-plugin/docs/v1/v1.html"
-                )
-            );
-            sb.append("</p>");
-            return sb.toString();
-        } else if (desc.isDescribingGraalJS()) {
+//        if (desc.isDescribingMozillaRhino()) {
+//            sb.append("<p>");
+//            sb.append(tr(
+//                "Mozilla Rhino and the <a href=\"{0}\">JavaScript API V1</a> " +
+//                "are <span class=\"warning\">deprecated</span>. They will be " +
+//                "removed end of 2022.",
+//                "https://gubaer.github.io/josm-scripting-plugin/docs/v1/v1.html"
+//                )
+//            );
+//            sb.append("</p>");
+//            return sb.toString();
+//        } else
+        if (desc.isDescribingGraalJS()) {
             sb.append("<p>");
             sb.append(tr(
                 "With GraalJS, use <a href=\"{0}\">JavaScript API V3</a>.",
@@ -97,22 +98,24 @@ PropertyChangeListener, HyperlinkListener{
             sb.append(tr("No script engine selected.")).append(" ");
             sb.append(buildSelectScriptEngineLink(tr("Select") + "..."));
             sb.append("</html>");
-        } else if (desc.isDefault()) {
-            sb.append("<html>");
-            sb.append("<p>");
-            sb.append(
-                tr("Executing scripts with the built-in scripting engine "
-                + "for language <strong>{0}</strong> based on "
-                + "<strong>{1}</strong>.",
-                desc.getLanguageName().orElse(tr("unknown")),
-                desc.getEngineName().orElse(tr("unknown"))
-                )
-            );
-            sb.append(" ").append(buildSelectScriptEngineLink(tr("Change") + "..."));
-            sb.append("</p>");
-            sb.append(buildJavascriptAPIHint(desc));
-            sb.append("</html>");
-        } else {
+        }
+//        else if (desc.isDefault()) {
+//            sb.append("<html>");
+//            sb.append("<p>");
+//            sb.append(
+//                tr("Executing scripts with the built-in scripting engine "
+//                + "for language <strong>{0}</strong> based on "
+//                + "<strong>{1}</strong>.",
+//                desc.getLanguageName().orElse(tr("unknown")),
+//                desc.getEngineName().orElse(tr("unknown"))
+//                )
+//            );
+//            sb.append(" ").append(buildSelectScriptEngineLink(tr("Change") + "..."));
+//            sb.append("</p>");
+//            sb.append(buildJavascriptAPIHint(desc));
+//            sb.append("</html>");
+//        }
+        else {
             sb.append("<html>");
             sb.append("<p>");
             sb.append(tr("Executing scripts in language <strong>{0}</strong> "

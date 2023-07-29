@@ -218,10 +218,10 @@ public class ScriptingConsolePanel extends JPanel {
             errorModel.clearError();
             final String source = editor.getScript();
             switch(model.getScriptEngineDescriptor().getEngineType()) {
-            case EMBEDDED:
-                new ScriptExecutor(ScriptingConsolePanel.this)
-                    .runScriptWithEmbeddedEngine(source, errorModel);
-                break;
+//            case EMBEDDED:
+//                new ScriptExecutor(ScriptingConsolePanel.this)
+//                    .runScriptWithEmbeddedEngine(source, errorModel);
+//                break;
             case PLUGGED:
                 new ScriptExecutor(ScriptingConsolePanel.this)
                     .runScriptWithPluggedEngine(
@@ -252,8 +252,7 @@ public class ScriptingConsolePanel extends JPanel {
 
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
-            if (!evt.getPropertyName()
-                    .equals(ScriptEditorModel.PROP_SCRIPT_ENGINE)) {
+            if (!evt.getPropertyName().equals(ScriptEditorModel.PROP_SCRIPT_ENGINE)) {
                 return;
             }
             updateEnabledState();

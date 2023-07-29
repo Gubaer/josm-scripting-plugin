@@ -47,25 +47,25 @@ public class ScriptEditorModel {
 
     protected ScriptEngineDescriptor selectDefaultScriptEngine() {
         if (GraalVMFacadeFactory.isGraalVMPresent()) {
-            final var descriptor = GraalVMFacadeFactory.getOrCreateGraalVMFacade()
+            return GraalVMFacadeFactory.getOrCreateGraalVMFacade()
                 .getScriptEngineDescriptors().stream()
                 .filter(desc -> "js".equals(desc.getEngineId()))
                 .findFirst()
                 .orElse(null);
-            //TODO(gubaer): fix when Mozilla Rhino is removed
-            return descriptor == null
-                ? ScriptEngineDescriptor.DEFAULT_SCRIPT_ENGINE
-                : descriptor;
+//            return descriptor == null
+//                ? ScriptEngineDescriptor.DEFAULT_SCRIPT_ENGINE
+//                : descriptor;
 
         } else {
-            //TODO(gubaer); fix when Mozilla Rhino is removed
-            return ScriptEngineDescriptor.DEFAULT_SCRIPT_ENGINE;
+//            //TODO(gubaer); fix when Mozilla Rhino is removed
+//            return ScriptEngineDescriptor.DEFAULT_SCRIPT_ENGINE;
+            return null;
         }
     }
 
     /**
      * Creates a new script editor model.
-     *
+     * <p>
      * Initializes the model with the default scripting engine.
      */
     public ScriptEditorModel() {
@@ -74,7 +74,7 @@ public class ScriptEditorModel {
 
     /**
      * Creates a new script editor model.
-     *
+     * <p>
      * Initializes the model with the scripting engine <code>desc</code>.
      * If <code>desc</code> is null initializes the model with the default
      * scripting engine.
@@ -91,12 +91,13 @@ public class ScriptEditorModel {
      * Sets the script engine descriptor. Notifies property change listeners
      * with a property change event for the property {@link #PROP_SCRIPT_ENGINE}.
      *
-     * @param desc the descriptor. If null, assumes
-     *  {@link ScriptEngineDescriptor#DEFAULT_SCRIPT_ENGINE}gi 
+     * @param desc the descriptor. Can be null.
      */
-    public void setScriptEngineDescriptor(ScriptEngineDescriptor desc) {
-        if (desc == null) desc = ScriptEngineDescriptor.DEFAULT_SCRIPT_ENGINE;
-        if (desc.equals(this.descriptor)) return;
+    public void setScriptEngineDescriptor(@Null ScriptEngineDescriptor desc) {
+//        if (desc == null) desc = ScriptEngineDescriptor.DEFAULT_SCRIPT_ENGINE;
+        if (desc == null && this.descriptor == null) return;
+        if (desc != null && desc.equals(this.descriptor)) return;
+//        if (desc.equals(this.descriptor)) return;
         ScriptEngineDescriptor old = this.descriptor;
         this.descriptor = desc;
         support.firePropertyChange(PROP_SCRIPT_ENGINE, old, this.descriptor);
