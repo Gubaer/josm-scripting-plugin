@@ -2,51 +2,41 @@ package org.openstreetmap.josm.plugins.scripting.model
 
 import org.junit.jupiter.api.Test
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor.ScriptEngineType
+import static org.junit.Assert.*
 
 class ScriptEngineTypeTest {
 
     @Test
-    void fromLegalPreferenceValue() {
-        def type = ScriptEngineType.fromPreferencesValue("embedded/rhino")
-        assert type == ScriptEngineType.EMBEDDED
+    void "should initialize engine type from supported engine preference value"() {
+        def type
 
         type = ScriptEngineType.fromPreferencesValue("plugged/rhino")
-        assert type == ScriptEngineType.PLUGGED
+        assertEquals(ScriptEngineType.PLUGGED, type)
 
         type = ScriptEngineType.fromPreferencesValue("graalvm/s")
-        assert type == ScriptEngineType.GRAALVM
-
-        type = ScriptEngineType.fromPreferencesValue("embedded")
-        assert type == ScriptEngineType.EMBEDDED
+        assertEquals(ScriptEngineType.GRAALVM, type)
 
         type = ScriptEngineType.fromPreferencesValue("plugged")
-        assert type == ScriptEngineType.PLUGGED
+        assertEquals(ScriptEngineType.PLUGGED, type)
 
         type = ScriptEngineType.fromPreferencesValue("graalvm")
-        assert type == ScriptEngineType.GRAALVM
+        assertEquals(ScriptEngineType.GRAALVM, type)
     }
 
     @Test
-    void fromNormalizedPreferenceValue() {
-        def type = ScriptEngineType.fromPreferencesValue("  embedded/rhino  ")
-        assert type == ScriptEngineType.EMBEDDED
-
-        type = ScriptEngineType.fromPreferencesValue("  emBeDded/rhino  ")
-        assert type == ScriptEngineType.EMBEDDED
+    void "should normalize preference values for scripting engines"() {
+        def type
 
         type = ScriptEngineType.fromPreferencesValue("  GraalVM/JS  ")
-        assert type == ScriptEngineType.GRAALVM
+        assertEquals(ScriptEngineType.GRAALVM, type)
 
         type = ScriptEngineType.fromPreferencesValue("\t plugged/rhino  \t")
-        assert type == ScriptEngineType.PLUGGED
-
-        type = ScriptEngineType.fromPreferencesValue("   embedded   ")
-        assert type == ScriptEngineType.EMBEDDED
+        assertEquals(ScriptEngineType.PLUGGED, type)
 
         type = ScriptEngineType.fromPreferencesValue("   plugged  ")
-        assert type == ScriptEngineType.PLUGGED
+        assertEquals(ScriptEngineType.PLUGGED, type)
 
         type = ScriptEngineType.fromPreferencesValue("   GrAaLVM  ")
-        assert type == ScriptEngineType.GRAALVM
+        assertEquals(ScriptEngineType.GRAALVM, type)
     }
 }
