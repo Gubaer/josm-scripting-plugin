@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 
 import static java.text.MessageFormat.format;
 
+@SuppressWarnings("unused")
 public class JOSMFixture extends org.openstreetmap.josm.JOSMFixture {
     static public final String DEFAULT_JOSM_HOME = "build/josm.home";
     static private final Logger logger = Logger.getLogger(JOSMFixture.class.getName());
