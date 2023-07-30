@@ -1,13 +1,15 @@
 package org.openstreetmap.josm.plugins.scripting.ui.console
 
-import groovy.test.GroovyTestCase
 import org.junit.jupiter.api.Test
+import org.openstreetmap.josm.plugins.scripting.BaseTestCase
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor
 
 import java.beans.PropertyChangeEvent
 import java.beans.PropertyChangeListener
 
-class ScriptEditorModelTest extends GroovyTestCase {
+import static org.junit.Assert.*
+
+class ScriptEditorModelTest extends BaseTestCase {
 
     @Test
     void create() {
@@ -69,6 +71,6 @@ class ScriptEditorModelTest extends GroovyTestCase {
         def model = new ScriptEditorModel()
         model.setScriptEngineDescriptor(null)
 
-        assertEquals(ScriptEngineDescriptor.DEFAULT_SCRIPT_ENGINE, model.getScriptEngineDescriptor())
+        assertNull(ScriptEngineDescriptor.DEFAULT_SCRIPT_ENGINE, model.getScriptEngineDescriptor())
     }
 }

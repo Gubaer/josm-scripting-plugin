@@ -1,9 +1,13 @@
 package org.openstreetmap.josm.plugins.scripting.ui.console
 
-import groovy.test.GroovyTestCase
-import org.junit.jupiter.api.Test
 
-class SyntaxConstantsEngineTest extends GroovyTestCase {
+import org.junit.jupiter.api.Test
+import org.openstreetmap.josm.plugins.scripting.BaseTestCase
+
+import static org.junit.Assert.*
+import static groovy.test.GroovyAssert.shouldFail
+
+class SyntaxConstantsEngineTest extends BaseTestCase {
 
     @Test
     void "can load syntax constants"() {
@@ -185,5 +189,4 @@ class SyntaxConstantsEngineTest extends GroovyTestCase {
         style = rules.deriveSuitableSyntaxStyle("application/GrOOvY")
         assertEquals("text/groovy", style)
     }
-
 }
