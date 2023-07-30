@@ -71,6 +71,6 @@ class ScriptEditorModelTest extends BaseTestCase {
         def model = new ScriptEditorModel()
         model.setScriptEngineDescriptor(null)
 
-        assertNull(ScriptEngineDescriptor.DEFAULT_SCRIPT_ENGINE, model.getScriptEngineDescriptor())
+        assertNull(model.getScriptEngineDescriptor())
     }
 }
