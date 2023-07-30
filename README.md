@@ -10,7 +10,7 @@ Scripts can be written in any scripting language for which a [JSR-223][jsr223] c
 
 If the [GraalJS][graal-js] engine is on the classpath, you can use it to execute scripts in JavaScript. The plugin includes a JavaScript library to manage layers, edit OSM primitives, load and save data, upload data to the OSM server, and download primitives from the OSM server. Refer to the [API V3 documentation][api-v3].
 
-The plugin includes [Mozilla Rhino][rhino] as a scripting engine for historical reasons. Mozilla Rhino is deprecated in the scripting plugin. The plugin authors will remove it at the end of 2022. The plugin also includes a JavaScript library [API V1][api-v1] to be used with Mozilla Rhino. It is deprecated too. The plugin authors will remove it at the end of 2022 with Mozilla Rhino. If your current scripts use [API V1][api-v1], migrate them to [API V2][api-v2], and change to [GraalJS][doc-graaljs].
+Until release v0.2.10 the plugin included [Mozilla Rhino][rhino] as a scripting engine and a JavaScript library [API V1][api-v1] to be used with Mozilla Rhino. Starting from release v0.3.0  [Mozilla Rhino][rhino] **is not included anymore**. If your current scripts use [API V1][api-v1], migrate them to [API V3][api-v3], and change to [GraalJS][doc-graaljs].
 
 ## Install
 Use JOSMs plugin manager to install the scripting plugin and keep it up to date.
@@ -129,18 +129,10 @@ $ cd docstrap && npm install
 
 ### Generate the API documentation
 ```bash
-# generate the API documentation for the v1 API. Documentation is written
-# to out/v1
-$ ./jsdoc.sh --api-version v1
 
-# generate the API documentation for the v2 API in a temporary directory
-$ ./jsdoc.sh --api-version v2 --output-dir /tmp/api-v2
-
-# generate the complete API documentation into the 'gh-pages' branch
-# and publish it
+# generate the API documentation into the 'gh-pages' branch and publish it
 # First checkout the 'gh-pages' branch into ../josm-scripting-plugin.gh-pages
 $ ./jsdoc.sh \
-    --api-version all \
     --output-dir ../josm-scripting-plugin.gh-pages/api
 $ cd ../josm-scripting-plugin.gh-pages
 $ git commit -a -m "Regenerate API doc"
@@ -152,7 +144,6 @@ $ git commit -a -m "Regenerate API doc"
 ## Credits
 The JOSM scripting plugin uses:
 
-* [Mozilla Rhino][rhino] scripting engine by Mozilla Foundation
 * [RSyntaxTextArea][rsyntaxtextarea]
 * [Graal.JS][graal-js]
 
