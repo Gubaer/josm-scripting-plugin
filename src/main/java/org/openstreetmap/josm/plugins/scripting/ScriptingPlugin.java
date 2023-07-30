@@ -8,7 +8,6 @@ import org.openstreetmap.josm.plugins.Plugin;
 import org.openstreetmap.josm.plugins.PluginInformation;
 import org.openstreetmap.josm.plugins.scripting.graalvm.GraalVMFacadeFactory;
 import org.openstreetmap.josm.plugins.scripting.graalvm.commonjs.CommonJSModuleRepositoryRegistry;
-import org.openstreetmap.josm.plugins.scripting.graalvm.commonjs.JarJSModuleRepository;
 import org.openstreetmap.josm.plugins.scripting.graalvm.esmodule.ESModuleRepositoryBuilder;
 import org.openstreetmap.josm.plugins.scripting.graalvm.esmodule.ESModuleResolver;
 import org.openstreetmap.josm.plugins.scripting.graalvm.esmodule.IllegalESModuleBaseUri;
@@ -52,21 +51,8 @@ public class ScriptingPlugin extends Plugin implements PreferenceKeys{
         return instance;
     }
 
-    private void initGraalVMJSModuleRepository(PluginInformation info) {
-        final var uri =
-            CommonJSModuleRepositoryRegistry.buildRepositoryUrlForBuiltinModules(info);
-        if (uri != null) {
-            try {
-                CommonJSModuleRepositoryRegistry.getInstance().setBuiltInRepository(
-                    new JarJSModuleRepository(uri)
-                );
-            } catch(IOException e) {
-                logger.log(Level.WARNING,
-                    tr("Failed to configure built-in CommonJS module repository"), e);
-            }
-        }
-        CommonJSModuleRepositoryRegistry.getInstance()
-            .loadFromPreferences(Preferences.main());
+    private void initGraalVMJSModuleRepository() {
+        CommonJSModuleRepositoryRegistry.getInstance().loadFromPreferences(Preferences.main());
     }
 
     private void initGraalVMESModuleRepositories(PluginInformation info) {
@@ -96,7 +82,7 @@ public class ScriptingPlugin extends Plugin implements PreferenceKeys{
         installScriptsMenu();
         initLocalInstallation();
         if (GraalVMFacadeFactory.isGraalVMPresent()) {
-            initGraalVMJSModuleRepository(info);
+            initGraalVMJSModuleRepository();
             initGraalVMESModuleRepositories(info);
         }
         SyntaxConstantsEngine.getInstance().loadRules(this);

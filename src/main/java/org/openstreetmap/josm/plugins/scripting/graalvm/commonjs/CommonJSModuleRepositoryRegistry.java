@@ -1,10 +1,8 @@
 package org.openstreetmap.josm.plugins.scripting.graalvm.commonjs;
 
 import org.openstreetmap.josm.data.Preferences;
-import org.openstreetmap.josm.plugins.PluginInformation;
 import org.openstreetmap.josm.plugins.scripting.graalvm.IRepositoriesSource;
 import org.openstreetmap.josm.plugins.scripting.graalvm.ModuleID;
-import org.openstreetmap.josm.plugins.scripting.graalvm.ModuleJarURI;
 import org.openstreetmap.josm.plugins.scripting.model.PreferenceKeys;
 import org.openstreetmap.josm.plugins.scripting.model.RelativePath;
 
@@ -12,7 +10,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import java.net.MalformedURLException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,25 +31,6 @@ public class CommonJSModuleRepositoryRegistry implements IModuleResolver, IRepos
 
     static private CommonJSModuleRepositoryRegistry instance;
 
-    /**
-     * Replies the jar URI referring to the built-in CommonJS modules
-     * shipped in the plugin jar.
-     *
-     * @param info plugin information
-     * @return the URI
-     * @throws NullPointerException if <code>info</code> is null
-     */
-    static public @Null URI buildRepositoryUrlForBuiltinModules(@NotNull PluginInformation info) {
-        Objects.requireNonNull(info);
-        try {
-            return ModuleJarURI.buildJarUri(info.file.getAbsolutePath(), RelativePath.parse("js/v2"));
-        } catch(MalformedURLException | URISyntaxException e) {
-            logger.log(Level.WARNING, "Failed to create URI referring to the "
-                  + "CommonJS modules in the plugin jar. Cannot load CommonJS "
-                  + "modules for v2 API from the plugin jar.",e);
-            return null;
-        }
-    }
 
     /**
      * Replies the singleton instance of the registry.
