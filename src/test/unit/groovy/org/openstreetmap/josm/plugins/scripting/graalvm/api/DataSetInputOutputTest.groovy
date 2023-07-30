@@ -14,8 +14,8 @@ class DataSetInputOutputTest extends AbstractGraalVMBasedTest{
             "src/test/resources/sample-data-files/test-josm-open.osm")
 
         final src = """
-        const josm = require('josm')
-        const {DataSetUtil} = require('josm/ds')
+        import josm from 'josm'
+        import {DataSetUtil} from 'josm/ds'
         
         DataSetUtil.load('${escapeWindowsPathDelimiter(file)}')
         """
@@ -29,8 +29,8 @@ class DataSetInputOutputTest extends AbstractGraalVMBasedTest{
                 "src/test/resources/sample-data-files/test-josm-open.osm")
 
         final src = """
-        const josm = require('josm')
-        const {DataSetUtil} = require('josm/ds')
+        import josm from 'josm'
+        import {DataSetUtil} from 'josm/ds'
         const File = Java.type('java.io.File')
         const file = new File('${escapeWindowsPathDelimiter(file)}')
         DataSetUtil.load(file)
@@ -45,8 +45,8 @@ class DataSetInputOutputTest extends AbstractGraalVMBasedTest{
                 "src/test/resources/sample-data-files/test-josm-open.osm")
 
         final src = """
-        const josm = require('josm')
-        const {DataSetUtil} = require('josm/ds')
+        import josm from 'josm'
+        import {DataSetUtil} from 'josm/ds'
         
         DataSetUtil.load('${escapeWindowsPathDelimiter(file)}', {format: 'osm'})
         """
@@ -60,9 +60,9 @@ class DataSetInputOutputTest extends AbstractGraalVMBasedTest{
             "src/test/resources/sample-data-files/test-josm-open.osm")
 
         final src = """
-        const josm = require('josm')
-        const {DataSetUtil} = require('josm/ds')
-        
+        import josm from 'josm'
+        import {DataSetUtil} from 'josm/ds'
+
         DataSetUtil.load('${escapeWindowsPathDelimiter(file)}', {format: 'osm.gz'})
         """
         shouldFail(Throwable) {
@@ -78,9 +78,9 @@ class DataSetInputOutputTest extends AbstractGraalVMBasedTest{
         final tempOutputFile = File.createTempFile("test-josm-open", ".tmp")
 
         final src = """
-        const josm = require('josm')
-        const {DataSetUtil} = require('josm/ds')
-        
+        import josm from 'josm'
+        import {DataSetUtil} from 'josm/ds'
+
         const loadedData = DataSetUtil.load('${escapeWindowsPathDelimiter(file)}')
         loadedData.save('${escapeWindowsPathDelimiter(tempOutputFile)}')
         const loadedAgain = DataSetUtil.load('${escapeWindowsPathDelimiter(tempOutputFile)}', {format: 'osm'})
