@@ -58,6 +58,6 @@ class APIV3TestSuite extends AbstractGraalVMBasedTest {
         suite.fragileRun()
         """
 
-        final result = context.eval(buildSource(source))
+        context.eval(buildSource(source))
     }
 }
