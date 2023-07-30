@@ -33,7 +33,6 @@ dependencies {
     graalvm group: 'org.graalvm.truffle', name: 'truffle-api', version:  project.properties["graalvm.version"]
     graalvm group: 'org.graalvm.js', name: 'js', version:  project.properties["graalvm.version"]
 
-//    packIntoJar group: "org.mozilla", name: "rhino", version: "1.7.14"
     packIntoJar group: 'javax.validation', name: 'validation-api', version: '1.0.0.GA'
     packIntoJar group: 'javax.activation', name: 'activation', version: '1.1.1'
     packIntoJar group: 'com.github.spullara.mustache.java', name: 'compiler', version: project.property('dep.mustache')
