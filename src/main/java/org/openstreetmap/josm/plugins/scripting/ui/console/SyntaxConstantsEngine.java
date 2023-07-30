@@ -98,7 +98,7 @@ public class SyntaxConstantsEngine {
 
         /**
          * Loads the rules from properties.
-         *
+         * <p>
          * Properties example:
          * <pre>
          *  rule.1.syntax-style=text/javascript
@@ -257,7 +257,7 @@ public class SyntaxConstantsEngine {
 
     /**
      * Loads the rules for deriving syntax styles from mime-types.
-     *
+     * <p>
      * First, tries to load them from a configuration file in the plugin data
      * directory. If no such file exists, tries to load them from a resource
      * file included in the plugin jar.

@@ -80,24 +80,6 @@ public class ScriptExecutor {
         );
     }
 
-//    private void notifyIOException(File scriptFile, IOException e) {
-//        HelpAwareOptionPane.showOptionDialog(
-//            this.parent,
-//            "<html>"
-//            + tr(
-//                "<p>Failed to execute the script file ''{0}''.</p><p/>"
-//                + "<p><strong>Error message:</strong>{1}</p>",
-//                scriptFile.toString(),
-//                e.getMessage()
-//            )
-//            + "</html>"
-//            ,
-//            tr("Script execution failed"),
-//            JOptionPane.ERROR_MESSAGE,
-//            HelpUtil.ht("/Plugin/Scripting")
-//        );
-//    }
-
     private void runOnSwingEDT(Runnable r){
         if (SwingUtilities.isEventDispatchThread()) {
             r.run();
@@ -244,68 +226,6 @@ public class ScriptExecutor {
         };
         runOnSwingEDT(task);
     }
-
-//    private String readFile(File scriptFile) throws IOException {
-//        try (BufferedReader reader =
-//             new BufferedReader(buildTextFileReader(scriptFile))) {
-//            return reader.lines().collect(Collectors.joining("\n"));
-//        }
-//    }
-
-//    /**
-//     * Runs the script in the script file <tt>scriptFile</tt> using the
-//     * embedded scripting engine on the Swing EDT.
-//     *
-//     * @param scriptFile the script file. Expects a readable file.
-//     * @throws NullPointerException thrown if <code>scriptFile</code> is null
-//     */
-//    @SuppressWarnings("WeakerAccess") // part of the public API
-//    public void runScriptWithEmbeddedEngine(@NotNull final File scriptFile)
-//                throws IllegalArgumentException {
-//        Objects.requireNonNull(scriptFile);
-//        try {
-//            String script = readFile(scriptFile);
-//            RhinoEngine engine = RhinoEngine.getInstance();
-//            engine.enterSwingThreadContext();
-//            engine.evaluateOnSwingThread(script, scriptFile.getAbsolutePath());
-//        } catch(JavaScriptException e){
-//            ScriptErrorDialog.showErrorDialog(e);
-//            //warnJavaScriptExceptionCaught(e);
-//        } catch(RhinoException e){
-//            logger.log(Level.SEVERE, String.format("failed to execute script file. file='%s'",
-//                scriptFile.getAbsolutePath()), e);
-//            ScriptErrorDialog.showErrorDialog(e);
-//            //notifyRhinoException(scriptFile, e);
-//        } catch(IOException e){
-//            logger.log(Level.SEVERE, String.format("failed to execute script file. file='%s'",
-//                scriptFile.getAbsolutePath()), e);
-//            notifyIOException(scriptFile, e);
-//        } catch(RuntimeException e){
-//            logger.log(Level.SEVERE, String.format("failed to execute script file. file='%s'",
-//                scriptFile.getAbsolutePath()), e);
-//            ScriptErrorDialog.showErrorDialog(e);
-//            //notifyRuntimeException(e);
-//        }
-//    }
-//
-//    /**
-//     * Runs the script <tt>script</tt> using the embedded scripting engine
-//     * on the Swing EDT.
-//     *
-//     * @param script the script. Ignored if null.
-//     * @param errorModel the error model
-//     */
-//    public void runScriptWithEmbeddedEngine(final String script, final ScriptErrorViewerModel errorModel) {
-//        if (script  == null) return;
-//        try {
-//            RhinoEngine engine = RhinoEngine.getInstance();
-//            engine.enterSwingThreadContext();
-//            engine.evaluateOnSwingThread(script);
-//        } catch(RuntimeException e){
-//            logger.log(Level.SEVERE, "failed to execute script", e);
-//            errorModel.setError(e);
-//        }
-//    }
 
     protected void runScriptWithGraalVM(final File script, final ScriptEngineDescriptor engine) {
         if (logger.isLoggable(Level.FINE)) {

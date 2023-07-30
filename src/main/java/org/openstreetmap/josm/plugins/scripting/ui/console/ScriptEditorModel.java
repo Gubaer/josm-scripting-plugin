@@ -52,13 +52,7 @@ public class ScriptEditorModel {
                 .filter(desc -> "js".equals(desc.getEngineId()))
                 .findFirst()
                 .orElse(null);
-//            return descriptor == null
-//                ? ScriptEngineDescriptor.DEFAULT_SCRIPT_ENGINE
-//                : descriptor;
-
         } else {
-//            //TODO(gubaer); fix when Mozilla Rhino is removed
-//            return ScriptEngineDescriptor.DEFAULT_SCRIPT_ENGINE;
             return null;
         }
     }

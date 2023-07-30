@@ -1,19 +1,16 @@
 package org.openstreetmap.josm.plugins.scripting.preferences;
 
+import org.openstreetmap.josm.data.Preferences;
+import org.openstreetmap.josm.plugins.scripting.model.JSR223ScriptEngineProvider;
+import org.openstreetmap.josm.plugins.scripting.model.PreferenceKeys;
+
+import javax.swing.*;
+import javax.swing.table.AbstractTableModel;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
-
-import javax.swing.DefaultListSelectionModel;
-import javax.swing.ListSelectionModel;
-import javax.swing.table.AbstractTableModel;
-
-import org.openstreetmap.josm.data.Preferences;
-import org.openstreetmap.josm.plugins.scripting.model.JSR223ScriptEngineProvider;
-import org.openstreetmap.josm.plugins.scripting.model.PreferenceKeys;
 
 /**
  * <strong>ScriptEngineJarTableModel</strong> is a table model for the table of script
@@ -21,7 +18,7 @@ import org.openstreetmap.josm.plugins.scripting.model.PreferenceKeys;
  *
  */
 public class ScriptEngineJarTableModel extends AbstractTableModel implements PreferenceKeys{
-    static private final Logger logger = Logger.getLogger(ScriptEngineJarTableModel.class.getName());
+    //static private final Logger logger = Logger.getLogger(ScriptEngineJarTableModel.class.getName());
 
     private final List<ScriptEngineJarInfo> jars = new ArrayList<>();
     private DefaultListSelectionModel selectionModel;

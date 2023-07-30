@@ -43,7 +43,7 @@ public class ConfigureAction extends JosmAction {
         }
         @Override
         public void componentShown(ComponentEvent arg0) {
-            // programatically select scripting preferences tab when
+            // programmatically select scripting preferences tab when
             // dialog becomes visible
             dialog.selectPreferencesTabByName(PreferenceEditor.ICON_NAME);
         }

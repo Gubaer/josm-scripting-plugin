@@ -427,11 +427,9 @@ public class ScriptEngineSelectionDialog extends JDialog {
 
     private final ChangeListener clEngineTypeChanged =
         (ChangeEvent evt) -> {
-            lstPluggedEngines.setEnabled(
-                rbPluggableScriptingEngine.isSelected());
+            lstPluggedEngines.setEnabled(rbPluggableScriptingEngine.isSelected());
             if (rbGraalVMScriptingEngine != null) {
-                lstGraalVMEngines.setEnabled(
-                    rbGraalVMScriptingEngine.isSelected());
+                lstGraalVMEngines.setEnabled(rbGraalVMScriptingEngine.isSelected());
             }
         };
 }

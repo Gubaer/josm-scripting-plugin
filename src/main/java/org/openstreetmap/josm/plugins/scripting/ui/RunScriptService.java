@@ -112,15 +112,9 @@ public class RunScriptService {
             JSR223ScriptEngineProvider.getInstance();
         String mimeType = provider.getContentTypeForFile(file);
 
-//        // the default engine if the language is JavaScript
-//        Stream<ScriptEngineDescriptor> defaultEngine =
-//            mimeType.equals("application/javascript")
-//                ? Stream.of(ScriptEngineDescriptor.DEFAULT_SCRIPT_ENGINE)
-//                : Stream.empty();
 
         // the stream of suitable engines for a given mime type
         java.util.List<ScriptEngineDescriptor> engines = Stream.of(
-//            defaultEngine,
             filterGraalVMEngines(mimeType),
             filterJSR223Engines(mimeType)
         ).flatMap (desc -> desc).collect(Collectors.toList());
@@ -131,7 +125,7 @@ public class RunScriptService {
             return engines.get(0);
         }
 
-        // no or more than one suitable engines found. Prompt the user
+        // none or more than one suitable engines found. Prompt the user
         // to select one.
         return ScriptEngineSelectionDialog.select(parent);
     }
@@ -210,13 +204,6 @@ public class RunScriptService {
         model.saveToPreferences(Preferences.main());
 
         switch(engine.getEngineType()){
-//            case EMBEDDED:
-//                if (logger.isLoggable(Level.FINE)) {
-//                    logger.log(Level.FINE, "executing script with embedded engine ...");
-//                }
-//                new ScriptExecutor(parent).runScriptWithEmbeddedEngine(f);
-//                break;
-
             case PLUGGED:
                 new ScriptExecutor(parent).runScriptWithPluggedEngine(engine, f);
                 break;

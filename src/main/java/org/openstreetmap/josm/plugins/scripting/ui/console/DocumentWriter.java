@@ -17,6 +17,7 @@ public class DocumentWriter extends Writer {
         this.doc = doc;
     }
 
+    @SuppressWarnings({"RedundantThrows", "NullableProblems"})
     @Override
     public void write(char[] cbuf, int off, int len) throws IOException {
         String msg = new String(Arrays.copyOfRange(cbuf, off, off + len));

@@ -30,32 +30,18 @@ public interface PreferenceKeys {
     /**
      * The preferences key for the current default engine used in the
      * scripting console. The value is string <em>type/id</em>, where
-     * <code>type</code> is either <code>embedded</code>,
-     * <code>plugged</code>, or <code>graalvm</code>.
+     * <code>type</code> is either <code>plugged</code>, or <code>graalvm</code>.
      * <p>
      * If type is <code>plugged</code>, the value is the name of a JSR 223
-     * compliant scripting engine. If it is <code>embedded</code>, then the id
-     * is the name of an embedded scripting engine (currently always
-     * <code>rhino</code>) If the type is <code>graalvm</code>, <code>id</code>
+     * compliant scripting engine.  If the type is <code>graalvm</code>, <code>id</code>
      * is the id of a language supported by the GraalVM.
      * <p>
-     * If missing or invalid, the embedded default scripting engine is
-     * assumed.
+     * If missing or invalid, no default engine is assumed.
      */
     String PREF_KEY_SCRIPTING_ENGINE = "scripting.console.default.engine";
 
-
     /**
-     * The array of CommonJS module repositories. Entries are URLs,
-     * either file URLs or jar URLs.
-     * <p>
-     * Default value: empty
-     */
-    String PREF_KEY_COMMONJS_MODULE_REPOSITORIES = "scripting.commonjs-module-repositories";
-
-    /**
-     * The array of ES Module repositories. Entries are URLs,
-     * either file URLs or jar URLs.
+     * The array of ES Module repositories. Entries are URLs, either file URLs or jar URLs.
      * <p>
      * Default value: empty
      */
@@ -76,20 +62,6 @@ public interface PreferenceKeys {
      * Default value: empty
      */
     String PREF_KEY_JYTHON_SYS_PATHS = "scripting.jython.sys.path";
-
-    /**
-     * The array of python plugins to be loaded when JOSM
-     * starts up, provided the Jython interpreter is on the class
-     * path.
-     * <p>
-     * Each entry has the form <tt>package_name.ClassName</tt>, i.e.
-     * <tt>my_plugin.MyPlugin</tt>. The scripting plugin will load
-     * it, if <tt>my_plugin.py</tt> is on the paths in <tt>sys.paths</tt>
-     * and if it implements the python class <code>MyPlugin</code>.
-     * <p>
-     * Default value: empty
-     */
-    String PREF_KEY_JYTHON_PLUGINS = "scripting.jython.plugins";
 
     /**
      * The policy whether the GraalVM is granted the privilege to create and

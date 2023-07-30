@@ -179,15 +179,13 @@ public class ScriptingPlugin extends Plugin implements PreferenceKeys{
         try(InputStream is = getClass().getResourceAsStream(res)){
             if (is == null) {
                 logger.warning(tr(
-                     "Didn''t find resource ''{0}''. "
-                   + "Can''t install default mime types.",
+                     "Didn''t find resource ''{0}''. Can''t install default mime types.",
                    res));
                 return;
             }
             if (mimeTypesTarget.getParentFile().mkdirs()) {
                 logger.warning(tr(
-                    "Failed to create directory ''{0}''. Can''t install " +
-                    "mime.types file",
+                    "Failed to create directory ''{0}''. Can''t install mime.types file",
                     mimeTypesTarget.getAbsolutePath()
                 ));
             }
@@ -204,8 +202,7 @@ public class ScriptingPlugin extends Plugin implements PreferenceKeys{
             ));
         } catch(IOException e) {
             logger.warning(tr(
-                    "Failed to install default mime types "
-                  + "in the plugin directory ''{0}''.",
+                    "Failed to install default mime types in the plugin directory ''{0}''.",
                   getPluginDirs().getUserDataDirectory(false).toString(),
                   e
             ));

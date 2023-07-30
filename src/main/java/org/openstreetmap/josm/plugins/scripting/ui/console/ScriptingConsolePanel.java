@@ -218,10 +218,6 @@ public class ScriptingConsolePanel extends JPanel {
             errorModel.clearError();
             final String source = editor.getScript();
             switch(model.getScriptEngineDescriptor().getEngineType()) {
-//            case EMBEDDED:
-//                new ScriptExecutor(ScriptingConsolePanel.this)
-//                    .runScriptWithEmbeddedEngine(source, errorModel);
-//                break;
             case PLUGGED:
                 new ScriptExecutor(ScriptingConsolePanel.this)
                     .runScriptWithPluggedEngine(
