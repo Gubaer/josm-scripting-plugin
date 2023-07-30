@@ -1,6 +1,5 @@
 package org.openstreetmap.josm.plugins.scripting.graalvm.api
 
-
 import org.junit.jupiter.api.Test
 import org.openstreetmap.josm.plugins.scripting.graalvm.AbstractGraalVMBasedTest
 
@@ -9,9 +8,10 @@ class JSActionTest extends AbstractGraalVMBasedTest {
     @Test
     void "can create a JSAction"() {
         final code = """
-              const {JSAction} = require('josm/ui/menu')
-              const util = require('josm/util')
-              const josm = require('josm')
+              import {JSAction} from 'josm/ui/menu'
+              import * as util from 'josm/util'
+              import josm from 'josm'
+
               const JMenuItem = Java.type('javax.swing.JMenuItem')
               
               const action = new JSAction({

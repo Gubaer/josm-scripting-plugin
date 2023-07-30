@@ -13,7 +13,7 @@ class JOSMInputTest extends AbstractGraalVMBasedTest {
             "src/test/resources/sample-data-files/test-josm-open.osm")
 
         final src = """
-        const josm = require('josm')
+        import josm from 'josm'
         josm.open('${escapeWindowsPathDelimiter(file)}')
         """
         facade.eval(graalJSDescriptor, src)
@@ -26,7 +26,7 @@ class JOSMInputTest extends AbstractGraalVMBasedTest {
             "src/test/resources/sample-data-files/test-josm-open.gpx")
 
         final src = """
-        const josm = require('josm')
+        import josm from 'josm'
         josm.open('${escapeWindowsPathDelimiter(file)}')
         """
         facade.eval(graalJSDescriptor, src)
@@ -39,7 +39,7 @@ class JOSMInputTest extends AbstractGraalVMBasedTest {
             "src/test/resources/sample-data-files/test-datasetutil-load.osm.gz")
 
         final src = """
-        const josm = require('josm')
+        import josm from 'josm'
         josm.open('${escapeWindowsPathDelimiter(file)}')
         """
         facade.eval(graalJSDescriptor, src)
@@ -52,7 +52,7 @@ class JOSMInputTest extends AbstractGraalVMBasedTest {
             "src/test/resources/sample-data-files/test-datasetutil-load.osc")
 
         final src = """
-        const josm = require('josm')
+        import josm from 'josm'
         josm.open('${escapeWindowsPathDelimiter(file)}')
         """
         facade.eval(graalJSDescriptor, src)
@@ -69,7 +69,7 @@ class JOSMInputTest extends AbstractGraalVMBasedTest {
         .collect {escapeWindowsPathDelimiter(it)}
 
         final src = """
-        const josm = require('josm')
+        import josm from 'josm'
         josm.open(
             '${files[0]}', 
             '${files[1]}', 
@@ -85,7 +85,7 @@ class JOSMInputTest extends AbstractGraalVMBasedTest {
             "src/test/resources/sample-data-files/test-josm-open.osm")
 
         final src = """
-        const josm = require('josm')
+        import josm from 'josm'
         const File = Java.type('java.io.File')
         const file = new File('${escapeWindowsPathDelimiter(file)}')
         josm.open(file)
