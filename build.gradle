@@ -154,14 +154,12 @@ File josmHomeForTests() {
 }
 
 /**
- * Run unit tests that only depend on the JDK, the plugin classes,
- * and Mozilla Rhino. Runs on the current stock Java VM and JDK.
+ * Run unit tests that only depend on the JDK, JOSM, and the plugin.
+ * Runs on the current stock Java VM and JDK.
  */
 test {
     useJUnitPlatform()
     environment "JOSM_SCRIPTING_PLUGIN_HOME", project.projectDir
-    environment "BUILTIN_COMMONJS_MODULE_REPO",
-            "${project.projectDir}/src/main/javascript/v2"
     systemProperty "josm.home", josmHomeForTests().absolutePath
     scanForTestClasses = false
     include "org/openstreetmap/josm/plugins/scripting/js/**/*.class"
