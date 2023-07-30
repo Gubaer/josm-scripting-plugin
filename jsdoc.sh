@@ -6,8 +6,7 @@
 prepare_output_dir() {
   local output_dir=$1
 
-  mkdir -p "${output_dir}/v1"
-  mkdir -p "${output_dir}/v2"
+  mkdir -p "${output_dir}/v3"
 }
 
 print_help() {
@@ -20,9 +19,6 @@ print_help() {
 
 # default output directory
 OUTPUT_DIR="out"
-
-# default API version
-API_VERSION="all"
 
 while [ $# -gt 0 ] ;
 do
@@ -49,7 +45,6 @@ done
 
 prepare_output_dir $OUTPUT_DIR
 
-
 # the path to the jsdoc templates and project specific js modules
 TEMPLATE_PATH=$(pwd)/docstrap/template
 #TEMPLATE_PATH=$HOME/repositories/docstrap/template
@@ -66,15 +61,8 @@ if [ "$JSDOC" == "" ] ; then
 	exit 1
 fi
 
-case "$API_VERSION" in
-  all)
-    for version in v3 ; do
-      echo "Generating documentation for API version '$version' in '$OUTPUT_DIR/$version' ..."
-      jsdoc \
-          -c jsdoc.$version.conf \
-          -t $TEMPLATE_PATH \
-          -d $OUTPUT_DIR/$version
-    done
-    ;;
-
-esac
+echo "Generating documentation for API version 'v3' in '$OUTPUT_DIR/v3' ..."
+jsdoc \
+    -c jsdoc.v3.conf \
+    -t $TEMPLATE_PATH \
+    -d $OUTPUT_DIR/v3
