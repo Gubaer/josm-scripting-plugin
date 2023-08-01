@@ -41,7 +41,7 @@ $GRAALJS_PARAMS = @{
 
     "22.1.0" = @{
         uri = "https://github.com/Gubaer/josm-scripting-plugin-graaljs/releases/download/22.1.0/graaljs-22.1.0.zip"
-        directory = "graaljs-22.1.3"
+        directory = "graaljs-22.1.0"
     }
 }
 
