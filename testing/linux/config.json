@@ -1,0 +1,42 @@
+{
+    "josm-params": {
+        "download-uri": "https://josm.openstreetmap.de/download",
+        "archive-download-uri": "https://josm.openstreetmap.de/download/Archive"
+    },
+
+    "jdk-params": {
+        "jdk11": {
+            "uri": "https://builds.openlogic.com/downloadJDK/openlogic-openjdk/11.0.19+7/openlogic-openjdk-11.0.19+7-linux-x64.tar.gz",
+            "directory": "openlogic-openjdk-11.0.19+7-linux-x64"
+        },
+
+        "jdk17": {
+            "uri": "https://builds.openlogic.com/downloadJDK/openlogic-openjdk/17.0.5+8/openlogic-openjdk-17.0.5+8-linux-x64.tar.gz",
+            "directory": "openlogic-openjdk-17.0.5+8-linux-x64"
+        }
+    },
+
+    "graalvm-params": {
+        "jdk11": {
+            "uri": "https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-22.3.3/graalvm-ce-java11-linux-amd64-22.3.3.tar.gz",
+            "directory": "graalvm-ce-java11-22.3.3"
+        },
+    
+        "jdk17": {
+            "uri": "https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-22.3.3/graalvm-ce-java17-linux-amd64-22.3.3.tar.gz",
+            "directory": "graalvm-ce-java17-22.3.3"
+        }
+    },
+
+    "graaljs-params": {
+        "latest": "22.3.0",
+        "22.3.0": {
+            "uri": "https://github.com/Gubaer/josm-scripting-plugin-graaljs/releases/download/22.3.0/graaljs-22.3.0.zip",
+            "directory": "graaljs-22.3.0"
+        }, 
+        "22.1.0": {
+            "uri": "https://github.com/Gubaer/josm-scripting-plugin-graaljs/releases/download/22.1.0/graaljs-22.1.0.zip",
+            "directory": "graaljs-22.1.0"
+        }
+    }
+}
