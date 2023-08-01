@@ -1,5 +1,28 @@
 #!/bin/bash
+#
+# manage.sh - manage the testing environment for the JOSM scripting plugin
+#
+# Run './manage.sh help' for help
+#
+#
 
+function check_software() {
+    local wget
+    local jq
+
+    wget=`which wget`
+    if [ "$wget" = "" ] ; then 
+        echo "fatal: this script requires 'wget'. Install it with 'sudo apt install -y wget'."
+        return 1
+    fi 
+
+    jq=`which jq`
+    if [ "$jq" = "" ] ; then 
+        echo "fatal: this script requires 'jq'. Install it with 'sudo apt install -y jq'."
+        return 1
+    fi
+    return 0
+}
 
 function download_josm() {
     local version
@@ -50,6 +73,9 @@ function download_jdk() {
 
 function download_graalvm() {
     local version
+    local jq_query
+    local directory
+    local download_url
 
     version=$1
 
@@ -70,6 +96,10 @@ function download_graalvm() {
     wget -O "graalvm-$version.tar.gz" $download_url
     tar xvf "graalvm-$version.tar.gz"
     rm "graalvm-$version.tar.gz"
+
+    # install GraalJS
+    $directory/bin/gu install js
+
     return 0
 }
 
@@ -270,6 +300,8 @@ function update_scripting_jar() {
     cp $jar_file "$josm_home/plugins" 
     echo "info: copied 'scripting.jar' from '$jar_file' into JOSM home at '$josm_home'"
 }
+
+check_software || exit 1
 
 case "$1" in 
     "help" | "-h")
