@@ -36,6 +36,9 @@ Usage: manage.ps1 action <args>
             downloads a GraalJS for Windows and installs it in the current directory
         clean-jars
             delete the downloaded JOSM versions
+        clean
+            clean all locally installed JOSM jars, JDKs, Graal VMs, and GraalJS
+            distributions
         create-josm-home
             creates the JOSM home directory 
         delete-josm-home
@@ -222,6 +225,44 @@ function downloadGraalJS([string] $version) {
     Remove-Item -Path $(Join-Path $(Get-Location) -ChildPath $localFile)
 }
 
+function clean() {
+    # remove all JOSM jars 
+    Remove-Item *.jar
+    Write-Information "Removed all locally installed JOSM jars"
+
+    # remove all locally installed JDKs
+    foreach($jdk in $JDK_PARAMS.Keys) {
+        $directory = $JDK_PARAMS[$jdk].directory 
+        if (Test-Path $directory) {
+            Remove-Item -Path $directory -Force -Recurse
+            Write-Information "Removed JDK '$jdk' in directory '$directory'"
+        }
+    }
+
+    # remove all locally installed Graal VMS
+    foreach ($vm in $GRAALVM_PARAMS.Keys) {
+        $directory = $GRAALVM_PARAMS[$vm].directory 
+        if (Test-Path $directory) {
+            Remove-Item -Path $directory -Force -Recurse
+            Write-Information "Removed GraalVM for JDK '$jdk' in directory '$directory'"
+        }
+    }
+
+    # remove all locally installed GraalJS distributions
+    foreach ($graalJs in $GRAALJS_PARAMS.Keys) {
+        if ($graalJs -eq "latest") {
+            continue
+        }
+        $directory = $GRAALJS_PARAMS[$graalJs].directory 
+        if (Test-Path $directory) {
+            Remove-Item -Path $directory -Force -Recurse
+            Write-Information "Removed GraalJS '$graalJs' in directory '$directory'"
+        }
+    }
+
+    # remove JOSM home
+    [JosmHome]::delete()
+}
 
 $action=$args[0]
 
@@ -311,6 +352,10 @@ switch($action) {
             Remove-Item "josm-tested.jar"
         }
         Remove-Item "josm-snapshot-*.jar"
+    }
+
+    "clean" {
+        clean
     }
 
     "create-josm-home" {
