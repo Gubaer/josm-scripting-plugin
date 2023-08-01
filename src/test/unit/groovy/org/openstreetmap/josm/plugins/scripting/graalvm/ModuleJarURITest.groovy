@@ -1,12 +1,11 @@
 package org.openstreetmap.josm.plugins.scripting.graalvm
 
-import static org.junit.Assert.assertTrue
-import static org.junit.Assert.assertFalse
-import static org.junit.Assert.assertEquals
-import static groovy.test.GroovyAssert.shouldFail
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
-import java.nio.file.Path
+import org.openstreetmap.josm.plugins.scripting.model.RelativePath
+
+import static groovy.test.GroovyAssert.shouldFail
+import static org.junit.Assert.*
 
 class ModuleJarURITest {
 
@@ -38,7 +37,7 @@ class ModuleJarURITest {
     void "constructor - accept valid URI"() {
         def urispec = "jar:${testJarFileUri('jar-repo-1.jar')}!/foo/bar.js"
         def uri = new ModuleJarURI(new URI(urispec))
-        assertEquals(Path.of("foo/bar.js"), uri.getJarEntryPath())
+        assertEquals(RelativePath.parse("foo/bar.js"), uri.getJarEntryPath())
         assertEquals(
             testJarFile('jar-repo-1.jar').toString(),
             uri.getJarFilePath())
@@ -131,7 +130,7 @@ class ModuleJarURITest {
             normalizedUri.get().jarFile)
         assertEquals(
             "foo.js",
-            normalizedUri.get().jarEntryName)
+            normalizedUri.get().getJarEntryName())
     }
 
     @Test

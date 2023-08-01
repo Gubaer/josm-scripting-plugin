@@ -8,8 +8,7 @@ import java.text.MessageFormat;
 import java.util.logging.Logger;
 
 public class EditorPaneBuilder {
-    static private final String RESOURCE_NAME_STYLE_SHEET =
-        "/css/default-editor-pane.css";
+    static private final String RESOURCE_NAME_STYLE_SHEET = "/css/default-editor-pane.css";
     static private final Logger logger =
         Logger.getLogger(EditorPaneBuilder.class.getName());
 

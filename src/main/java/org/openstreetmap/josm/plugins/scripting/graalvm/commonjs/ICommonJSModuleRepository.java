@@ -14,7 +14,7 @@ public interface ICommonJSModuleRepository extends IModuleResolver {
      *
      * @return the base URI
      */
-    @NotNull  URI getBaseURI();
+    @NotNull URI getBaseURI();
 
     /**
      * Replies true if the base URI of this repo is the base of the module

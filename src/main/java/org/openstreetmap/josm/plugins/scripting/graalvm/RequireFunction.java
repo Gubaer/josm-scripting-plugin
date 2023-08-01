@@ -15,17 +15,17 @@ import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
-import java.util.function.Supplier;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import static java.text.MessageFormat.format;
 
 /**
  * Implementation of the <code>require()</code> function which is added
@@ -37,8 +37,7 @@ public class RequireFunction implements Function<String, Value> {
         = Logger.getLogger(RequireFunction.class.getName());
 
     // the resource name of the mustache template for the wrapper function
-    static private final String REQUIRE_WRAPPER_RESOURCE
-        = "/graalvm/require-wrapper.mustache";
+    static private final String REQUIRE_WRAPPER_RESOURCE = "/graalvm/require-wrapper.mustache";
 
     static private Mustache requireWrapperTemplate = null;
 
@@ -46,9 +45,9 @@ public class RequireFunction implements Function<String, Value> {
         try(final InputStream is =
             RequireFunction.class.getResourceAsStream(REQUIRE_WRAPPER_RESOURCE)) {
             if (is == null) {
-                throw new IOException(MessageFormat.format(
+                throw new IOException(format(
                     "mustache template with resource name ''{0}'' not found",
-                        REQUIRE_WRAPPER_RESOURCE
+                    REQUIRE_WRAPPER_RESOURCE
                 ));
             }
             requireWrapperTemplate = new DefaultMustacheFactory().compile(
@@ -62,23 +61,14 @@ public class RequireFunction implements Function<String, Value> {
         try {
             prepareWrapperTemplate();
         } catch(Throwable e) {
-            final String message =  MessageFormat.format(
-                "failed to load and compile mustache template resource ''{0}''",
-                    REQUIRE_WRAPPER_RESOURCE
-            );
-            logger.log(Level.SEVERE, message, e);
+            logger.log(Level.SEVERE, format(
+                "failed to load and compile mustache template resource ''{0}''", REQUIRE_WRAPPER_RESOURCE
+            ), e);
         }
     }
 
     // the URI of the module in which this require function is invoked
     private URI contextURI = null;
-
-    private void logFine(Supplier<String> messageBuilder) {
-        if (logger.isLoggable(Level.FINE)) {
-            final String message = messageBuilder.get();
-            logger.log(Level.FINE, message);
-        }
-    }
 
     /**
      * Creates a <code>require</code> function which will be invoked in no
@@ -127,10 +117,10 @@ public class RequireFunction implements Function<String, Value> {
                 // should not happen here, because we already checked before,
                 // that this entry exists and is a file. Just in case, throw
                 // an exception.
-                throw new IllegalStateException(MessageFormat.format(
+                throw new IllegalStateException(format(
                     "unexpected CommonJS module jar URI doesn''t refer to " +
                     "a file entry in a jar file. uri=''{0}''",
-                    uri.toString()
+                    uri
                 ));
             }
             final ByteArrayOutputStream buffer = new ByteArrayOutputStream();
@@ -155,9 +145,8 @@ public class RequireFunction implements Function<String, Value> {
             case "jar":
                 return loadModuleSourceFromJarEntry(uri);
             default:
-                throw new IllegalArgumentException(MessageFormat.format(
-                    "unsupported type of module URI, file URI required. " +
-                    "Got ''{0}''", uri
+                throw new IllegalArgumentException(format(
+                    "unsupported type of module URI, file URI required. Got ''{0}''", uri
                 ));
         }
     }
@@ -198,41 +187,38 @@ public class RequireFunction implements Function<String, Value> {
         final CommonJSModuleCache cache = CommonJSModuleCache.getInstance();
         final Context context = Context.getCurrent();
         if (context == null) {
-            final String message = MessageFormat.format(
-                "No Polyglot context available. Can''t apply require function. "
-              + "Context URI =''{0}''",
-                 this.contextURI == null
-                    ? "undefined"
-                    : this.contextURI.toString()
+            final String message = format(
+                "No Polyglot context available. Can''t apply require function. Context URI =''{0}''",
+                 this.contextURI
             );
             throw new IllegalStateException(message);
         }
 
         Optional<URI> resolvedModuleURI;
         if (contextURI == null) {
-            logFine(() -> MessageFormat.format(
-                "Resolving module ID without context. module ID=''{0}''",
-                moduleID
-            ));
+            if (logger.isLoggable(Level.FINE)) {
+                logger.log(Level.FINE, format(
+                    "Resolving module ID without context. module ID=''{0}''", moduleID
+                ));
+            }
             resolvedModuleURI = CommonJSModuleRepositoryRegistry.getInstance()
                 .resolve(moduleID);
         } else {
-            logFine(() -> MessageFormat.format(
-                "Resolving module ID with context. module ID=''{0}'', " +
-                "context URI=''{1}''",
-                moduleID, contextURI.toString()
-            ));
+            if (logger.isLoggable(Level.FINE)) {
+                logger.log(Level.FINE, format(
+                    "Resolving module ID with context. module ID=''{0}'', context URI=''{1}''",
+                    moduleID, contextURI
+                ));
+            }
             resolvedModuleURI = CommonJSModuleRepositoryRegistry.getInstance().resolve(
                 moduleID,
                 contextURI);
         }
 
         if (resolvedModuleURI.isEmpty()) {
-            final String message = MessageFormat.format(
-                "failed to resolve module with module ID ''{0}'' from "
-              + "context ''{1}''",
-                moduleID,
-                contextURI == null ? "undefined" : contextURI.toString()
+            final var message = format(
+                "failed to resolve module with module ID ''{0}'' from context ''{1}''",
+                moduleID, contextURI
             );
             logger.log(Level.WARNING, message);
             throw new RequireFunctionException(message);
@@ -262,8 +248,7 @@ public class RequireFunction implements Function<String, Value> {
             cache.remember(moduleURI, module, context);
             return module;
         } catch(IOException | PolyglotException e) {
-            final String message = MessageFormat.format(
-                "failed to require module ''{0}''", moduleID);
+            final String message = format("failed to require module ''{0}''", moduleID);
             logger.log(Level.SEVERE, message, e);
             throw new RequireFunctionException(message, e);
         }

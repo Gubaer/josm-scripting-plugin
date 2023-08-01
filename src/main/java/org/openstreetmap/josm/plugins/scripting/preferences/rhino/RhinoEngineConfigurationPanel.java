@@ -184,15 +184,15 @@ public class RhinoEngineConfigurationPanel extends VerticallyScrollablePanel{
         }
 
         public void up(int i) {
-            URL tomove = repositories.remove(i);
-            repositories.add(i-1, tomove);
+            URL toMove = repositories.remove(i);
+            repositories.add(i-1, toMove);
             selectionModel.setSelectionInterval(i-1, i-1);
             fireContentsChanged(this,0,getSize());
         }
 
         public void down(int i) {
-            URL tomove = repositories.remove(i);
-            repositories.add(i+1, tomove);
+            URL toMove = repositories.remove(i);
+            repositories.add(i+1, toMove);
             selectionModel.setSelectionInterval(i+1, i+1);
             fireContentsChanged(this,0,getSize());
         }

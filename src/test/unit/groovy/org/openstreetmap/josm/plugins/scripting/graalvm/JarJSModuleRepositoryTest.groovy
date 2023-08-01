@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.openstreetmap.josm.plugins.scripting.graalvm.commonjs.BaseJSModuleRepository
 import org.openstreetmap.josm.plugins.scripting.graalvm.commonjs.JarJSModuleRepository
+import org.openstreetmap.josm.plugins.scripting.model.RelativePath
 
 import java.util.jar.JarFile
 import java.util.logging.ConsoleHandler
@@ -100,7 +101,7 @@ class JarJSModuleRepositoryTest {
     @Test
     void "constructor - accept jar with existing path"() {
         def jar = testJarFile("jar-repo-2.jar")
-        def path = "/foo"
+        def path = RelativePath.parse("foo")
         new JarJSModuleRepository(jar, path)
     }
 
@@ -112,18 +113,11 @@ class JarJSModuleRepositoryTest {
         }
     }
 
-    @Test
-    void "constructor - reject empty path"() {
-        shouldFail(IllegalArgumentException.class) {
-            def jar = testJarFile("jar-repo-2.jar")
-            new JarJSModuleRepository(jar, " \t ")
-        }
-    }
 
     @Test
     void "constructor - accept non absolute path"() {
         def jar = testJarFile("jar-repo-2.jar")
-        new JarJSModuleRepository(jar, "foo")
+        new JarJSModuleRepository(jar, RelativePath.parse("foo"))
     }
 
     @Test
@@ -173,7 +167,7 @@ class JarJSModuleRepositoryTest {
     @Test
     void "isBaseOf - accept if context is a child file to a repo root path"() {
         def jar = testJarFile("jar-repo-2.jar")
-        def repo = new JarJSModuleRepository(jar, "/foo")
+        def repo = new JarJSModuleRepository(jar, RelativePath.parse("foo"))
         def contextUri = new URI("jar:${jar.toURI()}!/foo/baz.js")
         assertTrue(repo.isBaseOf(contextUri))
     }
@@ -181,7 +175,7 @@ class JarJSModuleRepositoryTest {
     @Test
     void "isBaseOf - accept if context is a child path to a repo root path"() {
         def jar = testJarFile("jar-repo-2.jar")
-        def repo = new JarJSModuleRepository(jar, "/foo")
+        def repo = new JarJSModuleRepository(jar, RelativePath.parse("foo"))
         def contextUri = new URI("jar:${jar.toURI()}!/foo/bar/baz.js")
         assertTrue(repo.isBaseOf(contextUri))
     }
@@ -199,7 +193,7 @@ class JarJSModuleRepositoryTest {
     @Test
     void "isBaseOf - reject if context isn't a path prefix"() {
         def jar = testJarFile("jar-repo-2.jar")
-        def repo = new JarJSModuleRepository(jar, "/foo")
+        def repo = new JarJSModuleRepository(jar, RelativePath.parse("foo"))
         def contextUri = new URI("jar:${jar.toURI()}!/bar/baz.js")
         assertFalse(repo.isBaseOf(contextUri))
     }
@@ -207,7 +201,7 @@ class JarJSModuleRepositoryTest {
     @Test
     void "isBaseOf - reject if context is only a string prefix, not a path prefix"() {
         def jar = testJarFile("jar-repo-2.jar")
-        def repo = new JarJSModuleRepository(jar, "/foo")
+        def repo = new JarJSModuleRepository(jar, RelativePath.parse("foo"))
         def contextUri = new URI("jar:${jar.toURI()}!/foobar")
         assertFalse(repo.isBaseOf(contextUri))
     }
@@ -272,7 +266,7 @@ class JarJSModuleRepositoryTest {
     void "resolve with context - given context refers to a dir, should resolve existing module with a relative id"() {
         def jar = testJarFile("jar-repo-2.jar")
         def repo = new JarJSModuleRepository(jar)
-        def contextUri = ModuleJarURI.buildJarUri(jar.toString(), "foo")
+        def contextUri = ModuleJarURI.buildJarUri(jar.toString(), RelativePath.parse("foo"))
         def resolvedUri = repo.resolve("./baz", contextUri)
         assertTrue(resolvedUri.isPresent())
     }
@@ -281,7 +275,7 @@ class JarJSModuleRepositoryTest {
     void "resolve with context - given context refers to a dir, should resolve existing module with a relative id (2)"() {
         def jar = testJarFile("jar-repo-2.jar")
         def repo = new JarJSModuleRepository(jar)
-        def contextUri = ModuleJarURI.buildJarUri(jar.toString(), "foo")
+        def contextUri = ModuleJarURI.buildJarUri(jar.toString(), RelativePath.parse("foo/baz.js"))
         def resolvedUri = repo.resolve("./baz.js", contextUri)
         assertTrue(resolvedUri.isPresent())
     }
@@ -290,20 +284,16 @@ class JarJSModuleRepositoryTest {
     void "resolve with context - given context refers to a dir, should resolve existing module with a relative id (3)"() {
         def jar = testJarFile("jar-repo-2.jar")
         def repo = new JarJSModuleRepository(jar)
-        def contextUri = ModuleJarURI.buildJarUri(jar.toString(), "foo")
+        def contextUri = ModuleJarURI.buildJarUri(jar.toString(), RelativePath.parse("foo"))
         def resolvedUri = repo.resolve("../foo/./baz", contextUri)
         assertTrue(resolvedUri.isPresent())
     }
 
     @Test
-    @Disabled
-    //TODO(Gubaer): currently fails. This is critical. Will probably have to implement
-    // a custom 'Path' object with resolve() and normalize() functionality. java.nio.file.Path
-    // doesn't work as hoped for.
     void "resolve with context - given context refers to a file, should resolve existing module"() {
         def jar = testJarFile("jar-repo-2.jar")
         def repo = new JarJSModuleRepository(jar)
-        def contextUri = ModuleJarURI.buildJarUri(jar.toString(), "foo/baz.js")
+        def contextUri = ModuleJarURI.buildJarUri(jar.toString(), RelativePath.parse("foo/baz.js"))
         def resolvedUri = repo.resolve("../bar", contextUri)
         assertTrue(resolvedUri.isPresent())
     }

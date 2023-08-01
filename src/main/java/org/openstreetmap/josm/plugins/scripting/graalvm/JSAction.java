@@ -11,11 +11,12 @@ import javax.swing.*;
 import javax.validation.constraints.Null;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import static java.text.MessageFormat.format;
 
 @SuppressWarnings("unused")
 public class JSAction extends JosmAction {
@@ -31,8 +32,8 @@ public class JSAction extends JosmAction {
             }
             return prop.asString();
         } catch(UnsupportedOperationException e) {
-            logger.log(Level.WARNING, MessageFormat.format(
-                "Failed to invoke getMember() on polyglot value for property '{0}'",
+            logger.log(Level.WARNING, format(
+                "Failed to invoke getMember() on polyglot value for property ''{0}''",
                 property
             ), e);
             return null;
@@ -49,8 +50,8 @@ public class JSAction extends JosmAction {
             }
             return value;
         } catch(UnsupportedOperationException e) {
-            logger.log(Level.WARNING, MessageFormat.format(
-                "Failed to invoke getMember() on polyglot value for property '{0}'",
+            logger.log(Level.WARNING, format(
+                "Failed to invoke getMember() on polyglot value for property ''{0}''",
                 property
             ), e);
             return null;
@@ -120,7 +121,7 @@ public class JSAction extends JosmAction {
             this.onExecute = null;
         } else {
             if (!onExecute.canExecute()) {
-                throw new IllegalArgumentException(MessageFormat.format(
+                throw new IllegalArgumentException(format(
                     "executable value expected, got ''{0}''", onExecute
                 ));
             }
@@ -143,7 +144,7 @@ public class JSAction extends JosmAction {
             this.onInitEnabled = null;
         } else {
             if (!onInitEnabled.canExecute()) {
-                throw new IllegalArgumentException(MessageFormat.format(
+                throw new IllegalArgumentException(format(
                     "executable value expected, got ''{0}''", onInitEnabled
                 ));
             }
@@ -176,7 +177,7 @@ public class JSAction extends JosmAction {
             this.onUpdateEnabled = null;
         } else {
             if (!onUpdateEnabled.canExecute()) {
-                throw new IllegalArgumentException(MessageFormat.format(
+                throw new IllegalArgumentException(format(
                     "executable value expected, got ''{0}''", onUpdateEnabled
                 ));
             }
@@ -230,6 +231,7 @@ public class JSAction extends JosmAction {
 
     /**
      * Replies the name of the JSAction
+     *
      * @return the name
      */
     public Value getName() {

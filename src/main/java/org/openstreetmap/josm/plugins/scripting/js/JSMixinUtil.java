@@ -5,8 +5,8 @@ import org.mozilla.javascript.Scriptable;
 public class JSMixinUtil {
 
     /**
-     * <p>Replies true if the mixin property <code>property</code> is a
-     * "static" property.</p>
+     * Replies true if the mixin property <code>property</code> is a
+     * "static" property.
      *
      * @param property  the property as defined in the mixin definition
      * @return true, if this is a static property
@@ -18,8 +18,8 @@ public class JSMixinUtil {
     }
 
     /**
-     * <p>Replies the static property with name <code>name</code> or
-     * {@link Scriptable#NOT_FOUND}, if no such property exists.</p>
+     * Replies the static property with name <code>name</code> or
+     * {@link Scriptable#NOT_FOUND}, if no such property exists.
      *
      * @param mixin  the parsed JavaScript mixin
      * @param name  the property name
@@ -37,8 +37,8 @@ public class JSMixinUtil {
     }
 
     /**
-     * <p>Replies the instance property with name <code>name</code> or
-     * {@link Scriptable#NOT_FOUND}, if no such property exists.</p>
+     * Replies the instance property with name <code>name</code> or
+     * {@link Scriptable#NOT_FOUND}, if no such property exists.
      *
      * @param mixin  the parsed JavaScript mixin
      * @param name  the property name

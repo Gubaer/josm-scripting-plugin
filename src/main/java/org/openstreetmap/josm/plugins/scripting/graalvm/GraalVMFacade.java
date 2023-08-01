@@ -8,7 +8,6 @@ import org.openstreetmap.josm.plugins.scripting.preferences.graalvm.GraalVMPrivi
 import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.io.IOException;
-import java.text.MessageFormat;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import static java.text.MessageFormat.format;
 import static org.openstreetmap.josm.tools.I18n.tr;
 
 public class GraalVMFacade  implements IGraalVMFacade {
@@ -148,9 +148,9 @@ public class GraalVMFacade  implements IGraalVMFacade {
 
     private void ensureEngineIdPresent(String engineId) {
         if (engineId.trim().isEmpty()) {
-            throw new IllegalArgumentException(tr(
-                "script engine descriptor doesn''t provide an engine id "
-              + "name, got {0}", engineId));
+            throw new IllegalArgumentException(format(
+                "script engine descriptor doesn''t provide an engine id name, got {0}", engineId
+            ));
         }
     }
 
@@ -173,13 +173,11 @@ public class GraalVMFacade  implements IGraalVMFacade {
         } catch(IOException e) {
             // shouldn't happen because we don't load the script from a file,
             // but just in case
-            final var message = tr("Failed to create ECMAScript source object");
+            final var message = "Failed to create ECMAScript source object";
             logger.log(Level.SEVERE, message, e);
             throw new GraalVMEvalException(message, e);
         } catch(PolyglotException e) {
-            final String message = MessageFormat.format(
-                tr("failed to eval script"), script
-            );
+            final String message = format("failed to eval script");
             logger.log(Level.INFO, e.getMessage(), e);
             throw new GraalVMEvalException(message, e);
         }
@@ -199,9 +197,7 @@ public class GraalVMFacade  implements IGraalVMFacade {
         try {
             return context.eval(source);
         } catch(PolyglotException e) {
-            final String message = MessageFormat.format(
-                tr("failed to eval script in file {0}"), script
-            );
+            final String message = format("failed to eval script in file ''{0}''", script);
             throw new GraalVMEvalException(message, e);
         }
     }

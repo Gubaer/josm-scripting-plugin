@@ -15,9 +15,8 @@ import java.util.logging.Logger;
 import static org.openstreetmap.josm.plugins.scripting.util.FileUtils.buildTextFileReader;
 
 /**
- * <p><strong>CompiledScriptCache</strong> maintains a cache of compiled
- * scripts for script languages which are compiled before executed.</p>
- *
+ * <strong>CompiledScriptCache</strong> maintains a cache of compiled
+ * scripts for script languages which are compiled before executed.
  */
 public class JSR223CompiledScriptCache {
     @SuppressWarnings("unused")
@@ -28,7 +27,8 @@ public class JSR223CompiledScriptCache {
             new JSR223CompiledScriptCache();
 
     /**
-     * <p>Replies the global cache instance</p>
+     * Replies the global cache instance
+     *
      * @return the cache
      */
     public static JSR223CompiledScriptCache getInstance() {
@@ -64,8 +64,8 @@ public class JSR223CompiledScriptCache {
     public JSR223CompiledScriptCache() {}
 
     /**
-     * <p>Compiles a script using {@code compiler} and replies the compiled
-     * script. Looks up compiled scripts in an internal cache.</p>
+     * Compiles a script using {@code compiler} and replies the compiled
+     * script. Looks up compiled scripts in an internal cache.
      *
      * @param compiler the compiler. Must not be null.
      * @param scriptFile the script file. Must not be null.

@@ -1,3 +1,4 @@
+
 plugins {
     id 'org.openstreetmap.josm' version '0.8.2'
     id 'java'
@@ -290,6 +291,7 @@ tasks.register('testWithGraalVMJDK', Test) {
     include "org/openstreetmap/josm/plugins/scripting/graalvm/with_graalvm/*.class"
     include "org/openstreetmap/josm/plugins/scripting/graalvm/esmodule/*.class"
     include "org/openstreetmap/josm/plugins/scripting/graalvm/*.class"
+
     exclude "org/openstreetmap/josm/plugins/scripting/graalvm/GraalVMNotPresentTest.class"
     include "org/openstreetmap/josm/plugins/scripting/esmodules/ESModuleUsageTest.class"
     testLogging {

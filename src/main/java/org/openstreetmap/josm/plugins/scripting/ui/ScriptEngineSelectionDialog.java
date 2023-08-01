@@ -31,8 +31,8 @@ import static org.openstreetmap.josm.tools.I18n.tr;
 
 /**
  * <strong>ScriptEngineSelectionDialog</strong> allows to select one of the
- *  pluggable JSR223 compatible script engines, one of the embedded script
- *  engines, or GraalJS supported by the GraalVM.
+ * pluggable JSR223 compatible script engines, one of the embedded script
+ * engines, or GraalJS supported by the GraalVM.
  */
 public class ScriptEngineSelectionDialog extends JDialog {
 

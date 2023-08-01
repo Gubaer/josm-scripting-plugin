@@ -11,7 +11,6 @@ import java.util.Objects;
 import static org.openstreetmap.josm.tools.I18n.tr;
 
 public class ScriptErrorDialog  {
-
     private static class ContentPane extends JPanel {
 
         private ScriptErrorViewer viewer;

@@ -1,9 +1,11 @@
 package org.openstreetmap.josm.plugins.scripting.graalvm;
 
-import javax.validation.constraints.NotNull;
-import java.util.Objects;
+import org.openstreetmap.josm.plugins.scripting.model.RelativePath;
 
-import static java.text.MessageFormat.format;
+import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * The ID of a CommonJS module.
@@ -12,68 +14,18 @@ import static java.text.MessageFormat.format;
  * It may include and/or start with the segments <code>.</code> and <code>..</code>.
  * It must not start with a leading <code>/</code>.
  */
+@SuppressWarnings("unused")
 public class ModuleID {
-    final private String value;
-
-    /**
-     * Throws an exception, if <code>moduleId</code> isn't valid.
-     * <p>
-     * It is valid, if
-     * <ul>
-     *     <li>it is neither null nor empty</li>
-     *     <li>doesn't start with a leading <code>/</code></li>
-     * </ul>
-     *
-     * @param moduleId the module ID
-     * @throws NullPointerException if moduleId is null
-     * @throws IllegalArgumentException if moduleId is empty
-     * @throws IllegalArgumentException if moduleId starts with <code>/</code>
-     */
-    static public void ensureValid(@NotNull final String moduleId) {
-        Objects.requireNonNull(moduleId);
-        final String trimmedModuleId = moduleId.trim();
-        if (trimmedModuleId.isEmpty()) {
-            throw new IllegalArgumentException(format(
-                "invalid module id. module id must not be empty. " +
-                "moduleId=''{0}''", moduleId
-            ));
-        }
-        if (trimmedModuleId.startsWith("/")) {
-            throw new IllegalArgumentException(format(
-                "invalid module id. must not start with leading '/'. " +
-                "moduleId=''{0}''", moduleId
-            ));
-        }
-    }
-
-    /**
-     * Replies true, if <code>moduleId</code> is (syntactically) valid.
-     *
-     * @param moduleId the module id, i.e. <code>josm/layers</code>
-     * @return true, if the <code>moduleId</code> is valid; false, otherwise
-     */
-    @SuppressWarnings("unused")  // part of the public API
-    static public boolean isValid(@NotNull String moduleId) {
-        try {
-            ensureValid(moduleId);
-            return true;
-        } catch(IllegalArgumentException e) {
-            return false;
-        }
-    }
+    final private RelativePath value;
 
     /**
      * Creates a module ID with a given <code>value</code>.
      *
-     * @param value the string value of the module ID
+     * @param value the module ID as relative path
      * @throws NullPointerException if <code>value</code> is null
-     * @throws IllegalArgumentException if <code>value</code> isn't valid
-     * @see #ensureValid(String)
      */
-    public ModuleID(@NotNull final String value) {
-        Objects.requireNonNull(value);
-        ensureValid(value);
-        this.value = value.trim();
+    public ModuleID(@NotNull final RelativePath value) {
+        this.value = value;
     }
 
     /**
@@ -83,7 +35,7 @@ public class ModuleID {
      * @return true, if this module ID is absolute; false, otherwise
      */
     public boolean isAbsolute() {
-        return !(value.startsWith("./") || value.startsWith("../"));
+        return !(value.startsWith(RelativePath.of(".")) || value.startsWith(RelativePath.of("..")));
     }
 
     /**
@@ -109,18 +61,32 @@ public class ModuleID {
      * @return the normalized module ID
      */
     public @NotNull ModuleID normalized() {
-        if (value.endsWith(".js")) {
-            return new ModuleID(value
-                .substring(0, value.length() - 3)
-                .replaceAll("/+", "/"));
-        } else {
-            return new ModuleID(value.replaceAll("/+", "/"));
+        final List<String> segments = new ArrayList<>(this.value.getSegments());
+        if (segments.isEmpty()) {
+            return this;
         }
+        var segment = segments.remove(segments.size()-1);
+        if (segment.endsWith(".js")) {
+            segment = segment.substring(0, segment.length() - 3);
+            segments.add(segment);
+            return new ModuleID(RelativePath.of(segments));
+        } else {
+            return this;
+        }
+    }
+
+    /**
+     * Replies this module ID as {@link RelativePath}.
+     *
+     * @return the relative path
+     */
+    public @NotNull  RelativePath toRelativePath() {
+            return value;
     }
 
     @Override
     public String toString() {
-        return value;
+        return value.toString();
     }
 
     @Override

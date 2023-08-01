@@ -10,10 +10,9 @@ import org.mozilla.javascript.ScriptRuntime;
 import org.mozilla.javascript.Scriptable;
 
 /**
- * <p>An extension for {@link NativeJavaClass}. In addition to the properties
+ * An extension for {@link NativeJavaClass}. In addition to the properties
  * derived from the static fields and methods of a java class it "mixes in"
- * a set of properties defined in an external javascript mixin module.</p>
- *
+ * a set of properties defined in an external javascript mixin module.
  */
 public class NativeJavaClassWithJSMixin extends NativeJavaClass{
     @SuppressWarnings("unused")

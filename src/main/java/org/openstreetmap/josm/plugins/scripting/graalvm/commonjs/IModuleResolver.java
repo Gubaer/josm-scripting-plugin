@@ -9,12 +9,12 @@ public interface IModuleResolver {
      * Resolves the CommonJS module id against the base URI and replies
      * its module URI
      * <p>
-     * A module id is either a &laquo;toplevel&raquo; or a &laquo;relative&raquo;
+     * A module id is either a &laquo;top-level&raquo; or a &laquo;relative&raquo;
      * id.
      * <ul>
-     *     <li>a relative module id start with <code>./</code> or
+     *     <li>a relative module id starts with <code>./</code> or
      *     <code>../</code></li>
-     *     <li>everything else is a toplevel module id</li>
+     *     <li>everything else is a top-level module id</li>
      * </ul>
      *
      * A module id must not start with <code>/</code>.
@@ -29,14 +29,14 @@ public interface IModuleResolver {
 
     /**
      * Resolves the CommonJS module id against the base contextUri and replies
-     * its module URI
+     * its module URI.
      * <p>
-     * A module id is either a &laquo;toplevel&raquo; or a &laquo;relative&raquo;
+     * A module id is either a &laquo;top-level&raquo; or a &laquo;relative&raquo;
      * id.
      * <ul>
      *     <li>a relative module id start with <code>./</code> or
      *     <code>../</code></li>
-     *     <li>everything else is a toplevel module id</li>
+     *     <li>everything else is a top-level module id</li>
      * </ul>
      *
      * A module id must not start with <code>/</code>.

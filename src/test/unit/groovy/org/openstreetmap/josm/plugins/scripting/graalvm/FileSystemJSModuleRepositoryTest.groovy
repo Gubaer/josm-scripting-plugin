@@ -5,8 +5,6 @@ import org.junit.jupiter.api.Test
 import org.openstreetmap.josm.plugins.scripting.graalvm.commonjs.BaseJSModuleRepository
 import org.openstreetmap.josm.plugins.scripting.graalvm.commonjs.FileSystemJSModuleRepository
 
-import java.nio.file.Path
-import java.nio.file.Paths
 import java.util.logging.ConsoleHandler
 import java.util.logging.Level
 import java.util.logging.Logger
@@ -41,44 +39,6 @@ class FileSystemJSModuleRepositoryTest {
             }
     }
 
-    // testing Path.of(), Paths.get(), Path.relativize(), and Path.normalize() using relative paths.
-    // This should work on the windows and the linux platform.
-    @Test
-    void "Path - should normalize and resolve"() {
-        // can we normalize a relative path?
-        def rootPath = moduleRepo.toPath()
-        def repoPath = Path.of("foo/bar/../baz/./").normalize()
-        def expectedRepoPath = Path.of("foo/baz")
-        assertEquals(expectedRepoPath, repoPath)
-
-        // can we concatenate an absolute root path with a module path relative to the root path?
-        def fullPath = Paths.get(rootPath.toString(), repoPath.toString())
-        def expectedFullPath = Paths.get(rootPath.toString(), "foo/baz")
-        assertEquals(expectedFullPath.toUri(), fullPath.toUri())
-
-        // can we relativize() to paths on the windows platform?
-        def relativePath = rootPath.relativize(fullPath)
-        assertEquals(Path.of("foo/baz"), relativePath)
-
-        // on windows, if we compare paths directly, the path delimiter doesn't matter.
-        // However, on linux the difference matters.
-        def p1 = Path.of("foo/bar")
-        def p2 = Path.of("foo\\bar")
-        def isWindows = System.getProperty("os.name").toLowerCase(Locale.ENGLISH).contains("windows")
-        if (isWindows) {
-            assertEquals(p2, p1)
-        } else {
-            assertNotEquals(p2, p1)
-        }
-
-        // can we resolve two relative paths?
-        p1 = Path.of("foo/bar")
-        p2 = Path.of("baz.js")
-        def p3 = p1.resolve(p2)
-        def expectedP3 = Path.of("foo/bar/baz.js")
-        assertEquals(expectedP3, p3)
-    }
-
     @Test
     void "should create with valid base dir"() {
         def repo = new FileSystemJSModuleRepository(moduleRepo.toString())
@@ -96,6 +56,8 @@ class FileSystemJSModuleRepositoryTest {
     void "should reject null as base dir"() {
         shouldFail(NullPointerException.class) {
             new FileSystemJSModuleRepository(null as String)
+        }
+        shouldFail(NullPointerException.class) {
             new FileSystemJSModuleRepository(null as File)
         }
     }
@@ -221,7 +183,8 @@ class FileSystemJSModuleRepositoryTest {
     @Test
     void "resolve with context - should accept and resolve relative segments _dot__dot_ in a module id"() {
         def repo = new FileSystemJSModuleRepository(moduleRepo)
-        def contextUri = new File(moduleRepo, "sub").toURI()
+        // sub/module4 is a source file!
+        def contextUri = new File(moduleRepo, "sub/module4").toURI()
         def moduleUri = repo.resolve("./foo/../module4", contextUri)
         def expected = new File(moduleRepo, "sub/module4").toURI()
         assertEquals(expected, moduleUri.get())
@@ -230,6 +193,7 @@ class FileSystemJSModuleRepositoryTest {
     @Test
     void "resolve with context - should accept and resolve relative segments _dot_ in a module id"() {
         def repo = new FileSystemJSModuleRepository(moduleRepo)
+        // sub/module4 is a source file!
         def contextUri = new File(moduleRepo, "sub/module4").toURI()
         def moduleUri = repo.resolve("./module3", contextUri)
         def expected = new File(moduleRepo, "sub/module3.js").toURI()

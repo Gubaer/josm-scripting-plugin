@@ -11,7 +11,6 @@ import java.awt.*;
 import static org.openstreetmap.josm.tools.I18n.tr;
 
 public class ESModuleRepoConfigurationPanel extends AbstractRepoConfigurationPanel {
-
     protected JPanel buildInfoPanel() {
         final JEditorPane pane = EditorPaneBuilder.buildInfoEditorPane();
         final String text =

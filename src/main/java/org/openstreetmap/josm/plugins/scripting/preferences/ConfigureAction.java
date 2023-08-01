@@ -12,8 +12,6 @@ import org.openstreetmap.josm.gui.help.HelpUtil;
 import org.openstreetmap.josm.gui.preferences.PreferenceDialog;
 
 public class ConfigureAction extends JosmAction {
-    //static private Logger logger = Logger.getLogger(
-    //            ConfigureAction.class.getName());
 
     private PreferenceDialog dialog;
 

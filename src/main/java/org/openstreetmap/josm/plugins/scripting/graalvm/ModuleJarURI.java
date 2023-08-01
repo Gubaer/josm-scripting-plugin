@@ -1,5 +1,7 @@
 package org.openstreetmap.josm.plugins.scripting.graalvm;
 
+import org.openstreetmap.josm.plugins.scripting.model.RelativePath;
+
 import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.io.IOException;
@@ -7,13 +9,14 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
-import java.text.MessageFormat;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import static java.text.MessageFormat.format;
 
 /**
  * A ModuleJarURI is a jar-URI with an embedded file-URI and an optional
@@ -23,8 +26,7 @@ import java.util.logging.Logger;
  * Modules.
  */
 public class ModuleJarURI {
-    static private final Logger logger =
-        Logger.getLogger(ModuleJarURI.class.getName());
+    static private final Logger logger = Logger.getLogger(ModuleJarURI.class.getName());
 
     /**
      * Builds a jar URI given the path of the jar file and the path
@@ -39,16 +41,14 @@ public class ModuleJarURI {
      *  to a valid jar URL
      */
     public static URI buildJarUri(@NotNull final String jarFilePath,
-                           @NotNull final String jarEntryPath)
+                           @NotNull final RelativePath jarEntryPath)
         throws MalformedURLException, URISyntaxException {
         Objects.requireNonNull(jarFilePath);
         Objects.requireNonNull(jarEntryPath);
         final String fileUri = new File(jarFilePath).toURI().toString();
-        final URI uri = new URI(MessageFormat.format(
-            "jar:{0}!{1}", fileUri, jarEntryPath.startsWith("/") ? jarEntryPath : "/" + jarEntryPath
-        ));
+        final URI uri = new URI(format("jar:{0}!{1}", fileUri, "/" + jarEntryPath));
 
-        // try to convert the uri to an URL. This will make sure, the URI
+        // try to convert the uri to a URL. This will make sure, the URI
         // includes a valid jar entry path
         //noinspection ResultOfMethodCallIgnored
         uri.toURL();
@@ -68,7 +68,7 @@ public class ModuleJarURI {
      */
     public static URI buildJarUri(@NotNull final String jarFilePath)
             throws URISyntaxException, MalformedURLException {
-        return buildJarUri(jarFilePath, "/");
+        return buildJarUri(jarFilePath, RelativePath.EMPTY);
     }
 
     /**
@@ -111,7 +111,7 @@ public class ModuleJarURI {
      * Always a <bold>relative</bold> path, although in URL itself the path always
      * starts with a leading '/'.
      */
-    private String jarEntryPath = "";
+    private RelativePath jarEntryPath = RelativePath.EMPTY;
 
     private ModuleJarURI() {}
 
@@ -129,9 +129,8 @@ public class ModuleJarURI {
     public ModuleJarURI(@NotNull final URI uri) {
         Objects.requireNonNull(uri);
         if (!"jar".equalsIgnoreCase(uri.getScheme())) {
-            throw new IllegalArgumentException(MessageFormat.format(
-                "illegal URI. Expected scheme ''jar'', got ''{0}''",
-                uri.getScheme()
+            throw new IllegalArgumentException(format(
+                "illegal URI. Expected scheme ''jar'', got ''{0}''", uri.getScheme()
             ));
         }
         try {
@@ -139,9 +138,8 @@ public class ModuleJarURI {
             //noinspection ResultOfMethodCallIgnored
             uri.toURL();
         } catch(MalformedURLException e) {
-            throw new IllegalArgumentException(MessageFormat.format(
-                "illegal URI. Failed to convert to URL. uri=''{0}''",
-                uri.toString()
+            throw new IllegalArgumentException(format(
+                "illegal URI. Failed to convert to URL. uri=''{0}''", uri
             ), e);
         }
         final String jarSpecificPart = uri.getSchemeSpecificPart();
@@ -150,42 +148,37 @@ public class ModuleJarURI {
         try {
             fileUri = new URI(jarSpecificPart);
         } catch(URISyntaxException e) {
-            throw new IllegalArgumentException(MessageFormat.format(
-                "illegal URI. Failed to build URI for embedded file URI. " +
-                "uri=''{0}''",
-                uri.toString()
+            throw new IllegalArgumentException(format(
+                "illegal URI. Failed to build URI for embedded file URI. uri=''{0}''", uri
             ), e);
         }
         if (! "file".equalsIgnoreCase(fileUri.getScheme())) {
-            throw new IllegalArgumentException(MessageFormat.format(
-                "illegal URI. Expected embedded URI with scheme ''file'', " +
-                "got scheme ''{0}''. uri=''{1}''",
-                fileUri.getScheme(), uri.toString()
+            throw new IllegalArgumentException(format(
+                "illegal URI. Expected embedded URI with scheme ''file'', got scheme ''{0}''. uri=''{1}''",
+                fileUri.getScheme(), uri
             ));
         }
         final int i = fileUri.toString().lastIndexOf("!");
         if (i < 0) {
             // shouldn't happen, but just in case
-            throw new IllegalArgumentException(MessageFormat.format(
-                "illegal URI. embedded file URI doesn''t include a jar entry " +
-                "path after ''!''. uri=''{0}''",
-                uri.toString()
+            throw new IllegalArgumentException(format(
+                "illegal URI. embedded file URI doesn''t include a jar entry path after ''!''. uri=''{0}''", uri
              ));
         }
         try {
             jarFilePath = new File(new URI(fileUri.toString().substring(0, i)))
                     .toString();
         } catch(URISyntaxException | IllegalArgumentException e) {
-            throw new IllegalArgumentException(MessageFormat.format(
-                "failed to rebuild file URI embedded in jar URI. " +
-                "jar URI=''{0}''", uri.toString()
+            throw new IllegalArgumentException(format(
+                "failed to rebuild file URI embedded in jar URI. jar URI=''{0}''", uri
             ), e);
         }
-        jarEntryPath = fileUri.toString().substring(i+1)
-            // always use / as delimiter, also on windows platform
-            .replace("\\", "/");
-        if (jarEntryPath.startsWith("/")) {
-            jarEntryPath = jarEntryPath.substring(1);
+
+        final var path = fileUri.toString().substring(i+1);
+        if (path.isBlank() || path.equals("/")) {
+            jarEntryPath = RelativePath.EMPTY;
+        } else {
+            jarEntryPath = RelativePath.parse(path.substring(1));
         }
     }
 
@@ -216,30 +209,22 @@ public class ModuleJarURI {
      * @return the path of the jar entry
      */
     @SuppressWarnings("WeakerAccess") // part of the public API
-    public Path getJarEntryPath() {
-        return Path.of(jarEntryPath);
+    public RelativePath getJarEntryPath() {
+        return jarEntryPath;
     }
 
     /**
      * Replies the name of the jar entry to which this URI refers.
      * <p>
      * The name is equal to the jar entry path ({@link #getJarEntryPath()},
-     * without a leading '/'. It is used to lookup the jar entry, see
+     * without a leading '/'. It is used to look up the jar entry, see
      * {@link JarFile#getEntry(String)} or {@link JarFile#getJarEntry(String)}.
      *
      * @return the jar entry name
      */
     @SuppressWarnings("WeakerAccess") // part of the public API
     public String getJarEntryName() {
-        final String path = getJarEntryPath().toString().replace("\\", "/");
-        if (path.startsWith("/")) {
-            throw new IllegalStateException(MessageFormat.format(
-                "jar entry path must not start with ''/''. " +
-                "jar entry path=''{0}''",
-                path
-            ));
-        }
-        return path;
+        return jarEntryPath.toString();
     }
 
     /**
@@ -269,10 +254,8 @@ public class ModuleJarURI {
             }
             return entry.isDirectory();
         } catch(IOException e) {
-            logger.log(Level.WARNING, MessageFormat.format(
-                "failed to open and read jar file. " +
-                "jar file=''{0}''",
-                getJarFile().toString()
+            logger.log(Level.WARNING, format(
+                "failed to open and read jar file. jar file=''{0}''", getJarFile()
             ),e);
             return false;
         }
@@ -292,10 +275,9 @@ public class ModuleJarURI {
      */
     public boolean isBaseOf(@NotNull final ModuleJarURI other) {
         Objects.requireNonNull(other);
-        logger.log(Level.FINE, MessageFormat.format("this=''{0}'', other=''{1}''", this, other)); //TODO(Gubaer): remove after debugging
         return jarFilePath.equals(other.jarFilePath)
             && (
-                this.getJarEntryPath().toString().equals("") // this is the empty (or root) path
+                this.getJarEntryPath().isEmpty()
                 || other.getJarEntryPath().startsWith(this.getJarEntryPath())
             );
     }
@@ -330,18 +312,18 @@ public class ModuleJarURI {
             // don't apply toAbsolutePath(). The jar entry path is already
             // absolute (starts with an /); and it doesn't refer to a file
             // in the local file system, but to a jar entry in the jar file
-            final String normalizedJarEntryPath = Path.of(jarEntryPath).normalize()
-                    .toString();
+            final var canonicalPath = jarEntryPath.canonical();
+            if (canonicalPath.isEmpty()) {
+                return Optional.empty();
+            }
 
             final ModuleJarURI normalizedURI = new ModuleJarURI();
-            normalizedURI.jarEntryPath = normalizedJarEntryPath
-                    // always use '/' as delimiter, also on windows platform
-                    .replace("\\", "/");
+            normalizedURI.jarEntryPath = canonicalPath.get();
             normalizedURI.jarFilePath = normalizedFilePath;
             return Optional.of(normalizedURI);
         } catch(IOException e) {
-            logger.log(Level.WARNING, MessageFormat.format(
-            "Failed to canonicalize path ''{0}''", Path.of(jarFilePath).normalize()
+            logger.log(Level.WARNING, format(
+                "Failed to canonicalize path ''{0}''", jarFilePath
             ),e);
             return Optional.empty();
         }
@@ -357,10 +339,10 @@ public class ModuleJarURI {
             return buildJarUri(jarFilePath, jarEntryPath);
         } catch(URISyntaxException | MalformedURLException e) {
             // shouldn't happen, but just in case
-            throw new IllegalStateException(MessageFormat.format(
+            throw new IllegalStateException(format(
                 "failed to build URI from jar file path and jar entry path. " +
                 "jar file path=''{0}'', jar entry path=''{1}''",
-                 jarFilePath,jarEntryPath
+                 jarFilePath, jarEntryPath
             ),e);
         }
     }
@@ -371,13 +353,13 @@ public class ModuleJarURI {
     }
 
     /**
-     * Replies the CommonJS module jar URI which which is a suitable
+     * Replies the CommonJS module jar URI which is a suitable
      * resolution context URI for resolving CommonJS module IDs.
      * <p>
-     * If this jar entry path of this URI is '/', this URI is already a
+     * If the jar entry path of this URI is empty, this URI is already a
      * suitable resolution context.
      * <p>
-     * If this jar entry path refers to a directory in the jar file, it is
+     * If the jar entry path of this URI refers to a directory in the jar file, it is
      * already a suitable resolution context.
      * <p>
      * If, however, it refers to a file entry in the jar file, then the
@@ -390,38 +372,27 @@ public class ModuleJarURI {
     public @NotNull ModuleJarURI toResolutionContextUri()
             throws IOException {
 
-        String normalizedJarEntryPath =
-            new File(jarEntryPath).toPath().normalize().toString()
-                .replace("\\", "/");
+        RelativePath normalizedJarEntryPath = jarEntryPath.canonical()
+                .orElse(RelativePath.EMPTY);
 
-        // jar entry name without leading '/'
-        final String normalizedJarEntryName =
-            normalizedJarEntryPath.startsWith("/")
-                ? normalizedJarEntryPath.substring(1)
-                : normalizedJarEntryPath;
-
-        if (normalizedJarEntryName.isEmpty()) {
-            final ModuleJarURI resolutionContextUri =
-                    new ModuleJarURI();
+        if (normalizedJarEntryPath.isEmpty()) {
+            final ModuleJarURI resolutionContextUri = new ModuleJarURI();
             resolutionContextUri.jarFilePath = this.jarFilePath;
-            resolutionContextUri.jarEntryPath = "/";
+            resolutionContextUri.jarEntryPath = RelativePath.EMPTY;
             return resolutionContextUri;
         }
 
         // if this URI refers to a jar entry of type file, then use
         // its parent dir as context path
         try(final JarFile jar = new JarFile(getJarFile())) {
-            final JarEntry entry = jar.getJarEntry(normalizedJarEntryName);
+            final JarEntry entry = jar.getJarEntry(normalizedJarEntryPath.toString());
             if (entry != null) {
-                if (!entry.isDirectory()) {
-                    normalizedJarEntryPath = new File(normalizedJarEntryPath)
-                        .toPath().getParent().toString()
-                        .replace("\\", "/");
+                if (!entry.isDirectory() && normalizedJarEntryPath.getParent().isPresent()) {
+                    normalizedJarEntryPath = normalizedJarEntryPath.getParent().get();
                 }
             }
         }
-        final ModuleJarURI resolutionContextUri =
-            new ModuleJarURI();
+        final ModuleJarURI resolutionContextUri = new ModuleJarURI();
         resolutionContextUri.jarFilePath = this.jarFilePath;
         resolutionContextUri.jarEntryPath = normalizedJarEntryPath;
         return resolutionContextUri;

@@ -39,8 +39,8 @@ import static org.openstreetmap.josm.plugins.scripting.model.PreferenceKeys.PREF
 import static org.openstreetmap.josm.tools.I18n.tr;
 
 /**
- * <p><strong>ScriptEnginesConfigurationPanel</strong> allows to configure
- * the script engines available in JOSM.</p>
+ * <strong>ScriptEnginesConfigurationPanel</strong> allows to configure
+ * the script engines available in JOSM.
  *
  */
 @SuppressWarnings("unused")
@@ -83,6 +83,7 @@ public class ScriptEnginesConfigurationPanel extends VerticallyScrollablePanel{
         /**
          * Replies the local path of the engine jar file, relative to the
          * home directory of the scripting plugin
+         *
          * @return the relative plugin path
          */
         public String getRelativePluginPath() {
@@ -95,7 +96,6 @@ public class ScriptEnginesConfigurationPanel extends VerticallyScrollablePanel{
         /**
          * Replies true if the local jar file exists and can be read; false
          * otherwise
-         *
          */
         public boolean hasLocalJarFile() {
             File jar = getLocalJarFile();
@@ -468,7 +468,6 @@ public class ScriptEnginesConfigurationPanel extends VerticallyScrollablePanel{
     }
 
     private class DownloadEngineAction extends AbstractAction {
-
         public DownloadEngineAction() {
             putValue(
                 SHORT_DESCRIPTION,

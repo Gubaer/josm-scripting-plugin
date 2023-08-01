@@ -1,12 +1,11 @@
 package org.openstreetmap.josm.plugins.scripting.graalvm.esmodule
 
-
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.openstreetmap.josm.plugins.scripting.BaseTestCase
+import org.openstreetmap.josm.plugins.scripting.model.RelativePath
 
 import java.nio.file.Files
-import java.nio.file.Path
 
 import static groovy.test.GroovyAssert.shouldFail
 import static org.junit.Assert.*
@@ -52,100 +51,100 @@ class FileSystemESModuleRepositoryTest extends BaseTestCase {
 
     @Test
     void "can resolve absolute module path into this repository"() {
-        final absolutePath = Path.of(repo.getUniquePathPrefix().toString(), "josm")
-        final resolved = repo.resolveModulePath(absolutePath)
+        final path = repo.getUniquePathPrefix().append("josm")
+        final resolved = repo.resolveModulePath(path)
+        final expected = repo.getUniquePathPrefix().append("josm.mjs")
         assertNotNull(resolved)
-        assertTrue(resolved.toString().startsWith(absolutePath.toString()))
+        assertEquals(expected, resolved)
     }
 
     @Test
     void "rejects arbitrary absolute path which are not absolute module paths"() {
-        final absolutePath = "/foo/bar/baz"
-        final resolved = repo.resolveModulePath(absolutePath)
+        final path = RelativePath.parse("foo/bar/baz")
+        final resolved = repo.resolveModulePath(path)
         assertNull(resolved)
     }
 
     @Test
     void "rejects absolute module path into another repository"() {
         final repo2 = new FileSystemESModuleRepository(new File(getProjectHome(), "src/test/resources/es-modules"))
-        final absolutePath = Path.of(repo2.getUniquePathPrefix().toString(), "josm")
-        final resolved = repo.resolveModulePath(absolutePath)
+        final path = repo2.getUniquePathPrefix().append("josm")
+        final resolved = repo.resolveModulePath(path)
         assertNull(resolved)
     }
 
     @Test
     void "can resolve relative paths"() {
-        def relativePath = Path.of("josm")
-        def resolved = repo.resolveModulePath(relativePath)
+        def path = RelativePath.of("josm")
+        def resolved = repo.resolveModulePath(path)
         assertNotNull(resolved)
-        def expected = Path.of(repo.getUniquePathPrefix().toString(), "josm.mjs")
+        def expected = repo.getUniquePathPrefix().append("josm.mjs")
         assertEquals(expected, resolved)
 
 
-        relativePath = Path.of("josm/foo")
-        resolved = repo.resolveModulePath(relativePath)
+        path = RelativePath.parse("josm/foo")
+        resolved = repo.resolveModulePath(path)
         assertNotNull(resolved)
-        expected = Path.of(repo.getUniquePathPrefix().toString(), "josm/foo.mjs")
+        expected = repo.getUniquePathPrefix().append("josm", "foo.mjs")
         assertEquals(expected, resolved)
 
-        relativePath = Path.of("josm/bar")
-        resolved = repo.resolveModulePath(relativePath)
+        path = RelativePath.parse("josm/bar")
+        resolved = repo.resolveModulePath(path)
         assertNotNull(resolved)
-        expected = Path.of(repo.getUniquePathPrefix().toString(), "josm/bar.js")
+        expected = repo.getUniquePathPrefix().append("josm", "bar.js")
         assertEquals(expected, resolved)
     }
 
     @Test
     void "can resolve relative paths with _DOT__SLASH_"() {
-        def relativePath = Path.of("./josm")
-        def resolved = repo.resolveModulePath(relativePath)
+        def path = RelativePath.parse("./josm")
+        def resolved = repo.resolveModulePath(path)
         assertNotNull(resolved)
-        def expected = Path.of(repo.getUniquePathPrefix().toString(), "josm.mjs")
+        def expected =repo.getUniquePathPrefix().append("josm.mjs")
         assertEquals(expected, resolved)
 
-        relativePath = Path.of("josm/./foo")
-        resolved = repo.resolveModulePath(relativePath)
+        path = RelativePath.parse("josm/./foo")
+        resolved = repo.resolveModulePath(path)
         assertNotNull(resolved)
-        expected = Path.of(repo.getUniquePathPrefix().toString(), "josm/foo.mjs")
+        expected = repo.getUniquePathPrefix().append("josm", "foo.mjs")
         assertEquals(expected, resolved)
 
-        relativePath = Path.of("josm/./bar")
-        resolved = repo.resolveModulePath(relativePath)
+        path = RelativePath.parse("josm/./bar")
+        resolved = repo.resolveModulePath(path)
         assertNotNull(resolved)
-        expected = Path.of(repo.getUniquePathPrefix().toString(), "josm/bar.js")
+        expected = repo.getUniquePathPrefix().append("josm", "bar.js")
         assertEquals(expected, resolved)
     }
 
     @Test
     void "can resolve relative paths with _DOT__DOT_"() {
-        def relativePath = Path.of("josm/../josm")
-        def resolved = repo.resolveModulePath(relativePath)
+        def path = RelativePath.parse("josm/../josm")
+        def resolved = repo.resolveModulePath(path)
         assertNotNull(resolved)
-        def expected = Path.of(repo.getUniquePathPrefix().toString(), "josm.mjs")
+        def expected = repo.getUniquePathPrefix().append("josm.mjs")
         assertEquals(expected, resolved)
 
-        relativePath = Path.of("josm/foo/no-such-subdir/..")
-        resolved = repo.resolveModulePath(relativePath)
+        path = RelativePath.parse("josm/foo/no-such-subdir/..")
+        resolved = repo.resolveModulePath(path)
         assertNotNull(resolved)
-        expected = Path.of(repo.getUniquePathPrefix().toString(), "josm/foo.mjs")
+        expected = repo.getUniquePathPrefix().append("josm", "foo.mjs")
         assertEquals(expected, resolved)
 
-        relativePath = Path.of("josm/../josm/bar")
-        resolved = repo.resolveModulePath(relativePath)
+        path = RelativePath.parse("josm/../josm/bar")
+        resolved = repo.resolveModulePath(path)
         assertNotNull(resolved)
-        expected = Path.of(repo.getUniquePathPrefix().toString(), "josm/bar.js")
+        expected = repo.getUniquePathPrefix().append("josm", "bar.js")
         assertEquals(expected, resolved)
     }
 
     @Test
     void "rejects navigation outside of repo"() {
-        def modulePath = Path.of(repo.getUniquePathPrefix().toString(), "josm/../../josm")
+        def modulePath = repo.getUniquePathPrefix().append(RelativePath.parse("josm/../../josm"))
         def resolved = repo.resolveModulePath(modulePath)
         assertNull(resolved)
 
-        modulePath = "josm/foo/../../../josm"
+        modulePath = RelativePath.parse("josm/foo/../../../josm")
         resolved = repo.resolveModulePath(modulePath)
         assertNull(resolved)
     }
-
 }

@@ -16,8 +16,8 @@ import org.openstreetmap.josm.plugins.scripting.model.JSR223ScriptEngineProvider
 import org.openstreetmap.josm.plugins.scripting.model.PreferenceKeys;
 
 /**
- * <p><strong>ScriptEngineJarTableModel</strong> is a table model for the table of script
- * engine jars in the preferences dialog.</p>
+ * <strong>ScriptEngineJarTableModel</strong> is a table model for the table of script
+ * engine jars in the preferences dialog.
  *
  */
 public class ScriptEngineJarTableModel extends AbstractTableModel implements PreferenceKeys{
@@ -42,15 +42,15 @@ public class ScriptEngineJarTableModel extends AbstractTableModel implements Pre
     }
 
     /**
-     * <p>Replies the selection model known to this table model.</p>
-     *
-     * <p>Make sure that a table using an instance of this model, is also using the
-     * respective selection model.</p>
-     * <pre>
+     * Replies the selection model known to this table model.
+     * <p>
+     * Make sure that a table using an instance of this model, is also using the
+     * respective selection model.
+     * <pre>{@code
      *    model = new ScriptEngineJarTableModel();
      *    JTable table = new JTable(model);
      *    table.setSelectionModel(model.getSelectionModel());
-     * </pre>
+     * }</pre>
      * @return the selection model
      */
     public ListSelectionModel getSelectionModel() {
@@ -86,7 +86,7 @@ public class ScriptEngineJarTableModel extends AbstractTableModel implements Pre
     }
 
     /**
-     * <p>Restores the configured jar files from preferences.</p>
+     * Restores the configured jar files from preferences.
      */
     public void restoreFromPreferences() {
         jars.clear();
@@ -104,7 +104,7 @@ public class ScriptEngineJarTableModel extends AbstractTableModel implements Pre
 
 
     /**
-     * <p>Persists the jar paths to the preferences.</p>
+     * Persists the jar paths to the preferences.
      */
     public void persistToPreferences() {
         List<String> paths = jars.stream()

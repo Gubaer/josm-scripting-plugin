@@ -8,21 +8,21 @@ import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.Wrapper;
 
 /**
-* <p>Mixins are implemented as CommonJS modules. A mixin has to export
-* two properties:</p>
+* Mixins are implemented as CommonJS modules. A mixin has to export
+* two properties:
 * <ul>
 *   <li><strong>forClass</strong> -  the value must be java class for which
 *       the mixin is defined</li>
 *   <li><strong>mixin</strong> - an object with object descriptors. The value
 *   for each property is either a function (this defines a mixed in method) or
-*   a property descriptor with eithe a value or a getter and an (optional)
+*   a property descriptor with either a value or a getter and an (optional)
 *   setter function (this defines a mixed in property).</li>
 * </ul>
-* <p>Mixins can include instance and class-level ("static") extensions, see
-* the example below.</p>
-*
+* Mixins can include instance and class-level ("static") extensions, see
+* the example below.
+* <p>
 * <strong>Example</strong>
-* <pre>
+* <pre>{@code
 * // the class which we extend
 * exports.forClass = org.openstreetmap.josm.data.osm.Node;
 *
@@ -59,7 +59,7 @@ import org.mozilla.javascript.Wrapper;
 *     staticFunction: function() {...};
 *     staticFunction.static = true;  // mark it as static function
 * };
-* </pre>
+* }</pre>
 *
 */
 public class JSMixinRegistry {
@@ -75,8 +75,8 @@ public class JSMixinRegistry {
     }
 
     /**
-     * <p>Register a mixin for a java class. The mixin is given by the
-     * properties in the scriptable object <code>mixin</code></p>.
+     * Register a mixin for a java class. The mixin is given by the
+     * properties in the scriptable object <code>mixin</code>.
      *
      * @param clazz the class for which we register a mixin
      * @param mixin the mixin
@@ -97,9 +97,9 @@ public class JSMixinRegistry {
     }
 
     /**
-     * <p>Load and register a mixin for a java class. Tries to load the mixin
+     * Load and register a mixin for a java class. Tries to load the mixin
      * as CommonJS module with name <code>moduleName</code>. This module is
-     * expected to export to properties:</p>
+     * expected to export to properties:
      * <ol>
      *   <li><code>forClass</code>  - the value is the java class for which
      *   this module provides a mixin</li>
