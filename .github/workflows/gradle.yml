@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - master
-      - graalvm
   pull_request:
     branches:
       - master
@@ -19,6 +18,9 @@ jobs:
   build:
     strategy:
       matrix:
+        platform:
+          - ubuntu-latest
+          - windows-latest
         josm-version:
           - latest
           - tested
@@ -27,23 +29,25 @@ jobs:
           - 11
           - 17
 
-    name: Build plugin - JDK ${{ matrix.jdk }}, minJosmVersion=${{ matrix.josm-version }}
-    runs-on: ubuntu-latest
+    name: Build plugin on ${{ matrix.platform }} - JDK ${{ matrix.jdk }}, minJosmVersion=${{ matrix.josm-version }}
+    runs-on: ${{ matrix.platform }}
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK ${{ matrix.jdk }}
         uses: actions/setup-java@v3
         with:
           java-version: '${{ matrix.jdk }}'
-          distribution: 'temurin'
+          distribution: 'microsoft'           # Microsofts build of OpenJDK
       # headless X11 setup according to
       # https://stackoverflow.com/questions/68292797/running-java-gui-tests-on-github-using-xvfb
       - name: Set up virtual X11
+        if: ${{ matrix.platform == 'ubuntu-latest' }}
         run: sudo apt-get -y install xvfb
       - name: Start virtual frame buffer
+        if: ${{ matrix.platform == 'ubuntu-latest' }}
         run: Xvfb :19 -screen 0 1024x768x16 &
       - name: Build with Gradle
-        uses: gradle/gradle-build-action@v2.4.2
+        uses: gradle/gradle-build-action@v2
         env:
             DISPLAY: ":19"
             OSM_DEV_API_PASSWORD: "${{ secrets.OSM_DEV_API_PASSWORD }}"
