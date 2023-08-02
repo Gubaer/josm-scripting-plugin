@@ -159,6 +159,7 @@ File josmHomeForTests() {
  */
 test {
     useJUnitPlatform()
+    jvmArgs '--add-opens', 'java.prefs/java.util.prefs=ALL-UNNAMED'
     environment "JOSM_SCRIPTING_PLUGIN_HOME", project.projectDir
     systemProperty "josm.home", josmHomeForTests().absolutePath
     scanForTestClasses = false
