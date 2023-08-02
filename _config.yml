@@ -27,10 +27,6 @@ remote_theme: just-the-docs/just-the-docs
 aux_links:
   "API V3 (JSDoc)":
     - "https://gubaer.github.io/josm-scripting-plugin/api/v3/module-josm.html"
-  "API V2 (JSDoc)":
-    - "https://gubaer.github.io/josm-scripting-plugin/api/v2/module-josm.html"
-  "API V1 (JSDoc)":
-    - "https://gubaer.github.io/josm-scripting-plugin/api/v1/module-josm.html"
   "GitHub":
     - "https://github.com/Gubaer/josm-scripting-plugin"
 aux_links_new_tab: false

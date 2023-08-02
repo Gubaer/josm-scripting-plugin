@@ -38,8 +38,7 @@ JDKs other than GraalVM don't include GraalJS. You have to download the jar file
 
 ### Running JOSM with the GraalVM JDK
 
-GraalVM ships with an engine for JavaScript (compatible with EMCAScript 2021) called [GraalJS][graaljs]. When you run JOSM with the JDK provided by the GraalVM, GraalJS
-is available in the JOSM Scripting Plugin and you can execute scripts written in JavaScript using GraalJS.
+GraalVM ships with an engine for JavaScript (compatible with EMCAScript 2021) called [GraalJS][graaljs]. When you run JOSM with the JDK provided by the GraalVM, GraalJS is available in the scripting plugin and you can execute scripts written in JavaScript using GraalJS.
 
 1. Download [GraalVM 22.1][graalvm-22-download] (or higher) and install it.
 
@@ -63,20 +62,24 @@ is available in the JOSM Scripting Plugin and you can execute scripts written in
 
     ```bash
     # make sure 'java' is resolved to the java binary shipped with the GraalVM
-    java -jar josm.jar
+    $ java -jar josm.jar
+    # or on Windows:
+    C:> java.exe -jar josm.jar
     ```
 
     Add additional command line options, if necessary, for instance:
 
     ```bash
     # make sure 'java' is resolved to the java binary shipped with the GraalVM
-    java -Djosm.home=/your/josm/home -Xmx2G -jar josm.jar
+    $ java -Djosm.home=/your/josm/home -Xmx2G -jar josm.jar
+    # or on Windows:
+    C:> java.exe -Djosm.home=c:\\your\\josm\\home -Xmx2G -jar josm.jar
     ```
 
 
 ## Using the JavaScript [API V3](v3/v3)
 
-The JOSM Scripting Plugin ships with a JavaScript API. [API V3](v3/v3) can only be used in the GraalJS scripting engine. Neither Mozilla Rhino nor Nashorn can execute scripts based on [API V3](v3/v3) (because API V3 is a set of ES Modules).
+The scripting plugins ships with a JavaScript API. [API V3](v3/v3) can only be used in the GraalJS scripting engine. It can't be used with JSR223-compatible scripting engines for JavaScript. In particular, it can neither be used with Mozilla Rhino nor with Oracle Nashorn.
 
 [API V3](v3/v3) has the following main features:
 
