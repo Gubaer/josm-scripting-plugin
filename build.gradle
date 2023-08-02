@@ -79,7 +79,6 @@ def configuredJosmCompileVersion = deriveJosmCompileVersion(releases)
 logger.info("Compiling for JOSM ${configuredJosmCompileVersion}")
 
 version = releases.currentPluginLabel
-
 base {
     archivesName = "scripting"
 }
