@@ -10,18 +10,17 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.apache.groovy:groovy:4.0.2'
-    implementation 'org.apache.groovy:groovy-yaml:4.0.2'
-    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.13.0'
-    implementation 'com.github.groovy-wslite:groovy-wslite:1.1.2'
+    implementation 'org.apache.groovy:groovy:4.0.13'
+    implementation 'org.apache.groovy:groovy-yaml:4.0.13'
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.15.2'
     implementation 'com.squareup.okhttp3:okhttp:4.9.3'
-    implementation 'com.amazonaws:aws-java-sdk-s3:1.12.227'
+    implementation 'com.amazonaws:aws-java-sdk-s3:1.12.520'
 
     implementation gradleApi()
 
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
-    implementation 'org.apache.groovy:groovy-test:4.0.2'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.0'
+    testImplementation 'org.apache.groovy:groovy-test:4.0.13'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.0'
 }
 
 test {
