@@ -13,7 +13,7 @@ source ./lib.sh
 function usage() {
     cat <<EOM;
 usage: josm.sh <options> 
-    -h, --help
+    -h, --help, help
         show this information 
 
     --josm latest | tested | <version>
@@ -58,7 +58,7 @@ graal_js=""
 
 while [ "$1" != "" ] ; do
     case "$1" in 
-        -h | --help) 
+        -h | --help | help)
             usage 
             exit 0
             ;;
