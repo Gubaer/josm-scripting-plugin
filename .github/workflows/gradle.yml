@@ -1,4 +1,4 @@
-name: Josm Scripting Plugin - Build
+name: Josm Scripting Plugin
 
 on:
   push:
@@ -31,13 +31,15 @@ jobs:
 
     name: Build plugin on ${{ matrix.platform }} - JDK ${{ matrix.jdk }}, minJosmVersion=${{ matrix.josm-version }}
     runs-on: ${{ matrix.platform }}
+    env:
+      JAVA_OPTS: "-Xmx6G"
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK ${{ matrix.jdk }}
         uses: actions/setup-java@v3
         with:
           java-version: '${{ matrix.jdk }}'
-          distribution: 'microsoft'           # Microsofts build of OpenJDK
+          distribution: 'microsoft'           # Microsoft's build of OpenJDK
       # headless X11 setup according to
       # https://stackoverflow.com/questions/68292797/running-java-gui-tests-on-github-using-xvfb
       - name: Set up virtual X11
