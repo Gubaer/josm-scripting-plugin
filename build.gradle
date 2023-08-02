@@ -159,6 +159,7 @@ File josmHomeForTests() {
  */
 test {
     useJUnitPlatform()
+    jvmArgs '--add-opens', 'java.prefs/java.util.prefs=ALL-UNNAMED'
     environment "JOSM_SCRIPTING_PLUGIN_HOME", project.projectDir
     systemProperty "josm.home", josmHomeForTests().absolutePath
     scanForTestClasses = false
@@ -195,6 +196,7 @@ def getGraalVMJavaExecutable() {
 tasks.register('testScriptApiV3', Test) {
     dependsOn "downloadGraalVM"
     useJUnitPlatform()
+    jvmArgs '--add-opens', 'java.prefs/java.util.prefs=ALL-UNNAMED'
     environment "JOSM_SCRIPTING_PLUGIN_HOME", project.projectDir
     environment "TEST_COMMONJS_MODULE_REPO",
             "${project.projectDir}/src/test/resources/require/modules"
@@ -223,6 +225,7 @@ tasks.register('testGraalVMSupportNotPresent', Test) {
     // remove GraalVM from classpath under test
     classpath = classpath.filter { !it.toString().toLowerCase().contains("graalvm") }
     useJUnitPlatform()
+    jvmArgs '--add-opens', 'java.prefs/java.util.prefs=ALL-UNNAMED'
     scanForTestClasses = false
     include "**/graalvm/GraalVMNotPresentTest.class"
     testLogging {
@@ -249,6 +252,7 @@ tasks.register('testWithGraalVMJDK', Test) {
         )
     }
     useJUnitPlatform()
+    jvmArgs '--add-opens', 'java.prefs/java.util.prefs=ALL-UNNAMED'
     environment "JOSM_SCRIPTING_PLUGIN_HOME", project.projectDir
     environment "TEST_COMMONJS_MODULE_REPO",
             "${project.projectDir}/src/test/resources/require/modules"
@@ -278,6 +282,7 @@ tasks.register('testWithGraalVMJDK', Test) {
  */
 tasks.register('testJSR223EnginePresent', Test) {
     useJUnitPlatform()
+    jvmArgs '--add-opens', 'java.prefs/java.util.prefs=ALL-UNNAMED'
 
     // groovy and python are on the classpath
     scanForTestClasses = false
