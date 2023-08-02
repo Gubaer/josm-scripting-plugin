@@ -2,3 +2,5 @@
 graalvm-*
 graaljs-*
 *-openjdk-*
+josm-home
+logging.properties
