@@ -43,11 +43,11 @@ dependencies {
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: project.property('dep.jupiter')
     testImplementation group: 'org.apache.groovy', name: 'groovy-all', version: project.property('dep.groovy')
     testImplementation group: 'org.apache.groovy', name: 'groovy-test', version: project.property('dep.groovy')
-    //testImplementation group: 'org.awaitility', name: 'awaitility', version: '4.2.0'
 
     testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: project.property('dep.jupiter')
     testRuntimeOnly group: "org.python", name: "jython", version: "2.7.3"
 
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
 def releases = Releases.fromFile(file("releases.yml"))
@@ -79,7 +79,7 @@ def configuredJosmCompileVersion = deriveJosmCompileVersion(releases)
 logger.info("Compiling for JOSM ${configuredJosmCompileVersion}")
 
 version = releases.currentPluginLabel
-archivesBaseName = "scripting"
+//archivesBaseName = "scripting"
 
 tasks.register('dumpGraalVMJars') {
     doLast {
