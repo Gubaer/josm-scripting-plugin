@@ -3,13 +3,13 @@ function check_software() {
     local jq
 
     wget=`which wget`
-    if [ "$wget" = "" ] ; then 
+    if [ "$wget" = "" ] ; then
         echo "fatal: this script requires 'wget'. Install it with 'sudo apt install -y wget'."
         return 1
-    fi 
+    fi
 
     jq=`which jq`
-    if [ "$jq" = "" ] ; then 
+    if [ "$jq" = "" ] ; then
         echo "fatal: this script requires 'jq'. Install it with 'sudo apt install -y jq'."
         return 1
     fi
