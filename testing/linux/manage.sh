@@ -126,6 +126,7 @@ function download_graaljs() {
 
 function create_josm_home() {
     local josm_home
+    local default_preferences
 
     josm_home=`pwd`/josm-home
     if [ -d "$josm_home" ] ; then 
@@ -134,6 +135,22 @@ function create_josm_home() {
     fi
     mkdir -p $josm_home 
     echo "info: created JOSM home directory '$josm_home'"
+
+    default_preferences=$(cat <<-EOPREF
+    <?xml version="1.0" encoding="UTF-8"?>
+    <preferences xmlns='http://josm.openstreetmap.de/preferences-1.0' version='18770'>
+        <!-- don't prompt for interactively updating JOSM -->
+        <tag key='pluginmanager.version-based-update.policy' value='never'/>
+        <!-- don't display scripting plugin release notes -->
+        <tag key='org.openstreetmap.josm.plugins.scripting.ui.release.ReleaseNotes.last-seen-release-note' value='v0.2.10'/>
+        <list key='plugins'>
+            <entry value='scripting'/>
+        </list>
+    </preferences>
+EOPREF
+)
+
+    echo $default_preferences > $josm_home/preferences.xml
 }
 
 function delete_josm_home() {
