@@ -23,7 +23,7 @@ The scripting plugin makes use of this standard. You can add any JSR223-compatib
 
 3. Download one of the scripting engines for Python, Groovy, or Ruby. Or download another scripting language and add its jar file on this tab.
 
-<img id="configure-scripting-engines" src="../assets/img/v2/configure-scripting-engine.png"/>
+<img id="configure-scripting-engines" src="../assets/img/v3/configure-scripting-engine.png"/>
 
 
 ## Selecting a scripting engine
@@ -36,7 +36,7 @@ In the scripting console you can select a scripting engine to run a script.
 
 3. Select one of the configured scripting engines
 
-<img id="configure-scripting-engines" src="../assets/img/v2/select-scripting-engine.png"/>
+<img id="configure-scripting-engines" src="../assets/img/v3/select-scripting-engine.png"/>
 
 
 ## Implementing a script
@@ -48,7 +48,7 @@ In the scripting console you can select a scripting engine to run a script.
 3. Enter the script in the scripting console. The example in the following screen shot is a simple Python script. The scripting plugin executes it with the Jython scripting engine.
 
 
-<img id="configure-scripting-engines" src="../assets/img/v2/implementing-a-script.png"/>
+<img id="configure-scripting-engines" src="../assets/img/v3/implementing-a-script.png"/>
 
 ## Running a script
 
