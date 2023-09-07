@@ -1,6 +1,5 @@
 package org.openstreetmap.josm.plugins.scripting.release
 
-
 import com.amazonaws.regions.Regions
 import com.amazonaws.services.s3.AmazonS3
 import com.amazonaws.services.s3.AmazonS3ClientBuilder
@@ -14,7 +13,6 @@ import org.gradle.api.tasks.Optional
 import org.gradle.api.tasks.TaskAction
 
 import java.util.jar.JarFile
-import java.util.stream.Collectors
 
 /**
  * Publishes the current scripting*.jar plugin from <code>build/libs</code>
