@@ -16,7 +16,7 @@ import org.openstreetmap.josm.gui.layer.OsmDataLayer;
  * <p>
  * This is an alternative for {@link AddPrimitivesCommand} which accepts
  * primitives instead of primitives data and adds the primitives in one
- * batch (between ds.beginUpdat() and ds.endUpdate()), and provides a
+ * batch (between ds.beginUpdate() and ds.endUpdate()), and provides a
  * list of child command for the command dialog.
  */
 public class AddMultiCommand extends MultiCommand {
