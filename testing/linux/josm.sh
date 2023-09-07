@@ -70,7 +70,7 @@ while [ "$1" != "" ] ; do
                 usage
                 exit 1
             fi
-            $arg=`echo $1 | egrep '^(latest)|(tested)|([0-9]+)$'`
+            arg=`echo $1 | egrep '^(latest)|(tested)|([0-9]+)$'`
             if [ "$arg" != "" ] ; then 
                 josm=$1
             else 
