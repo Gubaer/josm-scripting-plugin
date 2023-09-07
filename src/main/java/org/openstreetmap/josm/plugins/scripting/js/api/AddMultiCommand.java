@@ -12,12 +12,12 @@ import org.openstreetmap.josm.data.osm.OsmPrimitive;
 import org.openstreetmap.josm.gui.layer.OsmDataLayer;
 
 /**
- * <p>A command to add a collection of primitives to a layer.</p>
- *
- * <p>This is an alternative for {@link AddPrimitivesCommand} which accepts
+ * A command to add a collection of primitives to a layer.
+ * <p>
+ * This is an alternative for {@link AddPrimitivesCommand} which accepts
  * primitives instead of primitives data and adds the primitives in one
  * batch (between ds.beginUpdat() and ds.endUpdate()), and provides a
- * list of child command for the command dialog.</p>
+ * list of child command for the command dialog.
  */
 public class AddMultiCommand extends MultiCommand {
 

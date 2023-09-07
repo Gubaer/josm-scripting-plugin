@@ -20,11 +20,10 @@ import org.openstreetmap.josm.data.osm.DefaultNameFormatter;
 import org.openstreetmap.josm.plugins.scripting.util.Assert;
 
 /**
- * <p>Represents a change to one of the "properties" of an
+ * Represents a change to one of the "properties" of an
  * {@link OsmPrimitive}. A change consists of a list of
- * {@link PropertyChange}s. It can be applied to a primitive and it
- * can generate an explanation of the applied change.</p>
- *
+ * {@link PropertyChange}s. It can be applied to a primitive, and it
+ * can generate an explanation of the applied change.
  */
 public class Change {
     @SuppressWarnings("unused")
