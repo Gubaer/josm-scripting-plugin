@@ -33,7 +33,12 @@ $GRAALVM_PARAMS = @{
 # https://github.com/Gubaer/josm-scripting-plugin-graaljs
 #
 $GRAALJS_PARAMS = @{
-    latest = "22.1.3"
+    latest = "23.0.0"
+    "23.0.0" = @{
+        uri = "https://github.com/Gubaer/josm-scripting-plugin-graaljs/releases/download/23.0.0/graaljs-23.0.0.zip"
+        directory = "graaljs-23.0.0"
+    }
+
     "22.1.3" = @{
         uri = "https://github.com/Gubaer/josm-scripting-plugin-graaljs/releases/download/22.3.0/graaljs-22.3.0.zip"
         directory = "graaljs-22.1.3"
