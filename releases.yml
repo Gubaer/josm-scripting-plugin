@@ -1,4 +1,11 @@
 releases:
+  - label: v0.3.0
+    minJosmVersion: 18427
+    description: |
+      **Major**: the Rhino scripting engine has been removed from the scripting plugin
+      **Major**: the JavaScript API V1 has been removed from the scripting plugin
+      **Major**: the JavaScript API V2 has been removed from the scripting plugin
+
   - label: v0.2.10
     minJosmVersion: 18427
     description: |
