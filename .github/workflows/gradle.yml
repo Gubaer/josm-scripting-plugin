@@ -26,15 +26,7 @@ jobs:
           - tested
           - release
         jdk:
-          - 11
           - 17
-        exclude:
-          # 2023-08: JOSM latest introduced a modal dialog about outdated java version 11.
-          # Unit tests with dependencies to the JOSM fixture are blocked and the build
-          # therefore times out. 
-          # Build now excluded for all JDK 11 builds on Windows
-          - platform: windows-latest
-            jdk: 11
 
     name: Build plugin on ${{ matrix.platform }} - JDK ${{ matrix.jdk }}, minJosmVersion=${{ matrix.josm-version }}
     runs-on: ${{ matrix.platform }}
