@@ -5,6 +5,13 @@ plugins {
 
 group 'org.example'
 
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
 repositories {
     mavenCentral()
 }
