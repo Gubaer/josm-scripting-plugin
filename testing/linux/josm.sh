@@ -20,7 +20,7 @@ usage: josm.sh <options>
         The JOSM version to lauch. Either 'latest', 'tested', or a JOSM version number.
         If missing, 'latest' is used.
 
-    --jdk jdk11 | jdk17
+    --jdk jdk17 | jdk20
         The JDK to use. Either 'jdk11' or 'jdk17'. If missing, 'jdk11' is used.
 
     --use-graal-vm
@@ -52,7 +52,7 @@ EOF
 check_software || exit 1
 
 josm="latest"
-jdk="jdk11"
+jdk="jdk17"
 use_graal_vm=false
 graal_js=""
 
@@ -89,7 +89,7 @@ while [ "$1" != "" ] ; do
                 usage
                 exit 1
             fi
-            arg=`echo $1 | egrep '^(jdk11)|(jdk17)$'`
+            arg=`echo $1 | egrep '^(jdk17)|(jdk20)$'`
             if [ "$arg" != "" ] ; then
                 jdk=$1
             else

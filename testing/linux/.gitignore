@@ -2,5 +2,7 @@
 graalvm-*
 graaljs-*
 *-openjdk-*
+jdk17
+jdk20
 josm-home
 logging.properties

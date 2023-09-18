@@ -1,6 +1,6 @@
 This directory provides an environment to interactively test JOSM and the scripting plugin with different JOSM, JDK, GraalVM, and GraalJS versions.
 
-Use [`manage.sh](manage.sh) to prepare and manage the test environment, in particular to
+Use [`manage.sh`](manage.sh) to prepare and manage the test environment, in particular to
 
 * download and install JOSM versions
 * download and install JDKs (jdk11 and jdk17)

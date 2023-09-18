@@ -50,7 +50,8 @@ function download_jdk() {
     download_url=`cat config.json | jq -r "$jq_query"`
     echo "Downloading JDK '$version' from '$download_url' ..."
     wget -O "$version.tar.gz" $download_url
-    tar xvf "$version.tar.gz"
+    mkdir -p $directory
+    tar xvf "$version.tar.gz" --strip-components=1 -C $directory
     rm "$version.tar.gz"
     return 0
 }
@@ -78,7 +79,8 @@ function download_graalvm() {
     fi
     echo "Downloading GraalVM for JDK '$version' from '$download_url' ..."
     wget -O "graalvm-$version.tar.gz" $download_url
-    tar xvf "graalvm-$version.tar.gz"
+    mkdir -p $directory
+    tar xvf "graalvm-$version.tar.gz" --strip-components=1 -C $directory
     rm "graalvm-$version.tar.gz"
 
     # install GraalJS
@@ -181,10 +183,10 @@ usage: manage.sh <action> <args>
         download-josm latest|tested|<version>
             download a JOSM version
 
-        download-jdk jdk11|jdk17
+        download-jdk jdk17|jdk20
             downloads a portable OpenJDK and installs it in the current directory
 
-        download-graalvm jdk11|jdk17
+        download-graalvm jdk17|jdk20
             downloads a GraalVM for Windows and installs it in the current directory
 
         download-graaljs
@@ -210,10 +212,10 @@ EOM
 }
 
 function prepare() {
-    download_jdk "jdk11"
     download_jdk "jdk17"
-    download_graalvm "jdk11"
+    download_jdk "jdk20"
     download_graalvm "jdk17"
+    download_graalvm "jdk20"
     download_graaljs "latest"
     download_josm "latest"
     download_josm "tested"
@@ -332,7 +334,7 @@ case "$1" in
             usage
             exit 1
         fi
-        if [ "$2" == "jdk11" -o "$2" == "jdk17" ] ; then
+        if [ "$2" == "jdk17" -o "$2" == "jdk20" ] ; then
             download_jdk $2
         else
             echo "error: unsupported jdk version '$2'"
@@ -347,7 +349,7 @@ case "$1" in
             usage
             exit 1
         fi
-        if [ "$2" == "jdk11" -o "$2" == "jdk17" ] ; then
+        if [ "$2" == "jdk17" -o "$2" == "jdk20" ] ; then
             download_graalvm $2
         else
             echo "error: unsupported jdk version '$2' for GraalVM"

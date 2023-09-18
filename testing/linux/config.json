@@ -5,26 +5,26 @@
     },
 
     "jdk-params": {
-        "jdk11": {
-            "uri": "https://builds.openlogic.com/downloadJDK/openlogic-openjdk/11.0.19+7/openlogic-openjdk-11.0.19+7-linux-x64.tar.gz",
-            "directory": "openlogic-openjdk-11.0.19+7-linux-x64"
+        "jdk17": {
+            "uri": "https://download.oracle.com/java/17/latest/jdk-17_linux-x64_bin.tar.gz",
+            "directory": "jdk17"
         },
 
-        "jdk17": {
-            "uri": "https://builds.openlogic.com/downloadJDK/openlogic-openjdk/17.0.5+8/openlogic-openjdk-17.0.5+8-linux-x64.tar.gz",
-            "directory": "openlogic-openjdk-17.0.5+8-linux-x64"
+        "jdk20": {
+            "uri": "https://download.oracle.com/java/20/latest/jdk-20_linux-x64_bin.tar.gz",
+            "directory": "jdk20"
         }
     },
 
-    "graalvm-params": {
-        "jdk11": {
-            "uri": "https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-22.3.3/graalvm-ce-java11-linux-amd64-22.3.3.tar.gz",
-            "directory": "graalvm-ce-java11-22.3.3"
-        },
-    
+    "graalvm-params": {    
         "jdk17": {
-            "uri": "https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-22.3.3/graalvm-ce-java17-linux-amd64-22.3.3.tar.gz",
-            "directory": "graalvm-ce-java17-22.3.3"
+            "uri": "https://download.oracle.com/graalvm/17/latest/graalvm-jdk-17_linux-x64_bin.tar.gz",
+            "directory": "graalvm-jdk17"
+        },
+
+        "jdk20": {
+            "uri": "https://download.oracle.com/graalvm/20/latest/graalvm-jdk-20_linux-x64_bin.tar.gz",
+            "directory": "graalvm-jdk20"
         }
     },
 
