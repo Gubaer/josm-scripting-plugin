@@ -455,7 +455,7 @@ public class GraalVMPrivilegesModel implements PreferenceChangedListener {
         builder.allowCreateProcess(allowCreateProcess());
         builder.allowCreateThread(allowCreateThread());
         builder.allowHostClassLoading(allowHostClassLoading());
-        builder.allowIO(allowIO());
+        builder.allowAllAccess(allowIO());
         builder.allowExperimentalOptions(allowExperimentalOptions());
         builder.allowNativeAccess(allowNativeAccess());
         builder.allowEnvironmentAccess(

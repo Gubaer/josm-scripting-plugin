@@ -1,6 +1,7 @@
 package org.openstreetmap.josm.plugins.scripting.graalvm;
 
 import org.graalvm.polyglot.*;
+import org.graalvm.polyglot.io.IOAccess;
 import org.openstreetmap.josm.plugins.scripting.graalvm.esmodule.ESModuleResolver;
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
 import org.openstreetmap.josm.plugins.scripting.preferences.graalvm.GraalVMPrivilegesModel;
@@ -17,7 +18,6 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import static java.text.MessageFormat.format;
-import static org.openstreetmap.josm.tools.I18n.tr;
 
 public class GraalVMFacade  implements IGraalVMFacade {
     static private final Logger logger =
@@ -56,7 +56,7 @@ public class GraalVMFacade  implements IGraalVMFacade {
             .allowHostAccess(HostAccess.ALL)
             .allowHostClassLookup(className -> true)
             // required to load ES Modules
-            .allowIO(true);
+            .allowAllAccess(true);
 
         GraalVMPrivilegesModel.getInstance().prepareContextBuilder(builder);
     }
@@ -87,7 +87,7 @@ public class GraalVMFacade  implements IGraalVMFacade {
         final Context.Builder builder = Context.newBuilder("js");
         grantPrivilegesToContext(builder);
         setOptionsOnContext(builder);
-        builder.fileSystem(ESModuleResolver.getInstance());
+        builder.allowIO(IOAccess.newBuilder().fileSystem(ESModuleResolver.getInstance()).build());
         context = builder.build();
         populateContext(context);
         context.enter();

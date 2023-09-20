@@ -31,12 +31,12 @@ dependencies {
     implementation group: 'org.apache.commons', name: 'commons-compress', version: project.property("dep.commons-compress")
 
     // graalvm
-    implementation group: 'org.graalvm.sdk', name: 'graal-sdk', version:  project.properties["graalvm.version"]
-    implementation group: 'org.graalvm.truffle', name: 'truffle-api', version:  project.properties["graalvm.version"]
-    implementation group: 'org.graalvm.js', name: 'js', version:  project.properties["graalvm.version"]
-    graalvm group: 'org.graalvm.sdk', name: 'graal-sdk', version:  project.properties["graalvm.version"]
-    graalvm group: 'org.graalvm.truffle', name: 'truffle-api', version:  project.properties["graalvm.version"]
-    graalvm group: 'org.graalvm.js', name: 'js', version:  project.properties["graalvm.version"]
+    implementation group: 'org.graalvm.sdk', name: 'graal-sdk', version:  project.property("dep.graalvm-sdk")
+    implementation group: 'org.graalvm.truffle', name: 'truffle-api', version:  project.property("dep.graalvm-sdk")
+    implementation group: 'org.graalvm.js', name: 'js', version:  project.property("dep.graalvm-sdk")
+    graalvm group: 'org.graalvm.sdk', name: 'graal-sdk', version:  project.property("dep.graalvm-sdk")
+    graalvm group: 'org.graalvm.truffle', name: 'truffle-api', version:  project.property("dep.graalvm-sdk")
+    graalvm group: 'org.graalvm.js', name: 'js', version:  project.property("dep.graalvm-sdk")
 
     packIntoJar group: 'javax.validation', name: 'validation-api', version: '1.0.0.GA'
     packIntoJar group: 'javax.activation', name: 'activation', version: '1.1.1'
@@ -181,15 +181,11 @@ test {
 }
 
 def getGraalVMHome() {
-    if (!project.hasProperty("graalvm.version")) {
-        throw new GradleException("Missing mandatory project property 'graalvm.version'")
-    }
-    final version = project.property("graalvm.version")
     if (!project.hasProperty("graalvm.jdk")) {
         throw new GradleException("Missing mandatory project property 'graalvm.jdk'")
     }
-    final jdk = project.property("graalvm.jdk")
-    return new File(project.projectDir, "software/graalvm-ce-$jdk-$version")
+    def jdk = project.property("graalvm.jdk")
+    return new File(project.projectDir, "software/graalvm-$jdk")
 }
 
 def getGraalVMJavaExecutable() {
