@@ -9,6 +9,9 @@ import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.Optional
 import org.gradle.api.tasks.TaskAction
 
+import java.util.zip.ZipEntry
+import java.util.zip.ZipFile
+
 /**
  * The platforms for which distributions of the GraalVM are available
  * for download.
@@ -109,8 +112,7 @@ abstract class GraalVMDownloadTask extends DefaultTask {
         if (configuredGraalVMPlatform == GraalVMPlatform.LINUX_AMD64) {
             platform = "linux-x64"
         } else if (configuredGraalVMPlatform == GraalVMPlatform.WINDOWS_AMD64) {
-            //TODO: check
-            platform = "windows"
+            platform = "windows-x64"
         }
         final suffix = configuredGraalVMPlatform.isWindows() ? "zip" : "tar.gz"
         final fileName = "graalvm-${jdk}_${platform}_bin.${suffix}"
@@ -218,28 +220,45 @@ abstract class GraalVMDownloadTask extends DefaultTask {
         return tempFile
     }
 
-    File buildInstallationDir() {
-        final jdk = configuredGraalVMJDK.name
-        final installBaseDir = new File(project.projectDir, "software")
-        return new File(installBaseDir, "graalvm-$jdk").absoluteFile
+    File buildInstallationBaseDir() {
+        //final jdk = configuredGraalVMJDK.name
+        return new File(project.projectDir, "software")
+        //return new File(installBaseDir, "graalvm-$jdk").absoluteFile
     }
 
-    def createInstallationDir() {
-        final installDir = buildInstallationDir()
+    def createInstallationBaseDir() {
+        final installDir = buildInstallationBaseDir()
         if (!installDir.exists()) {
             installDir.mkdirs()
         }
         return installDir
     }
 
+    def rootZipEntry(final File zipFile) {
+        new ZipFile(zipFile).withCloseable {zip ->
+            return zip.stream().findFirst().get().getName().split("/")[0]
+        }
+    }
+
     def installGraalVM(final File tempFile) {
-        def installDir = buildInstallationDir()
+        final jdk = configuredGraalVMJDK.name
+        def installDir
         if (configuredGraalVMPlatform.isWindows()) {
+            installDir = buildInstallationBaseDir()
             // windows OS: extract .zip file
+            final root = rootZipEntry(tempFile.absoluteFile)
             def ant = new AntBuilder()
             ant.unzip(src: tempFile.absolutePath, dest: installDir.absolutePath, overwrite: false)
+            installDir = new File(installDir, root)
+            final targetDir = new File(buildInstallationBaseDir(), "graalvm-$jdk")
+            installDir.renameTo(targetDir)
+            installDir = targetDir
         } else {
+            installDir = new File(buildInstallationBaseDir(), "graalvm-$jdk").absoluteFile
             // linux OS: extract .tgz file
+            if (!installDir.exists()) {
+                installDir.mkdirs()
+            }
             def command = "tar xvf ${tempFile.absolutePath} --directory ${installDir.absolutePath} --strip-components=1"
             def process = command.execute()
             process.out.close()
@@ -254,7 +273,8 @@ abstract class GraalVMDownloadTask extends DefaultTask {
         }
 
         // add JS language to the GraalVM
-        final binDir = new File(buildInstallationDir(), "bin")
+        logger.info("Installation JS language in GraalVM for JDK '$jdk' in directory '$installDir'")
+        final binDir = new File(installDir, "bin")
         final guCommand = configuredGraalVMPlatform.isWindows()
             ? new File(binDir, "gu.cmd")
             : new File(binDir, "gu")
@@ -275,7 +295,7 @@ abstract class GraalVMDownloadTask extends DefaultTask {
         final platform = this.configuredGraalVMPlatform
         final jdk = this.configuredGraalVMJDK
         logger.info("Downloading GraalVM for JDK '${jdk}' and platform '$platform' ...")
-        def installDir = buildInstallationDir()
+        def installDir = new File(buildInstallationBaseDir(), "graalvm-${configuredGraalVMJDK.name}").absoluteFile
         if (installDir.exists() && installDir.isDirectory()) {
             logger.info("GraalVM for JDK '$jdk' already installed in '${installDir.absolutePath}. Skipping download.'")
             return
@@ -283,7 +303,7 @@ abstract class GraalVMDownloadTask extends DefaultTask {
 
         def url = buildDownloadUrl()
         def distribFile = downloadGraalVM(url)
-        def installBaseDir = createInstallationDir()
+        def installBaseDir = createInstallationBaseDir()
         installGraalVM(distribFile)
         installDir = new File(installBaseDir, distribFile.name)
         logger.info("Successfully downloaded GraalVM for JDK '$jdk'")
