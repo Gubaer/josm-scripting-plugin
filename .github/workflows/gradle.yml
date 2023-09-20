@@ -27,6 +27,7 @@ jobs:
           - release
         jdk:
           - 17
+          - 20
 
     name: Build plugin on ${{ matrix.platform }} - JDK ${{ matrix.jdk }}, minJosmVersion=${{ matrix.josm-version }}
     runs-on: ${{ matrix.platform }}
@@ -53,4 +54,4 @@ jobs:
             DISPLAY: ":19"
             OSM_DEV_API_PASSWORD: "${{ secrets.OSM_DEV_API_PASSWORD }}"
         with:
-          arguments: build -Pplugin.josmCompileVersion=${{ matrix.josm-version}} -Pgraalvm.jdk=java${{ matrix.jdk }}
+          arguments: build -Pplugin.josmCompileVersion=${{ matrix.josm-version}} -Pgraalvm.jdk=jdk${{ matrix.jdk }}
