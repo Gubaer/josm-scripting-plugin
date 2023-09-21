@@ -3,13 +3,13 @@
 # Parameters for two JDKs used in testing
 #
 $JDK_PARAMS = @{
-    jdk11 = @{
-        uri = "https://aka.ms/download-jdk/microsoft-jdk-11.0.19-windows-x64.zip"
-        directory = "jdk-11.0.19+7"
-    }
     jdk17 = @{
-        uri = "https://aka.ms/download-jdk/microsoft-jdk-17.0.7-windows-x64.zip"
-        directory = "jdk-17.0.7+7"
+        uri = "https://download.oracle.com/java/17/latest/jdk-17_windows-x64_bin.zip"
+        directory = "jdk17"
+    }
+    jdk20 = @{
+        uri = "https://download.oracle.com/java/20/latest/jdk-20_windows-x64_bin.zip"
+        directory = "jdk20"
     }
 }
 
@@ -17,14 +17,15 @@ $JDK_PARAMS = @{
 # Parameters for two GraalVM versions used in testing
 #
 $GRAALVM_PARAMS = @{
-    jdk11 = @{
-        uri = "https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-22.3.2/graalvm-ce-java11-windows-amd64-22.3.2.zip"
-        directory = "graalvm-ce-java11-22.3.2"
-    }
 
     jdk17 = @{
-        uri = "https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-22.3.2/graalvm-ce-java17-windows-amd64-22.3.2.zip"
-        directory = "graalvm-ce-java17-22.3.2"
+        uri = "https://download.oracle.com/graalvm/17/latest/graalvm-jdk-17_windows-x64_bin.zip"
+        directory = "graalvm-jdk17"
+    }
+
+    jdk20 = @{
+        uri = "https://download.oracle.com/graalvm/20/latest/graalvm-jdk-20_windows-x64_bin.zip"
+        directory = "graalvm-jdk20"
     }
 }
 

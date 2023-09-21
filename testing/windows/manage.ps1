@@ -28,9 +28,9 @@ Usage: manage.ps1 action <args>
             create-josm-home
         download-josm latest|tested|<version>  
             download a JOSM version
-        download-jdk jdk11|jdk17
+        download-jdk jdk17 | jdk20
             downloads a portable OpenJDK and installs it in the current directory
-        download-graalvm jdk11|jdk17
+        download-graalvm jdk17 | jdk20
             downloads a GraalVM for Windows and installs it in the current directory
         download-graaljs 
             downloads a GraalJS for Windows and installs it in the current directory
@@ -181,9 +181,19 @@ function downloadJDK([string]$version) {
         Write-Warning "JDK with version '$version' already available in '$jdkDirectory'. Skipping download."
         return
     }
-    Invoke-WebRequest -Uri $downloadUrl -OutFile "$version.zip"
-    Expand-Archive -Path $(Join-Path $(Get-Location) -ChildPath "$version.zip") -DestinationPath $(Get-Location)
-    Remove-Item -Path $(Join-Path $(Get-Location) -ChildPath "$version.zip")
+    $localZipFile = $(Join-Path $(Get-Location) -ChildPath "$version.zip")
+    Invoke-WebRequest -Uri $downloadUrl -OutFile $localZipFile
+    Expand-Archive -Path $localZipFile -DestinationPath $(Get-Location)
+
+    Add-Type -assembly "system.io.compression.filesystem"
+    $zipFile = [io.compression.zipfile]::OpenRead($localZipFile)
+    $firstEntryName = $zipFile.Entries.FullName `
+        | Select-Object -first 1
+    $zipFile.Dispose()
+    $rootDirectory = $firstEntryName.Split("/")[0]
+    Rename-Item -Path $rootDirectory -NewName $jdkDirectory
+
+    Remove-Item -Path $localZipFile
 }
 
 function downloadGraalVM([string]$version) {
@@ -198,7 +208,15 @@ function downloadGraalVM([string]$version) {
     $localFile = "graalvm-for-$version.zip"
     Invoke-WebRequest -Uri $downloadUrl -OutFile $localFile
     Expand-Archive -Path $(Join-Path $(Get-Location) -ChildPath $localFile) -DestinationPath $(Get-Location)
+
+    Add-Type -assembly "system.io.compression.filesystem"
+    $zipFile = [io.compression.zipfile]::OpenRead($(Join-Path $(Get-Location) -ChildPath $localFile))
+    $firstEntryName = $zipFile.Entries.FullName `
+        | Select-Object -first 1
+    $zipFile.Dispose()
+    $rootDirectory = $firstEntryName.Split("/")[0]
     Remove-Item -Path $(Join-Path $(Get-Location) -ChildPath $localFile)
+    Rename-Item -Path $rootDirectory -NewName $graalVMDirectory
 
     # initiallize the JavaScript language
     . $graalVMDirectory\bin\gu.cmd install js
@@ -279,10 +297,10 @@ switch($action) {
     }
 
     "prepare" {
-        downloadJDK("jdk11")
         downloadJDK("jdk17")
-        downloadGraalVM("jdk11")
+        downloadJDK("jdk20")
         downloadGraalVM("jdk17")
+        downloadGraalVM("jdk20")
         downloadGraalJS($GRAALJS_PARAMS["latest"])
         downloadJosm("latest")
         downloadJosm("tested")
@@ -302,11 +320,10 @@ switch($action) {
     "download-jdk" {
         $version = $args[1]
         if (!$version) {
-            Write-Error -Message "Missing command line argument for version" -Category InvalidArgument
-            Usage
-            Exit 1
+            Write-Information "Using default version 'jdk17'"
+            $version = "jdk17"
         }
-        if (! ($version -eq "jdk11" -or $version -eq "jdk17")) {
+        if (! ($version -eq "jdk17" -or $version -eq "jdk20")) {
             Write-Error -Message "Unsupported JDK version '$version'" -Category InvalidArgument
             Usage
             Exit 1
@@ -317,10 +334,10 @@ switch($action) {
     "download-graalvm" {
         $version = $args[1]
         if (!$version) {
-            Write-Information "Using default version 'jdk11'"
-            $version = "jdk11"
+            Write-Information "Using default version 'jdk17'"
+            $version = "jdk17"
         }
-        if (!($version -eq "jdk11" -or $version -eq "jdk17")) {
+        if (!($version -eq "jdk17" -or $version -eq "jdk20")) {
             Write-Error -Message "Unsupported JDK version '$version'" -Category InvalidArgument
             Usage
             Exit 1

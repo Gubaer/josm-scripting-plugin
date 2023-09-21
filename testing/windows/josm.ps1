@@ -52,12 +52,12 @@ if (!$josm) {
 }
 
 if ($jdk) {
-    if (! ($jdk -eq "jdk11" -or $jdk -eq "jdk17")) {
-        Write-Error -Message "Unsupported JDK version '$jdk'. Use 'jdk11' or 'jdk17'." -Category InvalidArgument
+    if (! ($jdk -eq "jdk17" -or $jdk -eq "jdk20")) {
+        Write-Error -Message "Unsupported JDK version '$jdk'. Use 'jdk17' or 'jdk20'." -Category InvalidArgument
         Exit 1
     }
 } else {
-    $jdk = "jdk11"
+    $jdk = "jdk17"
 }
 
 if ($graalJs) {
