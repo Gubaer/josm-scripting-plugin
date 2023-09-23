@@ -3,6 +3,8 @@ package org.openstreetmap.josm.plugins.scripting.model;
 import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.text.MessageFormat;
 import java.util.Objects;
@@ -14,7 +16,7 @@ import java.util.logging.Logger;
  * <p>
  * The scripting plugin loads CommonJS modules either from a directory in
  * the file system or from a jar file in the local file system. It doesn't
- * load modules from remote locations, i.e. from a HTTP server.
+ * load modules from remote locations, i.e. from an HTTP server.
  */
 public class CommonJSModuleRepository {
     @SuppressWarnings("unused")
@@ -22,6 +24,7 @@ public class CommonJSModuleRepository {
             CommonJSModuleRepository.class.getName());
 
     final private URL url;
+    final private URI uri;
 
     /**
      * Creates a repository.
@@ -32,14 +35,14 @@ public class CommonJSModuleRepository {
      * @param dir a directory. Must not be null.
      * @throws IllegalArgumentException thrown if dir is null
      */
-    public CommonJSModuleRepository(@NotNull File dir)
-            throws IllegalArgumentException {
+    public CommonJSModuleRepository(@NotNull File dir)  throws IllegalArgumentException {
         Objects.requireNonNull(dir);
+        uri = dir.toURI();
         try {
-            url = dir.toURI().toURL();
+            url = uri.toURL();
         } catch(MalformedURLException e) {
-            throw new IllegalArgumentException(MessageFormat.format(
-             "Failed to convert file {0} to URL. Exception is: {1}", dir, e));
+            throw new IllegalArgumentException(
+                MessageFormat.format("failed to convert file ''{0}'' to URL", dir), e);
         }
     }
 
@@ -74,14 +77,19 @@ public class CommonJSModuleRepository {
      * @param url an acceptable URL for a module repository as string.
      *              Must not be null.
      * @throws NullPointerException thrown if url is null
-     * @throws MalformedURLException thrown if url isn't a valid URL
+     * @throws IllegalArgumentException thrown if url isn't a valid URL
      */
-    public CommonJSModuleRepository(@NotNull String url)
-            throws MalformedURLException {
+    public CommonJSModuleRepository(@NotNull String url) {
         Objects.requireNonNull(url);
-        URL repo = new URL(url);
-        ensureValidUrl(repo);
-        this.url = repo;
+        try {
+            URL repo = new URL(url);
+            ensureValidUrl(repo);
+            this.uri = repo.toURI();
+            this.url = uri.toURL();
+        } catch(MalformedURLException | URISyntaxException e) {
+            throw new IllegalArgumentException(
+                MessageFormat.format("failed to convert string ''{0}'' to URL", url), e);
+        }
     }
 
     /**
@@ -90,11 +98,18 @@ public class CommonJSModuleRepository {
      * <code>url</code> must be a valid file or jar URL.
      *
      * @param url an acceptable URL for a module repository. Must not be null.
+     * @throws IllegalArgumentException thrown if url isn't a valid URL
      */
-    public CommonJSModuleRepository(@NotNull URL url) {
+    public CommonJSModuleRepository(@NotNull URL url) throws IllegalArgumentException {
         Objects.requireNonNull(url);
         ensureValidUrl(url);
         this.url = url;
+        try {
+            this.uri = url.toURI();
+        } catch(URISyntaxException e) {
+            throw new IllegalArgumentException(
+                MessageFormat.format("failed to convert URL ''{0}'' to URI", url), e);
+        }
     }
 
     /**
@@ -121,8 +136,7 @@ public class CommonJSModuleRepository {
      * @throws IllegalArgumentException thrown if jar is null or if the jar URL
      *   can't be created
      */
-    public CommonJSModuleRepository(@NotNull JarFile jar, String jarPath)
-            throws IllegalArgumentException {
+    public CommonJSModuleRepository(@NotNull JarFile jar, String jarPath) throws IllegalArgumentException {
         Objects.requireNonNull(jar);
         if (jarPath == null) jarPath = "/";
         jarPath = "/" + jarPath.trim().replace("\\", "/")
@@ -130,12 +144,12 @@ public class CommonJSModuleRepository {
                 .replaceAll("^/","");
 
         try {
-            this.url = new URL("jar:" + new File(jar.getName()).toURI()
-                    .toURL() + "!" + jarPath);
-        } catch(MalformedURLException e) {
+            this.url = new URL("jar:" + new File(jar.getName()).toURI().toURL() + "!" + jarPath);
+            this.uri = this.url.toURI();
+        } catch(MalformedURLException  | URISyntaxException e) {
             throw new IllegalArgumentException(MessageFormat.format(
-                "Failed to create jar URL for jar file <{0}> and jar path "
-              + "<{1}>. Exception is: {2}", jar, jarPath, e));
+                "Failed to create jar URL for jar file ''{0}'' and jar path "
+              + "''{1}''. Exception is: {2}", jar, jarPath, e));
         }
     }
 
@@ -152,9 +166,7 @@ public class CommonJSModuleRepository {
         } else {
             try {
                 return new File(new URL(url.getFile().split("!")[0]).getFile());
-            } catch (MalformedURLException e) {
-                // should not happen
-                e.printStackTrace();
+            } catch(MalformedURLException e) {
                 return null;
             }
         }
@@ -194,7 +206,7 @@ public class CommonJSModuleRepository {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((url == null) ? 0 : url.hashCode());
+        result = prime * result + ((uri == null) ? 0 : uri.hashCode());
         return result;
     }
 
@@ -207,10 +219,10 @@ public class CommonJSModuleRepository {
         if (getClass() != obj.getClass())
             return false;
         CommonJSModuleRepository other = (CommonJSModuleRepository) obj;
-        if (url == null) {
-            return other.url == null;
+        if (uri == null) {
+            return other.uri == null;
         } else {
-            return url.equals(other.url);
+            return uri.equals(other.uri);
         }
     }
 }

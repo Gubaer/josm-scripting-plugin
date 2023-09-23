@@ -245,8 +245,8 @@ public class ModuleRepositoryDialog extends JDialog {
                 if (f.isDirectory()) return f;
                 if (f.isFile()) return f.getParentFile();
                 return new File(".");
-            } catch(MalformedURLException e) {
-                // fall through
+            } catch(IllegalArgumentException e) {
+                // fall through, if s isn't  valid URL
             }
             if (!s.matches("^[a-zA-Z]+:/")) {
                 File f= new File(s);
