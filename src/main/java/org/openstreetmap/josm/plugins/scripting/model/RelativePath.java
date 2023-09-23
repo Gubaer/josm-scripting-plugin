@@ -119,7 +119,7 @@ public class RelativePath {
                 MessageFormat.format("path must not be absolute, got ''{0}''", path)
             );
         }
-        if (path.getNameCount() == 1 && "".equals(path.getName(0).toString())) {
+        if (path.getNameCount() == 1 && path.getName(0).toString().isEmpty()) {
             return EMPTY;
         }
         final List<String> segments = new ArrayList<>();

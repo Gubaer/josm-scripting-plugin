@@ -38,7 +38,7 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
 
         /**
          * Infers the script engine type from preference value. The value is
-         * a string <code>type/engineId</code>. This methods decodes the
+         * a string <code>type/engineId</code>. This method decodes the
          * component <code>type</code>. Replies <code>null</code> if no type
          * can be inferred.
          * <p>
@@ -138,9 +138,7 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
                 // don't lowercase. Lookup in ScriptEngineManager could be
                 // case-sensitive
                 engineId = engineId.trim();
-                logger.log(Level.FINE, MessageFormat.format(
-                    "buildFromPreferences: engineId={1}",
-                    engineId));
+                logger.log(Level.FINE, MessageFormat.format("buildFromPreferences: engineId={0}", engineId));
                 if (!JSR223ScriptEngineProvider.getInstance()
                         .hasEngineWithName(engineId)) {
                     logger.warning(tr("preference with key ''{0}''"

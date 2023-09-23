@@ -25,8 +25,8 @@ public class TypeResolveFunction implements Function<String, Value>  {
         if (className == null || !className.startsWith(basePackageName)) {
             if (logger.isLoggable(Level.FINE)) {
                 logger.log(Level.FINE, format(
-                    "Couldn't lookup a java class in the plugin jar. Class name is null or doesn't belong " +
-                    "to the plugin package. className='{0}'", className
+                    "Couldn''t lookup a java class in the plugin jar. Class name is null or doesn''t belong " +
+                    "to the plugin package. className=''{0}''", className
                 ));
             }
             return null;
@@ -37,7 +37,7 @@ public class TypeResolveFunction implements Function<String, Value>  {
         } catch (ClassNotFoundException e) {
             if (logger.isLoggable(Level.FINE)) {
                 logger.log(Level.FINE, format(
-                    "Couldn't lookup a java class in the plugin jar. className='{0}'", className
+                    "Couldn''t lookup a java class in the plugin jar. className=''{0}''", className
                 ), e);
             }
             return null;

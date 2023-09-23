@@ -139,16 +139,13 @@ public class RequireFunction implements Function<String, Value> {
     private String loadModuleSource(@NotNull URI uri) throws IOException {
         Objects.requireNonNull(uri);
         final String scheme = uri.getScheme().toLowerCase();
-        switch(scheme) {
-            case "file":
-                return loadModuleSourceFromFile(uri);
-            case "jar":
-                return loadModuleSourceFromJarEntry(uri);
-            default:
-                throw new IllegalArgumentException(format(
-                    "unsupported type of module URI, file URI required. Got ''{0}''", uri
-                ));
-        }
+        return switch (scheme) {
+            case "file" -> loadModuleSourceFromFile(uri);
+            case "jar" -> loadModuleSourceFromJarEntry(uri);
+            default -> throw new IllegalArgumentException(format(
+            "unsupported type of module URI, file URI required. Got ''{0}''", uri
+            ));
+        };
     }
 
     private String wrapModuleSource(@NotNull String moduleID,

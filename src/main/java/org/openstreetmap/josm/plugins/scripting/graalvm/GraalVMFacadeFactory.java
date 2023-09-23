@@ -3,9 +3,6 @@ package org.openstreetmap.josm.plugins.scripting.graalvm;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static org.openstreetmap.josm.tools.I18n.tr;
-import static java.text.MessageFormat.format;
-
 public class GraalVMFacadeFactory {
     static private final  Logger logger = Logger.getLogger(GraalVMFacadeFactory.class.getName());
 
