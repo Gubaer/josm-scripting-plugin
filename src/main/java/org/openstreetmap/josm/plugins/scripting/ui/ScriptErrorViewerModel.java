@@ -5,6 +5,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
+@SuppressWarnings("unused")
 public class ScriptErrorViewerModel {
     /**
      * The name of the error property

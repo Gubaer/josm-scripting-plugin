@@ -6,10 +6,12 @@ import org.openstreetmap.josm.tools.Shortcut;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.io.Serial;
 
 import static org.openstreetmap.josm.tools.I18n.tr;
 
 public class RunScriptAction extends JosmAction {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     public RunScriptAction() {
