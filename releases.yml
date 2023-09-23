@@ -3,6 +3,7 @@ releases:
     minJosmVersion: 18427
     description: |
       **Major**: the scripting plugin now requires Java 17
+      **Major**: the scripting plugin now requires GraalJS 23.0.x
       **Major**: the Rhino scripting engine has been removed from the scripting plugin
       **Major**: the JavaScript API V1 has been removed from the scripting plugin
       **Major**: the JavaScript API V2 has been removed from the scripting plugin
