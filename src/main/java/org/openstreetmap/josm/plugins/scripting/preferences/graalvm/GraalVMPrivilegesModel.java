@@ -1,6 +1,5 @@
 package org.openstreetmap.josm.plugins.scripting.preferences.graalvm;
 
-
 import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.EnvironmentAccess;
 import org.openstreetmap.josm.data.Preferences;
@@ -41,7 +40,6 @@ public class GraalVMPrivilegesModel implements PreferenceChangedListener {
     }
 
     /**
-     *
      * @see org.graalvm.polyglot.Context.Builder#allowAllAccess(boolean)
      */
     public enum DefaultAccessPolicy {
@@ -49,23 +47,24 @@ public class GraalVMPrivilegesModel implements PreferenceChangedListener {
         DENY_ALL;
 
         public String toPreferenceValue() {
-            switch(this) {
-                case ALLOW_ALL: return "allow-all";
-                case DENY_ALL: return "deny-all";
-            }
+            return switch (this) {
+                case ALLOW_ALL -> "allow-all";
+                case DENY_ALL -> "deny-all";
+            };
             // should not happen
-            throw new IllegalStateException();
         }
 
         static public DefaultAccessPolicy fromPreferenceValue(@Null final String value) {
             if (value == null) return DENY_ALL;
-            switch(value.toLowerCase().trim()) {
-                case "allow-all": return ALLOW_ALL;
-                case "deny-all": return DENY_ALL;
+            switch (value.toLowerCase().trim()) {
+                case "allow-all":
+                    return ALLOW_ALL;
+                case "deny-all":
+                    return DENY_ALL;
                 default:
                     final String message =
-                        "unsupported preference value for default access policy. "
-                      + "Using 'deny-all' instead. Got '%s'";
+                            "unsupported preference value for default access policy. "
+                                    + "Using 'deny-all' instead. Got '%s'";
                     logger.log(Level.WARNING, String.format(message, value));
                     return DENY_ALL;
             }
@@ -73,37 +72,44 @@ public class GraalVMPrivilegesModel implements PreferenceChangedListener {
     }
 
     public enum TernaryAccessPolicy {
-        /** explicitly grant the privilege */
+        /**
+         * explicitly grant the privilege
+         */
         ALLOW,
-        /** explicitly deny the privilege */
+        /**
+         * explicitly deny the privilege
+         */
         DENY,
-        /** derive the privilege from the default access policy
+        /**
+         * derive the privilege from the default access policy
+         *
          * @see DefaultAccessPolicy
          */
         DERIVE;
 
         public String toPreferenceValue() {
-            switch(this) {
-                case ALLOW: return "allow";
-                case DENY: return "deny";
-                case DERIVE: return "derive";
-            }
+            return switch (this) {
+                case ALLOW -> "allow";
+                case DENY -> "deny";
+                case DERIVE -> "derive";
+            };
             // should not happen
-            throw new IllegalStateException();
         }
 
         static public TernaryAccessPolicy fromPreferenceValue(@Null final String value) {
             if (value == null) return DERIVE;
-            switch(value.toLowerCase().trim()) {
-                case "allow": return ALLOW;
-                case "deny": return DENY;
+            switch (value.toLowerCase().trim()) {
+                case "allow":
+                    return ALLOW;
+                case "deny":
+                    return DENY;
                 case "derive":
                 case "":
                     return DERIVE;
                 default:
                     final String message =
-                        "unsupported preference value for ternary access policy. "
-                      + "Using 'derive' instead. Got '%s'";
+                            "unsupported preference value for ternary access policy. "
+                                    + "Using 'derive' instead. Got '%s'";
                     logger.log(Level.WARNING, String.format(message, value));
                     return DERIVE;
             }
@@ -111,9 +117,13 @@ public class GraalVMPrivilegesModel implements PreferenceChangedListener {
     }
 
     public enum EnvironmentAccessPolicy {
-        /** deny access to environment variables */
+        /**
+         * deny access to environment variables
+         */
         NONE,
-        /** derive the privilege from the default access policy
+        /**
+         * derive the privilege from the default access policy
+         *
          * @see DefaultAccessPolicy
          */
         DERIVE;
@@ -123,36 +133,36 @@ public class GraalVMPrivilegesModel implements PreferenceChangedListener {
         }
 
         public String toPreferenceValue() {
-            switch(this) {
-                case NONE: return "none";
-                case DERIVE: return "derive";
-            }
+            return switch (this) {
+                case NONE -> "none";
+                case DERIVE -> "derive";
+            };
             // should not happen
-            throw new IllegalStateException();
         }
 
         static public EnvironmentAccessPolicy fromPreferenceValue(@Null final String value) {
             if (value == null) return DERIVE;
 
-            switch(value.toLowerCase().trim()) {
-                case "none": return NONE;
-                case "derive": return DERIVE;
+            switch (value.toLowerCase().trim()) {
+                case "none":
+                    return NONE;
+                case "derive":
+                    return DERIVE;
                 default:
                     final String message =
-                        "unsupported preference value for environment access policy. "
-                      + "Using 'derive' instead. Got '%s'";
+                            "unsupported preference value for environment access policy. "
+                                    + "Using 'derive' instead. Got '%s'";
                     logger.log(Level.WARNING, String.format(message, value));
                     return getDefault();
             }
         }
 
         public @NotNull EnvironmentAccess toEnvironmentAccess() {
-            switch(this) {
-                case NONE: return EnvironmentAccess.NONE;
-                case DERIVE: return EnvironmentAccess.INHERIT;
-            }
+            return switch (this) {
+                case NONE -> EnvironmentAccess.NONE;
+                case DERIVE -> EnvironmentAccess.INHERIT;
+            };
             // should not happen
-            throw new IllegalStateException();
         }
     }
 
@@ -166,21 +176,23 @@ public class GraalVMPrivilegesModel implements PreferenceChangedListener {
         }
 
         public String toPreferenceValue() {
-            switch(this) {
-                case ALL: return "all";
-                case EXPLICIT: return "explicit";
-                case NONE: return "none";
-            }
+            return switch (this) {
+                case ALL -> "all";
+                case EXPLICIT -> "explicit";
+                case NONE -> "none";
+            };
             // should not happen
-            throw new IllegalStateException();
         }
 
         static public HostAccessPolicy fromPreferenceValue(@Null final String value) {
             if (value == null) return getDefault();
-            switch(value.toLowerCase().trim()) {
-                case "all": return ALL;
-                case "explicit": return EXPLICIT;
-                case "none": return NONE;
+            switch (value.toLowerCase().trim()) {
+                case "all":
+                    return ALL;
+                case "explicit":
+                    return EXPLICIT;
+                case "none":
+                    return NONE;
                 default:
                     final String message =
                             "unsupported preference value for host access policy. "
@@ -219,31 +231,31 @@ public class GraalVMPrivilegesModel implements PreferenceChangedListener {
     }
 
     public @NotNull GraalVMPrivilegesModel initFromPreferences(
-        @NotNull final Preferences prefs) {
+            @NotNull final Preferences prefs) {
         Objects.requireNonNull(prefs);
         createProcessPolicy = TernaryAccessPolicy.fromPreferenceValue(
-            prefs.get(GRAALVM_CREATE_PROCESS_POLICY)
+                prefs.get(GRAALVM_CREATE_PROCESS_POLICY)
         );
         createThreadPolicy = TernaryAccessPolicy.fromPreferenceValue(
-            prefs.get(GRAALVM_CREATE_THREAD_POLICY)
+                prefs.get(GRAALVM_CREATE_THREAD_POLICY)
         );
         useExperimentalOptionsPolicy = TernaryAccessPolicy.fromPreferenceValue(
-            prefs.get(GRAALVM_USE_EXPERIMENTAL_OPTIONS_POLICY)
+                prefs.get(GRAALVM_USE_EXPERIMENTAL_OPTIONS_POLICY)
         );
         hostClassLoadingPolicy = TernaryAccessPolicy.fromPreferenceValue(
-            prefs.get(GRAALVM_HOST_CLASS_LOADING_POLICY)
+                prefs.get(GRAALVM_HOST_CLASS_LOADING_POLICY)
         );
         ioPolicy = TernaryAccessPolicy.fromPreferenceValue(
-            prefs.get(GRAALVM_IO_POLICY)
+                prefs.get(GRAALVM_IO_POLICY)
         );
         nativeAccessPolicy = TernaryAccessPolicy.fromPreferenceValue(
-            prefs.get(GRAALVM_NATIVE_ACCESS_POLICY)
+                prefs.get(GRAALVM_NATIVE_ACCESS_POLICY)
         );
         environmentAccessPolicy = EnvironmentAccessPolicy.fromPreferenceValue(
-            prefs.get(GRAALVM_ENVIRONMENT_ACCESS_POLICY)
+                prefs.get(GRAALVM_ENVIRONMENT_ACCESS_POLICY)
         );
         hostAccessPolicy = HostAccessPolicy.fromPreferenceValue(
-            prefs.get(GRAALVM_HOST_ACCESS_POLICY)
+                prefs.get(GRAALVM_HOST_ACCESS_POLICY)
         );
 
         return this;
@@ -252,32 +264,32 @@ public class GraalVMPrivilegesModel implements PreferenceChangedListener {
     public void saveToPreferences(@NotNull final Preferences prefs) {
         Objects.requireNonNull(prefs);
         prefs.put(
-            GRAALVM_CREATE_PROCESS_POLICY,
-            createProcessPolicy.toPreferenceValue()
+                GRAALVM_CREATE_PROCESS_POLICY,
+                createProcessPolicy.toPreferenceValue()
         );
         prefs.put(
-            GRAALVM_CREATE_THREAD_POLICY,
-            createThreadPolicy.toPreferenceValue()
+                GRAALVM_CREATE_THREAD_POLICY,
+                createThreadPolicy.toPreferenceValue()
         );
         prefs.put(
-            GRAALVM_USE_EXPERIMENTAL_OPTIONS_POLICY,
-            useExperimentalOptionsPolicy.toPreferenceValue()
+                GRAALVM_USE_EXPERIMENTAL_OPTIONS_POLICY,
+                useExperimentalOptionsPolicy.toPreferenceValue()
         );
         prefs.put(
-            GRAALVM_HOST_CLASS_LOADING_POLICY,
-            hostClassLoadingPolicy.toPreferenceValue()
+                GRAALVM_HOST_CLASS_LOADING_POLICY,
+                hostClassLoadingPolicy.toPreferenceValue()
         );
         prefs.put(
-            GRAALVM_IO_POLICY,
-            ioPolicy.toPreferenceValue()
+                GRAALVM_IO_POLICY,
+                ioPolicy.toPreferenceValue()
         );
         prefs.put(
-            GRAALVM_NATIVE_ACCESS_POLICY,
-            nativeAccessPolicy.toPreferenceValue()
+                GRAALVM_NATIVE_ACCESS_POLICY,
+                nativeAccessPolicy.toPreferenceValue()
         );
         prefs.put(
-            GRAALVM_ENVIRONMENT_ACCESS_POLICY,
-            environmentAccessPolicy.toPreferenceValue()
+                GRAALVM_ENVIRONMENT_ACCESS_POLICY,
+                environmentAccessPolicy.toPreferenceValue()
         );
     }
 
@@ -294,15 +306,13 @@ public class GraalVMPrivilegesModel implements PreferenceChangedListener {
         return defaultAccessPolicy;
     }
 
-    public boolean allowCreateProcess(){
-        switch(createProcessPolicy) {
-            case ALLOW: return true;
-            case DENY: return false;
-            case DERIVE:
-                return DefaultAccessPolicy.ALLOW_ALL.equals(defaultAccessPolicy);
-        }
+    public boolean allowCreateProcess() {
+        return switch (createProcessPolicy) {
+            case ALLOW -> true;
+            case DENY -> false;
+            case DERIVE -> DefaultAccessPolicy.ALLOW_ALL.equals(defaultAccessPolicy);
+        };
         // should not happen
-        throw new IllegalStateException();
     }
 
     public TernaryAccessPolicy getCreateProcessPolicy() {
@@ -314,15 +324,13 @@ public class GraalVMPrivilegesModel implements PreferenceChangedListener {
         this.createProcessPolicy = policy;
     }
 
-    public boolean allowCreateThread(){
-        switch(createThreadPolicy) {
-            case ALLOW: return true;
-            case DENY: return false;
-            case DERIVE:
-                return DefaultAccessPolicy.ALLOW_ALL.equals(defaultAccessPolicy);
-        }
+    public boolean allowCreateThread() {
+        return switch (createThreadPolicy) {
+            case ALLOW -> true;
+            case DENY -> false;
+            case DERIVE -> DefaultAccessPolicy.ALLOW_ALL.equals(defaultAccessPolicy);
+        };
         // should not happen
-        throw new IllegalStateException();
     }
 
     public TernaryAccessPolicy getCreateThreadPolicy() {
@@ -334,18 +342,15 @@ public class GraalVMPrivilegesModel implements PreferenceChangedListener {
         this.createThreadPolicy = policy;
     }
 
-    public boolean allowExperimentalOptions(){
-        switch(useExperimentalOptionsPolicy) {
-            case ALLOW:
-                return true;
-            case DENY:
-            case DERIVE:
+    public boolean allowExperimentalOptions() {
+        return switch (useExperimentalOptionsPolicy) {
+            case ALLOW -> true;
+            case DENY, DERIVE ->
                 // experimental options are always disabled, unless
                 // explicitly enabled
-                return false;
-        }
+                    false;
+        };
         // should not happen
-        throw new IllegalStateException();
     }
 
     public @NotNull TernaryAccessPolicy getUseExperimentalOptionsPolicy() {
@@ -357,15 +362,13 @@ public class GraalVMPrivilegesModel implements PreferenceChangedListener {
         this.useExperimentalOptionsPolicy = policy;
     }
 
-    public boolean allowHostClassLoading(){
-        switch(hostClassLoadingPolicy) {
-            case ALLOW: return true;
-            case DENY: return false;
-            case DERIVE:
-                return DefaultAccessPolicy.ALLOW_ALL.equals(defaultAccessPolicy);
-        }
+    public boolean allowHostClassLoading() {
+        return switch (hostClassLoadingPolicy) {
+            case ALLOW -> true;
+            case DENY -> false;
+            case DERIVE -> DefaultAccessPolicy.ALLOW_ALL.equals(defaultAccessPolicy);
+        };
         // should not happen
-        throw new IllegalStateException();
     }
 
     public @NotNull TernaryAccessPolicy getHostClassLoadingPolicy() {
@@ -377,15 +380,13 @@ public class GraalVMPrivilegesModel implements PreferenceChangedListener {
         hostClassLoadingPolicy = policy;
     }
 
-    public boolean allowIO(){
-        switch(ioPolicy) {
-            case ALLOW: return true;
-            case DENY: return false;
-            case DERIVE:
-                return DefaultAccessPolicy.ALLOW_ALL.equals(defaultAccessPolicy);
-        }
+    public boolean allowIO() {
+        return switch (ioPolicy) {
+            case ALLOW -> true;
+            case DENY -> false;
+            case DERIVE -> DefaultAccessPolicy.ALLOW_ALL.equals(defaultAccessPolicy);
+        };
         // should not happen
-        throw new IllegalStateException();
     }
 
     public @NotNull TernaryAccessPolicy getIOPolicy() {
@@ -397,15 +398,13 @@ public class GraalVMPrivilegesModel implements PreferenceChangedListener {
         ioPolicy = policy;
     }
 
-    public boolean allowNativeAccess(){
-        switch(nativeAccessPolicy) {
-            case ALLOW: return true;
-            case DENY: return false;
-            case DERIVE:
-                return DefaultAccessPolicy.ALLOW_ALL.equals(defaultAccessPolicy);
-        }
+    public boolean allowNativeAccess() {
+        return switch (nativeAccessPolicy) {
+            case ALLOW -> true;
+            case DENY -> false;
+            case DERIVE -> DefaultAccessPolicy.ALLOW_ALL.equals(defaultAccessPolicy);
+        };
         // should not happen
-        throw new IllegalStateException();
     }
 
     public @NotNull TernaryAccessPolicy getNativeAccessPolicy() {
@@ -418,13 +417,10 @@ public class GraalVMPrivilegesModel implements PreferenceChangedListener {
     }
 
     public boolean allowEnvironmentAccess() {
-        switch(environmentAccessPolicy) {
-            case DERIVE:
-                return DefaultAccessPolicy.ALLOW_ALL.equals(defaultAccessPolicy);
-            case NONE:
-                return false;
-        }
-        throw new IllegalStateException();
+        return switch (environmentAccessPolicy) {
+            case DERIVE -> DefaultAccessPolicy.ALLOW_ALL.equals(defaultAccessPolicy);
+            case NONE -> false;
+        };
     }
 
     public @NotNull EnvironmentAccessPolicy getEnvironmentAccessPolicy() {
@@ -459,7 +455,7 @@ public class GraalVMPrivilegesModel implements PreferenceChangedListener {
         builder.allowExperimentalOptions(allowExperimentalOptions());
         builder.allowNativeAccess(allowNativeAccess());
         builder.allowEnvironmentAccess(
-            environmentAccessPolicy.toEnvironmentAccess());
+                environmentAccessPolicy.toEnvironmentAccess());
 
         return builder;
     }
@@ -467,56 +463,53 @@ public class GraalVMPrivilegesModel implements PreferenceChangedListener {
     @Override
     public void preferenceChanged(PreferenceChangeEvent event) {
         final String key = event.getKey();
-        @SuppressWarnings("unchecked")
-        final Setting<String> value = (Setting<String>) event.getNewValue();
-        switch(key) {
+        @SuppressWarnings("unchecked") final Setting<String> value = (Setting<String>) event.getNewValue();
+        switch (key) {
             case GRAALVM_CREATE_PROCESS_POLICY:
                 createProcessPolicy = TernaryAccessPolicy.fromPreferenceValue(
-                    value.getValue()
+                        value.getValue()
                 );
                 break;
             case GRAALVM_CREATE_THREAD_POLICY:
                 createThreadPolicy = TernaryAccessPolicy.fromPreferenceValue(
-                    value.getValue()
+                        value.getValue()
                 );
                 break;
 
             case GRAALVM_USE_EXPERIMENTAL_OPTIONS_POLICY:
                 useExperimentalOptionsPolicy = TernaryAccessPolicy.fromPreferenceValue(
-                    value.getValue()
+                        value.getValue()
                 );
                 break;
             case GRAALVM_HOST_CLASS_LOADING_POLICY:
                 hostClassLoadingPolicy = TernaryAccessPolicy.fromPreferenceValue(
-                    value.getValue()
+                        value.getValue()
                 );
                 break;
 
             case GRAALVM_IO_POLICY:
                 ioPolicy = TernaryAccessPolicy.fromPreferenceValue(
-                    value.getValue()
+                        value.getValue()
                 );
                 break;
 
             case GRAALVM_NATIVE_ACCESS_POLICY:
                 nativeAccessPolicy = TernaryAccessPolicy.fromPreferenceValue(
-                    value.getValue()
+                        value.getValue()
                 );
                 break;
 
             case GRAALVM_ENVIRONMENT_ACCESS_POLICY:
                 environmentAccessPolicy = EnvironmentAccessPolicy.fromPreferenceValue(
-                    value.getValue()
+                        value.getValue()
                 );
                 break;
 
             case GRAALVM_HOST_ACCESS_POLICY:
                 hostAccessPolicy = HostAccessPolicy.fromPreferenceValue(
-                    value.getValue()
+                        value.getValue()
                 );
                 break;
         }
     }
 }
-
-
