@@ -2,6 +2,7 @@ package org.openstreetmap.josm.plugins.scripting.model;
 
 import org.graalvm.polyglot.EnvironmentAccess;
 import org.graalvm.polyglot.HostAccess;
+import org.graalvm.polyglot.io.IOAccess;
 
 /**
  * Preferences keys used in the scripting plugin
@@ -108,7 +109,7 @@ public interface PreferenceKeys {
      * Either <code>allow</code>, <code>deny</code>, or <code>derive</code>.
      * Default (if missing or illegal) is <code>derive</code>.
      *
-     * @see org.graalvm.polyglot.Context.Builder#allowIO(boolean)
+     * @see org.graalvm.polyglot.Context.Builder#allowIO(IOAccess) (boolean)
      */
     String GRAALVM_IO_POLICY = "scripting.graalvm.io-policy";
 
