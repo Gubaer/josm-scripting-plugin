@@ -214,7 +214,7 @@ public class ScriptExecutor {
             logger.warning(tr("GraalVM not present, can''t run script with GraalVM"));
             return;
         }
-        Runnable task = () -> {
+        final Runnable task = () -> {
             try {
                 facade.resetContext();
                 facade.eval(desc, script);
@@ -227,24 +227,29 @@ public class ScriptExecutor {
         runOnSwingEDT(task);
     }
 
-    protected void runScriptWithGraalVM(final File script, final ScriptEngineDescriptor engine) {
+    protected void runScriptWithGraalEngine(final File script, final ScriptEngineDescriptor engine) {
         if (logger.isLoggable(Level.FINE)) {
-            final String message =  MessageFormat.format(
+            final var message =  MessageFormat.format(
                 "executing script with GraalVM ''{0}''. Script file: ''{1}''",
                 engine.getEngineId(),
                 script.getAbsolutePath()
             );
             logger.log(Level.FINE, message);
         }
-        final IGraalVMFacade facade = GraalVMFacadeFactory
-                .getOrCreateGraalVMFacade();
-        try {
-            facade.eval(engine, script);
-        } catch (IOException e) {
-            warnOpenScriptFileFailed(script, e);
-            throw new RuntimeException(e);
-        } catch (GraalVMEvalException e) {
-            ScriptErrorDialog.showErrorDialog(e);
-        }
+
+        final Runnable task = () -> {
+            final var facade = GraalVMFacadeFactory.getOrCreateGraalVMFacade();
+            facade.resetContext();
+            try {
+                facade.eval(engine, script);
+            } catch(IOException e) {
+                warnOpenScriptFileFailed(script, e);
+            } catch(GraalVMEvalException e){
+                ScriptErrorDialog.showErrorDialog(e);
+            } finally {
+                facade.resetContext();
+            }
+        };
+        runOnSwingEDT(task);
     }
 }
