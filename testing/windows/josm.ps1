@@ -19,6 +19,8 @@ stock JDK.
 .PARAMETER help
 Display the help information
 
+.PARAMETER logLevel
+The log level to be used for logging. Default is 'INFO'.
 #>
 param(
     [AllowEmptyString()]
@@ -33,7 +35,10 @@ param(
     [string]$graalJs,
     
     [AllowEmptyString()]
-    [switch]$help
+    [switch]$help,
+
+    [AllowEmptyString()]
+    [string]$logLevel
 )
 
 # display messages emitted by Write-Information
@@ -143,7 +148,9 @@ if (!(Test-Path $josmHome)) {
 #
 # prepare configuration for logging 
 #
-$logLevel = "INFO"
+if ($logLevel -eq "") {
+    $logLevel = "INFO"
+}
 $loggingProperties = @"
 handlers=java.util.logging.ConsoleHandler
 .level=WARNING
