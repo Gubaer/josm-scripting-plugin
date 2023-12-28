@@ -186,12 +186,13 @@ public class GraalVMFacade  implements IGraalVMFacade {
     /**
      * {@inheritDoc}
      */
-    public Object eval(@NotNull final ScriptEngineDescriptor desc,
-                     @NotNull final File script)
+    public Object eval(@NotNull final ScriptEngineDescriptor desc, @NotNull final File script)
                     throws IOException, GraalVMEvalException {
+        Objects.requireNonNull(desc);
+        Objects.requireNonNull(script);
         final String engineId = desc.getEngineId();
         ensureEngineIdPresent(engineId);
-        Source source = Source.newBuilder(engineId, script)
+        final var source = Source.newBuilder(engineId, script)
             .mimeType("application/javascript+module")
             .build();
         try {
