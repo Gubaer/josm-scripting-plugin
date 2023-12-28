@@ -23,14 +23,14 @@ Usage: manage.ps1 action <args>
             display usage information
         prepare
             fully prepares the testing environment, by running download-josm for jdk11 and jdk17,
-            running download-graalvm for jdk11 and jdk17, running download graaljs, 
+            running download-graalvm for jdk17 and jdk21, running download graaljs, 
             download-josm for latest and tested, and creating the josm home directory with
             create-josm-home
         download-josm latest|tested|<version>  
             download a JOSM version
-        download-jdk jdk11|jdk17
+        download-jdk jdk17|jdk21
             downloads a portable OpenJDK and installs it in the current directory
-        download-graalvm jdk11|jdk17
+        download-graalvm jdk17|jdk21
             downloads a GraalVM for Windows and installs it in the current directory
         download-graaljs 
             downloads a GraalJS for Windows and installs it in the current directory
@@ -200,8 +200,15 @@ function downloadGraalVM([string]$version) {
     Expand-Archive -Path $(Join-Path $(Get-Location) -ChildPath $localFile) -DestinationPath $(Get-Location)
     Remove-Item -Path $(Join-Path $(Get-Location) -ChildPath $localFile)
 
-    # initiallize the JavaScript language
-    . $graalVMDirectory\bin\gu.cmd install js
+    if ($version -eq "jdk17") {
+        # initiallize the JavaScript language. Not possible with JDK 21 anymore because 
+        # gu.cmd command was removed
+        . $graalVMDirectory\bin\gu.cmd install js
+    } elseif ($version -eq "jdk21") {
+        Write-Warning "GraalVM for JDK 21 doesn't include the update tool 'gu.cmd' anymore."
+        Write-Warning "Downloading and installing the latest GraalJS Java modules instead."
+        downloadGraalJS($GRAALJS_PARAMS["latest"])
+    }
 }
 
 function downloadGraalJS([string] $version) {
@@ -279,10 +286,10 @@ switch($action) {
     }
 
     "prepare" {
-        downloadJDK("jdk11")
         downloadJDK("jdk17")
-        downloadGraalVM("jdk11")
+        downloadJDK("jdk21")
         downloadGraalVM("jdk17")
+        downloadGraalVM("jdk21")
         downloadGraalJS($GRAALJS_PARAMS["latest"])
         downloadJosm("latest")
         downloadJosm("tested")
@@ -306,7 +313,7 @@ switch($action) {
             Usage
             Exit 1
         }
-        if (! ($version -eq "jdk11" -or $version -eq "jdk17")) {
+        if (! ($version -eq "jdk17" -or $version -eq "jdk21")) {
             Write-Error -Message "Unsupported JDK version '$version'" -Category InvalidArgument
             Usage
             Exit 1
@@ -317,10 +324,10 @@ switch($action) {
     "download-graalvm" {
         $version = $args[1]
         if (!$version) {
-            Write-Information "Using default version 'jdk11'"
-            $version = "jdk11"
+            Write-Information "Using default version 'jdk17'"
+            $version = "jdk17"
         }
-        if (!($version -eq "jdk11" -or $version -eq "jdk17")) {
+        if (!($version -eq "jdk17"-or $version -eq "jdk21")) {
             Write-Error -Message "Unsupported JDK version '$version'" -Category InvalidArgument
             Usage
             Exit 1

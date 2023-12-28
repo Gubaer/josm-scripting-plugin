@@ -6,7 +6,7 @@ Run JOSM with different versions of JDKs, GraalVMs, and GraalJS libraries
 The JOSM version to lauch. Either 'latest', 'tested', or a JOSM version number. If missing, 'latest' is used.
 
 .PARAMETER jdk
-The JDK to use. Either 'jdk11' or 'jdk17'. If missing, 'jdk11' is used.
+The JDK to use. Either 'jdk17' or 'jdk21'. If missing, 'jdk17' is used.
 
 .PARAMETER useGraalVM
 If present, JOSM is started with the GraalVM. The GraalVM version is chosend depending on the parameter '-jdk'
@@ -52,12 +52,12 @@ if (!$josm) {
 }
 
 if ($jdk) {
-    if (! ($jdk -eq "jdk11" -or $jdk -eq "jdk17")) {
-        Write-Error -Message "Unsupported JDK version '$jdk'. Use 'jdk11' or 'jdk17'." -Category InvalidArgument
+    if (! ($jdk -eq "jdk17" -or $jdk -eq "jdk21")) {
+        Write-Error -Message "Unsupported JDK version '$jdk'. Use 'jdk17' or 'jdk21'." -Category InvalidArgument
         Exit 1
     }
 } else {
-    $jdk = "jdk11"
+    $jdk = "jdk17"
 }
 
 if ($graalJs) {

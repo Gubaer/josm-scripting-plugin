@@ -3,28 +3,27 @@
 # Parameters for two JDKs used in testing
 #
 $JDK_PARAMS = @{
-    jdk11 = @{
-        uri = "https://aka.ms/download-jdk/microsoft-jdk-11.0.19-windows-x64.zip"
-        directory = "jdk-11.0.19+7"
-    }
     jdk17 = @{
         uri = "https://aka.ms/download-jdk/microsoft-jdk-17.0.7-windows-x64.zip"
         directory = "jdk-17.0.7+7"
     }
-}
+    jdk21 = @{
+        uri = "https://aka.ms/download-jdk/microsoft-jdk-21.0.1-windows-x64.zip"
+        directory = "jdk-21.0.1+12"
+    }
+ }
 
 #
 # Parameters for two GraalVM versions used in testing
 #
 $GRAALVM_PARAMS = @{
-    jdk11 = @{
-        uri = "https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-22.3.2/graalvm-ce-java11-windows-amd64-22.3.2.zip"
-        directory = "graalvm-ce-java11-22.3.2"
-    }
-
     jdk17 = @{
         uri = "https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-22.3.2/graalvm-ce-java17-windows-amd64-22.3.2.zip"
         directory = "graalvm-ce-java17-22.3.2"
+    }
+    jdk21 = @{
+        uri = " https://github.com/graalvm/graalvm-ce-builds/releases/download/jdk-21.0.1/graalvm-community-jdk-21.0.1_windows-x64_bin.zip"
+        directory = "graalvm-community-openjdk-21.0.1+12.1"
     }
 }
 
@@ -33,7 +32,13 @@ $GRAALVM_PARAMS = @{
 # https://github.com/Gubaer/josm-scripting-plugin-graaljs
 #
 $GRAALJS_PARAMS = @{
-    latest = "23.0.0"
+    latest = "23.1.1"
+
+    "23.1.1" = @{
+        uri = "https://github.com/Gubaer/josm-scripting-plugin-graaljs/releases/download/23.1.1/graaljs-23.1.1.zip"
+        directory = "graaljs-23.1.1"
+    }
+
     "23.0.0" = @{
         uri = "https://github.com/Gubaer/josm-scripting-plugin-graaljs/releases/download/23.0.0/graaljs-23.0.0.zip"
         directory = "graaljs-23.0.0"
