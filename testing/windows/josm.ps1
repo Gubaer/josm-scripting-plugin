@@ -64,8 +64,13 @@ if ($jdk) {
 } else {
     $jdk = "jdk17"
 }
-
-if ($graalJs) {
+if (!$graalJs) {
+    $graalJs = ""
+}
+if ($graalJs -or ($jdk -eq "jdk21" -and $useGraalVM)) {
+    if (!$graalJs) {
+        $graalJs = "latest"
+    }
     if (!$GRAALJS_PARAMS.ContainsKey($graalJs)) {
         Write-Error -Message "Unsupported GraalJS version '$graalJs'."  -Category InvalidArgument
         Exit 1
@@ -75,7 +80,7 @@ if ($graalJs) {
     }
 }
 
-if ($useGraalVM -and $graalJs) {
+if ($useGraalVM -and $graalJs -and $jdk -eq "jdk17") {
     Write-Warning "Cannot launch GraalVM toghether with GraalJS. Ignoring parameter -graalJs"
     $graalJs = $null
 }
@@ -115,8 +120,9 @@ if ($jdk -and !$useGraalVM) {
 }
 
 $graalJsHome = ""
-if ($graalJs) {
-    $graalJsHome = Join-Path $(Get-Location) -ChildPath $GRAALJS_PARAMS[$graalJs]["directory"]
+if ($graalJs -or ($jdk -eq "jdk21" -and $useGraalVM)) {
+    Write-Information "graalJs=$graalJs"
+    $graalJsHome = $GRAALJS_PARAMS[$graalJs]["directory"]
     if (!(Test-Path $graalJsHome)) {
         Write-Error "Install dir '$graalJsHome' for GraalJS with version '$graalJs' doesn't exist. Download it first using '.\manage.ps1 download-graaljs'. Aborting."
         Exit 1
@@ -161,31 +167,54 @@ org.openstreetmap.josm.plugins.scripting.level=$logLevel
 $loggingPropertiesFile = Join-Path $(Get-Location) -ChildPath "logging.properties"
 $loggingProperties | Out-File -FilePath $loggingPropertiesFile
 
+# derive the GraalJS modules for the GraalJS version to use 
+if ($graalJs) {
+    $major, $minor, $_ = $graalJs.Split(".")
+    $major = [int]$major
+    $minor = [int]$minor 
+    if ($major -le 23 -and $minor -le 0) {
+        $graalJsModules = "org.graalvm.sdk,org.graalvm.js,com.oracle.truffle.regex,org.graalvm.truffle"
+    } elseif (($major -eq 23 -and $minor -ge 1) -or $major -gt 23) {
+        $graalJsModules = "org.graalvm.polyglot,org.graalvm.word,org.graalvm.collections"
+    } else {
+        Write-Error "Unsupported GraalJS version '$graalJs'. Aborting."
+        Exit 1
+    }
+}
 
 #
 # launch JOSM
 #
 $Env:JAVA_HOME = $jdkHome
-if (!$graalJs) {
+if ($jdk -eq "jdk17" -and $useGraalVM) {
+    # GraalVM for JDK17 is locally installed together with GraalJS.
+    # We don't have to add command line options for GraalJS modules.
     Start-Process `
-    -FilePath "$javaBinPath" `
-    -ArgumentList `
-        '-Xms1g', `
-        '-Xmx2g', `
-        "-Djosm.home=$josmHome", `
-        "-Djava.util.logging.config.file=$loggingPropertiesFile", `
-        -jar, $josmJar
+        -FilePath "$javaBinPath" `
+        -ArgumentList `
+            '-Xms1g', `
+            '-Xmx2g', `
+            "-Djosm.home=$josmHome", `
+            "-Djava.util.logging.config.file=$loggingPropertiesFile", `
+            "-Dpolyglot.engine.WarnInterpreterOnly=false", `
+            "-XX:+UnlockExperimentalVMOptions", `
+            "-XX:+EnableJVMCI", `
+            -jar, $josmJar
 } else {
     Start-Process `
-    -FilePath "$javaBinPath" `
-    -ArgumentList `
-        '-Xms1g', `
-        '-Xmx2g', `
-        "-Djosm.home=$josmHome", `
-        "-Djava.util.logging.config.file=$loggingPropertiesFile", `
-        "-classpath", $josmJar, `
-        "--module-path", "$graalJsHome\lib", `
-        "--add-modules", "org.graalvm.sdk,org.graalvm.js,com.oracle.truffle.regex,org.graalvm.truffle", `
-        "--add-opens", "java.prefs/java.util.prefs=ALL-UNNAMED", `
-        "org.openstreetmap.josm.gui.MainApplication" 
+        -NoNewWindow `
+        -FilePath "$javaBinPath" `
+        -ArgumentList `
+            '-Xms1g', `
+            '-Xmx2g', `
+            "-XX:+UnlockExperimentalVMOptions", `
+            "-XX:+EnableJVMCI", `
+            "-Djosm.home=$josmHome", `
+            "-Djava.util.logging.config.file=$loggingPropertiesFile", `
+            "-Dpolyglot.engine.WarnInterpreterOnly=false", `
+            "-classpath", "$josmJar", `
+            "--module-path", "$graalJsHome\lib", `
+            "--add-modules", $graalJsModules, `
+            "--add-opens", "java.prefs/java.util.prefs=ALL-UNNAMED", `
+            "org.openstreetmap.josm.gui.MainApplication" 
 }

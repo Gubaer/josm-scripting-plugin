@@ -20,3 +20,24 @@ If you get an error *execution of scripts is disabled on this system* run the fo
 # enable execution of the scripts on the local machine
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine
 ```
+
+# Supported configurations
+
+* Stock JDK17 or JDK21 with GraalJS <= 23.0.0
+    * for GraalJS <= 23.0.0 `java` has to be launched with the following modules
+    ```
+    java `
+        --add-modules "org.graalvm.sdk,org.graalvm.js,com.oracle.truffle.regex,org.graalvm.truffle"
+    ``` 
+
+* GraalVM for JDK17
+    * ships with the updater tool `bin/gu.bat`
+    * use `gu.bat` to install the GraalVM `js` language 
+
+* GraalVM for JDK21
+    * doesn't include the updater tool `bin/gu.bat` anymore
+    * combine it with a GraalJS release >= 23.1.1 with the following modules 
+    ```
+    java `
+        --add-modules "org.graalvm.polyglot,org.graalvm.word,org.graalvm.collections"
+    ```

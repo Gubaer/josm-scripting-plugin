@@ -197,14 +197,39 @@ function downloadGraalVM([string]$version) {
     Write-Information "Downloading GraalVM for JDK '$version' from $downloadUrl' ..."    
     $localFile = "graalvm-for-$version.zip"
     Invoke-WebRequest -Uri $downloadUrl -OutFile $localFile
-    Expand-Archive -Path $(Join-Path $(Get-Location) -ChildPath $localFile) -DestinationPath $(Get-Location)
-    Remove-Item -Path $(Join-Path $(Get-Location) -ChildPath $localFile)
+    Expand-Archive `
+        -Path $localFile `
+        -DestinationPath $(Get-Location)
+    
 
     if ($version -eq "jdk17") {
+        $expandedPath = Get-ChildItem . -Filter "graalvm-jdk-17*" `
+            | Select-Object -First 1 -ExpandProperty Name             
+        if (!$expandedPath) {
+            Write-Warning "Directory starting with 'graalvm-jdk-17*' doesn't exist. Skipping installation of GraalVM"
+            return
+        }
+        Rename-Item -Path $expandedPath -NewName $graalVMDirectory
+        Write-Information "Downloaded GraalVM for JDK17 into '$graalVMDirectory'"
+        # remove the downloaded zip file
+        Remove-Item -Path $localFile
+
         # initiallize the JavaScript language. Not possible with JDK 21 anymore because 
         # gu.cmd command was removed
         . $graalVMDirectory\bin\gu.cmd install js
+
     } elseif ($version -eq "jdk21") {
+        $expandedPath = Get-ChildItem . -Filter "graalvm-jdk-21*" `
+            | Select-Object -First 1 -ExpandProperty Name             
+        if (!$expandedPath) {
+            Write-Warning "Directory starting with 'graalvm-jdk-21*' doesn't exist. Skipping installation of GraalVM"
+            return
+        }
+        Rename-Item -Path $expandedPath -NewName $graalVMDirectory
+        Write-Information "Downloaded GraalVM for JDK21 into '$graalVMDirectory'"
+        # remove the downloaded zip file
+        Remove-Item -Path $localFile
+
         Write-Warning "GraalVM for JDK 21 doesn't include the update tool 'gu.cmd' anymore."
         Write-Warning "Downloading and installing the latest GraalJS Java modules instead."
         downloadGraalJS($GRAALJS_PARAMS["latest"])

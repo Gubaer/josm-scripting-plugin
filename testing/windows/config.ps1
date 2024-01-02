@@ -18,12 +18,13 @@ $JDK_PARAMS = @{
 #
 $GRAALVM_PARAMS = @{
     jdk17 = @{
-        uri = "https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-22.3.2/graalvm-ce-java17-windows-amd64-22.3.2.zip"
-        directory = "graalvm-ce-java17-22.3.2"
+        # uri = "https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-22.3.2/graalvm-ce-java17-windows-amd64-22.3.2.zip"
+        uri = "https://download.oracle.com/graalvm/17/latest/graalvm-jdk-17_windows-x64_bin.zip"
+        directory = "graalvm-jdk-17"
     }
     jdk21 = @{
-        uri = " https://github.com/graalvm/graalvm-ce-builds/releases/download/jdk-21.0.1/graalvm-community-jdk-21.0.1_windows-x64_bin.zip"
-        directory = "graalvm-community-openjdk-21.0.1+12.1"
+        uri = "https://download.oracle.com/graalvm/21/latest/graalvm-jdk-21_windows-x64_bin.zip"
+        directory = "graalvm-jdk-21"
     }
 }
 
