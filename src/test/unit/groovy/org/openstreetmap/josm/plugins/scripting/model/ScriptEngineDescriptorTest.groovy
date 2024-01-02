@@ -19,7 +19,7 @@ class ScriptEngineDescriptorTest extends BaseTestCase {
     @DisabledForJreRange(min = JRE.JAVA_17)
     void "should create descriptor for plugged engine"() {
         def sd = new ScriptEngineDescriptor(oracleNashornId)
-        assertEquals(oracleNashornId, sd.getEngineId())
+        assertEquals(oracleNashornId, sd.getLocalEngineId())
         assertEquals(ScriptEngineType.PLUGGED, sd.getEngineType())
         assertTrue(sd.getLanguageName().isPresent())
         assertTrue(sd.getLanguageVersion().isPresent())
@@ -32,7 +32,7 @@ class ScriptEngineDescriptorTest extends BaseTestCase {
         }
 
         sd = new ScriptEngineDescriptor(ScriptEngineType.PLUGGED, oracleNashornId)
-        assertEquals(oracleNashornId, sd.getEngineId())
+        assertEquals(oracleNashornId, sd.getLocalEngineId())
         assertEquals(ScriptEngineType.PLUGGED, sd.getEngineType())
         assertTrue(sd.getLanguageName().isPresent())
         assertTrue(sd.getLanguageVersion().isPresent())
@@ -80,7 +80,7 @@ class ScriptEngineDescriptorTest extends BaseTestCase {
         pref.put(PreferenceKeys.PREF_KEY_SCRIPTING_ENGINE, "plugged/${oracleNashornId}")
         def sd = ScriptEngineDescriptor.buildFromPreferences(pref)
         assertNotNull(sd)
-        assertEquals(oracleNashornId, sd.getEngineId())
+        assertEquals(oracleNashornId, sd.getLocalEngineId())
         assertEquals(ScriptEngineType.PLUGGED, sd.getEngineType())
         assertTrue(sd.getEngineName().isPresent())
         assertTrue(sd.getEngineVersion().isPresent())

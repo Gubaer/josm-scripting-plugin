@@ -7,6 +7,8 @@ import org.openstreetmap.josm.gui.help.HelpUtil;
 import org.openstreetmap.josm.plugins.scripting.graalvm.GraalVMFacadeFactory;
 import org.openstreetmap.josm.plugins.scripting.model.JSR223ScriptEngineProvider;
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
+import org.openstreetmap.josm.plugins.scripting.ui.mru.MostRecentlyRunScriptsModel;
+import org.openstreetmap.josm.plugins.scripting.ui.mru.Script;
 
 import javax.swing.*;
 import javax.validation.constraints.NotNull;
@@ -95,6 +97,7 @@ public class RunScriptService {
                         desc.getContentMimeTypes().contains(mimeType))
             : Stream.empty();
     }
+
     /**
      * Determines the script engine to run the script in file <tt>file</tt>.
      * Prompts the user with a selection dialog, if the engine can't be
@@ -131,7 +134,7 @@ public class RunScriptService {
     }
 
     /**
-     * Checks whether the script given by <tt>fileName</tt> can be run.
+     * Checks whether the script given by <code>fileName</code> can be run.
      * If not, prompts the user with an error message.
      *
      * @param fileName the file name
@@ -189,19 +192,14 @@ public class RunScriptService {
      * @throws NullPointerException if <code>fileName</code> is null
      * @throws NullPointerException if <code>engine</code> is null
      */
-    public void runScript(@NotNull final String fileName,
-            @NotNull final ScriptEngineDescriptor engine,
+    public void runScript(@NotNull final String fileName, @NotNull final ScriptEngineDescriptor engine,
             @Null Component parent) {
         Objects.requireNonNull(fileName);
         Objects.requireNonNull(engine);
-        File f  = new File(fileName);
+        final var f  = new File(fileName);
         if (parent == null) {
             parent = MainApplication.getMainFrame();
         }
-
-        final var model = MostRecentlyRunScriptsModel.getInstance();
-        model.remember(f.getAbsolutePath());
-        model.saveToPreferences(Preferences.main());
 
         switch(engine.getEngineType()){
             case PLUGGED:

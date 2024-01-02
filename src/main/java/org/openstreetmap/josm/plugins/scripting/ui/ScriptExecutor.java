@@ -18,13 +18,13 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import java.awt.*;
 import java.io.*;
-import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static org.openstreetmap.josm.plugins.scripting.ui.SwingUtil.runOnSwingEDT;
 import static org.openstreetmap.josm.tools.I18n.tr;
 
 /**
@@ -33,8 +33,7 @@ import static org.openstreetmap.josm.tools.I18n.tr;
  * error handling.
  */
 public class ScriptExecutor {
-    static private final Logger logger =
-         Logger.getLogger(ScriptExecutor.class.getName());
+    static private final Logger logger = Logger.getLogger(ScriptExecutor.class.getName());
 
     private final Component parent;
 
@@ -78,30 +77,6 @@ public class ScriptExecutor {
             JOptionPane.ERROR_MESSAGE,
             HelpUtil.ht("/Plugin/Scripting")
         );
-    }
-
-    private void runOnSwingEDT(Runnable r){
-        if (SwingUtilities.isEventDispatchThread()) {
-            r.run();
-        } else {
-            try {
-                SwingUtilities.invokeAndWait(r);
-            } catch(InvocationTargetException e){
-                Throwable throwable = e.getCause();
-                if (throwable instanceof Error) {
-                    throw (Error) throwable;
-                } else if(throwable instanceof RuntimeException) {
-                    throw (RuntimeException) throwable;
-                }
-                // no other checked exceptions expected - log a warning
-                logger.log(Level.WARNING, String.format(
-                    "Unexpected exception wrapped in InvocationTargetException: %s",
-                    throwable.toString()
-                ), throwable);
-            } catch(InterruptedException e){
-                Thread.currentThread().interrupt();
-            }
-        }
     }
 
     /**
@@ -231,7 +206,7 @@ public class ScriptExecutor {
         if (logger.isLoggable(Level.FINE)) {
             final var message =  MessageFormat.format(
                 "executing script with GraalVM ''{0}''. Script file: ''{1}''",
-                engine.getEngineId(),
+                engine.getLocalEngineId(),
                 script.getAbsolutePath()
             );
             logger.log(Level.FINE, message);
@@ -239,7 +214,6 @@ public class ScriptExecutor {
 
         final Runnable task = () -> {
             final var facade = GraalVMFacadeFactory.getOrCreateGraalVMFacade();
-            facade.resetContext();
             try {
                 facade.eval(engine, script);
             } catch(IOException e) {

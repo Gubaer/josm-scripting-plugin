@@ -14,8 +14,8 @@ import org.openstreetmap.josm.plugins.scripting.graalvm.esmodule.IllegalESModule
 import org.openstreetmap.josm.plugins.scripting.model.PreferenceKeys;
 import org.openstreetmap.josm.plugins.scripting.preferences.ConfigureAction;
 import org.openstreetmap.josm.plugins.scripting.preferences.PreferenceEditor;
-import org.openstreetmap.josm.plugins.scripting.ui.MostRecentlyRunScriptsModel;
-import org.openstreetmap.josm.plugins.scripting.ui.RunScriptAction;
+import org.openstreetmap.josm.plugins.scripting.ui.mru.MostRecentlyRunScriptsModel;
+import org.openstreetmap.josm.plugins.scripting.ui.LaunchRunScriptDialogAction;
 import org.openstreetmap.josm.plugins.scripting.ui.RunScriptDialog;
 import org.openstreetmap.josm.plugins.scripting.ui.ToggleConsoleAction;
 import org.openstreetmap.josm.plugins.scripting.ui.console.SyntaxConstantsEngine;
@@ -105,7 +105,7 @@ public class ScriptingPlugin extends Plugin implements PreferenceKeys{
         RunScriptDialog.getInstance();
     }
 
-    private final Action runScriptAction = new RunScriptAction();
+    private final Action runScriptAction = new LaunchRunScriptDialogAction();
     private final Action configureAction = new ConfigureAction();
 
     private void installScriptsMenu() {
@@ -139,7 +139,7 @@ public class ScriptingPlugin extends Plugin implements PreferenceKeys{
     }
 
     private void populateMruMenuEntries(JMenu scriptingMenu) {
-        final List<Action> actions = MostRecentlyRunScriptsModel
+        final List<? extends Action> actions = MostRecentlyRunScriptsModel
             .getInstance()
             .getRunScriptActions();
         if (!actions.isEmpty()) {

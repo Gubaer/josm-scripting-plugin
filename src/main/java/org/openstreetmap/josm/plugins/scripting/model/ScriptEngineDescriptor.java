@@ -16,8 +16,7 @@ import static org.openstreetmap.josm.tools.I18n.tr;
  * Describes a scripting engine used in the scripting plugin.
  */
 public class ScriptEngineDescriptor implements PreferenceKeys {
-    static private final Logger logger =
-            Logger.getLogger(ScriptEngineDescriptor.class.getName());
+    static private final Logger logger = Logger.getLogger(ScriptEngineDescriptor.class.getName());
 
     public enum ScriptEngineType {
         /**
@@ -52,8 +51,7 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
          * @param preferencesValue the preferences value
          * @return the type
          */
-        static public ScriptEngineType fromPreferencesValue(
-                String preferencesValue) {
+        static public ScriptEngineType fromPreferencesValue(String preferencesValue) {
             if (preferencesValue == null) return null;
             preferencesValue = preferencesValue.trim().toLowerCase();
             final int i = preferencesValue.indexOf("/");
@@ -112,7 +110,8 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
      *
      * @param preferenceValue the preference value. If null, replies null
      *
-     * @return the scripting engine descriptor
+     * @return the scripting engine descriptor. null, if <code>preferenceValue</code> doesn't
+     *  refer to a supported scripting engine
      */
     static public ScriptEngineDescriptor buildFromPreferences(final String preferenceValue){
         if (preferenceValue == null) return null;
@@ -123,54 +122,49 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
             // versions. No attempt to recover from these values, when this
             // code goes productive, former preference values are automatically
             // reset to the current default scripting engine.
-            logger.warning(tr("preference with key ''{0}'' "
-                + "consist of an unsupported value. Expected pattern "
-                + "''type/id'', got ''{1}''",
-                PREF_KEY_SCRIPTING_ENGINE, preferenceValue));
+            logger.warning(tr("Preference value ''{0}'' "
+                + "consist of an unsupported engine ID. Expected pattern "
+                + "''type/id''.",preferenceValue));
             return null;
         }
 
         final int i = preferenceValue.indexOf("/");
         if (i < 0) return null;
-        String engineId = preferenceValue.substring(i+1);
+        var engineId = preferenceValue.substring(i+1);
         switch(type){
             case PLUGGED:
                 // don't lowercase. Lookup in ScriptEngineManager could be
                 // case-sensitive
                 engineId = engineId.trim();
                 logger.log(Level.FINE, MessageFormat.format("buildFromPreferences: engineId={0}", engineId));
-                if (!JSR223ScriptEngineProvider.getInstance()
-                        .hasEngineWithName(engineId)) {
-                    logger.warning(tr("preference with key ''{0}''"
-                        + " refers to an unsupported JSR223 compatible "
-                        + " scripting engine with id ''{1}''. "
-                        + " Assuming default scripting engine.",
-                        PREF_KEY_SCRIPTING_ENGINE,
-                        engineId));
+                if (!JSR223ScriptEngineProvider.getInstance().hasEngineWithName(engineId)) {
+                    logger.warning(tr("Preference value ''{0}'' refers to an unsupported JSR223 compatible "
+                        + "scripting engine with id ''{1}''",
+                        preferenceValue, engineId));
                     return null;
                 }
                 return new ScriptEngineDescriptor(ScriptEngineType.PLUGGED, engineId);
 
             case GRAALVM:
                 if (!GraalVMFacadeFactory.isGraalVMPresent()) {
-                    logger.warning(tr("preferences with key ''{0}'' refers to an "
+                    logger.warning(tr("Preferences value ''{0}'' refers to an "
                         + "GraalVM engine, but currently the GraalVM isn''t present "
-                        + "on the classpath. Assuming default scripting engine.",
-                        PREF_KEY_SCRIPTING_ENGINE
+                        + "on the classpath.",
+                        preferenceValue
                     ));
                     return null;
                 }
                 final String id = engineId;
                 final var engine = GraalVMFacadeFactory.getOrCreateGraalVMFacade()
                     .getScriptEngineDescriptors().stream().filter(d ->
-                        d.getEngineId().equalsIgnoreCase(id)
+                        d.getLocalEngineId().equalsIgnoreCase(id)
                     )
                     .findFirst();
                 if (engine.isEmpty()) {
-                    logger.warning(tr("preference with key ''{0}'' refers to an GraalVM engine "
+                    logger.warning(tr("Preference value ''{0}'' refers to an GraalVM engine "
                         + "with id''{1}''. The GraalVM for this language is currently not "
-                        + "present. Assuming default scripting engine.",
-                        PREF_KEY_SCRIPTING_ENGINE,
+                        + "present.",
+                        preferenceValue,
                         id
                     ));
                     return null;
@@ -315,12 +309,21 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
     }
 
     /**
-     * Replies the engine id
+     * Replies the local engine id for the given engine type, i.e. <code>js</code>
      *
-     * @return the engine id
+     * @return the local engine id
      */
-    public String getEngineId() {
+    public @NotNull String getLocalEngineId() {
         return engineId;
+    }
+
+    /**
+     * Replies the ful engine id for the given engine type, i.e. <code>graalvm/js</code>
+     *
+     * @return the full engine id
+     */
+    public @NotNull String getFullEngineId() {
+        return MessageFormat.format("{0}/{1}", engineType.preferencesValue,engineId);
     }
 
     /**
@@ -338,10 +341,11 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
      *
      * @return the preferences value
      * @see #buildFromPreferences()
+     * @deprecated use {@link #getFullEngineId()} instead
      */
+    @Deprecated(since = "0.3.1")
     public String getPreferencesValue() {
-        return MessageFormat.format("{0}/{1}", engineType.preferencesValue,
-                engineId);
+        return getFullEngineId();
     }
 
     /**

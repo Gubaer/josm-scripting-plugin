@@ -49,7 +49,7 @@ public class ScriptEditorModel {
         if (GraalVMFacadeFactory.isGraalVMPresent()) {
             return GraalVMFacadeFactory.getOrCreateGraalVMFacade()
                 .getScriptEngineDescriptors().stream()
-                .filter(desc -> "js".equals(desc.getEngineId()))
+                .filter(desc -> "js".equals(desc.getLocalEngineId()))
                 .findFirst()
                 .orElse(null);
         } else {

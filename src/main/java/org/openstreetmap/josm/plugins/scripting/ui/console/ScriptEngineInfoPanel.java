@@ -108,7 +108,7 @@ PropertyChangeListener, HyperlinkListener{
         if (desc != null){
             logger.log(Level.FINE, String.format(
                 "Interactively selected script engine. id=%s, language=%s",
-                desc.getEngineId(),
+                desc.getLocalEngineId(),
                 desc.getLanguageName()
             ));
             model.setScriptEngineDescriptor(desc);

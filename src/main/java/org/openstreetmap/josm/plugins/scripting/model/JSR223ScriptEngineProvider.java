@@ -308,7 +308,7 @@ public class JSR223ScriptEngineProvider
                 + "got ''{0}''", desc);
         return factories.stream()
             .filter(factory ->
-                desc.getEngineId().equals(factory.getNames().get(0)))
+                desc.getLocalEngineId().equals(factory.getNames().get(0)))
             .findFirst()
             .map(ScriptEngineFactory::getScriptEngine)
             .orElse(null);

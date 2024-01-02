@@ -18,6 +18,7 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import static java.text.MessageFormat.format;
+import static org.openstreetmap.josm.plugins.scripting.ui.SwingUtil.runOnSwingEDT;
 
 public class GraalVMFacade  implements IGraalVMFacade {
     static private final Logger logger =
@@ -79,8 +80,7 @@ public class GraalVMFacade  implements IGraalVMFacade {
 
     /**
      *
-     * @throws IllegalStateException thrown, if no language and polyglot
-     *  implementation was found on the classpath
+     * @throws IllegalStateException thrown, if no language and polyglot implementation was found on the classpath
      */
     private void initContext() throws IllegalStateException{
         // currently GraalVM is only used for JavaScript
@@ -90,7 +90,10 @@ public class GraalVMFacade  implements IGraalVMFacade {
         builder.allowIO(IOAccess.newBuilder().fileSystem(ESModuleResolver.getInstance()).build());
         context = builder.build();
         populateContext(context);
-        context.enter();
+
+        // have to enter the context on the Swing EDT because the scripts will be executed
+        // on this thread too
+        runOnSwingEDT(() -> context.enter());
     }
 
     public GraalVMFacade() {
@@ -109,9 +112,7 @@ public class GraalVMFacade  implements IGraalVMFacade {
         initContext();
     }
 
-    private ScriptEngineDescriptor buildDescriptorForGraalVMBasedEngine(
-            final Engine engine,
-            final Language info) {
+    private ScriptEngineDescriptor buildDescriptorForGraalVMBasedEngine(final Engine engine, final Language info) {
 
         final ScriptEngineDescriptor desc = new ScriptEngineDescriptor(
             ScriptEngineDescriptor.ScriptEngineType.GRAALVM,
@@ -132,8 +133,7 @@ public class GraalVMFacade  implements IGraalVMFacade {
      * @param engine the engine
      * @return descriptors for GraalVM based engines
      */
-    public @NotNull List<ScriptEngineDescriptor> buildDescriptorsForGraalVMBasedEngines(
-        @NotNull final Engine engine) {
+    public @NotNull List<ScriptEngineDescriptor> buildDescriptorsForGraalVMBasedEngines(@NotNull final Engine engine) {
         return engine.getLanguages().values().stream().map(value ->
             buildDescriptorForGraalVMBasedEngine(engine, value)
         ).collect(Collectors.toList());
@@ -158,11 +158,11 @@ public class GraalVMFacade  implements IGraalVMFacade {
      * {@inheritDoc}
      */
     public Object eval(@NotNull final ScriptEngineDescriptor desc,
-                     @NotNull final String script)
-                     throws GraalVMEvalException {
+             @NotNull final String script)
+             throws GraalVMEvalException {
         Objects.requireNonNull(desc);
         Objects.requireNonNull(script);
-        final String engineId = desc.getEngineId();
+        final String engineId = desc.getLocalEngineId();
         ensureEngineIdPresent(engineId);
 
         try {
@@ -190,7 +190,7 @@ public class GraalVMFacade  implements IGraalVMFacade {
                     throws IOException, GraalVMEvalException {
         Objects.requireNonNull(desc);
         Objects.requireNonNull(script);
-        final String engineId = desc.getEngineId();
+        final String engineId = desc.getLocalEngineId();
         ensureEngineIdPresent(engineId);
         final var source = Source.newBuilder(engineId, script)
             .mimeType("application/javascript+module")

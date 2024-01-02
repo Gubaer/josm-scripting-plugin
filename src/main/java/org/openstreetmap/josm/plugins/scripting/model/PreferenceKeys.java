@@ -18,15 +18,28 @@ public interface PreferenceKeys {
 
     /**
      * The preferences key for the script file history.
+     * <p>
+     * Used until version 0.3.0 of the scripting plugin. Replaced by {@link #PREF_KEY_MOST_RECENTLY_USED_SCRIPTS}.
      */
+    @Deprecated(since = "0.3.1")
     String PREF_KEY_FILE_HISTORY = "scripting.RunScriptDialog.file-history";
+
+
+    /**
+     * The preference key for the list of most recently used scripts. Remembers
+     * the path to the script and the engine's ID to run the script.
+     * <p>
+     * Used since version 0.3.1 of the scripting plugin. Replaces {@link #PREF_KEY_FILE_HISTORY}.
+     *
+     * @since 0.3.1
+     */
+    String PREF_KEY_MOST_RECENTLY_USED_SCRIPTS = "scripting.RunScriptDialog.most-recently-used-scripts";
 
     /**
      * The preferences key for the last script file name entered in the
      * script file selection field.
      */
     String PREF_KEY_LAST_FILE = "scripting.RunScriptDialog.last-file";
-
 
     /**
      * The preferences key for the current default engine used in the
