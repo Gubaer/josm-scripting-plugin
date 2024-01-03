@@ -27,18 +27,6 @@ public class RunMRUScriptAction extends AbstractAction {
     private final String engineId;
 
     /**
-     * Creates an action to run the <code>i</code>-th MRU {@link File script}.
-     *
-     * @param i      the position in the list of MRU scripts in the scripting menu.
-     * @param script the script given by file
-     */
-    RunMRUScriptAction(final int i, @NotNull final File script) {
-        this.script = script;
-        this.engineId = null;
-        initActionProperties(i);
-    }
-
-    /**
      * Creates an action to run the <code>i</code>-th MRU {@link Script script}.
      *
      * @param i      the position in the list of MRU scripts in the scripting menu.
@@ -53,11 +41,14 @@ public class RunMRUScriptAction extends AbstractAction {
     }
 
     private void initActionProperties(final int pos) {
-        String engineName;
-        if (engineId == null) {
-            engineName = null;
-        } else {
-            engineName = ScriptEngineDescriptor.buildFromPreferences(engineId).getEngineName().orElse(null);
+        String engineName = null;
+        if (engineId != null) {
+            final var descriptor = ScriptEngineDescriptor.buildFromPreferences(engineId);
+            if (descriptor == null) {
+                logger.warning(format("no engine found for engine ID ''{0}''", engineId));
+            } else {
+                engineName = descriptor.getEngineName().orElse(null);
+            }
         }
         if (engineName == null) {
             putValue(NAME, String.format("%s %s", pos, this.script.getName()));
@@ -80,7 +71,7 @@ public class RunMRUScriptAction extends AbstractAction {
             // select one.
             engine = ScriptEngineDescriptor.buildFromPreferences(engineId);
             if (engine == null) {
-                logger.info(format("no engine found for engine id ''{0}''", engineId));
+                logger.warning(format("No engine found for engine id ''{0}''", engineId));
                 engine = service.deriveOrAskScriptEngineDescriptor(script.getAbsolutePath(), null /* parent */);
                 if (engine == null) {
                     return;

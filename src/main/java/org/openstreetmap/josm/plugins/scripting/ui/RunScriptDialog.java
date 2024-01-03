@@ -4,7 +4,6 @@ import org.openstreetmap.josm.data.Preferences;
 import org.openstreetmap.josm.gui.MainApplication;
 import org.openstreetmap.josm.gui.help.ContextSensitiveHelpAction;
 import org.openstreetmap.josm.gui.help.HelpUtil;
-import org.openstreetmap.josm.gui.preferences.ToolbarPreferences;
 import org.openstreetmap.josm.gui.util.WindowGeometry;
 import org.openstreetmap.josm.gui.widgets.HtmlPanel;
 import org.openstreetmap.josm.gui.widgets.SelectAllOnFocusGainedDecorator;
@@ -13,7 +12,6 @@ import org.openstreetmap.josm.plugins.scripting.ui.mru.MostRecentlyRunScriptsCom
 import org.openstreetmap.josm.plugins.scripting.ui.mru.MostRecentlyRunScriptsModel;
 import org.openstreetmap.josm.plugins.scripting.ui.mru.Script;
 import org.openstreetmap.josm.tools.ImageProvider;
-import org.openstreetmap.josm.tools.Utils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,8 +22,6 @@ import java.io.File;
 import java.util.logging.Logger;
 
 import static org.openstreetmap.josm.plugins.scripting.ui.GridBagConstraintBuilder.gbc;
-import static org.openstreetmap.josm.plugins.scripting.ui.RunScriptAction.PARA_ENGINE_ID;
-import static org.openstreetmap.josm.plugins.scripting.ui.RunScriptAction.PARA_SCRIPTING_FILE_NAME;
 import static org.openstreetmap.josm.tools.I18n.tr;
 
 /**
@@ -40,7 +36,6 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys {
      * the input field for the script file name
      */
     private MostRecentlyRunScriptsComboBox cbScriptFile;
-    private JCheckBox addOnToolbar;
 
     /**
      * Constructor
@@ -79,7 +74,7 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys {
         getRootPane().registerKeyboardAction(actRun,
             KeyStroke.getKeyStroke("ctrl ENTER"),
             JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT
-        );
+    );
         pnl.add(new JButton(new CancelAction()));
         final var helpAction = new ContextSensitiveHelpAction(HelpUtil.ht("/Plugin/Scripting#Run"));
         pnl.add(new JButton(helpAction));
@@ -94,11 +89,8 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys {
                 .insets(3, 3, 3, 3).constraints();
         filePnl.add(new JLabel(tr("File:")), gc);
 
-        cbScriptFile = new MostRecentlyRunScriptsComboBox(
-                MostRecentlyRunScriptsModel.getInstance()
-        );
-        SelectAllOnFocusGainedDecorator.decorate((JTextField) cbScriptFile
-                .getEditor().getEditorComponent());
+        cbScriptFile = new MostRecentlyRunScriptsComboBox(MostRecentlyRunScriptsModel.getInstance());
+        SelectAllOnFocusGainedDecorator.decorate((JTextField) cbScriptFile.getEditor().getEditorComponent());
         cbScriptFile.setToolTipText(tr("Enter the name of a script file"));
         gc = gbc(gc).cell(1, 0).weightx(1.0).spacingright(0).constraints();
         filePnl.add(cbScriptFile, gc);
@@ -113,15 +105,8 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys {
         gc = gbc(gc).cell(0, 1, 3, 1).weight(1.0, 1.0).fillboth().constraints();
         filePnl.add(filler, gc);
 
-        JPanel toolbarPnl = new JPanel(new FlowLayout(FlowLayout.LEADING));
-        addOnToolbar = new JCheckBox(tr("Add toolbar button"), false);
-        addOnToolbar.setToolTipText(tr("Add a button for this script file to the toolbar."));
-        toolbarPnl.add(addOnToolbar);
-
         pnl.add(filePnl);
-        pnl.add(toolbarPnl);
         pnl.setLayout(new BoxLayout(pnl, BoxLayout.Y_AXIS));
-
         return pnl;
     }
 
@@ -142,7 +127,7 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowActivated(WindowEvent e) {
-                cbScriptFile.requestFocusInWindow();
+            cbScriptFile.requestFocusInWindow();
             }
         });
     }
@@ -154,15 +139,15 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys {
             if (lastFile != null && !lastFile.trim().isEmpty()) {
                 cbScriptFile.setText(lastFile.trim());
             }
-            WindowGeometry.centerInWindow(getParent(), new Dimension(600, 180))
-                    .applySafe(this);
+            WindowGeometry
+                .centerInWindow(getParent(), new Dimension(600, 180))
+                .applySafe(this);
         } else {
             /*
              * Persist the file history script file name
              * in the preferences
              */
-            String currentFile = cbScriptFile.getText();
-            Preferences.main().put(PREF_KEY_LAST_FILE, currentFile.trim());
+            Preferences.main().put(PREF_KEY_LAST_FILE, cbScriptFile.getText().trim());
         }
         super.setVisible(visible);
     }
@@ -190,7 +175,6 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys {
         @Override
         public void actionPerformed(ActionEvent evt) {
             final var scriptFile = cbScriptFile.getText();
-            final var addToToolbar = addOnToolbar.isSelected();
             final var service = new RunScriptService();
             if (!service.canRunScript(scriptFile, RunScriptDialog.this)) {
                 return;
@@ -201,28 +185,6 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys {
             }
             setVisible(false);
             service.runScript(scriptFile, engine, MainApplication.getMainFrame());
-
-            final var toolbarAction = new RunScriptAction();
-
-            if (addToToolbar) {
-                final var actionDefinition = new ToolbarPreferences.ActionDefinition(toolbarAction);
-                actionDefinition.getParameters().put(PARA_SCRIPTING_FILE_NAME, scriptFile);
-                actionDefinition.getParameters().put(PARA_ENGINE_ID, engine.getFullEngineId());
-
-                // Display filename as tooltip instead of generic one
-                actionDefinition.setName(tr("Run script ''{0}''", Utils.shortenString(scriptFile, 100)));
-
-                // parametrized action definition is now composed
-                final var actionParser = new ToolbarPreferences.ActionParser(null);
-                final var definitionText = actionParser.saveAction(actionDefinition);
-
-                // add custom scripting button to toolbar preferences
-                MainApplication.getToolbar().addCustomButton(
-                    definitionText,
-                    -1,   // at end of toolbar
-                    false // don't remove if exists
-                );
-            }
 
             final var updatedScript = new Script(new File(scriptFile).getAbsolutePath(), engine.getFullEngineId());
             final var model = MostRecentlyRunScriptsModel.getInstance();

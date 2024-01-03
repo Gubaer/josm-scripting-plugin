@@ -1,14 +1,11 @@
 package org.openstreetmap.josm.plugins.scripting.ui;
 
-import org.openstreetmap.josm.data.Preferences;
 import org.openstreetmap.josm.gui.HelpAwareOptionPane;
 import org.openstreetmap.josm.gui.MainApplication;
 import org.openstreetmap.josm.gui.help.HelpUtil;
 import org.openstreetmap.josm.plugins.scripting.graalvm.GraalVMFacadeFactory;
 import org.openstreetmap.josm.plugins.scripting.model.JSR223ScriptEngineProvider;
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
-import org.openstreetmap.josm.plugins.scripting.ui.mru.MostRecentlyRunScriptsModel;
-import org.openstreetmap.josm.plugins.scripting.ui.mru.Script;
 
 import javax.swing.*;
 import javax.validation.constraints.NotNull;
@@ -30,10 +27,9 @@ import static org.openstreetmap.josm.tools.I18n.tr;
  * Behaviour to run a script file, factored out into a service class.
  */
 public class RunScriptService {
-    static final private Logger logger = Logger.getLogger(
-        RunScriptService.class.getName());
+    static final private Logger logger = Logger.getLogger(RunScriptService.class.getName());
 
-    private void warnScriptFileDoesntExist(File f, Component parent){
+    private void warnScriptFileDoesntExist(File f, Component parent) {
         HelpAwareOptionPane.showOptionDialog(
             parent,
             tr("The script file ''{0}'' doesn''t exist.", f.toString()),
@@ -43,7 +39,7 @@ public class RunScriptService {
         );
     }
 
-    private void warnEmptyFile(Component parent){
+    private void warnEmptyFile(Component parent) {
         HelpAwareOptionPane.showOptionDialog(
             parent,
             tr("Please enter a file name first."),
@@ -53,7 +49,7 @@ public class RunScriptService {
         );
     }
 
-    private void warnScriptFileIsntReadable(File f, Component parent){
+    private void warnScriptFileIsntReadable(File f, Component parent) {
         HelpAwareOptionPane.showOptionDialog(
             parent,
             tr("The script file ''{0}'' isn''t readable.", f.toString()),
@@ -64,18 +60,16 @@ public class RunScriptService {
     }
 
     private void warnOpenScriptFileFailed(File f, Exception e,
-            Component parent){
+                                          Component parent) {
         HelpAwareOptionPane.showOptionDialog(
             parent,
             tr("Failed to read the script from the file ''{0}''.",
-                f.toString()),
+                    f.toString()),
             tr("IO error"),
             JOptionPane.ERROR_MESSAGE,
             HelpUtil.ht("/Plugin/Scripting")
         );
-        logger.log(Level.SEVERE,
-            tr("Failed to read the script from the file ''{0}''.", f.toString()),
-            e);
+        logger.log(Level.SEVERE, tr("Failed to read the script from the file ''{0}''.", f.toString()), e);
     }
 
     private Stream<ScriptEngineDescriptor> filterJSR223Engines(
@@ -89,14 +83,14 @@ public class RunScriptService {
 
     private Stream<ScriptEngineDescriptor> filterGraalVMEngines(
             final String mimeType) {
-        return  GraalVMFacadeFactory.isGraalVMPresent()
+        return GraalVMFacadeFactory.isGraalVMPresent()
             ? GraalVMFacadeFactory.getOrCreateGraalVMFacade()
-                .getScriptEngineDescriptors()
-                .stream()
-                .filter(desc ->
-                        desc.getContentMimeTypes().contains(mimeType))
+            .getScriptEngineDescriptors()
+            .stream()
+            .filter(desc ->
+                    desc.getContentMimeTypes().contains(mimeType))
             : Stream.empty();
-    }
+}
 
     /**
      * Determines the script engine to run the script in file <tt>file</tt>.
@@ -104,23 +98,20 @@ public class RunScriptService {
      * derived from the file name suffix.
      *
      * @param fileName the script file name
-     * @param parent the parent component relative to which dialogs are
-     * displayed
+     * @param parent   the parent component relative to which dialogs are
+     *                 displayed
      * @return the script engine descriptor or null
      */
-    public ScriptEngineDescriptor deriveOrAskScriptEngineDescriptor(
-            String fileName, Component parent) {
-        File file = new File(fileName);
-        JSR223ScriptEngineProvider provider =
-            JSR223ScriptEngineProvider.getInstance();
-        String mimeType = provider.getContentTypeForFile(file);
-
+    public ScriptEngineDescriptor deriveOrAskScriptEngineDescriptor(String fileName, Component parent) {
+        final File file = new File(fileName);
+        final var provider = JSR223ScriptEngineProvider.getInstance();
+        final var mimeType = provider.getContentTypeForFile(file);
 
         // the stream of suitable engines for a given mime type
         java.util.List<ScriptEngineDescriptor> engines = Stream.of(
-            filterGraalVMEngines(mimeType),
-            filterJSR223Engines(mimeType)
-        ).flatMap (desc -> desc).collect(Collectors.toList());
+                filterGraalVMEngines(mimeType),
+                filterJSR223Engines(mimeType)
+        ).flatMap(desc -> desc).collect(Collectors.toList());
 
         // exactly one suitable engine found. Use it without prompting
         // the user.
@@ -138,18 +129,18 @@ public class RunScriptService {
      * If not, prompts the user with an error message.
      *
      * @param fileName the file name
-     * @param parent the parent component relative to which the prompt
-     * with the error message is displayed
+     * @param parent   the parent component relative to which the prompt
+     *                 with the error message is displayed
      * @return true, if the script can be run; false, otherwise
      */
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public boolean canRunScript(String fileName, Component parent) {
-        if (fileName.isEmpty()){
+        if (fileName.isEmpty()) {
             warnEmptyFile(parent);
             return false;
         }
         final File f = new File(fileName);
-        if (! f.exists() || !f.isFile()) {
+        if (!f.exists() || !f.isFile()) {
             warnScriptFileDoesntExist(f, parent);
             return false;
         } else if (!f.canRead()) {
@@ -157,10 +148,10 @@ public class RunScriptService {
             return false;
         }
 
-        try(Reader ignored = buildTextFileReader(f)) {
+        try (Reader ignored = buildTextFileReader(f)) {
             // just try to open the reader ...
             return true;
-        } catch(IOException e){
+        } catch (IOException e) {
             // ... and if it fails, warn about it
             warnOpenScriptFileFailed(f, e, parent);
             return false;
@@ -172,8 +163,7 @@ public class RunScriptService {
      * engine <tt>engine</tt>.
      *
      * @param fileName the script file name
-     * @param engine the script engine descriptor
-     *
+     * @param engine   the script engine descriptor
      * @throws NullPointerException thrown if fileName is null
      * @throws NullPointerException thrown if engine is null
      */
@@ -187,21 +177,21 @@ public class RunScriptService {
      * to which dialogs and option panes are displayed.
      *
      * @param fileName the script file name
-     * @param engine the script engine descriptor
-     * @param parent the parent component. Uses {@link MainApplication#getMainFrame()} if null.
+     * @param engine   the script engine descriptor
+     * @param parent   the parent component. Uses {@link MainApplication#getMainFrame()} if null.
      * @throws NullPointerException if <code>fileName</code> is null
      * @throws NullPointerException if <code>engine</code> is null
      */
     public void runScript(@NotNull final String fileName, @NotNull final ScriptEngineDescriptor engine,
-            @Null Component parent) {
+                          @Null Component parent) {
         Objects.requireNonNull(fileName);
         Objects.requireNonNull(engine);
-        final var f  = new File(fileName);
+        final var f = new File(fileName);
         if (parent == null) {
             parent = MainApplication.getMainFrame();
         }
 
-        switch(engine.getEngineType()){
+        switch (engine.getEngineType()) {
             case PLUGGED:
                 new ScriptExecutor(parent).runScriptWithPluggedEngine(engine, f);
                 break;

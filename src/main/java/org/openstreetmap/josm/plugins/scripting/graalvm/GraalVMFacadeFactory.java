@@ -4,11 +4,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class GraalVMFacadeFactory {
-    static private final  Logger logger = Logger.getLogger(GraalVMFacadeFactory.class.getName());
+    static private final Logger logger = Logger.getLogger(GraalVMFacadeFactory.class.getName());
+    private static IGraalVMFacade instance = null;
 
     /**
-     * Replies true, if the GraalVM is present and if the GraalVM polyglot API
-     * can be used
+     * Replies true, if the GraalVM is present and if the GraalVM polyglot API can be used
      *
      * @return true, if GraalVM is present
      */
@@ -16,13 +16,11 @@ public class GraalVMFacadeFactory {
         try {
             Class.forName("org.graalvm.polyglot.Context");
             return true;
-        } catch(ClassNotFoundException e) {
+        } catch (ClassNotFoundException e) {
             logger.log(Level.FINEST, "class not found", e);
             return false;
         }
     }
-
-    private static IGraalVMFacade instance = null;
 
     /**
      * Replies a facade to the GraalVM or null, if the GraalVM isn't on

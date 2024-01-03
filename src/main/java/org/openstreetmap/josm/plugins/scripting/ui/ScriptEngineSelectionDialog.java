@@ -36,8 +36,8 @@ import static org.openstreetmap.josm.tools.I18n.tr;
  */
 public class ScriptEngineSelectionDialog extends JDialog {
 
-    private static final Logger logger =
-        Logger.getLogger(ScriptEngineSelectionDialog.class.getName());
+    @SuppressWarnings("unused")
+    private static final Logger logger = Logger.getLogger(ScriptEngineSelectionDialog.class.getName());
 
     /**
      * Launches a modal dialog for selecting a script engine.
@@ -115,8 +115,7 @@ public class ScriptEngineSelectionDialog extends JDialog {
         CancelAction actCancel;
         pnl.add(btn = new JButton(actCancel = new CancelAction()));
         btn.setFocusable(true);
-        pnl.add(btn = new JButton(new ContextSensitiveHelpAction(
-            HelpUtil.ht("/Plugin/Scripting"))));
+        pnl.add(btn = new JButton(new ContextSensitiveHelpAction(HelpUtil.ht("/Plugin/Scripting"))));
         btn.setFocusable(true);
 
         // Ctrl-Enter triggers OK
@@ -208,10 +207,8 @@ public class ScriptEngineSelectionDialog extends JDialog {
 
         gc = gbc(gc).cell(1,1).weight(1.0,1.0).fillboth().constraints();
         JScrollPane scrollPane = new JScrollPane(lstPluggedEngines);
-        scrollPane.setVerticalScrollBarPolicy(
-            JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.setHorizontalScrollBarPolicy(
-            JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         pnl.add(scrollPane, gc);
         lstPluggedEngines.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         lstPluggedEngines.setSelectedIndex(0);
@@ -278,8 +275,7 @@ public class ScriptEngineSelectionDialog extends JDialog {
         return pnl;
     }
 
-    private static class GraalVMEngineListModel
-                    extends AbstractListModel<ScriptEngineDescriptor> {
+    private static class GraalVMEngineListModel extends AbstractListModel<ScriptEngineDescriptor> {
 
         private final List<ScriptEngineDescriptor> descriptors;
 
@@ -357,8 +353,7 @@ public class ScriptEngineSelectionDialog extends JDialog {
     }
 
     private final OKAction actOK = new OKAction();
-    private class OKAction extends AbstractAction
-            implements ListSelectionListener, ChangeListener {
+    private class OKAction extends AbstractAction implements ListSelectionListener, ChangeListener {
         OKAction() {
             putValue(NAME, tr("OK"));
             putValue(SHORT_DESCRIPTION, tr("Accept the selected scripting engine"));
