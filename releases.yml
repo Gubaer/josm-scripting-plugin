@@ -1,4 +1,10 @@
 releases:
+  - label: v0.3.1
+    description: |
+      **Feature request**: menu entries for most recently run scripts remember the scripting engine, see #107
+      **Minor**: toolbar buttons for custom script files are not supported anymore, see #107
+      **Bug fix**: removed download URL for the Groovy scripting language engine
+
   - label: v0.3.0
     minJosmVersion: 18427
     description: |
