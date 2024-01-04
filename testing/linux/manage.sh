@@ -61,7 +61,6 @@ function download_graalvm() {
     local jq_query
     local directory
     local download_url
-
     version=$1
 
     jq_query=".\"graalvm-params\".\"$version\".\"directory\""
@@ -83,8 +82,18 @@ function download_graalvm() {
     tar xvf "graalvm-$version.tar.gz" --strip-components=1 -C $directory
     rm "graalvm-$version.tar.gz"
 
-    # install GraalJS
-    $directory/bin/gu install js
+    if [ "$version" = "jdk17" ] ; then 
+        # install GraalJS
+        echo "Installing GraalVM language 'js' ..."
+        $directory/bin/gu install js
+    elif [ "$version" = "jdk21" ] ; then 
+        echo "GraalVM for JDK21 doesn't include the upgrade utility 'bin/gu' anymore."
+        echo "Downloading the latest GraalJS release instead."
+        download_graaljs "latest"
+    else
+        echo "Error: unsupported JDK version '$version' for GraalVM"
+        return 1 
+    fi
 
     return 0
 }
@@ -213,9 +222,9 @@ EOM
 
 function prepare() {
     download_jdk "jdk17"
-    download_jdk "jdk20"
+    download_jdk "jdk21"
     download_graalvm "jdk17"
-    download_graalvm "jdk20"
+    download_graalvm "jdk21"
     download_graaljs "latest"
     download_josm "latest"
     download_josm "tested"
@@ -334,7 +343,7 @@ case "$1" in
             usage
             exit 1
         fi
-        if [ "$2" == "jdk17" -o "$2" == "jdk20" ] ; then
+        if [ "$2" == "jdk17" -o "$2" == "jdk21" ] ; then
             download_jdk $2
         else
             echo "error: unsupported jdk version '$2'"
@@ -349,7 +358,7 @@ case "$1" in
             usage
             exit 1
         fi
-        if [ "$2" == "jdk17" -o "$2" == "jdk20" ] ; then
+        if [ "$2" == "jdk17" -o "$2" == "jdk21" ] ; then
             download_graalvm $2
         else
             echo "error: unsupported jdk version '$2' for GraalVM"

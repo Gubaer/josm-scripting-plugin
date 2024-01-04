@@ -4,5 +4,6 @@ graaljs-*
 *-openjdk-*
 jdk17
 jdk20
+jdk21
 josm-home
 logging.properties

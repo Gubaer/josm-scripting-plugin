@@ -6,8 +6,6 @@
 # Run './josm.sh -h' for help
 #
 #
-
-
 source ./lib.sh
 
 function usage() {
@@ -20,7 +18,7 @@ usage: josm.sh <options>
         The JOSM version to lauch. Either 'latest', 'tested', or a JOSM version number.
         If missing, 'latest' is used.
 
-    --jdk jdk17 | jdk20
+    --jdk jdk17 | jdk21
         The JDK to use. Either 'jdk11' or 'jdk17'. If missing, 'jdk11' is used.
 
     --use-graal-vm
@@ -89,7 +87,7 @@ while [ "$1" != "" ] ; do
                 usage
                 exit 1
             fi
-            arg=`echo $1 | egrep '^(jdk17)|(jdk20)$'`
+            arg=`echo $1 | egrep '^(jdk17)|(jdk21)$'`
             if [ "$arg" != "" ] ; then
                 jdk=$1
             else
@@ -132,12 +130,6 @@ while [ "$1" != "" ] ; do
     esac
 done
 
-if [ $use_graal_vm = true -a "$graal_js" != "" ] ; then
-    echo "error: can't use a GraalJS distribution with a Graal VM. Don't combine '--use-graal-vm' with '--graal-js'"
-    usage
-    exit 1
-fi
-
 josm_jar=""
 jdk_home=""
 graal_js_home=""
@@ -170,24 +162,45 @@ else
     fi
 fi
 
-if [ "$graal_js" == "latest" ] ; then
-    graal_js=`cat config.json | jq -r ".\"graaljs-params\".latest"`
+# GraalVM for JDK21 also requires a GraalJS distribution. We can't install the 'js' language
+# into the local GraalVM JDK installation anymore. The tool 'bin/gu' isn't part of the 
+# GraalVM JDK anymore.
+if [ $use_graal_vm == true -a "$jdk" == "jdk21" ] ; then
+    if [ "$graal_js" == "" ] ; then 
+        graal_js="latest"
+    fi 
+fi
+
+if [ "$graal_js" != "" ] ; then 
+    if [ "$graal_js" == "latest" ] ; then
+        graal_js=`cat config.json | jq -r ".\"graaljs-params\".latest"`
+    fi
+
+    graaljs_major=`echo $graal_js | awk -F"." '{print($1)}'`
+    graaljs_minor=`echo $graal_js | awk -F"." '{print($2)}'`
 fi
 
 graal_js_home=`cat config.json | jq -r ".\"graaljs-params\".\"$graal_js\".directory"`
 
-
 echo "JOSM:        $josm"
 echo "JDK:         $jdk"
 echo "Use GraalVM: $use_graal_vm"
-echo "GraalJS:     $graal_js"
+echo "GraalJS:     $graal_js,  major: $graaljs_major, minor: $graaljs_minor"
 echo "JDK Home:    $jdk_home"
 echo "JOSM jar:    $josm_jar"
 
 prepare_logging_properties "DEBUG"
 
 cmd=""
-if [ "$graal_js" == "" ] ; then
+
+if [ $use_graal_vm == false -a "$graal_js" == "" ] ; then
+    cmd="$(pwd)/$jdk_home/bin/java \
+        -Xms1g \
+        -Xmx2g \
+        -Djosm.home=`pwd`/josm-home \
+        -Djava.util.logging.config.file=`pwd`/logging.properties \
+        -jar `pwd`/$josm_jar"
+elif [ $use_graal_vm == true -a "$jdk" == "jdk17" ] ; then 
     cmd="$(pwd)/$jdk_home/bin/java \
         -Xms1g \
         -Xmx2g \
@@ -195,6 +208,12 @@ if [ "$graal_js" == "" ] ; then
         -Djava.util.logging.config.file=`pwd`/logging.properties \
         -jar `pwd`/$josm_jar"
 else
+    if [ $graljs_major -lt 23 ] || ( [ $graaljs_major -eq 23 ] && [ $graaljs_minor -eq 0 ] )  ;  then 
+        modules="org.graalvm.sdk,org.graalvm.js,com.oracle.truffle.regex,org.graalvm.truffle"
+    else
+        modules="org.graalvm.polyglot,org.graalvm.word,org.graalvm.collections"
+    fi 
+
     cmd="$(pwd)/$jdk_home/bin/java \
         -Xms1g \
         -Xmx2g \
@@ -202,7 +221,7 @@ else
         -Djava.util.logging.config.file=`pwd`/logging.properties \
         -classpath `pwd`/$josm_jar \
         --module-path $graal_js_home/lib \
-        --add-modules org.graalvm.sdk,org.graalvm.js,com.oracle.truffle.regex,org.graalvm.truffle \
+        --add-modules $modules \
         --add-opens java.prefs/java.util.prefs=ALL-UNNAMED \
         org.openstreetmap.josm.gui.MainApplication"
 fi

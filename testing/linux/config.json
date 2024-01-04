@@ -6,13 +6,13 @@
 
     "jdk-params": {
         "jdk17": {
-            "uri": "https://download.oracle.com/java/17/latest/jdk-17_linux-x64_bin.tar.gz",
+            "uri": "https://aka.ms/download-jdk/microsoft-jdk-17.0.9-linux-x64.tar.gz",
             "directory": "jdk17"
         },
 
-        "jdk20": {
-            "uri": "https://download.oracle.com/java/20/latest/jdk-20_linux-x64_bin.tar.gz",
-            "directory": "jdk20"
+        "jdk21": {
+            "uri": "https://aka.ms/download-jdk/microsoft-jdk-21.0.1-linux-x64.tar.gz",
+            "directory": "jdk21"
         }
     },
 
@@ -22,14 +22,18 @@
             "directory": "graalvm-jdk17"
         },
 
-        "jdk20": {
-            "uri": "https://download.oracle.com/graalvm/20/latest/graalvm-jdk-20_linux-x64_bin.tar.gz",
-            "directory": "graalvm-jdk20"
+        "jdk21": {
+            "uri": "https://download.oracle.com/graalvm/21/latest/graalvm-jdk-21_linux-x64_bin.tar.gz",
+            "directory": "graalvm-jdk21"
         }
     },
 
     "graaljs-params": {
-        "latest": "23.0.0",
+        "latest": "23.1.1",
+        "23.1.1": {
+            "uri": "https://github.com/Gubaer/josm-scripting-plugin-graaljs/releases/download/23.1.1/graaljs-23.1.1.zip",
+            "directory": "graaljs-23.1.1"
+        },
         "23.0.0": {
             "uri": "https://github.com/Gubaer/josm-scripting-plugin-graaljs/releases/download/23.0.0/graaljs-23.0.0.zip",
             "directory": "graaljs-23.0.0"
