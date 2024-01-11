@@ -5,6 +5,7 @@ import org.openstreetmap.josm.data.Preferences
 import org.openstreetmap.josm.plugins.scripting.JOSMFixtureBasedTest
 import org.openstreetmap.josm.plugins.scripting.model.PreferenceKeys
 import org.openstreetmap.josm.plugins.scripting.ui.mru.MostRecentlyRunScriptsModel
+import org.openstreetmap.josm.plugins.scripting.ui.mru.Script
 
 import static org.junit.Assert.*
 
@@ -59,7 +60,7 @@ class MostRecentlyRunScriptsModelTest extends JOSMFixtureBasedTest {
     void  "can load from v0-3-1 preferences"() {
         final helloWorldScript = new File(getProjectHome(), "src/main/resources/scripts/HelloWorld.GraalJS.js")
             .getAbsolutePath()
-        final mruEntry = new MostRecentlyRunScriptsModel.Script(helloWorldScript, "graalvm/js")
+        final mruEntry = new Script(helloWorldScript, "graalvm/js")
         assertEquals(helloWorldScript, mruEntry.scriptPath())
         assertEquals("graalvm/js", mruEntry.engineId())
 
