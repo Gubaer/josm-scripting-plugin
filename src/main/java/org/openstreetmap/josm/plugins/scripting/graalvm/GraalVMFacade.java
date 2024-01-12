@@ -18,7 +18,6 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import static java.text.MessageFormat.format;
-import static org.openstreetmap.josm.plugins.scripting.ui.SwingUtil.runOnSwingEDT;
 
 public class GraalVMFacade  implements IGraalVMFacade {
     static private final Logger logger =
@@ -26,6 +25,9 @@ public class GraalVMFacade  implements IGraalVMFacade {
 
     static final private Map<String, TypeResolveFunction> pluginObject =
         Collections.singletonMap("type", new TypeResolveFunction());
+
+    // maintain one 'js' engine
+    private final Engine engine;
 
     private Context context;
 
@@ -84,19 +86,22 @@ public class GraalVMFacade  implements IGraalVMFacade {
      */
     private void initContext() throws IllegalStateException{
         // currently GraalVM is only used for JavaScript
-        final Context.Builder builder = Context.newBuilder("js");
+        final Context.Builder builder = Context.newBuilder("js")
+            .engine(engine);
         grantPrivilegesToContext(builder);
         setOptionsOnContext(builder);
         builder.allowIO(IOAccess.newBuilder().fileSystem(ESModuleResolver.getInstance()).build());
         context = builder.build();
         populateContext(context);
+        context.enter();
 
         // have to enter the context on the Swing EDT because the scripts will be executed
         // on this thread too
-        runOnSwingEDT(() -> context.enter());
+        //runOnSwingEDT(() -> context.enter());
     }
 
     public GraalVMFacade() {
+        engine = Engine.create("js");
         initContext();
     }
 
