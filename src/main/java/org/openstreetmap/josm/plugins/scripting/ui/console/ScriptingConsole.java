@@ -157,7 +157,7 @@ public class ScriptingConsole extends JFrame {
     }
 
     /**
-     * <p>Loads the file {@code file} in the script editor.</p>
+     * Loads the file {@code file} in the script editor.
      *
      * @param file the file. Must not be null
      */
@@ -169,7 +169,7 @@ public class ScriptingConsole extends JFrame {
     }
 
     /**
-     * <p>Saves the content of the script editor to the file {@code file}.</p>
+     * Saves the content of the script editor to the file {@code file}.
      *
      * @param file the file. Must not be null
      */
@@ -229,8 +229,7 @@ public class ScriptingConsole extends JFrame {
         listeners.addIfAbsent(l);
     }
 
-    public static void removeScriptingConsoleListener(
-            ScriptingConsoleListener l) {
+    public static void removeScriptingConsoleListener(ScriptingConsoleListener l) {
         if (l == null) return;
         listeners.remove(l);
     }

@@ -30,7 +30,7 @@ public class SyntaxConstantsEngine {
          * Build the rule from two property values.
          *
          * @param syntaxStyleProperty the value of the syntax style property
-         * @param patternProperty the value of the pattern property
+         * @param patternProperty     the value of the pattern property
          * @return a rule or null, if there is a problem with the property values
          */
         public static @Null Rule fromProperties(@NotNull final String syntaxStyleProperty,
@@ -44,7 +44,7 @@ public class SyntaxConstantsEngine {
             try {
                 var pattern = Pattern.compile(patternProperty);
                 return new Rule(syntaxStyleProperty, pattern);
-            } catch(PatternSyntaxException e) {
+            } catch (PatternSyntaxException e) {
                 if (logger.isLoggable(Level.FINE)) {
                     logger.log(Level.FINE, "Illegal regular expression in syntax style rule", e);
                 }
@@ -59,9 +59,9 @@ public class SyntaxConstantsEngine {
          * Creates a new rule.
          *
          * @param syntaxStyle the name of the syntax style
-         * @param pattern the matching pattern
+         * @param pattern     the matching pattern
          */
-        public Rule(@NotNull final String syntaxStyle, @NotNull  final Pattern pattern) {
+        public Rule(@NotNull final String syntaxStyle, @NotNull final Pattern pattern) {
             Objects.requireNonNull(syntaxStyle);
             Objects.requireNonNull(pattern);
             this.syntaxStyle = syntaxStyle;
@@ -73,7 +73,7 @@ public class SyntaxConstantsEngine {
          *
          * @return syntax style name
          */
-        public @NotNull  String getSyntaxStyle() {
+        public @NotNull String getSyntaxStyle() {
             return syntaxStyle;
         }
 
@@ -117,38 +117,33 @@ public class SyntaxConstantsEngine {
             }
             final var rulePattern = Pattern.compile("^rule\\.(\\d+).*");
             final var ruleIds = properties.keySet().stream().map(key -> {
-                var matcher = rulePattern.matcher((String) key);
-                    if (matcher.matches()) {
-                        try {
-                            return Integer.parseInt(matcher.group(1));
-                        } catch(NumberFormatException e) {
-                            logger.log(Level.FINE, MessageFormat.format(
-                                    "Illegal property key ''{0}''", key
-                            ), e);
-                            // shouldn't happen because of matching regexp
-                            return null;
-                        }
-                    } else {
-                        logger.log(Level.FINE, MessageFormat.format(
-                            "Illegal property key ''{0}''", key
-                        ));
+                final var matcher = rulePattern.matcher((String) key);
+                if (matcher.matches()) {
+                    try {
+                        return Integer.parseInt(matcher.group(1));
+                    } catch (NumberFormatException e) {
+                        logger.log(Level.FINE, MessageFormat.format("Illegal property key ''{0}''", key), e);
+                        // shouldn't happen because of matching regexp
                         return null;
                     }
-                })
-                .filter(Objects::nonNull)
-                .distinct()
-                .collect(Collectors.toList());
+                } else {
+                    logger.log(Level.FINE, MessageFormat.format("Illegal property key ''{0}''", key));
+                    return null;
+                }
+            })
+            .filter(Objects::nonNull)
+            .distinct()
+            .toList();
 
-            var syntaxStyleFormat = new MessageFormat("rule.{0}.syntax-style");
-            var patternFormat = new MessageFormat("rule.{0}.regexp");
+            final var syntaxStyleFormat = new MessageFormat("rule.{0}.syntax-style");
+            final var patternFormat = new MessageFormat("rule.{0}.regexp");
 
-            var rules = ruleIds.stream().sorted()
+            final var rules = ruleIds.stream()
+                .sorted()
                 .map(id -> {
                     var formatArgs = new Integer[]{id};
-                    var syntaxStyleValue = properties.getProperty(
-                        syntaxStyleFormat.format(formatArgs));
-                    var patternValue = properties.getProperty(
-                        patternFormat.format(formatArgs));
+                    var syntaxStyleValue = properties.getProperty(syntaxStyleFormat.format(formatArgs));
+                    var patternValue = properties.getProperty(patternFormat.format(formatArgs));
                     if (syntaxStyleValue == null || patternValue == null) {
                         logger.fine(MessageFormat.format(
                             "Property for property key ''{0}'' or property key ''{1}'' not found in syntax rules",
@@ -177,7 +172,6 @@ public class SyntaxConstantsEngine {
 
         /**
          * Creates an empty collection of rules.
-         *
          */
         Rules() {
             this(null);
@@ -209,7 +203,7 @@ public class SyntaxConstantsEngine {
     private static List<String> loadAvailableSyntaxConstants() {
         return Arrays.stream(org.fife.ui.rsyntaxtextarea.SyntaxConstants.class.getDeclaredFields())
             .filter(field ->
-                Modifier.isStatic(field.getModifiers()) && field.getName().startsWith("SYNTAX_STYLE_")
+                    Modifier.isStatic(field.getModifiers()) && field.getName().startsWith("SYNTAX_STYLE_")
             )
             .map(field -> {
                 final String value = "";
@@ -241,6 +235,7 @@ public class SyntaxConstantsEngine {
     }
 
     private static SyntaxConstantsEngine instance;
+
     public static SyntaxConstantsEngine getInstance() {
         if (instance == null) {
             instance = new SyntaxConstantsEngine();
@@ -268,10 +263,7 @@ public class SyntaxConstantsEngine {
         Objects.requireNonNull(context);
         rules = new Rules();
         InputStream input = null;
-        var file = new File(
-            context.getPluginDirs().getUserDataDirectory(false),
-            SYNTAX_STYLE_RULES_FILE
-        );
+        var file = new File(context.getPluginDirs().getUserDataDirectory(false), SYNTAX_STYLE_RULES_FILE);
         try {
             // try to load rules from a configuration file
             if (file.isFile() && file.canRead()) {
@@ -305,13 +297,13 @@ public class SyntaxConstantsEngine {
                 properties.load(new InputStreamReader(input));
                 rules = Rules.loadFromProperties(properties);
             }
-        } catch(IOException e) {
+        } catch (IOException e) {
             logger.log(Level.WARNING, "Failed to read syntax style rules", e);
         } finally {
             if (input != null) {
                 try {
                     input.close();
-                } catch(IOException e){
+                } catch (IOException e) {
                     // ignore
                 }
             }
@@ -323,7 +315,7 @@ public class SyntaxConstantsEngine {
      *
      * @param mimeType the mime-type
      * @return a suitable syntax style from {@link org.fife.ui.rsyntaxtextarea.SyntaxConstants},
-     *  or <code>null</code> if no syntax style is suitable
+     * or <code>null</code> if no syntax style is suitable
      */
     public @Null String deriveSyntaxStyle(@NotNull final String mimeType) {
         Objects.requireNonNull(mimeType);

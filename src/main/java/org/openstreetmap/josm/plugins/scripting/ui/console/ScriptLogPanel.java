@@ -9,7 +9,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.logging.Level;
 import java.util.logging.Logger;
+
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -25,10 +27,9 @@ import javax.swing.text.StyleConstants;
 import org.openstreetmap.josm.tools.ImageProvider;
 
 @SuppressWarnings("unused")
-public class ScriptLogPanel extends JPanel implements IScriptLog{
+public class ScriptLogPanel extends JPanel implements IScriptLog {
     @SuppressWarnings("unused")
-    static private final Logger logger =
-            Logger.getLogger(ScriptLogPanel.class.getName());
+    static private final Logger logger = Logger.getLogger(ScriptLogPanel.class.getName());
 
     private JTextPane epOutput;
     private final Action actClear = new ClearAction();
@@ -39,10 +40,8 @@ public class ScriptLogPanel extends JPanel implements IScriptLog{
         epOutput = new JTextPane();
         epOutput.setEditable(false);
         final JScrollPane editorScrollPane = new JScrollPane(epOutput);
-        editorScrollPane.setVerticalScrollBarPolicy(
-                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        editorScrollPane.setHorizontalScrollBarPolicy(
-                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        editorScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        editorScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         add(editorScrollPane, BorderLayout.CENTER);
 
         popupMenu = buildPopupMenu();
@@ -55,7 +54,7 @@ public class ScriptLogPanel extends JPanel implements IScriptLog{
         return mnu;
     }
 
-    public ScriptLogPanel(){
+    public ScriptLogPanel() {
         build();
     }
 
@@ -64,17 +63,17 @@ public class ScriptLogPanel extends JPanel implements IScriptLog{
      *
      * @param t the exception
      */
-    public void dumpException(Throwable t){
+    public void dumpException(Throwable t) {
         if (t == null) return;
         final StringWriter w = new StringWriter();
         t.printStackTrace(new PrintWriter(w));
         Document doc = epOutput.getDocument();
         try {
-            SimpleAttributeSet set = new SimpleAttributeSet();
+            final var set = new SimpleAttributeSet();
             StyleConstants.setForeground(set, Color.RED);
             doc.insertString(doc.getLength(), w.getBuffer().toString(), set);
-        } catch(BadLocationException e) {
-            e.printStackTrace();
+        } catch (BadLocationException e) {
+            logger.log(Level.WARNING, "Failed to dump exception", e);
         }
     }
 
@@ -96,17 +95,15 @@ public class ScriptLogPanel extends JPanel implements IScriptLog{
         public ClearAction() {
             putValue(NAME, tr("Clear log"));
             putValue(SHORT_DESCRIPTION, tr("Clear the log content"));
-            putValue(SMALL_ICON, ImageProvider.get("dialogs", "delete",
-                ImageProvider.ImageSizes.MENU));
+            putValue(SMALL_ICON, ImageProvider.get("dialogs", "delete", ImageProvider.ImageSizes.MENU));
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
-                epOutput.getDocument().remove(0,
-                        epOutput.getDocument().getLength());
-            } catch(BadLocationException ex){
-                // ignore
+                epOutput.getDocument().remove(0, epOutput.getDocument().getLength());
+            } catch (BadLocationException ex) {
+                logger.log(Level.WARNING, "Failed to dump exception", e);
             }
         }
     }
@@ -114,13 +111,13 @@ public class ScriptLogPanel extends JPanel implements IScriptLog{
     private class PopupMenuLauncher extends MouseAdapter {
         @Override
         public void mousePressed(MouseEvent e) {
-            if (! e.isPopupTrigger()) return;
+            if (!e.isPopupTrigger()) return;
             popupMenu.show(e.getComponent(), e.getX(), e.getY());
         }
 
         @Override
         public void mouseReleased(MouseEvent e) {
-            if (! e.isPopupTrigger()) return;
+            if (!e.isPopupTrigger()) return;
             popupMenu.show(e.getComponent(), e.getX(), e.getY());
         }
     }

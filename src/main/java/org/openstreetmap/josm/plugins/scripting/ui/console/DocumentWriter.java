@@ -7,8 +7,8 @@ import java.io.Writer;
 import java.util.Arrays;
 
 /**
- * <p><strong>DocumentWriter</strong> is a writer which appends text to
- * a {@link Document}.</p>
+ * strong>DocumentWriter</strong> is a writer which appends text to
+ * a {@link Document}.
  *
  */
 public class DocumentWriter extends Writer {

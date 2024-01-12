@@ -1,47 +1,44 @@
 package org.openstreetmap.josm.plugins.scripting.ui.console;
 
+import org.openstreetmap.josm.plugins.scripting.graalvm.GraalVMFacadeFactory;
+import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
+
+import javax.validation.constraints.Null;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.File;
 import java.util.Optional;
 import java.util.logging.Logger;
 
-import org.openstreetmap.josm.plugins.scripting.graalvm.GraalVMFacadeFactory;
-import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
-
-import javax.validation.constraints.Null;
-
 /**
- * <p>Manages the state of the scripting console</p>
+ * Manages the state of the scripting console
  */
 public class ScriptEditorModel {
     @SuppressWarnings("unused")
-    static private final Logger logger =
-            Logger.getLogger(ScriptEditorModel.class.getName());
+    static private final Logger logger = Logger.getLogger(ScriptEditorModel.class.getName());
 
     /**
      * The current script engine as described by a
      * {@link ScriptEngineDescriptor}. The value is a
-     * {@link ScriptEngineDescriptor} or null. */
-    static final String PROP_SCRIPT_ENGINE  =
-            ScriptEditorModel.class.getName() + ".scriptEngine";
+     * {@link ScriptEngineDescriptor} or null.
+     */
+    static final String PROP_SCRIPT_ENGINE = ScriptEditorModel.class.getName() + ".scriptEngine";
 
-    /** The current script file. If the value is null, there is no script file
+    /**
+     * The current script file. If the value is null, there is no script file
      * loaded. The value is a {@link File} or null.
      */
-    static final String PROP_SCRIPT_FILE =
-            ScriptEditorModel.class.getName() + ".scriptFile";
+    static final String PROP_SCRIPT_FILE = ScriptEditorModel.class.getName() + ".scriptFile";
 
     private File scriptFile = null;
-    private final PropertyChangeSupport support =
-            new PropertyChangeSupport(this);
+    private final PropertyChangeSupport support = new PropertyChangeSupport(this);
     private ScriptEngineDescriptor descriptor;
 
-    public void addPropertyChangeListener(PropertyChangeListener l){
+    public void addPropertyChangeListener(PropertyChangeListener l) {
         support.addPropertyChangeListener(l);
     }
 
-    public void removePropertyChangeListener(PropertyChangeListener l){
+    public void removePropertyChangeListener(PropertyChangeListener l) {
         support.removePropertyChangeListener(l);
     }
 
@@ -88,11 +85,9 @@ public class ScriptEditorModel {
      * @param desc the descriptor. Can be null.
      */
     public void setScriptEngineDescriptor(@Null ScriptEngineDescriptor desc) {
-//        if (desc == null) desc = ScriptEngineDescriptor.DEFAULT_SCRIPT_ENGINE;
         if (desc == null && this.descriptor == null) return;
         if (desc != null && desc.equals(this.descriptor)) return;
-//        if (desc.equals(this.descriptor)) return;
-        ScriptEngineDescriptor old = this.descriptor;
+        final var old = this.descriptor;
         this.descriptor = desc;
         support.firePropertyChange(PROP_SCRIPT_ENGINE, old, this.descriptor);
     }
