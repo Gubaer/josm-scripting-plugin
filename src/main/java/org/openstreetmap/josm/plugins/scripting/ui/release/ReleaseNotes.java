@@ -19,7 +19,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URISyntaxException;
-import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.Properties;
@@ -27,6 +26,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import static java.text.MessageFormat.format;
 import static org.openstreetmap.josm.tools.I18n.tr;
 
 /**
@@ -48,7 +48,7 @@ public class ReleaseNotes extends JDialog implements HyperlinkListener {
      *
      * @param releaseId the release id
      * @return if the current user has already seen the release note
-     *  for the release <code>releaseId</code>; false, otherwise
+     * for the release <code>releaseId</code>; false, otherwise
      */
     public static boolean hasSeenReleaseNote(@NotNull final String releaseId) {
         Objects.requireNonNull(releaseId);
@@ -68,7 +68,7 @@ public class ReleaseNotes extends JDialog implements HyperlinkListener {
      * the latest release
      *
      * @return true if the current user has seen the release notes of
-     *   the latest release; false, otherwise
+     * the latest release; false, otherwise
      */
     public static boolean hasSeenLatestReleaseNotes() {
         var ids = loadReleaseIdsWithReleaseNotes();
@@ -98,7 +98,7 @@ public class ReleaseNotes extends JDialog implements HyperlinkListener {
         final java.util.List<String> empty = java.util.List.of();
         var in = ReleaseNotes.class.getResourceAsStream(RESOURCE_NAME_RELEASE_IDS);
         if (in == null) {
-            logger.warning(MessageFormat.format("Resource ''{0}'' not found", RESOURCE_NAME_RELEASE_IDS));
+            logger.warning(format("Resource ''{0}'' not found", RESOURCE_NAME_RELEASE_IDS));
             return empty;
         }
         try {
@@ -106,24 +106,24 @@ public class ReleaseNotes extends JDialog implements HyperlinkListener {
             properties.load(in);
             var ids = properties.getProperty("release-notes");
             if (ids == null) {
-                logger.warning(MessageFormat.format("Property ''{0}'' not found in resource ''{1}''",
+                logger.warning(format("Property ''{0}'' not found in resource ''{1}''",
                     "release-notes", RESOURCE_NAME_RELEASE_IDS));
                 return empty;
             }
             return Arrays.stream(ids.split(","))
                 .map(String::trim)
                 .collect(Collectors.toList());
-        } catch(IOException e) {
-            logger.log(Level.WARNING, MessageFormat.format("Failed to load resource '{0}'", RESOURCE_NAME_RELEASE_IDS), e);
+        } catch (IOException e) {
+            logger.log(Level.WARNING, format("Failed to load resource ''{0}''", RESOURCE_NAME_RELEASE_IDS), e);
             return empty;
         }
     }
 
     private static @Null String loadReleaseNote(final String releaseId) {
-        final var resourceName = MessageFormat.format("/release-notes/{0}.html", releaseId);
+        final var resourceName = format("/release-notes/{0}.html", releaseId);
         var in = ReleaseNotes.class.getResourceAsStream(resourceName);
         if (in == null) {
-            logger.warning(MessageFormat.format("Resource ''{0}'' not found", resourceName));
+            logger.warning(format("Resource ''{0}'' not found", resourceName));
             return null;
         }
         try {
@@ -131,8 +131,7 @@ public class ReleaseNotes extends JDialog implements HyperlinkListener {
                 return reader.lines().collect(Collectors.joining("\n"));
             }
         } catch (IOException e) {
-            logger.log(Level.WARNING,
-                MessageFormat.format("Failed to read content of resource ''{0}''", resourceName), e);
+            logger.log(Level.WARNING, format("Failed to read content of resource ''{0}''", resourceName), e);
             return null;
         }
     }
@@ -153,12 +152,11 @@ public class ReleaseNotes extends JDialog implements HyperlinkListener {
     }
 
     public ReleaseNotes(Component parent) {
-        super(JOptionPane.getFrameForComponent(parent),
-                ModalityType.DOCUMENT_MODAL);
+        super(JOptionPane.getFrameForComponent(parent), ModalityType.DOCUMENT_MODAL);
         build();
         // load the release notes for the newest release
-        var ids =loadReleaseIdsWithReleaseNotes();
-        if (! ids.isEmpty()) {
+        var ids = loadReleaseIdsWithReleaseNotes();
+        if (!ids.isEmpty()) {
             latestReleaseId = ids.get(0);
             var content = loadReleaseNote(latestReleaseId);
             if (content != null) {
@@ -199,10 +197,7 @@ public class ReleaseNotes extends JDialog implements HyperlinkListener {
         var contentPane = getContentPane();
         contentPane.setLayout(new BorderLayout());
 
-        contentPane.add(
-            new JScrollPane(buildReleaseNotesPanel()),
-            BorderLayout.CENTER
-        );
+        contentPane.add(new JScrollPane(buildReleaseNotesPanel()), BorderLayout.CENTER);
 
         contentPane.add(buildButtonPanel(), BorderLayout.SOUTH);
         addWindowListener(new OnCloseAdapter());
@@ -254,7 +249,7 @@ public class ReleaseNotes extends JDialog implements HyperlinkListener {
                     Desktop.getDesktop().browse(e.getURL().toURI());
                 } catch (IOException | URISyntaxException ex) {
                     logger.log(Level.WARNING,
-                        MessageFormat.format("Failed to open desktop browser with URL ''{0}''", e.getURL()),
+                        format("Failed to open desktop browser with URL ''{0}''", e.getURL()),
                         ex);
                 }
             }

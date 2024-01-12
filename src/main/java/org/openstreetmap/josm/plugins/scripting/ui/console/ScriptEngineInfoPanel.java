@@ -14,22 +14,20 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.text.MessageFormat;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static java.text.MessageFormat.format;
 import static org.openstreetmap.josm.tools.I18n.tr;
 
 /**
  * Displays summary information about the currently selected scripting engine.
  */
 @SuppressWarnings("unused")
-public class ScriptEngineInfoPanel extends JPanel implements
-PropertyChangeListener, HyperlinkListener{
+public class ScriptEngineInfoPanel extends JPanel implements PropertyChangeListener, HyperlinkListener {
     @SuppressWarnings("unused")
-    static private final Logger logger =
-        Logger.getLogger(ScriptEngineInfoPanel.class.getName());
+    static private final Logger logger = Logger.getLogger(ScriptEngineInfoPanel.class.getName());
 
     private JEditorPane jepInfo;
     private ScriptEditorModel model;
@@ -39,7 +37,7 @@ PropertyChangeListener, HyperlinkListener{
      *
      * @param model the model to listen too for updated script engines
      */
-    public ScriptEngineInfoPanel(@NotNull ScriptEditorModel model){
+    public ScriptEngineInfoPanel(@NotNull ScriptEditorModel model) {
         Objects.requireNonNull(model);
         model.addPropertyChangeListener(this);
         this.model = model;
@@ -61,7 +59,7 @@ PropertyChangeListener, HyperlinkListener{
     private static String buildSelectScriptEngineLink(final String label) {
         // http://josm/select-script-engine is "internal" URL, HyperlinkListener
         // will respond to it and open the ScriptEngineSelectionDialog
-        return String.format("<a href=\"http://josm/select-script-engine\">%s</a>", label);
+        return format("<a href=\"http://josm/select-script-engine\">{0}</a>", label);
     }
 
     private static String buildJavascriptAPIHint(ScriptEngineDescriptor desc) {
@@ -79,22 +77,20 @@ PropertyChangeListener, HyperlinkListener{
         }
     }
 
-    protected void refreshInfo(ScriptEngineDescriptor desc){
+    protected void refreshInfo(ScriptEngineDescriptor desc) {
         final var sb = new StringBuilder();
-        if (desc == null){
+        if (desc == null) {
             sb.append("<html>");
             sb.append(tr("No script engine selected.")).append(" ");
             sb.append(buildSelectScriptEngineLink(tr("Select") + "..."));
             sb.append("</html>");
-        }
-        else {
+        } else {
             sb.append("<html>");
             sb.append("<p>");
-            sb.append(tr("Executing scripts in language <strong>{0}</strong> "
-                + "using engine <strong>{1}</strong>.",
+            sb.append(tr("Executing scripts in language <strong>{0}</strong> using engine <strong>{1}</strong>.",
                 desc.getLanguageName().orElse(tr("unknown")),
                 ScriptEngineCellRenderer.defaultEngineName(desc))
-            );
+        );
             sb.append(" ").append(buildSelectScriptEngineLink(tr("Change") + "..."));
             sb.append("</p>");
             sb.append(buildJavascriptAPIHint(desc));
@@ -105,9 +101,9 @@ PropertyChangeListener, HyperlinkListener{
 
     protected void promptForScriptEngine() {
         final var desc = ScriptEngineSelectionDialog.select(this, model.getScriptEngineDescriptor());
-        if (desc != null){
-            logger.log(Level.FINE, String.format(
-                "Interactively selected script engine. id=%s, language=%s",
+        if (desc != null) {
+            logger.log(Level.FINE, format(
+                "Interactively selected script engine. id={0}, language={1}",
                 desc.getLocalEngineId(),
                 desc.getLanguageName()
             ));
@@ -122,11 +118,10 @@ PropertyChangeListener, HyperlinkListener{
     /* --------------------------------------------------------------------- */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if (!evt.getPropertyName().equals(
-                ScriptEditorModel.PROP_SCRIPT_ENGINE)) {
+        if (!evt.getPropertyName().equals(ScriptEditorModel.PROP_SCRIPT_ENGINE)) {
             return;
         }
-        refreshInfo((ScriptEngineDescriptor)evt.getNewValue());
+        refreshInfo((ScriptEngineDescriptor) evt.getNewValue());
     }
 
     /* --------------------------------------------------------------------- */
@@ -143,8 +138,8 @@ PropertyChangeListener, HyperlinkListener{
                 try {
                     Desktop.getDesktop().browse(e.getURL().toURI());
                 } catch (IOException | URISyntaxException ex) {
-                    logger.log(Level.WARNING, MessageFormat.format(
-                        "Failed to convert URL ''{0}'' to URI. Can't launch system web browser.",
+                    logger.warning(format(
+                        "Failed to convert URL ''{0}'' to URI. Can''t launch system web browser.",
                         e.getURL().toString()
                     ));
                 }

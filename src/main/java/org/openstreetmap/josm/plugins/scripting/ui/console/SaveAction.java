@@ -10,12 +10,10 @@ import java.util.logging.Logger;
 
 import static org.openstreetmap.josm.tools.I18n.tr;
 
-public class SaveAction extends AbstractAction implements
-        PropertyChangeListener{
+public class SaveAction extends AbstractAction implements PropertyChangeListener {
 
     @SuppressWarnings("unused")
-    static private final Logger logger =
-           Logger.getLogger(SaveAsAction.class.getName());
+    static private final Logger logger = Logger.getLogger(SaveAsAction.class.getName());
 
     SaveAction() {
         putValue(NAME, tr("Save"));
@@ -31,7 +29,7 @@ public class SaveAction extends AbstractAction implements
 
     private void updateEnabledState() {
         final ScriptingConsole console = ScriptingConsole.getInstance();
-        if (console == null){
+        if (console == null) {
             setEnabled(false);
             return;
         }
