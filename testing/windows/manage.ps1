@@ -176,14 +176,22 @@ function downloadJosm([string]$version) {
 function downloadJDK([string]$version) {
     $downloadUrl = $JDK_PARAMS[$version]["uri"]
     Write-Information "Downloading jdk version '$version' from $downloadUrl' ..."
-    $jdkDirectory = Join-Path -Path $(Get-Location) -ChildPath $JDK_PARAMS[$version]["directory"]
+    $jdkDirectory = $JDK_PARAMS[$version]["directory"]
     if (Test-Path $jdkDirectory) {
         Write-Warning "JDK with version '$version' already available in '$jdkDirectory'. Skipping download."
         return
     }
     Invoke-WebRequest -Uri $downloadUrl -OutFile "$version.zip"
-    Expand-Archive -Path $(Join-Path $(Get-Location) -ChildPath "$version.zip") -DestinationPath $(Get-Location)
-    Remove-Item -Path $(Join-Path $(Get-Location) -ChildPath "$version.zip")
+    Expand-Archive -Path "$version.zip" -DestinationPath "."
+    $candidates = Get-ChildItem "." -Filter "$jdkDirectory*"
+    if ($candidates.Length -eq 0) {
+        Write-Warning "Local download directory '$jdkDirectory*' doesn't exist. Aborting installation of JDK with version '$verison'."
+        return 1
+    } elseif ( $candidates.Length -gt 1) {
+        Write-Warning "Multiple download directory '$jdkDirectory*' exist. Aborting installation of JDK with version '$verison'."
+    }
+    Rename-Item -Path $candidates[0] -NewName $jdkDirectory
+    Remove-Item -Path "$version.zip"
 }
 
 function downloadGraalVM([string]$version) {

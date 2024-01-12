@@ -13,7 +13,7 @@ If present, JOSM is started with the GraalVM. The GraalVM version is chosend dep
 
 .PARAMETER graalJs
 The GraalJS version to be loaded. Either 'latest' or a GraalJS version configured in 'config.ps1'. 
-If missing, no GraalJS version is loaded. GraalJS can't be used toghether with the GraalVM, only with a
+If missing, no GraalJS version is loaded. GraalJS can't be used together with the GraalVM, only with a
 stock JDK.
 
 .PARAMETER help

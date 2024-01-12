@@ -5,11 +5,11 @@
 $JDK_PARAMS = @{
     jdk17 = @{
         uri = "https://aka.ms/download-jdk/microsoft-jdk-17.0.7-windows-x64.zip"
-        directory = "jdk-17.0.7+7"
+        directory = "jdk-17"
     }
     jdk21 = @{
         uri = "https://aka.ms/download-jdk/microsoft-jdk-21.0.1-windows-x64.zip"
-        directory = "jdk-21.0.1+12"
+        directory = "jdk-21"
     }
  }
 
