@@ -32,18 +32,18 @@ import org.openstreetmap.josm.gui.util.WindowGeometry;
 @SuppressWarnings("unused")
 public class ScriptingConsole extends JFrame {
     @SuppressWarnings("unused")
-    static private final Logger logger = Logger.getLogger(
-            ScriptingConsole.class.getName());
+    static private final Logger logger = Logger.getLogger(ScriptingConsole.class.getName());
 
     static public final BooleanProperty PREF_ALWAYS_ON_TOP =
         new BooleanProperty(
             ScriptingConsole.class.getName() + ".alwaysOnTop",
             true
-         );
+        );
 
     private JCheckBox cbAlwaysOnTop;
 
     private static ScriptingConsole instance = null;
+
     public static ScriptingConsole getInstance() {
         return instance;
     }
@@ -54,7 +54,7 @@ public class ScriptingConsole extends JFrame {
      */
     public static void showScriptingConsole() {
         synchronized (ScriptingConsole.class) {
-            if (instance == null){
+            if (instance == null) {
                 instance = new ScriptingConsole();
                 instance.addWindowListener(new WindowAdapter() {
                     @Override
@@ -74,12 +74,10 @@ public class ScriptingConsole extends JFrame {
      * Hides and destroys the current scripting console.
      */
     public static void hideScriptingConsole() {
-        synchronized(ScriptingConsole.class){
-            if (instance != null){
-                WindowEvent wev = new WindowEvent(instance,
-                    WindowEvent.WINDOW_CLOSING);
-                Toolkit.getDefaultToolkit().getSystemEventQueue()
-                    .postEvent(wev);
+        synchronized (ScriptingConsole.class) {
+            if (instance != null) {
+                WindowEvent wev = new WindowEvent(instance, WindowEvent.WINDOW_CLOSING);
+                Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(wev);
             }
         }
     }
@@ -88,7 +86,7 @@ public class ScriptingConsole extends JFrame {
      * Toggles whether there is a scripting console or not
      */
     public static void toggleScriptingConsole() {
-        if (instance == null){
+        if (instance == null) {
             showScriptingConsole();
         } else {
             hideScriptingConsole();
@@ -97,7 +95,7 @@ public class ScriptingConsole extends JFrame {
 
     private ScriptingConsolePanel pnlScriptingConsole;
 
-    private ScriptingConsole(){
+    private ScriptingConsole() {
         super(tr("Scripting Console"));
         build();
     }
@@ -133,7 +131,7 @@ public class ScriptingConsole extends JFrame {
         return pnl;
     }
 
-    protected void build(){
+    protected void build() {
         final Container c = getContentPane();
         c.setLayout(new BorderLayout());
         c.add(pnlScriptingConsole = new ScriptingConsolePanel(),
@@ -146,15 +144,14 @@ public class ScriptingConsole extends JFrame {
         setIconImage(ImageProvider.get("script-engine").getImage());
     }
 
-    public void setVisible(boolean visible){
+    public void setVisible(boolean visible) {
         if (visible) {
             new WindowGeometry(
-                ScriptingConsole.class.getName()+ ".geometry",
+                ScriptingConsole.class.getName() + ".geometry",
                 WindowGeometry.centerInWindow(this, new Dimension(500, 800))
             ).applySafe(this);
         } else {
-            new WindowGeometry(this).remember(
-                ScriptingConsole.class.getName()+ ".geometry");
+            new WindowGeometry(this).remember(ScriptingConsole.class.getName() + ".geometry");
         }
         super.setVisible(visible);
     }
@@ -164,13 +161,10 @@ public class ScriptingConsole extends JFrame {
      *
      * @param file the file. Must not be null
      */
-    public void open(@NotNull File file){
+    public void open(@NotNull File file) {
         Objects.requireNonNull(file);
-        Assert.assertArg(file.isFile(),
-            "Expected a file, got a directory. File is: {0}", file);
-        Assert.assertArg(file.canRead(),
-            "Expected a readable file, but can''t read file. File is: {0}",
-            file);
+        Assert.assertArg(file.isFile(), "Expected a file, got a directory. File is: {0}", file);
+        Assert.assertArg(file.canRead(), "Expected a readable file, but can''t read file. File is: {0}", file);
         pnlScriptingConsole.open(file);
     }
 
@@ -179,7 +173,7 @@ public class ScriptingConsole extends JFrame {
      *
      * @param file the file. Must not be null
      */
-    public void save(@NotNull File file){
+    public void save(@NotNull File file) {
         Objects.requireNonNull(file);
         pnlScriptingConsole.save(file);
     }
@@ -224,27 +218,25 @@ public class ScriptingConsole extends JFrame {
          * @param oldValue old value
          * @param newValue new value
          */
-        void scriptingConsoleChanged(ScriptingConsole oldValue,
-                ScriptingConsole newValue);
+        void scriptingConsoleChanged(ScriptingConsole oldValue, ScriptingConsole newValue);
     }
 
     private static final CopyOnWriteArrayList<ScriptingConsoleListener>
-        listeners = new CopyOnWriteArrayList<>();
+            listeners = new CopyOnWriteArrayList<>();
 
-    public static void addScriptingConsoleListener(ScriptingConsoleListener l){
+    public static void addScriptingConsoleListener(ScriptingConsoleListener l) {
         if (l == null) return;
         listeners.addIfAbsent(l);
     }
 
     public static void removeScriptingConsoleListener(
-            ScriptingConsoleListener l){
-        if (l == null)return;
+            ScriptingConsoleListener l) {
+        if (l == null) return;
         listeners.remove(l);
     }
 
-    protected static void fireScriptingConsoleChanged(
-            ScriptingConsole oldValue, ScriptingConsole newValue){
-        for (ScriptingConsoleListener l: listeners) {
+    protected static void fireScriptingConsoleChanged(ScriptingConsole oldValue, ScriptingConsole newValue) {
+        for (ScriptingConsoleListener l : listeners) {
             l.scriptingConsoleChanged(oldValue, newValue);
         }
     }

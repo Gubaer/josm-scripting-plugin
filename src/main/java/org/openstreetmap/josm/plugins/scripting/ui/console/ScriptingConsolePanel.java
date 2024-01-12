@@ -30,17 +30,16 @@ import static org.openstreetmap.josm.tools.I18n.tr;
 @SuppressWarnings({"WeakerAccess"})
 public class ScriptingConsolePanel extends JPanel {
     @SuppressWarnings("unused")
-    private static final Logger logger =
-        Logger.getLogger(ScriptingConsolePanel.class.getName());
+    private static final Logger logger = Logger.getLogger(ScriptingConsolePanel.class.getName());
 
     private ScriptLogPanel log;
     private ScriptEditor editor;
     private ScriptErrorViewer errorViewer;
 
     protected JPanel buildControlPanel() {
-        final JPanel pnl = new JPanel(new FlowLayout(FlowLayout.CENTER,0,0));
+        final JPanel pnl = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
         pnl.setBorder(null);
-        pnl.setBorder(BorderFactory.createEmptyBorder(2,2,2,2));
+        pnl.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
         JButton btn = new JButton(new RunScriptAction(editor.getModel(), errorViewer.getModel()));
         pnl.add(btn);
         return pnl;
@@ -58,14 +57,10 @@ public class ScriptingConsolePanel extends JPanel {
         tabPane.addTab(tr("Console"), log = new ScriptLogPanel());
         tabPane.setToolTipTextAt(0, tr("Displays script output"));
         tabPane.addTab(tr("Errors"), errorViewer);
-        tabPane.setIconAt(1, ImageProvider.get(
-            "circle-check-solid",
-            ImageProvider.ImageSizes.SMALLICON));
+        tabPane.setIconAt(1, ImageProvider.get("circle-check-solid", ImageProvider.ImageSizes.SMALLICON));
         tabPane.setToolTipTextAt(1, tr("Displays scripting errors"));
 
-        errorViewer.getModel().addPropertyChangeListener(
-            new ErrorModelChangeListener(tabPane, errorViewer)
-        );
+        errorViewer.getModel().addPropertyChangeListener(new ErrorModelChangeListener(tabPane, errorViewer));
 
         final var p = new JPanel();
         p.setLayout(new BorderLayout());
@@ -90,10 +85,10 @@ public class ScriptingConsolePanel extends JPanel {
         setLayout(new BorderLayout());
         add(spConsole, BorderLayout.CENTER);
         editor.getModel().addPropertyChangeListener(evt -> {
-            if (! evt.getPropertyName().equals(ScriptEditorModel.PROP_SCRIPT_ENGINE)) {
+            if (!evt.getPropertyName().equals(ScriptEditorModel.PROP_SCRIPT_ENGINE)) {
                 return;
             }
-            final ScriptEngineDescriptor desc = (ScriptEngineDescriptor)evt.getNewValue();
+            final ScriptEngineDescriptor desc = (ScriptEngineDescriptor) evt.getNewValue();
             updateScriptContentType(desc);
         });
         updateScriptContentType(editor.getModel().getScriptEngineDescriptor());
@@ -103,55 +98,50 @@ public class ScriptingConsolePanel extends JPanel {
         final StringBuilder sb = new StringBuilder();
         sb.append("<html>");
         sb.append(tr(
-            "Didn''t find a suitable syntax style for the script engine " +
-            "<strong>{0}</strong>.",
+            "Didn''t find a suitable syntax style for the script engine <strong>{0}</strong>.",
             desc.getEngineName().orElse(tr("unknown"))));
         sb.append("<p>");
-        sb.append(tr(
-            "No syntax style is available for either of the following " +
-            "content types:"));
+        sb.append(tr("No syntax style is available for either of the following content types:"));
         sb.append("<ul>");
-        for(String mt: desc.getContentMimeTypes()) {
+        for (String mt : desc.getContentMimeTypes()) {
             sb.append("<li><tt>").append(mt).append("</tt></li>");
         }
         sb.append("</ul>");
         sb.append(tr("Syntax highlighting is disabled."));
         sb.append("<p>");
-        sb.append(tr(
-            "Refer to the online help on how to configure the syntax style " +
-            "for specific content types."));
+        sb.append(tr("Refer to the online help on configuring the syntax style for specific content types."));
         sb.append("</html>");
 
-        final ButtonSpec[] btns = new ButtonSpec[] {
-                new ButtonSpec(
-                    tr("OK"),
-                    ImageProvider.get("ok"),
-                    "",
-                    null // no specific help topic
-                )
+        final ButtonSpec[] btns = new ButtonSpec[]{
+            new ButtonSpec(
+                tr("OK"),
+                ImageProvider.get("ok"),
+                "",
+                null // no specific help topic
+        )
         };
 
         HelpAwareOptionPane.showOptionDialog(
-                this,
-                sb.toString(),
-                tr("No syntax kit"),
-                JOptionPane.WARNING_MESSAGE,
-                null,
-                btns,
-                btns[0],
-                null // no help topic
-        );
+            this,
+            sb.toString(),
+            tr("No syntax kit"),
+            JOptionPane.WARNING_MESSAGE,
+            null,
+            btns,
+            btns[0],
+            null // no help topic
+    );
     }
 
     protected void updateScriptContentType(ScriptEngineDescriptor desc) {
         final Stream<String> contentTypes;
         contentTypes = desc == null
-                ? Stream.of("text/plain")
-                : desc.getContentMimeTypes().stream();
+            ? Stream.of("text/plain")
+            : desc.getContentMimeTypes().stream();
         final String syntaxStyle = contentTypes.map(editor::lookupSyntaxConstants)
-                .filter(Objects::nonNull)
-                .findFirst()
-                .orElse(null);
+            .filter(Objects::nonNull)
+            .findFirst()
+            .orElse(null);
         if (syntaxStyle != null) {
             editor.changeSyntaxEditingStyle(syntaxStyle);
         } else {
@@ -178,11 +168,11 @@ public class ScriptingConsolePanel extends JPanel {
         editor.save(file);
     }
 
-    public void save()  {
+    public void save() {
         editor.getModel()
             .getScriptFile()
-            .ifPresent(f-> editor.save(f));
-    }
+            .ifPresent(f -> editor.save(f));
+}
 
     public ScriptEditorModel getScriptEditorModel() {
         return editor.getModel();
@@ -197,16 +187,14 @@ public class ScriptingConsolePanel extends JPanel {
         return log;
     }
 
-    class RunScriptAction extends AbstractAction
-        implements PropertyChangeListener {
+    class RunScriptAction extends AbstractAction implements PropertyChangeListener {
         final private ScriptEditorModel model;
         final private ScriptErrorViewerModel errorModel;
 
         public RunScriptAction(@NotNull final ScriptEditorModel model, @NotNull final ScriptErrorViewerModel errorModel) {
             this.model = model;
             this.errorModel = errorModel;
-            putValue(SMALL_ICON, ImageProvider.get("media-playback-start",
-                ImageProvider.ImageSizes.SMALLICON));
+            putValue(SMALL_ICON, ImageProvider.get("media-playback-start", ImageProvider.ImageSizes.SMALLICON));
             putValue(SHORT_DESCRIPTION, tr("Execute the script"));
             putValue(NAME, tr("Run"));
             model.addPropertyChangeListener(this);
@@ -217,28 +205,28 @@ public class ScriptingConsolePanel extends JPanel {
         public void actionPerformed(ActionEvent e) {
             errorModel.clearError();
             final String source = editor.getScript();
-            switch(model.getScriptEngineDescriptor().getEngineType()) {
-            case PLUGGED:
-                new ScriptExecutor(ScriptingConsolePanel.this)
-                    .runScriptWithPluggedEngine(
-                        model.getScriptEngineDescriptor(),
-                        source,
-                        errorModel
-                    );
-                break;
-            case GRAALVM:
-                try {
+            switch (model.getScriptEngineDescriptor().getEngineType()) {
+                case PLUGGED:
                     new ScriptExecutor(ScriptingConsolePanel.this)
-                        .runScriptWithGraalEngine(
+                        .runScriptWithPluggedEngine(
                             model.getScriptEngineDescriptor(),
                             source,
                             errorModel
+                    );
+                    break;
+                case GRAALVM:
+                    try {
+                        new ScriptExecutor(ScriptingConsolePanel.this)
+                            .runScriptWithGraalEngine(
+                                model.getScriptEngineDescriptor(),
+                                source,
+                                errorModel
                         );
-                } catch(Throwable ex) {
-                    logger.log(Level.SEVERE, ex.getMessage(), ex);
-                    throw ex;
-                }
-                break;
+                    } catch (Throwable ex) {
+                        logger.log(Level.SEVERE, ex.getMessage(), ex);
+                        throw ex;
+                    }
+                    break;
             }
         }
 
@@ -273,17 +261,16 @@ public class ScriptingConsolePanel extends JPanel {
             this.outputTabs = pane;
             this.outputPanel = outputPanel;
         }
+
         @Override
         public void propertyChange(PropertyChangeEvent event) {
-            if (! ScriptErrorViewerModel.PROP_ERROR.equals(event.getPropertyName())) {
+            if (!ScriptErrorViewerModel.PROP_ERROR.equals(event.getPropertyName())) {
                 return;
             }
             if (event.getNewValue() != null) {
-                outputTabs.setIconAt(1, ImageProvider.get("bug-solid",
-                    ImageProvider.ImageSizes.SMALLICON));
+                outputTabs.setIconAt(1, ImageProvider.get("bug-solid", ImageProvider.ImageSizes.SMALLICON));
             } else {
-                outputTabs.setIconAt(1, ImageProvider.get("circle-check-solid",
-                    ImageProvider.ImageSizes.SMALLICON));
+                outputTabs.setIconAt(1, ImageProvider.get("circle-check-solid", ImageProvider.ImageSizes.SMALLICON));
             }
         }
     }
