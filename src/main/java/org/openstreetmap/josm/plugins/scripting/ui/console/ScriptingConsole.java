@@ -128,7 +128,7 @@ public class ScriptingConsole extends JFrame {
     protected JPanel buildControlPanel() {
         final JPanel pnl = new JPanel(new FlowLayout(FlowLayout.LEFT));
         cbAlwaysOnTop = new JCheckBox(new ToggleAlwaysOnTopAction());
-        cbAlwaysOnTop.setFont(UIManager.getFont("Label.font").deriveFont(10));
+        cbAlwaysOnTop.setFont(UIManager.getFont("Label.font").deriveFont(10f));
         pnl.add(cbAlwaysOnTop);
         return pnl;
     }
