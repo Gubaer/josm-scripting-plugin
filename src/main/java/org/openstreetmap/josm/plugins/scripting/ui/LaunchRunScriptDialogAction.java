@@ -21,7 +21,7 @@ public class LaunchRunScriptDialogAction extends JosmAction {
             Shortcut.registerShortcut("scripting:runScript",
                     tr("Scripting: Run a Script"), KeyEvent.VK_R,
                     Shortcut.NONE // don't assign an action group, let
-                                  // the user assign in the preferences
+                    // the user assign in the preferences
             ), false, // don't register toolbar item
             "scripting:runScript", false // don't install adapters
         );

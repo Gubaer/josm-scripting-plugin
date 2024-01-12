@@ -17,7 +17,6 @@ import java.io.Reader;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.openstreetmap.josm.plugins.scripting.util.FileUtils.buildTextFileReader;
@@ -85,12 +84,11 @@ public class RunScriptService {
             final String mimeType) {
         return GraalVMFacadeFactory.isGraalVMPresent()
             ? GraalVMFacadeFactory.getOrCreateGraalVMFacade()
-            .getScriptEngineDescriptors()
-            .stream()
-            .filter(desc ->
-                    desc.getContentMimeTypes().contains(mimeType))
+                .getScriptEngineDescriptors()
+                .stream()
+                .filter(desc -> desc.getContentMimeTypes().contains(mimeType))
             : Stream.empty();
-}
+    }
 
     /**
      * Determines the script engine to run the script in file <tt>file</tt>.
@@ -109,9 +107,9 @@ public class RunScriptService {
 
         // the stream of suitable engines for a given mime type
         java.util.List<ScriptEngineDescriptor> engines = Stream.of(
-                filterGraalVMEngines(mimeType),
-                filterJSR223Engines(mimeType)
-        ).flatMap(desc -> desc).collect(Collectors.toList());
+            filterGraalVMEngines(mimeType),
+            filterJSR223Engines(mimeType)
+        ).flatMap(desc -> desc).toList();
 
         // exactly one suitable engine found. Use it without prompting
         // the user.

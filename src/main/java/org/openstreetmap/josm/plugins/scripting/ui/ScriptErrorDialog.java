@@ -19,10 +19,10 @@ public class ScriptErrorDialog  {
             final JPanel pnl = new JPanel(new BorderLayout());
             final JEditorPane pane = EditorPaneBuilder.buildInfoEditorPane();
             final String infoTxt = "<html>" + tr(
-                "An error occurred when executing a script. This is most likely " +
-                "a bug in the script, and not in JOSM.<p>" +
-                "Please get in touch with the script author before you file " +
-                "a bug in JOSMs bug tracker."
+                "An error occurred when executing a script. It is most likely "
+                 + "caused by a bug in the script and not in JOSM.<p>"
+                 + " Please get in touch with the script author before you file "
+                 + "a bug in JOSM''s bug tracker."
             ) + "</html>";
             pane.setText(infoTxt);
             pnl.add(pane, BorderLayout.CENTER);

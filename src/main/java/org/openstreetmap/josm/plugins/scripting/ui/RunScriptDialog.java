@@ -56,9 +56,9 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys {
         JPanel pnl = new JPanel(new BorderLayout());
         HtmlPanel info = new HtmlPanel();
         info.setText(
-                "<html>"
-                        + tr("Select a script file and click on <strong>Run</strong>.")
-                        + "</html>"
+            "<html>"
+            + tr("Select a script file and click on <strong>Run</strong>.")
+            + "</html>"
         );
         pnl.add(info, BorderLayout.CENTER);
         return pnl;
@@ -74,7 +74,7 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys {
         getRootPane().registerKeyboardAction(actRun,
             KeyStroke.getKeyStroke("ctrl ENTER"),
             JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT
-    );
+        );
         pnl.add(new JButton(new CancelAction()));
         final var helpAction = new ContextSensitiveHelpAction(HelpUtil.ht("/Plugin/Scripting#Run"));
         pnl.add(new JButton(helpAction));
@@ -86,7 +86,7 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys {
 
         JPanel filePnl = new JPanel(new GridBagLayout());
         GridBagConstraints gc = gbc().cell(0, 0).weight(0, 0).fillboth()
-                .insets(3, 3, 3, 3).constraints();
+            .insets(3, 3, 3, 3).constraints();
         filePnl.add(new JLabel(tr("File:")), gc);
 
         cbScriptFile = new MostRecentlyRunScriptsComboBox(MostRecentlyRunScriptsModel.getInstance());
@@ -127,7 +127,7 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowActivated(WindowEvent e) {
-            cbScriptFile.requestFocusInWindow();
+                cbScriptFile.requestFocusInWindow();
             }
         });
     }

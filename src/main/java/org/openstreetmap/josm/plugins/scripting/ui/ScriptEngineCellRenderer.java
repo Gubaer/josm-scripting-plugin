@@ -12,8 +12,7 @@ import static org.openstreetmap.josm.tools.I18n.tr;
 /**
  * Implements a list cell renderer for the list of scripting engines.
  */
-public class ScriptEngineCellRenderer
-    implements ListCellRenderer<ScriptEngineDescriptor> {
+public class ScriptEngineCellRenderer implements ListCellRenderer<ScriptEngineDescriptor> {
 
     static public final String DISPLAYED_GRAAL_ENGINE_NAME = "GraalVM";
 
@@ -23,13 +22,13 @@ public class ScriptEngineCellRenderer
         }
         return desc.getEngineName()
             .map(String::trim)
-            .filter(s -> ! s.isEmpty())
+            .filter(s -> !s.isEmpty())
             .orElse(tr("unknown"));
     }
 
     private final JLabel lbl = new JLabel();
 
-    private String getDisplayName(ScriptEngineDescriptor descriptor){
+    private String getDisplayName(ScriptEngineDescriptor descriptor) {
         if (descriptor == null) return tr("Select an engine");
         final String engineName = defaultEngineName(descriptor);
         final String languageName = descriptor.getLanguageName()
@@ -38,10 +37,8 @@ public class ScriptEngineCellRenderer
         return tr("{1} (with engine {0})", engineName, languageName);
     }
 
-    private void addNameValuePairToToolTip(StringBuilder sb, String name,
-                                             String value) {
-        sb.append("<strong>").append(name).append("</strong> ")
-          .append(value).append("<br>");
+    private void addNameValuePairToToolTip(StringBuilder sb, String name, String value) {
+        sb.append("<strong>").append(name).append("</strong> ").append(value).append("<br>");
     }
 
     private String getTooltipText(ScriptEngineDescriptor descriptor) {
@@ -49,20 +46,16 @@ public class ScriptEngineCellRenderer
         final StringBuilder sb = new StringBuilder();
         sb.append("<html>");
         if (descriptor.getEngineName().isPresent()) {
-            addNameValuePairToToolTip(sb, tr("Name:"),
-                defaultEngineName(descriptor));
+            addNameValuePairToToolTip(sb, tr("Name:"), defaultEngineName(descriptor));
         }
         if (descriptor.getEngineVersion().isPresent()) {
-            addNameValuePairToToolTip(sb, tr("Version:"),
-                descriptor.getEngineVersion().get());
+            addNameValuePairToToolTip(sb, tr("Version:"), descriptor.getEngineVersion().get());
         }
         if (descriptor.getLanguageName().isPresent()) {
-            addNameValuePairToToolTip(sb, tr("Language:"),
-                descriptor.getLanguageName().get());
+            addNameValuePairToToolTip(sb, tr("Language:"), descriptor.getLanguageName().get());
         }
         if (descriptor.getLanguageVersion().isPresent()) {
-            addNameValuePairToToolTip(sb, tr("Language version:"),
-                descriptor.getLanguageVersion().get());
+            addNameValuePairToToolTip(sb, tr("Language version:"), descriptor.getLanguageVersion().get());
         }
         sb.append("<strong>").append(tr("MIME-Types:")).append("</strong> ");
         sb.append(String.join(", ", descriptor.getContentMimeTypes()));
@@ -71,8 +64,8 @@ public class ScriptEngineCellRenderer
         return sb.toString();
     }
 
-    private void renderColors(boolean selected, boolean enabled){
-        if (!selected || !enabled){
+    private void renderColors(boolean selected, boolean enabled) {
+        if (!selected || !enabled) {
             lbl.setForeground(UIManager.getColor(enabled
                 ? "List.foreground"
                 : "Label.disabledForeground"));
@@ -86,8 +79,7 @@ public class ScriptEngineCellRenderer
     public ScriptEngineCellRenderer() {
         lbl.setOpaque(true);
         lbl.setBorder(BorderFactory.createEmptyBorder(1, 3, 1, 3));
-        lbl.setIcon(ImageProvider.get("script-engine",
-            ImageProvider.ImageSizes.SMALLICON));
+        lbl.setIcon(ImageProvider.get("script-engine", ImageProvider.ImageSizes.SMALLICON));
     }
 
     @Override

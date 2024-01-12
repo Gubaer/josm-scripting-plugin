@@ -50,7 +50,7 @@ public class RunScriptAction extends JosmAction implements ParameterizedAction {
     @Override
     public void actionPerformed(ActionEvent evt, Map<String, Object> parameters) {
 
-        final String scriptFile = (String)parameters.getOrDefault(PARA_SCRIPTING_FILE_NAME, null);
+        final String scriptFile = (String) parameters.getOrDefault(PARA_SCRIPTING_FILE_NAME, null);
         final String engineId = (String) parameters.getOrDefault(PARA_ENGINE_ID, null);
         if (scriptFile == null) {
             logger.warning(format("action doesn''t include parameter ''{0}''. Can''t execute script file.",

@@ -93,10 +93,8 @@ public class ScriptErrorViewer extends JPanel {
         final var fontSize = paneOutput.getFont().getSize();
         paneOutput.setFont(new Font(Font.MONOSPACED, Font.PLAIN, fontSize));
         final var editorScrollPane = new JScrollPane(paneOutput);
-        editorScrollPane.setVerticalScrollBarPolicy(
-            JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        editorScrollPane.setHorizontalScrollBarPolicy(
-            JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        editorScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        editorScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         add(editorScrollPane, BorderLayout.CENTER);
         model.addPropertyChangeListener(new ErrorModelChangeListener());
         return editorScrollPane;
@@ -135,8 +133,7 @@ public class ScriptErrorViewer extends JPanel {
             return;
         }
         var builder = new StringBuilder();
-        var scriptException =
-            lookupCauseByExceptionType(exception, ScriptException.class);
+        var scriptException = lookupCauseByExceptionType(exception, ScriptException.class);
 
         if (scriptException != null) {
             builder.append(formatScriptException((ScriptException) scriptException));
@@ -148,7 +145,7 @@ public class ScriptErrorViewer extends JPanel {
                 if (polyglotException != null) {
                     builder.append(formatPolyglotException(polyglotException));
                 }
-            } catch(ClassNotFoundException e) {
+            } catch (ClassNotFoundException e) {
                 // ignore
             }
         } else {
@@ -175,9 +172,8 @@ public class ScriptErrorViewer extends JPanel {
     }
 
     protected @Null Throwable lookupCauseByExceptionType(Throwable t, Class<?> clazz) {
-        while(t != null) {
+        while (t != null) {
             if (clazz.isInstance(t)) {
-            // if (clazz.getName().equals(t.getClass().getName())) {
                 break;
             }
             t = t.getCause();
@@ -201,7 +197,7 @@ public class ScriptErrorViewer extends JPanel {
     class ErrorModelChangeListener implements PropertyChangeListener {
         @Override
         public void propertyChange(PropertyChangeEvent event) {
-            if (! ScriptErrorViewerModel.PROP_ERROR.equals(event.getPropertyName())) {
+            if (!ScriptErrorViewerModel.PROP_ERROR.equals(event.getPropertyName())) {
                 return;
             }
             if (event.getNewValue() == null) {
