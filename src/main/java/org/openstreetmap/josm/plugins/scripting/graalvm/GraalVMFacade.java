@@ -59,7 +59,8 @@ public class GraalVMFacade  implements IGraalVMFacade {
             .allowHostAccess(HostAccess.ALL)
             .allowHostClassLookup(className -> true)
             // required to load ES Modules
-            .allowAllAccess(true);
+            .allowAllAccess(true)
+            .allowIO(IOAccess.newBuilder().fileSystem(ESModuleResolver.getInstance()).build());
 
         GraalVMPrivilegesModel.getInstance().prepareContextBuilder(builder);
     }
@@ -90,7 +91,6 @@ public class GraalVMFacade  implements IGraalVMFacade {
             .engine(engine);
         grantPrivilegesToContext(builder);
         setOptionsOnContext(builder);
-        builder.allowIO(IOAccess.newBuilder().fileSystem(ESModuleResolver.getInstance()).build());
         context = builder.build();
         populateContext(context);
         context.enter();
