@@ -41,7 +41,7 @@ public class ScriptExecutor {
      * Creates a new script executor
      *
      * @param parent the parent AWT component. Used to lookup the parent
-     *      window for error messages.
+     *               window for error messages.
      */
     public ScriptExecutor(Component parent) {
         this.parent = parent;
@@ -57,19 +57,16 @@ public class ScriptExecutor {
                 + "<p>Refer to the online help for information about how "
                 + "to install/configure a scripting engine for JOSM.</p>"
             )
-            + "</html>"
-            ,
+            + "</html>",
             tr("Script engine not found"),
             JOptionPane.ERROR_MESSAGE,
             HelpUtil.ht("/Plugin/Scripting")
-        );
+    );
     }
 
 
-    private void warnOpenScriptFileFailed(File f, Exception e){
-        logger.log(Level.SEVERE,
-            tr("Failed to read the script from file ''{0}''.", f.toString()),
-            e);
+    private void warnOpenScriptFileFailed(File f, Exception e) {
+        logger.log(Level.SEVERE, tr("Failed to read the script from file ''{0}''.", f.toString()), e);
         HelpAwareOptionPane.showOptionDialog(
             this.parent,
             tr("Failed to read the script from file ''{0}''.", f.toString()),
@@ -83,24 +80,21 @@ public class ScriptExecutor {
      * Runs the script in the file <tt>scriptFile</tt> using the script
      * engine described in <tt>desc</tt> on the Swing EDT.
      *
-     * @param desc the script engine descriptor
+     * @param desc       the script engine descriptor
      * @param scriptFile the script file
-     * @throws NullPointerException if <code>desc</code> is null
-     * @throws NullPointerException if <code>scriptFile</code> is null
+     * @throws NullPointerException     if <code>desc</code> is null
+     * @throws NullPointerException     if <code>scriptFile</code> is null
      * @throws IllegalArgumentException if <code>scriptFile</code> isn't a readable file
      */
     void runScriptWithPluggedEngine(
             @NotNull final ScriptEngineDescriptor desc,
-            @NotNull  final File scriptFile) throws IllegalArgumentException {
+            @NotNull final File scriptFile) throws IllegalArgumentException {
         Objects.requireNonNull(desc);
         Objects.requireNonNull(scriptFile);
-        Assert.assertArg(scriptFile.isFile(),
-            "Expected a file a script file, got ''{0}''", scriptFile);
-        Assert.assertArg(scriptFile.canRead(),
-            "Expected a readable script file, got ''{0}''", scriptFile);
+        Assert.assertArg(scriptFile.isFile(), "Expected a file a script file, got ''{0}''", scriptFile);
+        Assert.assertArg(scriptFile.canRead(), "Expected a readable script file, got ''{0}''", scriptFile);
 
-        final ScriptEngine engine = JSR223ScriptEngineProvider
-                .getInstance().getScriptEngine(desc);
+        final ScriptEngine engine = JSR223ScriptEngineProvider.getInstance().getScriptEngine(desc);
         if (engine == null) {
             warnScriptingEngineNotFound();
             return;
@@ -113,9 +107,7 @@ public class ScriptExecutor {
                         .compile((Compilable) engine, scriptFile)
                         .eval();
                 } else {
-                    try (Reader reader =
-                        new InputStreamReader(new FileInputStream(scriptFile),
-                                StandardCharsets.UTF_8)) {
+                    try (Reader reader = new InputStreamReader(new FileInputStream(scriptFile), StandardCharsets.UTF_8)) {
                         engine.eval(reader);
                     }
                 }
@@ -133,8 +125,8 @@ public class ScriptExecutor {
      * Runs the script <tt>script</tt> using the script engine described
      * in <tt>desc</tt> on the Swing EDT.
      *
-     * @param desc the script engine descriptor. Must not be null.
-     * @param script the script. Ignored if null.
+     * @param desc             the script engine descriptor. Must not be null.
+     * @param script           the script. Ignored if null.
      * @param errorViewerModel the error viewer model
      */
     public void runScriptWithPluggedEngine(
@@ -152,7 +144,7 @@ public class ScriptExecutor {
         Runnable task = () -> {
             try {
                 engine.eval(script);
-            } catch(ScriptException e){
+            } catch (ScriptException e) {
                 errorViewerModel.setError(e);
             }
         };
@@ -165,19 +157,19 @@ public class ScriptExecutor {
      * Runs the script on the Swing EDT. Handling errors is delegated to
      * <code>errorViewerModel</code>.
      *
-     * @param desc the descriptor
-     * @param script the script
+     * @param engine           the descriptor
+     * @param script           the script
      * @param errorViewerModel callback to handle errors
      */
     public void runScriptWithGraalEngine(
-            @NotNull final ScriptEngineDescriptor desc,
+            @NotNull final ScriptEngineDescriptor engine,
             final String script,
             final @Null ScriptErrorViewerModel errorViewerModel) {
-        Objects.requireNonNull(desc);
-        if (!desc.getEngineType().equals(
-            ScriptEngineDescriptor.ScriptEngineType.GRAALVM)) {
+        Objects.requireNonNull(engine);
+        if (!engine.getEngineType().equals(
+                ScriptEngineDescriptor.ScriptEngineType.GRAALVM)) {
             throw new IllegalArgumentException(MessageFormat.format(
-                "Expected GraalVM descriptor, got {0}", desc.getEngineType()
+                    "Expected GraalVM descriptor, got {0}", engine.getEngineType()
             ));
         }
         if (script == null) return;
@@ -192,8 +184,8 @@ public class ScriptExecutor {
         final Runnable task = () -> {
             try {
                 facade.resetContext();
-                facade.eval(desc, script);
-            } catch(Throwable e) {
+                facade.eval(engine, script);
+            } catch (Throwable e) {
                 errorViewerModel.setError(e);
             } finally {
                 facade.resetContext();
@@ -204,21 +196,21 @@ public class ScriptExecutor {
 
     protected void runScriptWithGraalEngine(final File script, final ScriptEngineDescriptor engine) {
         if (logger.isLoggable(Level.FINE)) {
-            final var message =  MessageFormat.format(
+            final var message = MessageFormat.format(
                 "executing script with GraalVM ''{0}''. Script file: ''{1}''",
                 engine.getLocalEngineId(),
                 script.getAbsolutePath()
             );
             logger.log(Level.FINE, message);
         }
-
+        final var facade = GraalVMFacadeFactory.getOrCreateGraalVMFacade();
         final Runnable task = () -> {
-            final var facade = GraalVMFacadeFactory.getOrCreateGraalVMFacade();
             try {
+                facade.resetContext();
                 facade.eval(engine, script);
-            } catch(IOException e) {
+            } catch (IOException e) {
                 warnOpenScriptFileFailed(script, e);
-            } catch(GraalVMEvalException e){
+            } catch (GraalVMEvalException e) {
                 ScriptErrorDialog.showErrorDialog(e);
             } finally {
                 facade.resetContext();
