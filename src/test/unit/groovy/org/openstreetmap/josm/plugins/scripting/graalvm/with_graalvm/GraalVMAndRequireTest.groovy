@@ -7,8 +7,7 @@ import org.openstreetmap.josm.plugins.scripting.graalvm.AbstractGraalVMBasedTest
 import static org.junit.Assert.assertEquals
 
 class GraalVMAndRequireTest extends AbstractGraalVMBasedTest{
-
-    //TODO(gubaer): fix later
+    
     @Test
     void "should load a module with require()"() {
         def script = """
@@ -16,6 +15,7 @@ class GraalVMAndRequireTest extends AbstractGraalVMBasedTest{
             console.log(`Message: \${message}`)
             message
         """
+        facade.resetContext()
         Value value = facade.eval(graalJSDescriptor, script) as Value
         assertEquals("hello-world", value?.asString())
     }

@@ -102,7 +102,7 @@ public class GraalVMFacade  implements IGraalVMFacade {
 
     public GraalVMFacade() {
         engine = Engine.create("js");
-        initContext();
+        //initContext();
     }
 
     /**
@@ -148,7 +148,7 @@ public class GraalVMFacade  implements IGraalVMFacade {
      * @inheritDoc
      */
     public @NotNull List<ScriptEngineDescriptor> getScriptEngineDescriptors() {
-        return buildDescriptorsForGraalVMBasedEngines(context.getEngine());
+        return buildDescriptorsForGraalVMBasedEngines(engine);
     }
 
     private void ensureEngineIdPresent(String engineId) {
@@ -162,8 +162,7 @@ public class GraalVMFacade  implements IGraalVMFacade {
     /**
      * {@inheritDoc}
      */
-    public Object eval(@NotNull final ScriptEngineDescriptor desc,
-             @NotNull final String script)
+    public Object eval(@NotNull final ScriptEngineDescriptor desc, @NotNull final String script)
              throws GraalVMEvalException {
         Objects.requireNonNull(desc);
         Objects.requireNonNull(script);
