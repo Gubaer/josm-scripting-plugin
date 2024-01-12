@@ -194,7 +194,16 @@ public class ScriptExecutor {
         runOnSwingEDT(task);
     }
 
-    protected void runScriptWithGraalEngine(final File script, final ScriptEngineDescriptor engine) {
+    /**
+     * Runs a script file with a GraalVM engine.
+     * <p>
+     * Runs the script on the Swing EDT.
+     *
+     * @param engine  the descriptor. Must not be null.
+     * @param script  the script. Must not be null.
+     * @throws NullPointerException if <code>engine</code> or <code>script</code> is null
+     */
+    public void runScriptWithGraalEngine(@NotNull final ScriptEngineDescriptor engine, @NotNull final File script) {
         if (logger.isLoggable(Level.FINE)) {
             final var message = MessageFormat.format(
                 "executing script with GraalVM ''{0}''. Script file: ''{1}''",

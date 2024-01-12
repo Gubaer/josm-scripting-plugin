@@ -197,7 +197,7 @@ public class RunScriptService {
                 break;
 
             case GRAALVM:
-                new ScriptExecutor(parent).runScriptWithGraalEngine(f, engine);
+                new ScriptExecutor(parent).runScriptWithGraalEngine(engine, f);
                 break;
         }
     }
