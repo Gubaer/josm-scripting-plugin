@@ -1,6 +1,5 @@
 package org.openstreetmap.josm.plugins.scripting.model;
 
-import javax.annotation.concurrent.Immutable;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import java.io.File;
@@ -36,7 +35,6 @@ import java.util.stream.Collectors;
  * {@link RelativePath} therefore provides a custom implementation of a relative path.
  */
 @SuppressWarnings("unused")
-@Immutable
 public class RelativePath {
 
     /**
