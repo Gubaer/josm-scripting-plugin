@@ -186,8 +186,8 @@ if ($graalJs) {
 # launch JOSM
 #
 $Env:JAVA_HOME = $jdkHome
-if ($jdk -eq "jdk17" -and $useGraalVM) {
-    # GraalVM for JDK17 is locally installed together with GraalJS.
+if ($useGraalVM) {
+    # GraalVM is locally installed together with GraalJS.
     # We don't have to add command line options for GraalJS modules.
     Start-Process `
         -FilePath "$javaBinPath" `
@@ -199,8 +199,11 @@ if ($jdk -eq "jdk17" -and $useGraalVM) {
             "-Dpolyglot.engine.WarnInterpreterOnly=false", `
             "-XX:+UnlockExperimentalVMOptions", `
             "-XX:+EnableJVMCI", `
+            "--add-exports", "java.base/sun.security.action=ALL-UNNAMED", `
+            "--add-exports", "java.desktop/com.sun.imageio.plugins.jpeg=ALL-UNNAMED", `
+            "--add-exports", "java.desktop/com.sun.imageio.spi=ALL-UNNAMED", `
             -jar, $josmJar
-} else {
+} elseif ($graalJs) {
     Start-Process `
         -NoNewWindow `
         -FilePath "$javaBinPath" `
@@ -214,7 +217,28 @@ if ($jdk -eq "jdk17" -and $useGraalVM) {
             "-Dpolyglot.engine.WarnInterpreterOnly=false", `
             "-classpath", "$josmJar", `
             "--module-path", "$graalJsHome\lib", `
-            "--add-modules", $graalJsModules, `
+            "--add-modules=$graalJsModules", `
             "--add-opens", "java.prefs/java.util.prefs=ALL-UNNAMED", `
-            "org.openstreetmap.josm.gui.MainApplication" 
+            "--add-exports", "java.base/sun.security.action=ALL-UNNAMED", `
+            "--add-exports", "java.desktop/com.sun.imageio.plugins.jpeg=ALL-UNNAMED", `
+            "--add-exports", "java.desktop/com.sun.imageio.spi=ALL-UNNAMED", `
+            "org.openstreetmap.josm.gui.MainApplication"
+} else {
+    Start-Process `
+        -NoNewWindow `
+        -FilePath "$javaBinPath" `
+        -ArgumentList `
+            '-Xms1g', `
+            '-Xmx2g', `
+            "-XX:+UnlockExperimentalVMOptions", `
+            "-XX:+EnableJVMCI", `
+            "-Djosm.home=$josmHome", `
+            "-Djava.util.logging.config.file=$loggingPropertiesFile", `
+            "-Dpolyglot.engine.WarnInterpreterOnly=false", `
+            "-classpath", "$josmJar", `
+            "--add-opens", "java.prefs/java.util.prefs=ALL-UNNAMED", `
+            "--add-exports", "java.base/sun.security.action=ALL-UNNAMED", `
+            "--add-exports", "java.desktop/com.sun.imageio.plugins.jpeg=ALL-UNNAMED", `
+            "--add-exports", "java.desktop/com.sun.imageio.spi=ALL-UNNAMED", `
+            "org.openstreetmap.josm.gui.MainApplication"
 }
