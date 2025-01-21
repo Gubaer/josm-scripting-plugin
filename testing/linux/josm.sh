@@ -19,7 +19,7 @@ usage: josm.sh <options>
         If missing, 'latest' is used.
 
     --jdk jdk17 | jdk21
-        The JDK to use. Either 'jdk11' or 'jdk17'. If missing, 'jdk11' is used.
+        The JDK to use. Either 'jdk17' or 'jdk21'. If missing, 'jdk17' is used.
 
     --use-graal-vm
         If present, JOSM is started with the GraalVM. The GraalVM version is chosend depending on
@@ -199,6 +199,9 @@ if [ $use_graal_vm == false -a "$graal_js" == "" ] ; then
         -Xmx2g \
         -Djosm.home=`pwd`/josm-home \
         -Djava.util.logging.config.file=`pwd`/logging.properties \
+        --add-exports=java.base/sun.security.action=ALL-UNNAMED \
+        --add-exports=java.desktop/com.sun.imageio.plugins.jpeg=ALL-UNNAMED \
+        --add-exports=java.desktop/com.sun.imageio.spi=ALL-UNNAMED \
         -jar `pwd`/$josm_jar"
 elif [ $use_graal_vm == true -a "$jdk" == "jdk17" ] ; then 
     cmd="$(pwd)/$jdk_home/bin/java \
@@ -223,6 +226,9 @@ else
         --module-path $graal_js_home/lib \
         --add-modules $modules \
         --add-opens java.prefs/java.util.prefs=ALL-UNNAMED \
+        --add-exports=java.base/sun.security.action=ALL-UNNAMED \
+        --add-exports=java.desktop/com.sun.imageio.plugins.jpeg=ALL-UNNAMED \
+        --add-exports=java.desktop/com.sun.imageio.spi=ALL-UNNAMED \
         org.openstreetmap.josm.gui.MainApplication"
 fi
 
