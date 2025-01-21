@@ -55,7 +55,7 @@ jobs:
             DISPLAY: ":19"
             OSM_DEV_API_PASSWORD: "${{ secrets.OSM_DEV_API_PASSWORD }}"
         with:
-          arguments: build -Pplugin.josmCompileVersion=${{ matrix.josm-version}} -Pgraalvm.jdk=jdk${{ matrix.jdk }}
+          arguments: build -Pplugin.josmCompileVersion=${{ matrix.josm-version}} -Pgraalvm.jdk=jdk${{ matrix.jdk }} --info
       - name: Store reports
         if: failure()
         uses: actions/upload-artifact@v3
