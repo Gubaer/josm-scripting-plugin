@@ -162,13 +162,20 @@ File josmHomeForTests() {
     return new File(project.projectDir, "build/josm.home")
 }
 
+final JVM_ARGS = [
+    '--add-opens', 'java.prefs/java.util.prefs=ALL-UNNAMED',
+    '--add-exports', 'java.base/sun.security.action=ALL-UNNAMED',
+    '--add-exports', 'java.desktop/com.sun.imageio.plugins.jpeg=ALL-UNNAMED',
+    '--add-exports', 'java.desktop/com.sun.imageio.spi=ALL-UNNAMED'
+]
+
 /**
  * Run unit tests that only depend on the JDK, JOSM, and the plugin.
  * Runs on the current stock Java VM and JDK.
  */
 test {
     useJUnitPlatform()
-    jvmArgs '--add-opens', 'java.prefs/java.util.prefs=ALL-UNNAMED'
+    jvmArgs JVM_ARGS
     environment "JOSM_SCRIPTING_PLUGIN_HOME", project.projectDir
     systemProperty "josm.home", josmHomeForTests().absolutePath
     scanForTestClasses = false
@@ -201,7 +208,7 @@ def getGraalVMJavaExecutable() {
 tasks.register('testScriptApiV3', Test) {
     dependsOn "downloadGraalVM"
     useJUnitPlatform()
-    jvmArgs '--add-opens', 'java.prefs/java.util.prefs=ALL-UNNAMED'
+    jvmArgs JVM_ARGS
     environment "JOSM_SCRIPTING_PLUGIN_HOME", project.projectDir
     environment "TEST_COMMONJS_MODULE_REPO",
             "${project.projectDir}/src/test/resources/require/modules"
@@ -230,7 +237,7 @@ tasks.register('testGraalVMSupportNotPresent', Test) {
     // remove GraalVM from classpath under test
     classpath = classpath.filter { !it.toString().toLowerCase().contains("graalvm") }
     useJUnitPlatform()
-    jvmArgs '--add-opens', 'java.prefs/java.util.prefs=ALL-UNNAMED'
+    jvmArgs JVM_ARGS
     scanForTestClasses = false
     include "**/graalvm/GraalVMNotPresentTest.class"
     testLogging {
@@ -257,7 +264,7 @@ tasks.register('testWithGraalVMJDK', Test) {
         )
     }
     useJUnitPlatform()
-    jvmArgs '--add-opens', 'java.prefs/java.util.prefs=ALL-UNNAMED'
+    jvmArgs JVM_ARGS
     environment "JOSM_SCRIPTING_PLUGIN_HOME", project.projectDir
     environment "TEST_COMMONJS_MODULE_REPO",
             "${project.projectDir}/src/test/resources/require/modules"
@@ -287,8 +294,7 @@ tasks.register('testWithGraalVMJDK', Test) {
  */
 tasks.register('testJSR223EnginePresent', Test) {
     useJUnitPlatform()
-    jvmArgs '--add-opens', 'java.prefs/java.util.prefs=ALL-UNNAMED'
-
+    jvmArgs JVM_ARGS
     // groovy and python are on the classpath
     scanForTestClasses = false
     include "org/openstreetmap/josm/plugins/scripting/jsr223/JSR223CompatibleEnginePresentTest.class"
