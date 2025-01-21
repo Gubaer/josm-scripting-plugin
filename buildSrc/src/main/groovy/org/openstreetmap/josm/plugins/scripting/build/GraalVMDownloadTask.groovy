@@ -109,6 +109,7 @@ abstract class GraalVMDownloadTask extends DefaultTask {
         }
         if (project.hasProperty(PROP_PLATFORM)) {
             def platform = project.property(PROP_PLATFORM)
+            logger.info("Property '$PROP_PLATFORM'='$platform'")
             platform = GraalVMPlatform.fromString(platform.toString())
             if (platform == null) {
                 throw new GradleException(
