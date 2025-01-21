@@ -19,12 +19,12 @@ jobs:
     strategy:
       matrix:
         platform:
-          - ubuntu-latest
-          # - windows-latest
+          # - ubuntu-latest
+          - windows-latest
         josm-version:
           - latest
-          - tested
-          - release
+          # - tested
+          # - release
         jdk:
           # - 17
           - 21
