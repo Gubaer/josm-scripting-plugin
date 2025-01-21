@@ -19,14 +19,14 @@ jobs:
     strategy:
       matrix:
         platform:
-          # - ubuntu-latest
+          - ubuntu-latest
           - windows-latest
         josm-version:
           - latest
-          # - tested
-          # - release
+          - tested
+          - release
         jdk:
-          # - 17
+          - 17
           - 21
 
     name: Build plugin on ${{ matrix.platform }} - JDK ${{ matrix.jdk }}, minJosmVersion=${{ matrix.josm-version }}
