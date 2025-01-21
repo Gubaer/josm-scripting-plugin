@@ -18,7 +18,7 @@ Use JOSMs plugin manager to install the scripting plugin and keep it up to date.
 1. Select Preferences -> Plugins
 2. Search for the plugin **scripting** and install it
 
-The scripting plugin requires Java 11 or higher.
+The scripting plugin requires Java 17 or higher.
 
 ## Documentation
 
