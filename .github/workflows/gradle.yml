@@ -41,7 +41,7 @@ jobs:
         run: echo "GRAALVM_PLATFORM=linux-amd64" >> $GITHUB_ENV
       - name: Set GraalVM platform for windows-latest
         if: ${{ matrix.platform == 'windows-latest' }}
-        run: echo "GRAALVM_PLATFORM=windows-amd64" >> $GITHUB_ENV
+        run: echo "GRAALVM_PLATFORM=windows-amd64" >> $env:GITHUB_ENV
 
       - uses: actions/checkout@v3
       - name: Set up JDK ${{ matrix.jdk }}
