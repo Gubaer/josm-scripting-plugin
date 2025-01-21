@@ -18,7 +18,7 @@
 
     "graalvm-params": {    
         "jdk17": {
-            "uri": "https://download.oracle.com/graalvm/17/latest/graalvm-jdk-17_linux-x64_bin.tar.gz",
+            "uri": "https://github.com/graalvm/graalvm-ce-builds/releases/download/jdk-17.0.9/graalvm-community-jdk-17.0.9_linux-x64_bin.tar.gz",
             "directory": "graalvm-jdk17"
         },
 
@@ -28,8 +28,13 @@
         }
     },
 
+    
     "graaljs-params": {
-        "latest": "23.1.1",
+        "latest": "24.1.1",
+        "24.1.1": {
+            "uri": "https://github.com/Gubaer/josm-scripting-plugin-graaljs/releases/download/24.1.1/graaljs-24.1.1.zip",
+            "directory": "graaljs-24.1.1"
+        },
         "23.1.1": {
             "uri": "https://github.com/Gubaer/josm-scripting-plugin-graaljs/releases/download/23.1.1/graaljs-23.1.1.zip",
             "directory": "graaljs-23.1.1"
