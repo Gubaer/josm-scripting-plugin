@@ -37,10 +37,10 @@ jobs:
       # Determines the name of the GraalVM platform and stores in the environment
       # variable GRAALVM_PLATFORM
       - name: Set GraalVM platform for ubuntu-latest
-        if: matrix.platform == "ubuntu-latest"
+        if: {{ matrix.platform == "ubuntu-latest" }}
         run: echo "GRAALVM_PLATFORM=linux-amd64" >> $GITHUB_ENV
       - name: Set GraalVM platform for windows-latest
-        if: matrix.platform == "windows-latest"
+        if: {{ matrix.platform == "windows-latest" }}
         run: echo "GRAALVM_PLATFORM=windows-amd64" >> $GITHUB_ENV
 
       - uses: actions/checkout@v3
