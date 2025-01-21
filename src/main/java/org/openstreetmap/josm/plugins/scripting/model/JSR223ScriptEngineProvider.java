@@ -30,7 +30,6 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import static org.openstreetmap.josm.tools.I18n.tr;
-import static java.text.MessageFormat.format;
 
 /**
  * Provides a list model for the list of available JSR223 compatible
