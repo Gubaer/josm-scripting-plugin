@@ -23,8 +23,8 @@ jobs:
           # - windows-latest
         josm-version:
           - latest
-          # - tested
-          # - release
+          - tested
+          - release
         jdk:
           # - 17
           - 21
