@@ -4,6 +4,7 @@ releases:
     minJosmVersion: 18427
     description: |
       **Minor**: upgraded dependencies to latest version
+      **FeatureRequest**: #111: Hotkeys
 
   - label: v0.3.1
     minJosmVersion: 18427
