@@ -166,11 +166,8 @@ public class ModuleRepositoryDialog extends JDialog {
                 if (!valid) {
                     msg = tr("''{0}'' isn''t an existing jar file", repository);
                 }
-            } else if (f.isDirectory()) {
-                valid =  true;
-            } else {
-                msg = tr("''{0}'' is neither an existing directory nor an "
-                        + "existing jar file",repository);
+            } else if (!f.isDirectory()) {
+                msg = tr("''{0}'' is neither an existing directory nor am existing jar file", repository);
                 valid = false;
             }
             break;
@@ -220,19 +217,17 @@ public class ModuleRepositoryDialog extends JDialog {
             if (answer != JFileChooser.APPROVE_OPTION) return;
             File f = fc.getSelectedFile();
             if (f.isDirectory()) {
-                tfRepositoryUrl.setText(
-                    new CommonJSModuleRepository(f).getURL().toString());
+                tfRepositoryUrl.setText(new CommonJSModuleRepository(f).getURL().toString());
             } else if (f.isFile()) {
                 try {
                     JarFile jar = new JarFile(f);
-                    tfRepositoryUrl.setText(
-                        new CommonJSModuleRepository(jar)
-                            .getURL().toString());
+                    tfRepositoryUrl.setText(new CommonJSModuleRepository(jar).getURL().toString());
                 } catch (IOException e) {
                     try {
                         tfRepositoryUrl.setText(f.toURI().toURL().toString());
                     } catch(MalformedURLException e1) {
-                        e1.printStackTrace();
+                        // should not happen, but log anyway
+                        logger.log(Level.WARNING, "Unexpected exception when converting file to URL", e1);
                     }
                 }
             }
