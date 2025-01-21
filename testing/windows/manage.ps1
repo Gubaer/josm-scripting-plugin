@@ -211,10 +211,10 @@ function downloadGraalVM([string]$version) {
     
 
     if ($version -eq "jdk17") {
-        $expandedPath = Get-ChildItem . -Filter "graalvm-jdk-17*" `
+        $expandedPath = Get-ChildItem . -Filter "graalvm-community-openjdk-17*" `
             | Select-Object -First 1 -ExpandProperty Name             
         if (!$expandedPath) {
-            Write-Warning "Directory starting with 'graalvm-jdk-17*' doesn't exist. Skipping installation of GraalVM"
+            Write-Warning "Directory starting with 'graalvm-community-openjdk-17*' doesn't exist. Skipping installation of GraalVM"
             return
         }
         Rename-Item -Path $expandedPath -NewName $graalVMDirectory
