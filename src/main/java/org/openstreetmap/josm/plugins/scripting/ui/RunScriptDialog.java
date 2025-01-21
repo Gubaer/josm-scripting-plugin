@@ -16,6 +16,7 @@ import org.openstreetmap.josm.tools.ImageProvider;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
@@ -67,17 +68,32 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys {
     private JPanel buildControlButtonPanel() {
         final var pnl = new JPanel(new FlowLayout(FlowLayout.CENTER));
         final var actRun = new RunAction();
-        final var btn = new JButton(actRun);
-        pnl.add(btn);
-        btn.setFocusable(true);
-        btn.registerKeyboardAction(actRun, KeyStroke.getKeyStroke("ENTER"), JComponent.WHEN_FOCUSED);
+        final var btnRun = new JButton(actRun);
+        pnl.add(btnRun);
+        btnRun.setFocusable(true);
+        btnRun.registerKeyboardAction(actRun, KeyStroke.getKeyStroke("ENTER"), JComponent.WHEN_FOCUSED);
         getRootPane().registerKeyboardAction(actRun,
             KeyStroke.getKeyStroke("ctrl ENTER"),
-            JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT
+            JComponent.WHEN_IN_FOCUSED_WINDOW
         );
-        pnl.add(new JButton(new CancelAction()));
-        final var helpAction = new ContextSensitiveHelpAction(HelpUtil.ht("/Plugin/Scripting#Run"));
-        pnl.add(new JButton(helpAction));
+        getRootPane().registerKeyboardAction(actRun,
+            KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0),
+            JComponent.WHEN_IN_FOCUSED_WINDOW
+        );
+        final var actCancel = new CancelAction();
+        final var btnCancel = new JButton(actCancel);
+        pnl.add(btnCancel);
+        btnCancel.registerKeyboardAction(actCancel,
+            KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), JComponent.WHEN_FOCUSED);
+        getRootPane().registerKeyboardAction(actCancel,
+            KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0 /* no modifiers */),
+            JComponent.WHEN_IN_FOCUSED_WINDOW
+        );
+        final var actHelp = new ContextSensitiveHelpAction(HelpUtil.ht("/Plugin/Scripting#Run"));
+        final var btnHelp = new JButton(actHelp);
+        pnl.add(btnHelp);
+        btnHelp.registerKeyboardAction(actHelp,
+            KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), JComponent.WHEN_FOCUSED);
         return pnl;
     }
 

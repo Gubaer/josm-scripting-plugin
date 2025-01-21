@@ -134,13 +134,11 @@ public class ScriptingConsole extends JFrame {
     protected void build() {
         final Container c = getContentPane();
         c.setLayout(new BorderLayout());
-        c.add(pnlScriptingConsole = new ScriptingConsolePanel(),
+        c.add(pnlScriptingConsole = new ScriptingConsolePanel(getRootPane()),
                 BorderLayout.CENTER);
         c.add(buildControlPanel(), BorderLayout.SOUTH);
-
         setJMenuBar(buildMenuBar());
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-
         setIconImage(ImageProvider.get("script-engine").getImage());
     }
 

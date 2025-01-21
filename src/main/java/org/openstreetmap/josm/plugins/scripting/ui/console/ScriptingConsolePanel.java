@@ -14,6 +14,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
@@ -35,13 +36,14 @@ public class ScriptingConsolePanel extends JPanel {
     private ScriptLogPanel log;
     private ScriptEditor editor;
     private ScriptErrorViewer errorViewer;
+    private RunScriptAction actRun;
 
     protected JPanel buildControlPanel() {
-        final JPanel pnl = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
-        pnl.setBorder(null);
+        final var pnl = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
         pnl.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
-        JButton btn = new JButton(new RunScriptAction(editor.getModel(), errorViewer.getModel()));
-        pnl.add(btn);
+        actRun = new RunScriptAction(editor.getModel(), errorViewer.getModel());
+        final var btnRun = new JButton(actRun);
+        pnl.add(btnRun);
         return pnl;
     }
 
@@ -77,7 +79,7 @@ public class ScriptingConsolePanel extends JPanel {
         return sp;
     }
 
-    protected void build() {
+    protected void build(@NotNull JRootPane root) {
         // make sure errorViewer is built at the beginning
         errorViewer = new ScriptErrorViewer();
 
@@ -92,6 +94,10 @@ public class ScriptingConsolePanel extends JPanel {
             updateScriptContentType(desc);
         });
         updateScriptContentType(editor.getModel().getScriptEngineDescriptor());
+        root.registerKeyboardAction(actRun,
+            KeyStroke.getKeyStroke(KeyEvent.VK_F5, 0),
+            JComponent.WHEN_IN_FOCUSED_WINDOW
+        );
     }
 
     protected void warnMissingSyntaxStyle(@Null ScriptEngineDescriptor desc) {
@@ -151,8 +157,13 @@ public class ScriptingConsolePanel extends JPanel {
         }
     }
 
-    public ScriptingConsolePanel() {
-        build();
+    /**
+     * Creates the scripting console pane
+     *
+     * @param root the root pane of the window where this panel is going to be added
+     */
+    public ScriptingConsolePanel(@NotNull JRootPane root) {
+        build(root);
     }
 
     /**
@@ -195,7 +206,7 @@ public class ScriptingConsolePanel extends JPanel {
             this.model = model;
             this.errorModel = errorModel;
             putValue(SMALL_ICON, ImageProvider.get("media-playback-start", ImageProvider.ImageSizes.SMALLICON));
-            putValue(SHORT_DESCRIPTION, tr("Execute the script"));
+            putValue(SHORT_DESCRIPTION, tr("Execute the script (F5)"));
             putValue(NAME, tr("Run"));
             model.addPropertyChangeListener(this);
             updateEnabledState();
