@@ -199,6 +199,8 @@ if [ $use_graal_vm == false -a "$graal_js" == "" ] ; then
         -Xmx2g \
         -Djosm.home=`pwd`/josm-home \
         -Djava.util.logging.config.file=`pwd`/logging.properties \
+        --add-opens java.prefs/java.util.prefs=ALL-UNNAMED \
+        --add-opens java.desktop/javax.swing.text.html=ALL-UNNAMED \
         --add-exports=java.base/sun.security.action=ALL-UNNAMED \
         --add-exports=java.desktop/com.sun.imageio.plugins.jpeg=ALL-UNNAMED \
         --add-exports=java.desktop/com.sun.imageio.spi=ALL-UNNAMED \
@@ -209,6 +211,8 @@ elif [ $use_graal_vm == true -a "$jdk" == "jdk17" ] ; then
         -Xmx2g \
         -Djosm.home=`pwd`/josm-home \
         -Djava.util.logging.config.file=`pwd`/logging.properties \
+        --add-opens java.prefs/java.util.prefs=ALL-UNNAMED \
+        --add-opens java.desktop/javax.swing.text.html=ALL-UNNAMED \
         -jar `pwd`/$josm_jar"
 else
     if [ $graljs_major -lt 23 ] || ( [ $graaljs_major -eq 23 ] && [ $graaljs_minor -eq 0 ] )  ;  then 
@@ -226,6 +230,7 @@ else
         --module-path $graal_js_home/lib \
         --add-modules $modules \
         --add-opens java.prefs/java.util.prefs=ALL-UNNAMED \
+        --add-opens java.desktop/javax.swing.text.html=ALL-UNNAMED \
         --add-exports=java.base/sun.security.action=ALL-UNNAMED \
         --add-exports=java.desktop/com.sun.imageio.plugins.jpeg=ALL-UNNAMED \
         --add-exports=java.desktop/com.sun.imageio.spi=ALL-UNNAMED \
