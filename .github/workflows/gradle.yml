@@ -27,7 +27,7 @@ jobs:
           - release
         jdk:
           - 17
-          - 21
+          # - 21
 
     name: Build plugin on ${{ matrix.platform }} - JDK ${{ matrix.jdk }}, minJosmVersion=${{ matrix.josm-version }}
     runs-on: ${{ matrix.platform }}
