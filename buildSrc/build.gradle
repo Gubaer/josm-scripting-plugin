@@ -5,13 +5,6 @@ plugins {
 
 group 'org.example'
 
-
-//java {
-//    toolchain {
-//        languageVersion = JavaLanguageVersion.of(17)
-//    }
-//}
-
 repositories {
     mavenCentral()
 }
@@ -29,7 +22,6 @@ dependencies {
     testImplementation 'org.apache.groovy:groovy-test:4.0.24'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.11.4'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-
 }
 
 test {

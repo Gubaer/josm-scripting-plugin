@@ -6,12 +6,6 @@ plugins {
     id 'eclipse'
 }
 
-//java {
-//    toolchain {
-//        languageVersion = JavaLanguageVersion.of(17)
-//    }
-//}
-
 repositories {
     mavenLocal()
     mavenCentral()
@@ -99,7 +93,7 @@ josm {
     josmCompileVersion = configuredJosmCompileVersion
     manifest {
         minJosmVersion = releases.highestJosmVersion
-        //minJavaVersion = 17
+        minJavaVersion = 17
 
         // Old releases up to v0.2.0 have a numeric ID and are available as raw asset from the github repo.
         // Newer releases starting from v0.2.0 use semantic versioning and are available as asset from
@@ -137,8 +131,8 @@ jar {
 }
 
 compileJava {
-    //sourceCompatibility = JavaVersion.VERSION_17
-    //targetCompatibility = JavaVersion.VERSION_17
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
     options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation" << "-Werror"
 }
 
