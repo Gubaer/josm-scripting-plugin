@@ -15,7 +15,7 @@ public class ScriptingConsolePanelTest extends JFrame {
         final ScriptingConsolePanel console;
         Container c = getContentPane();
         c.setLayout(new BorderLayout());
-        c.add(console = new ScriptingConsolePanel(), BorderLayout.CENTER);
+        c.add(console = new ScriptingConsolePanel(getRootPane()), BorderLayout.CENTER);
         setSize(600,800);
     }
 
