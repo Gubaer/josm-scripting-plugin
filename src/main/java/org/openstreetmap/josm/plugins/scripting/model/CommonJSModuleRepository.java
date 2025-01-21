@@ -53,12 +53,12 @@ public class CommonJSModuleRepository {
             case "jar":
                 String s = url.getFile();
                 try {
-                    URL jarFileUrl = new URL(s);
+                    URL jarFileUrl = new URI(s).toURL();
                     if (jarFileUrl.getProtocol().equals("file")) return;
                     throw new IllegalArgumentException(MessageFormat.format(
                         "Type of URL not supported for CommonJS module repository, "
                        + "got {0}", url));
-                } catch(MalformedURLException e){
+                } catch(URISyntaxException | MalformedURLException e){
                     throw new IllegalArgumentException(MessageFormat.format(
                         "Failed to create URL for jar file <{0}>.", s));
                 }
@@ -82,10 +82,10 @@ public class CommonJSModuleRepository {
     public CommonJSModuleRepository(@NotNull String url) {
         Objects.requireNonNull(url);
         try {
-            URL repo = new URL(url);
+            final var repo = new URI(url).toURL();
             ensureValidUrl(repo);
+            this.url = repo;
             this.uri = repo.toURI();
-            this.url = uri.toURL();
         } catch(MalformedURLException | URISyntaxException e) {
             throw new IllegalArgumentException(
                 MessageFormat.format("failed to convert string ''{0}'' to URL", url), e);
@@ -142,10 +142,9 @@ public class CommonJSModuleRepository {
         jarPath = "/" + jarPath.trim().replace("\\", "/")
                 .replaceAll("/+", "/")
                 .replaceAll("^/","");
-
         try {
-            this.url = new URL("jar:" + new File(jar.getName()).toURI().toURL() + "!" + jarPath);
-            this.uri = this.url.toURI();
+            url = new URI("jar:" + new File(jar.getName()).toURI().toURL() + "!" + jarPath).toURL();
+            uri = url.toURI();
         } catch(MalformedURLException  | URISyntaxException e) {
             throw new IllegalArgumentException(MessageFormat.format(
                 "Failed to create jar URL for jar file ''{0}'' and jar path "
@@ -165,8 +164,8 @@ public class CommonJSModuleRepository {
             return new File(url.getFile());
         } else {
             try {
-                return new File(new URL(url.getFile().split("!")[0]).getFile());
-            } catch(MalformedURLException e) {
+                return new File(new URI(url.getFile().split("!")[0]).toURL().getFile());
+            } catch(URISyntaxException | MalformedURLException e) {
                 return null;
             }
         }

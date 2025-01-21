@@ -16,6 +16,8 @@ import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.jar.JarFile;
 import java.util.logging.Level;
@@ -132,8 +134,8 @@ public class ModuleRepositoryDialog extends JDialog {
         }
         URL url;
         try {
-            url = new URL(repository);
-        } catch(MalformedURLException e) {
+            url = new URI(repository).toURL();
+        } catch(URISyntaxException | MalformedURLException e) {
             actOK.setEnabled(false);
             tfRepositoryUrl.setBackground(BG_COLOR_ERROR);
             tfRepositoryUrl.setToolTipText(
