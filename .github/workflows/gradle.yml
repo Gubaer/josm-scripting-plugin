@@ -48,7 +48,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: '${{ matrix.jdk }}'
-          distribution: 'microsoft'           # Microsoft's build of OpenJDK
+          distribution: 'oracle'
           cache: 'gradle'
       # headless X11 setup according to
       # https://stackoverflow.com/questions/68292797/running-java-gui-tests-on-github-using-xvfb
