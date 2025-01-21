@@ -1,4 +1,10 @@
 releases:
+  # next release
+  - label: v0.3.2
+    minJosmVersion: 18427
+    description: |
+      **Minor**: upgraded dependencies to latest version
+
   - label: v0.3.1
     minJosmVersion: 18427
     description: |
