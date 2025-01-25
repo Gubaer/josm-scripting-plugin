@@ -1,3 +1,7 @@
+#
+# Deliberately not upgrading to the actions@v4 because builds don't work
+# for this project.
+#
 name: Josm Scripting Plugin
 
 on:
