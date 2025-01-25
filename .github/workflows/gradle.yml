@@ -71,7 +71,7 @@ jobs:
 
       - name: Build with Gradle
         run: |
-          ./gradlew build --scan
+          ./gradlew build --info
               -Pplugin.josmCompileVersion=${{ matrix.josm-version}}
               -Pgraalvm.jdk=jdk${{ matrix.jdk }}
               -Pgraalvm.platform=${{ env.GRAALVM_PLATFORM }}
