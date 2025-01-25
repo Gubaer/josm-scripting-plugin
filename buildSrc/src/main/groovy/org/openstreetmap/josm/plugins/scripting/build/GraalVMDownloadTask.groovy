@@ -142,14 +142,16 @@ abstract class GraalVMDownloadTask extends DefaultTask {
                 return jdk
             }
         }
-        if (project.hasProperty(PROP_JDK)) {
+        if (project.hasProperty(PROP_JDK)) {            
             final value = project.property(PROP_JDK)
+            logger.info("Project has property ${PROP_JDK}, value is '${value}'")
             final jdk = GraalVMJDK.fromString(value.trim())
             if (jdk == null) {
                 throw new GradleException("Illegal value for project property '$PROP_JDK'. Got value '$value'")
             }
             return jdk
-        }
+        } 
+        logger.info("Project doesn't have property ${PROP_JDK}. Using default value '${DEFAULT_GRAALVM_JDK}'")
         return DEFAULT_GRAALVM_JDK
     }
 
