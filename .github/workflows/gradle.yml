@@ -65,7 +65,7 @@ jobs:
           OSM_DEV_API_PASSWORD: "${{ secrets.OSM_DEV_API_PASSWORD }}"
         with:
           arguments: |
-            build
+            build --stacktrace --info
               -Pplugin.josmCompileVersion=${{ matrix.josm-version}}
               -Pgraalvm.jdk=jdk${{ matrix.jdk }}
               -Pgraalvm.platform=${{ env.GRAALVM_PLATFORM }}
