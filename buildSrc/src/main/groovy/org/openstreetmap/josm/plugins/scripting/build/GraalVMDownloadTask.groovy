@@ -170,7 +170,7 @@ abstract class GraalVMDownloadTask extends DefaultTask {
         final jdk = configuredGraalVMJDK.name
         final platform = configuredGraalVMPlatform.name
         final prop = "graalvm.download.${jdk}.${platform}"
-        if (!providers.hasProperty(prop)) {
+        if (providers.hasProperty(prop) == null) {
             throw new GradleException("Missing project property '${prop}' for download URL. Can't download GraalVM.")
         }
         final url = providers.gradleProperty(prop).get()
