@@ -68,13 +68,14 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: "8.12"
+          gradle-properties: |
+              plugin.josmCompileVersion=${{ matrix.josm-version}}
+              graalvm.jdk=jdk${{ matrix.jdk }}
+              graalvm.platform=${{ env.GRAALVM_PLATFORM }}
+          arguments: --stacktrace --info
 
       - name: Build with Gradle
-        run: |
-          ./gradlew build --stacktrace --info
-              -Pplugin.josmCompileVersion=${{ matrix.josm-version}}
-              -Pgraalvm.jdk=jdk${{ matrix.jdk }}
-              -Pgraalvm.platform=${{ env.GRAALVM_PLATFORM }}
+        run: ./gradlew build
         env:
             DISPLAY: ":19"
             OSM_DEV_API_PASSWORD: "${{ secrets.OSM_DEV_API_PASSWORD }}"

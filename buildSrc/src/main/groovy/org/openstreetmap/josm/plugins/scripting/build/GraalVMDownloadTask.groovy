@@ -129,6 +129,7 @@ abstract class GraalVMDownloadTask extends DefaultTask {
     GraalVMJDK getConfiguredGraalVMJDK() {
         if (graalVMJDK.isPresent()) {
             final value = graalVMJDK.get()
+            logger.info("graalVMJDK is set as task property, value='${value}'")
             if (value == null) {
                 throw new GradleException("Property 'graalVMJDK' in task '${this.name}' must not be null")
             } else if (value instanceof GraalVMJDK) {
@@ -142,6 +143,7 @@ abstract class GraalVMDownloadTask extends DefaultTask {
                 return jdk
             }
         }
+        logger.info("graalVMJDK is not set as task property")
         if (project.hasProperty(PROP_JDK)) {            
             final value = project.property(PROP_JDK)
             logger.info("Project has property ${PROP_JDK}, value is '${value}'")
