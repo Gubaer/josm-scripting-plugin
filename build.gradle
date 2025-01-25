@@ -335,18 +335,18 @@ publishToGithubRelease {
 }
 
 
-tasks.withType(Test).configureEach {
-    def testJdkVersion = System.getenv("TEST_JDK_VERSION") ?: "17"
+// tasks.withType(Test).configureEach {
+//     def testJdkVersion = System.getenv("TEST_JDK_VERSION") ?: "17"
 
-    if (testJdkVersion == "17") {
-        javaLauncher = javaToolchains.launcherFor {
-            languageVersion = JavaLanguageVersion.of(17)
-        }
-    } else if (testJdkVersion == "21") {
-        javaLauncher = javaToolchains.launcherFor {
-            languageVersion = JavaLanguageVersion.of(21)
-        }
-    } else {
-        throw new GradleException("Invalid TEST_JDK_VERSION: ${testJdkVersion}. Must be 17 or 21.")
-    }
-}
+//     if (testJdkVersion == "17") {
+//         javaLauncher = javaToolchains.launcherFor {
+//             languageVersion = JavaLanguageVersion.of(17)
+//         }
+//     } else if (testJdkVersion == "21") {
+//         javaLauncher = javaToolchains.launcherFor {
+//             languageVersion = JavaLanguageVersion.of(21)
+//         }
+//     } else {
+//         throw new GradleException("Invalid TEST_JDK_VERSION: ${testJdkVersion}. Must be 17 or 21.")
+//     }
+// }
