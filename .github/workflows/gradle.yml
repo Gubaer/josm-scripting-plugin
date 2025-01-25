@@ -49,7 +49,7 @@ jobs:
         with:
           java-version: '${{ matrix.jdk }}'
           distribution: 'oracle'
-          cache: 'gradle'
+
       # headless X11 setup according to
       # https://stackoverflow.com/questions/68292797/running-java-gui-tests-on-github-using-xvfb
       - name: Set up virtual X11
