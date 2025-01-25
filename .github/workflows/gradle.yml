@@ -39,51 +39,41 @@ jobs:
       - name: Set GraalVM platform for ubuntu-latest
         if: ${{ matrix.platform == 'ubuntu-latest' }}
         run: echo "GRAALVM_PLATFORM=linux-amd64" >> $GITHUB_ENV
-      
       - name: Set GraalVM platform for windows-latest
         if: ${{ matrix.platform == 'windows-latest' }}
         run: echo "GRAALVM_PLATFORM=windows-amd64" >> $env:GITHUB_ENV
 
-      - name: Checkout repository
-        uses: actions/checkout@v4
-      
+      - uses: actions/checkout@v3
       - name: Set up JDK ${{ matrix.jdk }}
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v3
         with:
           java-version: '${{ matrix.jdk }}'
           distribution: 'oracle'
-
+          cache: 'gradle'
       # headless X11 setup according to
       # https://stackoverflow.com/questions/68292797/running-java-gui-tests-on-github-using-xvfb
       - name: Set up virtual X11
         if: ${{ matrix.platform == 'ubuntu-latest' }}
         run: sudo apt-get -y install xvfb
-      
       - name: Start virtual frame buffer
         if: ${{ matrix.platform == 'ubuntu-latest' }}
         run: Xvfb :19 -screen 0 1024x768x16 &
-
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
-        with:
-          gradle-version: "8.12"
-
       - name: Build with Gradle
-        run: ./gradlew build --info --stacktrace
-          -Pplugin.josmCompileVersion=${{ matrix.josm-version}}
-          -Pgraalvm.jdk=jdk${{ matrix.jdk }}
-          -Pgraalvm.platform=${{ env.GRAALVM_PLATFORM }}
-
+        uses: gradle/gradle-build-action@v2.7.0
         env:
-            DISPLAY: ":19"
-            OSM_DEV_API_PASSWORD: "${{ secrets.OSM_DEV_API_PASSWORD }}"
-
+          DISPLAY: ":19"
+          OSM_DEV_API_PASSWORD: "${{ secrets.OSM_DEV_API_PASSWORD }}"
+        with:
+          arguments: |
+            build
+              -Pplugin.josmCompileVersion=${{ matrix.josm-version}}
+              -Pgraalvm.jdk=jdk${{ matrix.jdk }}
+              -Pgraalvm.platform=${{ env.GRAALVM_PLATFORM }}
       - name: Store reports
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
           name: reports
           path: |
             **/build/reports/
             **/build/test-results/
-
