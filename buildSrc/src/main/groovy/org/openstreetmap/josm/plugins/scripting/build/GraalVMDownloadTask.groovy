@@ -4,11 +4,13 @@ import groovy.ant.AntBuilder
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
 import org.gradle.api.provider.Property
+import org.gradle.api.provider.ProviderFactory
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.Optional
 import org.gradle.api.tasks.TaskAction
 
+import javax.inject.Inject
 import java.util.zip.ZipFile
 
 /**
@@ -74,6 +76,8 @@ abstract class GraalVMDownloadTask extends DefaultTask {
     static final PROP_PLATFORM = "graalvm.platform"
     static final PROP_JDK = "graalvm.jdk"
 
+    private final ProviderFactory providers
+
     /**
      * The GraalVM platform. Set it to either
      * <ul>
@@ -89,6 +93,11 @@ abstract class GraalVMDownloadTask extends DefaultTask {
     @Input
     @Optional
     abstract Property<Object> getGraalVMJDK()
+
+    @Inject
+    GraalVMDownloadTask(ProviderFactory providers) {
+        this.providers = providers
+    }
 
     @Internal
     GraalVMPlatform getConfiguredGraalVMPlatform() {
@@ -107,17 +116,16 @@ abstract class GraalVMDownloadTask extends DefaultTask {
                 }
             }
         }
-        if (project.hasProperty(PROP_PLATFORM)) {
-            def platform = project.property(PROP_PLATFORM)
+        if (providers.hasProperty(PROP_PLATFORM)) {
+            def platform = providers.gradleProperty(PROP_PLATFORM).get()
             logger.info("Property '$PROP_PLATFORM'='$platform'")
             platform = GraalVMPlatform.fromString(platform.toString())
-            if (platform == null) {
-                throw new GradleException(
-                    "Illegal value for project property '$PROP_PLATFORM'. Got '$platform'")
-                }
+            if (!platform) {
+                throw new GradleException("Illegal value for project property '$PROP_PLATFORM'. Got '$platform'")
+            }
             return platform
         }
-        def os = System.getProperty("os.name").toLowerCase(Locale.ENGLISH)
+        def os = providers.systemProperty("os.name").get().toLowerCase(Locale.ENGLISH)
         if (os.contains("windows")) {
             return GraalVMPlatform.WINDOWS_AMD64
         } else {
@@ -144,8 +152,8 @@ abstract class GraalVMDownloadTask extends DefaultTask {
             }
         }
         logger.info("graalVMJDK is not set as task property")
-        if (providers.gradleProperty(PROP_JDK).isPresent()) {            
-            final value = providers.gradleProperty(PROP_JDK)
+        if (providers.gradleProperty(PROP_JDK).isPresent()) {
+            final value = providers.gradleProperty(PROP_JDK).get()
             logger.info("Project has property ${PROP_JDK}, value is '${value}'")
             final jdk = GraalVMJDK.fromString(value.trim())
             if (jdk == null) {
@@ -162,10 +170,10 @@ abstract class GraalVMDownloadTask extends DefaultTask {
         final jdk = configuredGraalVMJDK.name
         final platform = configuredGraalVMPlatform.name
         final prop = "graalvm.download.${jdk}.${platform}"
-        if (!project.hasProperty(prop)) {
+        if (!providers.hasProperty(prop)) {
             throw new GradleException("Missing project property '${prop}' for download URL. Can't download GraalVM.")
         }
-        final url = project.property(prop)
+        final url = providers.gradleProperty(prop).get()
         if (url == null) {
             throw new GradleException("Project property '${prop}' is null. Can't download GraalVM.")
         }
