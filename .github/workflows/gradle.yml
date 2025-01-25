@@ -75,6 +75,7 @@ jobs:
               -Pplugin.josmCompileVersion=${{ matrix.josm-version}}
               -Pgraalvm.jdk=jdk${{ matrix.jdk }}
               -Pgraalvm.platform=${{ env.GRAALVM_PLATFORM }}
+              --scan
         env:
             DISPLAY: ":19"
             OSM_DEV_API_PASSWORD: "${{ secrets.OSM_DEV_API_PASSWORD }}"
