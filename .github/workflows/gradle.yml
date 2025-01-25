@@ -72,10 +72,9 @@ jobs:
               plugin.josmCompileVersion=${{ matrix.josm-version}}
               graalvm.jdk=jdk${{ matrix.jdk }}
               graalvm.platform=${{ env.GRAALVM_PLATFORM }}
-          arguments: --stacktrace --info
 
       - name: Build with Gradle
-        run: ./gradlew build
+        run: ./gradlew build --info --stacktrace
         env:
             DISPLAY: ":19"
             OSM_DEV_API_PASSWORD: "${{ secrets.OSM_DEV_API_PASSWORD }}"
