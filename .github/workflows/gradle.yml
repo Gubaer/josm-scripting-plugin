@@ -8,6 +8,7 @@ on:
   push:
     branches:
       - master
+      - github-action-test
   pull_request:
     branches:
       - master
@@ -47,7 +48,9 @@ jobs:
         if: ${{ matrix.platform == 'windows-latest' }}
         run: echo "GRAALVM_PLATFORM=windows-amd64" >> $env:GITHUB_ENV
 
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Set up JDK ${{ matrix.jdk }}
         uses: actions/setup-java@v4
         with:
@@ -62,20 +65,28 @@ jobs:
       - name: Start virtual frame buffer
         if: ${{ matrix.platform == 'ubuntu-latest' }}
         run: Xvfb :19 -screen 0 1024x768x16 &
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "8.12"
+
       - name: Build with Gradle
-        uses: gradle/gradle-build-action@v2.7.0
         env:
           DISPLAY: ":19"
           OSM_DEV_API_PASSWORD: "${{ secrets.OSM_DEV_API_PASSWORD }}"
-        with:
-          arguments: |
-            build --stacktrace --info
-              -Pplugin.josmCompileVersion=${{ matrix.josm-version}}
-              -Pgraalvm.jdk=jdk${{ matrix.jdk }}
-              -Pgraalvm.platform=${{ env.GRAALVM_PLATFORM }}
+        shell: bash
+        run: |
+          ./gradlew build \
+            -Pplugin.josmCompileVersion=${{ matrix.josm-version}} \
+            -Pgraalvm.jdk=jdk${{ matrix.jdk }} \
+            -Pgraalvm.platform=${{ env.GRAALVM_PLATFORM }} \
+            --stacktrace \
+            --info
+
       - name: Store reports
         if: failure()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: reports
           path: |
