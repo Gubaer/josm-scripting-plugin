@@ -137,7 +137,6 @@ abstract class GraalVMDownloadTask extends DefaultTask {
     GraalVMJDK getConfiguredGraalVMJDK() {
         if (graalVMJDK.isPresent()) {
             final value = graalVMJDK.get()
-            logger.info("graalVMJDK is set as task property, value='${value}'")
             if (value == null) {
                 throw new GradleException("Property 'graalVMJDK' in task '${this.name}' must not be null")
             } else if (value instanceof GraalVMJDK) {
@@ -151,18 +150,14 @@ abstract class GraalVMDownloadTask extends DefaultTask {
                 return jdk
             }
         }
-        logger.info("graalVMJDK is not set as task property")
         if (providers.gradleProperty(PROP_JDK).isPresent()) {
             final value = providers.gradleProperty(PROP_JDK).get()
-            logger.info("Project has property ${PROP_JDK}, value is '${value}'")
             final jdk = GraalVMJDK.fromString(value.trim())
             if (jdk == null) {
                 throw new GradleException("Illegal value for project property '$PROP_JDK'. Got value '$value'")
             }
-            logger.info("Converted JDK is '${jdk}'")
             return jdk
         } 
-        logger.info("Project doesn't have property ${PROP_JDK}. Using default value '${DEFAULT_GRAALVM_JDK}'")
         return DEFAULT_GRAALVM_JDK
     }
 
@@ -201,7 +196,7 @@ abstract class GraalVMDownloadTask extends DefaultTask {
     }
 
     File buildInstallationBaseDir() {
-        return new File(project.projectDir, "software")
+        return new File(project.layout.projectDirectory.asFile, "software")
     }
 
     def createInstallationBaseDir() {
@@ -253,7 +248,7 @@ abstract class GraalVMDownloadTask extends DefaultTask {
         // add JS language to the GraalVM, but only for GraalVM for JDK17. Newer GraalVM versions
         // available for JDK21 already include the js engine and don't provide the 'gu' tool
         if (configuredGraalVMJDK == GraalVMJDK.JDK17) {
-            logger.info("Installation JS language in GraalVM for JDK '$jdk' in directory '$installDir'")
+            logger.info("Installing JS language in GraalVM for JDK '$jdk' in directory '$installDir'")
             final binDir = new File(installDir, "bin")
             final guCommand = configuredGraalVMPlatform.isWindows()
                     ? new File(binDir, "gu.cmd")
