@@ -363,7 +363,7 @@ public class ScriptEngineSelectionDialog extends JDialog {
         public void execute() {
            if (rbPluggableScriptingEngine.isSelected()) {
                 selectedEngine = lstPluggedEngines.getSelectedValue();
-            } else if (rbGraalVMScriptingEngine.isSelected()) {
+            } else if (rbGraalVMScriptingEngine != null && rbGraalVMScriptingEngine.isSelected()) {
                 selectedEngine = lstGraalVMEngines.getSelectedValue();
             }
             setVisible(false);

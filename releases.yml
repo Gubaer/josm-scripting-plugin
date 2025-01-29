@@ -3,7 +3,7 @@ releases:
   - label: v0.3.3
     minJosmVersion: 18905
     description: |
-      testing 
+      **Bug fix**: fix NPE in Scripting Engine Dialog
 
   # current release
   - label: v0.3.2
