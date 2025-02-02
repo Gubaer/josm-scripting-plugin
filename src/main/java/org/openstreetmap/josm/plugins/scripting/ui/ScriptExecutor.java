@@ -109,7 +109,7 @@ public class ScriptExecutor {
                         .compile((Compilable) engine, scriptFile)
                         .eval();
                 } else {
-                    try (Reader reader = new InputStreamReader(new FileInputStream(scriptFile), StandardCharsets.UTF_8)) {
+                    try (var reader = new InputStreamReader(new FileInputStream(scriptFile), StandardCharsets.UTF_8)) {
                         engine.eval(reader);
                     }
                 }
@@ -136,8 +136,7 @@ public class ScriptExecutor {
             final ScriptErrorViewerModel errorViewerModel) {
         Objects.requireNonNull(desc);
         if (script == null) return;
-        final ScriptEngine engine = JSR223ScriptEngineProvider.getInstance()
-                .getScriptEngine(desc);
+        final ScriptEngine engine = JSR223ScriptEngineProvider.getInstance().getScriptEngine(desc);
         if (engine == null) {
             warnScriptingEngineNotFound();
             return;
