@@ -19,13 +19,13 @@ import javax.validation.constraints.Null;
 import java.awt.*;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.text.MessageFormat;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static org.openstreetmap.josm.plugins.scripting.ui.SwingUtil.runOnSwingEDT;
 import static org.openstreetmap.josm.tools.I18n.tr;
+import static java.text.MessageFormat.format;
 
 /**
  * A utility class providing methods for executing a script (as string or
@@ -93,6 +93,8 @@ public class ScriptExecutor {
         Objects.requireNonNull(scriptFile);
         Assert.assertArg(scriptFile.isFile(), "Expected a script file, got ''{0}''", scriptFile);
         Assert.assertArg(scriptFile.canRead(), "Expected a readable script file, got ''{0}''", scriptFile);
+
+        logger.info(format(""));
 
         final ScriptEngine engine = JSR223ScriptEngineProvider.getInstance().getScriptEngine(desc);
         if (engine == null) {
@@ -167,7 +169,7 @@ public class ScriptExecutor {
         Objects.requireNonNull(engine);
         if (!engine.getEngineType().equals(
                 ScriptEngineDescriptor.ScriptEngineType.GRAALVM)) {
-            throw new IllegalArgumentException(MessageFormat.format(
+            throw new IllegalArgumentException(format(
                     "Expected GraalVM descriptor, got {0}", engine.getEngineType()
             ));
         }
@@ -204,7 +206,7 @@ public class ScriptExecutor {
      */
     public void runScriptWithGraalEngine(@NotNull final ScriptEngineDescriptor engine, @NotNull final File script) {
         if (logger.isLoggable(Level.FINE)) {
-            final var message = MessageFormat.format(
+            final var message = format(
                 "executing script with GraalVM ''{0}''. Script file: ''{1}''",
                 engine.getLocalEngineId(),
                 script.getAbsolutePath()
