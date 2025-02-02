@@ -38,10 +38,11 @@ function prepare_logging_properties() {
     log_level=$1 || "INFO"
 
     cat > logging.properties <<EOF
+.level=ALL
 handlers=java.util.logging.ConsoleHandler
-.level=WARNING
-java.util.logging.ConsoleHandler.level=$log_elvel
 java.util.logging.ConsoleHandler.formatter=java.util.logging.SimpleFormatter
+
+java.util.logging.ConsoleHandler.level=$log_level
 org.openstreetmap.josm.plugins.scripting.level=$log_level
 EOF
 
