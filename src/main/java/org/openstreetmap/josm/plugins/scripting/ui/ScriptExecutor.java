@@ -112,7 +112,6 @@ public class ScriptExecutor {
                     }
                 }
             } catch (ScriptException e) {
-                //warnExecutingScriptFailed(e);
                 ScriptErrorDialog.showErrorDialog(e);
             } catch (IOException e) {
                 warnOpenScriptFileFailed(scriptFile, e);
