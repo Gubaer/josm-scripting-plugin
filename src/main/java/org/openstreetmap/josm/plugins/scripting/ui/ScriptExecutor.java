@@ -91,7 +91,7 @@ public class ScriptExecutor {
             @NotNull final File scriptFile) throws IllegalArgumentException {
         Objects.requireNonNull(desc);
         Objects.requireNonNull(scriptFile);
-        Assert.assertArg(scriptFile.isFile(), "Expected a file a script file, got ''{0}''", scriptFile);
+        Assert.assertArg(scriptFile.isFile(), "Expected a script file, got ''{0}''", scriptFile);
         Assert.assertArg(scriptFile.canRead(), "Expected a readable script file, got ''{0}''", scriptFile);
 
         final ScriptEngine engine = JSR223ScriptEngineProvider.getInstance().getScriptEngine(desc);
