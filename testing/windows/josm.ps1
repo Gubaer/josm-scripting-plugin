@@ -158,10 +158,11 @@ if ($logLevel -eq "") {
     $logLevel = "INFO"
 }
 $loggingProperties = @"
+.level=ALL
 handlers=java.util.logging.ConsoleHandler
-.level=WARNING
-java.util.logging.ConsoleHandler.level=$logLevel
 java.util.logging.ConsoleHandler.formatter=java.util.logging.SimpleFormatter
+
+java.util.logging.ConsoleHandler.level=$logLevel
 org.openstreetmap.josm.plugins.scripting.level=$logLevel
 "@
 $loggingPropertiesFile = Join-Path $(Get-Location) -ChildPath "logging.properties"
