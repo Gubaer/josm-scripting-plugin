@@ -45,7 +45,7 @@ dependencies {
     testImplementation group: 'org.apache.groovy', name: 'groovy-test', version: project.property('dep.groovy')
 
     testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: project.property('dep.jupiter')
-    testRuntimeOnly group: "org.python", name: "jython", version: "2.7.3"
+    testRuntimeOnly group: "org.python", name: "jython", version: "2.7.4"
 
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
@@ -289,9 +289,9 @@ tasks.register('testWithGraalVMJDK', Test) {
 tasks.register('testJSR223EnginePresent', Test) {
     useJUnitPlatform()
     jvmArgs JVM_ARGS
-    // groovy and python are on the classpath
+    systemProperty "python.import.site", false
     scanForTestClasses = false
-    include "org/openstreetmap/josm/plugins/scripting/jsr223/JSR223CompatibleEnginePresentTest.class"
+    include "org/openstreetmap/josm/plugins/scripting/jsr223/*.class"
     testLogging {
         events TestLogEvent.FAILED, TestLogEvent.PASSED
         exceptionFormat = TestExceptionFormat.FULL

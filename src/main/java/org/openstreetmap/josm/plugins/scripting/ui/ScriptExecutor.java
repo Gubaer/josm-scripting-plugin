@@ -86,7 +86,7 @@ public class ScriptExecutor {
      * @throws NullPointerException     if <code>scriptFile</code> is null
      * @throws IllegalArgumentException if <code>scriptFile</code> isn't a readable file
      */
-    void runScriptWithPluggedEngine(
+    public void runScriptWithPluggedEngine(
             @NotNull final ScriptEngineDescriptor desc,
             @NotNull final File scriptFile) throws IllegalArgumentException {
         Objects.requireNonNull(desc);
@@ -94,23 +94,27 @@ public class ScriptExecutor {
         Assert.assertArg(scriptFile.isFile(), "Expected a script file, got ''{0}''", scriptFile);
         Assert.assertArg(scriptFile.canRead(), "Expected a readable script file, got ''{0}''", scriptFile);
 
-        logger.info(format(""));
-
         final ScriptEngine engine = JSR223ScriptEngineProvider.getInstance().getScriptEngine(desc);
         if (engine == null) {
             warnScriptingEngineNotFound();
             return;
         }
         final Runnable task = () -> {
+            final var bindings = engine.createBindings();
+            // For a python script we initialize the bindings as follows:
+            //    __file__ = <full path to script file>
+            if (desc.isJython()) {
+                bindings.put("__file__", scriptFile.getPath());
+            }
             try {
                 if (engine instanceof Compilable) {
                     JSR223CompiledScriptCache
                         .getInstance()
                         .compile((Compilable) engine, scriptFile)
-                        .eval();
+                        .eval(bindings);
                 } else {
                     try (var reader = new InputStreamReader(new FileInputStream(scriptFile), StandardCharsets.UTF_8)) {
-                        engine.eval(reader);
+                        engine.eval(reader, bindings);
                     }
                 }
             } catch (ScriptException e) {

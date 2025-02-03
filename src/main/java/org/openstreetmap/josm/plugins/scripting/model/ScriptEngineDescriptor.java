@@ -393,6 +393,15 @@ public class ScriptEngineDescriptor implements PreferenceKeys {
         return this.engineType.equals(ScriptEngineType.GRAALVM) && "js".equals(this.engineId);
     }
 
+    /**
+     * Replies true if this descriptor describes the JSR223-compatible Jython-engine
+     *
+     * @return true if this descriptor describes the JSR223-compatible Jython-engine
+     */
+    public boolean isJython() {
+        return contentMimeTypes.contains("text/python");
+    }
+
     public enum ScriptEngineType {
         /**
          * a scripting engine supplied as JSR233 compliant scripting engine

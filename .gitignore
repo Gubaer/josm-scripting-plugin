@@ -24,3 +24,4 @@ software
 package.json
 releases.generated.yml
 set-env.ps1
+.jython_cache
