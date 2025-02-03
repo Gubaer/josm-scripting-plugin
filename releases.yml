@@ -1,5 +1,10 @@
 releases:
   # current release
+  - label: v0.3.4
+    minJosmVersion: 18905
+    description: |
+      **Feature Request**: #112 - Init __file__ in JSR223 bindings for Jython
+
   - label: v0.3.3
     minJosmVersion: 18905
     description: |
