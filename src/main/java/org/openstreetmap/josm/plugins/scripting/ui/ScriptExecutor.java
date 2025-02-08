@@ -103,8 +103,15 @@ public class ScriptExecutor {
             final var bindings = engine.createBindings();
             // For a python script we initialize the bindings as follows:
             //    __file__ = <full path to script file>
+            //    add the script's parent directory to sys.path
             if (desc.isJython()) {
                 bindings.put("__file__", scriptFile.getPath());
+                final var sysPathStatement = format("import sys; sys.path.append(''{0}'')", scriptFile.getParent());
+                try {
+                    engine.eval(sysPathStatement);
+                } catch(ScriptException e) {
+                    logger.log(Level.WARNING, format("Failed to add ''{0}'' to sys.path", scriptFile.getParent()), e);
+                }
             }
             try {
                 if (engine instanceof Compilable) {
