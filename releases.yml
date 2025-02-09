@@ -1,4 +1,10 @@
 releases:
+  # next release
+  - label: v0.3.6
+    minJosmVersion: 18905
+    description: |
+      TBD
+      
   # current release
   - label: v0.3.5
     minJosmVersion: 18905
