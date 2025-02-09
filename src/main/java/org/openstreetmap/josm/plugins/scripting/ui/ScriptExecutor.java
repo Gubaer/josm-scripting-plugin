@@ -19,9 +19,11 @@ import javax.validation.constraints.Null;
 import java.awt.*;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import static org.openstreetmap.josm.plugins.scripting.ui.SwingUtil.runOnSwingEDT;
 import static org.openstreetmap.josm.tools.I18n.tr;
@@ -101,16 +103,35 @@ public class ScriptExecutor {
         }
         final Runnable task = () -> {
             final var bindings = engine.createBindings();
-            // For a python script we initialize the bindings as follows:
-            //    __file__ = <full path to script file>
-            //    add the script's parent directory to sys.path
             if (desc.isJython()) {
+                // For a python script we initialize the bindings as follows:
+                //    __file__ = <full path to script file>
                 bindings.put("__file__", scriptFile.getPath());
+
+                // For a python script we initialize the Jython engine as follows:
+                //    add the script's parent directory to sys.path
+                //    add the paths in JYTHONPATH to sys.path
                 final var sysPathStatement = format("import sys; sys.path.append(''{0}'')", scriptFile.getParent());
                 try {
                     engine.eval(sysPathStatement);
                 } catch(ScriptException e) {
                     logger.log(Level.WARNING, format("Failed to add ''{0}'' to sys.path", scriptFile.getParent()), e);
+                }
+                final var jythonPath = System.getenv("JYTHONPATH");
+                if (jythonPath != null) {
+                    final var paths = jythonPath.split(File.pathSeparator);
+                    if (paths.length > 0) {
+                        final var script = "import sys; " +
+                            Arrays.stream(paths)
+                                .distinct()
+                                .map(path -> format("sys.path.append(''{0}'')", path))
+                                .collect(Collectors.joining("; "));
+                        try {
+                            engine.eval(script);
+                        } catch(ScriptException e) {
+                            logger.log(Level.WARNING, format("Failed to add JYTHONPATH ''{0}'' to sys.path", jythonPath), e);
+                        }
+                    }
                 }
             }
             try {

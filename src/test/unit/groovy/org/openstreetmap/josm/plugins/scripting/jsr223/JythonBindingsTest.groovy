@@ -14,14 +14,19 @@ class JythonBindingsTest extends JOSMFixtureBasedTest {
     public static String __file__holder = null
     public static boolean scriptPathInSysPath = false
     public static int sum = 0
+    public static boolean jythonPathInSysPath = true
 
-    @Test
-    void ensure__file__IsSet() {
-        final jythonDesc = ScriptEngineMetaDataProvider
+    static def getJythonDescriptor() {
+        return  ScriptEngineMetaDataProvider
             .getAvailablePluggedScriptEngines()
             .filter(desc -> desc.isJython())
             .findAny()
             .orElseThrow(() -> new IllegalStateException("No Jython scripting engine found"))
+    }
+
+    @Test
+    void ensure__file__IsSet() {
+        final jythonDesc = jythonDescriptor
 
         final executor = new ScriptExecutor(MainApplication.getMainFrame())
 
@@ -38,11 +43,7 @@ JythonBindingsTest.__file__holder = __file__
 
     @Test
     void ensureSysPathIsSet() {
-        final jythonDesc = ScriptEngineMetaDataProvider
-                .getAvailablePluggedScriptEngines()
-                .filter(desc -> desc.isJython())
-                .findAny()
-                .orElseThrow(() -> new IllegalStateException("No Jython scripting engine found"))
+        final jythonDesc = jythonDescriptor
 
         final executor = new ScriptExecutor(MainApplication.getMainFrame())
 
@@ -62,11 +63,7 @@ for path in sys.path:
 
     @Test
     void ensureImportFromSysPathWorks() {
-        final jythonDesc = ScriptEngineMetaDataProvider
-                .getAvailablePluggedScriptEngines()
-                .filter(desc -> desc.isJython())
-                .findAny()
-                .orElseThrow(() -> new IllegalStateException("No Jython scripting engine found"))
+        final jythonDesc = jythonDescriptor
 
         final executor = new ScriptExecutor(MainApplication.getMainFrame())
 
@@ -90,5 +87,31 @@ JythonBindingsTest.sum = add(5,3)
         scriptFile.delete()
         moduleFile.delete()
 
+    }
+
+    @Test
+    void ensureJYTHONPATHinSysPath() {
+        final jythonDesc = jythonDescriptor
+
+        final executor = new ScriptExecutor(MainApplication.getMainFrame())
+
+        // generate temporary script file
+        final scriptFile = File.createTempFile("test-script", "")
+        scriptFile.write("""
+import sys
+from java.lang import System
+from java.io import File
+from org.openstreetmap.josm.plugins.scripting.jsr223 import JythonBindingsTest
+jythonpath = System.getenv('JYTHONPATH')
+if jythonpath:
+    paths = jythonpath.split(File.pathSeparator)
+    result = True 
+    for path in paths:
+        result = result and path in sys.path
+    JythonBindingsTest.jythonPathInSysPath = result    
+        """)
+        executor.runScriptWithPluggedEngine(jythonDesc, scriptFile)
+        assertTrue(jythonPathInSysPath)
+        scriptFile.delete()
     }
 }

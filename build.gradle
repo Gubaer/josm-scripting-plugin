@@ -290,6 +290,7 @@ tasks.register('testJSR223EnginePresent', Test) {
     useJUnitPlatform()
     jvmArgs JVM_ARGS
     systemProperty "python.import.site", false
+    environment "JYTHONPATH", ["/foo/bar/jythonpath1", "/foo/bar/jythonpath2"].join(File.pathSeparator)
     scanForTestClasses = false
     include "org/openstreetmap/josm/plugins/scripting/jsr223/*.class"
     testLogging {
