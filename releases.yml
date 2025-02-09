@@ -1,4 +1,11 @@
 releases:
+  # next release
+  - label: v0.3.5
+    minJosmVersion: 18905
+    description: |
+      **Feature**: When running a Python script, add the script's directory to `sys.path` before executing the script (see also #112)
+      **Feature**: When running a Python script, add the environment variable `JYTHONPATH` to `sys.path` before executing the script (see also #112)
+
   # current release
   - label: v0.3.4
     minJosmVersion: 18905
