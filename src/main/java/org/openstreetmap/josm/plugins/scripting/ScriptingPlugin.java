@@ -3,6 +3,7 @@ package org.openstreetmap.josm.plugins.scripting;
 import org.openstreetmap.josm.data.Preferences;
 import org.openstreetmap.josm.gui.MainApplication;
 import org.openstreetmap.josm.gui.MainMenu;
+import org.openstreetmap.josm.gui.MapFrame;
 import org.openstreetmap.josm.gui.preferences.PreferenceSetting;
 import org.openstreetmap.josm.plugins.Plugin;
 import org.openstreetmap.josm.plugins.PluginInformation;
@@ -20,6 +21,7 @@ import org.openstreetmap.josm.plugins.scripting.ui.RunScriptDialog;
 import org.openstreetmap.josm.plugins.scripting.ui.ToggleConsoleAction;
 import org.openstreetmap.josm.plugins.scripting.ui.console.SyntaxConstantsEngine;
 import org.openstreetmap.josm.plugins.scripting.ui.release.ReleaseNotes;
+import org.openstreetmap.josm.plugins.scripting.ui.std.ScriptToggleDialog;
 
 import javax.swing.*;
 import java.io.File;
@@ -38,6 +40,8 @@ import static org.openstreetmap.josm.tools.I18n.tr;
 public class ScriptingPlugin extends Plugin implements PreferenceKeys{
     static private final Logger logger = Logger.getLogger(ScriptingPlugin.class.getName());
     private static ScriptingPlugin instance;
+    private ScriptToggleDialog scriptToggleDialog = null;
+
     private void initLocalInstallation() {
         final File f = new File(getPluginDirs().getUserDataDirectory(false), "modules");
         if (!f.exists()) {
@@ -81,6 +85,7 @@ public class ScriptingPlugin extends Plugin implements PreferenceKeys{
         installResourceFiles();
         installScriptsMenu();
         initLocalInstallation();
+
         if (GraalVMFacadeFactory.isGraalVMPresent()) {
             initGraalVMJSModuleRepository();
             initGraalVMESModuleRepositories(info);
@@ -90,6 +95,18 @@ public class ScriptingPlugin extends Plugin implements PreferenceKeys{
         if (!inTestEnvironment && !ReleaseNotes.hasSeenLatestReleaseNotes()) {
             var dialog = new ReleaseNotes(MainApplication.getMainFrame());
             dialog.setVisible(true);
+        }
+    }
+
+    @Override
+    public void mapFrameInitialized(MapFrame oldFrame, MapFrame newFrame) {
+        if (oldFrame != null && scriptToggleDialog != null) {
+            oldFrame.removeToggleDialog(scriptToggleDialog);
+            scriptToggleDialog = null;
+        }
+        if (newFrame != null) {
+            scriptToggleDialog  = new ScriptToggleDialog();
+            newFrame.addToggleDialog(scriptToggleDialog);
         }
     }
 
@@ -194,4 +211,5 @@ public class ScriptingPlugin extends Plugin implements PreferenceKeys{
             ));
         }
     }
+
 }
