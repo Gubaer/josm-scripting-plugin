@@ -30,6 +30,6 @@ console.println(`displayName=${displayName}`)
 ```
 
 
-[JOSM code base]: http://josm.openstreetmap.de/browser/josm/trunk/src"
+[JOSM code base]: http://josm.openstreetmap.de/browser/josm/trunk/src
 [LatLon]: https://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/coor/LatLon.html
 [LatLonMixin]: /api/v1/josm_mixin_LatLonMixin.LatLonMixin.html
