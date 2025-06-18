@@ -1,9 +1,13 @@
 package org.openstreetmap.josm.plugins.scripting.release
 
-import com.amazonaws.regions.Regions
-import com.amazonaws.services.s3.AmazonS3
-import com.amazonaws.services.s3.AmazonS3ClientBuilder
-import com.amazonaws.services.s3.model.PutObjectRequest
+import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider
+import software.amazon.awssdk.core.sync.RequestBody
+import software.amazon.awssdk.services.s3.S3Client
+import software.amazon.awssdk.services.s3.S3ClientBuilder
+import software.amazon.awssdk.regions.Region
+import software.amazon.awssdk.auth.credentials.AwsBasicCredentials
+import software.amazon.awssdk.services.s3.model.PutObjectRequest
+
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
 import org.gradle.api.logging.LogLevel
@@ -12,13 +16,12 @@ import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.Optional
 import org.gradle.api.tasks.TaskAction
 
-import java.util.jar.JarFile
 
 /**
  * Publishes the current scripting*.jar plugin from <code>build/libs</code>
  * into an Amazon S3 bucket.
  */
-@SuppressWarnings('unused')
+//@SuppressWarnings('unused')
 abstract class PublishToAwsS3Task extends DefaultTask {
 
     static public final String DEFAULT_BUCKET_NAME = "josm-scripting-plugin"
@@ -43,7 +46,7 @@ abstract class PublishToAwsS3Task extends DefaultTask {
         getS3ObjectKey().convention(DEFAULT_S3_OBJECT_KEY)
     }
 
-    def ensureCredentialsSet(final AmazonS3ClientBuilder builder) {
+    def ensureCredentialsSet(final S3ClientBuilder builder) {
         final credentials = builder.credentials.credentials
         if (credentials.AWSAccessKeyId == null || credentials.AWSSecretKey == null) {
             String message = "Missing credentials to access AWS S3. " +
@@ -55,18 +58,22 @@ abstract class PublishToAwsS3Task extends DefaultTask {
         }
     }
 
-    def lookupDistributionJarFile() {
-        final jarFile = new File(project.buildDir, "dist/scripting.jar")
+    File lookupDistributionJarFile() {
+        final jarFile = new File(project.layout.buildDirectory.get().asFile, "dist/scripting.jar")
         if (!jarFile.exists() || !jarFile.isFile() || !jarFile.canRead()) {
             logger.error("No scripting.jar file found. Path: '$jarFile.absolutePath'")
         }
-        return new JarFile(jarFile)
+        return jarFile
     }
 
-    def publishToS3(final AmazonS3 client, final jarFile) {
-        final request = new PutObjectRequest(bucketName.get(), s3ObjectKey.get(), jarFile)
+    def publishToS3(final S3Client client, final File jarFile) {
+        final  request =  PutObjectRequest.builder()
+            .bucket(bucketName.get())
+            .key(s3ObjectKey.get())
+            .build()
+
         try {
-            client.putObject(request)
+            client.putObject(request, RequestBody.fromFile(jarFile))
             logger.info(
                 "Successfully uploaded file '${jarFile.absolutePath}' " +
                 "to S3 bucket '${bucketName.get()}' " +
@@ -81,9 +88,16 @@ abstract class PublishToAwsS3Task extends DefaultTask {
 
     @TaskAction
     def publish() {
-        final builder = AmazonS3ClientBuilder.standard()
-            .withRegion(Regions.EU_CENTRAL_1)
-        ensureCredentialsSet(builder)
+        final builder = S3Client.builder()
+            .region(Region.EU_CENTRAL_1)
+            .credentialsProvider {
+                return StaticCredentialsProvider.create(
+                    AwsBasicCredentials.create(
+                        System.getenv("AWS_ACCESS_KEY_ID"),
+                        System.getenv("AWS_SECRET_ACCESS_KEY")
+                    )
+                )
+            }
         final jarFile = lookupDistributionJarFile()
         publishToS3(builder.build(), jarFile)
     }
