@@ -10,17 +10,19 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.apache.groovy:groovy:4.0.24'
-    implementation 'org.apache.groovy:groovy-yaml:4.0.24'
-    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.18.2'
-    implementation 'com.squareup.okhttp3:okhttp:4.12.0'
+    implementation group: "org.apache.groovy", name: "groovy", version: project.property("dep.groovy")
+    implementation group: "org.apache.groovy", name: "groovy-yaml", version: project.property("dep.groovy")
+    implementation group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-yaml', version: project.property("dep.jackson")
+    implementation group: 'com.squareup.okhttp3', name: 'okhttp', version: project.property("dep.okhttp3")
     implementation 'com.amazonaws:aws-java-sdk-s3:1.12.520'
+    //TODO: migrate to the following dependency
+    //implementation 'software.amazon.awssdk:s3:2.31.64'
 
     implementation gradleApi()
 
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.11.4'
-    testImplementation 'org.apache.groovy:groovy-test:4.0.24'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.11.4'
+    testImplementation group: "org.junit.jupiter", name: "junit-jupiter-api", version: project.property("dep.jupiter")
+    testImplementation group: "org.apache.groovy", name: "groovy-test", version: project.property("dep.groovy")
+    testRuntimeOnly group: "org.junit.jupiter", name: "junit-jupiter-engine", version: project.property("dep.jupiter")
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
