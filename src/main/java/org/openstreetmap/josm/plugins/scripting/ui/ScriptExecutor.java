@@ -28,6 +28,7 @@ import java.util.stream.Collectors;
 import static org.openstreetmap.josm.plugins.scripting.ui.SwingUtil.runOnSwingEDT;
 import static org.openstreetmap.josm.tools.I18n.tr;
 import static java.text.MessageFormat.format;
+import static org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor.ScriptEngineType;
 
 /**
  * A utility class providing methods for executing a script (as string or
@@ -189,22 +190,24 @@ public class ScriptExecutor {
      * Runs the script on the Swing EDT. Handling errors is delegated to
      * <code>errorViewerModel</code>.
      *
-     * @param engine           the descriptor
+     * @param engine           the descriptor. Must not be null.
      * @param script           the script
      * @param errorViewerModel callback to handle errors
+     * @throws NullPointerException if <code>engine</code> is null
      */
     public void runScriptWithGraalEngine(
             @NotNull final ScriptEngineDescriptor engine,
-            final String script,
-            final @Null ScriptErrorViewerModel errorViewerModel) {
+            @Null final String script,
+            @Null final ScriptErrorViewerModel errorViewerModel) {
         Objects.requireNonNull(engine);
-        if (!engine.getEngineType().equals(
-                ScriptEngineDescriptor.ScriptEngineType.GRAALVM)) {
+        if (!engine.getEngineType().equals(ScriptEngineType.GRAALVM)) {
             throw new IllegalArgumentException(format(
-                    "Expected GraalVM descriptor, got {0}", engine.getEngineType()
+                "Expected GraalVM descriptor, got {0}", engine.getEngineType()
             ));
         }
-        if (script == null) return;
+        if (script == null) {
+            return;
+        }
         final IGraalVMFacade facade = GraalVMFacadeFactory.getOrCreateGraalVMFacade();
         if (facade == null) {
             // should not happen. Make sure this method is only invoked
@@ -234,6 +237,8 @@ public class ScriptExecutor {
      * @throws NullPointerException if <code>engine</code> or <code>script</code> is null
      */
     public void runScriptWithGraalEngine(@NotNull final ScriptEngineDescriptor engine, @NotNull final File script) {
+        Objects.requireNonNull(engine);
+        Objects.requireNonNull(script);
         if (logger.isLoggable(Level.FINE)) {
             final var message = format(
                 "executing script with GraalVM ''{0}''. Script file: ''{1}''",
