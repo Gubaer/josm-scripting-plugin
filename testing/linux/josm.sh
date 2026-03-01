@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # josm.sh - launch a specific JOSM version with a stock JDK and optionally with a
-#   a GraalJS distribution, or with a Graal VM.
+#   GraalJS distribution or with a Graal VM.
 #
 # Run './josm.sh -h' for help
 #
@@ -15,19 +15,19 @@ usage: josm.sh <options>
         show this information
 
     --josm latest | tested | <version>
-        The JOSM version to lauch. Either 'latest', 'tested', or a JOSM version number.
+        The JOSM version to launch. Either 'latest', 'tested', or a JOSM version number.
         If missing, 'latest' is used.
 
     --jdk jdk17 | jdk21
         The JDK to use. Either 'jdk17' or 'jdk21'. If missing, 'jdk17' is used.
 
     --use-graal-vm
-        If present, JOSM is started with the GraalVM. The GraalVM version is chosend depending on
+        If present, JOSM is started with the GraalVM. The GraalVM version is chosen depending on
         the parameter '--jdk'
 
     --graal-js latest | <version>
         The GraalJS version to be loaded. Either 'latest' or a GraalJS version configured in 'config.json'.
-        If missing, no GraalJS version is loaded. GraalJS can't be used toghether with the GraalVM,
+        If missing, no GraalJS version is loaded. GraalJS can't be used together with the GraalVM,
         only with a stock JDK.
 EOM
 }
@@ -69,7 +69,7 @@ while [ "$1" != "" ] ; do
                 usage
                 exit 1
             fi
-            arg=`echo $1 | egrep '^(latest)|(tested)|([0-9]+)$'`
+            arg=$(echo "$1" | grep -E '^(latest)|(tested)|([0-9]+)$')
             if [ "$arg" != "" ] ; then
                 josm=$1
             else
@@ -88,7 +88,7 @@ while [ "$1" != "" ] ; do
                 usage
                 exit 1
             fi
-            arg=`echo $1 | egrep '^(jdk17)|(jdk21)$'`
+            arg=$(echo "$1" | grep -E '^(jdk17)|(jdk21)$')
             if [ "$arg" != "" ] ; then
                 jdk=$1
             else
@@ -114,7 +114,7 @@ while [ "$1" != "" ] ; do
             if [ "$1" == "latest" ] ; then
                 graal_js=$1
             else
-                graal_js=`cat config.json | jq -r ".\"graaljs-params\" | keys | join(\"\n\")" | egrep "^$1$"`
+                graal_js=$(jq -r ".\"graaljs-params\" | keys | join(\"\n\")" config.json | grep -E "^$1$")
                 if [ "$graal_js" == "" ] ; then
                     echo "error: unsupported GraalJS version '$1'"
                     usage
@@ -149,14 +149,14 @@ if [ ! -f "$josm_jar" ] ; then
     exit 1
 fi
 
-if [ $use_graal_vm == true ] ; then
-    jdk_home=`cat config.json | jq -r ".\"graalvm-params\".\"$jdk\".directory"`
+if [ "$use_graal_vm" == true ] ; then
+    jdk_home=$(jq -r ".\"graalvm-params\".\"$jdk\".directory" config.json)
     if [ ! -d "$jdk_home" ] ; then
         echo "error: GraalVM home '$jdk_home' for JDK '$jdk' doesn't exist. Download it first using './manage.sh download-graalvm <version>'."
         exit 1
     fi
 else
-    jdk_home=`cat config.json | jq -r ".\"jdk-params\".\"$jdk\".directory"`
+    jdk_home=$(jq -r ".\"jdk-params\".\"$jdk\".directory" config.json)
     if [ ! -d "$jdk_home" ] ; then
         echo "error: JDK home '$jdk_home' for JDK '$jdk' doesn't exist. Download it first using './manage.sh download-jdk <version>'."
         exit 1
@@ -164,24 +164,24 @@ else
 fi
 
 # GraalVM for JDK21 also requires a GraalJS distribution. We can't install the 'js' language
-# into the local GraalVM JDK installation anymore. The tool 'bin/gu' isn't part of the 
+# into the local GraalVM JDK installation anymore. The tool 'bin/gu' isn't part of the
 # GraalVM JDK anymore.
-if [ $use_graal_vm == true -a "$jdk" == "jdk21" ] ; then
-    if [ "$graal_js" == "" ] ; then 
+if [ "$use_graal_vm" == true ] && [ "$jdk" == "jdk21" ] ; then
+    if [ "$graal_js" == "" ] ; then
         graal_js="latest"
-    fi 
+    fi
 fi
 
-if [ "$graal_js" != "" ] ; then 
+if [ "$graal_js" != "" ] ; then
     if [ "$graal_js" == "latest" ] ; then
-        graal_js=`cat config.json | jq -r ".\"graaljs-params\".latest"`
+        graal_js=$(jq -r ".\"graaljs-params\".latest" config.json)
     fi
 
-    graaljs_major=`echo $graal_js | awk -F"." '{print($1)}'`
-    graaljs_minor=`echo $graal_js | awk -F"." '{print($2)}'`
+    graaljs_major=$(echo "$graal_js" | awk -F"." '{print($1)}')
+    graaljs_minor=$(echo "$graal_js" | awk -F"." '{print($2)}')
 fi
 
-graal_js_home=`cat config.json | jq -r ".\"graaljs-params\".\"$graal_js\".directory"`
+graal_js_home=$(jq -r ".\"graaljs-params\".\"$graal_js\".directory" config.json)
 
 echo "JOSM:        $josm"
 echo "JDK:         $jdk"
@@ -194,40 +194,43 @@ prepare_logging_properties "DEBUG"
 
 cmd=""
 
-if [ $use_graal_vm == false -a "$graal_js" == "" ] ; then
+if [ "$use_graal_vm" == false ] && [ "$graal_js" == "" ] ; then
     cmd="$(pwd)/$jdk_home/bin/java \
         -Xms1g \
         -Xmx2g \
-        -Djosm.home=`pwd`/josm-home \
-        -Djava.util.logging.config.file=`pwd`/logging.properties \
+        -Djosm.home=$(pwd)/josm-home \
+        -Djava.util.logging.config.file=$(pwd)/logging.properties \
         --add-opens java.prefs/java.util.prefs=ALL-UNNAMED \
         --add-opens java.desktop/javax.swing.text.html=ALL-UNNAMED \
         --add-exports=java.base/sun.security.action=ALL-UNNAMED \
         --add-exports=java.desktop/com.sun.imageio.plugins.jpeg=ALL-UNNAMED \
         --add-exports=java.desktop/com.sun.imageio.spi=ALL-UNNAMED \
-        -jar `pwd`/$josm_jar"
-elif [ $use_graal_vm == true -a "$jdk" == "jdk17" ] ; then 
+        -jar $(pwd)/$josm_jar"
+elif [ "$use_graal_vm" == true ] && [ "$jdk" == "jdk17" ] ; then
     cmd="$(pwd)/$jdk_home/bin/java \
         -Xms1g \
         -Xmx2g \
-        -Djosm.home=`pwd`/josm-home \
-        -Djava.util.logging.config.file=`pwd`/logging.properties \
+        -Djosm.home=$(pwd)/josm-home \
+        -Djava.util.logging.config.file=$(pwd)/logging.properties \
         --add-opens java.prefs/java.util.prefs=ALL-UNNAMED \
         --add-opens java.desktop/javax.swing.text.html=ALL-UNNAMED \
-        -jar `pwd`/$josm_jar"
+        --add-exports=java.base/sun.security.action=ALL-UNNAMED \
+        --add-exports=java.desktop/com.sun.imageio.plugins.jpeg=ALL-UNNAMED \
+        --add-exports=java.desktop/com.sun.imageio.spi=ALL-UNNAMED \
+        -jar $(pwd)/$josm_jar"
 else
-    if [ $graljs_major -lt 23 ] || ( [ $graaljs_major -eq 23 ] && [ $graaljs_minor -eq 0 ] )  ;  then 
+    if [ "$graaljs_major" -lt 23 ] || ( [ "$graaljs_major" -eq 23 ] && [ "$graaljs_minor" -eq 0 ] )  ;  then
         modules="org.graalvm.sdk,org.graalvm.js,com.oracle.truffle.regex,org.graalvm.truffle"
     else
         modules="org.graalvm.polyglot,org.graalvm.word,org.graalvm.collections"
-    fi 
+    fi
 
     cmd="$(pwd)/$jdk_home/bin/java \
         -Xms1g \
         -Xmx2g \
-        -Djosm.home=`pwd`/josm-home \
-        -Djava.util.logging.config.file=`pwd`/logging.properties \
-        -classpath `pwd`/$josm_jar \
+        -Djosm.home=$(pwd)/josm-home \
+        -Djava.util.logging.config.file=$(pwd)/logging.properties \
+        -classpath $(pwd)/$josm_jar \
         --module-path $graal_js_home/lib \
         --add-modules $modules \
         --add-opens java.prefs/java.util.prefs=ALL-UNNAMED \
@@ -240,6 +243,6 @@ fi
 
 echo "Launching JOSM with:"
 echo "----"
-echo $cmd
+echo "$cmd"
 echo "----"
 $cmd

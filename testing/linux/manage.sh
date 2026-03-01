@@ -27,9 +27,9 @@ function download_josm() {
             ;;
     esac
 
-    download_url=`cat config.json | jq -r '."josm-params"."download-uri"'`
+    download_url=$(jq -r '."josm-params"."download-uri"' config.json)
     echo "Downloading JOSM '$version' from '$download_url' ..."
-    wget -O $josm_file "$download_url/$josm_file"
+    wget -O "$josm_file" "$download_url/$josm_file"
 }
 
 function download_jdk() {
@@ -40,18 +40,18 @@ function download_jdk() {
 
     version=$1
     jq_query=".\"jdk-params\".\"$version\".\"directory\""
-    directory=`cat config.json | jq -r "$jq_query"`
+    directory=$(jq -r "$jq_query" config.json)
     if [ -d "$directory" ] ; then
         echo "warning: JDK '$version' already installed in '$directory'. Skipping download."
         return 0
     fi
 
     jq_query=".\"jdk-params\".\"$version\".\"uri\""
-    download_url=`cat config.json | jq -r "$jq_query"`
+    download_url=$(jq -r "$jq_query" config.json)
     echo "Downloading JDK '$version' from '$download_url' ..."
-    wget -O "$version.tar.gz" $download_url
-    mkdir -p $directory
-    tar xvf "$version.tar.gz" --strip-components=1 -C $directory
+    wget -O "$version.tar.gz" "$download_url"
+    mkdir -p "$directory"
+    tar xvf "$version.tar.gz" --strip-components=1 -C "$directory"
     rm "$version.tar.gz"
     return 0
 }
@@ -64,35 +64,35 @@ function download_graalvm() {
     version=$1
 
     jq_query=".\"graalvm-params\".\"$version\".\"directory\""
-    directory=`cat config.json | jq -r "$jq_query"`
+    directory=$(jq -r "$jq_query" config.json)
     if [ -d "$directory" ] ; then
         echo "warning: GraalVM for JDK '$version' already installed in '$directory'. Skipping download."
         return 0
     fi
 
     jq_query=".\"graalvm-params\".\"$version\".\"uri\""
-    download_url=`cat config.json | jq -r "$jq_query"`
+    download_url=$(jq -r "$jq_query" config.json)
     if [ "$download_url" = "" ] ; then
         echo "error: no download URI found in ./config.json for GraalVM for JDK '$version'. Aborting download."
         return 1
     fi
     echo "Downloading GraalVM for JDK '$version' from '$download_url' ..."
-    wget -O "graalvm-$version.tar.gz" $download_url
-    mkdir -p $directory
-    tar xvf "graalvm-$version.tar.gz" --strip-components=1 -C $directory
+    wget -O "graalvm-$version.tar.gz" "$download_url"
+    mkdir -p "$directory"
+    tar xvf "graalvm-$version.tar.gz" --strip-components=1 -C "$directory"
     rm "graalvm-$version.tar.gz"
 
-    if [ "$version" = "jdk17" ] ; then 
+    if [ "$version" = "jdk17" ] ; then
         # install GraalJS
         echo "Installing GraalVM language 'js' ..."
-        $directory/bin/gu install js
-    elif [ "$version" = "jdk21" ] ; then 
+        "$directory/bin/gu" install js
+    elif [ "$version" = "jdk21" ] ; then
         echo "GraalVM for JDK21 doesn't include the upgrade utility 'bin/gu' anymore."
         echo "Downloading the latest GraalJS release instead."
         download_graaljs "latest"
     else
         echo "Error: unsupported JDK version '$version' for GraalVM"
-        return 1 
+        return 1
     fi
 
     return 0
@@ -106,31 +106,31 @@ function download_graaljs() {
 
     version=$1
     jq_query=".\"graaljs-params\" | has(\"$version\")"
-    is_valid_version=`cat config.json | jq -r "$jq_query"`
+    is_valid_version=$(jq -r "$jq_query" config.json)
     if [ "$is_valid_version" != "true" ] ; then
         echo "error: unsupported GraalJS version '$version'. Aborting download"
         return 1
     fi
     if [ "$version" == "latest" ] ; then
         jq_query=".\"graaljs-params\".latest"
-        version=`cat config.json | jq -r "$jq_query"`
+        version=$(jq -r "$jq_query" config.json)
     fi
     jq_query=".\"graaljs-params\".\"$version\".uri"
-    download_url=`cat config.json | jq -r "$jq_query"`
+    download_url=$(jq -r "$jq_query" config.json)
     if [ "$download_url" = "" ] ; then
         echo "error: no download URI found in ./config.json for GraalJS '$version'. Aborting download."
         return 1
     fi
     jq_query=".\"graaljs-params\".\"$version\".directory"
-    directory=`cat config.json | jq -r "$jq_query"`
+    directory=$(jq -r "$jq_query" config.json)
     if [ -d "$directory" ] ; then
         echo "warning: GraalJS '$version' already installed in '$directory'. Skipping download."
         return 0
     fi
-    mkdir -p $directory
+    mkdir -p "$directory"
     echo "Downloading GraalJS '$version' from '$download_url' ..."
-    wget -O "graaljs-$version.zip" $download_url
-    unzip "graaljs-$version.zip" -d $directory
+    wget -O "graaljs-$version.zip" "$download_url"
+    unzip "graaljs-$version.zip" -d "$directory"
     rm "graaljs-$version.zip"
     return 0
 }
@@ -139,40 +139,40 @@ function create_josm_home() {
     local josm_home
     local default_preferences
 
-    josm_home=`pwd`/josm-home
+    josm_home=$(pwd)/josm-home
     if [ -d "$josm_home" ] ; then
         echo "warning: JOSM home '$josm_home' already exists. Skipping."
         return 0
     fi
-    mkdir -p $josm_home
+    mkdir -p "$josm_home"
     echo "info: created JOSM home directory '$josm_home'"
 
     default_preferences=$(cat <<-EOPREF
-    <?xml version="1.0" encoding="UTF-8"?>
-    <preferences xmlns='http://josm.openstreetmap.de/preferences-1.0' version='18770'>
-        <!-- don't prompt for interactively updating JOSM -->
-        <tag key='pluginmanager.version-based-update.policy' value='never'/>
-        <!-- don't display scripting plugin release notes -->
-        <tag key='org.openstreetmap.josm.plugins.scripting.ui.release.ReleaseNotes.last-seen-release-note' value='v0.2.10'/>
-        <list key='plugins'>
-            <entry value='scripting'/>
-        </list>
-    </preferences>
+<?xml version="1.0" encoding="UTF-8"?>
+<preferences xmlns='http://josm.openstreetmap.de/preferences-1.0' version='18770'>
+    <!-- don't prompt for interactively updating JOSM -->
+    <tag key='pluginmanager.version-based-update.policy' value='never'/>
+    <!-- don't display scripting plugin release notes -->
+    <tag key='org.openstreetmap.josm.plugins.scripting.ui.release.ReleaseNotes.last-seen-release-note' value='v0.2.10'/>
+    <list key='plugins'>
+        <entry value='scripting'/>
+    </list>
+</preferences>
 EOPREF
 )
 
-    echo $default_preferences > $josm_home/preferences.xml
+    echo "$default_preferences" > "$josm_home/preferences.xml"
 }
 
 function delete_josm_home() {
     local josm_home
 
-    josm_home=`pwd`/josm-home
+    josm_home=$(pwd)/josm-home
     if [ ! -d "$josm_home" ] ; then
         echo "warning: JOSM home '$josm_home' doesn't exist. Skipping deleting it."
         return 0
     fi
-    rm -rf $josm_home
+    rm -rf "$josm_home"
     echo "info: deleted JOSM home directory '$josm_home'"
 }
 
@@ -184,22 +184,22 @@ usage: manage.sh <action> <args>
             display usage information
 
         prepare
-            fully prepares the testing environment, by running download-josm for jdk11 and jdk17,
-            running download-graalvm for jdk11 and jdk17, running download graaljs,
-            download-josm for latest and tested, and creating the josm home directory with
+            fully prepares the testing environment, by running download-josm for jdk17 and jdk21,
+            running download-graalvm for jdk17 and jdk21, running download graaljs,
+            running download-josm for latest and tested, and creating the josm home directory with
             create-josm-home
 
         download-josm latest|tested|<version>
             download a JOSM version
 
-        download-jdk jdk17|jdk20
+        download-jdk jdk17|jdk21
             downloads a portable OpenJDK and installs it in the current directory
 
         download-graalvm jdk17|jdk20
-            downloads a GraalVM for Windows and installs it in the current directory
+            downloads a GraalVM and installs it in the current directory
 
         download-graaljs
-            downloads a GraalJS for Windows and installs it in the current directory
+            downloads a GraalJS distribution and installs it in the current directory
 
         clean-jars
             delete the downloaded JOSM versions
@@ -242,8 +242,8 @@ function clean() {
     local version
 
     # remove local JOSM jars
-    num_jars=`ls *.jar 2>/dev/null | wc -l`
-    if [ $num_jars -ne 0 ] ; then
+    num_jars=$(ls *.jar 2>/dev/null | wc -l)
+    if [ "$num_jars" -ne 0 ] ; then
         rm *.jar
         echo "info: removed locally installed JOSM jars"
     else
@@ -251,13 +251,13 @@ function clean() {
     fi
 
     # remove locally installed JDKs
-    jdks=`cat config.json | jq -r ".\"jdk-params\" | keys | join(\" \")"`
+    jdks=$(jq -r ".\"jdk-params\" | keys | join(\" \")" config.json)
     for jdk in $jdks
     do
         jq_query=".\"jdk-params\".\"$jdk\".directory"
-        directory=`cat config.json | jq -r "$jq_query"`
+        directory=$(jq -r "$jq_query" config.json)
         if [ -d "$directory" ] ; then
-            rm -rf $directory
+            rm -rf "$directory"
             echo "info: deleted JDK '$jdk' in directory '$directory'"
         else
             echo "warning: JDK '$jdk' not installed locally. Skipping it."
@@ -265,13 +265,13 @@ function clean() {
     done
 
     # remove locally installed Graal VMS
-    jdks=`cat config.json | jq -r ".\"graalvm-params\" | keys | join(\" \")"`
+    jdks=$(jq -r ".\"graalvm-params\" | keys | join(\" \")" config.json)
     for jdk in $jdks
     do
         jq_query=".\"graalvm-params\".\"$jdk\".directory"
-        directory=`cat config.json | jq -r "$jq_query"`
+        directory=$(jq -r "$jq_query" config.json)
         if [ -d "$directory" ] ; then
-            rm -rf $directory
+            rm -rf "$directory"
             echo "info: deleted GraalVM for JDK '$jdk' in directory '$directory'"
         else
             echo "warning: GraalVM for JDK '$jdk' not locally installed. Skipping it."
@@ -279,14 +279,14 @@ function clean() {
     done
 
     # remove locally installed GraalJS distributions
-    graal_js_versions=`cat config.json | jq -r ".\"graaljs-params\" | keys | join(\" \")"`
+    graal_js_versions=$(jq -r ".\"graaljs-params\" | keys | join(\" \")" config.json)
     for version in $graal_js_versions
     do
         if [ "$version" != "latest" ] ; then
             jq_query=".\"graaljs-params\".\"$version\".directory"
-            directory=`cat config.json | jq -r "$jq_query"`
+            directory=$(jq -r "$jq_query" config.json)
             if [ -d "$directory" ] ; then
-                rm -rf $directory
+                rm -rf "$directory"
                 echo "info: deleted GraalJS version '$version' in directory '$directory'"
             else
                 echo "warning: GraalJS version '$version' not installed locally. Skipping it."
@@ -299,17 +299,17 @@ function clean() {
 }
 
 function update_scripting_jar() {
-    jar_file=`pwd`/../../build/dist/scripting.jar
+    jar_file=$(pwd)/../../build/dist/scripting.jar
     if [ ! -f "$jar_file" ] ; then
         echo "error: plugin jar file '$jar_file' doesn't exists. Build it first using '.\gradlew assemble' in the project directory"
         return 1
     fi
-    josm_home=`pwd`/josm-home
+    josm_home=$(pwd)/josm-home
     if [ ! -d "$josm_home" ] ;  then
         create_josm_home
     fi
     mkdir -p "$josm_home/plugins"
-    cp $jar_file "$josm_home/plugins"
+    cp "$jar_file" "$josm_home/plugins"
     echo "info: copied 'scripting.jar' from '$jar_file' into JOSM home at '$josm_home'"
 }
 
@@ -327,9 +327,9 @@ case "$1" in
             usage
             exit 1
         fi
-        arg=`echo $2 | egrep '^(latest)|(tested)|([0-9]+)$'`
+        arg=$(echo "$2" | grep -E '^(latest)|(tested)|([0-9]+)$')
         if [ "$arg" != "" ] ; then
-            download_josm $2
+            download_josm "$2"
         else
             echo "error: unsupported version '$2'"
             usage
@@ -343,8 +343,8 @@ case "$1" in
             usage
             exit 1
         fi
-        if [ "$2" == "jdk17" -o "$2" == "jdk21" ] ; then
-            download_jdk $2
+        if [ "$2" == "jdk17" ] || [ "$2" == "jdk21" ] ; then
+            download_jdk "$2"
         else
             echo "error: unsupported jdk version '$2'"
             usage
@@ -358,8 +358,8 @@ case "$1" in
             usage
             exit 1
         fi
-        if [ "$2" == "jdk17" -o "$2" == "jdk21" ] ; then
-            download_graalvm $2
+        if [ "$2" == "jdk17" ] || [ "$2" == "jdk21" ] ; then
+            download_graalvm "$2"
         else
             echo "error: unsupported jdk version '$2' for GraalVM"
             usage
@@ -373,7 +373,7 @@ case "$1" in
             usage
             exit 1
         fi
-        download_graaljs $2
+        download_graaljs "$2"
         ;;
 
     "prepare")
@@ -402,4 +402,3 @@ case "$1" in
         exit 1
         ;;
 esac
-
