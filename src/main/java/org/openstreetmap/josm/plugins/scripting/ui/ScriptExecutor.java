@@ -205,7 +205,7 @@ public class ScriptExecutor {
             ));
         }
         if (script == null) return;
-        final IGraalVMFacade facade = GraalVMFacadeFactory.createGraalVMFacade();
+        final IGraalVMFacade facade = GraalVMFacadeFactory.getOrCreateGraalVMFacade();
         if (facade == null) {
             // should not happen. Make sure this method is only invoked
             // if GraalVM is present. Log a warning and return, don't prompt
@@ -219,8 +219,6 @@ public class ScriptExecutor {
                 facade.eval(engine, script);
             } catch (Throwable e) {
                 errorViewerModel.setError(e);
-            } finally {
-                facade.resetContext();
             }
         };
         runOnSwingEDT(task);
@@ -253,8 +251,6 @@ public class ScriptExecutor {
                 warnOpenScriptFileFailed(script, e);
             } catch (GraalVMEvalException e) {
                 ScriptErrorDialog.showErrorDialog(e);
-            } finally {
-                facade.resetContext();
             }
         };
         runOnSwingEDT(task);
