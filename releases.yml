@@ -1,11 +1,10 @@
 releases:
-  # next release
+  # current release
   - label: v0.3.6
     minJosmVersion: 18905
     description: |
-      TBD
-      
-  # current release
+      **Feature**: Support launching interactive UI applications (Swing). See #115
+
   - label: v0.3.5
     minJosmVersion: 18905
     description: |
