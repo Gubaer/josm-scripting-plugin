@@ -86,8 +86,8 @@ function download_graalvm() {
         # install GraalJS
         echo "Installing GraalVM language 'js' ..."
         "$directory/bin/gu" install js
-    elif [ "$version" = "jdk21" ] ; then
-        echo "GraalVM for JDK21 doesn't include the upgrade utility 'bin/gu' anymore."
+    elif [ "$version" = "jdk21" ] || [ "$version" = "jdk25" ] ; then
+        echo "GraalVM for JDK ${version#jdk} doesn't include the upgrade utility 'bin/gu' anymore."
         echo "Downloading the latest GraalJS release instead."
         download_graaljs "latest"
     else
@@ -184,18 +184,18 @@ usage: manage.sh <action> <args>
             display usage information
 
         prepare
-            fully prepares the testing environment, by running download-josm for jdk17 and jdk21,
-            running download-graalvm for jdk17 and jdk21, running download graaljs,
+            fully prepares the testing environment, by running download-josm for jdk17, jdk21, and jdk25,
+            running download-graalvm for jdk17, jdk21, and jdk25, running download graaljs,
             running download-josm for latest and tested, and creating the josm home directory with
             create-josm-home
 
         download-josm latest|tested|<version>
             download a JOSM version
 
-        download-jdk jdk17|jdk21
+        download-jdk jdk17|jdk21|jdk25
             downloads a portable OpenJDK and installs it in the current directory
 
-        download-graalvm jdk17|jdk20
+        download-graalvm jdk17|jdk21|jdk25
             downloads a GraalVM and installs it in the current directory
 
         download-graaljs
@@ -223,8 +223,10 @@ EOM
 function prepare() {
     download_jdk "jdk17"
     download_jdk "jdk21"
+    download_jdk "jdk25"
     download_graalvm "jdk17"
     download_graalvm "jdk21"
+    download_graalvm "jdk25"
     download_graaljs "latest"
     download_josm "latest"
     download_josm "tested"
@@ -343,7 +345,7 @@ case "$1" in
             usage
             exit 1
         fi
-        if [ "$2" == "jdk17" ] || [ "$2" == "jdk21" ] ; then
+        if [ "$2" == "jdk17" ] || [ "$2" == "jdk21" ] || [ "$2" == "jdk25" ] ; then
             download_jdk "$2"
         else
             echo "error: unsupported jdk version '$2'"
@@ -358,7 +360,7 @@ case "$1" in
             usage
             exit 1
         fi
-        if [ "$2" == "jdk17" ] || [ "$2" == "jdk21" ] ; then
+        if [ "$2" == "jdk17" ] || [ "$2" == "jdk21" ] || [ "$2" == "jdk25" ] ; then
             download_graalvm "$2"
         else
             echo "error: unsupported jdk version '$2' for GraalVM"

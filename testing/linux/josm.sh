@@ -18,8 +18,8 @@ usage: josm.sh <options>
         The JOSM version to launch. Either 'latest', 'tested', or a JOSM version number.
         If missing, 'latest' is used.
 
-    --jdk jdk17 | jdk21
-        The JDK to use. Either 'jdk17' or 'jdk21'. If missing, 'jdk17' is used.
+    --jdk jdk17 | jdk21 | jdk25
+        The JDK to use. Either 'jdk17', 'jdk21', or 'jdk25'. If missing, 'jdk17' is used.
 
     --use-graal-vm
         If present, JOSM is started with the GraalVM. The GraalVM version is chosen depending on
@@ -88,7 +88,7 @@ while [ "$1" != "" ] ; do
                 usage
                 exit 1
             fi
-            arg=$(echo "$1" | grep -E '^(jdk17)|(jdk21)$')
+            arg=$(echo "$1" | grep -E '^(jdk17)|(jdk21)|(jdk25)$')
             if [ "$arg" != "" ] ; then
                 jdk=$1
             else
@@ -163,10 +163,10 @@ else
     fi
 fi
 
-# GraalVM for JDK21 also requires a GraalJS distribution. We can't install the 'js' language
+# GraalVM for JDK21+ also requires a GraalJS distribution. We can't install the 'js' language
 # into the local GraalVM JDK installation anymore. The tool 'bin/gu' isn't part of the
 # GraalVM JDK anymore.
-if [ "$use_graal_vm" == true ] && [ "$jdk" == "jdk21" ] ; then
+if [ "$use_graal_vm" == true ] && ( [ "$jdk" == "jdk21" ] || [ "$jdk" == "jdk25" ] ) ; then
     if [ "$graal_js" == "" ] ; then
         graal_js="latest"
     fi

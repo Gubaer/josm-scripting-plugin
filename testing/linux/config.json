@@ -13,6 +13,11 @@
         "jdk21": {
             "uri": "https://aka.ms/download-jdk/microsoft-jdk-21.0.5-linux-x64.tar.gz",
             "directory": "jdk21"
+        },
+
+        "jdk25": {
+            "uri": "https://aka.ms/download-jdk/microsoft-jdk-25.0.2-linux-x64.tar.gz",
+            "directory": "jdk25"
         }
     },
 
@@ -25,12 +30,21 @@
         "jdk21": {
             "uri": "https://download.oracle.com/graalvm/21/latest/graalvm-jdk-21_linux-x64_bin.tar.gz",
             "directory": "graalvm-jdk21"
+        },
+
+        "jdk25": {
+            "uri": "https://download.oracle.com/graalvm/25/latest/graalvm-jdk-25_linux-x64_bin.tar.gz",
+            "directory": "graalvm-jdk25"
         }
     },
 
     
     "graaljs-params": {
-        "latest": "24.1.1",
+        "latest": "25.0.2",
+        "25.0.2": {
+            "uri": "https://github.com/Gubaer/josm-scripting-plugin-graaljs/releases/download/25.0.2/graaljs-25.0.2.zip",
+            "directory": "graaljs-25.0.2"
+        },
         "24.1.1": {
             "uri": "https://github.com/Gubaer/josm-scripting-plugin-graaljs/releases/download/24.1.1/graaljs-24.1.1.zip",
             "directory": "graaljs-24.1.1"
