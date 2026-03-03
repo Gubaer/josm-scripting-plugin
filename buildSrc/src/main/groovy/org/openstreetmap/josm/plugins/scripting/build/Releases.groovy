@@ -1,7 +1,7 @@
 package org.openstreetmap.josm.plugins.scripting.build
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
+import tools.jackson.databind.ObjectMapper
+import tools.jackson.dataformat.yaml.YAMLFactory
 
 class IllegalSemanticVersion extends Exception {
     IllegalSemanticVersion(String message) {

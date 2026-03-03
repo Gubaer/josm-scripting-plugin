@@ -12,7 +12,7 @@ repositories {
 dependencies {
     implementation group: "org.apache.groovy", name: "groovy", version: project.property("dep.groovy")
     implementation group: "org.apache.groovy", name: "groovy-yaml", version: project.property("dep.groovy")
-    implementation group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-yaml', version: project.property("dep.jackson")
+    implementation group: 'tools.jackson.dataformat', name: 'jackson-dataformat-yaml', version: project.property("dep.jackson")
     implementation group: 'com.squareup.okhttp3', name: 'okhttp', version: project.property("dep.okhttp3")
     implementation 'software.amazon.awssdk:s3:2.31.64'
 
