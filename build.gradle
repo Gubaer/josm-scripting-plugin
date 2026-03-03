@@ -299,7 +299,6 @@ tasks.register('testJSR223EnginePresent', Test) {
     }
 }
 
-//tasks.check.dependsOn(tasks.testScriptApiV1)
 tasks.check.dependsOn(tasks.testScriptApiV3)
 tasks.check.dependsOn(tasks.testGraalVMSupportNotPresent)
 tasks.check.dependsOn(tasks.testJSR223EnginePresent)
