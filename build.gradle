@@ -1,6 +1,6 @@
 
 plugins {
-    id 'org.openstreetmap.josm' version '0.8.2'
+    //id 'org.openstreetmap.josm' version '0.8.2'
     id 'java'
     id 'groovy'
     id 'eclipse'
@@ -13,6 +13,7 @@ repositories {
 
 configurations {
     graalvm
+    packIntoJar
 }
 
 dependencies {
@@ -20,6 +21,11 @@ dependencies {
     implementation group: 'org.apache.groovy', name: 'groovy-all', version: project.property('dep.groovy')
     implementation group: 'javax.activation', name: 'activation', version: '1.1.1'
 
+    implementation group: 'com.github.spullara.mustache.java', name: 'compiler', version: project.property('dep.mustache')
+    implementation group: 'com.fifesoft', name: 'rsyntaxtextarea', version: project.property("dep.rsyntaxtextarea")
+    implementation group: 'org.apache.commons', name: 'commons-compress', version: project.property("dep.commons-compress")
+    implementation group: 'javax.validation', name: 'validation-api', version: '1.0.0.GA'
+    implementation group: 'javax.activation', name: 'activation', version: '1.1.1'
     implementation group: 'com.github.spullara.mustache.java', name: 'compiler', version: project.property('dep.mustache')
     implementation group: 'com.fifesoft', name: 'rsyntaxtextarea', version: project.property("dep.rsyntaxtextarea")
     implementation group: 'org.apache.commons', name: 'commons-compress', version: project.property("dep.commons-compress")
@@ -38,7 +44,9 @@ dependencies {
     packIntoJar group: 'com.fifesoft', name: 'rsyntaxtextarea', version: project.property("dep.rsyntaxtextarea")
     packIntoJar group: 'org.apache.commons', name: 'commons-compress', version: project.property("dep.commons-compress")
 
-    testImplementation('org.openstreetmap.josm:josm-unittest:latest'){changing=true}
+    implementation files("software/josm/josm-latest.jar")
+    testImplementation files("software/josm/josm-latest.jar")
+    testImplementation files("software/josm/josm-unittest.jar")
     testImplementation group: 'org.jmockit', name: 'jmockit', version: project.property("dep.jmockit")
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: project.property('dep.jupiter')
     testImplementation group: 'org.apache.groovy', name: 'groovy-all', version: project.property('dep.groovy')
@@ -46,7 +54,6 @@ dependencies {
 
     testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: project.property('dep.jupiter')
     testRuntimeOnly group: "org.python", name: "jython", version: project.property('dep.jython')
-
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
@@ -89,38 +96,38 @@ tasks.register('dumpGraalVMJars') {
     }
 }
 
-josm {
-    josmCompileVersion = configuredJosmCompileVersion
-    manifest {
-        minJosmVersion = releases.highestJosmVersion
-        minJavaVersion = 17
-
-        // Old releases up to v0.2.0 have a numeric ID and are available as raw asset from the github repo.
-        // Newer releases starting from v0.2.0 use semantic versioning and are available as asset from
-        // a github release.
-        releases.josmVersions.each {josmVersion ->
-            final label = releases.highestPluginLabelForJosmVersion(josmVersion)
-            if (label.isNumber()) {
-                oldVersionDownloadLink josmVersion, label,
-                new URL("https://raw.github.com/Gubaer/josm-scripting-plugin/for-josm-$josmVersion/dist/scripting.jar")
-            } else {
-                oldVersionDownloadLink josmVersion, label,
-                new URL("https://github.com/Gubaer/josm-scripting-plugin/releases/download/$label/scripting.jar")
-            }
-        }
-    }
-
-    i18n {
-        copyrightHolder = "Gubaer"
-        //pathTransformer = getGithubPathTransformer('Gubaer/josm-scripting-plugin')
-    }
-
-    github {
-        repositoryOwner = project.property("josm.github.user")
-        repositoryName = project.property("josm.github.repository")
-        targetCommitish = "master"
-    }
-}
+//josm {
+//    josmCompileVersion = configuredJosmCompileVersion
+//    manifest {
+//        minJosmVersion = releases.highestJosmVersion
+//        minJavaVersion = 17
+//
+//        // Old releases up to v0.2.0 have a numeric ID and are available as raw asset from the github repo.
+//        // Newer releases starting from v0.2.0 use semantic versioning and are available as asset from
+//        // a github release.
+//        releases.josmVersions.each {josmVersion ->
+//            final label = releases.highestPluginLabelForJosmVersion(josmVersion)
+//            if (label.isNumber()) {
+//                oldVersionDownloadLink josmVersion, label,
+//                new URL("https://raw.github.com/Gubaer/josm-scripting-plugin/for-josm-$josmVersion/dist/scripting.jar")
+//            } else {
+//                oldVersionDownloadLink josmVersion, label,
+//                new URL("https://github.com/Gubaer/josm-scripting-plugin/releases/download/$label/scripting.jar")
+//            }
+//        }
+//    }
+//
+//    i18n {
+//        copyrightHolder = "Gubaer"
+//        //pathTransformer = getGithubPathTransformer('Gubaer/josm-scripting-plugin')
+//    }
+//
+//    github {
+//        repositoryOwner = project.property("josm.github.user")
+//        repositoryName = project.property("josm.github.repository")
+//        targetCommitish = "master"
+//    }
+//}
 
 jar {
     from("src/main/javascript/v3") {
@@ -322,6 +329,27 @@ processResources {
   from "$projectDir/LICENSE"
 }
 
+tasks.register("downloadJosmJar") {
+    def josmJar = file("software/josm/josm-latest.jar")
+    def josmUnittestJar = file("software/josm/josm-unittest.jar")
+    outputs.file(josmJar)
+    outputs.file(josmUnittestJar)
+    doLast {
+        josmJar.parentFile.mkdirs()
+        new URL("https://josm.openstreetmap.de/josm-latest.jar").withInputStream { is ->
+            Files.copy(is, josmJar.toPath(), StandardCopyOption.REPLACE_EXISTING)
+        }
+        new URL("https://josm.openstreetmap.de/download/josm-unittest.jar").withInputStream { is ->
+            Files.copy(is, josmUnittestJar.toPath(), StandardCopyOption.REPLACE_EXISTING)
+        }
+    }
+}
+
+compileJava.dependsOn("downloadJosmJar")
+compileGroovy.dependsOn("downloadJosmJar")
+compileTestJava.dependsOn("downloadJosmJar")
+compileTestGroovy.dependsOn("downloadJosmJar")
+
 tasks.register("downloadGraalVM", GraalVMDownloadTask)
 
 tasks.register("checkDownloadUrls", CheckDownloadUrlsInManifestTask)
@@ -330,6 +358,6 @@ tasks.register("showPublishedPluginInfo", ShowPublishedPluginTask)
 
 tasks.register("publishToAwsS3", PublishToAwsS3Task)
 
-publishToGithubRelease {
-    remoteJarName = "scripting.jar"
-}
+//publishToGithubRelease {
+//    remoteJarName = "scripting.jar"
+//}
