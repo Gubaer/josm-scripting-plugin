@@ -131,6 +131,20 @@ tasks.register('dumpGraalVMJars') {
 jar {
     archiveBaseName = "scripting"
     archiveVersion = "" // omit version in the generated jar
+    // pack class files and LICESNSES of dependencies into the target jar
+    configurations.packIntoJar.each { dep ->
+        from(zipTree(dep)) {
+            eachFile { fcd ->
+                if (fcd.path.startsWith("META-INF/LICENSE") || fcd.path.startsWith("META-INF/NOTICE")) {
+                    def jarBaseName = dep.name.replaceAll(/\.jar$/, "")
+                    fcd.path = fcd.path.replaceFirst("META-INF/", "META-INF/${jarBaseName}-")
+                }
+            }
+        }
+    }
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    // pack javascript source for API V2 into the target jar
     from("src/main/javascript/v3") {
         into("js/v3")
         include("**/*.js")
