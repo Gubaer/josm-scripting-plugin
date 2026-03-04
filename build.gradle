@@ -44,7 +44,7 @@ dependencies {
     packIntoJar group: 'org.apache.commons', name: 'commons-compress', version: project.property("dep.commons-compress")
 
     implementation files("software/josm/josm-latest.jar")
-    testImplementation files("software/josm/josm-latest.jar")
+
     testImplementation files("software/josm/josm-unittest.jar")
     testImplementation group: 'org.jmockit', name: 'jmockit', version: project.property("dep.jmockit")
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: project.property('dep.jupiter')
