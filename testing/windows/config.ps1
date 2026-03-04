@@ -11,6 +11,10 @@ $JDK_PARAMS = @{
         uri = "https://aka.ms/download-jdk/microsoft-jdk-21.0.5-windows-x64.zip"
         directory = "jdk-21"
     }
+    jdk25 = @{
+        uri = "https://aka.ms/download-jdk/microsoft-jdk-25.0.0-windows-x64.zip"
+        directory = "jdk-25"
+    }
  }
 
 #
@@ -25,6 +29,10 @@ $GRAALVM_PARAMS = @{
         uri = "https://download.oracle.com/graalvm/21/latest/graalvm-jdk-21_windows-x64_bin.zip"
         directory = "graalvm-jdk-21"
     }
+    jdk25 = @{
+        uri = "https://download.oracle.com/graalvm/25/latest/graalvm-jdk-25_windows-x64_bin.zip"
+        directory = "graalvm-jdk-25"
+    }
 }
 
 # 
@@ -32,7 +40,11 @@ $GRAALVM_PARAMS = @{
 # https://github.com/Gubaer/josm-scripting-plugin-graaljs
 #
 $GRAALJS_PARAMS = @{
-    latest = "24.1.1"
+    "latest" =  "25.0.2"
+    "25.0.2" = @{
+        "uri" = "https://github.com/Gubaer/josm-scripting-plugin-graaljs/releases/download/25.0.2/graaljs-25.0.2.zip"
+        "directory" = "graaljs-25.0.2"
+    }
 
     "24.1.1" = @{
         uri = "https://github.com/Gubaer/josm-scripting-plugin-graaljs/releases/download/24.1.1/graaljs-24.1.1.zip"

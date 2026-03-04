@@ -28,9 +28,9 @@ Usage: manage.ps1 action <args>
             create-josm-home
         download-josm latest|tested|<version>  
             download a JOSM version
-        download-jdk jdk17|jdk21
+        download-jdk jdk17|jdk21|jdk25
             downloads a portable OpenJDK and installs it in the current directory
-        download-graalvm jdk17|jdk21
+        download-graalvm jdk17|jdk21|jdk25
             downloads a GraalVM for Windows and installs it in the current directory
         download-graaljs 
             downloads a GraalJS for Windows and installs it in the current directory
@@ -228,7 +228,7 @@ function downloadGraalVM([string]$version) {
 
     } elseif ($version -eq "jdk21") {
         $expandedPath = Get-ChildItem . -Filter "graalvm-jdk-21*" `
-            | Select-Object -First 1 -ExpandProperty Name             
+            | Select-Object -First 1 -ExpandProperty Name
         if (!$expandedPath) {
             Write-Warning "Directory starting with 'graalvm-jdk-21*' doesn't exist. Skipping installation of GraalVM"
             return
@@ -239,6 +239,22 @@ function downloadGraalVM([string]$version) {
         Remove-Item -Path $localFile
 
         Write-Warning "GraalVM for JDK 21 doesn't include the update tool 'gu.cmd' anymore."
+        Write-Warning "Downloading and installing the latest GraalJS Java modules instead."
+        downloadGraalJS($GRAALJS_PARAMS["latest"])
+
+    } elseif ($version -eq "jdk25") {
+        $expandedPath = Get-ChildItem . -Filter "graalvm-jdk-25*" `
+            | Select-Object -First 1 -ExpandProperty Name
+        if (!$expandedPath) {
+            Write-Warning "Directory starting with 'graalvm-jdk-25*' doesn't exist. Skipping installation of GraalVM"
+            return
+        }
+        Rename-Item -Path $expandedPath -NewName $graalVMDirectory
+        Write-Information "Downloaded GraalVM for JDK25 into '$graalVMDirectory'"
+        # remove the downloaded zip file
+        Remove-Item -Path $localFile
+
+        Write-Warning "GraalVM for JDK 25 doesn't include the update tool 'gu.cmd'."
         Write-Warning "Downloading and installing the latest GraalJS Java modules instead."
         downloadGraalJS($GRAALJS_PARAMS["latest"])
     }
@@ -321,8 +337,10 @@ switch($action) {
     "prepare" {
         downloadJDK("jdk17")
         downloadJDK("jdk21")
+        downloadJDK("jdk25")
         downloadGraalVM("jdk17")
         downloadGraalVM("jdk21")
+        downloadGraalVM("jdk25")
         downloadGraalJS($GRAALJS_PARAMS["latest"])
         downloadJosm("latest")
         downloadJosm("tested")
@@ -346,7 +364,7 @@ switch($action) {
             Usage
             Exit 1
         }
-        if (! ($version -eq "jdk17" -or $version -eq "jdk21")) {
+        if (! ($version -eq "jdk17" -or $version -eq "jdk21" -or $version -eq "jdk25")) {
             Write-Error -Message "Unsupported JDK version '$version'" -Category InvalidArgument
             Usage
             Exit 1
@@ -360,7 +378,7 @@ switch($action) {
             Write-Information "Using default version 'jdk17'"
             $version = "jdk17"
         }
-        if (!($version -eq "jdk17"-or $version -eq "jdk21")) {
+        if (!($version -eq "jdk17" -or $version -eq "jdk21" -or $version -eq "jdk25")) {
             Write-Error -Message "Unsupported JDK version '$version'" -Category InvalidArgument
             Usage
             Exit 1

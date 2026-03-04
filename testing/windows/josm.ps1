@@ -6,7 +6,7 @@ Run JOSM with different versions of JDKs, GraalVMs, and GraalJS libraries
 The JOSM version to lauch. Either 'latest', 'tested', or a JOSM version number. If missing, 'latest' is used.
 
 .PARAMETER jdk
-The JDK to use. Either 'jdk17' or 'jdk21'. If missing, 'jdk17' is used.
+The JDK to use. Either 'jdk17', 'jdk21', or 'jdk25'. If missing, 'jdk17' is used.
 
 .PARAMETER useGraalVM
 If present, JOSM is started with the GraalVM. The GraalVM version is chosend depending on the parameter '-jdk'
@@ -57,8 +57,8 @@ if (!$josm) {
 }
 
 if ($jdk) {
-    if (! ($jdk -eq "jdk17" -or $jdk -eq "jdk21")) {
-        Write-Error -Message "Unsupported JDK version '$jdk'. Use 'jdk17' or 'jdk21'." -Category InvalidArgument
+    if (! ($jdk -eq "jdk17" -or $jdk -eq "jdk21" -or $jdk -eq "jdk25")) {
+        Write-Error -Message "Unsupported JDK version '$jdk'. Use 'jdk17', 'jdk21', or 'jdk25'." -Category InvalidArgument
         Exit 1
     }
 } else {
@@ -67,7 +67,7 @@ if ($jdk) {
 if (!$graalJs) {
     $graalJs = ""
 }
-if ($graalJs -or ($jdk -eq "jdk21" -and $useGraalVM)) {
+if ($graalJs -or (($jdk -eq "jdk21" -or $jdk -eq "jdk25") -and $useGraalVM)) {
     if (!$graalJs) {
         $graalJs = "latest"
     }
@@ -120,7 +120,7 @@ if ($jdk -and !$useGraalVM) {
 }
 
 $graalJsHome = ""
-if ($graalJs -or ($jdk -eq "jdk21" -and $useGraalVM)) {
+if ($graalJs -or (($jdk -eq "jdk21" -or $jdk -eq "jdk25") -and $useGraalVM)) {
     Write-Information "graalJs=$graalJs"
     $graalJsHome = $GRAALJS_PARAMS[$graalJs]["directory"]
     if (!(Test-Path $graalJsHome)) {
