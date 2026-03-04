@@ -29,15 +29,7 @@ class BaseTestCase {
 
     @BeforeAll
     static void lookupScriptingJarFile() {
-        final libsDir = new File(getProjectHome(), "build/libs")
-        final libs = new File(getProjectHome(), "build/libs")
-            .listFiles( {_, name -> name.startsWith("scripting") && name.endsWith(".jar") } as FilenameFilter)
-        if (libs == null || libs.length == 0) {
-            throw new IllegalStateException("No scripting jar file in '${getProjectHome()}'.")
-        } else if (libs.length > 1) {
-            throw new IllegalStateException("More than one scripting jar file in '${getProjectHome()}'.")
-        }
-        scriptingJarFile = libs[0]
+        scriptingJarFile = new File(getProjectHome(), "build/libs/scripting.jar")
         if (!scriptingJarFile.isFile() || !scriptingJarFile.exists() || !scriptingJarFile.canRead()) {
             throw new IllegalStateException("Plugin jar file '$scriptingJarFile.absolutePath' not found.")
         }
