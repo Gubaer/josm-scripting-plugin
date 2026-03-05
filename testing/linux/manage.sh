@@ -216,7 +216,7 @@ usage: manage.sh <action> <args>
 
         update-scripting-jar
             updates the scripting jar file with the latest scripting jar
-            in the build/dist directory
+            in the build/libs directory
 EOM
 }
 
@@ -301,7 +301,7 @@ function clean() {
 }
 
 function update_scripting_jar() {
-    jar_file=$(pwd)/../../build/dist/scripting.jar
+    jar_file=$(pwd)/../../build/libs/scripting.jar
     if [ ! -f "$jar_file" ] ; then
         echo "error: plugin jar file '$jar_file' doesn't exists. Build it first using '.\gradlew assemble' in the project directory"
         return 1

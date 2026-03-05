@@ -45,7 +45,7 @@ Usage: manage.ps1 action <args>
             deletes the JOSM home directory
         update-scripting-jar
             updates the scripting jar file with the latest scripting jar
-            in the build/dist directory
+            in the build/libs directory
 "@
 }
 
@@ -134,7 +134,7 @@ class JosmHome {
 
     static [void] installLocalScriptingJar() {
         # The directory where the scripting.jar is locally built
-        $distDir = $(Join-Path $(Get-Location) -ChildPath "..\..\build\dist")
+        $distDir = $(Join-Path $(Get-Location) -ChildPath "..\..\build\libs")
         $jarFile = $(Join-Path $distDir -ChildPath "scripting.jar")
         if (!(Test-Path $jarFile)) {
             Write-Warning "Scripting jar file '$jarFile' doesn't exist. Build it first using 'gradlew.bat build' in the repo root"
