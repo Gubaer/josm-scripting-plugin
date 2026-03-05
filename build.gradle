@@ -6,6 +6,7 @@ import org.openstreetmap.josm.plugins.scripting.build.GraalVMDownloadTask
 import org.openstreetmap.josm.plugins.scripting.build.Releases
 import org.openstreetmap.josm.plugins.scripting.release.CreateGithubReleaseTask
 import org.openstreetmap.josm.plugins.scripting.release.PublishToAwsS3Task
+import org.openstreetmap.josm.plugins.scripting.release.PublishToGithubReleaseTask
 import org.openstreetmap.josm.plugins.scripting.release.ShowPublishedPluginTask
 import java.nio.file.Files
 import java.nio.file.Paths
@@ -409,4 +410,7 @@ tasks.register("publishToAwsS3", PublishToAwsS3Task)
 tasks.register("createGithubRelease", CreateGithubReleaseTask) {
     releaseTag = releases.currentPluginLabel
     releaseDescription = releases.currentReleaseDescription
+}
+
+tasks.register("publishToGithubRelease", PublishToGithubReleaseTask) {
 }
