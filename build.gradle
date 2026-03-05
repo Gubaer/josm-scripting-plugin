@@ -1,3 +1,16 @@
+import javax.imageio.ImageIO
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+import org.gradle.api.tasks.testing.logging.TestLogEvent
+import org.openstreetmap.josm.plugins.scripting.CheckDownloadUrlsInManifestTask
+import org.openstreetmap.josm.plugins.scripting.build.GraalVMDownloadTask
+import org.openstreetmap.josm.plugins.scripting.build.Releases
+import org.openstreetmap.josm.plugins.scripting.release.PublishToAwsS3Task
+import org.openstreetmap.josm.plugins.scripting.release.ShowPublishedPluginTask
+import java.nio.file.Files
+import java.nio.file.Paths
+import java.nio.file.StandardCopyOption
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
 
 plugins {
     id 'java'
@@ -95,40 +108,7 @@ tasks.register('dumpGraalVMJars') {
     }
 }
 
-//josm {
-//    josmCompileVersion = configuredJosmCompileVersion
-//    manifest {
-//        minJosmVersion = releases.highestJosmVersion
-//        minJavaVersion = 17
-//
-//        // Old releases up to v0.2.0 have a numeric ID and are available as raw asset from the github repo.
-//        // Newer releases starting from v0.2.0 use semantic versioning and are available as asset from
-//        // a github release.
-//        releases.josmVersions.each {josmVersion ->
-//            final label = releases.highestPluginLabelForJosmVersion(josmVersion)
-//            if (label.isNumber()) {
-//                oldVersionDownloadLink josmVersion, label,
-//                new URL("https://raw.github.com/Gubaer/josm-scripting-plugin/for-josm-$josmVersion/dist/scripting.jar")
-//            } else {
-//                oldVersionDownloadLink josmVersion, label,
-//                new URL("https://github.com/Gubaer/josm-scripting-plugin/releases/download/$label/scripting.jar")
-//            }
-//        }
-//    }
-//
-//    i18n {
-//        copyrightHolder = "Gubaer"
-//        //pathTransformer = getGithubPathTransformer('Gubaer/josm-scripting-plugin')
-//    }
-//
-//    github {
-//        repositoryOwner = project.property("josm.github.user")
-//        repositoryName = project.property("josm.github.repository")
-//        targetCommitish = "master"
-//    }
-//}
-
-jar {
+tasks.named('jar') {
     archiveBaseName = "scripting"
     archiveVersion = "" // omit version in the generated jar
     // pack class files and LICESNSES of dependencies into the target jar
@@ -150,6 +130,62 @@ jar {
         include("**/*.js")
         include("**/*.mjs")
     }
+
+    manifest {
+        attributes("Plugin-Class": project.property("plugin.class"))
+        attributes("Plugin-Link": project.property("plugin.link"))
+        attributes("Plugin-Canloadatruntime": project.property("plugin.canloadatruntime"))
+        attributes("Plugin-Date": ZonedDateTime.now().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME))
+        attributes("Plugin-Description": project.property("plugin.description"))
+        attributes("Plugin-Early": project.property("plugin.early"))
+
+        attributes("Plugin-Minium-Java-Version": "17")
+        attributes("Plugin-Mainversion": releases.highestJosmVersion)
+        attributes("Plugin-Version": releases.currentPluginLabel)
+
+        // icon as data URL
+        def iconFile = file("src/main/resources/images/script-engine.png")
+        def dataUrl = "data:image/png;base64,${iconFile.bytes.encodeBase64()}"
+        attributes("Plugin-Icon": dataUrl)
+
+        // icon size
+        def image = ImageIO.read(iconFile)
+        def width = image.width
+        def height = image.height
+        attributes("Plugin-Icon-Size": "${width}x${height}")
+
+        // download links
+        // Old releases up to v0.2.0 have a numeric ID and are available as raw asset from the github repo.
+        // Newer releases starting from v0.2.0 use semantic versioning and are available as asset from
+        // a github release.
+        releases.josmVersions.each {josmVersion ->
+            final label = releases.highestPluginLabelForJosmVersion(josmVersion)
+            final key = "${josmVersion}_Plugin-Url".toString()
+            if (label.isNumber()) {
+                final downloadUrl = new URL("https://raw.github.com/Gubaer/josm-scripting-plugin/for-josm-$josmVersion/dist/scripting.jar")
+                attributes((key): "${label};${downloadUrl}")
+            } else {
+                final downloadUrl = new URL("https://github.com/Gubaer/josm-scripting-plugin/releases/download/$label/scripting.jar")
+                attributes((key): "${label};${downloadUrl}")
+            }
+        }
+        // already translated descriptions
+        // TODO: should be handled by i18n infrastructure
+        attributes("ast_Plugin-Description": "Executar scripts en JOSM")
+        attributes("cs_Plugin-Description": "Spouští skripty v JOSM")
+        attributes("de_Plugin-Description": "Führt Skripte in JOSM aus")
+        attributes("el_Plugin-Description": "Εκτέλεση σεναρίων στο JOSM")
+        attributes("es_Plugin-Description": "Ejecutar scripts en JOSM")
+        attributes("fr_Plugin-Description": "Lancer les scripts dans JOSM")
+        attributes("hu_Plugin-Description": "Parancsfájlok futtatása JOSM-ben")
+        attributes("it_Plugin-Description": "Eseguire gli script in JOSM")
+        attributes("ja_Plugin-Description": "JOSMでスクリプトを実行")
+        attributes("ko_Plugin-Description": "JOSM 안에 스크립트 실행하기")
+        attributes("lt_Plugin-Description": "Vykdo scenarijų JOSM")
+        attributes("pl_Plugin-Description": "Uruchamiaj skrypty w JOSM")
+        attributes("pt_Plugin-Description": "Executa script no JOSM")
+        attributes("zh_CN_Plugin-Description": "在 JOSM 中运行脚本")
+    }
 }
 
 compileJava {
@@ -158,18 +194,6 @@ compileJava {
     options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation" << "-Werror"
 }
 
-
-import org.gradle.api.tasks.testing.logging.TestExceptionFormat
-import org.gradle.api.tasks.testing.logging.TestLogEvent
-import org.openstreetmap.josm.plugins.scripting.CheckDownloadUrlsInManifestTask
-import org.openstreetmap.josm.plugins.scripting.build.GraalVMDownloadTask
-import org.openstreetmap.josm.plugins.scripting.build.Releases
-import org.openstreetmap.josm.plugins.scripting.release.PublishToAwsS3Task
-import org.openstreetmap.josm.plugins.scripting.release.ShowPublishedPluginTask
-
-import java.nio.file.Files
-import java.nio.file.Paths
-import java.nio.file.StandardCopyOption
 
 /**
  * Replies the 'josm.home' directories used in tests
@@ -223,6 +247,8 @@ def getGraalVMJavaExecutable() {
  */
 tasks.register('testScriptApiV3', Test) {
     dependsOn "downloadGraalVM"
+    testClassesDirs = sourceSets.test.output.classesDirs
+    classpath = sourceSets.test.runtimeClasspath
     useJUnitPlatform()
     jvmArgs JVM_ARGS
     environment "JOSM_SCRIPTING_PLUGIN_HOME", project.projectDir
@@ -250,8 +276,8 @@ tasks.register('testScriptApiV3', Test) {
  * sure that GraalJS/GraalVM isn't present on the classpath.
  */
 tasks.register('testGraalVMSupportNotPresent', Test) {
-    // remove GraalVM from classpath under test
-    classpath = classpath.filter { !it.toString().toLowerCase().contains("graalvm") }
+    testClassesDirs = sourceSets.test.output.classesDirs
+    classpath = sourceSets.test.runtimeClasspath.filter { !it.toString().toLowerCase().contains("graalvm") }
     useJUnitPlatform()
     jvmArgs JVM_ARGS
     scanForTestClasses = false
@@ -268,6 +294,8 @@ tasks.register('testGraalVMSupportNotPresent', Test) {
  */
 tasks.register('testWithGraalVMJDK', Test) {
     dependsOn "downloadGraalVM"
+    testClassesDirs = sourceSets.test.output.classesDirs
+    classpath = sourceSets.test.runtimeClasspath
     doFirst {
         // prepare a suitable 'preferences.xml' for the test cases in this
         // executed by this task
@@ -309,6 +337,8 @@ tasks.register('testWithGraalVMJDK', Test) {
  * engines present.
  */
 tasks.register('testJSR223EnginePresent', Test) {
+    testClassesDirs = sourceSets.test.output.classesDirs
+    classpath = sourceSets.test.runtimeClasspath
     useJUnitPlatform()
     jvmArgs JVM_ARGS
     systemProperty "python.import.site", false
@@ -321,10 +351,12 @@ tasks.register('testJSR223EnginePresent', Test) {
     }
 }
 
-tasks.check.dependsOn(tasks.testScriptApiV3)
-tasks.check.dependsOn(tasks.testGraalVMSupportNotPresent)
-tasks.check.dependsOn(tasks.testJSR223EnginePresent)
-tasks.check.dependsOn(tasks.testWithGraalVMJDK)
+tasks.named('check') {
+    dependsOn tasks.named('testScriptApiV3')
+    dependsOn tasks.named('testGraalVMSupportNotPresent')
+    dependsOn tasks.named('testJSR223EnginePresent')
+    dependsOn tasks.named('testWithGraalVMJDK')
+}
 
 sourceSets {
     test {
@@ -373,6 +405,7 @@ tasks.register("showPublishedPluginInfo", ShowPublishedPluginTask)
 
 tasks.register("publishToAwsS3", PublishToAwsS3Task)
 
+// TODO: replace with custom task
 //publishToGithubRelease {
 //    remoteJarName = "scripting.jar"
 //}
