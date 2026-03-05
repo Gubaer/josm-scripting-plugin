@@ -155,6 +155,16 @@ class Releases {
     }
 
     /**
+     * Replies the description of the current release
+     *
+     * @return the description of the current release, or null if not set
+     */
+    String getCurrentReleaseDescription() {
+        final label = getCurrentPluginLabel()
+        return config.releases.find {it.label == label}?.description
+    }
+
+    /**
      * Replies the highest available plugin version for a given
      * JOSM version
      *

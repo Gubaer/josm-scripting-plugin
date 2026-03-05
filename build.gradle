@@ -4,6 +4,7 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent
 import org.openstreetmap.josm.plugins.scripting.CheckDownloadUrlsInManifestTask
 import org.openstreetmap.josm.plugins.scripting.build.GraalVMDownloadTask
 import org.openstreetmap.josm.plugins.scripting.build.Releases
+import org.openstreetmap.josm.plugins.scripting.release.CreateGithubReleaseTask
 import org.openstreetmap.josm.plugins.scripting.release.PublishToAwsS3Task
 import org.openstreetmap.josm.plugins.scripting.release.ShowPublishedPluginTask
 import java.nio.file.Files
@@ -405,7 +406,7 @@ tasks.register("showPublishedPluginInfo", ShowPublishedPluginTask)
 
 tasks.register("publishToAwsS3", PublishToAwsS3Task)
 
-// TODO: replace with custom task
-//publishToGithubRelease {
-//    remoteJarName = "scripting.jar"
-//}
+tasks.register("createGithubRelease", CreateGithubReleaseTask) {
+    releaseTag = releases.currentPluginLabel
+    releaseDescription = releases.currentReleaseDescription
+}
