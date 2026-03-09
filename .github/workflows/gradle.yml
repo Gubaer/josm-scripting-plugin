@@ -66,6 +66,27 @@ jobs:
         if: ${{ matrix.platform == 'ubuntu-latest' }}
         run: Xvfb :19 -screen 0 1024x768x16 &
 
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v5
+
+      - name: Install Python dependencies
+        run: uv sync
+
+      - name: Install Transifex CLI (Linux)
+        if: ${{ matrix.platform == 'ubuntu-latest' }}
+        run: |
+          curl -o- https://raw.githubusercontent.com/transifex/cli/master/install.sh | bash
+          echo "$PWD" >> $GITHUB_PATH
+
+      - name: Install Transifex CLI (Windows)
+        if: ${{ matrix.platform == 'windows-latest' }}
+        shell: pwsh
+        run: |
+          $tag = (Invoke-RestMethod -Uri "https://api.github.com/repos/transifex/cli/releases/latest").tag_name
+          Invoke-WebRequest -Uri "https://github.com/transifex/cli/releases/download/$tag/tx-windows-amd64.zip" -OutFile tx.zip
+          Expand-Archive tx.zip -DestinationPath .
+          echo "$PWD" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
 
