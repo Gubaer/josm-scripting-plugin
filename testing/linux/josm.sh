@@ -29,6 +29,10 @@ usage: josm.sh <options>
         The GraalJS version to be loaded. Either 'latest' or a GraalJS version configured in 'config.json'.
         If missing, no GraalJS version is loaded. GraalJS can't be used together with the GraalVM,
         only with a stock JDK.
+
+    --language <lang>
+        The language to use, as a BCP 47 language tag (e.g. 'de', 'fr', 'ja').
+        If missing, 'en' is used.
 EOM
 }
 
@@ -54,6 +58,7 @@ josm="latest"
 jdk="jdk17"
 use_graal_vm=false
 graal_js=""
+language="en"
 
 while [ "$1" != "" ] ; do
     case "$1" in
@@ -121,6 +126,17 @@ while [ "$1" != "" ] ; do
                     exit 1
                 fi
             fi
+            shift
+            ;;
+
+        --language)
+            shift
+            if [ "$1" == "" ] ; then
+                echo "error: missing argument for command line option '--language'"
+                usage
+                exit 1
+            fi
+            language=$1
             shift
             ;;
 
@@ -240,6 +256,8 @@ else
         --add-exports=java.desktop/com.sun.imageio.spi=ALL-UNNAMED \
         org.openstreetmap.josm.gui.MainApplication"
 fi
+
+cmd="$cmd --language=$language"
 
 echo "Launching JOSM with:"
 echo "----"
