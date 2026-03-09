@@ -26,3 +26,5 @@ releases.generated.yml
 set-env.ps1
 .jython_cache
 *.bak
+# don't commit the tx binary
+tx
