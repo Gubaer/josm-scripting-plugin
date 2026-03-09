@@ -104,7 +104,6 @@ jobs:
         shell: bash
         run: |
           ./gradlew build \
-            -Pplugin.josmCompileVersion=${{ matrix.josm-version}} \
             -Pgraalvm.jdk=jdk${{ matrix.jdk }} \
             -Pgraalvm.platform=${{ env.GRAALVM_PLATFORM }} \
             --stacktrace \
