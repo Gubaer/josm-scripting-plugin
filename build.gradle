@@ -135,6 +135,17 @@ tasks.register('generatePot', Exec) {
         '--package-name=josm-plugin_scripting ' +
         '--files-from=- ' +
         "--output=${projectDir}/build/i18n/josm-plugin_scripting.pot"
+    doLast {
+        // The plugin description in gradle.properties isn't scanned by xgettext,
+        // so we append it manually so that Transifex picks it up for translation.
+        def desc = project.property("plugin.description")
+        file("build/i18n/josm-plugin_scripting.pot") << """
+#. Plugin description in the JAR manifest (read by the JOSM plugin manager)
+#, no-java-format
+msgid "${desc}"
+msgstr ""
+"""
+    }
 }
 
 /**
@@ -152,6 +163,24 @@ tasks.register('generateLangFiles', Exec) {
         "${projectDir}/scripts/po_to_lang.py",
         '--po-dir', "${projectDir}/src/main/po",
         '--output-dir', "${projectDir}/build/i18n/data"
+}
+
+/**
+ * Extracts translated Plugin-Description strings from .po files into a JSON map.
+ * The output is used by the jar task to populate xx_Plugin-Description manifest attributes.
+ */
+tasks.register('extractPluginDescriptions', Exec) {
+    group = 'i18n'
+    description = 'Extracts translated Plugin-Descriptions from .po files into build/i18n/plugin_descriptions.json'
+    inputs.dir("src/main/po").optional()
+    inputs.property("plugin.description", project.property("plugin.description"))
+    outputs.file("build/i18n/plugin_descriptions.json")
+    onlyIf { fileTree('src/main/po').include('*.po').files.size() > 0 }
+    commandLine 'uv', 'run', 'python',
+        "${projectDir}/scripts/extract_plugin_descriptions.py",
+        '--po-dir', "${projectDir}/src/main/po",
+        '--description', project.property("plugin.description"),
+        '--output', "${projectDir}/build/i18n/plugin_descriptions.json"
 }
 
 tasks.named('jar') {
@@ -176,6 +205,7 @@ tasks.named('jar') {
         include("*.lang")
     }
     dependsOn('generateLangFiles')
+    dependsOn('extractPluginDescriptions')
 
     // pack javascript source for API V2 into the target jar
     from("src/main/javascript/v3") {
@@ -222,22 +252,13 @@ tasks.named('jar') {
                 attributes((key): "${label};${downloadUrl}")
             }
         }
-        // already translated descriptions
-        // TODO: should be handled by i18n infrastructure
-        attributes("ast_Plugin-Description": "Executar scripts en JOSM")
-        attributes("cs_Plugin-Description": "Spouští skripty v JOSM")
-        attributes("de_Plugin-Description": "Führt Skripte in JOSM aus")
-        attributes("el_Plugin-Description": "Εκτέλεση σεναρίων στο JOSM")
-        attributes("es_Plugin-Description": "Ejecutar scripts en JOSM")
-        attributes("fr_Plugin-Description": "Lancer les scripts dans JOSM")
-        attributes("hu_Plugin-Description": "Parancsfájlok futtatása JOSM-ben")
-        attributes("it_Plugin-Description": "Eseguire gli script in JOSM")
-        attributes("ja_Plugin-Description": "JOSMでスクリプトを実行")
-        attributes("ko_Plugin-Description": "JOSM 안에 스크립트 실행하기")
-        attributes("lt_Plugin-Description": "Vykdo scenarijų JOSM")
-        attributes("pl_Plugin-Description": "Uruchamiaj skrypty w JOSM")
-        attributes("pt_Plugin-Description": "Executa script no JOSM")
-        attributes("zh_CN_Plugin-Description": "在 JOSM 中运行脚本")
+
+        def descFile = file("build/i18n/plugin_descriptions.json")
+        if (descFile.exists()) {
+            new groovy.json.JsonSlurper().parse(descFile).each { lang, desc ->
+                attributes(("${lang}_Plugin-Description".toString()): desc)
+            }
+        }
     }
 }
 

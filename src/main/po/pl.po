@@ -790,3 +790,8 @@ msgstr ""
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/release/ReleaseNotes.java:227
 msgid "Close the release notes"
 msgstr ""
+
+#. Plugin description in the JAR manifest (read by the JOSM plugin manager)
+#, no-java-format
+msgid "Runs scripts in JOSM"
+msgstr "Uruchamiaj skrypty w JOSM"
