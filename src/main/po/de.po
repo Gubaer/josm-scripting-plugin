@@ -8,9 +8,9 @@
 # Florian Schäfer, 2018
 # transger, 2018
 # fe748ff052bc70ef0fdd62d122a817e2, 2020
-# Gubaer <karl.guggisberg@guggis.ch>, 2022
 # Rainer Elbing <r.elbing@gmx.de>, 2022
 # Simon Legner <simon.legner@gmail.com>, 2026
+# Gubaer <karl.guggisberg@guggis.ch>, 2026
 # 
 #, fuzzy
 msgid ""
@@ -19,7 +19,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-03-09 10:19+0100\n"
 "PO-Revision-Date: 2018-01-17 21:36+0000\n"
-"Last-Translator: Simon Legner <simon.legner@gmail.com>, 2026\n"
+"Last-Translator: Gubaer <karl.guggisberg@guggis.ch>, 2026\n"
 "Language-Team: German (https://app.transifex.com/josm/teams/2544/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -30,7 +30,7 @@ msgstr ""
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ScriptingPlugin.java:45
 #, java-format
 msgid "Failed to create directory ''{0}''"
-msgstr ""
+msgstr "Verzeichnis ''{0}'' konnte nicht erstellt werden."
 
 #. icon name
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ScriptingPlugin.java:114
@@ -42,21 +42,27 @@ msgstr "Skripting"
 #, java-format
 msgid "Didn''t find resource ''{0}''. Can''t install default mime types."
 msgstr ""
+"Ressource ''{0}'' wurde nicht gefunden. Standard-MIME-Typen können nicht "
+"installiert werden."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ScriptingPlugin.java:174
 #, java-format
 msgid "Failed to create directory ''{0}''. Can''t install mime.types file"
 msgstr ""
+"Verzeichnis ''{0}'' konnte nicht erstellt werden. MIME-Typen-Datei kann "
+"nicht installiert werden."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ScriptingPlugin.java:186
 #, java-format
 msgid "Successfully installed default mime types in file ''{0}''."
-msgstr ""
+msgstr "Standard-MIME-Typen wurden erfolgreich in Datei ''{0}'' installiert."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ScriptingPlugin.java:191
 #, java-format
 msgid "Failed to install default mime types in the plugin directory ''{0}''."
 msgstr ""
+"Standard-MIME-Typen konnten nicht im Plugin-Verzeichnis ''{0}'' installiert "
+"werden."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/js/api/AddMultiCommand.java:88
 #, java-format
@@ -82,17 +88,19 @@ msgstr[1] "{0} Objekte gelöscht"
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/model/JSR223ScriptEngineProvider.java:94
 #, java-format
 msgid "failed to load mime types from file ''{0}''."
-msgstr ""
+msgstr "MIME-Typen aus Datei ''{0}'' konnten nicht geladen werden."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/model/JSR223ScriptEngineProvider.java:101
 #, java-format
 msgid "failed to load default mime types from resource ''{0}''."
 msgstr ""
+"Standard-MIME-Typen aus Ressource ''{0}'' konnten nicht geladen werden."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/model/JSR223ScriptEngineProvider.java:106
 #, java-format
 msgid "failed to load default mime types from  resource ''{0}''."
 msgstr ""
+"Standard-MIME-Typen aus Ressource ''{0}'' konnten nicht geladen werden."
 
 #. shouldn't happen because the entries in
 #. 'scriptEngineJars' are existing, valid files.
@@ -100,7 +108,7 @@ msgstr ""
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/model/JSR223ScriptEngineProvider.java:133
 #, java-format
 msgid "found malformed URL to script engine jar. URL=''{0}''"
-msgstr ""
+msgstr "Ungültige URL zur Script-Engine-JAR gefunden. URL=''{0}''"
 
 #. NOTE: might be a legal preferences value for former plugin
 #. versions. No attempt to recover from these values, when this
@@ -112,6 +120,8 @@ msgid ""
 "Preference value ''{0}'' consist of an unsupported engine ID. Expected "
 "pattern ''type/id''."
 msgstr ""
+"Einstellungswert ''{0}'' enthält eine nicht unterstützte Engine-ID. "
+"Erwartetes Muster ''type/id''."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/model/ScriptEngineDescriptor.java:186
 #, java-format
@@ -119,6 +129,8 @@ msgid ""
 "Preference value ''{0}'' refers to an unsupported JSR223 compatible "
 "scripting engine with id ''{1}''"
 msgstr ""
+"Einstellungswert ''{0}'' verweist auf eine nicht unterstützte "
+"JSR223-kompatible Skript-Engine mit der ID ''{1}''."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/model/ScriptEngineDescriptor.java:195
 #, java-format
@@ -126,6 +138,8 @@ msgid ""
 "Preferences value ''{0}'' refers to an GraalVM engine, but currently the "
 "GraalVM isn''t present on the classpath."
 msgstr ""
+"Einstellungswert ''{0}'' verweist auf eine GraalVM-Engine, aber GraalVM ist "
+"derzeit nicht im Classpath vorhanden."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/model/ScriptEngineDescriptor.java:209
 #, java-format
@@ -133,6 +147,8 @@ msgid ""
 "Preference value ''{0}'' refers to an GraalVM engine with id ''{1}''. The "
 "GraalVM for this language is currently not present."
 msgstr ""
+"Einstellungswert ''{0}'' verweist auf eine GraalVM-Engine mit der ID "
+"''{1}''. GraalVM für diese Sprache ist derzeit nicht vorhanden."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/ConfigureAction.java:20
 msgid "Configure..."
@@ -155,7 +171,7 @@ msgstr "Ausführungsumgebungen"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/PreferenceEditor.java:40
 msgid "GraalVM"
-msgstr ""
+msgstr "GraalVM"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/ScriptEngineJarInfo.java:32
 #, java-format
@@ -195,17 +211,17 @@ msgstr ""
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/ScriptEnginesConfigurationPanel.java:149
 #, java-format
 msgid "resource file ''{0}'' not found"
-msgstr ""
+msgstr "Ressourcendatei ''{0}'' nicht gefunden"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/ScriptEnginesConfigurationPanel.java:156
 #, java-format
 msgid "failed to load resource file ''{0}''"
-msgstr ""
+msgstr "Ressourcendatei ''{0}'' konnte nicht geladen werden."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/ScriptEnginesConfigurationPanel.java:162
 #, java-format
 msgid "property ''{0}'' in resource file ''{1}'' not found"
-msgstr ""
+msgstr "Eigenschaft ''{0}'' in Ressourcendatei ''{1}'' nicht gefunden"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/ScriptEnginesConfigurationPanel.java:207
 msgid "JAR files"
@@ -265,12 +281,12 @@ msgstr "eine jar-Datei wählen"
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/common/IconUtil.java:19
 #, java-format
 msgid "Failed to load icon ''{0}''"
-msgstr "Konnte das Symbol ''{0}'' nicht laden"
+msgstr "Konnte das Icon ''{0}'' nicht laden"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/common/IconUtil.java:27
 #, java-format
 msgid "Failed to load icon ''{0}/{1}''"
-msgstr "Das Symbol ''{0}/{1}'' konnte nicht geladen werden"
+msgstr "Das Icon ''{0}/{1}'' konnte nicht geladen werden"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/common/ImportPathDialog.java:33
 msgid ""
@@ -287,7 +303,7 @@ msgstr "Einen Pfad anlegen oder editieren"
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/ModuleRepositoryDialog.java:167
 #, java-format
 msgid "''{0}'' isn''t an existing jar file"
-msgstr "''{0'}'' ist keine existierende jar-Datei"
+msgstr "''{0}'' ist keine existierende jar-Datei"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/common/ImportPathDialog.java:125
 #, java-format
@@ -372,12 +388,17 @@ msgid ""
 "<code>require()</code>. It resolves CommonJS modules in the directories and "
 "jar files configured below.</p>"
 msgstr ""
+"GraalJS kann CommonJS-Module mit der Funktion require() laden. Es löst "
+"CommonJS-Module in den unten konfigurierten Verzeichnissen und JAR-Dateien "
+"auf."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/ESModuleRepoConfigurationPanel.java:19
 msgid ""
 "<p>GraalJS can load <strong>ECMAScript Modules</strong> (ES Modules).It "
 "resolves ES Modules in the directories and jar files configured below.</p>"
 msgstr ""
+"GraalJS kann ECMAScript-Module (ES-Module) laden. Es löst ES-Module in den "
+"unten konfigurierten Verzeichnissen und JAR-Dateien auf."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/GraalVMConfigurationPanel.java:30
 msgid ""
@@ -387,12 +408,17 @@ msgid ""
 "be available in the scripting plugin, GraalJS has to be on the classpath "
 "when JOSM starts. "
 msgstr ""
+"Das Skripting-Plugin kann JavaScript-Skripte mit GraalJS ausführen, der von "
+"GraalVM bereitgestellten JavaScript-Engine. Um im Skripting-Plugin verfügbar"
+" zu sein, muss GraalJS beim Start von JOSM im Classpath vorhanden sein."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/GraalVMConfigurationPanel.java:37
 msgid ""
 "JOSM has been started with GraalJS on the classpath. You can use GraalJS in "
 "the scripting plugin."
 msgstr ""
+"JOSM wurde mit GraalJS im Classpath gestartet. Sie können GraalJS im "
+"Skripting-Plugin verwenden."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/GraalVMConfigurationPanel.java:41
 #, java-format
@@ -401,10 +427,12 @@ msgid ""
 " href=\"{0}\">This documentation</a> explains how you can start it with "
 "GraalJS on the classpath."
 msgstr ""
+"JOSM wurde nicht mit GraalJS im Classpath gestartet. Diese Dokumentation "
+"erklärt, wie Sie es mit GraalJS im Classpath starten können."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/GraalVMConfigurationPanel.java:68
 msgid "ES Module repositories"
-msgstr ""
+msgstr "ES-Modul-Repositorys"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/GraalVMConfigurationPanel.java:70
 msgid "CommonJS module repositories"
@@ -429,12 +457,14 @@ msgstr "''{0}'' ist keine gültige URL"
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/ModuleRepositoryDialog.java:154
 #, java-format
 msgid "''{0}'' isn''t a valid base URL."
-msgstr ""
+msgstr "''{0}'' ist keine gültige Basis-URL."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/ModuleRepositoryDialog.java:170
 #, java-format
 msgid "''{0}'' is neither an existing directory nor am existing jar file"
 msgstr ""
+"''{0}'' ist weder ein existierendes Verzeichnis noch eine existierende JAR-"
+"Datei"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/ModuleRepositoryDialog.java:176
 #, java-format
@@ -563,12 +593,16 @@ msgid ""
 "Use one of the available pluggable scripting engines (see <i>Preferences</i>"
 " to configure additional engines)."
 msgstr ""
+"Verwenden Sie eine der verfügbaren Skript-Engines (siehe Einstellungen, um "
+"weitere Engines zu konfigurieren)."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptEngineSelectionDialog.java:247
 msgid ""
 "Use GraalJS, the JavaScript engine provided by the GraalVM (see "
 "<i>Preferences</i> to configure GraalJS)."
 msgstr ""
+"Verwenden Sie GraalJS, die von GraalVM bereitgestellte JavaScript-Engine "
+"(siehe Einstellungen, um GraalJS zu konfigurieren)."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptEngineSelectionDialog.java:359
 msgid "Accept the selected scripting engine"
@@ -584,14 +618,18 @@ msgid ""
 " in the script and not in JOSM.<p> Please get in touch with the script "
 "author before you file a bug in JOSM''s bug tracker."
 msgstr ""
+"Beim Ausführen eines Skripts ist ein Fehler aufgetreten. Dieser wird "
+"höchstwahrscheinlich durch einen Fehler im Skript und nicht in JOSM "
+"verursacht. Bitte wenden Sie sich an den Autor des Skripts, bevor Sie einen "
+"Fehler im JOSM-Bugtracker melden."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptErrorDialog.java:55
 msgid "Script Error - Stack Trace"
-msgstr ""
+msgstr "Skriptfehler - Stack-Trace"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptErrorViewer.java:86
 msgid "Show stack trace"
-msgstr ""
+msgstr "Stack-Trace anzeigen"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptExecutor.java:58
 #, java-format
@@ -698,7 +736,7 @@ msgstr "Die Datei ''{0}'' konnte nicht gespeichert werden."
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptEngineInfoPanel.java:70
 #, java-format
 msgid "With GraalJS, use <a href=\"{0}\">JavaScript API V3</a>."
-msgstr ""
+msgstr "Mit GraalJS verwenden Sie die JavaScript-API V3."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptEngineInfoPanel.java:84
 msgid "No script engine selected."
@@ -749,11 +787,11 @@ msgstr "Immer im Vordergrund"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:59
 msgid "Console"
-msgstr ""
+msgstr "Konsole"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:60
 msgid "Displays script output"
-msgstr ""
+msgstr "Zeigt Skriptausgabe an"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:61
 msgid "Errors"
@@ -761,7 +799,7 @@ msgstr "Fehler"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:63
 msgid "Displays scripting errors"
-msgstr ""
+msgstr "Zeigt Skriptfehler an"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:107
 #, java-format
@@ -775,7 +813,7 @@ msgstr ""
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:110
 msgid ""
 "No syntax style is available for either of the following content types:"
-msgstr ""
+msgstr "Für keinen der folgenden Inhaltstypen ist ein Syntaxstil verfügbar:"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:116
 msgid "Syntax highlighting is disabled."
@@ -786,6 +824,8 @@ msgid ""
 "Refer to the online help on configuring the syntax style for specific "
 "content types."
 msgstr ""
+"Informationen zur Konfiguration des Syntaxstils für bestimmte Inhaltstypen "
+"finden Sie in der Online-Hilfe."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:133
 msgid "No syntax kit"
@@ -793,12 +833,12 @@ msgstr "Kein Syntax-Kit"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:209
 msgid "Execute the script (F5)"
-msgstr ""
+msgstr "Skript ausführen (F5)"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/release/ReleaseNotes.java:196
 msgid "Scripting Plugin - Release Notes"
-msgstr ""
+msgstr "Skripting-Plugin - Versionshinweise"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/release/ReleaseNotes.java:227
 msgid "Close the release notes"
-msgstr ""
+msgstr "Versionshinweise schließen"
