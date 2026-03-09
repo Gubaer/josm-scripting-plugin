@@ -155,14 +155,6 @@ Download translations for all languages that already exist on Transifex:
 tx pull --all
 ```
 
-If you see `Local file is newer than remote, skipping` messages, the CLI is comparing
-filesystem timestamps — which git sets to the current time on checkout — against the
-remote last-updated time. Use `--force` to download regardless of timestamps:
-
-```bash
-tx pull --all --force
-```
-
 Transifex hosts translations for many languages, most of which may be only partially
 translated. Use `--minimum-perc` to skip languages below a translation coverage
 threshold (e.g. 10%):
