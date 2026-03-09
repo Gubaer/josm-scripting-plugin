@@ -110,6 +110,50 @@ tasks.register('dumpGraalVMJars') {
     }
 }
 
+/**
+ * Extracts translatable strings from Java source files into a .pot template file.
+ * Requires xgettext (install with: sudo apt install gettext).
+ */
+tasks.register('generatePot', Exec) {
+    group = 'i18n'
+    description = 'Extracts translatable strings from Java sources into build/i18n/josm-plugin_scripting.pot'
+    inputs.files(fileTree('src/main/java').include('**/*.java'))
+    outputs.file('build/i18n/josm-plugin_scripting.pot')
+    doFirst {
+        file('build/i18n').mkdirs()
+        file('build/i18n/josm-plugin_scripting.pot').delete()
+    }
+    commandLine 'bash', '-c',
+        'find src/main/java -name "*.java" | xgettext ' +
+        '--language=Java ' +
+        '--from-code=UTF-8 ' +
+        '--keyword=tr:1 ' +
+        '--keyword=trn:1,2 ' +
+        '--keyword=trc:2c,1 ' +
+        '--add-comments ' +
+        '--sort-by-file ' +
+        '--package-name=josm-plugin_scripting ' +
+        '--files-from=- ' +
+        "--output=${projectDir}/build/i18n/josm-plugin_scripting.pot"
+}
+
+/**
+ * Converts .po translation files to JOSM's .lang binary format.
+ * Requires the .pot template to exist at build/i18n/josm-plugin_scripting.pot.
+ * Run xgettext first (see README.md) if the .pot file is missing.
+ */
+tasks.register('generateLangFiles', Exec) {
+    group = 'i18n'
+    description = 'Converts .po translation files to JOSM .lang binary format'
+    inputs.dir("src/main/po").optional()
+    outputs.dir("build/i18n/data")
+    onlyIf { fileTree('src/main/po').include('*.po').files.size() > 0 }
+    commandLine 'uv', 'run', 'python',
+        "${projectDir}/scripts/po_to_lang.py",
+        '--po-dir', "${projectDir}/src/main/po",
+        '--output-dir', "${projectDir}/build/i18n/data"
+}
+
 tasks.named('jar') {
     archiveBaseName = "scripting"
     archiveVersion = "" // omit version in the generated jar
@@ -125,6 +169,13 @@ tasks.named('jar') {
         }
     }
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    // include generated .lang translation files
+    from("build/i18n/data") {
+        into("data")
+        include("*.lang")
+    }
+    dependsOn('generateLangFiles')
 
     // pack javascript source for API V2 into the target jar
     from("src/main/javascript/v3") {

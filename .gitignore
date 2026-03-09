@@ -28,3 +28,4 @@ set-env.ps1
 *.bak
 # don't commit the tx binary
 tx
+data

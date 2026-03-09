@@ -27,6 +27,15 @@ The scripting plugin requires Java 17 or higher.
 
 ## How to build
 
+The build requires [uv][uv] (Python package manager) to generate the `.lang` translation
+files that are packaged into the plugin JAR. Install it once, then run `uv sync` in
+the project root to install the required Python dependencies:
+
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+uv sync
+```
+
 Add a new entry to [releases.yml](releases.yml) then run:
 
 ```bash
@@ -84,7 +93,12 @@ Download and install the official Transifex CLI binary:
 curl -o- https://raw.githubusercontent.com/transifex/cli/master/install.sh | bash
 ```
 
-This installs the `tx` binary into `~/bin`. Make sure `~/bin` is on your `PATH`.
+This installs the `tx` binary into the current directory and adds it to your `PATH`
+via `~/.bashrc`. Reload your shell to pick up the change:
+
+```bash
+source ~/.bashrc
+```
 
 **2. Install gettext tools**
 
@@ -103,24 +117,14 @@ Then add the `TX_TOKEN` to the `.env` file.
 
 ### Extracting translatable strings
 
-Run `xgettext` to scan the Java source files and write the PO template to
+Run the Gradle task to scan the Java source files and write the PO template to
 `build/i18n/josm-plugin_scripting.pot`:
 
 ```bash
-mkdir -p build/i18n
-rm -f build/i18n/josm-plugin_scripting.pot
-find src/main/java -name "*.java" | xgettext \
-  --language=Java \
-  --from-code=UTF-8 \
-  --keyword=tr:1 \
-  --keyword=trn:1,2 \
-  --keyword=trc:2c,1 \
-  --add-comments \
-  --sort-by-file \
-  --package-name=josm-plugin_scripting \
-  --files-from=- \
-  --output=build/i18n/josm-plugin_scripting.pot
+./gradlew generatePot
 ```
+
+Requires `xgettext` (`sudo apt install gettext`).
 
 ### Uploading strings to Transifex
 
@@ -152,6 +156,17 @@ Translations are written to `src/main/po/<lang>.po`. Commit the updated files:
 git add src/main/po
 git commit
 ```
+
+### Providing translated i18n resources for the plugin
+
+When the plugin JAR is built, the Gradle task `generateLangFiles` automatically
+converts the `.po` files in `src/main/po/` into JOSM's binary `.lang` format using
+`scripts/po_to_lang.py`. The generated files — one `en.lang` (base language) and one
+`<lang>.lang` per translation — are written to `build/i18n/data/` and packaged into
+`scripting.jar` under `data/`. JOSM loads them at startup to provide translated UI
+strings for the plugin.
+
+The task is skipped silently if no `.po` files are present.
 
 ## How to generate the API documentation
 
@@ -220,3 +235,4 @@ Published under GPL Version 3 and higher. See included [LICENSE](LICENSE) file.
 [build-batch]:https://github.com/Gubaer/josm-scripting-plugin/actions/workflows/gradle.yml/badge.svg
 [build-status]:https://github.com/Gubaer/josm-scripting-plugin/actions/workflows/gradle.yml
 [direnv]:https://direnv.net/
+[uv]:https://docs.astral.sh/uv/

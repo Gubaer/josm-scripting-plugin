@@ -1,0 +1,8 @@
+[project]
+name = "josm-scripting-plugin"
+version = "0.1.0"
+description = "Python tooling for the josm-scripting-plugin build"
+requires-python = ">=3.12"
+dependencies = [
+    "polib>=1.2.0",
+]
