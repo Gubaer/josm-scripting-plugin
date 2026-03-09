@@ -2,12 +2,12 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the josm-plugin_scripting package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+#
 # Translators:
 # 이동표, 2021
 # Myeongjin <aranet100@gmail.com>, 2025
 # Simon Legner <simon.legner@gmail.com>, 2026
-# 
+#
 #, fuzzy
 msgid ""
 msgstr ""
@@ -17,16 +17,16 @@ msgstr ""
 "PO-Revision-Date: 2018-01-17 21:36+0000\n"
 "Last-Translator: Simon Legner <simon.legner@gmail.com>, 2026\n"
 "Language-Team: Korean (https://app.transifex.com/josm/teams/2544/ko/)\n"
+"Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ko\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ScriptingPlugin.java:45
 #, java-format
 msgid "Failed to create directory ''{0}''"
-msgstr ""
+msgstr "디렉토리 ''{0}''을(를) 만들지 못했습니다"
 
 #. icon name
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ScriptingPlugin.java:114
@@ -37,22 +37,22 @@ msgstr "스크립팅"
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ScriptingPlugin.java:168
 #, java-format
 msgid "Didn''t find resource ''{0}''. Can''t install default mime types."
-msgstr ""
+msgstr "리소스 ''{0}''을(를) 찾을 수 없습니다. 기본 MIME 유형을 설치할 수 없습니다."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ScriptingPlugin.java:174
 #, java-format
 msgid "Failed to create directory ''{0}''. Can''t install mime.types file"
-msgstr ""
+msgstr "디렉토리 ''{0}''을(를) 만들지 못했습니다. mime.types 파일을 설치할 수 없습니다"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ScriptingPlugin.java:186
 #, java-format
 msgid "Successfully installed default mime types in file ''{0}''."
-msgstr ""
+msgstr "기본 MIME 유형이 파일 ''{0}''에 성공적으로 설치되었습니다."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ScriptingPlugin.java:191
 #, java-format
 msgid "Failed to install default mime types in the plugin directory ''{0}''."
-msgstr ""
+msgstr "플러그인 디렉토리 ''{0}''에 기본 MIME 유형을 설치하지 못했습니다."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/js/api/AddMultiCommand.java:88
 #, java-format
@@ -75,17 +75,17 @@ msgstr[0] "{0} 요소 삭제되었습니다."
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/model/JSR223ScriptEngineProvider.java:94
 #, java-format
 msgid "failed to load mime types from file ''{0}''."
-msgstr ""
+msgstr "파일 ''{0}''에서 MIME 유형을 불러오지 못했습니다."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/model/JSR223ScriptEngineProvider.java:101
 #, java-format
 msgid "failed to load default mime types from resource ''{0}''."
-msgstr ""
+msgstr "리소스 ''{0}''에서 기본 MIME 유형을 불러오지 못했습니다."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/model/JSR223ScriptEngineProvider.java:106
 #, java-format
 msgid "failed to load default mime types from  resource ''{0}''."
-msgstr ""
+msgstr "리소스 ''{0}''에서 기본 MIME 유형을 불러오지 못했습니다."
 
 #. shouldn't happen because the entries in
 #. 'scriptEngineJars' are existing, valid files.
@@ -93,7 +93,7 @@ msgstr ""
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/model/JSR223ScriptEngineProvider.java:133
 #, java-format
 msgid "found malformed URL to script engine jar. URL=''{0}''"
-msgstr ""
+msgstr "스크립트 엔진 jar에 대한 잘못된 URL을 발견했습니다. URL=''{0}''"
 
 #. NOTE: might be a legal preferences value for former plugin
 #. versions. No attempt to recover from these values, when this
@@ -104,7 +104,7 @@ msgstr ""
 msgid ""
 "Preference value ''{0}'' consist of an unsupported engine ID. Expected "
 "pattern ''type/id''."
-msgstr ""
+msgstr "기본 설정 값 ''{0}''에 지원되지 않는 엔진 ID가 포함되어 있습니다. 예상 패턴: ''type/id''."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/model/ScriptEngineDescriptor.java:186
 #, java-format
@@ -112,13 +112,14 @@ msgid ""
 "Preference value ''{0}'' refers to an unsupported JSR223 compatible "
 "scripting engine with id ''{1}''"
 msgstr ""
+"기본 설정 값 ''{0}''은(는) ID ''{1}''을(를) 가진 지원되지 않는 JSR223 호환 스크립트 엔진을 참조합니다"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/model/ScriptEngineDescriptor.java:195
 #, java-format
 msgid ""
 "Preferences value ''{0}'' refers to an GraalVM engine, but currently the "
 "GraalVM isn''t present on the classpath."
-msgstr ""
+msgstr "기본 설정 값 ''{0}''은(는) GraalVM 엔진을 참조하지만 현재 GraalVM이 클래스패스에 없습니다."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/model/ScriptEngineDescriptor.java:209
 #, java-format
@@ -126,6 +127,8 @@ msgid ""
 "Preference value ''{0}'' refers to an GraalVM engine with id ''{1}''. The "
 "GraalVM for this language is currently not present."
 msgstr ""
+"기본 설정 값 ''{0}''은(는) ID ''{1}''을(를) 가진 GraalVM 엔진을 참조합니다. 이 언어를 위한 GraalVM이 "
+"현재 설치되지 않았습니다."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/ConfigureAction.java:20
 msgid "Configure..."
@@ -148,7 +151,7 @@ msgstr "스크립트 엔진"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/PreferenceEditor.java:40
 msgid "GraalVM"
-msgstr ""
+msgstr "GraalVM"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/ScriptEngineJarInfo.java:32
 #, java-format
@@ -182,17 +185,17 @@ msgstr "파일''{0}'' 을 jar 파일로 열지 못했습니다. 이 파일에서
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/ScriptEnginesConfigurationPanel.java:149
 #, java-format
 msgid "resource file ''{0}'' not found"
-msgstr ""
+msgstr "리소스 파일 ''{0}''을(를) 찾을 수 없습니다"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/ScriptEnginesConfigurationPanel.java:156
 #, java-format
 msgid "failed to load resource file ''{0}''"
-msgstr ""
+msgstr "리소스 파일 ''{0}''을(를) 불러오지 못했습니다"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/ScriptEnginesConfigurationPanel.java:162
 #, java-format
 msgid "property ''{0}'' in resource file ''{1}'' not found"
-msgstr ""
+msgstr "리소스 파일 ''{1}''에서 속성 ''{0}''을(를) 찾을 수 없습니다"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/ScriptEnginesConfigurationPanel.java:207
 msgid "JAR files"
@@ -352,12 +355,16 @@ msgid ""
 "<code>require()</code>. It resolves CommonJS modules in the directories and "
 "jar files configured below.</p>"
 msgstr ""
+"<p>GraalJS는 <code>require()</code> 함수로 <strong>CommonJS 모듈</strong>을 불러올 수 "
+"있습니다. 아래에 설정된 디렉토리와 jar 파일에서 CommonJS 모듈을 해석합니다.</p>"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/ESModuleRepoConfigurationPanel.java:19
 msgid ""
 "<p>GraalJS can load <strong>ECMAScript Modules</strong> (ES Modules).It "
 "resolves ES Modules in the directories and jar files configured below.</p>"
 msgstr ""
+"<p>GraalJS는 <strong>ECMAScript 모듈</strong>(ES Modules)을 불러올 수 있습니다. 아래에 설정된 "
+"디렉토리와 jar 파일에서 ES Modules를 해석합니다.</p>"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/GraalVMConfigurationPanel.java:30
 msgid ""
@@ -367,12 +374,16 @@ msgid ""
 "be available in the scripting plugin, GraalJS has to be on the classpath "
 "when JOSM starts. "
 msgstr ""
+"스크립팅 플러그인은 <a href=\"https://www.graalvm.org/\">GraalVM</a>이 제공하는 JavaScript"
+" 엔진인 <a href=\"https://github.com/oracle/graaljs\">GraalJS</a>를 사용하여 "
+"JavaScript 스크립트를 실행할 수 있습니다. 스크립팅 플러그인에서 사용하려면 JOSM 시작 시 GraalJS가 클래스패스에 있어야"
+" 합니다. "
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/GraalVMConfigurationPanel.java:37
 msgid ""
 "JOSM has been started with GraalJS on the classpath. You can use GraalJS in "
 "the scripting plugin."
-msgstr ""
+msgstr "JOSM이 클래스패스에 GraalJS와 함께 시작되었습니다. 스크립팅 플러그인에서 GraalJS를 사용할 수 있습니다."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/GraalVMConfigurationPanel.java:41
 #, java-format
@@ -381,14 +392,16 @@ msgid ""
 " href=\"{0}\">This documentation</a> explains how you can start it with "
 "GraalJS on the classpath."
 msgstr ""
+"JOSM이 클래스패스에 GraalJS와 함께 <strong>시작되지 않았습니다</strong>. <a href=\"{0}\">이 "
+"문서</a>에서 GraalJS를 클래스패스에 포함하여 시작하는 방법을 설명합니다."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/GraalVMConfigurationPanel.java:68
 msgid "ES Module repositories"
-msgstr ""
+msgstr "ES 모듈 저장소"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/GraalVMConfigurationPanel.java:70
 msgid "CommonJS module repositories"
-msgstr ""
+msgstr "CommonJS 모듈 저장소"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/ModuleRepositoryDialog.java:42
 msgid ""
@@ -407,12 +420,12 @@ msgstr "''{0}''은 유효한 URL이 아닙니다."
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/ModuleRepositoryDialog.java:154
 #, java-format
 msgid "''{0}'' isn''t a valid base URL."
-msgstr ""
+msgstr "''{0}''은(는) 유효한 기본 URL이 아닙니다."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/ModuleRepositoryDialog.java:170
 #, java-format
 msgid "''{0}'' is neither an existing directory nor am existing jar file"
-msgstr ""
+msgstr "''{0}''은(는) 존재하는 디렉토리도 jar 파일도 아닙니다"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/ModuleRepositoryDialog.java:176
 #, java-format
@@ -538,13 +551,14 @@ msgstr "MIME-유형:"
 msgid ""
 "Use one of the available pluggable scripting engines (see <i>Preferences</i>"
 " to configure additional engines)."
-msgstr ""
+msgstr "사용 가능한 플러그형 스크립트 엔진 중 하나를 사용하세요 (추가 엔진 설정은 <i>기본 설정</i> 참조)."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptEngineSelectionDialog.java:247
 msgid ""
 "Use GraalJS, the JavaScript engine provided by the GraalVM (see "
 "<i>Preferences</i> to configure GraalJS)."
 msgstr ""
+"GraalVM이 제공하는 JavaScript 엔진인 GraalJS를 사용하세요 (GraalJS 설정은 <i>기본 설정</i> 참조)."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptEngineSelectionDialog.java:359
 msgid "Accept the selected scripting engine"
@@ -560,14 +574,16 @@ msgid ""
 " in the script and not in JOSM.<p> Please get in touch with the script "
 "author before you file a bug in JOSM''s bug tracker."
 msgstr ""
+"스크립트 실행 중 오류가 발생했습니다. 스크립트의 버그로 인한 것일 가능성이 높습니다.<p> JOSM 버그 추적기에 버그를 보고하기 전에"
+" 스크립트 작성자에게 문의하세요."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptErrorDialog.java:55
 msgid "Script Error - Stack Trace"
-msgstr ""
+msgstr "스크립트 오류 - 스택 추적"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptErrorViewer.java:86
 msgid "Show stack trace"
-msgstr ""
+msgstr "스택 추적 보기"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptExecutor.java:58
 #, java-format
@@ -594,7 +610,7 @@ msgstr " 파일''{0}''에서 스크립트를 읽지 못했습니다."
 #. the user with an error message.
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptExecutor.java:216
 msgid "GraalVM not present, can''t run script with GraalVM"
-msgstr ""
+msgstr "GraalVM이 없습니다. GraalVM으로 스크립트를 실행할 수 없습니다"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ToggleConsoleAction.java:23
 msgid "Show scripting console"
@@ -670,7 +686,7 @@ msgstr "파일 ''{0}'' 저장하는데 실패하였습니다."
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptEngineInfoPanel.java:70
 #, java-format
 msgid "With GraalJS, use <a href=\"{0}\">JavaScript API V3</a>."
-msgstr ""
+msgstr "GraalJS를 사용할 때 <a href=\"{0}\">JavaScript API V3</a>를 사용하세요."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptEngineInfoPanel.java:84
 msgid "No script engine selected."
@@ -689,7 +705,7 @@ msgstr "<strong>{1}</strong> 엔진을 사용하여 <strong>{0}</strong> 언어�
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptEngineInfoPanel.java:94
 msgid "Change"
-msgstr ""
+msgstr "변경"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptLogPanel.java:96
 msgid "Clear log"
@@ -719,11 +735,11 @@ msgstr "항상 상단에"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:59
 msgid "Console"
-msgstr ""
+msgstr "콘솔"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:60
 msgid "Displays script output"
-msgstr ""
+msgstr "스크립트 출력을 표시합니다"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:61
 msgid "Errors"
@@ -731,29 +747,29 @@ msgstr "오류"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:63
 msgid "Displays scripting errors"
-msgstr ""
+msgstr "스크립팅 오류를 표시합니다"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:107
 #, java-format
 msgid ""
 "Didn''t find a suitable syntax style for the script engine "
 "<strong>{0}</strong>."
-msgstr ""
+msgstr "스크립트 엔진 <strong>{0}</strong>에 적합한 구문 스타일을 찾지 못했습니다."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:110
 msgid ""
 "No syntax style is available for either of the following content types:"
-msgstr ""
+msgstr "다음 콘텐츠 유형에 사용 가능한 구문 스타일이 없습니다:"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:116
 msgid "Syntax highlighting is disabled."
-msgstr ""
+msgstr "구문 강조 표시가 비활성화되었습니다."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:118
 msgid ""
 "Refer to the online help on configuring the syntax style for specific "
 "content types."
-msgstr ""
+msgstr "특정 콘텐츠 유형의 구문 스타일 설정에 대해서는 온라인 도움말을 참조하세요."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:133
 msgid "No syntax kit"
@@ -761,15 +777,15 @@ msgstr "구문 키트가 없습니다."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:209
 msgid "Execute the script (F5)"
-msgstr ""
+msgstr "스크립트 실행 (F5)"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/release/ReleaseNotes.java:196
 msgid "Scripting Plugin - Release Notes"
-msgstr ""
+msgstr "스크립팅 플러그인 - 릴리스 노트"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/release/ReleaseNotes.java:227
 msgid "Close the release notes"
-msgstr ""
+msgstr "릴리스 노트 닫기"
 
 #. Plugin description in the JAR manifest (read by the JOSM plugin manager)
 #, no-java-format

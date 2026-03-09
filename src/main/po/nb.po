@@ -2,11 +2,11 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the josm-plugin_scripting package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+#
 # Translators:
 # paleid, 2025
 # Simon Legner <simon.legner@gmail.com>, 2026
-# 
+#
 #, fuzzy
 msgid ""
 msgstr ""
@@ -16,16 +16,16 @@ msgstr ""
 "PO-Revision-Date: 2018-01-17 21:36+0000\n"
 "Last-Translator: Simon Legner <simon.legner@gmail.com>, 2026\n"
 "Language-Team: Norwegian Bokmål (https://app.transifex.com/josm/teams/2544/nb/)\n"
+"Language: nb\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: nb\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ScriptingPlugin.java:45
 #, java-format
 msgid "Failed to create directory ''{0}''"
-msgstr ""
+msgstr "Opprettelse av mappen ''{0}'' mislyktes"
 
 #. icon name
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ScriptingPlugin.java:114
@@ -37,21 +37,25 @@ msgstr "Skript"
 #, java-format
 msgid "Didn''t find resource ''{0}''. Can''t install default mime types."
 msgstr ""
+"Fant ikke ressursen ''{0}''. Standard MIME-typer kan ikke installeres."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ScriptingPlugin.java:174
 #, java-format
 msgid "Failed to create directory ''{0}''. Can''t install mime.types file"
 msgstr ""
+"Opprettelse av mappen ''{0}'' mislyktes. Filen mime.types kan ikke "
+"installeres"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ScriptingPlugin.java:186
 #, java-format
 msgid "Successfully installed default mime types in file ''{0}''."
-msgstr ""
+msgstr "Standard MIME-typer ble installert i filen ''{0}''."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ScriptingPlugin.java:191
 #, java-format
 msgid "Failed to install default mime types in the plugin directory ''{0}''."
 msgstr ""
+"Installasjon av standard MIME-typer i plugin-mappen ''{0}'' mislyktes."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/js/api/AddMultiCommand.java:88
 #, java-format
@@ -107,6 +111,8 @@ msgid ""
 "Preference value ''{0}'' consist of an unsupported engine ID. Expected "
 "pattern ''type/id''."
 msgstr ""
+"Innstillingsverdien ''{0}'' inneholder en ikke-støttet motor-ID. Forventet "
+"mønster: ''type/id''."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/model/ScriptEngineDescriptor.java:186
 #, java-format
@@ -114,6 +120,8 @@ msgid ""
 "Preference value ''{0}'' refers to an unsupported JSR223 compatible "
 "scripting engine with id ''{1}''"
 msgstr ""
+"Innstillingsverdien ''{0}'' refererer til en ikke-støttet JSR223-kompatibel "
+"skriptmotor med ID ''{1}''"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/model/ScriptEngineDescriptor.java:195
 #, java-format
@@ -121,6 +129,8 @@ msgid ""
 "Preferences value ''{0}'' refers to an GraalVM engine, but currently the "
 "GraalVM isn''t present on the classpath."
 msgstr ""
+"Innstillingsverdien ''{0}'' refererer til en GraalVM-motor, men GraalVM er "
+"ikke tilgjengelig i classpath."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/model/ScriptEngineDescriptor.java:209
 #, java-format
@@ -128,6 +138,8 @@ msgid ""
 "Preference value ''{0}'' refers to an GraalVM engine with id ''{1}''. The "
 "GraalVM for this language is currently not present."
 msgstr ""
+"Innstillingsverdien ''{0}'' refererer til en GraalVM-motor med ID ''{1}''. "
+"GraalVM for dette språket er ikke tilgjengelig."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/ConfigureAction.java:20
 msgid "Configure..."
@@ -362,12 +374,18 @@ msgid ""
 "<code>require()</code>. It resolves CommonJS modules in the directories and "
 "jar files configured below.</p>"
 msgstr ""
+"<p>GraalJS kan laste inn <strong>CommonJS-moduler</strong> med funksjonen "
+"<code>require()</code>. Det løser CommonJS-moduler i mappene og jar-filene "
+"som er konfigurert nedenfor.</p>"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/ESModuleRepoConfigurationPanel.java:19
 msgid ""
 "<p>GraalJS can load <strong>ECMAScript Modules</strong> (ES Modules).It "
 "resolves ES Modules in the directories and jar files configured below.</p>"
 msgstr ""
+"<p>GraalJS kan laste inn <strong>ECMAScript-moduler</strong> (ES Modules). "
+"Det løser ES Modules i mappene og jar-filene som er konfigurert "
+"nedenfor.</p>"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/GraalVMConfigurationPanel.java:30
 msgid ""
@@ -398,10 +416,13 @@ msgid ""
 " href=\"{0}\">This documentation</a> explains how you can start it with "
 "GraalJS on the classpath."
 msgstr ""
+"JOSM er <strong>ikke</strong> startet med GraalJS i classpath. <a "
+"href=\"{0}\">Denne dokumentasjonen</a> forklarer hvordan du kan starte det "
+"med GraalJS i classpath."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/GraalVMConfigurationPanel.java:68
 msgid "ES Module repositories"
-msgstr ""
+msgstr "ES-modullagre"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/GraalVMConfigurationPanel.java:70
 msgid "CommonJS module repositories"
@@ -426,12 +447,12 @@ msgstr "''{0}'' er ikke en gyldig nettadresse"
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/ModuleRepositoryDialog.java:154
 #, java-format
 msgid "''{0}'' isn''t a valid base URL."
-msgstr ""
+msgstr "''{0}'' er ikke en gyldig base-URL."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/ModuleRepositoryDialog.java:170
 #, java-format
 msgid "''{0}'' is neither an existing directory nor am existing jar file"
-msgstr ""
+msgstr "''{0}'' er verken en eksisterende mappe eller en eksisterende jar-fil"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/ModuleRepositoryDialog.java:176
 #, java-format
@@ -583,6 +604,9 @@ msgid ""
 " in the script and not in JOSM.<p> Please get in touch with the script "
 "author before you file a bug in JOSM''s bug tracker."
 msgstr ""
+"Det oppstod en feil under kjøring av et skript. Det skyldes sannsynligvis en"
+" feil i skriptet og ikke i JOSM.<p> Kontakt skriptets forfatter før du "
+"rapporterer en feil i JOSM''s feilsporing."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptErrorDialog.java:55
 msgid "Script Error - Stack Trace"
@@ -590,7 +614,7 @@ msgstr "Skriptfeil - Stack Trace"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptErrorViewer.java:86
 msgid "Show stack trace"
-msgstr ""
+msgstr "Vis stack trace"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptExecutor.java:58
 #, java-format
@@ -694,7 +718,7 @@ msgstr "Kan ikke lagre filen ''{0}''."
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptEngineInfoPanel.java:70
 #, java-format
 msgid "With GraalJS, use <a href=\"{0}\">JavaScript API V3</a>."
-msgstr ""
+msgstr "Med GraalJS, bruk <a href=\"{0}\">JavaScript API V3</a>."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptEngineInfoPanel.java:84
 msgid "No script engine selected."
@@ -745,11 +769,11 @@ msgstr "Alltid øverst"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:59
 msgid "Console"
-msgstr ""
+msgstr "Konsoll"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:60
 msgid "Displays script output"
-msgstr ""
+msgstr "Viser skriptets utdata"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:61
 msgid "Errors"
@@ -757,7 +781,7 @@ msgstr "Feilmeldinger"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:63
 msgid "Displays scripting errors"
-msgstr ""
+msgstr "Viser skriptfeil"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:107
 #, java-format
@@ -781,6 +805,8 @@ msgid ""
 "Refer to the online help on configuring the syntax style for specific "
 "content types."
 msgstr ""
+"Se onlinehjelpen om konfigurering av syntaksstil for spesifikke "
+"innholdstyper."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:133
 msgid "No syntax kit"
@@ -788,12 +814,12 @@ msgstr "Ingen syntakssett"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:209
 msgid "Execute the script (F5)"
-msgstr ""
+msgstr "Kjør skriptet (F5)"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/release/ReleaseNotes.java:196
 msgid "Scripting Plugin - Release Notes"
-msgstr ""
+msgstr "Scripting-plugin - Utgivelsesnotater"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/release/ReleaseNotes.java:227
 msgid "Close the release notes"
-msgstr ""
+msgstr "Lukk utgivelsesnotatene"
