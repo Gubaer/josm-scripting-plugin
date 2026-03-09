@@ -69,44 +69,119 @@ $ ./gradlew cleanTest cleanTestScriptApi check
 ```
 
 ## How to update the i18n resources
-Localized strings are uploaded to [Transifex][transifex].
 
-Translated resources can be downloaded periodically from Transifex and then commited to the github repository.
+Translatable strings are uploaded to [Transifex][transifex] (project `josm`, resource
+`josm-plugin_scripting`). Translations are downloaded from Transifex and committed to
+the repository under `src/main/po/<lang>.po`.
+
+### One-time setup
+
+**1. Install the Transifex CLI**
+
+Download and install the official Transifex CLI binary:
 
 ```bash
-# install the transifex client
-# see transifex documentation: https://docs.transifex.com/client/installing-the-client
-$ sudo apt install python3-pip
-$ sudo pip3 install transifex-client
+curl -o- https://raw.githubusercontent.com/transifex/cli/master/install.sh | bash
+```
 
-# createa an API key for transifex, see https://docs.transifex.com/api/introduction
-# create a file with the transifex api key
-$ touch $HOME/.transifexrc
+This installs the `tx` binary into `~/bin`. Make sure `~/bin` is on your `PATH`.
 
-# edit $HOME/.transifexrc and add the following content
-[https://www.transifex.com]
-api_hostname = https://api.transifex.com
-hostname = https://www.transifex.com
-password = <the transifex api key>
-username = api
+**2. Install gettext tools**
 
-# For new languages, or when updating only certain languages:
-# Download the german translations into src/main/po/de.po
-# Shorten the de.po file, removes unnecessary parts
-# Then commit it to git
-$ tx pull -l de
-$ ./gradlew shortenPoFiles
-$ git stage src/main/po
-$ git commit
+The `xgettext` tool (part of the `gettext` package) is required to extract translatable
+strings from the Java source files:
 
-# For existing languages:
-# Downloads translations for all existing languages into src/main/po/
-$ ./gradlew transifexDownload
-$ git stage src/main/po
-$ git commit
+```bash
+sudo apt install gettext
+```
 
-# build the plugin
-$ ./gradlew build
+**4. Configure Transifex credentials**
+
+Create an API token on Transifex: https://app.transifex.com/user/settings/api/
+
+Then choose one of the following options:
+
+**Option A — `tx login`** (stores the token in `$HOME/.transifexrc`):
+```bash
+tx login
+```
+
+**Option B — `.env` file** (recommended for local development, picked up automatically
+by [direnv][direnv] via `.envrc`):
+```bash
+# in .env
+TX_TOKEN=<your Transifex API token>
+```
+
+**Option C — inline environment variable**:
+```bash
+TX_TOKEN=<your Transifex API token> tx push --source
+```
+
+### Extracting translatable strings
+
+Run `xgettext` to scan the Java source files and write the PO template to
+`build/i18n/josm-plugin_scripting.pot`:
+
+```bash
+mkdir -p build/i18n
+rm -f build/i18n/josm-plugin_scripting.pot
+find src/main/java -name "*.java" | xgettext \
+  --language=Java \
+  --from-code=UTF-8 \
+  --keyword=tr:1 \
+  --keyword=trn:1,2 \
+  --keyword=trc:2c,1 \
+  --add-comments \
+  --sort-by-file \
+  --package-name=josm-plugin_scripting \
+  --files-from=- \
+  --output=build/i18n/josm-plugin_scripting.pot
+```
+
+### Uploading strings to Transifex
+
+Push the generated template so translators can work on it:
+
+```bash
+tx push --source
+```
+
+### Downloading translations
+
+Download translations for all languages that already exist on Transifex:
+
+```bash
+tx pull --all
+```
+
+If you see `Local file is newer than remote, skipping` messages, the CLI is comparing
+filesystem timestamps — which git sets to the current time on checkout — against the
+remote last-updated time. Use `--force` to download regardless of timestamps:
+
+```bash
+tx pull --all --force
+```
+
+Transifex hosts translations for many languages, most of which may be only partially
+translated. Use `--minimum-perc` to skip languages below a translation coverage
+threshold (e.g. 10%):
+
+```bash
+tx pull --all --force --minimum-perc=20
+```
+
+To download a single language (e.g. German):
+
+```bash
+tx pull -l de
+```
+
+Translations are written to `src/main/po/<lang>.po`. Commit the updated files:
+
+```bash
+git add src/main/po
+git commit
 ```
 
 ## How to generate the API documentation
@@ -175,3 +250,4 @@ Published under GPL Version 3 and higher. See included [LICENSE](LICENSE) file.
 [doc-home]:http://gubaer.github.io/josm-scripting-plugin/
 [build-batch]:https://github.com/Gubaer/josm-scripting-plugin/actions/workflows/gradle.yml/badge.svg
 [build-status]:https://github.com/Gubaer/josm-scripting-plugin/actions/workflows/gradle.yml
+[direnv]:https://direnv.net/
