@@ -95,28 +95,11 @@ strings from the Java source files:
 sudo apt install gettext
 ```
 
-**4. Configure Transifex credentials**
+**3. Configure Transifex credentials**
 
 Create an API token on Transifex: https://app.transifex.com/user/settings/api/
 
-Then choose one of the following options:
-
-**Option A — `tx login`** (stores the token in `$HOME/.transifexrc`):
-```bash
-tx login
-```
-
-**Option B — `.env` file** (recommended for local development, picked up automatically
-by [direnv][direnv] via `.envrc`):
-```bash
-# in .env
-TX_TOKEN=<your Transifex API token>
-```
-
-**Option C — inline environment variable**:
-```bash
-TX_TOKEN=<your Transifex API token> tx push --source
-```
+Then add the `TX_TOKEN` to the `.env` file.
 
 ### Extracting translatable strings
 
@@ -148,12 +131,6 @@ tx push --source
 ```
 
 ### Downloading translations
-
-Download translations for all languages that already exist on Transifex:
-
-```bash
-tx pull --all
-```
 
 Transifex hosts translations for many languages, most of which may be only partially
 translated. Use `--minimum-perc` to skip languages below a translation coverage
