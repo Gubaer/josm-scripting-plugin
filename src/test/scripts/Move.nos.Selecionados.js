@@ -88,7 +88,7 @@ const ArrayList       = Java.type("java.util.ArrayList");
     };
 
     // --- INTERFACE (MODAL) ---
-    const dialog = new JDialog(MainApplication.getMainFrame(), "Ajuste Fino", true);
+    const dialog = new JDialog(MainApplication.getMainFrame(), "Ajuste Fino", false);
     
     const mainPanel = new JPanel();
     mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
