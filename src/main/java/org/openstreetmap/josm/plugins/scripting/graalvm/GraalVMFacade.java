@@ -6,12 +6,10 @@ import org.openstreetmap.josm.plugins.scripting.graalvm.esmodule.ESModuleResolve
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
 import org.openstreetmap.josm.plugins.scripting.preferences.graalvm.GraalVMPrivilegesModel;
 
-import javax.swing.SwingUtilities;
 import javax.validation.constraints.NotNull;
 import java.awt.Window;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.lang.reflect.InvocationTargetException;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
@@ -122,19 +120,6 @@ public class GraalVMFacade  implements IGraalVMFacade {
         setOptionsOnContext(builder);
         context = builder.build();
         populateContext(context);
-        // The context must be entered on the EDT because scripts are executed on that thread.
-        // If initContext() is called off the EDT (e.g. during plugin initialization), schedule
-        // the enter() on the EDT and block until it completes.
-        if (SwingUtilities.isEventDispatchThread()) {
-            context.enter();
-        } else {
-            try {
-                SwingUtilities.invokeAndWait(() -> context.enter());
-            } catch (InvocationTargetException | InterruptedException e) {
-                Thread.currentThread().interrupt();
-                logger.log(Level.WARNING, "Failed to enter GraalVM context on EDT", e);
-            }
-        }
     }
 
     public GraalVMFacade() {
@@ -152,7 +137,6 @@ public class GraalVMFacade  implements IGraalVMFacade {
         scriptCreatedWindows.forEach(Window::dispose);
         scriptCreatedWindows.clear();
         if (context != null) {
-            context.leave();
             context.close(true /* cancelIfExecuting */);
         }
         initContext();
