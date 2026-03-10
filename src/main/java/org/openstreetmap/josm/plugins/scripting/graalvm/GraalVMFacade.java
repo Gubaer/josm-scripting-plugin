@@ -6,13 +6,21 @@ import org.openstreetmap.josm.plugins.scripting.graalvm.esmodule.ESModuleResolve
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
 import org.openstreetmap.josm.plugins.scripting.preferences.graalvm.GraalVMPrivilegesModel;
 
+import javax.swing.SwingUtilities;
 import javax.validation.constraints.NotNull;
+import java.awt.Window;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.lang.reflect.InvocationTargetException;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -30,6 +38,27 @@ public class GraalVMFacade  implements IGraalVMFacade {
     private final Engine engine;
 
     private Context context;
+
+    // Windows created by scripts during eval(). Disposed on resetContext().
+    private final Set<Window> scriptCreatedWindows = new HashSet<>();
+
+    private Set<Window> snapshotWindows() {
+        return new HashSet<>(Arrays.asList(Window.getWindows()));
+    }
+
+    private void trackNewWindows(Set<Window> before) {
+        Arrays.stream(Window.getWindows())
+            .filter(w -> !before.contains(w))
+            .forEach(w -> {
+                scriptCreatedWindows.add(w);
+                w.addWindowListener(new WindowAdapter() {
+                    @Override
+                    public void windowClosed(WindowEvent e) {
+                        scriptCreatedWindows.remove(w);
+                    }
+                });
+            });
+    }
 
     /**
      * Initializes a GraalVM context with the standard bindings.
@@ -93,11 +122,19 @@ public class GraalVMFacade  implements IGraalVMFacade {
         setOptionsOnContext(builder);
         context = builder.build();
         populateContext(context);
-        context.enter();
-
-        // have to enter the context on the Swing EDT because the scripts will be executed
-        // on this thread too
-        //runOnSwingEDT(() -> context.enter());
+        // The context must be entered on the EDT because scripts are executed on that thread.
+        // If initContext() is called off the EDT (e.g. during plugin initialization), schedule
+        // the enter() on the EDT and block until it completes.
+        if (SwingUtilities.isEventDispatchThread()) {
+            context.enter();
+        } else {
+            try {
+                SwingUtilities.invokeAndWait(() -> context.enter());
+            } catch (InvocationTargetException | InterruptedException e) {
+                Thread.currentThread().interrupt();
+                logger.log(Level.WARNING, "Failed to enter GraalVM context on EDT", e);
+            }
+        }
     }
 
     public GraalVMFacade() {
@@ -110,6 +147,10 @@ public class GraalVMFacade  implements IGraalVMFacade {
      */
     @Override
     public void resetContext() {
+        // Dispose windows opened by scripts before closing the context, so any
+        // dispose-triggered callbacks still execute in the live context.
+        scriptCreatedWindows.forEach(Window::dispose);
+        scriptCreatedWindows.clear();
         if (context != null) {
             context.leave();
             context.close(true /* cancelIfExecuting */);
@@ -168,12 +209,17 @@ public class GraalVMFacade  implements IGraalVMFacade {
         Objects.requireNonNull(script);
         final String engineId = desc.getLocalEngineId();
         ensureEngineIdPresent(engineId);
-
         try {
-            final var source = Source.newBuilder(engineId, script, null)
+            // Use a unique source name so GraalVM's ES module registry treats each execution as
+            // a distinct module. Without it, modules are evaluated only once per context and
+            // subsequent executions of the same script are silently skipped.
+            final var source = Source.newBuilder(engineId, script, "console-script:" + System.nanoTime())
                 .mimeType("application/javascript+module")
                 .build();
-            return context.eval(source);
+            final var before = snapshotWindows();
+            final var result = context.eval(source);
+            trackNewWindows(before);
+            return result;
         } catch(IOException e) {
             // shouldn't happen because we don't load the script from a file,
             // but just in case
@@ -200,7 +246,10 @@ public class GraalVMFacade  implements IGraalVMFacade {
             .mimeType("application/javascript+module")
             .build();
         try {
-            return context.eval(source);
+            final var before = snapshotWindows();
+            final var result = context.eval(source);
+            trackNewWindows(before);
+            return result;
         } catch(PolyglotException e) {
             final String message = format("failed to eval script in file ''{0}''", script);
             throw new GraalVMEvalException(message, e);

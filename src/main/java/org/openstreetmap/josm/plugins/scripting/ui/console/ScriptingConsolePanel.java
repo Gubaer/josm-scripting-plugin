@@ -6,6 +6,7 @@ import org.openstreetmap.josm.gui.HelpAwareOptionPane.ButtonSpec;
 import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
 import org.openstreetmap.josm.plugins.scripting.ui.ScriptErrorViewer;
 import org.openstreetmap.josm.plugins.scripting.ui.ScriptErrorViewerModel;
+import org.openstreetmap.josm.plugins.scripting.graalvm.GraalVMFacadeFactory;
 import org.openstreetmap.josm.plugins.scripting.ui.ScriptExecutor;
 import org.openstreetmap.josm.tools.ImageProvider;
 
@@ -23,6 +24,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Stream;
 
+import static org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor.ScriptEngineType;
 import static org.openstreetmap.josm.tools.I18n.tr;
 
 /**
@@ -41,9 +43,22 @@ public class ScriptingConsolePanel extends JPanel {
     protected JPanel buildControlPanel() {
         final var pnl = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
         pnl.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
+        final var btnResetContext = new JButton(new ResetContextAction());
+        final ScriptEngineDescriptor initialDesc = editor.getModel().getScriptEngineDescriptor();
+        btnResetContext.setVisible(initialDesc != null && initialDesc.getEngineType() == ScriptEngineType.GRAALVM);
+        editor.getModel().addPropertyChangeListener(evt -> {
+            if (!evt.getPropertyName().equals(ScriptEditorModel.PROP_SCRIPT_ENGINE)) return;
+            final ScriptEngineDescriptor desc = (ScriptEngineDescriptor) evt.getNewValue();
+            btnResetContext.setVisible(desc != null && desc.getEngineType() == ScriptEngineType.GRAALVM);
+        });
+        pnl.add(btnResetContext);
+
+        pnl.add(Box.createHorizontalStrut(10));
+
         actRun = new RunScriptAction(editor.getModel(), errorViewer.getModel());
         final var btnRun = new JButton(actRun);
         pnl.add(btnRun);
+
         return pnl;
     }
 
@@ -251,6 +266,22 @@ public class ScriptingConsolePanel extends JPanel {
                 return;
             }
             updateEnabledState();
+        }
+    }
+
+    class ResetContextAction extends AbstractAction {
+        public ResetContextAction() {
+            putValue(NAME, tr("Reset Context"));
+            putValue(SHORT_DESCRIPTION, tr("Resets the GraalJS context"));
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            // getOrCreateGraalVMFacade() is never null here: the button is only visible when
+            // a GraalVM engine is selected, which requires GraalVM to be present and initialized.
+            // resetContext() disposes windows opened by scripts (tracked during eval()).
+            GraalVMFacadeFactory.getOrCreateGraalVMFacade().resetContext();
+            log.getLogWriter().println(tr("Successfully reset GraalJS context"));
         }
     }
 

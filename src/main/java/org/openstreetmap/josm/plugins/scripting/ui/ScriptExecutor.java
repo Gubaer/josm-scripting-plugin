@@ -218,7 +218,6 @@ public class ScriptExecutor {
         }
         final Runnable task = () -> {
             try {
-                facade.resetContext();
                 facade.eval(engine, script);
             } catch (Throwable e) {
                 errorViewerModel.setError(e);
@@ -250,7 +249,6 @@ public class ScriptExecutor {
         final var facade = GraalVMFacadeFactory.getOrCreateGraalVMFacade();
         final Runnable task = () -> {
             try {
-                facade.resetContext();
                 facade.eval(engine, script);
             } catch (IOException e) {
                 warnOpenScriptFileFailed(script, e);

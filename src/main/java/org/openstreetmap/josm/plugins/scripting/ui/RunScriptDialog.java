@@ -2,12 +2,14 @@ package org.openstreetmap.josm.plugins.scripting.ui;
 
 import org.openstreetmap.josm.data.Preferences;
 import org.openstreetmap.josm.gui.MainApplication;
+import org.openstreetmap.josm.plugins.scripting.graalvm.GraalVMFacadeFactory;
 import org.openstreetmap.josm.gui.help.ContextSensitiveHelpAction;
 import org.openstreetmap.josm.gui.help.HelpUtil;
 import org.openstreetmap.josm.gui.util.WindowGeometry;
 import org.openstreetmap.josm.gui.widgets.HtmlPanel;
 import org.openstreetmap.josm.gui.widgets.SelectAllOnFocusGainedDecorator;
 import org.openstreetmap.josm.plugins.scripting.model.PreferenceKeys;
+import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
 import org.openstreetmap.josm.plugins.scripting.ui.mru.MostRecentlyRunScriptsComboBox;
 import org.openstreetmap.josm.plugins.scripting.ui.mru.MostRecentlyRunScriptsModel;
 import org.openstreetmap.josm.plugins.scripting.ui.mru.Script;
@@ -22,6 +24,7 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 import java.util.logging.Logger;
 
+import static org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor.ScriptEngineType;
 import static org.openstreetmap.josm.plugins.scripting.ui.GridBagConstraintBuilder.gbc;
 import static org.openstreetmap.josm.tools.I18n.tr;
 
@@ -37,6 +40,18 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys {
      * the input field for the script file name
      */
     private MostRecentlyRunScriptsComboBox cbScriptFile;
+
+    /**
+     * checkbox to optionally reset the GraalJS context before running;
+     * only visible when a GraalVM engine has been determined for the script
+     */
+    private JCheckBox cbResetContext;
+
+    /**
+     * the engine determined on the first Run click when the checkbox was just revealed;
+     * reused on the second click to avoid showing the engine selection dialog again
+     */
+    private ScriptEngineDescriptor pendingEngine;
 
     /**
      * Constructor
@@ -67,6 +82,10 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys {
 
     private JPanel buildControlButtonPanel() {
         final var pnl = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        cbResetContext = new JCheckBox(tr("Reset Context"));
+        cbResetContext.setToolTipText(tr("Resets the GraalJS context"));
+        cbResetContext.setVisible(false);
+        pnl.add(cbResetContext);
         final var actRun = new RunAction();
         final var btnRun = new JButton(actRun);
         pnl.add(btnRun);
@@ -151,6 +170,9 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys {
     @Override
     public void setVisible(boolean visible) {
         if (visible) {
+            cbResetContext.setVisible(false);
+            cbResetContext.setSelected(false);
+            pendingEngine = null;
             String lastFile = Preferences.main().get(PREF_KEY_LAST_FILE);
             if (lastFile != null && !lastFile.trim().isEmpty()) {
                 cbScriptFile.setText(lastFile.trim());
@@ -195,10 +217,35 @@ public class RunScriptDialog extends JDialog implements PreferenceKeys {
             if (!service.canRunScript(scriptFile, RunScriptDialog.this)) {
                 return;
             }
-            final var engine = service.deriveOrAskScriptEngineDescriptor(scriptFile, RunScriptDialog.this);
-            if (engine == null) {
+
+            // If the checkbox is already visible, a GraalVM engine was determined on the
+            // previous click and cached in pendingEngine — reuse it to avoid showing the
+            // engine selection dialog a second time.
+            final ScriptEngineDescriptor engine;
+            if (cbResetContext.isVisible() && pendingEngine != null) {
+                engine = pendingEngine;
+            } else {
+                engine = service.deriveOrAskScriptEngineDescriptor(scriptFile, RunScriptDialog.this);
+                if (engine == null) {
+                    return;
+                }
+            }
+
+            final boolean isGraalVM = engine.getEngineType() == ScriptEngineType.GRAALVM;
+            if (isGraalVM && !cbResetContext.isVisible()) {
+                // Checkbox just revealed for the first time — cache the engine and pause so
+                // the user can decide whether to reset the context before running.
+                pendingEngine = engine;
+                cbResetContext.setVisible(true);
                 return;
             }
+
+            // getOrCreateGraalVMFacade() is never null here: we're on the GraalVM path,
+            // which requires GraalVM to be present and initialized.
+            if (isGraalVM && cbResetContext.isSelected()) {
+                GraalVMFacadeFactory.getOrCreateGraalVMFacade().resetContext();
+            }
+            pendingEngine = null;
             setVisible(false);
             service.runScript(scriptFile, engine, MainApplication.getMainFrame());
 
