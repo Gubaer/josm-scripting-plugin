@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: josm-plugin_scripting\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-09 10:19+0100\n"
+"POT-Creation-Date: 2026-03-09 21:16+0100\n"
 "PO-Revision-Date: 2018-01-17 21:36+0000\n"
 "Last-Translator: Simon Legner <simon.legner@gmail.com>, 2026\n"
 "Language-Team: Ukrainian (https://app.transifex.com/josm/teams/2544/uk/)\n"
@@ -26,33 +26,33 @@ msgstr ""
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ScriptingPlugin.java:45
 #, java-format
 msgid "Failed to create directory ''{0}''"
-msgstr ""
+msgstr "Не вдалося створити каталог ''{0}''"
 
 #. icon name
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ScriptingPlugin.java:114
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/PreferenceEditor.java:27
 msgid "Scripting"
-msgstr ""
+msgstr "Сценарії"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ScriptingPlugin.java:168
 #, java-format
 msgid "Didn''t find resource ''{0}''. Can''t install default mime types."
-msgstr ""
+msgstr "Ресурс ''{0}'' не знайдено. Неможливо встановити типи MIME за замовчуванням."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ScriptingPlugin.java:174
 #, java-format
 msgid "Failed to create directory ''{0}''. Can''t install mime.types file"
-msgstr ""
+msgstr "Не вдалося створити каталог ''{0}''. Неможливо встановити файл mime.types"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ScriptingPlugin.java:186
 #, java-format
 msgid "Successfully installed default mime types in file ''{0}''."
-msgstr ""
+msgstr "Типи MIME за замовчуванням успішно встановлено у файлі ''{0}''."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ScriptingPlugin.java:191
 #, java-format
 msgid "Failed to install default mime types in the plugin directory ''{0}''."
-msgstr ""
+msgstr "Не вдалося встановити типи MIME за замовчуванням у каталозі плагіна ''{0}''."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/js/api/AddMultiCommand.java:88
 #, java-format
@@ -84,17 +84,17 @@ msgstr[3] "Вилучено {0} об’єктів"
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/model/JSR223ScriptEngineProvider.java:94
 #, java-format
 msgid "failed to load mime types from file ''{0}''."
-msgstr ""
+msgstr "не вдалося завантажити типи MIME з файлу ''{0}''."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/model/JSR223ScriptEngineProvider.java:101
 #, java-format
 msgid "failed to load default mime types from resource ''{0}''."
-msgstr ""
+msgstr "не вдалося завантажити типи MIME за замовчуванням із ресурсу ''{0}''."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/model/JSR223ScriptEngineProvider.java:106
 #, java-format
 msgid "failed to load default mime types from  resource ''{0}''."
-msgstr ""
+msgstr "не вдалося завантажити типи MIME за замовчуванням із  ресурсу ''{0}''."
 
 #. shouldn't happen because the entries in
 #. 'scriptEngineJars' are existing, valid files.
@@ -102,7 +102,7 @@ msgstr ""
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/model/JSR223ScriptEngineProvider.java:133
 #, java-format
 msgid "found malformed URL to script engine jar. URL=''{0}''"
-msgstr ""
+msgstr "знайдено неправильний URL до JAR файлу рушія сценаріїв. URL=''{0}''"
 
 #. NOTE: might be a legal preferences value for former plugin
 #. versions. No attempt to recover from these values, when this
@@ -113,28 +113,28 @@ msgstr ""
 msgid ""
 "Preference value ''{0}'' consist of an unsupported engine ID. Expected "
 "pattern ''type/id''."
-msgstr ""
+msgstr "Значення параметра ''{0}'' містить непідтримуваний ідентифікатор рушія. Очікуваний шаблон: ''type/id''."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/model/ScriptEngineDescriptor.java:186
 #, java-format
 msgid ""
 "Preference value ''{0}'' refers to an unsupported JSR223 compatible "
 "scripting engine with id ''{1}''"
-msgstr ""
+msgstr "Значення параметра ''{0}'' посилається на непідтримуваний JSR223-сумісний рушій сценаріїв з ідентифікатором ''{1}''"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/model/ScriptEngineDescriptor.java:195
 #, java-format
 msgid ""
 "Preferences value ''{0}'' refers to an GraalVM engine, but currently the "
 "GraalVM isn''t present on the classpath."
-msgstr ""
+msgstr "Значення параметра ''{0}'' посилається на рушій GraalVM, але зараз GraalVM відсутній у classpath."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/model/ScriptEngineDescriptor.java:209
 #, java-format
 msgid ""
 "Preference value ''{0}'' refers to an GraalVM engine with id ''{1}''. The "
 "GraalVM for this language is currently not present."
-msgstr ""
+msgstr "Значення параметра ''{0}'' посилається на рушій GraalVM з ідентифікатором ''{1}''. GraalVM для цієї мови зараз недоступний."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/ConfigureAction.java:20
 msgid "Configure..."
@@ -153,11 +153,11 @@ msgstr "Налаштування рушія та сценаріїв"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/PreferenceEditor.java:37
 msgid "Script engines"
-msgstr ""
+msgstr "Рушії сценаріїв"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/PreferenceEditor.java:40
 msgid "GraalVM"
-msgstr ""
+msgstr "GraalVM"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/ScriptEngineJarInfo.java:32
 #, java-format
@@ -179,33 +179,33 @@ msgstr "''{0}'' не читається. Неможливо завантажит
 msgid ""
 "The jar file ''{0}'' doesn''t provide a script engine. The entry ''{1}'' is "
 "missing."
-msgstr ""
+msgstr "Файл JAR ''{0}'' не надає рушія сценаріїв. Запис ''{1}'' відсутній."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/ScriptEngineJarInfo.java:50
 #, java-format
 msgid ""
 "Failed to open file ''{0}'' as jar file. Can''t load a script engine from "
 "this file."
-msgstr ""
+msgstr "Не вдалося відкрити файл ''{0}'' як JAR файл. Неможливо завантажити рушій сценаріїв з цього файлу."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/ScriptEnginesConfigurationPanel.java:149
 #, java-format
 msgid "resource file ''{0}'' not found"
-msgstr ""
+msgstr "файл ресурсів ''{0}'' не знайдено"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/ScriptEnginesConfigurationPanel.java:156
 #, java-format
 msgid "failed to load resource file ''{0}''"
-msgstr ""
+msgstr "не вдалося завантажити файл ресурсів ''{0}''"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/ScriptEnginesConfigurationPanel.java:162
 #, java-format
 msgid "property ''{0}'' in resource file ''{1}'' not found"
-msgstr ""
+msgstr "властивість ''{0}'' у файлі ресурсів ''{1}'' не знайдено"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/ScriptEnginesConfigurationPanel.java:207
 msgid "JAR files"
-msgstr ""
+msgstr "Файли JAR"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/ScriptEnginesConfigurationPanel.java:216
 msgid "Enter additional JAR files which provide script engines."
@@ -221,11 +221,11 @@ msgstr "Доступні рушії сценаріїв"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/ScriptEnginesConfigurationPanel.java:283
 msgid "JOSM currently supports the following script engines:"
-msgstr ""
+msgstr "JOSM зараз підтримує наступні рушії сценаріїв:"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/ScriptEnginesConfigurationPanel.java:344
 msgid "JAR file"
-msgstr ""
+msgstr "Файл JAR"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/ScriptEnginesConfigurationPanel.java:431
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/common/ImportPathsEditorPanel.java:124
@@ -234,7 +234,7 @@ msgstr "Вилучити"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/ScriptEnginesConfigurationPanel.java:432
 msgid "Remove the selected jar files"
-msgstr ""
+msgstr "Вилучити вибрані файли JAR"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/ScriptEnginesConfigurationPanel.java:456
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/common/ImportPathsEditorPanel.java:105
@@ -251,26 +251,26 @@ msgstr "Завантажити та встановити рушій"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/ScriptEnginesConfigurationPanel.java:597
 msgid "Launch file chooser"
-msgstr ""
+msgstr "Відкрити діалог вибору файлу"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/ScriptEnginesConfigurationPanel.java:608
 msgid "Select a jar file"
-msgstr ""
+msgstr "Вибрати файл JAR"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/common/IconUtil.java:19
 #, java-format
 msgid "Failed to load icon ''{0}''"
-msgstr ""
+msgstr "Не вдалося завантажити значок ''{0}''"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/common/IconUtil.java:27
 #, java-format
 msgid "Failed to load icon ''{0}/{1}''"
-msgstr ""
+msgstr "Не вдалося завантажити значок ''{0}/{1}''"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/common/ImportPathDialog.java:33
 msgid ""
 "Please enter or paste a valid directory path or path to a jar/zip file."
-msgstr ""
+msgstr "Введіть або вставте дійсний шлях до каталогу або до файлу JAR/ZIP."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/common/ImportPathDialog.java:80
 msgid "Create or edit a path"
@@ -290,12 +290,12 @@ msgstr "''{0}'' а ні наявна тека, а ні файл *.jar"
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/common/ImportPathDialog.java:152
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/ModuleRepositoryDialog.java:204
 msgid "Select a directory or a jar file"
-msgstr ""
+msgstr "Вибрати каталог або файл JAR"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/common/ImportPathDialog.java:161
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/ModuleRepositoryDialog.java:213
 msgid "Select a directory or jar/zip file"
-msgstr ""
+msgstr "Вибрати каталог або файл JAR/ZIP"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/common/ImportPathDialog.java:181
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/ModuleRepositoryDialog.java:259
@@ -326,7 +326,7 @@ msgstr "Додати шлях чи файл *.jar"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/common/ImportPathsEditorPanel.java:125
 msgid "Remove a path"
-msgstr ""
+msgstr "Вилучити шлях"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/common/ImportPathsEditorPanel.java:150
 msgid "Up"
@@ -334,7 +334,7 @@ msgstr "Вгору"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/common/ImportPathsEditorPanel.java:151
 msgid "Move the selected path up by one position"
-msgstr ""
+msgstr "Перемістити вибраний шлях на одну позицію вгору"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/common/ImportPathsEditorPanel.java:176
 msgid "Down"
@@ -343,7 +343,7 @@ msgstr "Вниз"
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/common/ImportPathsEditorPanel.java:177
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/AbstractRepoConfigurationPanel.java:215
 msgid "Move the selected repository down by one position"
-msgstr ""
+msgstr "Перемістити вибраний репозиторій на одну позицію вниз"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/AbstractRepoConfigurationPanel.java:131
 msgid "Add an additional repository"
@@ -351,24 +351,24 @@ msgstr "Додати додатковий репозиторій"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/AbstractRepoConfigurationPanel.java:158
 msgid "Remove a repository"
-msgstr ""
+msgstr "Вилучити репозиторій"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/AbstractRepoConfigurationPanel.java:186
 msgid "Move the selected repository up by one position"
-msgstr ""
+msgstr "Перемістити вибраний репозиторій на одну позицію вгору"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/CommonJSRepoConfigurationPanel.java:20
 msgid ""
 "<p>GraalJS can load <strong>CommonJS modules</strong> with the function "
 "<code>require()</code>. It resolves CommonJS modules in the directories and "
 "jar files configured below.</p>"
-msgstr ""
+msgstr "<p>GraalJS може завантажувати <strong>CommonJS модулі</strong> за допомогою функції <code>require()</code>. CommonJS модулі шукаються в каталогах та файлах JAR, налаштованих нижче.</p>"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/ESModuleRepoConfigurationPanel.java:19
 msgid ""
 "<p>GraalJS can load <strong>ECMAScript Modules</strong> (ES Modules).It "
 "resolves ES Modules in the directories and jar files configured below.</p>"
-msgstr ""
+msgstr "<p>GraalJS може завантажувати <strong>ECMAScript модулі</strong> (ES модулі). ES модулі шукаються в каталогах та файлах JAR, налаштованих нижче.</p>"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/GraalVMConfigurationPanel.java:30
 msgid ""
@@ -378,12 +378,17 @@ msgid ""
 "be available in the scripting plugin, GraalJS has to be on the classpath "
 "when JOSM starts. "
 msgstr ""
+"Плагін сценаріїв може виконувати JavaScript сценарії за допомогою <a "
+"href=\"https://github.com/oracle/graaljs\">GraalJS</a>, JavaScript "
+"рушія, наданого <a href=\"https://www.graalvm.org/\">GraalVM</a>. Щоб "
+"бути доступним у плагіні сценаріїв, GraalJS має бути у classpath "
+"під час запуску JOSM. "
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/GraalVMConfigurationPanel.java:37
 msgid ""
 "JOSM has been started with GraalJS on the classpath. You can use GraalJS in "
 "the scripting plugin."
-msgstr ""
+msgstr "JOSM запущено з GraalJS у classpath. Ви можете використовувати GraalJS у плагіні сценаріїв."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/GraalVMConfigurationPanel.java:41
 #, java-format
@@ -392,19 +397,22 @@ msgid ""
 " href=\"{0}\">This documentation</a> explains how you can start it with "
 "GraalJS on the classpath."
 msgstr ""
+"JOSM <strong>не</strong> запущено з GraalJS у classpath. <a"
+" href=\"{0}\">Ця документація</a> пояснює, як запустити його з "
+"GraalJS у classpath."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/GraalVMConfigurationPanel.java:68
 msgid "ES Module repositories"
-msgstr ""
+msgstr "Репозиторії ES модулів"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/GraalVMConfigurationPanel.java:70
 msgid "CommonJS module repositories"
-msgstr ""
+msgstr "Репозиторії CommonJS модулів"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/ModuleRepositoryDialog.java:42
 msgid ""
 "Please enter or paste a valid file or jar URL. HTTP URLs are not supported."
-msgstr ""
+msgstr "Введіть або вставте дійсний URL файлу або JAR. URL типу HTTP не підтримуються."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/ModuleRepositoryDialog.java:91
 msgid "Create or edit a CommonJS module repository"
@@ -418,12 +426,12 @@ msgstr "''{0}'' помилковий URL"
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/ModuleRepositoryDialog.java:154
 #, java-format
 msgid "''{0}'' isn''t a valid base URL."
-msgstr ""
+msgstr "''{0}'' не є дійсним базовим URL."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/ModuleRepositoryDialog.java:170
 #, java-format
 msgid "''{0}'' is neither an existing directory nor am existing jar file"
-msgstr ""
+msgstr "''{0}'' не є ані наявним каталогом, ані наявним файлом JAR"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/ModuleRepositoryDialog.java:176
 #, java-format
@@ -432,26 +440,26 @@ msgstr "''{0}'' а ні файл ''jar'', а ні ''file'' в URL"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/LaunchRunScriptDialogAction.java:18
 msgid "Run..."
-msgstr ""
+msgstr "Виконати..."
 
 #. title
 #. icon name
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/LaunchRunScriptDialogAction.java:20
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:140
 msgid "Run a script"
-msgstr ""
+msgstr "Виконати сценарій"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/LaunchRunScriptDialogAction.java:22
 msgid "Scripting: Run a Script"
-msgstr ""
+msgstr "Сценарії: виконати сценарій"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:61
 msgid "Select a script file and click on <strong>Run</strong>."
-msgstr ""
+msgstr "Оберіть файл сценарію та натисніть <strong>Виконати</strong>."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:106
 msgid "File:"
-msgstr ""
+msgstr "Файл:"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:110
 msgid "Enter the name of a script file"
@@ -461,28 +469,28 @@ msgstr "Вкажіть файл сценарію"
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:187
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:210
 msgid "Run"
-msgstr ""
+msgstr "Виконати"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:214
 msgid "Launch file selection dialog"
-msgstr ""
+msgstr "Відкрити діалог вибору файлу"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:226
 msgid "Select a script file"
-msgstr ""
+msgstr "Вибрати файл сценарію"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptService.java:34
 #, java-format
 msgid "The script file ''{0}'' doesn''t exist."
-msgstr ""
+msgstr "Файл сценарію ''{0}'' не існує."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptService.java:35
 msgid "File not found"
-msgstr ""
+msgstr "Файл не знайдено"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptService.java:44
 msgid "Please enter a file name first."
-msgstr ""
+msgstr "Спочатку введіть назву файлу."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptService.java:45
 msgid "Empty file name"
@@ -491,22 +499,22 @@ msgstr "Не зазначено назву файлу"
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptService.java:54
 #, java-format
 msgid "The script file ''{0}'' isn''t readable."
-msgstr ""
+msgstr "Файл сценарію ''{0}'' нечитабельний."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptService.java:55
 msgid "File not readable"
-msgstr ""
+msgstr "Файл нечитабельний"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptService.java:65
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptService.java:71
 #, java-format
 msgid "Failed to read the script from the file ''{0}''."
-msgstr ""
+msgstr "Не вдалося прочитати сценарій із файлу ''{0}''."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptService.java:67
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptExecutor.java:76
 msgid "IO error"
-msgstr ""
+msgstr "Помилка введення/виведення"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptEngineCellRenderer.java:26
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptEngineCellRenderer.java:35
@@ -517,17 +525,17 @@ msgstr "Невідомо"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptEngineCellRenderer.java:32
 msgid "Select an engine"
-msgstr ""
+msgstr "Вибрати рушій"
 
 #. used in the context of a combo box
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptEngineCellRenderer.java:37
 #, java-format
 msgid "{1} (with engine {0})"
-msgstr ""
+msgstr "{1} (з рушієм {0})"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptEngineCellRenderer.java:49
 msgid "Name:"
-msgstr ""
+msgstr "Назва:"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptEngineCellRenderer.java:52
 msgid "Version:"
@@ -535,27 +543,27 @@ msgstr "Версія:"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptEngineCellRenderer.java:55
 msgid "Language:"
-msgstr ""
+msgstr "Мова:"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptEngineCellRenderer.java:58
 msgid "Language version:"
-msgstr ""
+msgstr "Версія мови:"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptEngineCellRenderer.java:60
 msgid "MIME-Types:"
-msgstr ""
+msgstr "Типи MIME:"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptEngineSelectionDialog.java:200
 msgid ""
 "Use one of the available pluggable scripting engines (see <i>Preferences</i>"
 " to configure additional engines)."
-msgstr ""
+msgstr "Використовуйте один із доступних підключуваних рушіїв сценаріїв (див. <i>Параметри</i> для налаштування додаткових рушіїв)."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptEngineSelectionDialog.java:247
 msgid ""
 "Use GraalJS, the JavaScript engine provided by the GraalVM (see "
 "<i>Preferences</i> to configure GraalJS)."
-msgstr ""
+msgstr "Використовуйте GraalJS, JavaScript рушій, наданий GraalVM (див. <i>Параметри</i> для налаштування GraalJS)."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptEngineSelectionDialog.java:359
 msgid "Accept the selected scripting engine"
@@ -563,22 +571,22 @@ msgstr "Застосувати обраний рушій сценаріїв"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptEngineSelectionDialog.java:397
 msgid "cancel"
-msgstr ""
+msgstr "скасувати"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptErrorDialog.java:22
 msgid ""
 "An error occurred when executing a script. It is most likely caused by a bug"
 " in the script and not in JOSM.<p> Please get in touch with the script "
 "author before you file a bug in JOSM''s bug tracker."
-msgstr ""
+msgstr "Під час виконання сценарію виникла помилка. Швидше за все, вона спричинена помилкою у сценарії, а не в JOSM.<p> Зв'яжіться з автором сценарію, перш ніж повідомляти про помилку в системі відстеження помилок JOSM."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptErrorDialog.java:55
 msgid "Script Error - Stack Trace"
-msgstr ""
+msgstr "Помилка сценарію – трасування стека"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptErrorViewer.java:86
 msgid "Show stack trace"
-msgstr ""
+msgstr "Показати трасування стека"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptExecutor.java:58
 #, java-format
@@ -593,34 +601,34 @@ msgstr ""
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptExecutor.java:64
 msgid "Script engine not found"
-msgstr ""
+msgstr "Рушій сценаріїв не знайдено"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptExecutor.java:72
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptExecutor.java:75
 #, java-format
 msgid "Failed to read the script from file ''{0}''."
-msgstr ""
+msgstr "Не вдалося прочитати сценарій із файлу ''{0}''."
 
 #. should not happen. Make sure this method is only invoked
 #. if GraalVM is present. Log a warning and return, don't prompt
 #. the user with an error message.
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptExecutor.java:216
 msgid "GraalVM not present, can''t run script with GraalVM"
-msgstr ""
+msgstr "GraalVM відсутній, неможливо виконати сценарій із GraalVM"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ToggleConsoleAction.java:23
 msgid "Show scripting console"
-msgstr ""
+msgstr "Показати консоль сценаріїв"
 
 #. title
 #. icon name
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ToggleConsoleAction.java:25
 msgid "Show/hide the scripting console"
-msgstr ""
+msgstr "Показати/сховати консоль сценаріїв"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ToggleConsoleAction.java:28
 msgid "Scripting: Show/hide scripting console"
-msgstr ""
+msgstr "Сценарії: показати/сховати консоль сценаріїв"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/CloseAction.java:17
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/release/ReleaseNotes.java:226
@@ -634,7 +642,7 @@ msgstr "Закрити консоль сценарію"
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/OpenAction.java:32
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/SaveAsAction.java:19
 msgid "Select a script"
-msgstr ""
+msgstr "Вибрати сценарій"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/OpenAction.java:50
 msgid "Open"
@@ -642,7 +650,7 @@ msgstr "Відкритий"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/OpenAction.java:51
 msgid "Open a script file"
-msgstr ""
+msgstr "Відкрити файл сценарію"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/SaveAction.java:19
 msgid "Save"
@@ -650,15 +658,15 @@ msgstr "Зберегти"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/SaveAction.java:20
 msgid "Save script to current file"
-msgstr ""
+msgstr "Зберегти сценарій у поточний файл"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/SaveAsAction.java:30
 msgid "Save as ..."
-msgstr ""
+msgstr "Зберегти як..."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/SaveAsAction.java:31
 msgid "Save to a script file"
-msgstr ""
+msgstr "Зберегти у файл сценарію"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptEditor.java:74
 msgid "Current file:"
@@ -667,26 +675,26 @@ msgstr "Поточний файл:"
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptEditor.java:144
 #, java-format
 msgid "Failed to load file ''{0}''."
-msgstr ""
+msgstr "Не вдалося завантажити файл ''{0}''."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptEditor.java:145
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptEditor.java:155
 msgid "IO exception"
-msgstr ""
+msgstr "Виняток введення/виведення"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptEditor.java:154
 #, java-format
 msgid "Failed to save file ''{0}''."
-msgstr ""
+msgstr "Не вдалося зберегти файл ''{0}''."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptEngineInfoPanel.java:70
 #, java-format
 msgid "With GraalJS, use <a href=\"{0}\">JavaScript API V3</a>."
-msgstr ""
+msgstr "З GraalJS використовуйте <a href=\"{0}\">JavaScript API V3</a>."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptEngineInfoPanel.java:84
 msgid "No script engine selected."
-msgstr ""
+msgstr "Рушій сценаріїв не вибрано."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptEngineInfoPanel.java:85
 msgid "Select"
@@ -697,11 +705,11 @@ msgstr "Вибрати"
 msgid ""
 "Executing scripts in language <strong>{0}</strong> using engine "
 "<strong>{1}</strong>."
-msgstr ""
+msgstr "Виконання сценаріїв мовою <strong>{0}</strong> за допомогою рушія <strong>{1}</strong>."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptEngineInfoPanel.java:94
 msgid "Change"
-msgstr ""
+msgstr "Змінити"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptLogPanel.java:96
 msgid "Clear log"
@@ -713,7 +721,7 @@ msgstr "Очистити вміст логу"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsole.java:99
 msgid "Scripting Console"
-msgstr ""
+msgstr "Консоль сценаріїв"
 
 #. create the file menu
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsole.java:106
@@ -731,11 +739,11 @@ msgstr "Завжди зверху"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:59
 msgid "Console"
-msgstr ""
+msgstr "Консоль"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:60
 msgid "Displays script output"
-msgstr ""
+msgstr "Відображає виведення сценарію"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:61
 msgid "Errors"
@@ -743,42 +751,47 @@ msgstr "Помилки"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:63
 msgid "Displays scripting errors"
-msgstr ""
+msgstr "Відображає помилки сценаріїв"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:107
 #, java-format
 msgid ""
 "Didn''t find a suitable syntax style for the script engine "
 "<strong>{0}</strong>."
-msgstr ""
+msgstr "Не знайдено відповідного стилю синтаксису для рушія сценаріїв <strong>{0}</strong>."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:110
 msgid ""
 "No syntax style is available for either of the following content types:"
-msgstr ""
+msgstr "Немає доступного стилю синтаксису для жодного з наступних типів вмісту:"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:116
 msgid "Syntax highlighting is disabled."
-msgstr ""
+msgstr "Підсвічування синтаксису вимкнено."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:118
 msgid ""
 "Refer to the online help on configuring the syntax style for specific "
 "content types."
-msgstr ""
+msgstr "Зверніться до онлайн-довідки щодо налаштування стилю синтаксису для конкретних типів вмісту."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:133
 msgid "No syntax kit"
-msgstr ""
+msgstr "Немає набору синтаксису"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:209
 msgid "Execute the script (F5)"
-msgstr ""
+msgstr "Виконати сценарій (F5)"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/release/ReleaseNotes.java:196
 msgid "Scripting Plugin - Release Notes"
-msgstr ""
+msgstr "Плагін сценаріїв – примітки до випуску"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/release/ReleaseNotes.java:227
 msgid "Close the release notes"
-msgstr ""
+msgstr "Закрити примітки до випуску"
+
+#. Plugin description in the JAR manifest (read by the JOSM plugin manager)
+#, no-java-format
+msgid "Runs scripts in JOSM"
+msgstr "Виконує сценарії в JOSM"

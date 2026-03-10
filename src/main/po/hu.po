@@ -7,15 +7,16 @@
 # Gábor Babos <gabor.babos@gmail.com>, 2018
 # misibacsi, 2022
 # Simon Legner <simon.legner@gmail.com>, 2026
+# Gubaer <karl.guggisberg@guggis.ch>, 2026
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: josm-plugin_scripting\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-09 10:19+0100\n"
+"POT-Creation-Date: 2026-03-09 21:16+0100\n"
 "PO-Revision-Date: 2018-01-17 21:36+0000\n"
-"Last-Translator: Simon Legner <simon.legner@gmail.com>, 2026\n"
+"Last-Translator: Gubaer <karl.guggisberg@guggis.ch>, 2026\n"
 "Language-Team: Hungarian (https://app.transifex.com/josm/teams/2544/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,7 +27,7 @@ msgstr ""
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ScriptingPlugin.java:45
 #, java-format
 msgid "Failed to create directory ''{0}''"
-msgstr ""
+msgstr "Nem sikerült létrehozni a következő mappát: ''{0}''"
 
 #. icon name
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ScriptingPlugin.java:114
@@ -37,58 +38,58 @@ msgstr "Parancsfájlkezelés"
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ScriptingPlugin.java:168
 #, java-format
 msgid "Didn''t find resource ''{0}''. Can''t install default mime types."
-msgstr ""
+msgstr "Nem található a(z) ''{0}'' erőforrás. Nem telepíthetők az alapértelmezett MIME-típusok."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ScriptingPlugin.java:174
 #, java-format
 msgid "Failed to create directory ''{0}''. Can''t install mime.types file"
-msgstr ""
+msgstr "Nem sikerült létrehozni a(z) ''{0}'' mappát. Nem telepíthető a mime.types fájl"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ScriptingPlugin.java:186
 #, java-format
 msgid "Successfully installed default mime types in file ''{0}''."
-msgstr ""
+msgstr "Az alapértelmezett MIME-típusok sikeresen telepítve a(z) ''{0}'' fájlba."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ScriptingPlugin.java:191
 #, java-format
 msgid "Failed to install default mime types in the plugin directory ''{0}''."
-msgstr ""
+msgstr "Nem sikerült az alapértelmezett MIME-típusokat telepíteni a bővítmény ''{0}'' mappájába."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/js/api/AddMultiCommand.java:88
 #, java-format
 msgid "Added {0} primitive"
 msgid_plural "Added {0} primitives"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{0} primitív hozzáadva"
+msgstr[1] "{0} primitív hozzáadva"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/js/api/ChangeMultiCommand.java:53
 #, java-format
 msgid "Changed {0} primitive"
 msgid_plural "Changed {0} primitives"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{0} primitív módosítva"
+msgstr[1] "{0} primitív módosítva"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/js/api/DeleteMultiCommand.java:77
 #, java-format
 msgid "Deleted {0} primitive"
 msgid_plural "Deleted {0} primitives"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{0} primitív törölve"
+msgstr[1] "{0} primitív törölve"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/model/JSR223ScriptEngineProvider.java:94
 #, java-format
 msgid "failed to load mime types from file ''{0}''."
-msgstr ""
+msgstr "nem sikerült a MIME-típusokat betölteni a(z) ''{0}'' fájlból."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/model/JSR223ScriptEngineProvider.java:101
 #, java-format
 msgid "failed to load default mime types from resource ''{0}''."
-msgstr ""
+msgstr "nem sikerült az alapértelmezett MIME-típusokat betölteni a(z) ''{0}'' erőforrásból."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/model/JSR223ScriptEngineProvider.java:106
 #, java-format
 msgid "failed to load default mime types from  resource ''{0}''."
-msgstr ""
+msgstr "nem sikerült az alapértelmezett MIME-típusokat betölteni a(z)  ''{0}'' erőforrásból."
 
 #. shouldn't happen because the entries in
 #. 'scriptEngineJars' are existing, valid files.
@@ -96,7 +97,7 @@ msgstr ""
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/model/JSR223ScriptEngineProvider.java:133
 #, java-format
 msgid "found malformed URL to script engine jar. URL=''{0}''"
-msgstr ""
+msgstr "hibás URL-cím található a szkriptmotor JAR-fájljához. URL=''{0}''"
 
 #. NOTE: might be a legal preferences value for former plugin
 #. versions. No attempt to recover from these values, when this
@@ -107,28 +108,28 @@ msgstr ""
 msgid ""
 "Preference value ''{0}'' consist of an unsupported engine ID. Expected "
 "pattern ''type/id''."
-msgstr ""
+msgstr "A(z) ''{0}'' beállítási érték nem támogatott motorazonosítót tartalmaz. A várt minta: ''type/id''."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/model/ScriptEngineDescriptor.java:186
 #, java-format
 msgid ""
 "Preference value ''{0}'' refers to an unsupported JSR223 compatible "
 "scripting engine with id ''{1}''"
-msgstr ""
+msgstr "A(z) ''{0}'' beállítási érték nem támogatott JSR223-kompatibilis szkriptmotorra hivatkozik, amelynek azonosítója: ''{1}''"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/model/ScriptEngineDescriptor.java:195
 #, java-format
 msgid ""
 "Preferences value ''{0}'' refers to an GraalVM engine, but currently the "
 "GraalVM isn''t present on the classpath."
-msgstr ""
+msgstr "A(z) ''{0}'' beállítási érték GraalVM-motorra hivatkozik, de a GraalVM jelenleg nincs jelen a classpath-ban."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/model/ScriptEngineDescriptor.java:209
 #, java-format
 msgid ""
 "Preference value ''{0}'' refers to an GraalVM engine with id ''{1}''. The "
 "GraalVM for this language is currently not present."
-msgstr ""
+msgstr "A(z) ''{0}'' beállítási érték ''{1}'' azonosítójú GraalVM-motorra hivatkozik. Az ehhez a nyelvhez tartozó GraalVM jelenleg nem érhető el."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/ConfigureAction.java:20
 msgid "Configure..."
@@ -138,20 +139,20 @@ msgstr "Beállítás..."
 #. icon name
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/ConfigureAction.java:22
 msgid "Configure scripting preferences"
-msgstr ""
+msgstr "Szkriptkezelési beállítások konfigurálása"
 
 #. title
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/PreferenceEditor.java:28
 msgid "Configure script engines and scripts"
-msgstr ""
+msgstr "Szkriptmotorok és szkriptek konfigurálása"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/PreferenceEditor.java:37
 msgid "Script engines"
-msgstr ""
+msgstr "Szkriptmotorok"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/PreferenceEditor.java:40
 msgid "GraalVM"
-msgstr ""
+msgstr "GraalVM"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/ScriptEngineJarInfo.java:32
 #, java-format
@@ -166,36 +167,36 @@ msgstr "''{0}'' egy mappa. Ide létező jar fájl szükséges."
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/ScriptEngineJarInfo.java:40
 #, java-format
 msgid "''{0}'' isn''t readable. Can''t load a script engine from this file."
-msgstr ""
+msgstr "''{0}'' nem olvasható. Nem tölthető be szkriptmotor ebből a fájlból."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/ScriptEngineJarInfo.java:46
 #, java-format
 msgid ""
 "The jar file ''{0}'' doesn''t provide a script engine. The entry ''{1}'' is "
 "missing."
-msgstr ""
+msgstr "A(z) ''{0}'' JAR-fájl nem biztosít szkriptmotort. A(z) ''{1}'' bejegyzés hiányzik."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/ScriptEngineJarInfo.java:50
 #, java-format
 msgid ""
 "Failed to open file ''{0}'' as jar file. Can''t load a script engine from "
 "this file."
-msgstr ""
+msgstr "Nem sikerült megnyitni a(z) ''{0}'' fájlt JAR-fájlként. Nem tölthető be szkriptmotor ebből a fájlból."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/ScriptEnginesConfigurationPanel.java:149
 #, java-format
 msgid "resource file ''{0}'' not found"
-msgstr ""
+msgstr "a(z) ''{0}'' erőforrásfájl nem található"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/ScriptEnginesConfigurationPanel.java:156
 #, java-format
 msgid "failed to load resource file ''{0}''"
-msgstr ""
+msgstr "nem sikerült betölteni a(z) ''{0}'' erőforrásfájlt"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/ScriptEnginesConfigurationPanel.java:162
 #, java-format
 msgid "property ''{0}'' in resource file ''{1}'' not found"
-msgstr ""
+msgstr "a(z) ''{0}'' tulajdonság nem található a(z) ''{1}'' erőforrásfájlban"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/ScriptEnginesConfigurationPanel.java:207
 msgid "JAR files"
@@ -203,19 +204,19 @@ msgstr "JAR fájl"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/ScriptEnginesConfigurationPanel.java:216
 msgid "Enter additional JAR files which provide script engines."
-msgstr ""
+msgstr "Adjon meg további JAR-fájlokat, amelyek szkriptmotorokat biztosítanak."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/ScriptEnginesConfigurationPanel.java:248
 msgid "Available engines:"
-msgstr ""
+msgstr "Elérhető motorok:"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/ScriptEnginesConfigurationPanel.java:275
 msgid "Available script engines"
-msgstr ""
+msgstr "Elérhető szkriptmotorok"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/ScriptEnginesConfigurationPanel.java:283
 msgid "JOSM currently supports the following script engines:"
-msgstr ""
+msgstr "A JOSM jelenleg a következő szkriptmotorokat támogatja:"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/ScriptEnginesConfigurationPanel.java:344
 msgid "JAR file"
@@ -237,15 +238,15 @@ msgstr "Hozzáadás"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/ScriptEnginesConfigurationPanel.java:458
 msgid "Add a jar file providing a script engine"
-msgstr ""
+msgstr "JAR-fájl hozzáadása szkriptmotorral"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/ScriptEnginesConfigurationPanel.java:474
 msgid "Download and install scripting engine"
-msgstr ""
+msgstr "Szkriptmotor letöltése és telepítése"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/ScriptEnginesConfigurationPanel.java:597
 msgid "Launch file chooser"
-msgstr ""
+msgstr "Fájlválasztó megnyitása"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/ScriptEnginesConfigurationPanel.java:608
 msgid "Select a jar file"
@@ -264,7 +265,7 @@ msgstr "Hiba ''{0}/{1}'' ikon betöltésekor"
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/common/ImportPathDialog.java:33
 msgid ""
 "Please enter or paste a valid directory path or path to a jar/zip file."
-msgstr ""
+msgstr "Adjon meg vagy illesszen be egy érvényes könyvtár- vagy JAR/ZIP-fájlútvonalat."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/common/ImportPathDialog.java:80
 msgid "Create or edit a path"
@@ -310,7 +311,7 @@ msgstr "OK"
 msgid ""
 "Add directories and/or jar files where the Jython engine shall look for "
 "Python packages or modules."
-msgstr ""
+msgstr "Adjon hozzá könyvtárakat és/vagy JAR-fájlokat, ahol a Jython-motor Python-csomagokat vagy modulokat keres."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/common/ImportPathsEditorPanel.java:106
 msgid "Add a path or jar file"
@@ -318,7 +319,7 @@ msgstr "Útvonal vagy jar fájl megadása"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/common/ImportPathsEditorPanel.java:125
 msgid "Remove a path"
-msgstr ""
+msgstr "Útvonal eltávolítása"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/common/ImportPathsEditorPanel.java:150
 msgid "Up"
@@ -326,7 +327,7 @@ msgstr "Fel"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/common/ImportPathsEditorPanel.java:151
 msgid "Move the selected path up by one position"
-msgstr ""
+msgstr "Kijelölt útvonal mozgatása egy pozícióval felfelé"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/common/ImportPathsEditorPanel.java:176
 msgid "Down"
@@ -335,32 +336,32 @@ msgstr "Le"
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/common/ImportPathsEditorPanel.java:177
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/AbstractRepoConfigurationPanel.java:215
 msgid "Move the selected repository down by one position"
-msgstr ""
+msgstr "Kijelölt adattár mozgatása egy pozícióval lefelé"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/AbstractRepoConfigurationPanel.java:131
 msgid "Add an additional repository"
-msgstr ""
+msgstr "További adattár hozzáadása"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/AbstractRepoConfigurationPanel.java:158
 msgid "Remove a repository"
-msgstr ""
+msgstr "Adattár eltávolítása"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/AbstractRepoConfigurationPanel.java:186
 msgid "Move the selected repository up by one position"
-msgstr ""
+msgstr "Kijelölt adattár mozgatása egy pozícióval felfelé"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/CommonJSRepoConfigurationPanel.java:20
 msgid ""
 "<p>GraalJS can load <strong>CommonJS modules</strong> with the function "
 "<code>require()</code>. It resolves CommonJS modules in the directories and "
 "jar files configured below.</p>"
-msgstr ""
+msgstr "<p>A GraalJS a <code>require()</code> függvénnyel képes betölteni <strong>CommonJS modulokat</strong>. Az alább konfigurált könyvtárakban és JAR-fájlokban keresi a CommonJS modulokat.</p>"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/ESModuleRepoConfigurationPanel.java:19
 msgid ""
 "<p>GraalJS can load <strong>ECMAScript Modules</strong> (ES Modules).It "
 "resolves ES Modules in the directories and jar files configured below.</p>"
-msgstr ""
+msgstr "<p>A GraalJS képes betölteni <strong>ECMAScript modulokat</strong> (ES modulokat). Az alább konfigurált könyvtárakban és JAR-fájlokban keresi az ES modulokat.</p>"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/GraalVMConfigurationPanel.java:30
 msgid ""
@@ -370,12 +371,17 @@ msgid ""
 "be available in the scripting plugin, GraalJS has to be on the classpath "
 "when JOSM starts. "
 msgstr ""
+"A szkriptkezelő bővítmény JavaScript-szkripteket tud futtatni a <a "
+"href=\"https://github.com/oracle/graaljs\">GraalJS</a> segítségével, "
+"a <a href=\"https://www.graalvm.org/\">GraalVM</a> által biztosított "
+"JavaScript-motorral. Ahhoz, hogy a bővítményben elérhető legyen, a GraalJS-nek "
+"jelen kell lennie a classpath-ban a JOSM indításakor. "
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/GraalVMConfigurationPanel.java:37
 msgid ""
 "JOSM has been started with GraalJS on the classpath. You can use GraalJS in "
 "the scripting plugin."
-msgstr ""
+msgstr "A JOSM a GraalJS-sel a classpath-ban indult. Használhatja a GraalJS-t a szkriptkezelő bővítményben."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/GraalVMConfigurationPanel.java:41
 #, java-format
@@ -384,23 +390,26 @@ msgid ""
 " href=\"{0}\">This documentation</a> explains how you can start it with "
 "GraalJS on the classpath."
 msgstr ""
+"A JOSM <strong>nem</strong> indult el GraalJS-sel a classpath-ban. <a"
+" href=\"{0}\">Ez a dokumentáció</a> elmagyarázza, hogyan indíthatja el "
+"GraalJS-sel a classpath-ban."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/GraalVMConfigurationPanel.java:68
 msgid "ES Module repositories"
-msgstr ""
+msgstr "ES-modul adattárak"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/GraalVMConfigurationPanel.java:70
 msgid "CommonJS module repositories"
-msgstr ""
+msgstr "CommonJS-modul adattárak"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/ModuleRepositoryDialog.java:42
 msgid ""
 "Please enter or paste a valid file or jar URL. HTTP URLs are not supported."
-msgstr ""
+msgstr "Adjon meg vagy illesszen be érvényes fájl- vagy JAR-URL-t. HTTP URL-ek nem támogatottak."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/ModuleRepositoryDialog.java:91
 msgid "Create or edit a CommonJS module repository"
-msgstr ""
+msgstr "CommonJS-modul adattár létrehozása vagy szerkesztése"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/ModuleRepositoryDialog.java:142
 #, java-format
@@ -410,12 +419,12 @@ msgstr "''{0}'' szabálytalan URL"
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/ModuleRepositoryDialog.java:154
 #, java-format
 msgid "''{0}'' isn''t a valid base URL."
-msgstr ""
+msgstr "''{0}'' nem érvényes alap-URL."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/ModuleRepositoryDialog.java:170
 #, java-format
 msgid "''{0}'' is neither an existing directory nor am existing jar file"
-msgstr ""
+msgstr "''{0}'' sem nem létező könyvtár, sem nem létező JAR-fájl"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/ModuleRepositoryDialog.java:176
 #, java-format
@@ -435,11 +444,11 @@ msgstr "Parancsfájl futtatása"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/LaunchRunScriptDialogAction.java:22
 msgid "Scripting: Run a Script"
-msgstr ""
+msgstr "Szkriptkezelés: Szkript futtatása"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:61
 msgid "Select a script file and click on <strong>Run</strong>."
-msgstr ""
+msgstr "Jelölje ki a szkriptfájlt, majd kattintson a <strong>Futtat</strong> gombra."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:106
 msgid "File:"
@@ -457,7 +466,7 @@ msgstr "Futtat"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:214
 msgid "Launch file selection dialog"
-msgstr ""
+msgstr "Fájlválasztó párbeszédpanel megnyitása"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:226
 msgid "Select a script file"
@@ -509,13 +518,13 @@ msgstr "ismeretlen"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptEngineCellRenderer.java:32
 msgid "Select an engine"
-msgstr ""
+msgstr "Motor kijelölése"
 
 #. used in the context of a combo box
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptEngineCellRenderer.java:37
 #, java-format
 msgid "{1} (with engine {0})"
-msgstr ""
+msgstr "{1} ({0} motorral)"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptEngineCellRenderer.java:49
 msgid "Name:"
@@ -527,27 +536,27 @@ msgstr "Verzió:"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptEngineCellRenderer.java:55
 msgid "Language:"
-msgstr ""
+msgstr "Nyelv:"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptEngineCellRenderer.java:58
 msgid "Language version:"
-msgstr ""
+msgstr "Nyelv verziója:"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptEngineCellRenderer.java:60
 msgid "MIME-Types:"
-msgstr ""
+msgstr "MIME-típusok:"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptEngineSelectionDialog.java:200
 msgid ""
 "Use one of the available pluggable scripting engines (see <i>Preferences</i>"
 " to configure additional engines)."
-msgstr ""
+msgstr "Használja az egyik elérhető beilleszthető szkriptmotort (lásd <i>Beállítások</i> további motorok konfigurálásához)."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptEngineSelectionDialog.java:247
 msgid ""
 "Use GraalJS, the JavaScript engine provided by the GraalVM (see "
 "<i>Preferences</i> to configure GraalJS)."
-msgstr ""
+msgstr "Használja a GraalJS-t, a GraalVM által biztosított JavaScript-motort (lásd <i>Beállítások</i> a GraalJS konfigurálásához)."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptEngineSelectionDialog.java:359
 msgid "Accept the selected scripting engine"
@@ -562,15 +571,15 @@ msgid ""
 "An error occurred when executing a script. It is most likely caused by a bug"
 " in the script and not in JOSM.<p> Please get in touch with the script "
 "author before you file a bug in JOSM''s bug tracker."
-msgstr ""
+msgstr "Hiba történt a szkript végrehajtásakor. Ezt valószínűleg a szkriptben lévő hiba okozza, nem a JOSM-ban.<p> Kérjük, lépjen kapcsolatba a szkript szerzőjével, mielőtt hibajelentést nyújt be a JOSM hibakövetőjébe."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptErrorDialog.java:55
 msgid "Script Error - Stack Trace"
-msgstr ""
+msgstr "Szkripthiba – veremnyomkövetés"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptErrorViewer.java:86
 msgid "Show stack trace"
-msgstr ""
+msgstr "Veremnyomkövetés megjelenítése"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptExecutor.java:58
 #, java-format
@@ -578,7 +587,7 @@ msgid ""
 "<p>The script can''t be executed, because a scripting engine with name "
 "''{0}'' isn''t configured.</p><p>Refer to the online help for information "
 "about how to install/configure a scripting engine for JOSM.</p>"
-msgstr ""
+msgstr "<p>A szkript nem hajtható végre, mert a(z) ''{0}'' nevű szkriptmotor nincs konfigurálva.</p><p>A JOSM szkriptmotor telepítéséről/konfigurálásáról a súgóban talál információt.</p>"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptExecutor.java:64
 msgid "Script engine not found"
@@ -595,7 +604,7 @@ msgstr "Nem sikerült a parancsfájlt kiolvasni a következő fájlból: „{0}�
 #. the user with an error message.
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptExecutor.java:216
 msgid "GraalVM not present, can''t run script with GraalVM"
-msgstr ""
+msgstr "A GraalVM nincs jelen, nem futtatható szkript GraalVM-mel"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ToggleConsoleAction.java:23
 msgid "Show scripting console"
@@ -609,7 +618,7 @@ msgstr "Parancskonzol mutatása/elrejtése"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ToggleConsoleAction.java:28
 msgid "Scripting: Show/hide scripting console"
-msgstr ""
+msgstr "Szkriptkezelés: Parancskonzol megjelenítése/elrejtése"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/CloseAction.java:17
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/release/ReleaseNotes.java:226
@@ -618,7 +627,7 @@ msgstr "Bezárás"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/CloseAction.java:18
 msgid "Close the scripting console"
-msgstr ""
+msgstr "Parancskonzol bezárása"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/OpenAction.java:32
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/SaveAsAction.java:19
@@ -661,7 +670,7 @@ msgstr "Hiba ''{0}'' fájl betöltésekor"
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptEditor.java:145
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptEditor.java:155
 msgid "IO exception"
-msgstr ""
+msgstr "I/O-kivétel"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptEditor.java:154
 #, java-format
@@ -671,11 +680,11 @@ msgstr "Hiba ''{0}'' fájl mentésekor"
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptEngineInfoPanel.java:70
 #, java-format
 msgid "With GraalJS, use <a href=\"{0}\">JavaScript API V3</a>."
-msgstr ""
+msgstr "A GraalJS-sel használja a(z) <a href=\"{0}\">JavaScript API V3</a> verziót."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptEngineInfoPanel.java:84
 msgid "No script engine selected."
-msgstr ""
+msgstr "Nincs kijelölve szkriptmotor."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptEngineInfoPanel.java:85
 msgid "Select"
@@ -686,11 +695,11 @@ msgstr "Kijelölés"
 msgid ""
 "Executing scripts in language <strong>{0}</strong> using engine "
 "<strong>{1}</strong>."
-msgstr ""
+msgstr "Szkriptek végrehajtása <strong>{0}</strong> nyelven, <strong>{1}</strong> motorral."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptEngineInfoPanel.java:94
 msgid "Change"
-msgstr ""
+msgstr "Módosítás"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptLogPanel.java:96
 msgid "Clear log"
@@ -720,11 +729,11 @@ msgstr "Mindig felül"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:59
 msgid "Console"
-msgstr ""
+msgstr "Konzol"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:60
 msgid "Displays script output"
-msgstr ""
+msgstr "Szkript kimenetét jeleníti meg"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:61
 msgid "Errors"
@@ -732,45 +741,45 @@ msgstr "Hibák"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:63
 msgid "Displays scripting errors"
-msgstr ""
+msgstr "Szkripthibákat jelenít meg"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:107
 #, java-format
 msgid ""
 "Didn''t find a suitable syntax style for the script engine "
 "<strong>{0}</strong>."
-msgstr ""
+msgstr "Nem található megfelelő szintaxisstílus a(z) <strong>{0}</strong> szkriptmotorhoz."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:110
 msgid ""
 "No syntax style is available for either of the following content types:"
-msgstr ""
+msgstr "Nem áll rendelkezésre szintaxisstílus a következő tartalomtípusok egyikéhez sem:"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:116
 msgid "Syntax highlighting is disabled."
-msgstr ""
+msgstr "A szintaxiskiemelés le van tiltva."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:118
 msgid ""
 "Refer to the online help on configuring the syntax style for specific "
 "content types."
-msgstr ""
+msgstr "Az egyes tartalomtípusok szintaxisstílusának konfigurálásával kapcsolatban lásd az online súgót."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:133
 msgid "No syntax kit"
-msgstr ""
+msgstr "Nincs szintaxiscsomag"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:209
 msgid "Execute the script (F5)"
-msgstr ""
+msgstr "Szkript végrehajtása (F5)"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/release/ReleaseNotes.java:196
 msgid "Scripting Plugin - Release Notes"
-msgstr ""
+msgstr "Szkriptkezelési bővítmény – Kiadási megjegyzések"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/release/ReleaseNotes.java:227
 msgid "Close the release notes"
-msgstr ""
+msgstr "Kiadási megjegyzések bezárása"
 
 #. Plugin description in the JAR manifest (read by the JOSM plugin manager)
 #, no-java-format

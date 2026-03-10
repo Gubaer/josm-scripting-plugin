@@ -2,25 +2,26 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the josm-plugin_scripting package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
 # Translators:
 # Jurbo Lator <joern.map@gmail.com>, 2018
-# paleid, 2025
 # Simon Legner <simon.legner@gmail.com>, 2026
-#
+# paleid, 2026
+# Gubaer <karl.guggisberg@guggis.ch>, 2026
+# 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: josm-plugin_scripting\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-09 10:19+0100\n"
+"POT-Creation-Date: 2026-03-09 21:16+0100\n"
 "PO-Revision-Date: 2018-01-17 21:36+0000\n"
-"Last-Translator: Simon Legner <simon.legner@gmail.com>, 2026\n"
+"Last-Translator: Gubaer <karl.guggisberg@guggis.ch>, 2026\n"
 "Language-Team: Danish (https://app.transifex.com/josm/teams/2544/da/)\n"
-"Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: da\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ScriptingPlugin.java:45
@@ -826,3 +827,8 @@ msgstr "Scripting-plugin - Udgivelsesnoter"
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/release/ReleaseNotes.java:227
 msgid "Close the release notes"
 msgstr "Luk udgivelsesnoterne"
+
+#. Plugin description in the JAR manifest (read by the JOSM plugin manager)
+#, no-java-format
+msgid "Runs scripts in JOSM"
+msgstr "Kører scripts i JOSM"

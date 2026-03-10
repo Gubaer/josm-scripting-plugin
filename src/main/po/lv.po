@@ -2,26 +2,27 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the josm-plugin_scripting package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
 # Translators:
 # Simon Legner <simon.legner@gmail.com>, 2018
 # Janis Karklins, 2018
 # Kite8409, 2023
-# Janis <janislomass@gmail.com>, 2025
-#
+# Janis <janislomass@gmail.com>, 2026
+# Gubaer <karl.guggisberg@guggis.ch>, 2026
+# 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: josm-plugin_scripting\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-09 10:19+0100\n"
+"POT-Creation-Date: 2026-03-09 21:16+0100\n"
 "PO-Revision-Date: 2018-01-17 21:36+0000\n"
-"Last-Translator: Janis <janislomass@gmail.com>, 2025\n"
+"Last-Translator: Gubaer <karl.guggisberg@guggis.ch>, 2026\n"
 "Language-Team: Latvian (https://app.transifex.com/josm/teams/2544/lv/)\n"
-"Language: lv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: lv\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);\n"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ScriptingPlugin.java:45
@@ -822,3 +823,8 @@ msgstr "Skriptošanas spraudnis - Laiduma piezīmes"
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/release/ReleaseNotes.java:227
 msgid "Close the release notes"
 msgstr "Aizvērt laiduma piezīmes"
+
+#. Plugin description in the JAR manifest (read by the JOSM plugin manager)
+#, no-java-format
+msgid "Runs scripts in JOSM"
+msgstr "Darbina skriptus JOSM vidē"
