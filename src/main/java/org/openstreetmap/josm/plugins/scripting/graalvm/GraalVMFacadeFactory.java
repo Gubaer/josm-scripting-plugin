@@ -1,5 +1,6 @@
 package org.openstreetmap.josm.plugins.scripting.graalvm;
 
+import javax.validation.constraints.Null;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -26,9 +27,9 @@ public class GraalVMFacadeFactory {
      * Replies a facade to the GraalVM or null, if the GraalVM isn't on
      * the classpath or if it can't be initialized
      *
-     * @return a facade to the GraalVM
+     * @return a facade to the GraalVM. May be null.
      */
-    static public IGraalVMFacade createGraalVMFacade() {
+    static public @Null IGraalVMFacade createGraalVMFacade() {
         if (!isGraalVMPresent()) {
             logger.warning("GraalVM polyglot API isn't on the class path. Support for GraalVM is disabled.");
             return null;
@@ -40,11 +41,15 @@ public class GraalVMFacadeFactory {
      * Creates a GraalVM facade if it doesn't exist yet and replies the current
      * GraalVM facade
      *
-     * @return the facade
+     * @return a facade to the GraalVM. May be null.
      */
-    static public IGraalVMFacade getOrCreateGraalVMFacade() {
+    static public @Null IGraalVMFacade getOrCreateGraalVMFacade() {
         if (instance == null) {
             instance = createGraalVMFacade();
+            if (instance == null) {
+                return null;
+            }
+            instance.resetContext();
         }
         return instance;
     }
