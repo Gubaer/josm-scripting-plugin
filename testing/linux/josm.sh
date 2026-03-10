@@ -42,7 +42,7 @@ function prepare_logging_properties() {
     log_level=$1 || "INFO"
 
     cat > logging.properties <<EOF
-.level=ALL
+.level=OFF
 handlers=java.util.logging.ConsoleHandler
 java.util.logging.ConsoleHandler.formatter=java.util.logging.SimpleFormatter
 
@@ -206,7 +206,7 @@ echo "GraalJS:     $graal_js,  major: $graaljs_major, minor: $graaljs_minor"
 echo "JDK Home:    $jdk_home"
 echo "JOSM jar:    $josm_jar"
 
-prepare_logging_properties "DEBUG"
+prepare_logging_properties "FINE"
 
 cmd=""
 
