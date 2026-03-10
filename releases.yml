@@ -1,5 +1,14 @@
 releases:
   # current release
+  - label: v0.3.7
+    minJosmVersion: 18905
+    description: |
+      We’ve introduced AI-generated support for 27 new languages and invite human translators to help us refine these
+      translations on [transifex]. Your expertise is essential to ensuring our automated strings meet the high standards 
+      of accuracy and cultural nuance our global community deserves. 
+      
+      [transifex]: https://app.transifex.com/
+
   - label: v0.3.6
     minJosmVersion: 18905
     description: |
