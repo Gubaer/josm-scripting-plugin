@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: josm-plugin_scripting\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-09 21:16+0100\n"
+"POT-Creation-Date: 2026-03-11 18:17+0100\n"
 "PO-Revision-Date: 2018-01-17 21:36+0000\n"
 "Last-Translator: Gubaer <karl.guggisberg@guggis.ch>, 2026\n"
 "Language-Team: Lithuanian (https://app.transifex.com/josm/teams/2544/lt/)\n"
@@ -114,28 +114,36 @@ msgstr "rastas neteisingas scenarijaus variklio JAR URL. URL=''{0}''"
 msgid ""
 "Preference value ''{0}'' consist of an unsupported engine ID. Expected "
 "pattern ''type/id''."
-msgstr "Nuostatos reikšmė ''{0}'' turi nepalaikomą variklio ID. Numatomas šablonas ''type/id''."
+msgstr ""
+"Nuostatos reikšmė ''{0}'' turi nepalaikomą variklio ID. Numatomas šablonas "
+"''type/id''."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/model/ScriptEngineDescriptor.java:186
 #, java-format
 msgid ""
 "Preference value ''{0}'' refers to an unsupported JSR223 compatible "
 "scripting engine with id ''{1}''"
-msgstr "Nuostatos reikšmė ''{0}'' nurodo nepalaikomą JSR223 suderinamą scenarijaus variklį su ID ''{1}''"
+msgstr ""
+"Nuostatos reikšmė ''{0}'' nurodo nepalaikomą JSR223 suderinamą scenarijaus "
+"variklį su ID ''{1}''"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/model/ScriptEngineDescriptor.java:195
 #, java-format
 msgid ""
 "Preferences value ''{0}'' refers to an GraalVM engine, but currently the "
 "GraalVM isn''t present on the classpath."
-msgstr "Nuostatos reikšmė ''{0}'' nurodo GraalVM variklį, tačiau GraalVM šiuo metu nėra klasių kelyje."
+msgstr ""
+"Nuostatos reikšmė ''{0}'' nurodo GraalVM variklį, tačiau GraalVM šiuo metu "
+"nėra klasių kelyje."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/model/ScriptEngineDescriptor.java:209
 #, java-format
 msgid ""
 "Preference value ''{0}'' refers to an GraalVM engine with id ''{1}''. The "
 "GraalVM for this language is currently not present."
-msgstr "Nuostatos reikšmė ''{0}'' nurodo GraalVM variklį su ID ''{1}''. GraalVM šiai kalbai šiuo metu nėra."
+msgstr ""
+"Nuostatos reikšmė ''{0}'' nurodo GraalVM variklį su ID ''{1}''. GraalVM šiai"
+" kalbai šiuo metu nėra."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/ConfigureAction.java:20
 msgid "Configure..."
@@ -181,14 +189,17 @@ msgstr ""
 msgid ""
 "The jar file ''{0}'' doesn''t provide a script engine. The entry ''{1}'' is "
 "missing."
-msgstr "JAR failas ''{0}'' neteikia scenarijaus variklio. Trūksta įrašo ''{1}''."
+msgstr ""
+"JAR failas ''{0}'' neteikia scenarijaus variklio. Trūksta įrašo ''{1}''."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/ScriptEngineJarInfo.java:50
 #, java-format
 msgid ""
 "Failed to open file ''{0}'' as jar file. Can''t load a script engine from "
 "this file."
-msgstr "Nepavyko atidaryti failo ''{0}'' kaip JAR failo. Neįmanoma įkelti scenarijaus variklio iš šio failo."
+msgstr ""
+"Nepavyko atidaryti failo ''{0}'' kaip JAR failo. Neįmanoma įkelti "
+"scenarijaus variklio iš šio failo."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/ScriptEnginesConfigurationPanel.java:149
 #, java-format
@@ -272,7 +283,8 @@ msgstr "Nepavyko įkelti piktogramos ''{0}/{1}''"
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/common/ImportPathDialog.java:33
 msgid ""
 "Please enter or paste a valid directory path or path to a jar/zip file."
-msgstr "Įveskite arba įklijuokite teisingą aplanko kelią arba kelią į JAR/ZIP failą."
+msgstr ""
+"Įveskite arba įklijuokite teisingą aplanko kelią arba kelią į JAR/ZIP failą."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/common/ImportPathDialog.java:80
 msgid "Create or edit a path"
@@ -301,8 +313,8 @@ msgstr "Pasirinkti aplanką arba JAR/ZIP failą"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/common/ImportPathDialog.java:181
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/ModuleRepositoryDialog.java:259
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:173
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:174
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:195
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:196
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptEngineSelectionDialog.java:396
 msgid "Cancel"
 msgstr "Atsisakyti"
@@ -310,7 +322,7 @@ msgstr "Atsisakyti"
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/common/ImportPathDialog.java:193
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/ModuleRepositoryDialog.java:272
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptEngineSelectionDialog.java:358
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:123
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:138
 msgid "OK"
 msgstr "Gerai"
 
@@ -318,7 +330,9 @@ msgstr "Gerai"
 msgid ""
 "Add directories and/or jar files where the Jython engine shall look for "
 "Python packages or modules."
-msgstr "Pridėkite aplankus ir (arba) JAR failus, kuriuose Jython variklis ieško Python paketų ar modulių."
+msgstr ""
+"Pridėkite aplankus ir (arba) JAR failus, kuriuose Jython variklis ieško "
+"Python paketų ar modulių."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/common/ImportPathsEditorPanel.java:106
 msgid "Add a path or jar file"
@@ -362,13 +376,19 @@ msgid ""
 "<p>GraalJS can load <strong>CommonJS modules</strong> with the function "
 "<code>require()</code>. It resolves CommonJS modules in the directories and "
 "jar files configured below.</p>"
-msgstr "<p>GraalJS gali įkelti <strong>CommonJS modulius</strong> naudodamas funkciją <code>require()</code>. CommonJS modulius jis ieško aplankuose ir JAR failuose, sukonfigūruotuose žemiau.</p>"
+msgstr ""
+"<p>GraalJS gali įkelti <strong>CommonJS modulius</strong> naudodamas "
+"funkciją <code>require()</code>. CommonJS modulius jis ieško aplankuose ir "
+"JAR failuose, sukonfigūruotuose žemiau.</p>"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/ESModuleRepoConfigurationPanel.java:19
 msgid ""
 "<p>GraalJS can load <strong>ECMAScript Modules</strong> (ES Modules).It "
 "resolves ES Modules in the directories and jar files configured below.</p>"
-msgstr "<p>GraalJS gali įkelti <strong>ECMAScript modulius</strong> (ES modulius). ES modulius jis ieško aplankuose ir JAR failuose, sukonfigūruotuose žemiau.</p>"
+msgstr ""
+"<p>GraalJS gali įkelti <strong>ECMAScript modulius</strong> (ES modulius). "
+"ES modulius jis ieško aplankuose ir JAR failuose, sukonfigūruotuose "
+"žemiau.</p>"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/GraalVMConfigurationPanel.java:30
 msgid ""
@@ -379,16 +399,18 @@ msgid ""
 "when JOSM starts. "
 msgstr ""
 "Scenarijų įskiepis gali vykdyti JavaScript scenarijus naudodamas <a "
-"href=\"https://github.com/oracle/graaljs\">GraalJS</a>, JavaScript "
-"variklį, kurį teikia <a href=\"https://www.graalvm.org/\">GraalVM</a>. Kad "
-"būtų prieinamas scenarijų įskiepyje, GraalJS turi būti klasių kelyje "
-"paleidžiant JOSM. "
+"href=\"https://github.com/oracle/graaljs\">GraalJS</a>, JavaScript variklį, "
+"kurį teikia <a href=\"https://www.graalvm.org/\">GraalVM</a>. Kad būtų "
+"prieinamas scenarijų įskiepyje, GraalJS turi būti klasių kelyje paleidžiant "
+"JOSM. "
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/GraalVMConfigurationPanel.java:37
 msgid ""
 "JOSM has been started with GraalJS on the classpath. You can use GraalJS in "
 "the scripting plugin."
-msgstr "JOSM buvo paleistas su GraalJS klasių kelyje. Galite naudoti GraalJS scenarijų įskiepyje."
+msgstr ""
+"JOSM buvo paleistas su GraalJS klasių kelyje. Galite naudoti GraalJS "
+"scenarijų įskiepyje."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/GraalVMConfigurationPanel.java:41
 #, java-format
@@ -397,9 +419,9 @@ msgid ""
 " href=\"{0}\">This documentation</a> explains how you can start it with "
 "GraalJS on the classpath."
 msgstr ""
-"JOSM <strong>nebuvo</strong> paleistas su GraalJS klasių kelyje. <a"
-" href=\"{0}\">Šis dokumentas</a> paaiškina, kaip jį paleisti su "
-"GraalJS klasių kelyje."
+"JOSM <strong>nebuvo</strong> paleistas su GraalJS klasių kelyje. <a "
+"href=\"{0}\">Šis dokumentas</a> paaiškina, kaip jį paleisti su GraalJS "
+"klasių kelyje."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/GraalVMConfigurationPanel.java:68
 msgid "ES Module repositories"
@@ -412,7 +434,9 @@ msgstr "CommonJS modulių saugyklos"
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/ModuleRepositoryDialog.java:42
 msgid ""
 "Please enter or paste a valid file or jar URL. HTTP URLs are not supported."
-msgstr "Įveskite arba įklijuokite teisingą failo arba JAR URL. HTTP URL adresai nepalaikomi."
+msgstr ""
+"Įveskite arba įklijuokite teisingą failo arba JAR URL. HTTP URL adresai "
+"nepalaikomi."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/ModuleRepositoryDialog.java:91
 msgid "Create or edit a CommonJS module repository"
@@ -445,7 +469,7 @@ msgstr "Vykdyti..."
 #. title
 #. icon name
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/LaunchRunScriptDialogAction.java:20
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:140
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:159
 msgid "Run a script"
 msgstr "Vykdyti scenarijų"
 
@@ -453,29 +477,40 @@ msgstr "Vykdyti scenarijų"
 msgid "Scripting: Run a Script"
 msgstr "Scenarijai: Vykdyti scenarijų"
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:61
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:76
 msgid "Select a script file and click on <strong>Run</strong>."
-msgstr "Pasirinkite scenarijaus failą ir spustelėkite <strong>Vykdyti</strong>."
+msgstr ""
+"Pasirinkite scenarijaus failą ir spustelėkite <strong>Vykdyti</strong>."
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:106
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:85
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:274
+msgid "Reset Context"
+msgstr "Atstatyti kontekstą"
+
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:86
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:275
+msgid "Resets the GraalJS context"
+msgstr "Atstatyti GraalJS kontekstą"
+
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:125
 msgid "File:"
 msgstr "Failas:"
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:110
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:129
 msgid "Enter the name of a script file"
 msgstr "Įveskite scenarijaus failo pavadinimą"
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:186
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:187
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:210
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:208
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:209
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:225
 msgid "Run"
 msgstr "Vykdyti"
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:214
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:261
 msgid "Launch file selection dialog"
 msgstr "Atidaryti failo pasirinkimo langą"
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:226
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:273
 msgid "Select a script file"
 msgstr "Pasirinkti scenarijaus failą"
 
@@ -519,7 +554,7 @@ msgstr "IO klaida"
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptEngineCellRenderer.java:26
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptEngineCellRenderer.java:35
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptEngineInfoPanel.java:91
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:108
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:123
 msgid "unknown"
 msgstr "nežinoma"
 
@@ -557,13 +592,17 @@ msgstr "MIME-Tipai:"
 msgid ""
 "Use one of the available pluggable scripting engines (see <i>Preferences</i>"
 " to configure additional engines)."
-msgstr "Naudokite vieną iš galimų keičiamų scenarijų variklių (žr. <i>Nuostatos</i>, kad sukonfigūruotumėte papildomus variklius)."
+msgstr ""
+"Naudokite vieną iš galimų keičiamų scenarijų variklių (žr. <i>Nuostatos</i>,"
+" kad sukonfigūruotumėte papildomus variklius)."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptEngineSelectionDialog.java:247
 msgid ""
 "Use GraalJS, the JavaScript engine provided by the GraalVM (see "
 "<i>Preferences</i> to configure GraalJS)."
-msgstr "Naudokite GraalJS, GraalVM teikiamą JavaScript variklį (žr. <i>Nuostatos</i>, kad sukonfigūruotumėte GraalJS)."
+msgstr ""
+"Naudokite GraalJS, GraalVM teikiamą JavaScript variklį (žr. "
+"<i>Nuostatos</i>, kad sukonfigūruotumėte GraalJS)."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptEngineSelectionDialog.java:359
 msgid "Accept the selected scripting engine"
@@ -578,7 +617,10 @@ msgid ""
 "An error occurred when executing a script. It is most likely caused by a bug"
 " in the script and not in JOSM.<p> Please get in touch with the script "
 "author before you file a bug in JOSM''s bug tracker."
-msgstr "Vykdant scenarijų įvyko klaida. Greičiausiai ją sukėlė klaida pačiame scenarijuje, o ne JOSM.<p> Prieš teikdami klaidos pranešimą JOSM klaidų sekimo sistemoje, susisiekite su scenarijaus autoriumi."
+msgstr ""
+"Vykdant scenarijų įvyko klaida. Greičiausiai ją sukėlė klaida pačiame "
+"scenarijuje, o ne JOSM.<p> Prieš teikdami klaidos pranešimą JOSM klaidų "
+"sekimo sistemoje, susisiekite su scenarijaus autoriumi."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptErrorDialog.java:55
 msgid "Script Error - Stack Trace"
@@ -594,7 +636,10 @@ msgid ""
 "<p>The script can''t be executed, because a scripting engine with name "
 "''{0}'' isn''t configured.</p><p>Refer to the online help for information "
 "about how to install/configure a scripting engine for JOSM.</p>"
-msgstr "<p>Scenarijus negali būti vykdomas, nes scenarijaus variklis pavadinimu ''{0}'' nėra sukonfigūruotas.</p><p>Žr. internetinę pagalbą, kad sužinotumėte, kaip įdiegti/sukonfigūruoti scenarijų variklį JOSM.</p>"
+msgstr ""
+"<p>Scenarijus negali būti vykdomas, nes scenarijaus variklis pavadinimu "
+"''{0}'' nėra sukonfigūruotas.</p><p>Žr. internetinę pagalbą, kad "
+"sužinotumėte, kaip įdiegti/sukonfigūruoti scenarijų variklį JOSM.</p>"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptExecutor.java:64
 msgid "Script engine not found"
@@ -702,7 +747,9 @@ msgstr "Pažymėti"
 msgid ""
 "Executing scripts in language <strong>{0}</strong> using engine "
 "<strong>{1}</strong>."
-msgstr "Vykdomi scenarijai kalba <strong>{0}</strong> naudojant variklį <strong>{1}</strong>."
+msgstr ""
+"Vykdomi scenarijai kalba <strong>{0}</strong> naudojant variklį "
+"<strong>{1}</strong>."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptEngineInfoPanel.java:94
 msgid "Change"
@@ -734,51 +781,59 @@ msgstr "Taisa"
 msgid "Always on top"
 msgstr "Visada viršuje"
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:59
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:74
 msgid "Console"
 msgstr "Konsolė"
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:60
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:75
 msgid "Displays script output"
 msgstr "Rodo scenarijaus išvestį"
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:61
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:76
 msgid "Errors"
 msgstr "Klaidos"
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:63
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:78
 msgid "Displays scripting errors"
 msgstr "Rodo scenarijaus klaidas"
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:107
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:122
 #, java-format
 msgid ""
 "Didn''t find a suitable syntax style for the script engine "
 "<strong>{0}</strong>."
-msgstr "Nepavyko rasti tinkamo sintaksės stiliaus scenarijų varikliui <strong>{0}</strong>."
+msgstr ""
+"Nepavyko rasti tinkamo sintaksės stiliaus scenarijų varikliui "
+"<strong>{0}</strong>."
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:110
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:125
 msgid ""
 "No syntax style is available for either of the following content types:"
 msgstr "Nėra sintaksės stiliaus nė vienam iš šių turinio tipų:"
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:116
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:131
 msgid "Syntax highlighting is disabled."
 msgstr "Sintaksės paryškinimas išjungtas."
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:118
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:133
 msgid ""
 "Refer to the online help on configuring the syntax style for specific "
 "content types."
-msgstr "Žr. internetinę pagalbą, kaip konfigūruoti sintaksės stilių konkretiems turinio tipams."
+msgstr ""
+"Žr. internetinę pagalbą, kaip konfigūruoti sintaksės stilių konkretiems "
+"turinio tipams."
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:133
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:148
 msgid "No syntax kit"
 msgstr "Nėra sintaksės rinkinio"
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:209
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:224
 msgid "Execute the script (F5)"
 msgstr "Vykdyti scenarijų (F5)"
+
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:284
+msgid "Successfully reset GraalJS context"
+msgstr "GraalJS kontekstas sėkmingai atstatytas"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/release/ReleaseNotes.java:196
 msgid "Scripting Plugin - Release Notes"

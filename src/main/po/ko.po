@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: josm-plugin_scripting\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-09 21:16+0100\n"
+"POT-Creation-Date: 2026-03-11 18:17+0100\n"
 "PO-Revision-Date: 2018-01-17 21:36+0000\n"
 "Last-Translator: Gubaer <karl.guggisberg@guggis.ch>, 2026\n"
 "Language-Team: Korean (https://app.transifex.com/josm/teams/2544/ko/)\n"
@@ -294,8 +294,8 @@ msgstr "디렉토리 또는 jar/zip파일 선택하기"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/common/ImportPathDialog.java:181
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/ModuleRepositoryDialog.java:259
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:173
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:174
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:195
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:196
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptEngineSelectionDialog.java:396
 msgid "Cancel"
 msgstr "취소"
@@ -303,7 +303,7 @@ msgstr "취소"
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/common/ImportPathDialog.java:193
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/ModuleRepositoryDialog.java:272
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptEngineSelectionDialog.java:358
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:123
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:138
 msgid "OK"
 msgstr "확인"
 
@@ -440,7 +440,7 @@ msgstr "작동..."
 #. title
 #. icon name
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/LaunchRunScriptDialogAction.java:20
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:140
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:159
 msgid "Run a script"
 msgstr "스크립트 작동"
 
@@ -448,29 +448,39 @@ msgstr "스크립트 작동"
 msgid "Scripting: Run a Script"
 msgstr "스크립팅: 스크립트 작동"
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:61
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:76
 msgid "Select a script file and click on <strong>Run</strong>."
 msgstr "스크립트 파일 선택하고 <strong>작동하는</strong>을 클릭하기"
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:106
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:85
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:274
+msgid "Reset Context"
+msgstr "컨텍스트 초기화"
+
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:86
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:275
+msgid "Resets the GraalJS context"
+msgstr "GraalJS 컨텍스트를 초기화합니다"
+
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:125
 msgid "File:"
 msgstr "파일:"
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:110
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:129
 msgid "Enter the name of a script file"
 msgstr "스크립트 파일 이름을 입력합니다."
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:186
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:187
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:210
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:208
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:209
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:225
 msgid "Run"
 msgstr "작동"
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:214
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:261
 msgid "Launch file selection dialog"
 msgstr "파일 선택 대화상자 실행"
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:226
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:273
 msgid "Select a script file"
 msgstr "스크립트 파일 선택"
 
@@ -514,7 +524,7 @@ msgstr "IO 에러"
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptEngineCellRenderer.java:26
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptEngineCellRenderer.java:35
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptEngineInfoPanel.java:91
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:108
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:123
 msgid "unknown"
 msgstr "알 수 없는"
 
@@ -734,51 +744,55 @@ msgstr "고치기"
 msgid "Always on top"
 msgstr "항상 상단에"
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:59
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:74
 msgid "Console"
 msgstr "콘솔"
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:60
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:75
 msgid "Displays script output"
 msgstr "스크립트 출력을 표시합니다"
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:61
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:76
 msgid "Errors"
 msgstr "오류"
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:63
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:78
 msgid "Displays scripting errors"
 msgstr "스크립팅 오류를 표시합니다"
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:107
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:122
 #, java-format
 msgid ""
 "Didn''t find a suitable syntax style for the script engine "
 "<strong>{0}</strong>."
 msgstr "스크립트 엔진 <strong>{0}</strong>에 적합한 구문 스타일을 찾지 못했습니다."
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:110
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:125
 msgid ""
 "No syntax style is available for either of the following content types:"
 msgstr "다음 콘텐츠 유형에 사용 가능한 구문 스타일이 없습니다:"
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:116
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:131
 msgid "Syntax highlighting is disabled."
 msgstr "구문 강조 표시가 비활성화되었습니다."
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:118
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:133
 msgid ""
 "Refer to the online help on configuring the syntax style for specific "
 "content types."
 msgstr "특정 콘텐츠 유형의 구문 스타일 설정에 대해서는 온라인 도움말을 참조하세요."
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:133
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:148
 msgid "No syntax kit"
 msgstr "구문 키트가 없습니다."
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:209
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:224
 msgid "Execute the script (F5)"
 msgstr "스크립트 실행 (F5)"
+
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:284
+msgid "Successfully reset GraalJS context"
+msgstr "GraalJS 컨텍스트가 성공적으로 초기화되었습니다"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/release/ReleaseNotes.java:196
 msgid "Scripting Plugin - Release Notes"

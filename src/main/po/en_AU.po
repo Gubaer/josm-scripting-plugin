@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: josm-plugin_scripting\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-09 21:16+0100\n"
+"POT-Creation-Date: 2026-03-11 18:17+0100\n"
 "PO-Revision-Date: 2018-01-17 21:36+0000\n"
 "Last-Translator: Gubaer <karl.guggisberg@guggis.ch>, 2026\n"
 "Language-Team: English (Australia) (https://app.transifex.com/josm/teams/2544/en_AU/)\n"
@@ -306,8 +306,8 @@ msgstr "Select a directory or jar/zip file"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/common/ImportPathDialog.java:181
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/ModuleRepositoryDialog.java:259
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:173
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:174
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:195
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:196
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptEngineSelectionDialog.java:396
 msgid "Cancel"
 msgstr "Cancel"
@@ -315,7 +315,7 @@ msgstr "Cancel"
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/common/ImportPathDialog.java:193
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/ModuleRepositoryDialog.java:272
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptEngineSelectionDialog.java:358
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:123
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:138
 msgid "OK"
 msgstr "OK"
 
@@ -460,7 +460,7 @@ msgstr "Run..."
 #. title
 #. icon name
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/LaunchRunScriptDialogAction.java:20
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:140
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:159
 msgid "Run a script"
 msgstr "Run a script"
 
@@ -468,29 +468,39 @@ msgstr "Run a script"
 msgid "Scripting: Run a Script"
 msgstr "Scripting: Run a Script"
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:61
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:76
 msgid "Select a script file and click on <strong>Run</strong>."
 msgstr "Select a script file and click on <strong>Run</strong>."
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:106
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:85
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:274
+msgid "Reset Context"
+msgstr "Reset Context"
+
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:86
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:275
+msgid "Resets the GraalJS context"
+msgstr "Resets the GraalJS context"
+
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:125
 msgid "File:"
 msgstr "File:"
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:110
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:129
 msgid "Enter the name of a script file"
 msgstr "Enter the name of a script file"
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:186
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:187
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:210
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:208
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:209
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:225
 msgid "Run"
 msgstr "Run"
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:214
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:261
 msgid "Launch file selection dialog"
 msgstr "Launch file selection dialogue"
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:226
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:273
 msgid "Select a script file"
 msgstr "Select a script file"
 
@@ -534,7 +544,7 @@ msgstr "IO error"
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptEngineCellRenderer.java:26
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptEngineCellRenderer.java:35
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptEngineInfoPanel.java:91
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:108
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:123
 msgid "unknown"
 msgstr "unknown"
 
@@ -761,23 +771,23 @@ msgstr "Edit"
 msgid "Always on top"
 msgstr "Always on top"
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:59
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:74
 msgid "Console"
 msgstr "Console"
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:60
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:75
 msgid "Displays script output"
 msgstr "Displays script output"
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:61
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:76
 msgid "Errors"
 msgstr "Errors"
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:63
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:78
 msgid "Displays scripting errors"
 msgstr "Displays scripting errors"
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:107
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:122
 #, java-format
 msgid ""
 "Didn''t find a suitable syntax style for the script engine "
@@ -786,17 +796,17 @@ msgstr ""
 "Didn''t find a suitable syntax style for the script engine "
 "<strong>{0}</strong>."
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:110
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:125
 msgid ""
 "No syntax style is available for either of the following content types:"
 msgstr ""
 "No syntax style is available for either of the following content types:"
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:116
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:131
 msgid "Syntax highlighting is disabled."
 msgstr "Syntax highlighting is disabled."
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:118
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:133
 msgid ""
 "Refer to the online help on configuring the syntax style for specific "
 "content types."
@@ -804,13 +814,17 @@ msgstr ""
 "Refer to the online help on configuring the syntax style for specific "
 "content types."
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:133
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:148
 msgid "No syntax kit"
 msgstr "No syntax kit"
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:209
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:224
 msgid "Execute the script (F5)"
 msgstr "Execute the script (F5)"
+
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:284
+msgid "Successfully reset GraalJS context"
+msgstr "Successfully reset GraalJS context"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/release/ReleaseNotes.java:196
 msgid "Scripting Plugin - Release Notes"

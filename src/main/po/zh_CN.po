@@ -8,15 +8,16 @@
 # 快乐的老鼠宝宝 <laoshubaby@protonmail.com>, 2020
 # Station Oil, 2022
 # Simon Legner <simon.legner@gmail.com>, 2026
+# Gubaer <karl.guggisberg@guggis.ch>, 2026
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: josm-plugin_scripting\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-09 10:19+0100\n"
+"POT-Creation-Date: 2026-03-11 18:17+0100\n"
 "PO-Revision-Date: 2018-01-17 21:36+0000\n"
-"Last-Translator: Simon Legner <simon.legner@gmail.com>, 2026\n"
+"Last-Translator: Gubaer <karl.guggisberg@guggis.ch>, 2026\n"
 "Language-Team: Chinese (China) (https://app.transifex.com/josm/teams/2544/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -291,8 +292,8 @@ msgstr "选择目录或 jar/zip 文件"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/common/ImportPathDialog.java:181
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/ModuleRepositoryDialog.java:259
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:173
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:174
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:195
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:196
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptEngineSelectionDialog.java:396
 msgid "Cancel"
 msgstr "取消"
@@ -300,7 +301,7 @@ msgstr "取消"
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/common/ImportPathDialog.java:193
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/ModuleRepositoryDialog.java:272
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptEngineSelectionDialog.java:358
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:123
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:138
 msgid "OK"
 msgstr "确定"
 
@@ -352,13 +353,17 @@ msgid ""
 "<p>GraalJS can load <strong>CommonJS modules</strong> with the function "
 "<code>require()</code>. It resolves CommonJS modules in the directories and "
 "jar files configured below.</p>"
-msgstr "<p>GraalJS 可以使用函数 <code>require()</code> 加载 <strong>CommonJS 模块</strong>。它在下面配置的目录和 jar 文件中解析 CommonJS 模块。</p>"
+msgstr ""
+"<p>GraalJS 可以使用函数 <code>require()</code> 加载 <strong>CommonJS "
+"模块</strong>。它在下面配置的目录和 jar 文件中解析 CommonJS 模块。</p>"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/ESModuleRepoConfigurationPanel.java:19
 msgid ""
 "<p>GraalJS can load <strong>ECMAScript Modules</strong> (ES Modules).It "
 "resolves ES Modules in the directories and jar files configured below.</p>"
-msgstr "<p>GraalJS 可以加载 <strong>ECMAScript 模块</strong>（ES 模块）。它在下面配置的目录和 jar 文件中解析 ES 模块。</p>"
+msgstr ""
+"<p>GraalJS 可以加载 <strong>ECMAScript 模块</strong>（ES 模块）。它在下面配置的目录和 jar 文件中解析 "
+"ES 模块。</p>"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/GraalVMConfigurationPanel.java:30
 msgid ""
@@ -368,9 +373,9 @@ msgid ""
 "be available in the scripting plugin, GraalJS has to be on the classpath "
 "when JOSM starts. "
 msgstr ""
-"脚本插件可以使用 <a href=\"https://github.com/oracle/graaljs\">GraalJS</a>"
-"（由 <a href=\"https://www.graalvm.org/\">GraalVM</a> 提供的 JavaScript 引擎）"
-"运行 JavaScript 脚本。要在脚本插件中使用 GraalJS，必须在 JOSM 启动时将其添加到类路径中。"
+"脚本插件可以使用 <a href=\"https://github.com/oracle/graaljs\">GraalJS</a>（由 <a "
+"href=\"https://www.graalvm.org/\">GraalVM</a> 提供的 JavaScript 引擎）运行 "
+"JavaScript 脚本。要在脚本插件中使用 GraalJS，必须在 JOSM 启动时将其添加到类路径中。"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/GraalVMConfigurationPanel.java:37
 msgid ""
@@ -385,8 +390,8 @@ msgid ""
 " href=\"{0}\">This documentation</a> explains how you can start it with "
 "GraalJS on the classpath."
 msgstr ""
-"JOSM <strong>未</strong>在类路径上加载 GraalJS 启动。"
-"<a href=\"{0}\">此文档</a>说明了如何在类路径上添加 GraalJS 并启动 JOSM。"
+"JOSM <strong>未</strong>在类路径上加载 GraalJS 启动。<a "
+"href=\"{0}\">此文档</a>说明了如何在类路径上添加 GraalJS 并启动 JOSM。"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/GraalVMConfigurationPanel.java:68
 msgid "ES Module repositories"
@@ -432,7 +437,7 @@ msgstr "运行…"
 #. title
 #. icon name
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/LaunchRunScriptDialogAction.java:20
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:140
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:159
 msgid "Run a script"
 msgstr "运行脚本"
 
@@ -440,29 +445,39 @@ msgstr "运行脚本"
 msgid "Scripting: Run a Script"
 msgstr "脚本：运行脚本"
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:61
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:76
 msgid "Select a script file and click on <strong>Run</strong>."
 msgstr "选择脚本文件,然后单击“<strong>运行</strong>”。"
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:106
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:85
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:274
+msgid "Reset Context"
+msgstr "重置上下文"
+
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:86
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:275
+msgid "Resets the GraalJS context"
+msgstr "重置 GraalJS 上下文"
+
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:125
 msgid "File:"
 msgstr "文件："
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:110
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:129
 msgid "Enter the name of a script file"
 msgstr "输入脚本文件的名称"
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:186
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:187
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:210
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:208
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:209
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:225
 msgid "Run"
 msgstr "运行"
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:214
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:261
 msgid "Launch file selection dialog"
 msgstr "打开文件选择对话框"
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:226
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:273
 msgid "Select a script file"
 msgstr "选择脚本文件"
 
@@ -506,7 +521,7 @@ msgstr "IO错误"
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptEngineCellRenderer.java:26
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptEngineCellRenderer.java:35
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptEngineInfoPanel.java:91
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:108
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:123
 msgid "unknown"
 msgstr "不明"
 
@@ -565,7 +580,8 @@ msgid ""
 "An error occurred when executing a script. It is most likely caused by a bug"
 " in the script and not in JOSM.<p> Please get in touch with the script "
 "author before you file a bug in JOSM''s bug tracker."
-msgstr "执行脚本时发生错误。这很可能是脚本中的错误导致的，而不是 JOSM 的问题。<p>在 JOSM 的错误跟踪器中提交错误之前，请先联系脚本作者。"
+msgstr ""
+"执行脚本时发生错误。这很可能是脚本中的错误导致的，而不是 JOSM 的问题。<p>在 JOSM 的错误跟踪器中提交错误之前，请先联系脚本作者。"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptErrorDialog.java:55
 msgid "Script Error - Stack Trace"
@@ -581,7 +597,8 @@ msgid ""
 "<p>The script can''t be executed, because a scripting engine with name "
 "''{0}'' isn''t configured.</p><p>Refer to the online help for information "
 "about how to install/configure a scripting engine for JOSM.</p>"
-msgstr "<p>脚本无法执行，因为名为''{0}''的脚本引擎未配置。</p><p>请参阅在线帮助，了解如何为 JOSM 安装/配置脚本引擎。</p>"
+msgstr ""
+"<p>脚本无法执行，因为名为''{0}''的脚本引擎未配置。</p><p>请参阅在线帮助，了解如何为 JOSM 安装/配置脚本引擎。</p>"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptExecutor.java:64
 msgid "Script engine not found"
@@ -721,51 +738,55 @@ msgstr "编辑(E)"
 msgid "Always on top"
 msgstr "总在最前面"
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:59
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:74
 msgid "Console"
 msgstr "控制台"
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:60
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:75
 msgid "Displays script output"
 msgstr "显示脚本输出"
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:61
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:76
 msgid "Errors"
 msgstr "错误"
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:63
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:78
 msgid "Displays scripting errors"
 msgstr "显示脚本错误"
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:107
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:122
 #, java-format
 msgid ""
 "Didn''t find a suitable syntax style for the script engine "
 "<strong>{0}</strong>."
 msgstr "未找到脚本引擎 <strong>{0}</strong> 的合适语法样式。"
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:110
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:125
 msgid ""
 "No syntax style is available for either of the following content types:"
 msgstr "以下内容类型均无可用的语法样式："
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:116
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:131
 msgid "Syntax highlighting is disabled."
 msgstr "语法高亮已禁用。"
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:118
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:133
 msgid ""
 "Refer to the online help on configuring the syntax style for specific "
 "content types."
 msgstr "请参阅在线帮助以配置特定内容类型的语法样式。"
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:133
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:148
 msgid "No syntax kit"
 msgstr "无语法工具包"
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:209
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:224
 msgid "Execute the script (F5)"
 msgstr "执行脚本 (F5)"
+
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:284
+msgid "Successfully reset GraalJS context"
+msgstr "GraalJS 上下文已成功重置"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/release/ReleaseNotes.java:196
 msgid "Scripting Plugin - Release Notes"

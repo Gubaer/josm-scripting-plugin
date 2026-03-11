@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: josm-plugin_scripting\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-09 21:16+0100\n"
+"POT-Creation-Date: 2026-03-11 18:17+0100\n"
 "PO-Revision-Date: 2018-01-17 21:36+0000\n"
 "Last-Translator: Gubaer <karl.guggisberg@guggis.ch>, 2026\n"
 "Language-Team: Czech (https://app.transifex.com/josm/teams/2544/cs/)\n"
@@ -43,7 +43,8 @@ msgstr "Zdroj ''{0}'' nebyl nalezen. Nelze nainstalovat výchozí typy MIME."
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ScriptingPlugin.java:174
 #, java-format
 msgid "Failed to create directory ''{0}''. Can''t install mime.types file"
-msgstr "Nepodařilo se vytvořit adresář ''{0}''. Nelze nainstalovat soubor mime.types"
+msgstr ""
+"Nepodařilo se vytvořit adresář ''{0}''. Nelze nainstalovat soubor mime.types"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ScriptingPlugin.java:186
 #, java-format
@@ -53,7 +54,8 @@ msgstr "Výchozí typy MIME byly úspěšně nainstalovány do souboru ''{0}''."
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ScriptingPlugin.java:191
 #, java-format
 msgid "Failed to install default mime types in the plugin directory ''{0}''."
-msgstr "Nepodařilo se nainstalovat výchozí typy MIME do adresáře pluginu ''{0}''."
+msgstr ""
+"Nepodařilo se nainstalovat výchozí typy MIME do adresáře pluginu ''{0}''."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/js/api/AddMultiCommand.java:88
 #, java-format
@@ -103,7 +105,8 @@ msgstr "nepodařilo se načíst výchozí typy MIME ze  zdroje ''{0}''."
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/model/JSR223ScriptEngineProvider.java:133
 #, java-format
 msgid "found malformed URL to script engine jar. URL=''{0}''"
-msgstr "nalezena chybná URL adresa pro JAR soubor skriptovacího enginu. URL=''{0}''"
+msgstr ""
+"nalezena chybná URL adresa pro JAR soubor skriptovacího enginu. URL=''{0}''"
 
 #. NOTE: might be a legal preferences value for former plugin
 #. versions. No attempt to recover from these values, when this
@@ -114,28 +117,36 @@ msgstr "nalezena chybná URL adresa pro JAR soubor skriptovacího enginu. URL=''
 msgid ""
 "Preference value ''{0}'' consist of an unsupported engine ID. Expected "
 "pattern ''type/id''."
-msgstr "Hodnota předvolby ''{0}'' obsahuje nepodporované ID enginu. Očekávaný vzor ''type/id''."
+msgstr ""
+"Hodnota předvolby ''{0}'' obsahuje nepodporované ID enginu. Očekávaný vzor "
+"''type/id''."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/model/ScriptEngineDescriptor.java:186
 #, java-format
 msgid ""
 "Preference value ''{0}'' refers to an unsupported JSR223 compatible "
 "scripting engine with id ''{1}''"
-msgstr "Hodnota předvolby ''{0}'' odkazuje na nepodporovaný skriptovací engine kompatibilní s JSR223 s ID ''{1}''"
+msgstr ""
+"Hodnota předvolby ''{0}'' odkazuje na nepodporovaný skriptovací engine "
+"kompatibilní s JSR223 s ID ''{1}''"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/model/ScriptEngineDescriptor.java:195
 #, java-format
 msgid ""
 "Preferences value ''{0}'' refers to an GraalVM engine, but currently the "
 "GraalVM isn''t present on the classpath."
-msgstr "Hodnota předvolby ''{0}'' odkazuje na engine GraalVM, ale GraalVM momentálně není na classpath."
+msgstr ""
+"Hodnota předvolby ''{0}'' odkazuje na engine GraalVM, ale GraalVM momentálně"
+" není na classpath."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/model/ScriptEngineDescriptor.java:209
 #, java-format
 msgid ""
 "Preference value ''{0}'' refers to an GraalVM engine with id ''{1}''. The "
 "GraalVM for this language is currently not present."
-msgstr "Hodnota předvolby ''{0}'' odkazuje na engine GraalVM s ID ''{1}''. GraalVM pro tento jazyk momentálně není k dispozici."
+msgstr ""
+"Hodnota předvolby ''{0}'' odkazuje na engine GraalVM s ID ''{1}''. GraalVM "
+"pro tento jazyk momentálně není k dispozici."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/ConfigureAction.java:20
 msgid "Configure..."
@@ -173,7 +184,8 @@ msgstr "''{0}'' je adresář. Očekáván soubor jar."
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/ScriptEngineJarInfo.java:40
 #, java-format
 msgid "''{0}'' isn''t readable. Can''t load a script engine from this file."
-msgstr "''{0}'' není čitelný. Nelze načíst skriptovací engine z tohoto souboru."
+msgstr ""
+"''{0}'' není čitelný. Nelze načíst skriptovací engine z tohoto souboru."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/ScriptEngineJarInfo.java:46
 #, java-format
@@ -274,7 +286,8 @@ msgstr "Nepodařilo se načíst ikonu ''{0}/{1}''"
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/common/ImportPathDialog.java:33
 msgid ""
 "Please enter or paste a valid directory path or path to a jar/zip file."
-msgstr "Zadejte nebo vložte platnou cestu k adresáři nebo cestu k souboru jar/zip."
+msgstr ""
+"Zadejte nebo vložte platnou cestu k adresáři nebo cestu k souboru jar/zip."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/common/ImportPathDialog.java:80
 msgid "Create or edit a path"
@@ -303,8 +316,8 @@ msgstr "Vyberte složku nebo soubor typu JAR či ZIP"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/common/ImportPathDialog.java:181
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/ModuleRepositoryDialog.java:259
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:173
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:174
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:195
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:196
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptEngineSelectionDialog.java:396
 msgid "Cancel"
 msgstr "Zrušit"
@@ -312,7 +325,7 @@ msgstr "Zrušit"
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/common/ImportPathDialog.java:193
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/ModuleRepositoryDialog.java:272
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptEngineSelectionDialog.java:358
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:123
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:138
 msgid "OK"
 msgstr "OK"
 
@@ -366,13 +379,18 @@ msgid ""
 "<p>GraalJS can load <strong>CommonJS modules</strong> with the function "
 "<code>require()</code>. It resolves CommonJS modules in the directories and "
 "jar files configured below.</p>"
-msgstr "<p>GraalJS může načítat <strong>CommonJS moduly</strong> pomocí funkce <code>require()</code>. CommonJS moduly jsou hledány v adresářích a souborech jar nakonfigurovaných níže.</p>"
+msgstr ""
+"<p>GraalJS může načítat <strong>CommonJS moduly</strong> pomocí funkce "
+"<code>require()</code>. CommonJS moduly jsou hledány v adresářích a "
+"souborech jar nakonfigurovaných níže.</p>"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/ESModuleRepoConfigurationPanel.java:19
 msgid ""
 "<p>GraalJS can load <strong>ECMAScript Modules</strong> (ES Modules).It "
 "resolves ES Modules in the directories and jar files configured below.</p>"
-msgstr "<p>GraalJS může načítat <strong>ECMAScript moduly</strong> (ES moduly). ES moduly jsou hledány v adresářích a souborech jar nakonfigurovaných níže.</p>"
+msgstr ""
+"<p>GraalJS může načítat <strong>ECMAScript moduly</strong> (ES moduly). ES "
+"moduly jsou hledány v adresářích a souborech jar nakonfigurovaných níže.</p>"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/GraalVMConfigurationPanel.java:30
 msgid ""
@@ -392,7 +410,9 @@ msgstr ""
 msgid ""
 "JOSM has been started with GraalJS on the classpath. You can use GraalJS in "
 "the scripting plugin."
-msgstr "JOSM byl spuštěn s GraalJS na classpath. GraalJS lze použít ve skriptovacím pluginu."
+msgstr ""
+"JOSM byl spuštěn s GraalJS na classpath. GraalJS lze použít ve skriptovacím "
+"pluginu."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/GraalVMConfigurationPanel.java:41
 #, java-format
@@ -401,9 +421,9 @@ msgid ""
 " href=\"{0}\">This documentation</a> explains how you can start it with "
 "GraalJS on the classpath."
 msgstr ""
-"JOSM <strong>nebyl</strong> spuštěn s GraalJS na classpath. <a"
-" href=\"{0}\">Tato dokumentace</a> vysvětluje, jak jej spustit s "
-"GraalJS na classpath."
+"JOSM <strong>nebyl</strong> spuštěn s GraalJS na classpath. <a "
+"href=\"{0}\">Tato dokumentace</a> vysvětluje, jak jej spustit s GraalJS na "
+"classpath."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/GraalVMConfigurationPanel.java:68
 msgid "ES Module repositories"
@@ -416,7 +436,9 @@ msgstr "Repozitáře modulů CommonJS"
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/ModuleRepositoryDialog.java:42
 msgid ""
 "Please enter or paste a valid file or jar URL. HTTP URLs are not supported."
-msgstr "Zadejte nebo vložte platnou URL adresu souboru nebo jar. Adresy HTTP URL nejsou podporovány."
+msgstr ""
+"Zadejte nebo vložte platnou URL adresu souboru nebo jar. Adresy HTTP URL "
+"nejsou podporovány."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/ModuleRepositoryDialog.java:91
 msgid "Create or edit a CommonJS module repository"
@@ -449,7 +471,7 @@ msgstr "Spustit..."
 #. title
 #. icon name
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/LaunchRunScriptDialogAction.java:20
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:140
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:159
 msgid "Run a script"
 msgstr "Spustit script"
 
@@ -457,29 +479,39 @@ msgstr "Spustit script"
 msgid "Scripting: Run a Script"
 msgstr "Skriptování: Spusťte skript"
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:61
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:76
 msgid "Select a script file and click on <strong>Run</strong>."
 msgstr "Vyberte soubor skriptu a klikněte na <strong>Spustit</strong>."
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:106
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:85
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:274
+msgid "Reset Context"
+msgstr "Resetovat kontext"
+
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:86
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:275
+msgid "Resets the GraalJS context"
+msgstr "Resetuje kontext GraalJS"
+
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:125
 msgid "File:"
 msgstr "Soubor: "
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:110
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:129
 msgid "Enter the name of a script file"
 msgstr "Zadat název souboru skriptu"
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:186
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:187
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:210
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:208
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:209
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:225
 msgid "Run"
 msgstr "Spustit"
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:214
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:261
 msgid "Launch file selection dialog"
 msgstr "Launch file selection dialog"
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:226
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:273
 msgid "Select a script file"
 msgstr "Vybrat soubor skriptu"
 
@@ -523,7 +555,7 @@ msgstr "IO chyba"
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptEngineCellRenderer.java:26
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptEngineCellRenderer.java:35
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptEngineInfoPanel.java:91
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:108
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:123
 msgid "unknown"
 msgstr "neznámý"
 
@@ -561,13 +593,17 @@ msgstr "Typy MIME:"
 msgid ""
 "Use one of the available pluggable scripting engines (see <i>Preferences</i>"
 " to configure additional engines)."
-msgstr "Použijte jeden z dostupných zásuvcových skriptovacích enginů (viz <i>Předvolby</i> pro konfiguraci dalších enginů)."
+msgstr ""
+"Použijte jeden z dostupných zásuvcových skriptovacích enginů (viz "
+"<i>Předvolby</i> pro konfiguraci dalších enginů)."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptEngineSelectionDialog.java:247
 msgid ""
 "Use GraalJS, the JavaScript engine provided by the GraalVM (see "
 "<i>Preferences</i> to configure GraalJS)."
-msgstr "Použijte GraalJS, JavaScriptový engine poskytovaný GraalVM (viz <i>Předvolby</i> pro konfiguraci GraalJS)."
+msgstr ""
+"Použijte GraalJS, JavaScriptový engine poskytovaný GraalVM (viz "
+"<i>Předvolby</i> pro konfiguraci GraalJS)."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptEngineSelectionDialog.java:359
 msgid "Accept the selected scripting engine"
@@ -582,7 +618,10 @@ msgid ""
 "An error occurred when executing a script. It is most likely caused by a bug"
 " in the script and not in JOSM.<p> Please get in touch with the script "
 "author before you file a bug in JOSM''s bug tracker."
-msgstr "Při spuštění skriptu došlo k chybě. S největší pravděpodobností je způsobena chybou ve skriptu, nikoli v JOSM.<p> Obraťte se prosím na autora skriptu, než podáte hlášení o chybě v sledovači chyb JOSM."
+msgstr ""
+"Při spuštění skriptu došlo k chybě. S největší pravděpodobností je způsobena"
+" chybou ve skriptu, nikoli v JOSM.<p> Obraťte se prosím na autora skriptu, "
+"než podáte hlášení o chybě v sledovači chyb JOSM."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptErrorDialog.java:55
 msgid "Script Error - Stack Trace"
@@ -598,7 +637,10 @@ msgid ""
 "<p>The script can''t be executed, because a scripting engine with name "
 "''{0}'' isn''t configured.</p><p>Refer to the online help for information "
 "about how to install/configure a scripting engine for JOSM.</p>"
-msgstr "<p>Skript nelze spustit, protože skriptovací engine s názvem ''{0}'' není nakonfigurován.</p><p>Informace o instalaci/konfiguraci skriptovacího enginu pro JOSM naleznete v online nápovědě.</p>"
+msgstr ""
+"<p>Skript nelze spustit, protože skriptovací engine s názvem ''{0}'' není "
+"nakonfigurován.</p><p>Informace o instalaci/konfiguraci skriptovacího enginu"
+" pro JOSM naleznete v online nápovědě.</p>"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptExecutor.java:64
 msgid "Script engine not found"
@@ -706,7 +748,9 @@ msgstr "Vybrat"
 msgid ""
 "Executing scripts in language <strong>{0}</strong> using engine "
 "<strong>{1}</strong>."
-msgstr "Spouštění skriptů v jazyce <strong>{0}</strong> pomocí enginu <strong>{1}</strong>."
+msgstr ""
+"Spouštění skriptů v jazyce <strong>{0}</strong> pomocí enginu "
+"<strong>{1}</strong>."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptEngineInfoPanel.java:94
 msgid "Change"
@@ -738,51 +782,59 @@ msgstr "Upravit"
 msgid "Always on top"
 msgstr "Vždy nahoře"
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:59
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:74
 msgid "Console"
 msgstr "Konzole"
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:60
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:75
 msgid "Displays script output"
 msgstr "Zobrazuje výstup skriptu"
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:61
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:76
 msgid "Errors"
 msgstr "Chyby"
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:63
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:78
 msgid "Displays scripting errors"
 msgstr "Zobrazuje chyby skriptů"
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:107
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:122
 #, java-format
 msgid ""
 "Didn''t find a suitable syntax style for the script engine "
 "<strong>{0}</strong>."
-msgstr "Nebyl nalezen vhodný styl syntaxe pro skriptovací engine <strong>{0}</strong>."
+msgstr ""
+"Nebyl nalezen vhodný styl syntaxe pro skriptovací engine "
+"<strong>{0}</strong>."
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:110
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:125
 msgid ""
 "No syntax style is available for either of the following content types:"
 msgstr "Pro žádný z následujících typů obsahu není k dispozici styl syntaxe:"
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:116
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:131
 msgid "Syntax highlighting is disabled."
 msgstr "Zvýrazňování syntaxe je deaktivováno."
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:118
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:133
 msgid ""
 "Refer to the online help on configuring the syntax style for specific "
 "content types."
-msgstr "Informace o konfiguraci stylu syntaxe pro konkrétní typy obsahu naleznete v online nápovědě."
+msgstr ""
+"Informace o konfiguraci stylu syntaxe pro konkrétní typy obsahu naleznete v "
+"online nápovědě."
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:133
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:148
 msgid "No syntax kit"
 msgstr "Žádná syntaktická sada"
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:209
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:224
 msgid "Execute the script (F5)"
 msgstr "Spustit skript (F5)"
+
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:284
+msgid "Successfully reset GraalJS context"
+msgstr "Kontext GraalJS byl úspěšně resetován"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/release/ReleaseNotes.java:196
 msgid "Scripting Plugin - Release Notes"

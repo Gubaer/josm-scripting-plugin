@@ -5,15 +5,16 @@
 # 
 # Translators:
 # Samuel Zammit, 2025
+# Gubaer <karl.guggisberg@guggis.ch>, 2026
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: josm-plugin_scripting\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-09 21:16+0100\n"
+"POT-Creation-Date: 2026-03-11 18:17+0100\n"
 "PO-Revision-Date: 2018-01-17 21:36+0000\n"
-"Last-Translator: Samuel Zammit, 2025\n"
+"Last-Translator: Gubaer <karl.guggisberg@guggis.ch>, 2026\n"
 "Language-Team: Maltese (https://app.transifex.com/josm/teams/2544/mt/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -40,7 +41,9 @@ msgstr "Ma nstabx ir-riżors ''{0}''. Ma tistax tinstalla t-tipi MIME default."
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ScriptingPlugin.java:174
 #, java-format
 msgid "Failed to create directory ''{0}''. Can''t install mime.types file"
-msgstr "Ma rnexxiex jinħoloq id-direttorju ''{0}''. Ma tistax tinstalla l-fajl mime.types"
+msgstr ""
+"Ma rnexxiex jinħoloq id-direttorju ''{0}''. Ma tistax tinstalla l-fajl "
+"mime.types"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ScriptingPlugin.java:186
 #, java-format
@@ -50,7 +53,9 @@ msgstr "It-tipi MIME default ġew installati b'suċċess fil-fajl ''{0}''."
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ScriptingPlugin.java:191
 #, java-format
 msgid "Failed to install default mime types in the plugin directory ''{0}''."
-msgstr "Ma rnexxiex tiġi installata t-tipi MIME default fid-direttorju tal-plugin ''{0}''."
+msgstr ""
+"Ma rnexxiex tiġi installata t-tipi MIME default fid-direttorju tal-plugin "
+"''{0}''."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/js/api/AddMultiCommand.java:88
 #, java-format
@@ -111,28 +116,36 @@ msgstr "Instab URL ħażin għall-fajl jar tal-magna tal-iskript. URL=''{0}''"
 msgid ""
 "Preference value ''{0}'' consist of an unsupported engine ID. Expected "
 "pattern ''type/id''."
-msgstr "Il-valur tal-preferenza ''{0}'' fih ID tal-magna mhux appoġġat. Il-mudell mistenni huwa ''type/id''."
+msgstr ""
+"Il-valur tal-preferenza ''{0}'' fih ID tal-magna mhux appoġġat. Il-mudell "
+"mistenni huwa ''type/id''."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/model/ScriptEngineDescriptor.java:186
 #, java-format
 msgid ""
 "Preference value ''{0}'' refers to an unsupported JSR223 compatible "
 "scripting engine with id ''{1}''"
-msgstr "Il-valur tal-preferenza ''{0}'' jirreferi għal magna tal-iskript kompatibbli ma' JSR223 mhux appoġġata bl-ID ''{1}''"
+msgstr ""
+"Il-valur tal-preferenza ''{0}'' jirreferi għal magna tal-iskript kompatibbli"
+" ma' JSR223 mhux appoġġata bl-ID ''{1}''"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/model/ScriptEngineDescriptor.java:195
 #, java-format
 msgid ""
 "Preferences value ''{0}'' refers to an GraalVM engine, but currently the "
 "GraalVM isn''t present on the classpath."
-msgstr "Il-valur tal-preferenza ''{0}'' jirreferi għal magna GraalVM, iżda bħalissa GraalVM mhux preżenti fil-classpath."
+msgstr ""
+"Il-valur tal-preferenza ''{0}'' jirreferi għal magna GraalVM, iżda bħalissa "
+"GraalVM mhux preżenti fil-classpath."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/model/ScriptEngineDescriptor.java:209
 #, java-format
 msgid ""
 "Preference value ''{0}'' refers to an GraalVM engine with id ''{1}''. The "
 "GraalVM for this language is currently not present."
-msgstr "Il-valur tal-preferenza ''{0}'' jirreferi għal magna GraalVM bl-ID ''{1}''. Il-GraalVM għal din il-lingwa mhux disponibbli bħalissa."
+msgstr ""
+"Il-valur tal-preferenza ''{0}'' jirreferi għal magna GraalVM bl-ID ''{1}''. "
+"Il-GraalVM għal din il-lingwa mhux disponibbli bħalissa."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/ConfigureAction.java:20
 msgid "Configure..."
@@ -179,14 +192,18 @@ msgstr ""
 msgid ""
 "The jar file ''{0}'' doesn''t provide a script engine. The entry ''{1}'' is "
 "missing."
-msgstr "Il-fajl jar ''{0}'' ma jipprovdix magna tal-iskript. L-entrata ''{1}'' nieqsa."
+msgstr ""
+"Il-fajl jar ''{0}'' ma jipprovdix magna tal-iskript. L-entrata ''{1}'' "
+"nieqsa."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/ScriptEngineJarInfo.java:50
 #, java-format
 msgid ""
 "Failed to open file ''{0}'' as jar file. Can''t load a script engine from "
 "this file."
-msgstr "Ma rnexxiex jinfetaħ il-fajl ''{0}'' bħala fajl jar. Ma tistax tħarreġ magna tal-iskript minn dan il-fajl."
+msgstr ""
+"Ma rnexxiex jinfetaħ il-fajl ''{0}'' bħala fajl jar. Ma tistax tħarreġ magna"
+" tal-iskript minn dan il-fajl."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/ScriptEnginesConfigurationPanel.java:149
 #, java-format
@@ -270,7 +287,9 @@ msgstr "Fallut il-ħbit tal-ikona ''{0}/{1}''"
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/common/ImportPathDialog.java:33
 msgid ""
 "Please enter or paste a valid directory path or path to a jar/zip file."
-msgstr "Jekk jogħġbok daħħal jew inkolla mogħdija valida tad-direttorju jew mogħdija għal fajl jar/zip."
+msgstr ""
+"Jekk jogħġbok daħħal jew inkolla mogħdija valida tad-direttorju jew mogħdija"
+" għal fajl jar/zip."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/common/ImportPathDialog.java:80
 msgid "Create or edit a path"
@@ -299,8 +318,8 @@ msgstr "Agħżel direttorju jew fajl jar/zip"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/common/ImportPathDialog.java:181
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/ModuleRepositoryDialog.java:259
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:173
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:174
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:195
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:196
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptEngineSelectionDialog.java:396
 msgid "Cancel"
 msgstr "Ikkanċella"
@@ -308,7 +327,7 @@ msgstr "Ikkanċella"
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/common/ImportPathDialog.java:193
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/ModuleRepositoryDialog.java:272
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptEngineSelectionDialog.java:358
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:123
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:138
 msgid "OK"
 msgstr "OK"
 
@@ -316,7 +335,9 @@ msgstr "OK"
 msgid ""
 "Add directories and/or jar files where the Jython engine shall look for "
 "Python packages or modules."
-msgstr "Żid direttorji u/jew fajls jar fejn il-magna Jython għandha tfittex pakkaġġi jew moduli Python."
+msgstr ""
+"Żid direttorji u/jew fajls jar fejn il-magna Jython għandha tfittex pakkaġġi"
+" jew moduli Python."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/common/ImportPathsEditorPanel.java:106
 msgid "Add a path or jar file"
@@ -360,13 +381,19 @@ msgid ""
 "<p>GraalJS can load <strong>CommonJS modules</strong> with the function "
 "<code>require()</code>. It resolves CommonJS modules in the directories and "
 "jar files configured below.</p>"
-msgstr "<p>GraalJS jista' jħarreġ <strong>moduli CommonJS</strong> bil-funzjoni <code>require()</code>. Jirrisolvi l-moduli CommonJS fid-direttorji u l-fajls jar kkonfigurati hawn taħt.</p>"
+msgstr ""
+"<p>GraalJS jista' jħarreġ <strong>moduli CommonJS</strong> bil-funzjoni "
+"<code>require()</code>. Jirrisolvi l-moduli CommonJS fid-direttorji u "
+"l-fajls jar kkonfigurati hawn taħt.</p>"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/ESModuleRepoConfigurationPanel.java:19
 msgid ""
 "<p>GraalJS can load <strong>ECMAScript Modules</strong> (ES Modules).It "
 "resolves ES Modules in the directories and jar files configured below.</p>"
-msgstr "<p>GraalJS jista' jħarreġ <strong>Moduli ECMAScript</strong> (Moduli ES). Jirrisolvi l-Moduli ES fid-direttorji u l-fajls jar kkonfigurati hawn taħt.</p>"
+msgstr ""
+"<p>GraalJS jista' jħarreġ <strong>Moduli ECMAScript</strong> (Moduli ES). "
+"Jirrisolvi l-Moduli ES fid-direttorji u l-fajls jar kkonfigurati hawn "
+"taħt.</p>"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/GraalVMConfigurationPanel.java:30
 msgid ""
@@ -376,16 +403,19 @@ msgid ""
 "be available in the scripting plugin, GraalJS has to be on the classpath "
 "when JOSM starts. "
 msgstr ""
-"Il-plugin tal-iskript jista' jmexxi skripts JavaScript bl-użu ta' "
-"<a href=\"https://github.com/oracle/graaljs\">GraalJS</a> "
-"(il-magna JavaScript fornuta mill-<a href=\"https://www.graalvm.org/\">GraalVM</a>). "
-"Biex ikun disponibbli fil-plugin tal-iskript, GraalJS irid ikun fil-classpath meta jibda JOSM."
+"Il-plugin tal-iskript jista' jmexxi skripts JavaScript bl-użu ta' <a "
+"href=\"https://github.com/oracle/graaljs\">GraalJS</a> (il-magna JavaScript "
+"fornuta mill-<a href=\"https://www.graalvm.org/\">GraalVM</a>). Biex ikun "
+"disponibbli fil-plugin tal-iskript, GraalJS irid ikun fil-classpath meta "
+"jibda JOSM."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/GraalVMConfigurationPanel.java:37
 msgid ""
 "JOSM has been started with GraalJS on the classpath. You can use GraalJS in "
 "the scripting plugin."
-msgstr "JOSM beda bil-GraalJS fil-classpath. Tista' tuża GraalJS fil-plugin tal-iskript."
+msgstr ""
+"JOSM beda bil-GraalJS fil-classpath. Tista' tuża GraalJS fil-plugin tal-"
+"iskript."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/GraalVMConfigurationPanel.java:41
 #, java-format
@@ -394,8 +424,9 @@ msgid ""
 " href=\"{0}\">This documentation</a> explains how you can start it with "
 "GraalJS on the classpath."
 msgstr ""
-"JOSM <strong>ma</strong> bediex bil-GraalJS fil-classpath. "
-"<a href=\"{0}\">Din id-dokumentazzjoni</a> tispjega kif tista' tibda JOSM bil-GraalJS fil-classpath."
+"JOSM <strong>ma</strong> bediex bil-GraalJS fil-classpath. <a "
+"href=\"{0}\">Din id-dokumentazzjoni</a> tispjega kif tista' tibda JOSM bil-"
+"GraalJS fil-classpath."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/GraalVMConfigurationPanel.java:68
 msgid "ES Module repositories"
@@ -408,7 +439,9 @@ msgstr "Repożitorji tal-moduli CommonJS"
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/ModuleRepositoryDialog.java:42
 msgid ""
 "Please enter or paste a valid file or jar URL. HTTP URLs are not supported."
-msgstr "Jekk jogħġbok daħħal jew inkolla URL validu tal-fajl jew jar. L-URLs HTTP mhux appoġġati."
+msgstr ""
+"Jekk jogħġbok daħħal jew inkolla URL validu tal-fajl jew jar. L-URLs HTTP "
+"mhux appoġġati."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/preferences/graalvm/ModuleRepositoryDialog.java:91
 msgid "Create or edit a CommonJS module repository"
@@ -441,7 +474,7 @@ msgstr "Eżegwixxi..."
 #. title
 #. icon name
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/LaunchRunScriptDialogAction.java:20
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:140
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:159
 msgid "Run a script"
 msgstr "Eżekwixxi skript"
 
@@ -449,29 +482,39 @@ msgstr "Eżekwixxi skript"
 msgid "Scripting: Run a Script"
 msgstr "Skriptjar: Mexxi Skript"
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:61
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:76
 msgid "Select a script file and click on <strong>Run</strong>."
 msgstr "Agħżel fajl skript u ikklikkja fuq <strong>Mexxi</strong>."
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:106
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:85
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:274
+msgid "Reset Context"
+msgstr "Irrisettja l-kuntest"
+
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:86
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:275
+msgid "Resets the GraalJS context"
+msgstr "Tirrisettja l-kuntest tal-GraalJS"
+
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:125
 msgid "File:"
 msgstr "Fajl:"
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:110
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:129
 msgid "Enter the name of a script file"
 msgstr "Daħħal l-isem ta' fajl skript"
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:186
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:187
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:210
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:208
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:209
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:225
 msgid "Run"
 msgstr "Eżegwixxi"
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:214
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:261
 msgid "Launch file selection dialog"
 msgstr "Ibda d-djalogu tal-għażla tal-fajl"
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:226
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/RunScriptDialog.java:273
 msgid "Select a script file"
 msgstr "Agħżel fajl skript"
 
@@ -515,7 +558,7 @@ msgstr "Żball IO"
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptEngineCellRenderer.java:26
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptEngineCellRenderer.java:35
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptEngineInfoPanel.java:91
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:108
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:123
 msgid "unknown"
 msgstr "mhux magħruf/a"
 
@@ -553,13 +596,17 @@ msgstr "Tipi MIME:"
 msgid ""
 "Use one of the available pluggable scripting engines (see <i>Preferences</i>"
 " to configure additional engines)."
-msgstr "Uża waħda mill-magni tal-iskript disponibbli (ara <i>Preferenzi</i> biex tikkonfigura magni addizzjonali)."
+msgstr ""
+"Uża waħda mill-magni tal-iskript disponibbli (ara <i>Preferenzi</i> biex "
+"tikkonfigura magni addizzjonali)."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptEngineSelectionDialog.java:247
 msgid ""
 "Use GraalJS, the JavaScript engine provided by the GraalVM (see "
 "<i>Preferences</i> to configure GraalJS)."
-msgstr "Uża GraalJS, il-magna JavaScript fornuta mill-GraalVM (ara <i>Preferenzi</i> biex tikkonfigura GraalJS)."
+msgstr ""
+"Uża GraalJS, il-magna JavaScript fornuta mill-GraalVM (ara <i>Preferenzi</i>"
+" biex tikkonfigura GraalJS)."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptEngineSelectionDialog.java:359
 msgid "Accept the selected scripting engine"
@@ -574,7 +621,10 @@ msgid ""
 "An error occurred when executing a script. It is most likely caused by a bug"
 " in the script and not in JOSM.<p> Please get in touch with the script "
 "author before you file a bug in JOSM''s bug tracker."
-msgstr "Seħħ żball waqt l-eżekuzzjoni tal-iskript. Probabbilment huwa kkawżat minn bug fl-iskript u mhux f'JOSM.<p>Jekk jogħġbok ikkuntattja l-awtur tal-iskript qabel ma tirreġistra bug fit-tracker tal-bugs ta' JOSM."
+msgstr ""
+"Seħħ żball waqt l-eżekuzzjoni tal-iskript. Probabbilment huwa kkawżat minn "
+"bug fl-iskript u mhux f'JOSM.<p>Jekk jogħġbok ikkuntattja l-awtur tal-"
+"iskript qabel ma tirreġistra bug fit-tracker tal-bugs ta' JOSM."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptErrorDialog.java:55
 msgid "Script Error - Stack Trace"
@@ -590,7 +640,11 @@ msgid ""
 "<p>The script can''t be executed, because a scripting engine with name "
 "''{0}'' isn''t configured.</p><p>Refer to the online help for information "
 "about how to install/configure a scripting engine for JOSM.</p>"
-msgstr "<p>L-iskript ma jistax jiġi esegwit, għax il-magna tal-iskript bl-isem ''{0}'' mhix ikkonfigurata.</p><p>Irreferi għall-għajnuna online għal informazzjoni dwar kif tinstalla/tikkonfigura magna tal-iskript għal JOSM.</p>"
+msgstr ""
+"<p>L-iskript ma jistax jiġi esegwit, għax il-magna tal-iskript bl-isem "
+"''{0}'' mhix ikkonfigurata.</p><p>Irreferi għall-għajnuna online għal "
+"informazzjoni dwar kif tinstalla/tikkonfigura magna tal-iskript għal "
+"JOSM.</p>"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/ScriptExecutor.java:64
 msgid "Script engine not found"
@@ -698,7 +752,9 @@ msgstr "Agħżel"
 msgid ""
 "Executing scripts in language <strong>{0}</strong> using engine "
 "<strong>{1}</strong>."
-msgstr "Qed jiġu esegwiti skripts fil-lingwa <strong>{0}</strong> bl-użu tal-magna <strong>{1}</strong>."
+msgstr ""
+"Qed jiġu esegwiti skripts fil-lingwa <strong>{0}</strong> bl-użu tal-magna "
+"<strong>{1}</strong>."
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptEngineInfoPanel.java:94
 msgid "Change"
@@ -730,51 +786,61 @@ msgstr "Editja"
 msgid "Always on top"
 msgstr "Dejjem 'il fuq"
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:59
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:74
 msgid "Console"
 msgstr "Konsol"
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:60
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:75
 msgid "Displays script output"
 msgstr "Turi l-output tal-iskript"
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:61
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:76
 msgid "Errors"
 msgstr "Żbalji"
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:63
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:78
 msgid "Displays scripting errors"
 msgstr "Turi l-iżbalji tal-iskript"
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:107
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:122
 #, java-format
 msgid ""
 "Didn''t find a suitable syntax style for the script engine "
 "<strong>{0}</strong>."
-msgstr "Ma nstabx stil tas-sintassi adattat għall-magna tal-iskript <strong>{0}</strong>."
+msgstr ""
+"Ma nstabx stil tas-sintassi adattat għall-magna tal-iskript "
+"<strong>{0}</strong>."
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:110
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:125
 msgid ""
 "No syntax style is available for either of the following content types:"
-msgstr "L-ebda stil tas-sintassi mhux disponibbli għal xi wieħed mit-tipi ta' kontenut li ġejjin:"
+msgstr ""
+"L-ebda stil tas-sintassi mhux disponibbli għal xi wieħed mit-tipi ta' "
+"kontenut li ġejjin:"
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:116
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:131
 msgid "Syntax highlighting is disabled."
 msgstr "It-tisħiħ tas-sintassi huwa diżattivat."
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:118
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:133
 msgid ""
 "Refer to the online help on configuring the syntax style for specific "
 "content types."
-msgstr "Irreferi għall-għajnuna online dwar il-konfigurazzjoni tal-istil tas-sintassi għal tipi ta' kontenut speċifiċi."
+msgstr ""
+"Irreferi għall-għajnuna online dwar il-konfigurazzjoni tal-istil tas-"
+"sintassi għal tipi ta' kontenut speċifiċi."
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:133
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:148
 msgid "No syntax kit"
 msgstr "M'hawnx kit tas-sintassi"
 
-#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:209
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:224
 msgid "Execute the script (F5)"
 msgstr "Esegwi l-iskript (F5)"
+
+#: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/console/ScriptingConsolePanel.java:284
+msgid "Successfully reset GraalJS context"
+msgstr "Il-kuntest tal-GraalJS ġie rrisettat b'suċċess"
 
 #: src/main/java/org/openstreetmap/josm/plugins/scripting/ui/release/ReleaseNotes.java:196
 msgid "Scripting Plugin - Release Notes"
