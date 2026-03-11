@@ -21,6 +21,9 @@ Display the help information
 
 .PARAMETER logLevel
 The log level to be used for logging. Default is 'INFO'.
+
+.PARAMETER language
+The language to use, as a BCP 47 language tag (e.g. 'de', 'fr', 'ja'). If missing, 'en' is used.
 #>
 param(
     [AllowEmptyString()]
@@ -28,17 +31,20 @@ param(
 
     [AllowEmptyString()]
     [string]$jdk,
-    
+
     [switch]$useGraalVM,
-    
+
     [AllowEmptyString()]
     [string]$graalJs,
-    
+
     [AllowEmptyString()]
     [switch]$help,
 
     [AllowEmptyString()]
-    [string]$logLevel
+    [string]$logLevel,
+
+    [AllowEmptyString()]
+    [string]$language
 )
 
 # display messages emitted by Write-Information
@@ -151,14 +157,18 @@ if (!(Test-Path $josmHome)) {
     Exit 1
 }
 
+if (!$language) {
+    $language = "en"
+}
+
 #
-# prepare configuration for logging 
+# prepare configuration for logging
 #
 if ($logLevel -eq "") {
     $logLevel = "INFO"
 }
 $loggingProperties = @"
-.level=ALL
+.level=OFF
 handlers=java.util.logging.ConsoleHandler
 java.util.logging.ConsoleHandler.formatter=java.util.logging.SimpleFormatter
 
@@ -203,7 +213,8 @@ if ($useGraalVM) {
             "--add-exports", "java.base/sun.security.action=ALL-UNNAMED", `
             "--add-exports", "java.desktop/com.sun.imageio.plugins.jpeg=ALL-UNNAMED", `
             "--add-exports", "java.desktop/com.sun.imageio.spi=ALL-UNNAMED", `
-            -jar, $josmJar
+            -jar, $josmJar, `
+            "--language=$language"
 } elseif ($graalJs) {
     Start-Process `
         -NoNewWindow `
@@ -223,7 +234,8 @@ if ($useGraalVM) {
             "--add-exports", "java.base/sun.security.action=ALL-UNNAMED", `
             "--add-exports", "java.desktop/com.sun.imageio.plugins.jpeg=ALL-UNNAMED", `
             "--add-exports", "java.desktop/com.sun.imageio.spi=ALL-UNNAMED", `
-            "org.openstreetmap.josm.gui.MainApplication"
+            "org.openstreetmap.josm.gui.MainApplication", `
+            "--language=$language"
 } else {
     Start-Process `
         -NoNewWindow `
@@ -241,5 +253,6 @@ if ($useGraalVM) {
             "--add-exports", "java.base/sun.security.action=ALL-UNNAMED", `
             "--add-exports", "java.desktop/com.sun.imageio.plugins.jpeg=ALL-UNNAMED", `
             "--add-exports", "java.desktop/com.sun.imageio.spi=ALL-UNNAMED", `
-            "org.openstreetmap.josm.gui.MainApplication"
+            "org.openstreetmap.josm.gui.MainApplication", `
+            "--language=$language"
 }
