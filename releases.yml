@@ -1,5 +1,11 @@
 releases:
   # current release
+  - label: v0.4.0
+    minJosmVersion: 18905
+    description: |
+      **New**: A "Reset Context" button in the scripting console lets you reset the GraalJS scripting
+      environment at any time — no need to restart JOSM to start fresh.
+
   - label: v0.3.7
     minJosmVersion: 18905
     description: |
