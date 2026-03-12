@@ -22,7 +22,11 @@ github_username:  Gubaer
 
 # Build settings
 markdown: kramdown
-remote_theme: just-the-docs/just-the-docs
+theme: just-the-docs
+
+sass:
+  quiet_deps: true
+  silence_deprecations: ['import']
 
 aux_links:
   "API V3 (JSDoc)":
