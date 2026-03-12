@@ -7,18 +7,12 @@ import org.openstreetmap.josm.plugins.scripting.model.ScriptEngineDescriptor;
 import org.openstreetmap.josm.plugins.scripting.preferences.graalvm.GraalVMPrivilegesModel;
 
 import javax.validation.constraints.NotNull;
-import java.awt.Window;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -37,26 +31,8 @@ public class GraalVMFacade  implements IGraalVMFacade {
 
     private Context context;
 
-    // Windows created by scripts during eval(). Disposed on resetContext().
-    private final Set<Window> scriptCreatedWindows = new HashSet<>();
-
-    private Set<Window> snapshotWindows() {
-        return new HashSet<>(Arrays.asList(Window.getWindows()));
-    }
-
-    private void trackNewWindows(Set<Window> before) {
-        Arrays.stream(Window.getWindows())
-            .filter(w -> !before.contains(w))
-            .forEach(w -> {
-                scriptCreatedWindows.add(w);
-                w.addWindowListener(new WindowAdapter() {
-                    @Override
-                    public void windowClosed(WindowEvent e) {
-                        scriptCreatedWindows.remove(w);
-                    }
-                });
-            });
-    }
+    // Cleanup callbacks registered by scripts, invoked on resetContext().
+    private ContextResetHooks resetHooks;
 
     /**
      * Initializes a GraalVM context with the standard bindings.
@@ -120,6 +96,8 @@ public class GraalVMFacade  implements IGraalVMFacade {
         setOptionsOnContext(builder);
         context = builder.build();
         populateContext(context);
+        resetHooks = new ContextResetHooks();
+        context.getBindings("js").putMember("__josmContextResetHooks__", resetHooks);
     }
 
     public GraalVMFacade() {
@@ -132,10 +110,19 @@ public class GraalVMFacade  implements IGraalVMFacade {
      */
     @Override
     public void resetContext() {
-        // Dispose windows opened by scripts before closing the context, so any
-        // dispose-triggered callbacks still execute in the live context.
-        scriptCreatedWindows.forEach(Window::dispose);
-        scriptCreatedWindows.clear();
+        // Invoke script-registered cleanup callbacks first, while the context
+        // is still live. Scripts run on the EDT; resetContext() is also called
+        // from the EDT, so the context is not entered by any other thread here.
+        if (resetHooks != null && context != null) {
+            context.enter();
+            try {
+                resetHooks.invokeAll();
+            } catch (Exception e) {
+                logger.log(Level.WARNING, "Failed to invoke context reset hooks", e);
+            } finally {
+                context.leave();
+            }
+        }
         if (context != null) {
             context.close(true /* cancelIfExecuting */);
         }
@@ -200,10 +187,7 @@ public class GraalVMFacade  implements IGraalVMFacade {
             final var source = Source.newBuilder(engineId, script, "console-script:" + System.nanoTime())
                 .mimeType("application/javascript+module")
                 .build();
-            final var before = snapshotWindows();
-            final var result = context.eval(source);
-            trackNewWindows(before);
-            return result;
+            return context.eval(source);
         } catch(IOException e) {
             // shouldn't happen because we don't load the script from a file,
             // but just in case
@@ -230,10 +214,7 @@ public class GraalVMFacade  implements IGraalVMFacade {
             .mimeType("application/javascript+module")
             .build();
         try {
-            final var before = snapshotWindows();
-            final var result = context.eval(source);
-            trackNewWindows(before);
-            return result;
+            return context.eval(source);
         } catch(PolyglotException e) {
             final String message = format("failed to eval script in file ''{0}''", script);
             throw new GraalVMEvalException(message, e);

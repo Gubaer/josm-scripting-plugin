@@ -62,6 +62,7 @@ class APIV3CompileTest extends AbstractGraalVMBasedTest {
         import 'josm/scriptingconsole'
         import 'josm/unittest'
         import 'josm/ui/menu'
+        import 'josm/context'
         import 'clipboard'
         """
 
