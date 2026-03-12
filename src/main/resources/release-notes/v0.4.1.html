@@ -1,0 +1,15 @@
+<html lang="">
+<head>
+    <title>Release notes</title></head>
+<body>
+<h1>Release v0.4.1</h1>
+
+See <a href="https://github.com/Gubaer/josm-scripting-plugin/releases/tag/v0.4.1">GitHub release v0.4.1</a>
+<p>
+Scripts are now fully responsible for cleaning up resources on context reset.
+Use <code>addResetCallback()</code> from <code>josm/context</code> to dispose open windows, remove AWT event
+listeners, layer change listeners, or any other resource your script owns.
+See <a href="https://gubaer.github.io/josm-scripting-plugin/docs/v3/context-lifecycle">Managing the scripting context</a>.
+
+</body>
+</html>

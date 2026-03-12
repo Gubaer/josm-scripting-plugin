@@ -1,5 +1,13 @@
 releases:
   # current release
+  - label: v0.4.1
+    minJosmVersion: 18905
+    description: |
+      **Improvement**: Scripts are now fully responsible for cleaning up resources on context reset.
+      Use `addResetCallback()` from `josm/context` to dispose open windows, remove AWT event
+      listeners, layer change listeners, or any other resource your script owns.
+      See [Managing the scripting context](https://gubaer.github.io/josm-scripting-plugin/docs/v3/context-lifecycle).
+
   - label: v0.4.0
     minJosmVersion: 18905
     description: |
