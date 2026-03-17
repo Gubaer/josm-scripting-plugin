@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
-	<title>JOSM Scripting Plugin - JavaScript API V3 Module: josm/builder/way</title>
+	<title>JOSM Scripting Plugin - JavaScript API V3 Module: josm/context</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -72,7 +72,7 @@
 		<div id="main">
 			
 
-	<h1 class="page-title">Module: josm/builder/way</h1>
+	<h1 class="page-title">Module: josm/context</h1>
 <section>
 
 <header>
@@ -89,6 +89,8 @@
     </div>
     <div class="container-overview">
     
+        
+            <div class="description">Provides lifecycle hooks for the GraalJS scripting context.</div>
         
 
         
@@ -126,8 +128,8 @@
 	<dd class="tag-source">
 		<ul class="dummy">
 			<li>
-				<a href="josm_builder_way-builder.mjs.html">josm/builder/way-builder.mjs</a>,
-				 <a href="josm_builder_way-builder.mjs.html#sunlight-1-line-1">line 1</a>
+				<a href="josm_context.mjs.html">josm/context.mjs</a>,
+				 <a href="josm_context.mjs.html#sunlight-1-line-1">line 1</a>
 			</li>
 		</ul>
 	</dd>
@@ -150,20 +152,213 @@
     
 
     
-        <h3 class="subsection-title">Classes</h3>
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
 
         <dl>
-            <dt><a href="module-josm_builder_way-WayBuilder.html">WayBuilder</a></dt>
-            <dd>Helps to create OSM <a href="http://josm.openstreetmap.de/doc/org/openstreetmap/josm/data/osm/Way.html" alt="org.openstreetmap.josm.data.osm.Way" target="javadoc">Way</a>s</dd>
+            
+<hr>
+<dt>
+    <h4 class="name" id=".addResetCallback"><span class="type-signature">&lt;static> </span>addResetCallback(callback)</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Registers a callback to be invoked when the GraalJS context is reset
+(e.g. via the "Reset Context" button in the scripting console).
+
+Use this to clean up global resources — AWT event listeners, layer change
+listeners, open dialogs — that would otherwise survive the reset and
+attempt to execute code against a dead context.
+    </div>
+    
+
+    
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">zero-argument function invoked on context reset</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="josm_context.mjs.html">josm/context.mjs</a>,
+				 <a href="josm_context.mjs.html#sunlight-1-line-71">line 71</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Examples</h5>
+        
+    <pre class="sunlight-highlight-javascript">import { addResetCallback } from &#x27;josm/context&#x27;
+
+const Toolkit = Java.type(&#x27;java.awt.Toolkit&#x27;)
+const AWTEvent = Java.type(&#x27;java.awt.AWTEvent&#x27;)
+
+const listener = (event) =&gt; { ... }
+Toolkit.getDefaultToolkit().addAWTEventListener(listener, AWTEvent.MOUSE_EVENT_MASK)
+
+addResetCallback(() =&gt; {
+  Toolkit.getDefaultToolkit().removeAWTEventListener(listener)
+})</pre>
+
+    <pre class="sunlight-highlight-javascript">import { addResetCallback } from &#x27;josm/context&#x27;
+
+const MainApplication = Java.type(&#x27;org.openstreetmap.josm.gui.MainApplication&#x27;)
+
+const layerChangeListener = {
+  layerAdded(e) { ... },
+  layerRemoving(e) { ... },
+  activeOrEditLayerChanged(e) { ... }
+}
+MainApplication.getLayerManager().addLayerChangeListener(layerChangeListener)
+
+addResetCallback(() =&gt; {
+  MainApplication.getLayerManager().removeLayerChangeListener(layerChangeListener)
+})</pre>
+
+    <pre class="sunlight-highlight-javascript">// Non-modal dialog: dispose it and remove any listeners it registered
+import { addResetCallback } from &#x27;josm/context&#x27;
+
+const JDialog = Java.type(&#x27;javax.swing.JDialog&#x27;)
+const MainApplication = Java.type(&#x27;org.openstreetmap.josm.gui.MainApplication&#x27;)
+
+const dialog = new JDialog(MainApplication.getMainFrame(), &#x27;My Tool&#x27;, false)
+// ... populate and show the dialog ...
+dialog.setVisible(true)
+
+const layerListener = {
+  layerAdded(e) { ... },
+  layerRemoving(e) { ... },
+  activeOrEditLayerChanged(e) { ... }
+}
+MainApplication.getLayerManager().addLayerChangeListener(layerListener)
+
+addResetCallback(() =&gt; {
+  MainApplication.getLayerManager().removeLayerChangeListener(layerListener)
+  dialog.dispose()
+})</pre>
+
+
+    
+</dd>
+
         </dl>
-    
-
-    
-
-    
-
-    
-
     
 
     
