@@ -25,4 +25,24 @@ class GraalVMEvalTest extends AbstractGraalVMBasedTest {
             facade.eval(graalJSDescriptor, f)
         }
     }
+
+    @Test
+    void "should eval a script file multiple times without context reset"() {
+        def script = """
+            let count = (globalThis.__count__ ?? 0) + 1
+            globalThis.__count__ = count
+            count
+        """
+        def f = File.createTempFile("js-script", ".mjs")
+        f.deleteOnExit()
+        f.write(script)
+
+        def result1 = facade.eval(graalJSDescriptor, f)
+        def result2 = facade.eval(graalJSDescriptor, f)
+        def result3 = facade.eval(graalJSDescriptor, f)
+
+        assert result1.asInt() == 1
+        assert result2.asInt() == 2
+        assert result3.asInt() == 3
+    }
 }
