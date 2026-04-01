@@ -1,5 +1,12 @@
 releases:
   # current release
+  - label: v0.4.2
+    minJosmVersion: 18905
+    description: |
+      **Fix**: Running a script from the recent scripts list multiple times in the same session
+      now works correctly. Previously, the script would only execute once and subsequent runs
+      were silently skipped (see #107).
+
   - label: v0.4.1
     minJosmVersion: 18905
     description: |
