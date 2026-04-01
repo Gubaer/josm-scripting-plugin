@@ -9,6 +9,7 @@ import org.openstreetmap.josm.plugins.scripting.preferences.graalvm.GraalVMPrivi
 import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -210,7 +211,13 @@ public class GraalVMFacade  implements IGraalVMFacade {
         Objects.requireNonNull(script);
         final String engineId = desc.getLocalEngineId();
         ensureEngineIdPresent(engineId);
-        final var source = Source.newBuilder(engineId, script)
+        // Use a unique source name so GraalVM's ES module registry treats each execution as
+        // a distinct module. Without it, file-based modules are evaluated only once per context
+        // and subsequent executions of the same script file are silently skipped.
+        // Preserve the original URI so relative imports inside the script resolve correctly.
+        final var content = Files.readString(script.toPath());
+        final var source = Source.newBuilder(engineId, content, "file-script:" + System.nanoTime())
+            .uri(script.toURI())
             .mimeType("application/javascript+module")
             .build();
         try {
