@@ -29,3 +29,4 @@ set-env.ps1
 # don't commit the tx binary
 tx
 data
+.vscode
