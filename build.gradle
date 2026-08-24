@@ -262,9 +262,16 @@ tasks.named('jar') {
     }
 }
 
+// Pin the JDK used for all compile tasks (Java and Groovy, main and test). Without a
+// toolchain the Groovy and test compile tasks emit bytecode for whatever JVM the Gradle
+// daemon happens to run on, which breaks the test tasks running on the GraalVM JDK 17.
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
 compileJava {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
     options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation" << "-Werror"
 }
 
