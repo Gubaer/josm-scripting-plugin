@@ -1,5 +1,10 @@
 releases:
   # current release
+  - label: v0.4.3
+    minJosmVersion: 18905
+    description: |
+      **Maintenance**: Dependency upgrades and minor cleanups
+
   - label: v0.4.2
     minJosmVersion: 18905
     description: |
